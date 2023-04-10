@@ -1,0 +1,115 @@
+import axios, {AxiosError, AxiosRequestConfig} from 'axios';
+import {useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {authState} from '../../recoils/auth.recoil';
+import {SERVER_HOST} from '../../constants/url.constant';
+import {getTokenState} from '../auth.service';
+import {convertDateStringToDate} from '../json-convert.service';
+import {useRefreshAuthTokens} from './refresh.hook';
+import {useLogout} from './logout.hook';
+import {useLoginAlert} from './login.hook';
+
+type Param<R> = {
+  requestOption: AxiosRequestConfig;
+  onResponseSuccess: (data: R) => void;
+  onError?: (error: AxiosError) => void;
+  onLoadingStatusChange?: (isLoading: boolean) => void;
+  disableInitialRequest?: boolean;
+  needAuthenticated?: boolean;
+};
+
+type Return = [
+  boolean,
+  (newRequestOption: Partial<AxiosRequestConfig>) => void,
+];
+
+export const useAuthAxios = <R>(
+  param: Omit<Param<R>, 'needAuthenticated'>,
+): Return => {
+  return useAxios({
+    ...param,
+    needAuthenticated: true,
+  });
+};
+
+export const useAxios = <R>({
+  requestOption,
+  onResponseSuccess,
+  onError,
+  onLoadingStatusChange,
+  disableInitialRequest = false,
+  needAuthenticated = false,
+}: Param<R>): Return => {
+  const [loading, setLoading] = useState(false);
+
+  const tokens = useRecoilValue(authState);
+  const refreshAuthTokens = useRefreshAuthTokens();
+
+  const logout = useLogout();
+  const alertLogin = useLoginAlert();
+
+  useEffect(() => {
+    if (disableInitialRequest) {
+      return;
+    }
+
+    fetchData(requestOption);
+  }, []);
+
+  useEffect(() => {
+    onLoadingStatusChange?.(loading);
+  }, [loading]);
+
+  const fetchData = (axiosConfig: AxiosRequestConfig) => {
+    const tokenState = getTokenState(tokens);
+
+    if (needAuthenticated && tokenState === 'Expire') {
+      logout();
+      alertLogin();
+      return;
+    } else if (needAuthenticated && tokenState === 'Refresh') {
+      refreshAuthTokens({
+        onRefreshSuccess: () => {
+          fetchData(requestOption);
+        },
+      });
+    }
+
+    const url = axiosConfig.url || '';
+    axiosConfig.url = url.startsWith('http') ? url : SERVER_HOST + url;
+
+    setLoading(true);
+
+    const client = axios.create();
+
+    client.interceptors.response.use<R>(r => {
+      return convertDateStringToDate(r);
+    });
+
+    client
+      .request<R>({
+        timeout: 5000,
+        ...axiosConfig,
+        headers: {
+          Authorization: tokens.accessToken && `Bearer ${tokens.accessToken}`,
+          ...axiosConfig.headers,
+        },
+      })
+      .then(r => r.data)
+      .then(onResponseSuccess)
+      .catch(onError)
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  return [
+    loading,
+    (newRequestOption: Partial<AxiosRequestConfig>) => {
+      void fetchData({
+        ...requestOption,
+        ...newRequestOption,
+      });
+    },
+  ];
+};
