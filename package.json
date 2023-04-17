@@ -3,8 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android:dev": "npx react-native run-android --variant=developdebug",
+    "android:dev-release": "npx react-native run-android --variant=developrelease",
+    "android:prod": "npx react-native run-android --variant=productiondebug",
+    "android:prod-release": "npx react-native run-android --variant=productionrelease",
+    "ios:dev": "npx react-native run-ios --scheme lifepuzzle_dev",
+    "ios:prod": "npx react-native run-ios --scheme lifepuzzle_prod",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
