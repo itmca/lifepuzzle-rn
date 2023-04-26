@@ -7,10 +7,7 @@ import {useEffect} from 'react';
 import {userState} from '../../recoils/user.recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useUpdateObserver} from './update.hooks';
-import {
-  currentHeroUpdate,
-  currentUserUpdate,
-} from '../../recoils/update.recoil';
+import {currentHeroUpdate, currentUserUpdate,} from '../../recoils/update.recoil';
 import {LocalStorage} from '../local-storage.service';
 import {getTokenState} from '../auth.service';
 
@@ -47,7 +44,7 @@ export const useFetchLocalStorageUserHero = () => {
     }
 
     const userNo: number = LocalStorage.get('userNo', 'number');
-    fetchUser({url: `/users/${userNo.toString()}`});
+    fetchUser({url: `/users/${userNo}`});
   }, [tokens, currentUserUpdateObserver]);
 
   useEffect(() => {
