@@ -13,7 +13,7 @@ const VoiceRecordPageLink = (): JSX.Element => {
 
   return (
     <Button
-      onPressOut={() => {
+정      onPress={() => {
         navigation.push('NoTab', {
           screen: 'PuzzleWritingNavigator',
           params: {
