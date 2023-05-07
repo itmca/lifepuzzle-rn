@@ -275,7 +275,6 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
-				A695A62629FE59E2009456FE /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -602,7 +601,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.itmca.lifepuzzle;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = io.itmca.lifepuzzle;
 				PRODUCT_NAME = lifepuzzle;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -630,7 +629,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.itmca.lifepuzzle;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = io.itmca.lifepuzzle;
 				PRODUCT_NAME = lifepuzzle;
 				SWIFT_VERSION = 5.0;

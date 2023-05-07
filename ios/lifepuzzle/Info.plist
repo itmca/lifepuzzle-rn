@@ -52,6 +52,12 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
+			<key>lifepuzzleapi-env.eba-234zbtvn.ap-northeast-2.elasticbeanstalk.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+
 		</dict>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
