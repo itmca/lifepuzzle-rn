@@ -5,6 +5,7 @@ import styles from './styles';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroAvatar} from '../avatar/HeroAvatar';
+import { SmallText, XSmallText } from "../styled/components/Text";
 
 const HeroBadgeHeader = (): JSX.Element => {
   const hero = useRecoilValue(heroState);
@@ -13,7 +14,7 @@ const HeroBadgeHeader = (): JSX.Element => {
       onPress={() => {}}
       style={styles.defaultHeaderRightContainer}>
       <HeroAvatar size={32} imageURL={hero.imageURL} />
-      <Text style={styles.headerProfileName}>{hero?.heroNickName}</Text>
+      <XSmallText color={'#ffffff'}>{hero?.heroNickName}</XSmallText>
     </TouchableOpacity>
   );
 };

@@ -9,6 +9,7 @@ import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
+import { LargeText,MediumText } from "../styled/components/Text";
 
 type Props = {
   hero: HeroType;
@@ -57,9 +58,9 @@ const HeroCard = ({hero}: Props): JSX.Element => {
       </View>
       <View style={styles.characterProfileContainer}>
         <HeroAvatar size={128} imageURL={imageURL} />
-        <Text style={styles.characterNickName}>{heroNickName}</Text>
-        <Text style={styles.characterName}>{heroName} 님</Text>
-        <Text style={styles.characterTitle}>{'"' + title + '"'}</Text>
+        <LargeText marginTop={16} color={'#FFFFFF'}>{heroNickName}</LargeText>
+        <MediumText marginTop={16} color={'#F2C744'}>{heroName} 님</MediumText>
+        <MediumText marginTop={8} color={'#F2C744'}>{'"' + title + '"'}</MediumText>
       </View>
       <View style={styles.selectButtonContainer}>
         <TouchableOpacity
@@ -73,9 +74,9 @@ const HeroCard = ({hero}: Props): JSX.Element => {
               },
             });
           }}>
-          <Text style={styles.selectButtonText}>
+          <LargeText>
             {isSelected ? '작성 중인 주인공' : '선택하기'}
-          </Text>
+          </LargeText>
         </TouchableOpacity>
       </View>
     </View>

@@ -8,6 +8,8 @@ import {
   helpQuestionOpenState,
   helpQuestionTextState,
 } from '../../recoils/help-question.recoil';
+import { MediumImage, SmallImage } from "../styled/components/Image";
+import { SmallText } from "../styled/components/Text";
 
 const HelpQuestion = (): JSX.Element => {
   const helpQuestion = useRecoilValue(helpQuestionTextState);
@@ -25,9 +27,8 @@ const HelpQuestion = (): JSX.Element => {
             onPress={() => {
               setOpen(true);
             }}>
-            <Image
+            <SmallImage
               source={require('../../assets/images/puzzle-onepiece.png')}
-              style={styles.smallSizePuzzle}
             />
           </TouchableOpacity>
         </View>
@@ -38,12 +39,11 @@ const HelpQuestion = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <View style={styles.bigSizeWrapper}>
-        <Image
+        <MediumImage
           source={require('../../assets/images/puzzle-onepiece.png')}
-          style={styles.bigSizePuzzle}
         />
         <View style={styles.verticalLine}></View>
-        <Text style={styles.helpQuestionText}>{helpQuestion}</Text>
+        <SmallText color={'#707070'} fontWeight={900} marginLeft={24.5} marginRight={36.15}>{helpQuestion}</SmallText>
         <TouchableOpacity
           onPress={() => setOpen(false)}
           style={styles.closeIconWrapper}>

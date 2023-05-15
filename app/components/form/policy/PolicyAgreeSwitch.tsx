@@ -2,6 +2,7 @@ import React from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {Text, TouchableOpacity, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { SmallText,LargeText } from "../../styled/components/Text";
 
 type Props = {
   style?: ViewStyle;
@@ -53,7 +54,7 @@ export const PolicyAgreeSwitch = ({
         isChecked={checked}
         onPress={onPress}
       />
-      <Text style={{marginLeft: -8}}>{policyName} 동의합니다.</Text>
+      <SmallText style={{marginLeft: -8}}>{policyName} 동의합니다.</SmallText>
     </TouchableOpacity>
   );
 };

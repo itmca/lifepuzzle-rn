@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
-import {Animated, Image, Platform, Text} from 'react-native';
+import {Animated, Image, Platform} from 'react-native';
 import {styles} from './styles';
+import {SmallText} from "../styled/components/Text";
+import {SmallImage} from "../styled/components/Image";
 
 type Props = {
   text: string;
@@ -46,7 +48,9 @@ const FingerBounceAnimation = ({text, durationSeconds = 0}: Props) => {
     outputRange: [Platform.OS === 'ios' ? 5 : 25, 0],
   });
 
-  if (!visible) return null;
+  if (!visible) {
+    return null;
+  }
 
   return (
     <Animated.View
@@ -57,11 +61,8 @@ const FingerBounceAnimation = ({text, durationSeconds = 0}: Props) => {
         bottom: 35,
         transform: [{translateY: bounce}],
       }}>
-      <Text style={styles.animationText}>{text}</Text>
-      <Image
-        style={styles.fingerImage}
-        source={require('../../assets/images/down-finger.png')}
-      />
+      <SmallText paddingBottom={10}>{text}</SmallText>
+      <SmallImage source={require('../../assets/images/down-finger.png')}/>
     </Animated.View>
   );
 };

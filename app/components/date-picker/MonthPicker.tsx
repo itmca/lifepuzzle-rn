@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Alert, Text, View} from 'react-native';
 import {styles} from './styles';
 import {NumberInput} from '../input/NumberInput';
+import { LargeText } from "../styled/components/Text";
 
 type Props = {
   initialDate: Date;
@@ -24,7 +25,7 @@ export const MonthPicker = ({initialDate, onChange}: Props): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>그 때는 </Text>
+      <LargeText>그 때는 </LargeText>
       <NumberInput
         customStyle={styles.numberInput}
         initialNumber={year}
@@ -33,7 +34,7 @@ export const MonthPicker = ({initialDate, onChange}: Props): JSX.Element => {
         }}
         autoFocus={true}
       />
-      <Text style={styles.text}> 년 </Text>
+      <LargeText> 년 </LargeText>
       <NumberInput
         customStyle={styles.numberInput}
         initialNumber={month}
@@ -46,7 +47,7 @@ export const MonthPicker = ({initialDate, onChange}: Props): JSX.Element => {
           Alert.alert('1부터 12사이의 숫자를 입력 해 주세요.');
         }}
       />
-      <Text style={styles.text}> 월 </Text>
+      <LargeText> 월 </LargeText>
     </View>
   );
 };

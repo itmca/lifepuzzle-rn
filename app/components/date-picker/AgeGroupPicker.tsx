@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Alert, Text, View} from 'react-native';
 import {styles} from './styles';
 import {NumberInput} from '../input/NumberInput';
+import { LargeText } from "../styled/components/Text";
 
 type Props = {
   heroName: string;
@@ -22,7 +23,7 @@ export const AgeGroupPicker = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>당시 {heroName}님은 </Text>
+      <LargeText >당시 {heroName}님은 </LargeText>
       <NumberInput
         customStyle={styles.numberInput}
         initialNumber={ageGroup}
@@ -36,8 +37,8 @@ export const AgeGroupPicker = ({
           Alert.alert('1부터 9까지 입력할 수 있습니다.');
         }}
       />
-      <Text style={styles.numberInput}>0</Text>
-      <Text style={styles.text}> 대</Text>
+      <LargeText fontWeight={900}>0</LargeText>
+      <LargeText> 대</LargeText>
     </View>
   );
 };
