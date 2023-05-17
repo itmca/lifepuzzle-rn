@@ -6,22 +6,24 @@ import AppleSocialLoginButton from '../../components/button/login/AppleSocialLog
 import OtherLoginButton from '../../components/button/login/OtherLoginButton';
 import {styles} from './styles';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 
 const LoginMainPage = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <View style={styles.mainContainer}>
+    <ScreenContainer>
       <LoadingContainer isLoading={loading}>
-        <View style={styles.descContainer}>
+        <ContentContainer>
           <Image
             source={require('../../assets/images/puzzle-4piece-squared.png')}
             style={styles.logo}
           />
           <Text style={styles.registerText}> 사랑하는 사람의 이야기를 </Text>
           <Text style={styles.registerText}> 한조각씩 맞추어 보세요 </Text>
-        </View>
-        <View style={styles.socialContainer}>
+        </ContentContainer>
+        <ContentContainer>
           <KaKaoSocialLoginButton onChangeLoading={setLoading} />
           {Platform.OS === 'ios' && (
             <AppleSocialLoginButton
@@ -31,9 +33,9 @@ const LoginMainPage = (): JSX.Element => {
             />
           )}
           <OtherLoginButton />
-        </View>
+        </ContentContainer>
       </LoadingContainer>
-    </View>
+    </ScreenContainer>
   );
 };
 

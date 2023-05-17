@@ -12,6 +12,8 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AdvancedTextInput} from '../../components/input/AdvancedTextInput';
 import {StoryKeyboardVoiceRecord} from '../../components/story/StoryKeyboardVoiceRecord';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
 const PuzzleWritingTextPage = (): JSX.Element => {
   const [title, setTitle] = useState<string>('');
@@ -34,9 +36,9 @@ const PuzzleWritingTextPage = (): JSX.Element => {
 
   return (
     <>
-      <View style={styles.container}>
-        <HelpQuestion />
-        <View style={{marginHorizontal: 16}}>
+      <ScreenContainer>
+        <ContentContainer gap="16px" flex={1}>
+          <HelpQuestion />
           <AdvancedTextInput
             customStyle={styles.titleInput}
             placeholder="제목을 입력해주세요."
@@ -46,9 +48,7 @@ const PuzzleWritingTextPage = (): JSX.Element => {
             autoFocus={true}
             onChangeText={setTitle}
           />
-        </View>
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}>
-          <View style={{marginHorizontal: 16}}>
+          <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}>
             <AdvancedTextInput
               customStyle={styles.contentInput}
               activeUnderlineColor="white"
@@ -59,9 +59,9 @@ const PuzzleWritingTextPage = (): JSX.Element => {
               onChangeText={setStoryText}
               multiline={true}
             />
-          </View>
-        </KeyboardAwareScrollView>
-      </View>
+          </KeyboardAwareScrollView>
+        </ContentContainer>
+      </ScreenContainer>
       <KeyboardAccessoryView
         alwaysVisible={true}
         hideBorder={true}

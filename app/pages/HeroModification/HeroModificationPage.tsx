@@ -25,6 +25,9 @@ import {
 } from '../../navigation/types';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
 const HeroModificationPage = (): JSX.Element => {
   const navigation =
@@ -116,7 +119,9 @@ const HeroModificationPage = (): JSX.Element => {
   const addHeroPhotoInFormData = (formData: FormData) => {
     const photo: PhotoIdentifier | undefined = modifyingHero?.modifiedImage;
 
-    if (!photo) return;
+    if (!photo) {
+      return;
+    }
 
     const uri = photo.node.image.uri;
     const fileParts = uri?.split('/');
@@ -149,52 +154,52 @@ const HeroModificationPage = (): JSX.Element => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <ScreenContainer>
       <LoadingContainer isLoading={loading || updateLoading}>
-        <KeyboardAwareScrollView
-          style={styles.scrollViewContainer}
+        <ScrollContainer
           contentContainerStyle={styles.formContainer}
           extraHeight={0}
           keyboardShouldPersistTaps={'always'}>
-          <TouchableOpacity
-            style={{marginTop: 32, marginBottom: 32}}
-            onPress={() => {
-              navigation.push('NoTab', {
-                screen: 'HeroSettingNavigator',
-                params: {
-                  screen: 'HeroSelectingPhoto',
-                },
-              });
-            }}>
-            <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
-          </TouchableOpacity>
-          <BasicTextInput
-            label="이름"
-            text={name}
-            onChangeText={setName}
-            placeholder="홍길동"
-          />
-          <BasicTextInput
-            label="닉네임"
-            text={nickName}
-            onChangeText={setNickName}
-            placeholder="소중한 당신"
-          />
-          <CustomDateInput
-            label="태어난 날"
-            date={birthday}
-            onChange={setBirthday}
-          />
-          <BasicTextInput
-            label="제목"
-            text={title}
-            onChangeText={setTitle}
-            placeholder="행복했던 나날들"
-          />
-          <CtaButton text="저장" onPress={onSubmit} />
-        </KeyboardAwareScrollView>
+          <ContentContainer>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.push('NoTab', {
+                  screen: 'HeroSettingNavigator',
+                  params: {
+                    screen: 'HeroSelectingPhoto',
+                  },
+                });
+              }}>
+              <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
+            </TouchableOpacity>
+            <BasicTextInput
+              label="이름"
+              text={name}
+              onChangeText={setName}
+              placeholder="홍길동"
+            />
+            <BasicTextInput
+              label="닉네임"
+              text={nickName}
+              onChangeText={setNickName}
+              placeholder="소중한 당신"
+            />
+            <CustomDateInput
+              label="태어난 날"
+              date={birthday}
+              onChange={setBirthday}
+            />
+            <BasicTextInput
+              label="제목"
+              text={title}
+              onChangeText={setTitle}
+              placeholder="행복했던 나날들"
+            />
+            <CtaButton text="저장" onPress={onSubmit} />
+          </ContentContainer>
+        </ScrollContainer>
       </LoadingContainer>
-    </View>
+    </ScreenContainer>
   );
 };
 export default HeroModificationPage;

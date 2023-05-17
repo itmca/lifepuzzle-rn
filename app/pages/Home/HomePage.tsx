@@ -8,13 +8,11 @@ import {ContentContainer} from '../../components/styled/container/ContentContain
 const HomePage = (): JSX.Element => {
   return (
     <ScreenContainer>
-      <ContentContainer flex={1.6}>
+      <ContentContainer>
         <Image
           style={styles.mainImage}
           source={require('../../assets/images/puzzles.png')}
         />
-      </ContentContainer>
-      <View style={styles.descContainer}>
         <View style={styles.titleTextContainer}>
           <Text style={styles.titleText}>한 번에 맞추는 것은 어렵습니다</Text>
           <Text style={styles.titleText}>한 조각씩은 쉽죠</Text>
@@ -31,13 +29,11 @@ const HomePage = (): JSX.Element => {
             도와드립니다.{' '}
           </Text>
         </View>
-      </View>
-      <View style={styles.aniContainer}>
         <FingerBounceAnimation
           text={'인생 한조각 맞추러 가기'}
           durationSeconds={15}
         />
-      </View>
+      </ContentContainer>
     </ScreenContainer>
   );
 };

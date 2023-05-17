@@ -9,6 +9,10 @@ import {StoryType} from '../../types/story.type';
 import {getStoryDisplayTagsDate} from '../../service/story-display.service';
 import {StoryAudioPlayer} from '../../components/story/StoryAudioPlayer';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
+import {
+  NoOutLineScreenContainer,
+  ScreenContainer,
+} from '../../components/styled/container/ScreenContainer';
 
 const StoryDetailPage = (): JSX.Element => {
   const storyKey = useRecoilValue(SelectedStoryKeyState);
@@ -35,8 +39,8 @@ const StoryDetailPage = (): JSX.Element => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <LoadingContainer isLoading={storiesLoading}>
+    <LoadingContainer isLoading={storiesLoading}>
+      <NoOutLineScreenContainer>
         <ScrollView>
           <StoryPhotoCarousel
             photos={story?.photos}
@@ -57,8 +61,8 @@ const StoryDetailPage = (): JSX.Element => {
             <Text>{story.content}</Text>
           </View>
         </ScrollView>
-      </LoadingContainer>
-    </SafeAreaView>
+      </NoOutLineScreenContainer>
+    </LoadingContainer>
   );
 };
 export default StoryDetailPage;

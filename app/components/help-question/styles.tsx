@@ -3,9 +3,6 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
     backgroundColor: '#ffffff',
   },
   bigSizeWrapper: {

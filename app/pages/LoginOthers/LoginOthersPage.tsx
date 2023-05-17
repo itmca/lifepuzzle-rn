@@ -9,6 +9,12 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useNavigation} from '@react-navigation/native';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {PasswordInput} from '../../components/input/PasswordInput';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {BasicNavigationProps} from '../../navigation/types';
+import {
+  ContentContainer,
+  ContentContainerRow,
+} from '../../components/styled/container/ContentContainer';
 
 const LoginOthersPage = (): JSX.Element => {
   const navigation = useNavigation();
@@ -17,19 +23,19 @@ const LoginOthersPage = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <View style={styles.mainContainer}>
+    <ScreenContainer>
       <LoadingContainer isLoading={loading}>
-        <View style={styles.topContainer}>
+        <ContentContainerRow>
           <Image
             source={require('../../assets/images/puzzle-4piece-squared.png')}
             style={styles.logo}
           />
           <Text style={styles.registerText}> 인생 퍼즐</Text>
-        </View>
-        <View style={styles.loginTextContainer}>
+        </ContentContainerRow>
+        <ContentContainer>
           <Text style={styles.loginText}>로그인</Text>
-        </View>
-        <View style={styles.formContainer}>
+        </ContentContainer>
+        <ContentContainer>
           <BasicTextInput label="아이디" text={id} onChangeText={setId} />
           <PasswordInput
             label="비밀번호"
@@ -55,8 +61,8 @@ const LoginOthersPage = (): JSX.Element => {
             password={password}
             onChangeLoading={setLoading}
           />
-        </View>
-        <View style={styles.socialContainer}>
+        </ContentContainer>
+        <ContentContainer>
           <KaKaoSocialLoginButton onChangeLoading={setLoading} />
           {Platform.OS === 'ios' && (
             <AppleSocialLoginButton
@@ -65,9 +71,9 @@ const LoginOthersPage = (): JSX.Element => {
               }}
             />
           )}
-        </View>
+        </ContentContainer>
       </LoadingContainer>
-    </View>
+    </ScreenContainer>
   );
 };
 
