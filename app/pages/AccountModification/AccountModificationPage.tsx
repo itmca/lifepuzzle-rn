@@ -124,7 +124,6 @@ const AccountModificationPage = ({
                   },
                 });
               }}
-              style={{marginTop: 8}}
             />
           )}
           <CtaButton

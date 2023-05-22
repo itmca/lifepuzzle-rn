@@ -19,8 +19,9 @@ export const ContentContainer = styled.View<Props>`
   flex: ${props => props.flex ?? 'none'};
 `;
 
-// horizontal
-export const ContentContainerRow = styled(ContentContainer)<{height?: string}>`
+export const HorizontalContentContainer = styled(ContentContainer)<{
+  height?: string;
+}>`
   flex-direction: row;
   align-items: center;
   height: ${props => props.height ?? 'auto'};

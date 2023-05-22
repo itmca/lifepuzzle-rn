@@ -16,8 +16,10 @@ import {
 } from '../../components/styled/container/ScreenContainer';
 import {
   ContentContainer,
-  ContentContainerRow,
+  HorizontalContentContainer,
 } from '../../components/styled/container/ContentContainer';
+import style from '@ant-design/react-native/lib/accordion/style';
+import icon from '@ant-design/react-native/lib/icon';
 
 const ProfilePage = (): JSX.Element | null => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -53,7 +55,7 @@ const ProfilePage = (): JSX.Element | null => {
 
   return (
     <NoOutLineScreenContainer>
-      <ContentContainerRow height="100px">
+      <HorizontalContentContainer height="100px">
         <Avatar.Text
           style={styles.accountAvatar}
           size={40}
@@ -65,7 +67,7 @@ const ProfilePage = (): JSX.Element | null => {
           onPress={goToModificationPage()}>
           <Icon size={24} name={'chevron-right'} />
         </TouchableOpacity>
-      </ContentContainerRow>
+      </HorizontalContentContainer>
       <View style={styles.customDivider} />
       <ContentContainer gap="0px">
         <List.Item

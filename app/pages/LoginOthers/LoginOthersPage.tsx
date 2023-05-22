@@ -13,7 +13,7 @@ import {ScreenContainer} from '../../components/styled/container/ScreenContainer
 import {BasicNavigationProps} from '../../navigation/types';
 import {
   ContentContainer,
-  ContentContainerRow,
+  HorizontalContentContainer,
 } from '../../components/styled/container/ContentContainer';
 
 const LoginOthersPage = (): JSX.Element => {
@@ -25,13 +25,13 @@ const LoginOthersPage = (): JSX.Element => {
   return (
     <ScreenContainer>
       <LoadingContainer isLoading={loading}>
-        <ContentContainerRow>
+        <HorizontalContentContainer>
           <Image
             source={require('../../assets/images/puzzle-4piece-squared.png')}
             style={styles.logo}
           />
           <Text style={styles.registerText}> 인생 퍼즐</Text>
-        </ContentContainerRow>
+        </HorizontalContentContainer>
         <ContentContainer>
           <Text style={styles.loginText}>로그인</Text>
         </ContentContainer>
