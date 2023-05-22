@@ -16,6 +16,7 @@ import ValidatedTextInput from '../../components/input/ValidatedTextInput';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/RootNavigator';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 
 type AccountQueryResponse = {
   userNo: number;
@@ -76,7 +77,7 @@ const AccountModificationPage = ({
   return (
     <LoadingContainer
       isLoading={queryLoading || updateLoading || withdrawLoading}>
-      <View style={styles.mainContainer}>
+      <ScreenContainer>
         <KeyboardAwareScrollView
           style={styles.scrollViewContainer}
           contentContainerStyle={styles.formContainer}
@@ -123,7 +124,6 @@ const AccountModificationPage = ({
                   },
                 });
               }}
-              style={{marginTop: 8}}
             />
           )}
           <CtaButton
@@ -165,7 +165,7 @@ const AccountModificationPage = ({
             style={{marginTop: 8, backgroundColor: 'red'}}
           />
         </KeyboardAwareScrollView>
-      </View>
+      </ScreenContainer>
     </LoadingContainer>
   );
 };

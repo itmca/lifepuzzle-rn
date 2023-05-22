@@ -10,6 +10,16 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {styles} from './styles';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {BasicNavigationProps} from '../../navigation/types';
+import {
+  NoOutLineScreenContainer,
+  ScreenContainer,
+} from '../../components/styled/container/ScreenContainer';
+import {
+  ContentContainer,
+  HorizontalContentContainer,
+} from '../../components/styled/container/ContentContainer';
+import style from '@ant-design/react-native/lib/accordion/style';
+import icon from '@ant-design/react-native/lib/icon';
 
 const ProfilePage = (): JSX.Element | null => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -44,8 +54,8 @@ const ProfilePage = (): JSX.Element | null => {
   }
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.accountInfoContainer}>
+    <NoOutLineScreenContainer>
+      <HorizontalContentContainer height="100px">
         <Avatar.Text
           style={styles.accountAvatar}
           size={40}
@@ -57,10 +67,11 @@ const ProfilePage = (): JSX.Element | null => {
           onPress={goToModificationPage()}>
           <Icon size={24} name={'chevron-right'} />
         </TouchableOpacity>
-      </View>
-      <View style={styles.customDivider}></View>
-      <View style={styles.listContainer}>
+      </HorizontalContentContainer>
+      <View style={styles.customDivider} />
+      <ContentContainer gap="0px">
         <List.Item
+          style={{height: 80, justifyContent: 'center'}}
           title="공지사항"
           left={props => (
             <List.Icon {...props} style={styles.listItemIcon} icon="bell" />
@@ -71,6 +82,7 @@ const ProfilePage = (): JSX.Element | null => {
         />
         <Divider />
         <List.Item
+          style={{height: 80, justifyContent: 'center'}}
           title="주인공 관리"
           left={props => (
             <List.Icon
@@ -89,8 +101,8 @@ const ProfilePage = (): JSX.Element | null => {
           }}
         />
         <Divider />
-      </View>
-    </SafeAreaView>
+      </ContentContainer>
+    </NoOutLineScreenContainer>
   );
 };
 export default ProfilePage;

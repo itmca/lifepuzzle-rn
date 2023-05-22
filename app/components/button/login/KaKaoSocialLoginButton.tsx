@@ -7,6 +7,7 @@ import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
+import {MediumButton} from '../../styled/components/Button';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
@@ -48,15 +49,13 @@ const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
   }, [kakaoAccessToken]);
 
   return (
-    <TouchableOpacity
-      onPress={signInWithKakao}
-      style={styles.kakaoLoginButtonContainer}>
+    <MediumButton onPress={signInWithKakao} backgroundColor="#FFE812">
       <Image
         source={require('../../../assets/images/kakao-talk.png')}
         style={styles.socialLoginIcon}
       />
       <Text style={styles.kakaoLoginFont}>카카오로 계속하기</Text>
-    </TouchableOpacity>
+    </MediumButton>
   );
 };
 

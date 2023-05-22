@@ -6,6 +6,7 @@ import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
+import {MediumButton} from '../../styled/components/Button';
 
 type Props = {
   userId: string;
@@ -34,13 +35,13 @@ const GeneralLoginButton = ({
   });
 
   return (
-    <TouchableOpacity
+    <MediumButton
+      backgroundColor="#343666"
       onPress={() => {
         login({data: {username: userId, password: password}});
-      }}
-      style={styles.generalLoginButtonContainer}>
+      }}>
       <Text style={styles.generalLoginFont}>로그인</Text>
-    </TouchableOpacity>
+    </MediumButton>
   );
 };
 

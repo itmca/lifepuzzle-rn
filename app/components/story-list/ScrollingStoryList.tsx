@@ -24,7 +24,10 @@ const ScrollingStoryList = ({stories}: Props): JSX.Element => {
 
   return (
     <SafeAreaView style={styles.scrollViewContainer}>
-      <ScrollView onScroll={handleScroll} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        onScroll={handleScroll}
+        scrollEventThrottle={100}
+        showsVerticalScrollIndicator={false}>
         {stories.map((story: StoryType) => (
           <StoryItem key={story.id} story={story} />
         ))}

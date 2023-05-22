@@ -7,6 +7,6 @@ export default StyleSheet.create({
   },
   dateInput: {
     width: '100%',
-    marginBottom: 0,
+    marginBottom: 8,
   },
 });

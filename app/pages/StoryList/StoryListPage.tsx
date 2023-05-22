@@ -11,6 +11,7 @@ import {useStories} from '../../service/hooks/story.query.hook';
 import {useUpdateObserver} from '../../service/hooks/update.hooks';
 import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
 import {FILTER_KEY_ALL} from '../../constants/filter.contant';
+import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 
 type Props = {
   route: any;
@@ -35,11 +36,7 @@ const StoryListPage = ({route}: Props): JSX.Element => {
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: '#ffffff',
-        }}>
+      <NoOutLineScreenContainer>
         <HeroStoryOverview
           hero={hero}
           storyCount={totalStoryCount}
@@ -48,7 +45,7 @@ const StoryListPage = ({route}: Props): JSX.Element => {
         />
         <Divider />
         <ScrollingStoryList stories={stories} />
-      </SafeAreaView>
+      </NoOutLineScreenContainer>
     </LoadingContainer>
   );
 };

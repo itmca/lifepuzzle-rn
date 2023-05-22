@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import {MediumButton} from '../styled/components/Button';
 import styles from './styles';
 
 type Props = {
@@ -19,17 +20,12 @@ const CtaButton = ({
 }: Props): JSX.Element => {
   const backgroundColor = color === 'primary' ? '#343666' : '#A3A7F8';
   return (
-    <TouchableOpacity
+    <MediumButton
       disabled={disabled}
       onPress={onPress}
-      style={{
-        ...styles.coloredButtonContainer,
-        backgroundColor,
-        ...style,
-        ...(disabled ? {backgroundColor: 'grey'} : {}),
-      }}>
+      backgroundColor={backgroundColor}>
       <Text style={styles.coloredButtonFont}>{text}</Text>
-    </TouchableOpacity>
+    </MediumButton>
   );
 };
 

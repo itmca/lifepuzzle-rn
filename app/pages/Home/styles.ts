@@ -21,9 +21,7 @@ export const styles = StyleSheet.create({
   },
   mainImage: {
     width: '100%',
-    // maxWidth: 343,
-    height: '100%',
-    // maxHeight: 355.25,
+    height: 300,
     alignSelf: 'center',
     borderRadius: 32,
     ...Platform.select({

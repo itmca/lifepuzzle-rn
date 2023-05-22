@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
   accountNickName: {marginLeft: 24, fontSize: 24},
   accountModificationButton: {position: 'absolute', right: 16},
   customDivider: {
+    width: '100%',
     height: 8,
     backgroundColor: '#E9E9E9',
   },
