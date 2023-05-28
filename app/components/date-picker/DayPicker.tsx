@@ -33,7 +33,6 @@ export const DayPicker = ({initialDate, onChange}: Props): JSX.Element => {
     <View style={styles.container}>
       <LargeText>그 때는 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={year}
         onChangeNumber={newYear => {
           setYear(newYear);
@@ -42,7 +41,6 @@ export const DayPicker = ({initialDate, onChange}: Props): JSX.Element => {
       />
       <LargeText> 년 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={month}
         onChangeNumber={newMonth => {
           setMonth(newMonth);
@@ -55,7 +53,6 @@ export const DayPicker = ({initialDate, onChange}: Props): JSX.Element => {
       />
       <LargeText> 월 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={day}
         onChangeNumber={newDay => {
           setDay(newDay);

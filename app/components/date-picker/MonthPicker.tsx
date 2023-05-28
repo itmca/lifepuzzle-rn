@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Alert, Text, View} from 'react-native';
 import {styles} from './styles';
 import {NumberInput} from '../input/NumberInput';
-import { LargeText } from "../styled/components/Text";
+import { LargeText } from '../styled/components/Text';
 
 type Props = {
   initialDate: Date;
@@ -27,7 +27,6 @@ export const MonthPicker = ({initialDate, onChange}: Props): JSX.Element => {
     <View style={styles.container}>
       <LargeText>그 때는 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={year}
         onChangeNumber={newYear => {
           setYear(newYear);
@@ -36,7 +35,6 @@ export const MonthPicker = ({initialDate, onChange}: Props): JSX.Element => {
       />
       <LargeText> 년 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={month}
         onChangeNumber={newMonth => {
           setMonth(newMonth);
