@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, StyleProp, TextInput, TextStyle} from 'react-native';
-
+import {Alert, StyleProp,TextStyle} from 'react-native';
+import {default as Input}from '../styled/components/NumberInput';
 type Props = {
   onChangeNumber: (number: number) => void;
   initialNumber: number;
@@ -53,9 +53,9 @@ export const NumberInput = ({
   }
 
   return (
-    <TextInput
+    <Input
       keyboardType={'numeric'}
-      onChangeText={text => {
+      onChangeText={(text: string) => {
         if (!text) {
           setNumber(0);
           setText('');
