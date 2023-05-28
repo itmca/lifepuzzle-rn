@@ -5,22 +5,25 @@ import styles from './styles';
 
 type Props = {
   onPress: () => void;
-  color?: 'primary';
+  color?: string;
   text: string;
   style?: any;
   disabled?: boolean;
+  marginTop?: string;
+  marginBottom?: string;
 };
 
 const CtaButton = ({
   onPress,
-  color = 'primary',
+  color,
   text,
-  style,
+  marginTop,
   disabled = false,
 }: Props): JSX.Element => {
-  const backgroundColor = color === 'primary' ? '#343666' : '#A3A7F8';
+  const backgroundColor = color ? color : '#343666';
   return (
     <MediumButton
+      marginTop={marginTop}
       disabled={disabled}
       onPress={onPress}
       backgroundColor={backgroundColor}>

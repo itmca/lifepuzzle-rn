@@ -25,6 +25,7 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {ImageButton} from '../../components/styled/components/Button';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -134,7 +135,7 @@ const HeroRegisterPage = (): JSX.Element => {
           extraHeight={0}
           keyboardShouldPersistTaps={'always'}>
           <ContentContainer>
-            <TouchableOpacity
+            <ImageButton
               onPress={() => {
                 navigation.push('NoTab', {
                   screen: 'HeroSettingNavigator',
@@ -144,7 +145,7 @@ const HeroRegisterPage = (): JSX.Element => {
                 });
               }}>
               <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
-            </TouchableOpacity>
+            </ImageButton>
             <BasicTextInput
               label="이름"
               text={name}
@@ -168,7 +169,7 @@ const HeroRegisterPage = (): JSX.Element => {
               text={title}
               onChangeText={setTitle}
             />
-            <CtaButton text="주인공 추가" onPress={onSubmit} />
+            <CtaButton marginTop="16px" text="주인공 추가" onPress={onSubmit} />
           </ContentContainer>
         </ScrollContainer>
       </LoadingContainer>

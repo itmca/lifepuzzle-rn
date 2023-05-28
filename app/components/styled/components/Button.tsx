@@ -2,22 +2,32 @@ import styled, {css} from 'styled-components/native';
 
 type Props = {
   backgroundColor?: string;
+  marginBottom?: string;
+  marginTop?: string;
 };
 
 export const MediumButton = styled.TouchableOpacity<Props>`
   flex-direction: row;
-  height: 48;
+  height: 48px;
   width: 100%;
   justify-content: center;
   align-items: center;
-  border-radius: 4;
-  margin-bottom: 8;
+  border-radius: 4px;
+  margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};
+  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : '#343666'};
 
   ${props =>
     props.disabled &&
     css`
-      backgroud-color: grey;
+      background-color: grey;
     `};
+`;
+
+export const ImageButton = styled.TouchableOpacity<Props>`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
 `;
