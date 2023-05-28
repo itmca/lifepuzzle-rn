@@ -9,7 +9,8 @@ import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
-import { LargeText,MediumText } from "../styled/components/Text";
+import {LargeText, MediumText, SmallText} from '../styled/components/Text';
+import {MediumButton} from '../styled/components/Button';
 
 type Props = {
   hero: HeroType;
@@ -41,7 +42,6 @@ const HeroCard = ({hero}: Props): JSX.Element => {
     <View style={styles.mainContainer}>
       <View style={styles.settingButtonContainer}>
         <TouchableOpacity
-          style={styles.settingButton}
           onPress={() => {
             navigation.push('NoTab', {
               screen: 'HeroSettingNavigator',
@@ -58,27 +58,29 @@ const HeroCard = ({hero}: Props): JSX.Element => {
       </View>
       <View style={styles.characterProfileContainer}>
         <HeroAvatar size={128} imageURL={imageURL} />
-        <LargeText marginTop={16} color={'#FFFFFF'}>{heroNickName}</LargeText>
-        <MediumText marginTop={16} color={'#F2C744'}>{heroName} 님</MediumText>
-        <MediumText marginTop={8} color={'#F2C744'}>{'"' + title + '"'}</MediumText>
+        <LargeText marginTop={16} color={'#FFFFFF'}>
+          {heroNickName}
+        </LargeText>
+        <View style={styles.mediumTextContainer}>
+          <MediumText marginTop={16} color={'#F2C744'}>
+            {heroName} 님
+          </MediumText>
+          <MediumText color={'#F2C744'}>{'"' + title + '"'}</MediumText>
+        </View>
       </View>
-      <View style={styles.selectButtonContainer}>
-        <TouchableOpacity
-          style={isSelected ? styles.disabledSelectButton : styles.selectButton}
-          disabled={isSelected}
-          onPress={() => {
-            setCurrentHero(hero);
-            refetch({
-              data: {
-                heroNo,
-              },
-            });
-          }}>
-          <LargeText>
-            {isSelected ? '작성 중인 주인공' : '선택하기'}
-          </LargeText>
-        </TouchableOpacity>
-      </View>
+      <MediumButton
+        marginBottom="0px"
+        backgroundColor={isSelected ? '#E5E5E5' : '#EACC97'}
+        onPress={() => {
+          setCurrentHero(hero);
+          refetch({
+            data: {
+              heroNo,
+            },
+          });
+        }}>
+        <MediumText>{isSelected ? '작성 중인 주인공' : '선택하기'}</MediumText>
+      </MediumButton>
     </View>
   );
 };

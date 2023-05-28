@@ -17,6 +17,8 @@ import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/RootNavigator';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
 type AccountQueryResponse = {
   userNo: number;
@@ -78,61 +80,62 @@ const AccountModificationPage = ({
     <LoadingContainer
       isLoading={queryLoading || updateLoading || withdrawLoading}>
       <ScreenContainer>
-        <KeyboardAwareScrollView
-          style={styles.scrollViewContainer}
-          contentContainerStyle={styles.formContainer}
-          extraHeight={0}
-          keyboardShouldPersistTaps={'always'}>
-          {user?.userType === 'general' && (
-            <BasicTextInput label="아이디" text={id} disabled={true} />
-          )}
-          <ValidatedTextInput
-            label="닉네임"
-            value={nickName}
-            onChangeText={setNickName}
-            placeholder=""
-            validations={[
-              {
-                condition: nickName => !!nickName,
-                errorText: '닉네임을 입력해주세요.',
-              },
-              {
-                condition: nickName => nickName.length <= 32,
-                errorText: '닉네임은 32자 미만으로 입력해주세요.',
-              },
-            ]}
-          />
-          <CtaButton
-            text="저장"
-            disabled={originNickName === nickName || nickNameError}
-            onPress={() => {
-              updateUser({
-                data: {
-                  nickName: nickName,
+        <ScrollContainer extraHeight={0} keyboardShouldPersistTaps={'always'}>
+          <ContentContainer gap="8px">
+            {user?.userType === 'general' && (
+              <BasicTextInput label="아이디" text={id} disabled={true} />
+            )}
+            <ValidatedTextInput
+              label="닉네임"
+              value={nickName}
+              onChangeText={setNickName}
+              placeholder=""
+              validations={[
+                {
+                  condition: nickName => !!nickName,
+                  errorText: '닉네임을 입력해주세요.',
                 },
-              });
-            }}
-          />
-          {user?.userType === 'general' && (
-            <CtaButton
-              text="비밀번호 변경"
-              onPress={() => {
-                navigation.push('NoTab', {
-                  screen: 'AccountSettingNavigator',
-                  params: {
-                    screen: 'AccountPasswordModification',
-                  },
-                });
-              }}
+                {
+                  condition: nickName => nickName.length <= 32,
+                  errorText: '닉네임은 32자 미만으로 입력해주세요.',
+                },
+              ]}
             />
-          )}
-          <CtaButton
-            text="로그아웃"
-            onPress={() => {
-              logout();
-            }}
-            style={{marginTop: 32, backgroundColor: '#FF5A5A'}}
-          />
+            <ContentContainer>
+              <CtaButton
+                text="저장"
+                disabled={originNickName === nickName || nickNameError}
+                onPress={() => {
+                  updateUser({
+                    data: {
+                      nickName: nickName,
+                    },
+                  });
+                }}
+              />
+              {user?.userType === 'general' && (
+                <CtaButton
+                  text="비밀번호 변경"
+                  onPress={() => {
+                    navigation.push('NoTab', {
+                      screen: 'AccountSettingNavigator',
+                      params: {
+                        screen: 'AccountPasswordModification',
+                      },
+                    });
+                  }}
+                />
+              )}
+              <CtaButton
+                text="로그아웃"
+                onPress={() => {
+                  logout();
+                }}
+                color="#FF5A5A"
+                marginTop="16px"
+              />
+            </ContentContainer>
+          </ContentContainer>
           <View
             style={{
               width: '100%',
@@ -162,9 +165,10 @@ const AccountModificationPage = ({
                 },
               );
             }}
-            style={{marginTop: 8, backgroundColor: 'red'}}
+            marginTop="8px"
+            color="red"
           />
-        </KeyboardAwareScrollView>
+        </ScrollContainer>
       </ScreenContainer>
     </LoadingContainer>
   );
