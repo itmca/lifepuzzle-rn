@@ -1,8 +1,8 @@
 import React from 'react';
-import {Image, Pressable} from 'react-native';
+import { Pressable} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import { SmallImage } from "../styled/components/Image";
+import { SmallImage } from '../styled/components/Image';
 
 const DefaultHeaderLeft = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();

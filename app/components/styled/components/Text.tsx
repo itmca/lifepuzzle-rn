@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 type Color = '#F2C744'|'#55A5FD'|'#707070'|'#979797'|'#323232' |'#FFFFFF';
 type Props = {
-  letterSpacing?: string;
+  letterSpacing?: number;
   fontWeight?: string|number;
   lineHeight?: number;
   color?: Color|'#000000';
@@ -28,10 +28,18 @@ export const SmallText = styled.Text<Props>`
    color: ${props => (props.color ? props.color : '#000000')};
    fontSize: 13px;
    fontWeight: ${props => props.fontWeight || 'normal'};
-   letterSpacing: ${props => props.letterSpacing || '0.15px'};
+   letterSpacing: ${({ letterSpacing }) => (letterSpacing ? `${letterSpacing}px` : '0.25px')};
  `;
 
 export const XSmallText = styled.Text<Props>`
    color: ${props => (props.color ? props.color : '#000000')};
    fontSize: 11px;
  `;
+
+function Text({ ...props }) {
+  return (
+    <MediumText {...props} >
+    </MediumText>
+  );
+}
+export default Text;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
@@ -9,7 +9,7 @@ import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
-import { LargeText,MediumText } from "../styled/components/Text";
+import Text,{ LargeText} from "../styled/components/Text";
 
 type Props = {
   hero: HeroType;
@@ -59,8 +59,8 @@ const HeroCard = ({hero}: Props): JSX.Element => {
       <View style={styles.characterProfileContainer}>
         <HeroAvatar size={128} imageURL={imageURL} />
         <LargeText marginTop={16} color={'#FFFFFF'}>{heroNickName}</LargeText>
-        <MediumText marginTop={16} color={'#F2C744'}>{heroName} 님</MediumText>
-        <MediumText marginTop={8} color={'#F2C744'}>{'"' + title + '"'}</MediumText>
+        <Text marginTop={16} color={'#F2C744'}>{heroName} 님</Text>
+        <Text marginTop={8} color={'#F2C744'}>{'"' + title + '"'}</Text>
       </View>
       <View style={styles.selectButtonContainer}>
         <TouchableOpacity
@@ -74,9 +74,9 @@ const HeroCard = ({hero}: Props): JSX.Element => {
               },
             });
           }}>
-          <LargeText>
+          <Text fontSize={16}>
             {isSelected ? '작성 중인 주인공' : '선택하기'}
-          </LargeText>
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

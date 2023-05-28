@@ -61,7 +61,7 @@ const FingerBounceAnimation = ({text, durationSeconds = 0}: Props) => {
         bottom: 35,
         transform: [{translateY: bounce}],
       }}>
-      <SmallText paddingBottom={10}>{text}</SmallText>
+      <SmallText paddingBottom={5} fontWeight={'bold'} lineHeight={25}>{text}</SmallText>
       <SmallImage source={require('../../assets/images/down-finger.png')}/>
     </Animated.View>
   );
