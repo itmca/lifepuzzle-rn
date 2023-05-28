@@ -43,7 +43,7 @@ const HelpQuestion = (): JSX.Element => {
           source={require('../../assets/images/puzzle-onepiece.png')}
         />
         <View style={styles.verticalLine}></View>
-        <SmallText color={'#707070'} fontWeight={'bold'} marginLeft={24.5} marginRight={36.15}>{helpQuestion}</SmallText>
+        <SmallText  style={styles.helpQuestionText}>{helpQuestion}</SmallText>
         <TouchableOpacity
           onPress={() => setOpen(false)}
           style={styles.closeIconWrapper}>

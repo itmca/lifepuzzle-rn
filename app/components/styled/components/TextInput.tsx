@@ -8,7 +8,7 @@ type Props = {
 const StyledTextInput = styled(Input).attrs(()=>({
   underlineColor:'transparent',
 }))<Props>`
-    width: ${({ width }) => (width ? `${width}%` : 'auto')};
+    width: ${({ width }) => (width ? `${width}%` : '100%')};
     marginBottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}px` : '8px')};
  `;
 function TextInput({ ...props }) {

@@ -14,7 +14,7 @@ const HeroBadgeHeader = (): JSX.Element => {
       onPress={() => {}}
       style={styles.defaultHeaderRightContainer}>
       <HeroAvatar size={32} imageURL={hero.imageURL} />
-      <XSmallText color={'#ffffff'} marginLeft={4} >{hero?.heroNickName}</XSmallText>
+      <XSmallText style={styles.headerProfileName}>{hero?.heroNickName}</XSmallText>
     </TouchableOpacity>
   );
 };

@@ -10,6 +10,7 @@ type Props = {
 };
 
 export const XLargeTitle = styled.Text<Props>`
+   color: ${props => (props.color ? props.color : '#000000')};
    fontSize: 32px;
    fontWeight: bold;
  `;

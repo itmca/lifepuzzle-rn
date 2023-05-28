@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Animated, Image, Platform} from 'react-native';
+import {Animated, Platform} from 'react-native';
 import {styles} from './styles';
 import {SmallText} from "../styled/components/Text";
 import {SmallImage} from "../styled/components/Image";
@@ -61,7 +61,7 @@ const FingerBounceAnimation = ({text, durationSeconds = 0}: Props) => {
         bottom: 35,
         transform: [{translateY: bounce}],
       }}>
-      <SmallText paddingBottom={5} fontWeight={'bold'} lineHeight={25}>{text}</SmallText>
+      <SmallText style={styles.animationText}>{text}</SmallText>
       <SmallImage source={require('../../assets/images/down-finger.png')}/>
     </Animated.View>
   );

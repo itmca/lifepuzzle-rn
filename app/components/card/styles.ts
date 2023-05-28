@@ -37,17 +37,14 @@ export const styles = StyleSheet.create({
   },
   characterNickName: {
     color: '#ffffff',
-    fontSize: 24,
     marginTop: 16,
   },
   characterName: {
     color: '#F2C744',
-    fontSize: 20,
     marginTop: 16,
   },
   characterTitle: {
     color: '#F2C744',
-    fontSize: 20,
     marginTop: 8,
   },
   selectButtonContainer: {

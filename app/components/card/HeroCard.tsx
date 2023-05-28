@@ -58,9 +58,9 @@ const HeroCard = ({hero}: Props): JSX.Element => {
       </View>
       <View style={styles.characterProfileContainer}>
         <HeroAvatar size={128} imageURL={imageURL} />
-        <LargeText marginTop={16} color={'#FFFFFF'}>{heroNickName}</LargeText>
-        <Text marginTop={16} color={'#F2C744'}>{heroName} 님</Text>
-        <Text marginTop={8} color={'#F2C744'}>{'"' + title + '"'}</Text>
+        <LargeText style={styles.characterNickName}>{heroNickName}</LargeText>
+        <Text style={styles.characterName}>{heroName} 님</Text>
+        <Text style={styles.characterTitle}>{'"' + title + '"'}</Text>
       </View>
       <View style={styles.selectButtonContainer}>
         <TouchableOpacity
