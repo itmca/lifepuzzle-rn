@@ -5,17 +5,18 @@ import {useRecoilValue} from 'recoil';
 import {userState} from '../../recoils/user.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import CtaButton from '../../components/button/CtaButton';
-import {useNavigation} from '@react-navigation/native';
 import ValidatedTextInput from '../../components/input/ValidatedTextInput';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../constants/password.constant';
+import {CustomAlert} from '../../components/alert/CustomAlert';
+import {useLogout} from '../../service/hooks/logout.hook';
 
 const AccountPasswordModificationPage = (): JSX.Element => {
   const user = useRecoilValue(userState);
-  const navigation = useNavigation();
+  const logout = useLogout();
   const [oldPassword, setOldPassword] = useState<string>('');
   const [oldPasswordError, setOldPasswordError] = useState<boolean>(true);
   const [newPassword, setNewPassword] = useState<string>('');
@@ -29,7 +30,10 @@ const AccountPasswordModificationPage = (): JSX.Element => {
       method: 'PUT',
     },
     onResponseSuccess: () => {
-      navigation.goBack();
+      logout();
+      CustomAlert.simpleAlert(
+        '비밀번호가 변경되었습니다. 다시 로그인 해주세요.',
+      );
     },
     disableInitialRequest: true,
   });

@@ -14,6 +14,7 @@ type Param<R> = {
   requestOption: AxiosRequestConfig;
   onResponseSuccess: (data: R) => void;
   onError?: (error: AxiosError) => void;
+  onTokenExpire?: () => void;
   onLoadingStatusChange?: (isLoading: boolean) => void;
   disableInitialRequest?: boolean;
   needAuthenticated?: boolean;
@@ -37,6 +38,7 @@ export const useAxios = <R>({
   requestOption,
   onResponseSuccess,
   onError,
+  onTokenExpire,
   onLoadingStatusChange,
   disableInitialRequest = false,
   needAuthenticated = false,
@@ -47,7 +49,6 @@ export const useAxios = <R>({
   const refreshAuthTokens = useRefreshAuthTokens();
 
   const logout = useLogout();
-  const alertLogin = useLoginAlert();
 
   useEffect(() => {
     if (disableInitialRequest) {
@@ -70,7 +71,7 @@ export const useAxios = <R>({
 
     if (needAuthenticated && tokenState === 'Expire') {
       logout();
-      alertLogin();
+      onTokenExpire?.();
       return;
     } else if (needAuthenticated && tokenState === 'Refresh') {
       refreshAuthTokens({
