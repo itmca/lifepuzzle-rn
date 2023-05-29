@@ -9,7 +9,7 @@ import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
-import Text,{ LargeText} from "../styled/components/Text";
+import Text, {LargeText} from '../styled/components/Text';
 import {MediumButton} from '../styled/components/Button';
 
 type Props = {
@@ -62,23 +62,6 @@ const HeroCard = ({hero}: Props): JSX.Element => {
         <Text style={styles.characterName}>{heroName} 님</Text>
         <Text style={styles.characterTitle}>{'"' + title + '"'}</Text>
       </View>
-      <View style={styles.selectButtonContainer}>
-        <TouchableOpacity
-          style={isSelected ? styles.disabledSelectButton : styles.selectButton}
-          disabled={isSelected}
-          onPress={() => {
-            setCurrentHero(hero);
-            refetch({
-              data: {
-                heroNo,
-              },
-            });
-          }}>
-          <Text fontSize={16}>
-            {isSelected ? '작성 중인 주인공' : '선택하기'}
-          </Text>
-        </TouchableOpacity>
-      </View>
       <MediumButton
         marginBottom="0px"
         backgroundColor={isSelected ? '#E5E5E5' : '#EACC97'}
@@ -90,7 +73,7 @@ const HeroCard = ({hero}: Props): JSX.Element => {
             },
           });
         }}>
-        <MediumText>{isSelected ? '작성 중인 주인공' : '선택하기'}</MediumText>
+        <Text>{isSelected ? '작성 중인 주인공' : '선택하기'}</Text>
       </MediumButton>
     </View>
   );

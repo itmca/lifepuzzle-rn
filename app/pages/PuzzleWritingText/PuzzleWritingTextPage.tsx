@@ -35,41 +35,41 @@ const PuzzleWritingTextPage = (): JSX.Element => {
   }, [title, storyText]);
 
   return (
-    <>
-      <ScreenContainer>
-        <ContentContainer gap="16px" flex={1}>
-          <HelpQuestion />
+    <ScreenContainer>
+      <ContentContainer gap="16px" flex={1}>
+        <HelpQuestion />
+        <AdvancedTextInput
+          customStyle={styles.titleInput}
+          placeholder="제목을 입력해주세요."
+          text={title}
+          activeUnderlineColor={'white'}
+          underlineColor={'white'}
+          autoFocus={true}
+          onChangeText={setTitle}
+        />
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}>
           <AdvancedTextInput
-            customStyle={styles.titleInput}
-            placeholder="제목을 입력해주세요."
-            text={title}
-            activeUnderlineColor={'white'}
-            underlineColor={'white'}
-            autoFocus={true}
-            onChangeText={setTitle}
+            customStyle={styles.contentInput}
+            activeUnderlineColor="white"
+            underlineColor="white"
+            placeholder="여기를 눌러 새로운 인생조각을 얘기해주세요."
+            text={storyText}
+            scrollEnabled={false}
+            onChangeText={setStoryText}
+            multiline={true}
           />
-          <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}>
-            <AdvancedTextInput
-              customStyle={styles.contentInput}
-              activeUnderlineColor="white"
-              underlineColor="white"
-              placeholder="여기를 눌러 새로운 인생조각을 얘기해주세요."
-              text={storyText}
-              scrollEnabled={false}
-              onChangeText={setStoryText}
-              multiline={true}
-            />
-          </KeyboardAwareScrollView>
-        </ContentContainer>
-      </ScreenContainer>
-      <KeyboardAccessoryView
-        alwaysVisible={true}
-        hideBorder={true}
-        androidAdjustResize={true}
-        style={{backgroundColor: 'white'}}>
-        <StoryKeyboardVoiceRecord />
-      </KeyboardAccessoryView>
-    </>
+        </KeyboardAwareScrollView>
+      </ContentContainer>
+      <ContentContainer>
+        <KeyboardAccessoryView
+          alwaysVisible={true}
+          hideBorder={true}
+          androidAdjustResize={true}
+          style={{backgroundColor: 'white'}}>
+          <StoryKeyboardVoiceRecord />
+        </KeyboardAccessoryView>
+      </ContentContainer>
+    </ScreenContainer>
   );
 };
 
