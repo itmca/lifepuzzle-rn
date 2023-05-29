@@ -78,7 +78,7 @@ const AccountPasswordModificationPage = (): JSX.Element => {
                 '기존 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.',
             },
           ]}
-          onIsErrorChanged={setOldPasswordError}
+          onIsErrorChanged={setNewPasswordError}
         />
         <ValidatedTextInput
           secureTextEntry={true}
