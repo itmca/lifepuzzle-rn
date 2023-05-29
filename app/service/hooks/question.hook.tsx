@@ -4,6 +4,8 @@ import {useRecoilValue} from 'recoil';
 import {HeroType} from '../../types/hero.type';
 import {heroState} from '../../recoils/hero.recoil';
 import {Question} from '../../types/question.type';
+import {useUpdateObserver, useUpdatePublisher} from './update.hooks';
+import {storyListUpdate} from '../../recoils/update.recoil';
 
 type Param = {
   category?: string;
@@ -29,6 +31,8 @@ const useRecommendedQuestion = (
 
   const [preparedQuestions, setPreparedQuestions] = useState<Question[]>([]);
 
+  const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
+
   const [isLoading, fetchQuestions] = useAxios<QuestionDTO[]>({
     requestOption: {
       url: `/question/recommend?heroNo=${heroNo}`,
@@ -48,7 +52,7 @@ const useRecommendedQuestion = (
 
   useEffect(() => {
     fetchQuestions({});
-  }, [heroNo]);
+  }, [heroNo, storyListUpdateObserver]);
 
   const [questionIndex, setQuestionIndex] = useState(-1);
 
