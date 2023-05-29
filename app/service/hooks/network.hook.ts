@@ -8,6 +8,7 @@ import {convertDateStringToDate} from '../json-convert.service';
 import {useRefreshAuthTokens} from './refresh.hook';
 import {useLogout} from './logout.hook';
 import {useLoginAlert} from './login.hook';
+import {AuthTokens} from '../../types/auth.type';
 
 type Param<R> = {
   requestOption: AxiosRequestConfig;
@@ -42,7 +43,7 @@ export const useAxios = <R>({
 }: Param<R>): Return => {
   const [loading, setLoading] = useState(false);
 
-  const tokens = useRecoilValue(authState);
+  const recoilTokens = useRecoilValue(authState);
   const refreshAuthTokens = useRefreshAuthTokens();
 
   const logout = useLogout();
@@ -60,7 +61,11 @@ export const useAxios = <R>({
     onLoadingStatusChange?.(loading);
   }, [loading]);
 
-  const fetchData = (axiosConfig: AxiosRequestConfig) => {
+  const fetchData = (
+    axiosConfig: AxiosRequestConfig,
+    paramTokens?: AuthTokens,
+  ) => {
+    const tokens = paramTokens ? paramTokens : recoilTokens;
     const tokenState = getTokenState(tokens);
 
     if (needAuthenticated && tokenState === 'Expire') {
@@ -69,10 +74,11 @@ export const useAxios = <R>({
       return;
     } else if (needAuthenticated && tokenState === 'Refresh') {
       refreshAuthTokens({
-        onRefreshSuccess: () => {
-          fetchData(requestOption);
+        onRefreshSuccess: refreshedTokens => {
+          fetchData(axiosConfig, refreshedTokens);
         },
       });
+      return;
     }
 
     const url = axiosConfig.url || '';

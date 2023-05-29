@@ -14,7 +14,7 @@ import {
 import {LocalStorage} from '../local-storage.service';
 import {getTokenState} from '../auth.service';
 
-export const useFetchLocalStorageUserHero = () => {
+export const useFetchLocalStorageUserHero = (): void => {
   const tokens = useRecoilValue(authState);
   const setUser = useSetRecoilState(userState);
   const [currentHero, setHero] = useRecoilState(heroState);
@@ -22,7 +22,7 @@ export const useFetchLocalStorageUserHero = () => {
   const currentUserUpdateObserver = useUpdateObserver(currentUserUpdate);
   const currentHeroUpdateObserver = useUpdateObserver(currentHeroUpdate);
 
-  const [userLoading, fetchUser] = useAuthAxios<UserType>({
+  const [, fetchUser] = useAuthAxios<UserType>({
     requestOption: {},
     onResponseSuccess: user => {
       const heroNo = user.recentHeroNo;
@@ -32,7 +32,7 @@ export const useFetchLocalStorageUserHero = () => {
     disableInitialRequest: true,
   });
 
-  const [heroLoading, fetchHero] = useAuthAxios<HeroType>({
+  const [, fetchHero] = useAuthAxios<HeroType>({
     requestOption: {},
     onResponseSuccess: hero => {
       setHero(hero);
@@ -57,6 +57,4 @@ export const useFetchLocalStorageUserHero = () => {
 
     fetchHero({url: `/heroes/${currentHero.heroNo.toString()}`});
   }, [currentHero.heroNo, currentHeroUpdateObserver]);
-
-  return [userLoading || heroLoading];
 };
