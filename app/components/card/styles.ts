@@ -4,9 +4,10 @@ export const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: '#010440',
     height: '100%',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 16,
+    padding: 16,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -21,10 +22,6 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
     flex: 1,
-  },
-  settingButton: {
-    marginRight: 16,
-    marginTop: 16,
   },
   settingButtonIcon: {
     color: '#ffffff',
@@ -47,12 +44,6 @@ export const styles = StyleSheet.create({
     color: '#F2C744',
     marginTop: 8,
   },
-  selectButtonContainer: {
-    width: '100%',
-    height: '13%',
-    justifyContent: 'flex-end',
-    flex: 1.2,
-  },
   selectButton: {
     marginLeft: 16,
     marginRight: 16,
@@ -64,9 +55,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#eacc97',
   },
   disabledSelectButton: {
-    marginLeft: 16,
-    marginRight: 16,
-    marginBottom: 20,
     height: '80%',
     borderRadius: 8,
     justifyContent: 'center',
@@ -80,5 +68,9 @@ export const styles = StyleSheet.create({
   disabledSelectButtonText: {
     fontSize: 16,
     color: '#010440',
+  },
+  mediumTextContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

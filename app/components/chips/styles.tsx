@@ -5,9 +5,11 @@ export const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#ffffff',
     flexDirection: 'row',
+    alignItems: 'center',
+    flexShrink: 1,
+    justifyContent: 'space-between',
   },
   selectedChip: {
-    marginRight: 16,
     height: 32,
     backgroundColor: '#010440',
   },
@@ -16,7 +18,6 @@ export const styles = StyleSheet.create({
     color: '#ffffff',
   },
   unSelectedChip: {
-    marginRight: 16,
     height: 32,
   },
   unSelectedChipText: {

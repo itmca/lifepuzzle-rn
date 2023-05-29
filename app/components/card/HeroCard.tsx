@@ -10,6 +10,7 @@ import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
 import Text,{ LargeText} from "../styled/components/Text";
+import {MediumButton} from '../styled/components/Button';
 
 type Props = {
   hero: HeroType;
@@ -41,7 +42,6 @@ const HeroCard = ({hero}: Props): JSX.Element => {
     <View style={styles.mainContainer}>
       <View style={styles.settingButtonContainer}>
         <TouchableOpacity
-          style={styles.settingButton}
           onPress={() => {
             navigation.push('NoTab', {
               screen: 'HeroSettingNavigator',
@@ -79,6 +79,19 @@ const HeroCard = ({hero}: Props): JSX.Element => {
           </Text>
         </TouchableOpacity>
       </View>
+      <MediumButton
+        marginBottom="0px"
+        backgroundColor={isSelected ? '#E5E5E5' : '#EACC97'}
+        onPress={() => {
+          setCurrentHero(hero);
+          refetch({
+            data: {
+              heroNo,
+            },
+          });
+        }}>
+        <MediumText>{isSelected ? '작성 중인 주인공' : '선택하기'}</MediumText>
+      </MediumButton>
     </View>
   );
 };

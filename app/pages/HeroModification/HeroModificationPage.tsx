@@ -28,6 +28,7 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {ImageButton} from '../../components/styled/components/Button';
 
 const HeroModificationPage = (): JSX.Element => {
   const navigation =
@@ -161,7 +162,7 @@ const HeroModificationPage = (): JSX.Element => {
           extraHeight={0}
           keyboardShouldPersistTaps={'always'}>
           <ContentContainer>
-            <TouchableOpacity
+            <ImageButton
               onPress={() => {
                 navigation.push('NoTab', {
                   screen: 'HeroSettingNavigator',
@@ -171,7 +172,7 @@ const HeroModificationPage = (): JSX.Element => {
                 });
               }}>
               <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
-            </TouchableOpacity>
+            </ImageButton>
             <BasicTextInput
               label="이름"
               text={name}
@@ -195,7 +196,7 @@ const HeroModificationPage = (): JSX.Element => {
               onChangeText={setTitle}
               placeholder="행복했던 나날들"
             />
-            <CtaButton text="저장" onPress={onSubmit} />
+            <CtaButton marginTop="16px" text="저장" onPress={onSubmit} />
           </ContentContainer>
         </ScrollContainer>
       </LoadingContainer>
