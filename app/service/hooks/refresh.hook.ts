@@ -50,7 +50,7 @@ export const useRefreshAuthTokens = () => {
       return convertDateStringToDate(r);
     });
 
-    axios
+    client
       .request<AuthTokens>({
         timeout: 5000,
         method: 'post',
