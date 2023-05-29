@@ -100,6 +100,7 @@ const AccountModificationPage = ({
                 errorText: '닉네임은 32자 미만으로 입력해주세요.',
               },
             ]}
+            onIsErrorChanged={setNickNameError}
           />
           <CtaButton
             text="저장"
