@@ -13,6 +13,7 @@ import {
 } from '../../recoils/hero.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
+import Title from '../../components/styled/components/Title';
 
 export type HeroSettingParamList = {
   HeroSetting: undefined;
@@ -41,7 +42,8 @@ const HeroSettingNavigator = (): JSX.Element => {
         component={HeroSettingPage}
         options={{
           headerLeft: () => <GoBackHeaderLeft />,
-          title: '주인공 관리',
+          headerTitle: () => <Title>주인공 관리</Title>,
+          headerBackVisible:false
         }}
       />
       <Stack.Screen
@@ -55,7 +57,8 @@ const HeroSettingNavigator = (): JSX.Element => {
               }}
             />
           ),
-          title: '주인공 추가',
+          headerTitle: () => <Title>주인공 추가</Title>,
+          headerBackVisible:false
         }}
       />
       <Stack.Screen
@@ -69,7 +72,8 @@ const HeroSettingNavigator = (): JSX.Element => {
               }}
             />
           ),
-          title: '주인공 정보 수정',
+          headerTitle: () => <Title>주인공 정보 수정</Title>,
+          headerBackVisible:false
         }}
       />
       <Stack.Screen
@@ -84,7 +88,8 @@ const HeroSettingNavigator = (): JSX.Element => {
               }}
             />
           ),
-          title: '주인공 사진 선택',
+          headerTitle: () => <Title>주인공 사진 선택</Title>,
+          headerBackVisible:false,
           headerRight: () => (
             <WritingHeaderRight
               text="확인"

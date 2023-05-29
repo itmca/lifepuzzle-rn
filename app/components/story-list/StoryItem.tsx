@@ -33,13 +33,13 @@ const StoryItem = ({story}: props): JSX.Element => {
       <View style={styles.thumbnailListItemContainer}>
         <View style={{flex: 1}}>
           <View>
-            <SmallText
+            <SmallText fontWeight={700} letterSpacing={0.15} marginBottom={13} lineHeight={24}
               numberOfLines={1}
               ellipsizeMode="tail"
               >
               {story.title}
             </SmallText>
-            <SmallText
+            <SmallText opacity={0.8}
               numberOfLines={3}
               ellipsizeMode="tail">
               {story.content}

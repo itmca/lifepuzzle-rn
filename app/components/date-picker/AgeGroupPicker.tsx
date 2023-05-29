@@ -25,7 +25,6 @@ export const AgeGroupPicker = ({
     <View style={styles.container}>
       <LargeText >당시 {heroName}님은 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={ageGroup}
         onChangeNumber={newAge => {
           setAgeGroup(newAge);
@@ -37,7 +36,7 @@ export const AgeGroupPicker = ({
           Alert.alert('1부터 9까지 입력할 수 있습니다.');
         }}
       />
-      <LargeText fontWeight={900}>0</LargeText>
+      <LargeText fontWeight={'bold'}>0</LargeText>
       <LargeText> 대</LargeText>
     </View>
   );

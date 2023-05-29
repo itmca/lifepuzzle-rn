@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import Icon from '../styled/components/Icon';
 
 type Props = {
   type: 'cancel' | 'before';
@@ -14,7 +14,7 @@ const WritingHeaderLeft = ({type}: Props): JSX.Element => {
       onPress={() => {
         navigation.goBack();
       }}>
-      <Icon name={type === 'cancel' ? 'close' : 'chevron-left'} size={24} />
+      <Icon name={type === 'cancel' ? 'close' : 'chevron-left'} />
     </Pressable>
   );
 };

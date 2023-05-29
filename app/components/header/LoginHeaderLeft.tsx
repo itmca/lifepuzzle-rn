@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import Icon from '../styled/components/Icon';
 
 type Props = {
   type: 'main' | 'sub';
@@ -17,7 +17,7 @@ const LoginHeaderLeft = ({type}: Props): JSX.Element => {
             screen: 'Home',
           });
         }}>
-        <Icon name={'close'} size={24} />
+        <Icon name={'close'} />
       </Pressable>
     );
   }
@@ -27,7 +27,7 @@ const LoginHeaderLeft = ({type}: Props): JSX.Element => {
       onPress={() => {
         navigation.goBack();
       }}>
-      <Icon name={'chevron-left'} size={24} />
+      <Icon name={'chevron-left'}/>
     </Pressable>
   );
 };

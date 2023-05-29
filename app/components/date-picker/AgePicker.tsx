@@ -24,9 +24,8 @@ export const AgePicker = ({
     <View style={styles.container}>
       <LargeText>당시 {heroName}님의 나이 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={age}
-        onChangeNumber={newAge => {
+        onChangeNumber={(newAge: number) => {
           setAge(newAge);
         }}
         autoFocus={true}

@@ -13,6 +13,7 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import {useRecoilValue} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import StoryListPage from '../../pages/StoryList/StoryListPage';
+import Title from '../../components/styled/components/Title';
 
 export type HomeTabParamList = {
     Home: undefined;
@@ -83,7 +84,7 @@ const HomeTabRootNavigator = (): JSX.Element => {
             />
           ),
           headerLeft: () => <WritingHeaderLeft type="cancel" />,
-          title: '조각 맞추기',
+          headerTitle: () => <Title>조각 맞추기</Title>,
           headerRight: () => (
             <WritingHeaderRight
               text="다음"

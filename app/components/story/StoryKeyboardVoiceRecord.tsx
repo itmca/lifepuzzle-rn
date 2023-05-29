@@ -7,14 +7,14 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {recordFileState} from '../../recoils/story-writing.recoil';
-import { SmallText, XSmallText } from "../styled/components/Text";
+import { SmallText, XSmallText } from '../styled/components/Text';
 
 const VoiceRecordPageLink = (): JSX.Element => {
   const navigation = useNavigation();
 
   return (
     <Button
-정      onPress={() => {
+      onPress={() => {
         navigation.push('NoTab', {
           screen: 'PuzzleWritingNavigator',
           params: {

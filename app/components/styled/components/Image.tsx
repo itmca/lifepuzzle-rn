@@ -1,10 +1,11 @@
 import styled from 'styled-components/native';
+import { MediumText } from "./Text";
 
 type Props = {
   width?: number;
   height?: number;
 };
-export const MediumImage = styled.Image<Props>`
+const MediumImage = styled.Image<Props>`
    width: ${({ width }) => (width ? `${width}px` : '33.94px')};
    height: ${({ height }) => (height ? `${height}px` : '33.25px')};
  `;
@@ -22,3 +23,10 @@ export const Photo = styled.Image<Props>`
    height: ${({ height }) => (height ? `${height}px` : '100%')};
  `;
 
+function Image({ ...props }) {
+  return (
+    <MediumImage {...props} >
+    </MediumImage>
+  );
+}
+export default Image;

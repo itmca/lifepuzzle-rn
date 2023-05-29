@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles';
-import {DatePickerInput} from 'react-native-paper-dates';
+import DateInput from '../styled/components/DateInput';
 
 type Props = {
   label?: string;
@@ -18,16 +18,12 @@ export const CustomDateInput = ({
   onChange,
 }: Props): JSX.Element => {
   return (
-    <DatePickerInput
-      style={styles.dateInput}
-      locale="en"
+    <DateInput
       label={label}
       disabled={disabled}
       placeholder={placeholder}
       value={date}
       onChange={onChange}
-      inputMode="start"
-      mode="outlined"
     />
   );
 };

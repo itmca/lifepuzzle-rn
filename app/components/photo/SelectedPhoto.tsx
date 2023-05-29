@@ -1,7 +1,7 @@
 import React from 'react';
-import {Image} from 'react-native';
 import {BlackContainer, Container} from './styles';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import Image from '../styled/components/Image';
 
 type SelectablePhotoProps = {
   size: number;

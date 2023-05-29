@@ -59,9 +59,6 @@ export const styles = StyleSheet.create({
     marginRight: 36.15,
     fontWeight: 'bold',
     color: '#707070',
-    fontSize: 14,
-    lineHeight: 22,
-    letterSpacing: 0.15,
   },
   closeIconWrapper: {
     height: '100%',
