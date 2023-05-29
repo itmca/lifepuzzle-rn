@@ -8,11 +8,13 @@ import {convertDateStringToDate} from '../json-convert.service';
 import {useRefreshAuthTokens} from './refresh.hook';
 import {useLogout} from './logout.hook';
 import {useLoginAlert} from './login.hook';
+import {AuthTokens} from '../../types/auth.type';
 
 type Param<R> = {
   requestOption: AxiosRequestConfig;
   onResponseSuccess: (data: R) => void;
   onError?: (error: AxiosError) => void;
+  onTokenExpire?: () => void;
   onLoadingStatusChange?: (isLoading: boolean) => void;
   disableInitialRequest?: boolean;
   needAuthenticated?: boolean;
@@ -36,17 +38,17 @@ export const useAxios = <R>({
   requestOption,
   onResponseSuccess,
   onError,
+  onTokenExpire,
   onLoadingStatusChange,
   disableInitialRequest = false,
   needAuthenticated = false,
 }: Param<R>): Return => {
   const [loading, setLoading] = useState(false);
 
-  const tokens = useRecoilValue(authState);
+  const recoilTokens = useRecoilValue(authState);
   const refreshAuthTokens = useRefreshAuthTokens();
 
   const logout = useLogout();
-  const alertLogin = useLoginAlert();
 
   useEffect(() => {
     if (disableInitialRequest) {
@@ -60,19 +62,24 @@ export const useAxios = <R>({
     onLoadingStatusChange?.(loading);
   }, [loading]);
 
-  const fetchData = (axiosConfig: AxiosRequestConfig) => {
+  const fetchData = (
+    axiosConfig: AxiosRequestConfig,
+    paramTokens?: AuthTokens,
+  ) => {
+    const tokens = paramTokens ? paramTokens : recoilTokens;
     const tokenState = getTokenState(tokens);
 
     if (needAuthenticated && tokenState === 'Expire') {
       logout();
-      alertLogin();
+      onTokenExpire?.();
       return;
     } else if (needAuthenticated && tokenState === 'Refresh') {
       refreshAuthTokens({
-        onRefreshSuccess: () => {
-          fetchData(requestOption);
+        onRefreshSuccess: refreshedTokens => {
+          fetchData(axiosConfig, refreshedTokens);
         },
       });
+      return;
     }
 
     const url = axiosConfig.url || '';

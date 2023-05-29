@@ -10,7 +10,7 @@ import {useEffect, useState} from 'react';
 import {AuthTokens} from '../../types/auth.type';
 
 type RefreshParams = {
-  onRefreshSuccess?: () => void;
+  onRefreshSuccess?: (refreshedTokens: AuthTokens) => void;
   onError?: (error: AxiosError) => void;
 };
 
@@ -50,7 +50,7 @@ export const useRefreshAuthTokens = () => {
       return convertDateStringToDate(r);
     });
 
-    axios
+    client
       .request<AuthTokens>({
         timeout: 5000,
         method: 'post',
@@ -64,7 +64,7 @@ export const useRefreshAuthTokens = () => {
         setAuthTokens(responseTokens);
         LocalStorage.set('authToken', JSON.stringify(responseTokens));
 
-        onRefreshSuccess?.();
+        onRefreshSuccess?.(responseTokens);
       })
       .catch(err => {
         if (onError) {
@@ -72,9 +72,9 @@ export const useRefreshAuthTokens = () => {
         } else {
           const status: number = err.response?.status || 500;
 
-          if (400 <= status && status < 500) {
+          if (status >= 400 && status < 500) {
             logout();
-          } else if (500 <= status) {
+          } else if (status >= 500) {
             Alert.alert(
               '네트워크 문제',
               '네트워크 연결을 다시 시도하시겠습니까?',

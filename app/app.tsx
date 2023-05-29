@@ -40,13 +40,11 @@ function initializeRecoilState({set}: MutableSnapshot): void {
 }
 
 const InternalApp = (): JSX.Element => {
-  const [isLoading] = useFetchLocalStorageUserHero();
+  useFetchLocalStorageUserHero();
 
   return (
     <PaperProvider theme={theme}>
-      <LoadingContainer isLoading={isLoading}>
-        <RootNavigator />
-      </LoadingContainer>
+      <RootNavigator />
     </PaperProvider>
   );
 };

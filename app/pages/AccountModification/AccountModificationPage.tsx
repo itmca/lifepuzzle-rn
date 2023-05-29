@@ -79,6 +79,39 @@ const AccountModificationPage = ({
   return (
     <LoadingContainer
       isLoading={queryLoading || updateLoading || withdrawLoading}>
+      <View style={styles.mainContainer}>
+        <KeyboardAwareScrollView
+          style={styles.scrollViewContainer}
+          contentContainerStyle={styles.formContainer}
+          extraHeight={0}
+          keyboardShouldPersistTaps={'always'}>
+          {user?.userType === 'general' && (
+            <BasicTextInput label="아이디" text={id} disabled={true} />
+          )}
+          <ValidatedTextInput
+            label="닉네임"
+            value={nickName}
+            onChangeText={setNickName}
+            placeholder=""
+            validations={[
+              {
+                condition: nickName => !!nickName,
+                errorText: '닉네임을 입력해주세요.',
+              },
+              {
+                condition: nickName => nickName.length <= 32,
+                errorText: '닉네임은 32자 미만으로 입력해주세요.',
+              },
+            ]}
+           
+          />
+          <CtaButton
+            text="저장"
+            disabled={originNickName === nickName || nickNameError}
+            onPress={() => {
+              updateUser({
+                data: {
+                  nickName: nickName,
       <ScreenContainer>
         <ScrollContainer extraHeight={0} keyboardShouldPersistTaps={'always'}>
           <ContentContainer gap="8px">
@@ -100,6 +133,7 @@ const AccountModificationPage = ({
                   errorText: '닉네임은 32자 미만으로 입력해주세요.',
                 },
               ]}
+              onIsErrorChanged={setNickNameError}
             />
             <ContentContainer>
               <CtaButton
