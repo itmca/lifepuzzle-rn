@@ -3,9 +3,6 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
     backgroundColor: '#ffffff',
   },
   bigSizeWrapper: {
@@ -62,9 +59,6 @@ export const styles = StyleSheet.create({
     marginRight: 36.15,
     fontWeight: 'bold',
     color: '#707070',
-    fontSize: 14,
-    lineHeight: 22,
-    letterSpacing: 0.15,
   },
   closeIconWrapper: {
     height: '100%',

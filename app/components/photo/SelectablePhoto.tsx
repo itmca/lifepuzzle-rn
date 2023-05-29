@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Image, TouchableOpacity} from 'react-native';
+import { TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CheckCover, Container} from './styles';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import Image from '../styled/components/Image';
 
 type SelectablePhotoProps = {
   onSelected: Function;

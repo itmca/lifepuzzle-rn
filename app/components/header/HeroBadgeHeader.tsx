@@ -1,10 +1,11 @@
 import React from 'react';
-import {Image, TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import styles from './styles';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroAvatar} from '../avatar/HeroAvatar';
+import { XSmallText } from '../styled/components/Text';
 
 const HeroBadgeHeader = (): JSX.Element => {
   const hero = useRecoilValue(heroState);
@@ -13,7 +14,7 @@ const HeroBadgeHeader = (): JSX.Element => {
       onPress={() => {}}
       style={styles.defaultHeaderRightContainer}>
       <HeroAvatar size={32} imageURL={hero.imageURL} />
-      <Text style={styles.headerProfileName}>{hero?.heroNickName}</Text>
+      <XSmallText style={styles.headerProfileName}>{hero?.heroNickName}</XSmallText>
     </TouchableOpacity>
   );
 };

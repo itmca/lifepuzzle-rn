@@ -12,6 +12,8 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {AdvancedTextInput} from '../../components/input/AdvancedTextInput';
 import {StoryKeyboardVoiceRecord} from '../../components/story/StoryKeyboardVoiceRecord';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
 const PuzzleWritingTextPage = (): JSX.Element => {
   const [title, setTitle] = useState<string>('');
@@ -33,43 +35,41 @@ const PuzzleWritingTextPage = (): JSX.Element => {
   }, [title, storyText]);
 
   return (
-    <>
-      <View style={styles.container}>
+    <ScreenContainer>
+      <ContentContainer gap="16px" flex={1}>
         <HelpQuestion />
-        <View style={{marginHorizontal: 16}}>
-          <AdvancedTextInput
-            customStyle={styles.titleInput}
-            placeholder="제목을 입력해주세요."
-            text={title}
-            activeUnderlineColor={'white'}
-            underlineColor={'white'}
-            autoFocus={true}
-            onChangeText={setTitle}
-          />
-        </View>
+        <AdvancedTextInput
+          customStyle={styles.titleInput}
+          placeholder="제목을 입력해주세요."
+          text={title}
+          activeUnderlineColor={'white'}
+          underlineColor={'white'}
+          autoFocus={true}
+          onChangeText={setTitle}
+        />
         <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}>
-          <View style={{marginHorizontal: 16}}>
-            <AdvancedTextInput
-              customStyle={styles.contentInput}
-              activeUnderlineColor="white"
-              underlineColor="white"
-              placeholder="여기를 눌러 새로운 인생조각을 얘기해주세요."
-              text={storyText}
-              scrollEnabled={false}
-              onChangeText={setStoryText}
-              multiline={true}
-            />
-          </View>
+          <AdvancedTextInput
+            customStyle={styles.contentInput}
+            activeUnderlineColor="white"
+            underlineColor="white"
+            placeholder="여기를 눌러 새로운 인생조각을 얘기해주세요."
+            text={storyText}
+            scrollEnabled={false}
+            onChangeText={setStoryText}
+            multiline={true}
+          />
         </KeyboardAwareScrollView>
-      </View>
-      <KeyboardAccessoryView
-        alwaysVisible={true}
-        hideBorder={true}
-        androidAdjustResize={true}
-        style={{backgroundColor: 'white'}}>
-        <StoryKeyboardVoiceRecord />
-      </KeyboardAccessoryView>
-    </>
+      </ContentContainer>
+      <ContentContainer>
+        <KeyboardAccessoryView
+          alwaysVisible={true}
+          hideBorder={true}
+          androidAdjustResize={true}
+          style={{backgroundColor: 'white'}}>
+          <StoryKeyboardVoiceRecord />
+        </KeyboardAccessoryView>
+      </ContentContainer>
+    </ScreenContainer>
   );
 };
 

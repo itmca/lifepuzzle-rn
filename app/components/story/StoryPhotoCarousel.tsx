@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   Dimensions,
-  Image,
   ListRenderItemInfo,
   StyleProp,
   View,
@@ -10,6 +9,7 @@ import {
 import Carousel from 'react-native-snap-carousel';
 import {styles} from './styles';
 import StoryCarouselPagination from './StoryCarouselPagination';
+import {Photo} from '../styled/components/Image';
 
 type Props = {
   photos: string[];
@@ -36,8 +36,7 @@ const StoryPhotoCarousel = ({photos, containerStyle}: Props): JSX.Element => {
         itemHeight={windowHeight}
         renderItem={({item: photo}: ListRenderItemInfo<string>) => {
           return (
-            <Image
-              style={styles.photo}
+            <Photo
               source={{
                 uri: photo,
               }}

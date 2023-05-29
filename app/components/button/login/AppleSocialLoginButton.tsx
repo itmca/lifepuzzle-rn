@@ -7,6 +7,7 @@ import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
+import {MediumButton} from '../../styled/components/Button';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
@@ -52,12 +53,12 @@ const AppleSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
   }
 
   return (
-    <TouchableOpacity
-      onPress={() => onAppleButtonPress()}
-      style={styles.appleLoginButtonContainer}>
+    <MediumButton
+      backgroundColor="#000000"
+      onPress={() => onAppleButtonPress()}>
       <Text style={styles.appleLogo}> </Text>
       <Text style={styles.appleLoginFont}>Apple로 계속하기</Text>
-    </TouchableOpacity>
+    </MediumButton>
   );
 };
 

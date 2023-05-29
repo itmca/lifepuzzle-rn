@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     marginLeft: 2,
   },
   scrollViewContainer: {
-    width: '90%',
+    width: '100%',
   },
   formContainer: {
     alignItems: 'center',

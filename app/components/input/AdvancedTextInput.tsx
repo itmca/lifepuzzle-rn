@@ -1,4 +1,4 @@
-import {TextInput} from 'react-native-paper';
+import TextInput from '../styled/components/TextInput';
 import React from 'react';
 import {
   ColorValue,
@@ -42,10 +42,7 @@ export const AdvancedTextInput = ({
 }: Props): JSX.Element => {
   return (
     <TextInput
-      style={StyleSheet.compose<TextStyle>(
-        styles.inputDefaultStyle,
-        customStyle,
-      )}
+      style={customStyle}
       mode={paperInputMode}
       label={label}
       disabled={disabled}
@@ -55,7 +52,7 @@ export const AdvancedTextInput = ({
       autoFocus={autoFocus}
       activeUnderlineColor={activeUnderlineColor}
       underlineColor={underlineColor?.toString()}
-      selectionColor={'default'}
+      selectionColor={'white'}
       multiline={multiline}
       scrollEnabled={scrollEnabled}
       returnKeyType={returnKeyType}

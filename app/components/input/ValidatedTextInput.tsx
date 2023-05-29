@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {HelperText, TextInput} from 'react-native-paper';
+import {HelperText} from 'react-native-paper';
+import TextInput from '../styled/components/TextInput';
 import {styles} from '../../pages/Register/styles';
 import {View} from 'react-native';
 
@@ -45,7 +46,7 @@ const ValidatedTextInput = ({
         mode="outlined"
         label={label}
         value={value}
-        onChangeText={text => {
+        onChangeText={(text: string) => {
           onChangeText(text);
           setChanged(true);
         }}

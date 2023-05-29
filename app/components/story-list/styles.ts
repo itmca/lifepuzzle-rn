@@ -74,7 +74,6 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   profileTitle: {
-    fontSize: 14,
     fontWeight: '500',
     letterSpacing: 0.15,
     marginTop: 10,
@@ -82,7 +81,6 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
   },
   profileText: {
-    fontSize: 11,
     letterSpacing: 0.15,
     height: 20,
     lineHeight: 20,

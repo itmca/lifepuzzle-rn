@@ -35,7 +35,6 @@ export const styles = StyleSheet.create({
   formInput: {
     flex: 1,
     width: '100%',
-    marginBottom: 8,
   },
   dateInput: {
     width: '100%',

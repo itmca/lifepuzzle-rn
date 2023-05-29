@@ -9,6 +9,7 @@ import PuzzleWritingDatePage from '../../pages/PuzzleWritingDate/PuzzleWritingDa
 
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
+import Title from '../../components/styled/components/Title';
 
 export type PuzzleWritingParamList = {
   PuzzleWritingDate: undefined;
@@ -31,7 +32,8 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         component={PuzzleWritingDatePage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
-          title: '조각 맞추기',
+          headerTitle: () => <Title>조각 맞추기</Title>,
+          headerBackVisible:false,
           headerRight: () => (
             <WritingHeaderRight
               text="다음"
@@ -45,7 +47,8 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         component={PuzzleWritingPhotoPage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
-          title: '조각 맞추기',
+          headerTitle: () => <Title>조각 맞추기</Title>,
+          headerBackVisible:false,
           headerRight: () => (
             <WritingHeaderRight
               text="다음"
@@ -59,7 +62,8 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         component={PuzzleWritingTextPage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
-          title: '조각 맞추기',
+          headerTitle: () => <Title>조각 맞추기</Title>,
+          headerBackVisible:false,
           headerRight: () => (
             <LoadingContainer isLoading={isLoading}>
               <WritingHeaderRight
@@ -77,7 +81,8 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         component={PuzzleWritingVoicePage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
-          title: '음성 녹음',
+          headerTitle: () => <Title>음성 녹음</Title>,
+          headerBackVisible:false,
         }}
       />
     </Stack.Navigator>

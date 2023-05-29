@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {StoryTag} from '../../types/story.type';
+import Tag from '../styled/components/Tag';
 
 type Props = {
   tag: StoryTag;
@@ -19,16 +20,15 @@ const StoryTagChip = ({
   marginLeft,
 }: Props): JSX.Element => (
   <>
-    <TouchableOpacity
+    <Tag
       onPress={onPress}
       style={[
-        styles.chipItem,
         {marginLeft: marginLeft, backgroundColor: backgroundColor},
-      ]}>
-      <Text style={[styles.chipText, {color: textColor}]}>
-        {tag.displayName}
-      </Text>
-    </TouchableOpacity>
+      ]}
+      text={tag.displayName}
+      textColor={textColor}
+    >
+    </Tag>
   </>
 );
 

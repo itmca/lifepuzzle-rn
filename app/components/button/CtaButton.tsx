@@ -1,35 +1,34 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import {MediumButton} from '../styled/components/Button';
 import styles from './styles';
 
 type Props = {
   onPress: () => void;
-  color?: 'primary';
+  color?: string;
   text: string;
   style?: any;
   disabled?: boolean;
+  marginTop?: string;
+  marginBottom?: string;
 };
 
 const CtaButton = ({
   onPress,
-  color = 'primary',
+  color,
   text,
-  style,
+  marginTop,
   disabled = false,
 }: Props): JSX.Element => {
-  const backgroundColor = color === 'primary' ? '#343666' : '#A3A7F8';
+  const backgroundColor = color ? color : '#343666';
   return (
-    <TouchableOpacity
+    <MediumButton
+      marginTop={marginTop}
       disabled={disabled}
       onPress={onPress}
-      style={{
-        ...styles.coloredButtonContainer,
-        backgroundColor,
-        ...style,
-        ...(disabled ? {backgroundColor: 'grey'} : {}),
-      }}>
+      backgroundColor={backgroundColor}>
       <Text style={styles.coloredButtonFont}>{text}</Text>
-    </TouchableOpacity>
+    </MediumButton>
   );
 };
 
