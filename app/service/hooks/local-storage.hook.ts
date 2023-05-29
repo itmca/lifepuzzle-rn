@@ -7,7 +7,10 @@ import {useEffect} from 'react';
 import {userState} from '../../recoils/user.recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useUpdateObserver} from './update.hooks';
-import {currentHeroUpdate, currentUserUpdate,} from '../../recoils/update.recoil';
+import {
+  currentHeroUpdate,
+  currentUserUpdate,
+} from '../../recoils/update.recoil';
 import {LocalStorage} from '../local-storage.service';
 import {getTokenState} from '../auth.service';
 
@@ -39,7 +42,7 @@ export const useFetchLocalStorageUserHero = () => {
 
   useEffect(() => {
     const tokenState = getTokenState(tokens);
-    if (tokenState !== 'Use') {
+    if (tokenState === 'Expire') {
       return;
     }
 
