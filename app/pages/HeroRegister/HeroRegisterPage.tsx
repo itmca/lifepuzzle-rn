@@ -22,6 +22,10 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {BasicNavigationProps} from '../../navigation/types';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {ImageButton} from '../../components/styled/components/Button';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -88,7 +92,9 @@ const HeroRegisterPage = (): JSX.Element => {
   const addHeroPhotoInFormData = (formData: FormData) => {
     const photo: PhotoIdentifier | undefined = writingHero?.modifiedImage;
 
-    if (!photo) return;
+    if (!photo) {
+      return;
+    }
 
     const uri = photo.node.image.uri;
     const fileParts = uri?.split('/');
@@ -122,52 +128,52 @@ const HeroRegisterPage = (): JSX.Element => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <ScreenContainer>
       <LoadingContainer isLoading={loading}>
-        <KeyboardAwareScrollView
-          style={styles.scrollViewContainer}
+        <ScrollContainer
           contentContainerStyle={styles.formContainer}
           extraHeight={0}
           keyboardShouldPersistTaps={'always'}>
-          <TouchableOpacity
-            style={{marginTop: 32, marginBottom: 32}}
-            onPress={() => {
-              navigation.push('NoTab', {
-                screen: 'HeroSettingNavigator',
-                params: {
-                  screen: 'HeroSelectingPhoto',
-                },
-              });
-            }}>
-            <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
-          </TouchableOpacity>
-          <BasicTextInput
-            label="이름"
-            text={name}
-            onChangeText={setName}
-            placeholder="홍길동"
-          />
-          <BasicTextInput
-            label="닉네임"
-            text={nickName}
-            onChangeText={setNickName}
-            placeholder="소중한 당신"
-          />
-          <CustomDateInput
-            label="태어난 날"
-            date={birthday}
-            onChange={setBirthday}
-          />
-          <BasicTextInput
-            label="제목"
-            placeholder={'행복했던 나날들'}
-            text={title}
-            onChangeText={setTitle}
-          />
-          <CtaButton text="주인공 추가" onPress={onSubmit} />
-        </KeyboardAwareScrollView>
+          <ContentContainer>
+            <ImageButton
+              onPress={() => {
+                navigation.push('NoTab', {
+                  screen: 'HeroSettingNavigator',
+                  params: {
+                    screen: 'HeroSelectingPhoto',
+                  },
+                });
+              }}>
+              <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
+            </ImageButton>
+            <BasicTextInput
+              label="이름"
+              text={name}
+              onChangeText={setName}
+              placeholder="홍길동"
+            />
+            <BasicTextInput
+              label="닉네임"
+              text={nickName}
+              onChangeText={setNickName}
+              placeholder="소중한 당신"
+            />
+            <CustomDateInput
+              label="태어난 날"
+              date={birthday}
+              onChange={setBirthday}
+            />
+            <BasicTextInput
+              label="제목"
+              placeholder={'행복했던 나날들'}
+              text={title}
+              onChangeText={setTitle}
+            />
+            <CtaButton marginTop="16px" text="주인공 추가" onPress={onSubmit} />
+          </ContentContainer>
+        </ScrollContainer>
       </LoadingContainer>
-    </View>
+    </ScreenContainer>
   );
 };
 

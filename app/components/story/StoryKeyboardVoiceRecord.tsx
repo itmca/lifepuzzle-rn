@@ -7,13 +7,14 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {recordFileState} from '../../recoils/story-writing.recoil';
+import { SmallText, XSmallText } from '../styled/components/Text';
 
 const VoiceRecordPageLink = (): JSX.Element => {
   const navigation = useNavigation();
 
   return (
     <Button
-정      onPress={() => {
+      onPress={() => {
         navigation.push('NoTab', {
           screen: 'PuzzleWritingNavigator',
           params: {
@@ -28,7 +29,7 @@ const VoiceRecordPageLink = (): JSX.Element => {
         flexDirection: 'column',
       }}>
       <Icon name={'mic'} size={13}></Icon>
-      <Text style={{fontSize: 16}}> 음성 녹음하기</Text>
+      <SmallText> 음성 녹음하기</SmallText>
     </Button>
   );
 };
@@ -59,16 +60,16 @@ const RecordedVoice = ({
                     size={27}
                     icon="microphone"
                 />
-                <Text style={{fontSize: 7, marginTop: 4}}>
+                <XSmallText marginTop={4}>
                     {fileName} | {recordTime}
-                </Text>
+                </XSmallText>
             </View>
             <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text
+                <SmallText
                     onPress={onDelete}
-                    style={{fontSize: 12, textAlign: 'right', padding: 14}}>
+                    style={{textAlign: 'right', padding: 14}}>
                     삭제하기
-                </Text>
+                </SmallText>
             </View>
         </View>
     );

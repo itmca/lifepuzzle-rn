@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {styles} from './styles';
 import {NumberInput} from '../input/NumberInput';
+import { LargeText } from "../styled/components/Text";
 
 type Props = {
   heroName: string;
@@ -21,16 +22,15 @@ export const AgePicker = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>당시 {heroName}님의 나이 </Text>
+      <LargeText>당시 {heroName}님의 나이 </LargeText>
       <NumberInput
-        customStyle={styles.numberInput}
         initialNumber={age}
-        onChangeNumber={newAge => {
+        onChangeNumber={(newAge: number) => {
           setAge(newAge);
         }}
         autoFocus={true}
       />
-      <Text style={styles.text}> 세</Text>
+      <LargeText> 세</LargeText>
     </View>
   );
 };

@@ -1,7 +1,8 @@
 import React from 'react';
-import {Image, Pressable} from 'react-native';
+import { Pressable} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
+import { SmallImage } from '../styled/components/Image';
 
 const DefaultHeaderLeft = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -13,11 +14,9 @@ const DefaultHeaderLeft = (): JSX.Element => {
           navigation.push('HomeTab', {screen: 'Home'});
         }
       }}>
-      <Image
-        style={{
-          width: 123,
-          height: 25,
-        }}
+      <SmallImage
+        width={123}
+        height={25}
         source={require('../../assets/images/puzzle-4piece-with-text.png')}
       />
     </Pressable>

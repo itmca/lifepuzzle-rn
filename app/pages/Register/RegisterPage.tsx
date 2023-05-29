@@ -14,6 +14,8 @@ import {
 } from '../../constants/password.constant';
 import {debounce} from 'lodash';
 import {BasicNavigationProps} from '../../navigation/types';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 
 const RegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -109,18 +111,17 @@ const RegisterPage = (): JSX.Element => {
   );
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      return;
+    }
 
     dupcheck(id);
   }, [id]);
 
   return (
     <LoadingContainer isLoading={registerLoading}>
-      <View style={styles.mainContainer}>
-        <KeyboardAwareScrollView
-          style={styles.scrollViewContainer}
-          extraHeight={0}
-          keyboardShouldPersistTaps={'always'}>
+      <ScreenContainer>
+        <ScrollContainer extraHeight={0} keyboardShouldPersistTaps={'always'}>
           <View style={styles.titleContainer}>
             <Text style={styles.registerText}>회원가입</Text>
           </View>
@@ -213,8 +214,8 @@ const RegisterPage = (): JSX.Element => {
               !isPrivacyPolicyChecked
             }
           />
-        </KeyboardAwareScrollView>
-      </View>
+        </ScrollContainer>
+      </ScreenContainer>
     </LoadingContainer>
   );
 };

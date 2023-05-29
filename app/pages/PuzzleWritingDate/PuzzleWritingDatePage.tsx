@@ -9,6 +9,8 @@ import {heroState} from '../../recoils/hero.recoil';
 import {DateType} from '../../types/date.type';
 import {storyDateState} from '../../recoils/story-writing.recoil';
 import {KeyboardAvoidingView} from 'react-native';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
 type DateTypeDisplay = {
   dateType: DateType;
@@ -27,28 +29,33 @@ const PuzzleWritingDatePage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <HelpQuestion />
-      <SelectableChips
-        chips={dateTypeDisplays.map(display => display.displayText)}
-        initialSelected={dateType}
-        onSelect={dateTypeText => {
-          const matchedDateType = dateTypeDisplays.find(
-            display => display.displayText === dateTypeText,
-          );
-          setDateType(matchedDateType?.dateType || dateType);
-        }}
-        containerStyle={styles.chipsContainer}
-      />
-      <StoryDatePicker
-        birthday={hero.birthday || new Date()}
-        dateType={dateType}
-        heroName={hero?.heroNickName || ''}
-        initialDate={new Date()}
-        onChangeDate={setStoryDate}
-        containerStyle={styles.datePickerContainer}
-      />
-    </KeyboardAvoidingView>
+    <ScreenContainer>
+      <ContentContainer>
+        <KeyboardAvoidingView style={styles.container}>
+          <ContentContainer gap="16px">
+            <HelpQuestion />
+            <SelectableChips
+              chips={dateTypeDisplays.map(display => display.displayText)}
+              initialSelected={dateType}
+              onSelect={dateTypeText => {
+                const matchedDateType = dateTypeDisplays.find(
+                  display => display.displayText === dateTypeText,
+                );
+                setDateType(matchedDateType?.dateType || dateType);
+              }}
+            />
+            <StoryDatePicker
+              birthday={hero.birthday || new Date()}
+              dateType={dateType}
+              heroName={hero?.heroNickName || ''}
+              initialDate={new Date()}
+              onChangeDate={setStoryDate}
+              containerStyle={styles.datePickerContainer}
+            />
+          </ContentContainer>
+        </KeyboardAvoidingView>
+      </ContentContainer>
+    </ScreenContainer>
   );
 };
 

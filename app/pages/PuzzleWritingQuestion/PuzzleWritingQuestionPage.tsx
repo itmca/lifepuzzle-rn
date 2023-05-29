@@ -23,6 +23,8 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {AdvancedTextInput} from '../../components/input/AdvancedTextInput';
 import {useLoginChecking} from '../../service/hooks/login.hook';
 import {useFocusAction} from '../../service/hooks/screen.hook';
+import {MediumButton} from '../../components/styled/components/Button';
+import {SmallText} from '../../components/styled/components/Text';
 
 const PuzzleWritingQuestionPage = (): JSX.Element => {
   const [helpQuestionText, setHelpQuestionText] = useRecoilState(
@@ -98,15 +100,15 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
           />
         </View>
         <View>
-          <TouchableOpacity
+          <MediumButton
             style={styles.questionBtn}
             onPress={fetchNextRecommendQuestion}>
             <Image
               style={styles.btnQuestionMark}
               source={require('../../assets/images/question-styled.png')}
             />
-            <Text style={styles.btnText}>질문 추천 받기</Text>
-          </TouchableOpacity>
+            <SmallText color="white">질문 추천 받기</SmallText>
+          </MediumButton>
         </View>
       </KeyboardAvoidingView>
     </LoadingContainer>

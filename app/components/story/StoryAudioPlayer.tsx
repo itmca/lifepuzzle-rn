@@ -4,6 +4,7 @@ import {toMinuteSeconds} from '../../service/time-display.service';
 import React, {useEffect, useState} from 'react';
 import Sound from 'react-native-sound';
 import {styles} from './styles';
+import { XSmallText } from "../styled/components/Text";
 
 type Props = {
   audioURL: string;
@@ -104,7 +105,7 @@ export const StoryAudioPlayer = ({audioURL}: Props): JSX.Element => {
           }}
         />
       )}
-      <Text style={{fontSize: 12}}>{audioDisplayTimeText}</Text>
+      <XSmallText>{audioDisplayTimeText}</XSmallText>
     </View>
   );
 };

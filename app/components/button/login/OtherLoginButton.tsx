@@ -3,11 +3,13 @@ import {Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
+import {MediumButton} from '../../styled/components/Button';
 
 const OtherLoginButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
-    <TouchableOpacity
+    <MediumButton
+      backgroundColor="#F4F4F4"
       onPress={() => {
         navigation.push('NoTab', {
           screen: 'LoginRegisterNavigator',
@@ -15,10 +17,9 @@ const OtherLoginButton = (): JSX.Element => {
             screen: 'LoginOthers',
           },
         });
-      }}
-      style={styles.otherLoginButtonContainer}>
+      }}>
       <Text style={styles.kakaoLoginFont}>다른 방법으로 로그인하기</Text>
-    </TouchableOpacity>
+    </MediumButton>
   );
 };
 

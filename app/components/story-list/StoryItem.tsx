@@ -8,6 +8,8 @@ import {useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {StoryType} from '../../types/story.type';
 import {getStoryDisplayTagsDate} from '../../service/story-display.service';
+import { SmallText, XSmallText } from "../styled/components/Text";
+import { LargeImage } from "../styled/components/Image";
 
 type props = {
   story: StoryType;
@@ -31,25 +33,23 @@ const StoryItem = ({story}: props): JSX.Element => {
       <View style={styles.thumbnailListItemContainer}>
         <View style={{flex: 1}}>
           <View>
-            <Text
+            <SmallText fontWeight={700} letterSpacing={0.15} marginBottom={13} lineHeight={24}
               numberOfLines={1}
               ellipsizeMode="tail"
-              style={styles.listTitle}>
+              >
               {story.title}
-            </Text>
-            <Text
+            </SmallText>
+            <SmallText opacity={0.8}
               numberOfLines={3}
-              ellipsizeMode="tail"
-              style={styles.description}>
+              ellipsizeMode="tail">
               {story.content}
-            </Text>
+            </SmallText>
           </View>
         </View>
         {story.photos.length > 0 && (
           <View style={styles.thumbnailBox}>
             <View>
-              <Image
-                style={styles.thumbnailImage}
+              <LargeImage
                 resizeMode="cover"
                 source={{
                   uri: story.photos[0],
@@ -60,9 +60,9 @@ const StoryItem = ({story}: props): JSX.Element => {
         )}
         <View style={styles.bottomRowBox}>
           <View>
-            <Text style={styles.dateText}>
+            <XSmallText color={'#979797'}>
               {getStoryDisplayTagsDate(story)}
-            </Text>
+            </XSmallText>
           </View>
           {story.audios.length > 0 && (
             <View style={styles.micIconBox}>

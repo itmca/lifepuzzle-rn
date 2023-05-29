@@ -1,4 +1,4 @@
-import {TextInput} from 'react-native-paper';
+import TextInput from '../styled/components/TextInput';
 import React from 'react';
 import {StyleProp, StyleSheet, TextStyle} from 'react-native';
 import styles from './styles';
@@ -27,7 +27,6 @@ export const BasicTextInput = ({
   return (
     <TextInput
       style={StyleSheet.compose<TextStyle>(
-        styles.inputDefaultStyle,
         customStyle,
       )}
       mode="outlined"

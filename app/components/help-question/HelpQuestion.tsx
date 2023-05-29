@@ -1,13 +1,15 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React from 'react';
 import {styles} from './styles';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import { TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   helpQuestionOpenState,
   helpQuestionTextState,
 } from '../../recoils/help-question.recoil';
+import Image,{ SmallImage } from '../styled/components/Image';
+import { SmallText } from '../styled/components/Text';
 
 const HelpQuestion = (): JSX.Element => {
   const helpQuestion = useRecoilValue(helpQuestionTextState);
@@ -25,9 +27,8 @@ const HelpQuestion = (): JSX.Element => {
             onPress={() => {
               setOpen(true);
             }}>
-            <Image
+            <SmallImage
               source={require('../../assets/images/puzzle-onepiece.png')}
-              style={styles.smallSizePuzzle}
             />
           </TouchableOpacity>
         </View>
@@ -40,10 +41,9 @@ const HelpQuestion = (): JSX.Element => {
       <View style={styles.bigSizeWrapper}>
         <Image
           source={require('../../assets/images/puzzle-onepiece.png')}
-          style={styles.bigSizePuzzle}
         />
         <View style={styles.verticalLine}></View>
-        <Text style={styles.helpQuestionText}>{helpQuestion}</Text>
+        <SmallText  style={styles.helpQuestionText}>{helpQuestion}</SmallText>
         <TouchableOpacity
           onPress={() => setOpen(false)}
           style={styles.closeIconWrapper}>
