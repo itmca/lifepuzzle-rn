@@ -51,7 +51,7 @@ const RegisterPage = (): JSX.Element => {
               navigation.push('NoTab', {
                 screen: 'LoginRegisterNavigator',
                 params: {
-                  screen: 'LoginMain',
+                  screen: 'LoginOthers',
                 },
               });
             },
