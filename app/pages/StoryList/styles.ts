@@ -12,13 +12,15 @@ export const styles = StyleSheet.create({
     backgroundColor: '#e5e5e5',
   },
   floatingBtBox: {
-    width: 39,
-    height: 39,
+    width: 48,
+    height: 48,
     position: 'absolute',
-    backgroundColor: '#FFFFFF',
-    bottom: 34,
+    backgroundColor: '#FF6200',
+    bottom: 16,
     right: 16,
+    borderRadius: 50,
     justifyContent: 'center',
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -29,7 +31,7 @@ export const styles = StyleSheet.create({
     elevation: 5,
   },
   floatingBtTop: {
-    backgroundColor: '#FFFFFF',
-    alignSelf: 'center',
+    borderRadius: 50,
+    color: '#FFFFFF',
   },
 });

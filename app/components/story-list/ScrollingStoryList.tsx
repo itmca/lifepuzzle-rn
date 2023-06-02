@@ -16,7 +16,6 @@ type Props = {
 
 const ScrollingStoryList = ({stories}: Props): JSX.Element => {
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
-
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const positionY = event.nativeEvent.contentOffset.y;
     setScrollPositionY(positionY);

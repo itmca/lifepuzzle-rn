@@ -3,7 +3,6 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 145,
     backgroundColor: '#FFFFFF',
     padding: 16,
     borderBottomWidth: 0.3,
@@ -40,7 +39,6 @@ export const styles = StyleSheet.create({
     flex: 0.3,
     width: 94,
     height: 94,
-    marginRight: 16,
   },
   thumbnailImage: {
     width: 94,
@@ -58,15 +56,24 @@ export const styles = StyleSheet.create({
     fontSize: 11,
     color: '#979797',
   },
-  micIconBox: {
-    paddingLeft: 5,
-    paddingTop: 5,
-  },
+  micIconBox: {},
   profileContainer: {
-    paddingTop: 24,
-    paddingBottom: 16,
+    flexDirection: 'row',
+    height: 90,
     width: '100%',
     alignItems: 'center',
+  },
+  textContainer: {
+    color: '#A9A9A9',
+  },
+  titleTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: 5,
+  },
+  contentTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   profileImage: {
     width: 68,
@@ -85,7 +92,9 @@ export const styles = StyleSheet.create({
     height: 20,
     lineHeight: 20,
   },
-  chipContainer: {},
+  chipContainer: {
+    display: 'none',
+  },
   chipItem: {
     height: 26,
     borderRadius: 16,
