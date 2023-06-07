@@ -4,28 +4,21 @@ import SmallImage from '../styled/components/Image';
 import React from 'react';
 import {Pressable} from 'react-native';
 import Icon from '../styled/components/Icon';
+import {styles} from './styles';
 
 const NavigationBar = (): JSX.Element => {
   return (
     <TopNavigationContainer>
       <SmallImage
-        width={19}
-        height={19}
-        style={{transform: 'rotate(29.84deg)'}}
+        width={17}
+        height={17}
+        style={styles.logoImage}
         source={require('../../assets/images/puzzle-onepiece.png')}
       />
-      <Text
-        style={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: '#32C5FF',
-          marginLeft: 3,
-        }}>
+      <Text fontWeight={700} color={'#32C5FF'} style={styles.logoText}>
         인생퍼즐
       </Text>
-      <Pressable
-        style={{marginLeft: 'auto', marginRight: 16}}
-        onPress={() => {}}>
+      <Pressable style={styles.goToAccountIcon} onPress={() => {}}>
         <Icon name={'menu'} size={30} />
       </Pressable>
     </TopNavigationContainer>

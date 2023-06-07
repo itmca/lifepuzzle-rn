@@ -6,34 +6,50 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 16,
     borderBottomWidth: 0.3,
-    borderBottomColor: '#979797',
+    borderBottomColor: '#A9A9A9',
     position: 'relative',
   },
   thumbnailListItemContainer: {
     flex: 1,
-    flexWrap: 'nowrap',
-    width: '100%',
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'space-between',
+  },
+  thumbnailItemContainer: {
+    width: 120,
+    height: 90,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+  },
+  thumbnailRecordItemContainer: {
+    position: 'absolute',
+    width: 120,
+    height: 90,
+    borderRadius: 10,
+    backgroundColor: '#32C5FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  recordIconContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    gap: 6,
   },
   textBox: {
     textAlign: 'left',
     maxWidth: '100%',
   },
-  thumbnailTextBox: {
-    textAlign: 'left',
-  },
   listTitle: {
     fontSize: 16,
-    fontWeight: '700',
-    lineHeight: 24,
-    letterSpacing: 0.15,
-    marginBottom: 13,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#333333',
   },
   description: {
-    fontSize: 12,
-    opacity: 0.8,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '400',
+    color: '#A9A9A9',
   },
   thumbnailBox: {
     flex: 0.3,
@@ -62,9 +78,6 @@ export const styles = StyleSheet.create({
     height: 90,
     width: '100%',
     alignItems: 'center',
-  },
-  textContainer: {
-    color: '#A9A9A9',
   },
   titleTextContainer: {
     flexDirection: 'row',
@@ -109,5 +122,10 @@ export const styles = StyleSheet.create({
   chipText: {
     fontSize: 14,
     letterSpacing: 0.25,
+  },
+  heroAvatarIcon: {
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: '#A9A9A9',
   },
 });
