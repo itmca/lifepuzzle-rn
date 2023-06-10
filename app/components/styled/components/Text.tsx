@@ -1,46 +1,54 @@
 import styled from 'styled-components/native';
 
-type Color = '#F2C744'|'#55A5FD'|'#707070'|'#979797'|'#323232' |'#FFFFFF';
+type Color =
+  | '#F2C744'
+  | '#55A5FD'
+  | '#707070'
+  | '#979797'
+  | '#323232'
+  | '#FFFFFF'
+  | '#A9A9A9'
+  | '#32C5FF';
+
 type Props = {
   letterSpacing?: number;
-  fontWeight?: string|number;
+  fontWeight?: string | number;
   lineHeight?: number;
-  color?: Color|'#000000';
+  color?: Color | '#000000';
   fontSize?: number;
 };
 
 export const XLargeText = styled.Text<Props>`
-   color: ${props => (props.color ? props.color : '#000000')};
-   fontSize: 32px;
-   fontWeight: bold;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 32px;
+  font-weight: bold;
+`;
 
 export const LargeText = styled.Text<Props>`
-    color: ${props => (props.color ? props.color : '#000000')};
-    fontSize: 24px;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 24px;
+`;
 
 export const MediumText = styled.Text<Props>`
-    color: ${props => (props.color ? props.color : '#000000')};
-    fontSize: 20px;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 20px;
+  font-weight: ${props => props.fontWeight || 'normal'};
+`;
 
 export const SmallText = styled.Text<Props>`
-   color: ${props => (props.color ? props.color : '#000000')};
-   fontSize: 13px;
-   fontWeight: ${props => props.fontWeight || 'normal'};
-   letterSpacing: ${({ letterSpacing }) => (letterSpacing ? `${letterSpacing}px` : '0.25px')};
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 13px;
+  font-weight: ${props => props.fontWeight || 'normal'};
+  letter-spacing: ${({letterSpacing}) =>
+    letterSpacing ? `${letterSpacing}px` : '0.25px'};
+`;
 
 export const XSmallText = styled.Text<Props>`
-   color: ${props => (props.color ? props.color : '#000000')};
-   fontSize: 11px;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 11px;
+`;
 
-function Text({ ...props }) {
-  return (
-    <MediumText {...props} >
-    </MediumText>
-  );
+function Text({...props}) {
+  return <MediumText {...props} />;
 }
 export default Text;

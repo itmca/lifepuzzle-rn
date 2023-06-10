@@ -16,7 +16,6 @@ import {ScrollContainer} from '../../components/styled/container/ScrollContainer
 const HomePage = (): JSX.Element => {
   return (
     <NoOutLineScreenContainer>
-      <NavigationBar />
       <ScrollContainer>
         <OutLineContentContainer flex={1}>
           <View style={styles.imageContainer}>

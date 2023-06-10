@@ -4,7 +4,6 @@ import {styles} from './styles';
 import {HeroType} from '../../types/hero.type';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {MediumText, SmallText} from '../styled/components/Text';
-import NavigationBar from '../navigation/NavigationBar';
 
 type Props = {
   hero: HeroType;
@@ -14,7 +13,6 @@ type Props = {
 const HeroOverview = ({hero, storyCount}: Props): JSX.Element => {
   return (
     <>
-      <NavigationBar />
       <View style={styles.profileContainer}>
         <HeroAvatar
           imageURL={hero.imageURL}
