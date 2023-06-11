@@ -78,11 +78,13 @@ export const styles = StyleSheet.create({
     height: 90,
     width: '100%',
     alignItems: 'center',
+    borderBottomWidth: 0,
   },
   titleTextContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginBottom: 5,
+    height: 23.5,
+    marginBottom: 3,
   },
   contentTextContainer: {
     flexDirection: 'row',

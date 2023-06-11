@@ -8,7 +8,8 @@ type Color =
   | '#323232'
   | '#FFFFFF'
   | '#A9A9A9'
-  | '#32C5FF';
+  | '#32C5FF'
+  | '#FF6200';
 
 type Props = {
   letterSpacing?: number;

@@ -22,7 +22,7 @@ const NavigationBar = (): JSX.Element => {
   return (
     <TopNavigationContainer>
       <Pressable
-        style={{flexDirection: 'row'}}
+        style={styles.leftSection}
         onPress={() => {
           if (route.params?.screen !== 'Home') {
             navigation.push('HomeTab', {screen: 'Home'});

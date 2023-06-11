@@ -11,5 +11,10 @@ export const styles = StyleSheet.create({
   goToAccountIcon: {
     marginLeft: 'auto',
     marginRight: 16,
+    alignItems: 'center',
+  },
+  leftSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

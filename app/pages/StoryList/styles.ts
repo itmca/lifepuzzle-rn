@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,13 +10,14 @@ export const styles = StyleSheet.create({
   scrollViewContainer: {
     flex: 1,
     backgroundColor: '#e5e5e5',
+    height: '100%',
   },
   floatingBtBox: {
     width: 48,
     height: 48,
     position: 'absolute',
     backgroundColor: '#FF6200',
-    bottom: 16,
+    bottom: 95,
     right: 16,
     borderRadius: 50,
     justifyContent: 'center',
@@ -33,5 +34,25 @@ export const styles = StyleSheet.create({
   floatingBtTop: {
     borderRadius: 50,
     color: '#FFFFFF',
+  },
+  writingButton: {
+    width: '100%',
+    height: 80,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 20,
+      },
+    }),
   },
 });

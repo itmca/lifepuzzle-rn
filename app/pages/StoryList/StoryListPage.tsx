@@ -11,7 +11,9 @@ import {useStories} from '../../service/hooks/story.query.hook';
 import {useUpdateObserver} from '../../service/hooks/update.hooks';
 import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
 import {FILTER_KEY_ALL} from '../../constants/filter.contant';
-import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
 
 type Props = {
   route: any;
@@ -21,6 +23,7 @@ const StoryListPage = ({route}: Props): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
   const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
+  const navigation = useNavigation<BasicNavigationProps>();
 
   const [selectedTagKey, setSelectedTagKey] = useState<string>('');
 
@@ -36,7 +39,7 @@ const StoryListPage = ({route}: Props): JSX.Element => {
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <NoOutLineScreenContainer>
+      <NoOutLineFullScreenContainer>
         <HeroStoryOverview
           hero={hero}
           storyCount={totalStoryCount}
@@ -45,7 +48,7 @@ const StoryListPage = ({route}: Props): JSX.Element => {
         />
         <Divider />
         <ScrollingStoryList stories={stories} />
-      </NoOutLineScreenContainer>
+      </NoOutLineFullScreenContainer>
     </LoadingContainer>
   );
 };
