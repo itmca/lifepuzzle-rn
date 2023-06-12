@@ -1,5 +1,5 @@
 import TextInput from '../styled/components/TextInput';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ColorValue,
   ReturnKeyTypeOptions,
@@ -40,9 +40,19 @@ export const AdvancedTextInput = ({
   scrollEnabled = true,
   returnKeyType,
 }: Props): JSX.Element => {
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <TextInput
-      style={customStyle}
+      style={StyleSheet.compose<TextStyle>(
+        customStyle,
+        isFocused
+          ? paperInputMode == undefined
+            ? styles.outlineActive
+            : styles.underlineActive
+          : paperInputMode == undefined
+          ? styles.outline
+          : styles.underline,
+      )}
       mode={paperInputMode}
       label={label}
       disabled={disabled}
@@ -52,10 +62,14 @@ export const AdvancedTextInput = ({
       autoFocus={autoFocus}
       activeUnderlineColor={activeUnderlineColor}
       underlineColor={underlineColor?.toString()}
-      selectionColor={'white'}
+      outlineColor={'transparent'}
+      activeOutlineColor={'transparent'}
+      selectionColor={'black'}
       multiline={multiline}
       scrollEnabled={scrollEnabled}
       returnKeyType={returnKeyType}
+      onBlur={() => setIsFocused(false)}
+      onFocus={() => setIsFocused(true)}
     />
   );
 };

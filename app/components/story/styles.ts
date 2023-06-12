@@ -10,4 +10,17 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  storyKeyBox: {
+    borderWidth: 1,
+    borderColor: '#DBD6D6',
+    verticalAlign: 'middle',
+    height: 56,
+    flexDirection: 'row',
+  },
+  verticalLine: {
+    height: '50%',
+    width: 1,
+    backgroundColor: '#E6E6E6',
+    alignSelf: 'center',
+  },
 });

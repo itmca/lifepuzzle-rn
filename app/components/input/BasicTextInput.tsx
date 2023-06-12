@@ -12,6 +12,8 @@ type Props = {
   onChangeText?: (text: string) => void;
   autoFocus?: boolean;
   multiline?: boolean;
+  mode?: 'flat' | 'outlined' | undefined;
+  maxLength?: number | undefined;
 };
 
 export const BasicTextInput = ({
@@ -23,13 +25,13 @@ export const BasicTextInput = ({
   onChangeText,
   autoFocus = false,
   multiline = false,
+  mode = 'flat',
+  maxLength,
 }: Props): JSX.Element => {
   return (
     <TextInput
-      style={StyleSheet.compose<TextStyle>(
-        customStyle,
-      )}
-      mode="outlined"
+      style={StyleSheet.compose<TextStyle>(customStyle)}
+      mode={mode}
       label={label}
       disabled={disabled}
       value={text}
@@ -37,6 +39,7 @@ export const BasicTextInput = ({
       onChangeText={onChangeText}
       autoFocus={autoFocus}
       multiline={multiline}
+      maxLength={maxLength}
     />
   );
 };
