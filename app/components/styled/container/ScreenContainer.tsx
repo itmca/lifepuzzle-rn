@@ -21,3 +21,11 @@ export const NoOutLineScreenContainer = styled.SafeAreaView`
   display: flex;
   flex-direction: column;
 `;
+
+export const NoOutLineFullScreenContainer = styled.View`
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+`;

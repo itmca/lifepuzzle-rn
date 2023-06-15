@@ -16,12 +16,11 @@ export const styles = StyleSheet.create({
     width: '100%',
     overflow: 'hidden',
     flex: 1.6,
-    marginTop: 16,
     maxHeight: 355,
   },
   mainImage: {
     width: '100%',
-    height: 300,
+    height: '100%',
     alignSelf: 'center',
     borderRadius: 32,
     ...Platform.select({

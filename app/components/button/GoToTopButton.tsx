@@ -17,7 +17,7 @@ export const GoToTopButton = ({visible, onPress}: Props): JSX.Element => {
   return (
     <TouchableOpacity style={styles.floatingBtBox} onPress={onPress}>
       <Icon
-        name="chevron-up-sharp"
+        name="chevron-up"
         size={34}
         color={'#000000'}
         style={styles.floatingBtTop}

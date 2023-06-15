@@ -2,13 +2,16 @@ import React, {useState} from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
-  SafeAreaView,
   ScrollView,
+  View,
 } from 'react-native';
 import {styles} from '../../pages/StoryList/styles';
 import StoryItem from './StoryItem';
 import {StoryType} from '../../types/story.type';
 import {GoToTopButton} from '../button/GoToTopButton';
+import {WritingButton} from '../button/WritingButton';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
 
 type Props = {
   stories: StoryType[];
@@ -16,14 +19,14 @@ type Props = {
 
 const ScrollingStoryList = ({stories}: Props): JSX.Element => {
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
-
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const positionY = event.nativeEvent.contentOffset.y;
     setScrollPositionY(positionY);
   };
 
+  const navigation = useNavigation<BasicNavigationProps>();
   return (
-    <SafeAreaView style={styles.scrollViewContainer}>
+    <View style={styles.scrollViewContainer}>
       <ScrollView
         onScroll={handleScroll}
         scrollEventThrottle={100}
@@ -36,7 +39,17 @@ const ScrollingStoryList = ({stories}: Props): JSX.Element => {
         visible={scrollPositionY > 10}
         onPress={() => setScrollPositionY(0)}
       />
-    </SafeAreaView>
+      <WritingButton
+        onPress={() =>
+          navigation.push('NoTab', {
+            screen: 'PuzzleWritingNavigator',
+            params: {
+              screen: 'PuzzleWritingDate',
+            },
+          })
+        }
+      />
+    </View>
   );
 };
 
