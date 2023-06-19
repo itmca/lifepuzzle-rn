@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -25,9 +25,12 @@ const ScrollingStoryList = ({stories}: Props): JSX.Element => {
   };
 
   const navigation = useNavigation<BasicNavigationProps>();
+  const scrollRef = useRef<ScrollView>(null);
+
   return (
     <View style={styles.scrollViewContainer}>
       <ScrollView
+        ref={scrollRef}
         onScroll={handleScroll}
         scrollEventThrottle={100}
         showsVerticalScrollIndicator={false}>
@@ -37,7 +40,7 @@ const ScrollingStoryList = ({stories}: Props): JSX.Element => {
       </ScrollView>
       <GoToTopButton
         visible={scrollPositionY > 10}
-        onPress={() => setScrollPositionY(0)}
+        onPress={() => scrollRef.current?.scrollTo({y: 0})}
       />
       <WritingButton
         onPress={() =>
