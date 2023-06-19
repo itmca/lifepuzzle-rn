@@ -20,7 +20,7 @@ const HeroStoryOverview = ({
   onSelect,
 }: Props): JSX.Element => {
   return (
-    <View style={styles.container}>
+    <View>
       <HeroOverview hero={hero} storyCount={storyCount} />
       <SwipingStoryTagChips tags={tags} onSelect={onSelect} />
     </View>

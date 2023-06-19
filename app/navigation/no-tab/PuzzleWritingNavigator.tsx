@@ -10,12 +10,14 @@ import PuzzleWritingDatePage from '../../pages/PuzzleWritingDate/PuzzleWritingDa
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title from '../../components/styled/components/Title';
+import PuzzleSelectingPhotoPage from '../../pages/PuzzleSelectingPhoto/PuzzleSelectingPhotoPage';
 
 export type PuzzleWritingParamList = {
   PuzzleWritingDate: undefined;
 
   PuzzleWritingPhoto: undefined;
   PuzzleWritingText: undefined;
+  PuzzleSelectingPhoto: undefined;
   PuzzleWritingVoice: undefined;
 };
 
@@ -33,7 +35,7 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>조각 맞추기</Title>,
-          headerBackVisible:false,
+          headerBackVisible: false,
           headerRight: () => (
             <WritingHeaderRight
               text="다음"
@@ -48,7 +50,7 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>조각 맞추기</Title>,
-          headerBackVisible:false,
+          headerBackVisible: false,
           headerRight: () => (
             <WritingHeaderRight
               text="다음"
@@ -63,11 +65,11 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>조각 맞추기</Title>,
-          headerBackVisible:false,
+          headerBackVisible: false,
           headerRight: () => (
             <LoadingContainer isLoading={isLoading}>
               <WritingHeaderRight
-                text="완료"
+                text="등록"
                 customAction={() => {
                   saveStory();
                 }}
@@ -77,12 +79,21 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         }}
       />
       <Stack.Screen
+        name="PuzzleSelectingPhoto"
+        component={PuzzleSelectingPhotoPage}
+        options={{
+          headerLeft: () => <WritingHeaderLeft type="before" />,
+          headerTitle: () => <Title>사진 선택</Title>,
+          headerBackVisible: false,
+        }}
+      />
+      <Stack.Screen
         name="PuzzleWritingVoice"
         component={PuzzleWritingVoicePage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>음성 녹음</Title>,
-          headerBackVisible:false,
+          headerBackVisible: false,
         }}
       />
     </Stack.Navigator>

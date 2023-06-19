@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {styles} from './styles';
 import {HeroType} from '../../types/hero.type';
 import {HeroAvatar} from '../avatar/HeroAvatar';
-import { SmallText, XSmallText } from "../styled/components/Text";
+import {MediumText, SmallText} from '../styled/components/Text';
 
 type Props = {
   hero: HeroType;
@@ -12,15 +12,35 @@ type Props = {
 
 const HeroOverview = ({hero, storyCount}: Props): JSX.Element => {
   return (
-    <View style={styles.profileContainer}>
-      <HeroAvatar imageURL={hero.imageURL} size={72} />
-      <SmallText style={styles.profileTitle} >{hero.title}</SmallText>
-      <XSmallText style={styles.profileText}>
-        &quot;{hero.heroNickName}&quot;님의 퍼즐 {storyCount}조각이
-        맞춰졌습니다.
-        {storyCount > 0 ? '👏'.repeat(Math.min(storyCount, 3)) : ''}
-      </XSmallText>
-    </View>
+    <>
+      <View style={styles.profileContainer}>
+        <HeroAvatar
+          imageURL={hero.imageURL}
+          size={60}
+          style={styles.heroAvatarIcon}
+        />
+        <View>
+          <View style={styles.titleTextContainer}>
+            <MediumText fontWeight={700} color={'#32C5FF'}>
+              {hero.heroNickName}
+            </MediumText>
+            <SmallText fontWeight={400} color={'#A9A9A9'}>
+              {' '}
+              님
+            </SmallText>
+          </View>
+          <View style={styles.contentTextContainer}>
+            <SmallText fontWeight={'400'} color={'#A9A9A9'}>
+              퍼즐{' '}
+              <SmallText fontWeight={'700'} color={'#32C5FF'}>
+                {storyCount}
+              </SmallText>
+              조각이 맞춰졌습니다.
+            </SmallText>
+          </View>
+        </View>
+      </View>
+    </>
   );
 };
 

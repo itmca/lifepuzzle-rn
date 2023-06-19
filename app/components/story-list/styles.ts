@@ -3,44 +3,58 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 145,
     backgroundColor: '#FFFFFF',
     padding: 16,
     borderBottomWidth: 0.3,
-    borderBottomColor: '#979797',
+    borderBottomColor: '#A9A9A9',
     position: 'relative',
   },
   thumbnailListItemContainer: {
     flex: 1,
-    flexWrap: 'nowrap',
-    width: '100%',
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'space-between',
+  },
+  thumbnailItemContainer: {
+    width: 120,
+    height: 90,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
+  },
+  thumbnailRecordItemContainer: {
+    position: 'absolute',
+    width: 120,
+    height: 90,
+    borderRadius: 10,
+    backgroundColor: '#32C5FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  recordIconContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    gap: 6,
   },
   textBox: {
     textAlign: 'left',
     maxWidth: '100%',
   },
-  thumbnailTextBox: {
-    textAlign: 'left',
-  },
   listTitle: {
     fontSize: 16,
-    fontWeight: '700',
-    lineHeight: 24,
-    letterSpacing: 0.15,
-    marginBottom: 13,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#333333',
   },
   description: {
-    fontSize: 12,
-    opacity: 0.8,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '400',
+    color: '#A9A9A9',
   },
   thumbnailBox: {
     flex: 0.3,
     width: 94,
     height: 94,
-    marginRight: 16,
   },
   thumbnailImage: {
     width: 94,
@@ -58,15 +72,23 @@ export const styles = StyleSheet.create({
     fontSize: 11,
     color: '#979797',
   },
-  micIconBox: {
-    paddingLeft: 5,
-    paddingTop: 5,
-  },
+  micIconBox: {},
   profileContainer: {
-    paddingTop: 24,
-    paddingBottom: 16,
+    flexDirection: 'row',
+    height: 90,
     width: '100%',
     alignItems: 'center',
+    borderBottomWidth: 0,
+  },
+  titleTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    height: 23.5,
+    marginBottom: 3,
+  },
+  contentTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   profileImage: {
     width: 68,
@@ -85,7 +107,9 @@ export const styles = StyleSheet.create({
     height: 20,
     lineHeight: 20,
   },
-  chipContainer: {},
+  chipContainer: {
+    display: 'none',
+  },
   chipItem: {
     height: 26,
     borderRadius: 16,
@@ -100,5 +124,10 @@ export const styles = StyleSheet.create({
   chipText: {
     fontSize: 14,
     letterSpacing: 0.25,
+  },
+  heroAvatarIcon: {
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: '#A9A9A9',
   },
 });

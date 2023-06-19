@@ -1,28 +1,54 @@
-import styled from 'styled-components/native';
-import {TextInput}  from 'react-native-paper';
+import styled, {css} from 'styled-components/native';
+import {TextInput} from 'react-native-paper';
+import {useEffect, useState} from 'react';
+import {XSmallText} from './Text';
+import {
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+  View,
+} from 'react-native';
+import {ContentContainer} from '../container/ContentContainer';
 type Props = {
   width?: number;
   marginBottom?: number;
   fontSize?: number;
-  fontWeight: number|'bold',
-  backgroundColor : string;
+  fontWeight?: number | 'normal';
+  backgroundColor?: string;
 };
 
-const StyledTextInput = styled(TextInput).attrs(()=>({
-  underlineColor:'transparent',
+const StyledTextInput = styled(TextInput).attrs(() => ({
+  underlineColor: 'transparent',
+  activeUnderlineColor: 'transparent',
+  outlineStyle: {borderWidth: 1, borderRadius: 8},
+  outlineColor: '#D9D9D9',
+  activeOutlineColor: '#32C5FF',
+  selectionColor: 'black',
 }))<Props>`
-    width: ${({ width }) => (width ? `${width}%` : '100%')};
-    marginBottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}px` : '8px')};
-    fontSize: ${({ fontSize }) => (fontSize ? `${fontSize}px` : '16px')};
-    fontWeight: ${({ fontWeight }) => (fontWeight ? `${fontWeight}px` : 'bold')};
-    backgroundColor: ${({ backgroundColor }) => (backgroundColor ? `${backgroundColor}` : 'transparent')};
-
- `;
-function Input({ ...props }) {
-
+  width: ${props => (props.width ? `${props.width}%` : '100%')};
+  marginbottom: ${props =>
+    props.marginBottom ? `${props.marginBottom}px` : '8px'};
+  fontsize: ${props => (props.fontSize ? `${props.fontSize}px` : '16px')};
+  fontweight: ${props =>
+    props.fontWeight ? `${props.fontWeight}px` : 'normal'};
+  backgroundcolor: ${props =>
+    props.backgroundColor ? `${props.backgroundColor}` : 'transparent'};
+`;
+function Input({...props}) {
+  const [inputCount, setInputCount] = useState(0);
+  const onChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    const {text} = event.nativeEvent;
+    setInputCount(text.length);
+    return false;
+  };
   return (
-      <StyledTextInput {...props} >
-      </StyledTextInput>
+    <ContentContainer>
+      <StyledTextInput onChange={onChange} {...props}></StyledTextInput>
+      {props.maxLength != undefined && (
+        <XSmallText style={{position: 'absolute', right: 20, bottom: 20}}>
+          {inputCount}/500
+        </XSmallText>
+      )}
+    </ContentContainer>
   );
 }
 export default Input;
