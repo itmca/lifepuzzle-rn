@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {SmallText, XSmallText} from '../styled/components/Text';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {recordFileState} from '../../recoils/story-writing.recoil';
+import {SmallImage} from '../styled/components/Image';
 
 const VoiceRecordPageLink = (): JSX.Element => {
   const navigation = useNavigation();
@@ -25,9 +26,15 @@ const VoiceRecordPageLink = (): JSX.Element => {
         height: '100%',
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
       }}>
-      <Icon name={'mic'} size={13}></Icon>
-      <SmallText> 녹음 추가</SmallText>
+      <SmallImage
+        width={14}
+        height={19}
+        style={{tintColor: 'gray'}}
+        source={require('../../assets/images/mic.png')}
+      />
+      <SmallText style={{color: 'gray'}}> 녹음 추가</SmallText>
     </Button>
   );
 };

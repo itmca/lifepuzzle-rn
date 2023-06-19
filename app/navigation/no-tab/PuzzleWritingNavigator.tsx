@@ -11,6 +11,7 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title from '../../components/styled/components/Title';
 import PuzzleSelectingPhotoPage from '../../pages/PuzzleSelectingPhoto/PuzzleSelectingPhotoPage';
+import PuzzleWritingQuestionPage from '../../pages/PuzzleWritingQuestion/PuzzleWritingQuestionPage';
 
 export type PuzzleWritingParamList = {
   PuzzleWritingDate: undefined;
@@ -63,19 +64,8 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         name="PuzzleWritingText"
         component={PuzzleWritingTextPage}
         options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>조각 맞추기</Title>,
           headerBackVisible: false,
-          headerRight: () => (
-            <LoadingContainer isLoading={isLoading}>
-              <WritingHeaderRight
-                text="등록"
-                customAction={() => {
-                  saveStory();
-                }}
-              />
-            </LoadingContainer>
-          ),
+          headerShown: false,
         }}
       />
       <Stack.Screen

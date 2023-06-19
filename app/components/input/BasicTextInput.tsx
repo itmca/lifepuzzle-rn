@@ -25,7 +25,7 @@ export const BasicTextInput = ({
   onChangeText,
   autoFocus = false,
   multiline = false,
-  mode = 'flat',
+  mode = 'outlined',
   maxLength,
 }: Props): JSX.Element => {
   return (

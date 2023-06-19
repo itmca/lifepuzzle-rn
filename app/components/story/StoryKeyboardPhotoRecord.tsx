@@ -1,14 +1,12 @@
 import {Avatar, Button} from 'react-native-paper';
-
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {SmallText, XSmallText} from '../styled/components/Text';
 import {View} from 'react-native';
+import Image, {LargeImage, Photo, SmallImage} from '../styled/components/Image';
 
 const PhotoSelectPageLink = (): JSX.Element => {
   const navigation = useNavigation();
-
   return (
     <Button
       onPress={() => {
@@ -23,8 +21,13 @@ const PhotoSelectPageLink = (): JSX.Element => {
         height: '100%',
         justifyContent: 'center',
       }}>
-      <Icon name={'add-a-photo'} size={13}></Icon>
-      <SmallText> 사진 추가</SmallText>
+      <SmallImage
+        width={17.5}
+        height={16}
+        style={{tintColor: 'gray'}}
+        source={require('../../assets/images/add_a_photo.png')}
+      />
+      <SmallText style={{color: 'gray'}}> 사진 추가</SmallText>
     </Button>
   );
 };

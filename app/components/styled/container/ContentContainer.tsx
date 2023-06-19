@@ -23,8 +23,8 @@ export const HorizontalContentContainer = styled(ContentContainer)<{
   height?: string;
 }>`
   flex-direction: row;
-  align-items: center;
-  height: ${props => props.height ?? 'auto'};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'stretch')};
+  height: ${props => (props.height ? props.height : 'auto')};
 `;
 
 export const OutLineContentContainer = styled(ContentContainer)`

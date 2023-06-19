@@ -10,16 +10,16 @@ export const KeyboardContainer = styled.View<Props>`
   height: ${({height}) => (height ? `${height}px` : '56px')};
   background-color: #ffffff;
   display: flex;
-  flexdirection: row;
+  flex-direction: row;
   position: absolute;
   bottom: 0px;
-  borderwidth: 1px;
-  bordercolor: #dbd6d6;
-  verticalalign: middle;
+  border-width: 1px;
+  border-color: #dbd6d6;
+  vertical-align: middle;
 `;
 export const VerticalLine = styled.View`
   height: 50%;
   width: 1px;
-  backgroundcolor: #e6e6e6;
-  alignself: center;
+  background-color: #e6e6e6;
+  align-self: center;
 `;

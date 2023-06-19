@@ -5,6 +5,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {SmallText} from '../styled/components/Text';
 import {View} from 'react-native';
+import {SmallImage} from '../styled/components/Image';
 
 const VideoSelectPageLink = (): JSX.Element => {
   const navigation = useNavigation();
@@ -23,8 +24,13 @@ const VideoSelectPageLink = (): JSX.Element => {
         height: '100%',
         justifyContent: 'center',
       }}>
-      <Icon name={'video-call'} size={13}></Icon>
-      <SmallText> 영상 추가</SmallText>
+      <SmallImage
+        width={22}
+        height={14.5}
+        style={{tintColor: 'gray'}}
+        source={require('../../assets/images/video_call.png')}
+      />
+      <SmallText style={{color: 'gray'}}> 영상 추가</SmallText>
     </Button>
   );
 };

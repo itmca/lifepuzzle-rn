@@ -22,27 +22,32 @@ const StyledTextInput = styled(TextInput).attrs(() => ({
   outlineStyle: {borderWidth: 1, borderRadius: 8},
   outlineColor: '#D9D9D9',
   activeOutlineColor: '#32C5FF',
-  selectionColor: 'black',
+  selectionColor: '#32C5FF',
+  activeBackgroundColor: '#F7FDFF',
 }))<Props>`
-  width: ${props => (props.width ? `${props.width}%` : '100%')};
-  marginbottom: ${props =>
+  width: ${props => (props.width ? `${props.width}%` : 'auto')};
+  margin-bottom: ${props =>
     props.marginBottom ? `${props.marginBottom}px` : '8px'};
-  fontsize: ${props => (props.fontSize ? `${props.fontSize}px` : '16px')};
-  fontweight: ${props =>
+  font-size: ${props => (props.fontSize ? `${props.fontSize}px` : '16px')};
+  font-weight: ${props =>
     props.fontWeight ? `${props.fontWeight}px` : 'normal'};
-  backgroundcolor: ${props =>
+  background-color: ${props =>
     props.backgroundColor ? `${props.backgroundColor}` : 'transparent'};
 `;
 function Input({...props}) {
   const [inputCount, setInputCount] = useState(0);
-  const onChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+  const onChangeInputCount = (
+    event: NativeSyntheticEvent<TextInputChangeEventData>,
+  ) => {
     const {text} = event.nativeEvent;
     setInputCount(text.length);
     return false;
   };
   return (
     <ContentContainer>
-      <StyledTextInput onChange={onChange} {...props}></StyledTextInput>
+      <StyledTextInput
+        onChange={onChangeInputCount}
+        {...props}></StyledTextInput>
       {props.maxLength != undefined && (
         <XSmallText style={{position: 'absolute', right: 20, bottom: 20}}>
           {inputCount}/500

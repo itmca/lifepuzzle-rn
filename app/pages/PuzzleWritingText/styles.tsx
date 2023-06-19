@@ -6,7 +6,8 @@ export default StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   titleInput: {
-    height: 40,
+    fontWeight: 'bold',
+    height: 24,
   },
   contentInput: {
     minHeight: 200,
