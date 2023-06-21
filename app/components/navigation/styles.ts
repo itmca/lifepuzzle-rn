@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   logoImage: {
-    transform: 'rotate(29.84deg)',
+    transform: [{rotate: '29.84deg'}],
   },
   logoText: {
     marginLeft: 5,
