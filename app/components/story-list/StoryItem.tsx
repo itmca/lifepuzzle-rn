@@ -8,7 +8,7 @@ import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {StoryType} from '../../types/story.type';
 import {getStoryDisplayTagsDate} from '../../service/story-display.service';
 import Text, {SmallText, XSmallText} from '../styled/components/Text';
-import Image, {SmallImage} from '../styled/components/Image';
+import Image, {Photo} from '../styled/components/Image';
 
 type props = {
   story: StoryType;
@@ -51,8 +51,11 @@ const StoryItem = ({story}: props): JSX.Element => {
           </Text>
         </View>
         <View style={styles.thumbnailItemContainer}>
-          {story.audios.length > 0 && (
-            <Image
+          {story.photos.length > 0 && (
+            <Photo
+              width={120}
+              height={90}
+              borderRadius={10}
               backgroundColor="#d9d9d9"
               resizeMode="cover"
               source={{
@@ -68,7 +71,7 @@ const StoryItem = ({story}: props): JSX.Element => {
                   height={30}
                   source={require('../../assets/images/record-icon.png')}
                 />
-                <SmallText color={'#FFFFFF'}>00:00</SmallText>
+                <SmallText color={'#FFFFFF'}>{story.recordingTime}</SmallText>
               </View>
             </View>
           )}
