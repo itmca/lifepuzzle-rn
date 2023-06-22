@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   recordIconContainer: {
     position: 'absolute',
     alignItems: 'center',
-    gap: 6,
+    gap: 16,
   },
   thumbnailRecordItemContainer: {
     position: 'absolute',
@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
     fontWeight: '500',
+    marginTop: 6,
   },
   textBox: {
     textAlign: 'left',
@@ -142,5 +143,28 @@ export const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     backgroundColor: '#A9A9A9',
+  },
+  questionText: {
+    fontSize: 14,
+    color: '#999999',
+    marginBottom: 25,
+    fontWeight: 600,
+  },
+  onlyTextContent: {
+    fontWeight: '400',
+    fontSize: 14,
+    marginBottom: 15,
+    lineHeight: 21,
+    color: '#B4B3B3',
+  },
+  dissolveView: {
+    width: '100%',
+    height: '100%',
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(51, 51, 51, 0.8)',
   },
 });

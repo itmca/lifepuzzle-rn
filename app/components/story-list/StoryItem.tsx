@@ -24,67 +24,103 @@ const StoryItem = ({story}: props): JSX.Element => {
     navigation.navigate('NoTab', StoryViewNavigator);
   };
 
+  const isPhoto = story.photos.length ? true : false;
+  const isAudio = story.audios.length ? true : false;
+
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
         moveToStoryDetailPage(story.id);
       }}>
-      <View style={styles.thumbnailListItemContainer}>
-        <View style={styles.thumbnailItemContainer}>
-          {story.photos.length <= 0 && story.audios.length <= 0 && (
-            <View style={styles.recordIconContainer}>
-              <SmallImage
-                width={50}
-                height={50}
-                style={{transform: [{rotate: '29.84deg'}]}}
-                source={require('../../assets/images/puzzle-onepiece.png')}
-              />
-            </View>
-          )}
-          {story.photos.length > 0 && (
-            <Photo
-              backgroundColor="#d9d9d9"
-              borderTopLeftRadius={6}
-              borderTopRightRadius={6}
-              resizeMode="cover"
-              source={{
-                uri: story.photos.length > 0 ? story.photos[0] : null,
-              }}
-            />
-          )}
-          {story.photos.length <= 0 && story.audios.length > 0 && (
-            <View style={styles.thumbnailRecordItemContainer}>
-              <Text style={styles.thumbnailRecordText}>
-                음성녹음 : {story.recordingTime}
-              </Text>
-            </View>
-          )}
-        </View>
+      {!isPhoto && !isAudio ? (
         <View
           style={{
             padding: 16,
-            gap: 8,
+            borderWidth: 1,
+            borderColor: '#EBEBEB',
+            borderRadius: 6,
           }}>
           <HorizontalContentContainer alignItems={'center'}>
             <Text
-              style={styles.listTitle}
+              style={{...styles.listTitle, marginBottom: 8}}
               numberOfLines={1}
               ellipsizeMode="tail">
               {story.title}
             </Text>
-            <Text style={styles.dateTitle}>
-              {getStoryDisplayDate(story.date)}
-            </Text>
           </HorizontalContentContainer>
+          <Text style={styles.questionText}>
+            👍 추천질문이 들어오는 영역입니다.
+          </Text>
           <Text
-            style={styles.description}
-            numberOfLines={1}
+            style={styles.onlyTextContent}
+            numberOfLines={2}
             ellipsizeMode="tail">
             {story.content}
           </Text>
+          <Text style={styles.dateTitle}>
+            {getStoryDisplayDate(story.date)}
+          </Text>
         </View>
-      </View>
+      ) : (
+        <View style={styles.thumbnailListItemContainer}>
+          <View style={styles.thumbnailItemContainer}>
+            <View style={styles.thumbnailRecordItemContainer}>
+              {isPhoto && (
+                <Photo
+                  backgroundColor="#d9d9d9"
+                  borderTopLeftRadius={6}
+                  borderTopRightRadius={6}
+                  resizeMode="cover"
+                  source={{
+                    uri: story.photos.length > 0 ? story.photos[0] : null,
+                  }}
+                />
+              )}
+              {isAudio && (
+                <View
+                  style={
+                    isPhoto
+                      ? styles.dissolveView
+                      : styles.thumbnailRecordItemContainer
+                  }>
+                  <Image
+                    width={30}
+                    height={30}
+                    source={require('../../assets/images/recording-icon.png')}
+                  />
+                  <Text style={styles.thumbnailRecordText}>
+                    음성녹음 {story.recordingTime}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+          <View
+            style={{
+              padding: 16,
+              gap: 8,
+            }}>
+            <HorizontalContentContainer alignItems={'center'}>
+              <Text
+                style={styles.listTitle}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {story.title}
+              </Text>
+              <Text style={styles.dateTitle}>
+                {getStoryDisplayDate(story.date)}
+              </Text>
+            </HorizontalContentContainer>
+            <Text
+              style={styles.description}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {story.content}
+            </Text>
+          </View>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

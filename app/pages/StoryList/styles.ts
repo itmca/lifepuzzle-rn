@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   scrollViewContainer: {
     flex: 1,
-    backgroundColor: '#E4ECEF',
+    backgroundColor: '#FFFFFF',
     height: '100%',
   },
   floatingBtBox: {
@@ -54,5 +54,10 @@ export const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
+  },
+  customDivider: {
+    width: '100%',
+    height: 8,
+    backgroundColor: 'rgba(246, 246, 246, 1)',
   },
 });

@@ -13,6 +13,8 @@ import {FILTER_KEY_ALL} from '../../constants/filter.contant';
 import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
 import Sound from 'react-native-sound';
 import {toMinuteSeconds} from '../../service/time-display.service';
+import {styles} from './styles';
+import {View} from 'react-native';
 
 const StoryListPage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
@@ -49,7 +51,7 @@ const StoryListPage = (): JSX.Element => {
           tags={tags}
           onSelect={setSelectedTagKey}
         />
-        <Divider />
+        <View style={styles.customDivider} />
         <ScrollingStoryList stories={storyList} />
       </NoOutLineFullScreenContainer>
     </LoadingContainer>
