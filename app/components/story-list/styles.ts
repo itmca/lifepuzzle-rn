@@ -89,16 +89,16 @@ export const styles = StyleSheet.create({
   micIconBox: {},
   profileContainer: {
     flexDirection: 'row',
-    height: 90,
+    height: 140,
     width: '100%',
     alignItems: 'center',
-    borderBottomWidth: 0,
+    padding: 16,
   },
-  titleTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    height: 23.5,
-    marginBottom: 3,
+  titleText: {
+    fontWeight: '600',
+    fontSize: 25,
+    color: 'rgba(0, 0, 0, 1)',
+    lineHeight: 37,
   },
   contentTextContainer: {
     flexDirection: 'row',
