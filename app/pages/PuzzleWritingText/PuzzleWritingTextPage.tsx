@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {Button, Dimensions, ScrollView, View} from 'react-native';
+import {Dimensions} from 'react-native';
 import styles from './styles';
 import HelpQuestion from '../../components/help-question/HelpQuestion';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
@@ -14,12 +14,7 @@ import {
   HorizontalContentContainer,
 } from '../../components/styled/container/ContentContainer';
 import {StoryKeyboard} from '../../components/story/StoryKeyboard';
-import SelectablePhoto from '../../components/photo/SelectablePhoto';
-import {usePhotoLibrary} from '../../service/hooks/photo.hook';
-import {
-  mainSelectedPhotoState,
-  selectedPhotoState,
-} from '../../recoils/selected-photo.recoil';
+import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {KeyboardContainer} from '../../components/styled/container/KeyboardContainer';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
@@ -69,6 +64,8 @@ const PuzzleWritingTextPage = (): JSX.Element => {
               autoFocus={true}
               onChangeText={setTitle}
               mode={'flat'}
+              underlineColor={'transparent'}
+              activeUnderlineColor={'transparent'}
             />
           </ContentContainer>
           <ContentContainer flex={1}>

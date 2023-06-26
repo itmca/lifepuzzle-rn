@@ -1,8 +1,9 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 import {atom, selector} from 'recoil';
+import {MediaInfo} from '../types/writing-story.type';
 
-export const selectedPhotoState = atom<PhotoIdentifier[]>({
+export const selectedPhotoState = atom<MediaInfo[]>({
   key: 'selectedPhotoState',
   default: [],
 });

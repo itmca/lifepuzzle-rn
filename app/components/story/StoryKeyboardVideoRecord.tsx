@@ -6,19 +6,16 @@ import {useNavigation} from '@react-navigation/native';
 import {SmallText} from '../styled/components/Text';
 import {View} from 'react-native';
 import {SmallImage} from '../styled/components/Image';
+import {usePhotos} from '../../service/hooks/photo.hook';
 
 const VideoSelectPageLink = (): JSX.Element => {
-  const navigation = useNavigation();
-
+  const {openGallery} = usePhotos({
+    target: 'video',
+  });
   return (
     <Button
       onPress={() => {
-        navigation.push('NoTab', {
-          screen: 'PuzzleWritingNavigator',
-          params: {
-            screen: 'PuzzleWritingVideo',
-          },
-        });
+        void openGallery();
       }}
       style={{
         height: '100%',

@@ -1,6 +1,10 @@
 import {useRecoilValue} from 'recoil';
 import {writingStoryState} from '../../recoils/story-writing.recoil';
-import {AUDIO_TYPE, IMG_TYPE} from '../../constants/upload-file-type.constant';
+import {
+  AUDIO_TYPE,
+  IMG_TYPE,
+  VIDEO_TYPE,
+} from '../../constants/upload-file-type.constant';
 import {WritingStoryType} from '../../types/writing-story.type';
 
 export const useStoryHttpPayLoad = () => {
@@ -21,10 +25,10 @@ const addImagesInFormData = function (
   const selectedImages = writingStory?.photos;
 
   selectedImages?.forEach((image, index) => {
-    const uri = image.node.image.uri;
-    const type = IMG_TYPE;
-    const fileParts = uri?.split('/');
-    const fileName = fileParts[fileParts?.length - 1];
+    const uri = image.uri;
+    const type = image.mediaType == 'photo' ? IMG_TYPE : VIDEO_TYPE;
+    const fileParts = uri?.split('//').pop();
+    const fileName = uri?.split('/').pop();
     formData.append('photos', {
       uri: uri,
       type: type,

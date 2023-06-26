@@ -14,6 +14,8 @@ type Props = {
   multiline?: boolean;
   mode?: 'flat' | 'outlined' | undefined;
   maxLength?: number | undefined;
+  underlineColor?: string | 'transparent';
+  activeUnderlineColor?: string | 'transparent';
 };
 
 export const BasicTextInput = ({
@@ -27,6 +29,8 @@ export const BasicTextInput = ({
   multiline = false,
   mode = 'outlined',
   maxLength,
+  underlineColor,
+  activeUnderlineColor,
 }: Props): JSX.Element => {
   return (
     <TextInput
@@ -40,6 +44,8 @@ export const BasicTextInput = ({
       autoFocus={autoFocus}
       multiline={multiline}
       maxLength={maxLength}
+      underlineColor={underlineColor}
+      activeUnderlineColor={activeUnderlineColor}
     />
   );
 };

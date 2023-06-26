@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import {CheckCover, Container} from './styles';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import Image from '../styled/components/Image';
 import {useNavigation} from '@react-navigation/native';
+import {MediaInfo} from '../../types/writing-story.type';
+import {usePhotos} from '../../service/hooks/photo.hook';
 
 type SelectedPhotoProps = {
   width?: number;
   height?: number;
-  photoList?: PhotoIdentifier[];
+  photoList?: MediaInfo[];
 };
 
 const SelectedPhotoList = ({
@@ -17,7 +16,9 @@ const SelectedPhotoList = ({
   height,
   photoList,
 }: SelectedPhotoProps): JSX.Element => {
-  const navigation = useNavigation();
+  const {openGallery} = usePhotos({
+    target: 'photo',
+  });
   return (
     <ScrollView
       contentContainerStyle={{
@@ -29,18 +30,13 @@ const SelectedPhotoList = ({
           <Image
             key={index}
             style={{width: width, height: height, margin: 5, borderRadius: 8}}
-            source={{uri: photo.node.image.uri}}
+            source={{uri: photo.uri}}
           />
         );
       })}
       <TouchableOpacity
         onPress={() => {
-          navigation.push('NoTab', {
-            screen: 'PuzzleWritingNavigator',
-            params: {
-              screen: 'PuzzleSelectingPhoto',
-            },
-          });
+          void openGallery();
         }}
         style={{
           width: width,

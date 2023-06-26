@@ -5,17 +5,18 @@ import {SmallText, XSmallText} from '../styled/components/Text';
 import {View} from 'react-native';
 import Image, {LargeImage, Photo, SmallImage} from '../styled/components/Image';
 
+import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
+import {usePhotos} from '../../service/hooks/photo.hook';
+
 const PhotoSelectPageLink = (): JSX.Element => {
-  const navigation = useNavigation();
+  const {openGallery} = usePhotos({
+    target: 'photo',
+  });
+
   return (
     <Button
       onPress={() => {
-        navigation.push('NoTab', {
-          screen: 'PuzzleWritingNavigator',
-          params: {
-            screen: 'PuzzleSelectingPhoto',
-          },
-        });
+        void openGallery();
       }}
       style={{
         height: '100%',

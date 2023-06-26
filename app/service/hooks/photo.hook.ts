@@ -1,53 +1,55 @@
-import {useEffect, useState} from "react";
-import {CameraRoll, cameraRollEventEmitter, PhotoIdentifier} from "@react-native-camera-roll/camera-roll";
-import {EmitterSubscription, Platform} from "react-native";
-import {usePhotoPermission} from "./permission.hook";
+import {useEffect, useState} from 'react';
+import ImagePicker from 'react-native-image-crop-picker';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
+import {usePhotoPermission} from './permission.hook';
+import {MediaInfo} from '../../types/writing-story.type';
 
+type LibraryTarget = 'photo' | 'video';
 type Props = {
-    initialSize: number;
-    nextSize: number;
-}
+  target: LibraryTarget;
+  initialSize?: number;
+  nextSize?: number;
+};
 
 type Response = {
-    photos: PhotoIdentifier[];
-}
-export const usePhotoLibrary = ({initialSize = 20, nextSize = 20}: Props = {}): Response => {
-    const [photos, setPhotos] = useState<PhotoIdentifier[]>([]);
+  openGallery: () => Promise<void>;
+};
+export const usePhotos = ({
+  target = 'photo',
+  initialSize = 20,
+  nextSize = 20,
+}: Props): Response => {
+  const setSelectedPhotoList = useSetRecoilState(selectedPhotoState);
+  useEffect(() => {
+    //setSelectedPhotoList([]);
+  }, []);
+  usePhotoPermission();
+  const openGallery = async function () {
+    const result = await ImagePicker.openPicker({
+      multiple: true,
+      mediaType: target,
+    });
+    const selectedPhotoList: MediaInfo[] = [];
+    result.forEach(item => {
+      const uri = item.path;
+      const fileName = uri?.split('/').pop();
+      const file: MediaInfo = {
+        mediaType: target,
+        filename: fileName ?? null,
+        filepath: item.path,
+        extension: null,
+        uri: uri,
+        height: item.height,
+        width: item.width,
+        fileSize: item.size,
+        playableDuration: 0,
+        orientation: null,
+      };
+      selectedPhotoList.push(file);
+    });
+    setSelectedPhotoList(selectedPhotoList);
+  };
 
-    usePhotoPermission()
-
-    useEffect(() => {
-        void loadPhotos();
-    }, [])
-
-    const loadPhotos = async () => {
-        const result = await CameraRoll.getPhotos({
-            first: initialSize,
-            assetType: 'Photos',
-        });
-        setPhotos(result.edges);
-    };
-
-    const isAboveIOS14 =
-        Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
-
-    useEffect(() => {
-        let subscription: EmitterSubscription;
-        if (isAboveIOS14) {
-            subscription = cameraRollEventEmitter.addListener(
-                'onLibrarySelectionChange',
-                () => {
-                    void loadPhotos();
-                },
-            );
-        }
-
-        return () => {
-            if (isAboveIOS14 && subscription) {
-                subscription.remove();
-            }
-        };
-    }, []);
-
-    return {photos};
+  return {openGallery};
 };
