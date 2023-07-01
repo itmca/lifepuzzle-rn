@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView} from 'react-native';
 import ScrollingStoryList from '../../components/story-list/ScrollingStoryList';
 import HeroStoryOverview from '../../components/story-list/HeroStoryOverview';
 import {Divider} from 'react-native-paper';
@@ -12,18 +11,15 @@ import {useUpdateObserver} from '../../service/hooks/update.hooks';
 import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
 import {FILTER_KEY_ALL} from '../../constants/filter.contant';
 import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
+import Sound from 'react-native-sound';
+import {toMinuteSeconds} from '../../service/time-display.service';
+import {styles} from './styles';
+import {View} from 'react-native';
 
-type Props = {
-  route: any;
-};
-
-const StoryListPage = ({route}: Props): JSX.Element => {
+const StoryListPage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
   const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
-  const navigation = useNavigation<BasicNavigationProps>();
 
   const [selectedTagKey, setSelectedTagKey] = useState<string>('');
 
@@ -37,6 +33,15 @@ const StoryListPage = ({route}: Props): JSX.Element => {
       story.tags.some(tag => tag.key === selectedTagKey),
   });
 
+  const storyList = stories.map(story => {
+    if (story.audios[0] !== undefined) {
+      const audioSound = new Sound(story.audios[0], undefined, () => {
+        story.recordingTime = toMinuteSeconds(audioSound.getDuration());
+      });
+    }
+    return story;
+  });
+
   return (
     <LoadingContainer isLoading={isLoading}>
       <NoOutLineFullScreenContainer>
@@ -46,8 +51,8 @@ const StoryListPage = ({route}: Props): JSX.Element => {
           tags={tags}
           onSelect={setSelectedTagKey}
         />
-        <Divider />
-        <ScrollingStoryList stories={stories} />
+        <View style={styles.customDivider} />
+        <ScrollingStoryList stories={storyList} />
       </NoOutLineFullScreenContainer>
     </LoadingContainer>
   );

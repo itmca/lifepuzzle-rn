@@ -6,9 +6,10 @@ import StoryViewNavigator from '../../navigation/no-tab/StoryViewNavigator';
 import {useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {StoryType} from '../../types/story.type';
-import {getStoryDisplayTagsDate} from '../../service/story-display.service';
+import {getStoryDisplayDate} from '../../service/story-display.service';
 import Text, {SmallText, XSmallText} from '../styled/components/Text';
-import Image, {SmallImage} from '../styled/components/Image';
+import Image, {Photo, SmallImage} from '../styled/components/Image';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 
 type props = {
   story: StoryType;
@@ -23,57 +24,103 @@ const StoryItem = ({story}: props): JSX.Element => {
     navigation.navigate('NoTab', StoryViewNavigator);
   };
 
+  const isPhoto = story.photos.length ? true : false;
+  const isAudio = story.audios.length ? true : false;
+
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
         moveToStoryDetailPage(story.id);
       }}>
-      <View style={styles.thumbnailListItemContainer}>
+      {!isPhoto && !isAudio ? (
         <View
           style={{
-            width:
-              story.photos.length > 0 || story.audios.length > 0
-                ? '60%'
-                : '100%',
+            padding: 16,
+            borderWidth: 1,
+            borderColor: '#EBEBEB',
+            borderRadius: 6,
           }}>
-          <XSmallText color={'#A9A9A9'} style={{marginBottom: 8}}>
-            {getStoryDisplayTagsDate(story)}
-          </XSmallText>
-          <Text style={styles.listTitle} numberOfLines={1} ellipsizeMode="tail">
-            {story.title}
+          <HorizontalContentContainer alignItems={'center'}>
+            <Text
+              style={{...styles.listTitle, marginBottom: 8}}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {story.title}
+            </Text>
+          </HorizontalContentContainer>
+          <Text style={styles.questionText}>
+            👍 추천질문이 들어오는 영역입니다.
           </Text>
           <Text
-            style={styles.description}
+            style={styles.onlyTextContent}
             numberOfLines={2}
             ellipsizeMode="tail">
             {story.content}
           </Text>
+          <Text style={styles.dateTitle}>
+            {getStoryDisplayDate(story.date)}
+          </Text>
         </View>
-        <View style={styles.thumbnailItemContainer}>
-          {story.audios.length > 0 && (
-            <Image
-              backgroundColor="#d9d9d9"
-              resizeMode="cover"
-              source={{
-                uri: story.photos.length > 0 ? story.photos[0] : null,
-              }}
-            />
-          )}
-          {story.audios.length > 0 && (
+      ) : (
+        <View style={styles.thumbnailListItemContainer}>
+          <View style={styles.thumbnailItemContainer}>
             <View style={styles.thumbnailRecordItemContainer}>
-              <View style={styles.recordIconContainer}>
-                <Image
-                  width={30}
-                  height={30}
-                  source={require('../../assets/images/record-icon.png')}
+              {isPhoto && (
+                <Photo
+                  backgroundColor="#d9d9d9"
+                  borderTopLeftRadius={6}
+                  borderTopRightRadius={6}
+                  resizeMode="cover"
+                  source={{
+                    uri: story.photos.length > 0 ? story.photos[0] : null,
+                  }}
                 />
-                <SmallText color={'#FFFFFF'}>00:00</SmallText>
-              </View>
+              )}
+              {isAudio && (
+                <View
+                  style={
+                    isPhoto
+                      ? styles.dissolveView
+                      : styles.thumbnailRecordItemContainer
+                  }>
+                  <Image
+                    width={30}
+                    height={30}
+                    source={require('../../assets/images/recording-icon.png')}
+                  />
+                  <Text style={styles.thumbnailRecordText}>
+                    음성녹음 {story.recordingTime}
+                  </Text>
+                </View>
+              )}
             </View>
-          )}
+          </View>
+          <View
+            style={{
+              padding: 16,
+              gap: 8,
+            }}>
+            <HorizontalContentContainer alignItems={'center'}>
+              <Text
+                style={styles.listTitle}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {story.title}
+              </Text>
+              <Text style={styles.dateTitle}>
+                {getStoryDisplayDate(story.date)}
+              </Text>
+            </HorizontalContentContainer>
+            <Text
+              style={styles.description}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {story.content}
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
     </TouchableOpacity>
   );
 };

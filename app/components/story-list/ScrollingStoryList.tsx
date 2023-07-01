@@ -33,7 +33,12 @@ const ScrollingStoryList = ({stories}: Props): JSX.Element => {
         ref={scrollRef}
         onScroll={handleScroll}
         scrollEventThrottle={100}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingVertical: 16,
+          paddingHorizontal: 16,
+          gap: 16,
+        }}>
         {stories.map((story: StoryType) => (
           <StoryItem key={story.id} story={story} />
         ))}

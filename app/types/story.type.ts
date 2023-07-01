@@ -8,6 +8,7 @@ export type StoryType = {
   tags: StoryTag[];
   date: Date;
   createdAt: Date;
+  recordingTime?: string;
 };
 
 export type StoryTag = {

@@ -1,19 +1,20 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  coloredButtonContainer: {
-    flexDirection: 'row',
+  loginButton: {
+    width: 128,
     height: 48,
-    backgroundColor: '#343666',
-    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#F9F9F9',
+    borderWidth: 1,
+    borderColor: '#EBEBEB',
     borderRadius: 4,
+    marginLeft: 'auto',
+    marginRight: 32,
   },
-  coloredButtonFont: {
-    fontFamily: 'Pretendard Regular',
-    fontWeight: 'bold',
+  loginText: {
     fontSize: 16,
-    color: '#FFFFFF',
+    fontWeight: '600',
   },
 });

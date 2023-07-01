@@ -6,7 +6,7 @@ export const getStoryDisplayTagsDate = (story: StoryType) => {
   )}`;
 };
 
-const getStoryDisplayDate = (date: Date) => {
+export const getStoryDisplayDate = (date: Date) => {
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 };
 
