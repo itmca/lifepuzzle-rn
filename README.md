@@ -45,8 +45,10 @@ Format: `Major.Minor.Patch`
 
 ### Branch Name, Commit Msg Format
 
-- Branch Name: `<type>/<subject>`
-- Commit Msg: `<type>: <subject>`
+- Branch Name: `<type>/<ticket no>-<subject>`
+  - 예시: feat/LP-1-foo
+- Commit Msg: `[<ticket no>] <type>: <subject>`
+  - 예시: [LP-0] feat: foo
 
 type 설명
 
