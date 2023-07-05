@@ -62,9 +62,9 @@ const addStoryinfoInFormData = function (
 ) {
   const stroyInfo = {
     heroNo: writingStory?.heroNo,
-    recQuestionNo: writingStory?.recQuestionNo,
-    recQuestionModified: writingStory?.recQuestionModified,
-    helpQuestionText: writingStory?.helpQuestionText,
+    recQuestionNo: writingStory?.recQuestionNo ?? -1,
+    recQuestionModified: writingStory?.recQuestionModified ?? false,
+    helpQuestionText: writingStory?.helpQuestionText ?? '',
     date: writingStory?.date,
     title: writingStory?.title,
     storyText: writingStory?.storyText,

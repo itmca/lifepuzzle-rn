@@ -52,7 +52,7 @@ const ScrollingStoryList = ({stories}: Props): JSX.Element => {
           navigation.push('NoTab', {
             screen: 'PuzzleWritingNavigator',
             params: {
-              screen: 'PuzzleWritingDate',
+              screen: 'PuzzleWritingQuestion',
             },
           })
         }

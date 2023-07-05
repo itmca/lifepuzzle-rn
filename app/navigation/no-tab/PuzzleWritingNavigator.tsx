@@ -15,7 +15,7 @@ import PuzzleWritingQuestionPage from '../../pages/PuzzleWritingQuestion/PuzzleW
 
 export type PuzzleWritingParamList = {
   PuzzleWritingDate: undefined;
-
+  PuzzleWritingQuestion: undefined;
   PuzzleWritingPhoto: undefined;
   PuzzleWritingText: undefined;
   PuzzleSelectingPhoto: undefined;
@@ -41,6 +41,21 @@ const PuzzleWritingNavigator = (): JSX.Element => {
             <WritingHeaderRight
               text="다음"
               nextScreenName="PuzzleWritingPhoto"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="PuzzleWritingQuestion"
+        component={PuzzleWritingQuestionPage}
+        options={{
+          headerLeft: () => <WritingHeaderLeft type="before" />,
+          headerTitle: () => <Title>조각 맞추기</Title>,
+          headerBackVisible: false,
+          headerRight: () => (
+            <WritingHeaderRight
+              text="다음"
+              nextScreenName="PuzzleWritingText"
             />
           ),
         }}
