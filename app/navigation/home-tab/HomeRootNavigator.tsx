@@ -25,10 +25,7 @@ const HomeTabNavigator = (): JSX.Element => {
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen
-        name="Home"
-        component={isLoggedIn ? StoryListPage : HomePage}
-      />
+      <Stack.Screen name="Home" component={StoryListPage} />
       <Stack.Screen
         name="PuzzleWritingQuestion"
         component={PuzzleWritingQuestionPage}

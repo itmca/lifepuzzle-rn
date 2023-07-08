@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ScrollingStoryList from '../../components/story-list/ScrollingStoryList';
 import HeroStoryOverview from '../../components/story-list/HeroStoryOverview';
-import {Divider} from 'react-native-paper';
 import {useRecoilValue} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
@@ -27,7 +26,7 @@ const StoryListPage = (): JSX.Element => {
     setSelectedTagKey(FILTER_KEY_ALL);
   }, [hero.heroNo, heroUpdateObserver, storyListUpdateObserver]);
 
-  const {stories, tags, totalStoryCount, isLoading} = useStories({
+  const {stories, tags, isLoading} = useStories({
     storyFilter: story =>
       selectedTagKey === FILTER_KEY_ALL ||
       story.tags.some(tag => tag.key === selectedTagKey),
@@ -47,7 +46,6 @@ const StoryListPage = (): JSX.Element => {
       <NoOutLineFullScreenContainer>
         <HeroStoryOverview
           hero={hero}
-          storyCount={totalStoryCount}
           tags={tags}
           onSelect={setSelectedTagKey}
         />

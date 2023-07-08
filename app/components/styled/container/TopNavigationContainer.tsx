@@ -2,6 +2,8 @@ import styled, {css} from 'styled-components/native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {Platform} from 'react-native';
 
+const statusBarHeight = getStatusBarHeight();
+
 export const TopNavigationContainer = styled.View`
   width: 100%;
   height: 50px;
@@ -13,9 +15,9 @@ export const TopNavigationContainer = styled.View`
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
 
-  ${Platform.select({
-    ios: css`
-      ${getStatusBarHeight()}px
-    `,
-  })};
+  ${Platform.OS === 'ios'
+    ? css`
+        margin-top: ${statusBarHeight}px;
+      `
+    : ''}
 `;

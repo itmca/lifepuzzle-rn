@@ -14,6 +14,7 @@ export default StyleSheet.create({
     marginRight: 32,
   },
   loginText: {
+    color: 'white',
     fontSize: 16,
     fontWeight: '600',
   },
