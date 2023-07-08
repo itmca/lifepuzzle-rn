@@ -23,4 +23,13 @@ export const styles = StyleSheet.create({
     backgroundColor: '#E6E6E6',
     alignSelf: 'center',
   },
+  storyAudioIcon: {
+    flexDirection: 'row',
+    backgroundColor: '#F6F6F6',
+    borderRadius: 8,
+    width: 68,
+    height: 27,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
 });
