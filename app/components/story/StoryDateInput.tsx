@@ -9,6 +9,7 @@ import React, {useState} from 'react';
 import RNDateTimePicker from 'react-native-modal-datetime-picker';
 import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
 import {XSmallText} from '../styled/components/Text';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 
 function StoryDateInput({...props}) {
   const [visible, setVisible] = useState(false);
@@ -20,12 +21,13 @@ function StoryDateInput({...props}) {
   };
   const formatDate = (date: Date) => {
     if (date) {
+      const year = date.getFullYear().toString().substring(2);
       const month =
         date.getMonth() + 1 < 10
           ? '0' + (date.getMonth() + 1)
           : date.getMonth() + 1;
       const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      return `${date.getFullYear()}.${month}.${day}`;
+      return `${year}.${month}.${day}`;
     }
   };
   const onDatePick = (selectedValue: Date) => {
@@ -53,7 +55,7 @@ function StoryDateInput({...props}) {
           justifyContent: 'center',
           alignItems: 'flex-start',
         }}>
-        <View flexDirection={'row'}>
+        <HorizontalContentContainer>
           <MaterialCommunityIcon
             name="calendar"
             size={14}
@@ -61,7 +63,7 @@ function StoryDateInput({...props}) {
             color={'white'}
           />
           <XSmallText color={'white'}> {formatDate(date)}</XSmallText>
-        </View>
+        </HorizontalContentContainer>
       </TouchableOpacity>
       <RNDateTimePicker
         isVisible={visible}

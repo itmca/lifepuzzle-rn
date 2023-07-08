@@ -17,8 +17,8 @@ export default StyleSheet.create({
   helpQuestionContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginBottom: 5,
+    alignContent: 'flex-end',
+    alignItems: 'center',
     marginLeft: 5,
   },
   helpQuestionText: {
@@ -31,7 +31,6 @@ export default StyleSheet.create({
     height: 40,
     width: '100%',
     justifyContent: 'center',
-    backgroundColor: '#ffffff',
   },
   contentInput: {
     height: '100%',

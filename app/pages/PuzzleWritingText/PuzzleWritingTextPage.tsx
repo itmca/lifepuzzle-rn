@@ -45,8 +45,9 @@ const PuzzleWritingTextPage = (): JSX.Element => {
     <NoOutLineFullScreenContainer>
       <ScreenContainer style={styles.screenTopContainer}>
         <StoryDateInput date={new Date()} onChange={setStoryDate} />
+        <View flex={1.5}></View>
         <View style={styles.helpQuestionContainer}>
-          <Text style={styles.helpQuestionText}>이번주 추천질문</Text>
+          <Text style={styles.helpQuestionText}>이번달 추천질문</Text>
           <SmallText style={styles.helpQuestionText}> 더보기</SmallText>
         </View>
       </ScreenContainer>

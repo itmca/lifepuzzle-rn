@@ -39,7 +39,7 @@ function Input({...props}) {
       outline: '#D9D9D9',
       onSurface: 'black', //underline, textColor
       surfaceVariant: 'transparent', //underlineBackground
-      background: isFocused == true ? '#F7FDFF' : 'transparent',
+      background: isFocused == true ? '#F7FDFF' : '#FFFFFF',
     },
     fonts: {
       fontFamily: 'Pretendard Regular',
