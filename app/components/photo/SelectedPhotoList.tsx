@@ -6,41 +6,28 @@ import {MediaInfo} from '../../types/writing-story.type';
 import {usePhotos} from '../../service/hooks/photo.hook';
 
 type SelectedPhotoProps = {
-  width?: number;
-  height?: number;
+  target?: 'photo' | 'video';
+  size?: number;
   photoList?: MediaInfo[];
 };
 
 const SelectedPhotoList = ({
-  width,
-  height,
+  target = 'photo',
+  size,
   photoList,
 }: SelectedPhotoProps): JSX.Element => {
   const {openGallery} = usePhotos({
-    target: 'photo',
+    target: target,
   });
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-      }}>
-      {photoList?.map((photo, index) => {
-        return (
-          <Image
-            key={index}
-            style={{width: width, height: height, margin: 5, borderRadius: 8}}
-            source={{uri: photo.uri}}
-          />
-        );
-      })}
+    <ScrollView horizontal={true}>
       <TouchableOpacity
         onPress={() => {
           void openGallery();
         }}
         style={{
-          width: width,
-          height: height,
+          width: size,
+          height: size,
           margin: 5,
           borderRadius: 8,
           borderWidth: 1,
@@ -65,6 +52,18 @@ const SelectedPhotoList = ({
             justifyContent: 'center',
           }}></View>
       </TouchableOpacity>
+
+      {photoList?.map((photo, index) => {
+        return (
+          <View>
+            <Image
+              key={index}
+              style={{width: size, height: size, margin: 5, borderRadius: 8}}
+              source={{uri: photo.uri}}
+            />
+          </View>
+        );
+      })}
     </ScrollView>
   );
 };

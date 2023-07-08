@@ -1,7 +1,10 @@
 import {useEffect, useState} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
+import {
+  selectedPhotoState,
+  selectedVideoState,
+} from '../../recoils/selected-photo.recoil';
 import {usePhotoPermission} from './permission.hook';
 import {MediaInfo} from '../../types/writing-story.type';
 
@@ -20,7 +23,10 @@ export const usePhotos = ({
   initialSize = 20,
   nextSize = 20,
 }: Props): Response => {
-  const setSelectedPhotoList = useSetRecoilState(selectedPhotoState);
+  const setSelectedList =
+    target == 'photo'
+      ? useSetRecoilState(selectedPhotoState)
+      : useSetRecoilState(selectedVideoState);
   useEffect(() => {
     //setSelectedPhotoList([]);
   }, []);
@@ -30,7 +36,7 @@ export const usePhotos = ({
       multiple: true,
       mediaType: target,
     });
-    const selectedPhotoList: MediaInfo[] = [];
+    const selectedList: MediaInfo[] = [];
     result.forEach(item => {
       const uri = item.path;
       const fileName = uri?.split('/').pop();
@@ -46,9 +52,9 @@ export const usePhotos = ({
         playableDuration: 0,
         orientation: null,
       };
-      selectedPhotoList.push(file);
+      selectedList.push(file);
     });
-    setSelectedPhotoList(selectedPhotoList);
+    setSelectedList(selectedList);
   };
 
   return {openGallery};

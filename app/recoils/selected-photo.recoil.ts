@@ -16,3 +16,16 @@ export const mainSelectedPhotoState = selector({
     return list[list.length - 1];
   },
 });
+export const selectedVideoState = atom<MediaInfo[]>({
+  key: 'selectedVideoState',
+  default: [],
+});
+
+export const mainSelectedVideoState = selector({
+  key: 'mainSelectedVideoState',
+  get: ({get}) => {
+    const list = get(selectedPhotoState);
+
+    return list[list.length - 1];
+  },
+});
