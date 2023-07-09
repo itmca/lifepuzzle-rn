@@ -2,30 +2,36 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
-import StoryViewNavigator from '../../navigation/no-tab/StoryViewNavigator';
 import {useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {StoryType} from '../../types/story.type';
 import {getStoryDisplayDate} from '../../service/story-display.service';
-import Text, {SmallText, XSmallText} from '../styled/components/Text';
-import Image, {Photo, SmallImage} from '../styled/components/Image';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import Text from '../styled/components/Text';
+import Image, {Photo} from '../styled/components/Image';
+import {BasicNavigationProps} from '../../navigation/types';
 
 type props = {
   story: StoryType;
 };
 
 const StoryItem = ({story}: props): JSX.Element => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const storyId = useSetRecoilState(SelectedStoryKeyState);
 
   const moveToStoryDetailPage = (id: StoryType['id']) => {
     storyId(id);
-    navigation.navigate('NoTab', StoryViewNavigator);
+    navigation.push('NoTab', {
+      screen: 'StoryViewNavigator',
+      params: {
+        screen: 'StoryDetail',
+      },
+    });
   };
 
   const isPhoto = story.photos.length ? true : false;
   const isAudio = story.audios.length ? true : false;
+  const isOnlyText = !isPhoto && !isAudio ? true : false;
+  const date = getStoryDisplayDate(story.date);
 
   return (
     <TouchableOpacity
@@ -33,49 +39,53 @@ const StoryItem = ({story}: props): JSX.Element => {
       onPress={() => {
         moveToStoryDetailPage(story.id);
       }}>
-      {!isPhoto && !isAudio ? (
-        <View
-          style={{
-            padding: 16,
-            borderWidth: 1,
-            borderColor: '#EBEBEB',
-            borderRadius: 6,
-          }}>
-          <HorizontalContentContainer alignItems={'center'}>
-            <Text
-              style={{...styles.listTitle, marginBottom: 8}}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {story.title}
-            </Text>
-          </HorizontalContentContainer>
-          <Text style={styles.questionText}>
-            👍 추천질문이 들어오는 영역입니다.
+      {isOnlyText ? (
+        <View style={styles.onlyTextItemContainer}>
+          <Text
+            style={{...styles.itemTitle, marginBottom: 8}}
+            numberOfLines={1}
+            ellipsizeMode="tail">
+            {story.title}
           </Text>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={require('../../assets/images/thumb-up-iso-color.png')}
+              style={styles.thumbUpIcon}
+            />
+            <Text style={styles.questionText}>
+              추천질문이 들어오는 영역입니다.
+            </Text>
+          </View>
           <Text
             style={styles.onlyTextContent}
             numberOfLines={2}
             ellipsizeMode="tail">
             {story.content}
           </Text>
-          <Text style={styles.dateTitle}>
-            {getStoryDisplayDate(story.date)}
-          </Text>
+          <Text style={styles.date}>{date}</Text>
         </View>
       ) : (
         <View style={styles.thumbnailListItemContainer}>
           <View style={styles.thumbnailItemContainer}>
             <View style={styles.thumbnailRecordItemContainer}>
+              <Text style={styles.dateOnThumbnail}>{date}</Text>
               {isPhoto && (
-                <Photo
-                  backgroundColor="#d9d9d9"
-                  borderTopLeftRadius={6}
-                  borderTopRightRadius={6}
-                  resizeMode="cover"
-                  source={{
-                    uri: story.photos.length > 0 ? story.photos[0] : null,
-                  }}
-                />
+                <>
+                  <Photo
+                    backgroundColor="#d9d9d9"
+                    borderTopLeftRadius={6}
+                    borderTopRightRadius={6}
+                    resizeMode="cover"
+                    source={{
+                      uri: story.photos.length > 0 ? story.photos[0] : null,
+                    }}
+                  />
+                  <View style={styles.textOnThumbnail}>
+                    <Text style={styles.questionTextOnTumbnail}>
+                      추천질문이 들어오는 영역입니다.
+                    </Text>
+                  </View>
+                </>
               )}
               {isAudio && (
                 <View
@@ -84,40 +94,40 @@ const StoryItem = ({story}: props): JSX.Element => {
                       ? styles.dissolveView
                       : styles.thumbnailRecordItemContainer
                   }>
-                  <Image
-                    width={30}
-                    height={30}
-                    source={require('../../assets/images/recording-icon.png')}
-                  />
-                  <Text style={styles.thumbnailRecordText}>
-                    음성녹음 {story.recordingTime}
-                  </Text>
+                  <View style={styles.textOnThumbnail}>
+                    <Text style={styles.recordText}>
+                      음성녹음 {story.recordingTime}
+                    </Text>
+                    <Text style={styles.questionTextOnTumbnail}>
+                      추천질문이 들어오는 영역입니다.
+                    </Text>
+                  </View>
                 </View>
               )}
             </View>
           </View>
-          <View
-            style={{
-              padding: 16,
-              gap: 8,
-            }}>
-            <HorizontalContentContainer alignItems={'center'}>
-              <Text
-                style={styles.listTitle}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                {story.title}
-              </Text>
-              <Text style={styles.dateTitle}>
-                {getStoryDisplayDate(story.date)}
-              </Text>
-            </HorizontalContentContainer>
+          <View style={styles.contentsContainer}>
+            <Text
+              style={styles.itemTitle}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {story.title}
+            </Text>
             <Text
               style={styles.description}
               numberOfLines={1}
               ellipsizeMode="tail">
               {story.content}
             </Text>
+            {isAudio && (
+              <View style={styles.recordIconContainer}>
+                <Image
+                  width={27}
+                  height={27}
+                  source={require('../../assets/images/recording-icon.png')}
+                />
+              </View>
+            )}
           </View>
         </View>
       )}

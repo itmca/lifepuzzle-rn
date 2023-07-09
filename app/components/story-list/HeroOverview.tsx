@@ -26,8 +26,7 @@ const HeroOverview = ({hero}: Props): JSX.Element => {
         <View
           style={{
             width: '100%',
-            flexDirection: 'row',
-            alignItems: 'center',
+            gap: 10,
           }}>
           <Text style={styles.titleText}>
             우리, 한조각씩 {'\n'}

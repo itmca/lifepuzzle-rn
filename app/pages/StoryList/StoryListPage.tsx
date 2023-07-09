@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import ScrollingStoryList from '../../components/story-list/ScrollingStoryList';
+import React, {useEffect, useRef, useState} from 'react';
+import StoryList from '../../components/story-list/StoryList';
 import HeroStoryOverview from '../../components/story-list/HeroStoryOverview';
-import {Divider} from 'react-native-paper';
 import {useRecoilValue} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
@@ -14,7 +13,16 @@ import {NoOutLineFullScreenContainer} from '../../components/styled/container/Sc
 import Sound from 'react-native-sound';
 import {toMinuteSeconds} from '../../service/time-display.service';
 import {styles} from './styles';
-import {View} from 'react-native';
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  View,
+} from 'react-native';
+import {GoToTopButton} from '../../components/button/GoToTopButton';
+import {WritingButton} from '../../components/button/WritingButton';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
 
 const StoryListPage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
@@ -27,7 +35,7 @@ const StoryListPage = (): JSX.Element => {
     setSelectedTagKey(FILTER_KEY_ALL);
   }, [hero.heroNo, heroUpdateObserver, storyListUpdateObserver]);
 
-  const {stories, tags, totalStoryCount, isLoading} = useStories({
+  const {stories, tags, isLoading} = useStories({
     storyFilter: story =>
       selectedTagKey === FILTER_KEY_ALL ||
       story.tags.some(tag => tag.key === selectedTagKey),
@@ -42,17 +50,46 @@ const StoryListPage = (): JSX.Element => {
     return story;
   });
 
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  const scrollRef = useRef<ScrollView>(null);
+  const [scrollPositionY, setScrollPositionY] = useState<number>(0);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const positionY = event.nativeEvent.contentOffset.y;
+    setScrollPositionY(positionY);
+  };
+
   return (
     <LoadingContainer isLoading={isLoading}>
       <NoOutLineFullScreenContainer>
-        <HeroStoryOverview
-          hero={hero}
-          storyCount={totalStoryCount}
-          tags={tags}
-          onSelect={setSelectedTagKey}
+        <ScrollView
+          ref={scrollRef}
+          onScroll={handleScroll}
+          scrollEventThrottle={100}
+          showsVerticalScrollIndicator={false}>
+          <HeroStoryOverview
+            hero={hero}
+            tags={tags}
+            onSelect={setSelectedTagKey}
+          />
+          <View style={styles.customDivider} />
+          <StoryList stories={storyList} />
+        </ScrollView>
+        <GoToTopButton
+          visible={scrollPositionY > 10}
+          onPress={() => scrollRef.current?.scrollTo({y: 0})}
         />
-        <View style={styles.customDivider} />
-        <ScrollingStoryList stories={storyList} />
+        <WritingButton
+          onPress={() =>
+            navigation.push('NoTab', {
+              screen: 'PuzzleWritingNavigator',
+              params: {
+                screen: 'PuzzleWritingQuestion',
+              },
+            })
+          }
+        />
       </NoOutLineFullScreenContainer>
     </LoadingContainer>
   );

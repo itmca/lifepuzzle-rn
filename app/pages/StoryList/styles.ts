@@ -7,10 +7,19 @@ export const styles = StyleSheet.create({
     paddingBottom: 8,
     marginTop: 24,
   },
-  scrollViewContainer: {
+  storyListContainer: {
     flex: 1,
     backgroundColor: '#FFFFFF',
     height: '100%',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    gap: 16,
+  },
+  storyListTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    marginTop: 8,
+    marginLeft: 5,
   },
   floatingBtBox: {
     width: 48,

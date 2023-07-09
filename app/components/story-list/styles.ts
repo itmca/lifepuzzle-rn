@@ -5,9 +5,15 @@ export const styles = StyleSheet.create({
     width: '100%',
     position: 'relative',
   },
+  onlyTextItemContainer: {
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#EBEBEB',
+    borderRadius: 6,
+  },
   thumbnailListItemContainer: {
     display: 'flex',
-    height: 240,
+    height: 249,
     borderWidth: 1,
     borderColor: '#EBEBEB',
     borderRadius: 6,
@@ -25,8 +31,14 @@ export const styles = StyleSheet.create({
   },
   recordIconContainer: {
     position: 'absolute',
+    zIndex: 1000,
+    backgroundColor: '#32C5FF',
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 16,
+    borderRadius: 50,
+    right: 16,
   },
   thumbnailRecordItemContainer: {
     position: 'absolute',
@@ -34,34 +46,52 @@ export const styles = StyleSheet.create({
     height: 160,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    backgroundColor: 'rgb(203 192 250)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#32C5FF',
   },
-  thumbnailRecordText: {
-    fontSize: 16,
-    color: '#FFFFFF',
+  recordText: {
+    color: 'white',
+    opacity: 0.8,
+    fontSize: 12,
     fontWeight: '500',
-    marginTop: 6,
+  },
+  questionTextOnTumbnail: {
+    fontWeight: '600',
+    fontSize: 14,
+    color: 'white',
+  },
+  textOnThumbnail: {
+    position: 'absolute',
+    left: 16,
+    bottom: 13,
+    gap: 5,
   },
   textBox: {
     textAlign: 'left',
     maxWidth: '100%',
   },
-  listTitle: {
-    width: '65%',
+  itemTitle: {
+    width: '75%',
     fontSize: 16,
     fontWeight: '600',
     color: '#333333',
   },
-  dateTitle: {
+  date: {
     color: '#A9A9A9',
     fontSize: 12,
     marginLeft: 'auto',
   },
+  dateOnThumbnail: {
+    position: 'absolute',
+    zIndex: 1000,
+    right: 18,
+    top: 14,
+    color: 'white',
+    opacity: 0.8,
+    fontSize: 12,
+  },
   description: {
+    width: '75%',
     fontSize: 16,
-    lineHeight: 20,
     fontWeight: '400',
     color: '#A9A9A9',
   },
@@ -89,10 +119,11 @@ export const styles = StyleSheet.create({
   micIconBox: {},
   profileContainer: {
     flexDirection: 'row',
-    height: 140,
     width: '100%',
     alignItems: 'center',
     padding: 16,
+    paddingTop: 40,
+    paddingBottom: 40,
   },
   titleText: {
     fontWeight: '600',
@@ -166,5 +197,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(51, 51, 51, 0.8)',
+  },
+  thumbUpIcon: {
+    width: 20,
+    height: 20,
+    opacity: 0.5,
+    marginRight: 5,
+  },
+  contentsContainer: {
+    height: 89,
+    paddingLeft: 16,
+    justifyContent: 'center',
+    gap: 8,
   },
 });

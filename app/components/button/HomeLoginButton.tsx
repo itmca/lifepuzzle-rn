@@ -4,13 +4,13 @@ import Text from '../styled/components/Text';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
+import {LargeButton} from '../styled/components/Button';
 
 export const HomeLoginButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   return (
-    <TouchableOpacity
-      style={styles.loginButton}
+    <LargeButton
       onPress={() => {
         navigation.push('NoTab', {
           screen: 'LoginRegisterNavigator',
@@ -20,6 +20,6 @@ export const HomeLoginButton = (): JSX.Element => {
         });
       }}>
       <Text style={styles.loginText}>로그인 하러가기</Text>
-    </TouchableOpacity>
+    </LargeButton>
   );
 };
