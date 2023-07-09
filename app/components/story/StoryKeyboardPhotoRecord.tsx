@@ -1,45 +1,34 @@
-import {Avatar, Button} from 'react-native-paper';
+import {Avatar, Button, List} from 'react-native-paper';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {SmallText, XSmallText} from '../styled/components/Text';
-import {View} from 'react-native';
-import Image, {LargeImage, Photo, SmallImage} from '../styled/components/Image';
+import {I18nManager, View} from 'react-native';
+import SelectedPhotoList from '../photo/SelectedPhotoList';
+import {useRecoilValue} from 'recoil';
+import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
+import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
 
-import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
-import {usePhotos} from '../../service/hooks/photo.hook';
-
-const PhotoSelectPageLink = (): JSX.Element => {
-  const {openGallery} = usePhotos({
-    target: 'photo',
-  });
-
-  return (
-    <Button
-      onPress={() => {
-        void openGallery();
-      }}
-      style={{
-        height: '100%',
-        justifyContent: 'center',
-      }}>
-      <SmallImage
-        width={17.5}
-        height={16}
-        style={{tintColor: 'gray'}}
-        source={require('../../assets/images/add_a_photo.png')}
-      />
-      <SmallText style={{color: 'gray'}}> 사진 추가</SmallText>
-    </Button>
-  );
-};
 export const StoryKeyboardPhotoRecord = (): JSX.Element => {
+  const selectedPhotoList = useRecoilValue(selectedPhotoState);
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-      }}>
-      <PhotoSelectPageLink />
-    </View>
+    <List.Accordion
+      title={'사진 업로드 (선택)'}
+      right={props => (
+        <View style={{backgroundColor: '#F6F6F6', borderRadius: 30}}>
+          <MaterialCommunityIcon
+            name={props.isExpanded ? 'chevron-up' : 'chevron-down'}
+            size={24}
+            direction={I18nManager.getConstants().isRTL ? 'rtl' : 'ltr'}
+          />
+        </View>
+      )}>
+      <List.Item
+        title={
+          <SelectedPhotoList
+            target={'photo'}
+            size={80}
+            photoList={selectedPhotoList}
+          />
+        }
+      />
+    </List.Accordion>
   );
 };

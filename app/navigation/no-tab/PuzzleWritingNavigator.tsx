@@ -79,8 +79,19 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         name="PuzzleWritingText"
         component={PuzzleWritingTextPage}
         options={{
+          headerLeft: () => <WritingHeaderLeft type="before" />,
+          headerTitle: () => <Title>글작성</Title>,
+          headerRight: () => (
+            <LoadingContainer isLoading={isLoading}>
+              <WritingHeaderRight
+                text="등록"
+                customAction={() => {
+                  saveStory();
+                }}
+              />
+            </LoadingContainer>
+          ),
           headerBackVisible: false,
-          headerShown: false,
         }}
       />
       <Stack.Screen

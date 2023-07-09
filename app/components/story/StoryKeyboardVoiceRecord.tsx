@@ -1,43 +1,12 @@
 import {View} from 'react-native';
-import {Avatar, Button} from 'react-native-paper';
-
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {Avatar, Button, List} from 'react-native-paper';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {SmallText, XSmallText} from '../styled/components/Text';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {recordFileState} from '../../recoils/story-writing.recoil';
 import {SmallImage} from '../styled/components/Image';
-
-const VoiceRecordPageLink = (): JSX.Element => {
-  const navigation = useNavigation();
-
-  return (
-    <Button
-      onPress={() => {
-        navigation.push('NoTab', {
-          screen: 'PuzzleWritingNavigator',
-          params: {
-            screen: 'PuzzleWritingVoice',
-          },
-        });
-      }}
-      style={{
-        height: '100%',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <SmallImage
-        width={14}
-        height={19}
-        style={{tintColor: 'gray'}}
-        source={require('../../assets/images/mic.png')}
-      />
-      <SmallText style={{color: 'gray'}}> 녹음 추가</SmallText>
-    </Button>
-  );
-};
+import {styles} from './styles';
 
 type VoiceRecordProps = {
   fileName: string;
@@ -51,34 +20,30 @@ const RecordedVoice = ({
   onDelete,
 }: VoiceRecordProps): JSX.Element => {
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
-      <View style={{flex: 1}}></View>
+    <View style={{flexDirection: 'row', width: '100%'}}>
+      <View style={styles.storyAudioIcon}>
+        <SmallImage
+          width={12}
+          height={18}
+          style={{tintColor: '#B4B3B3'}}
+          source={require('../../assets/images/mic.png')}
+        />
+        <XSmallText style={{fontSize: 7, color: '#B4B3B3'}}>
+          {recordTime}
+        </XSmallText>
+      </View>
       <View
         style={{
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 3,
-        }}>
-        <Avatar.Icon
-          style={{backgroundColor: 'black'}}
-          size={27}
-          icon="microphone"
-        />
-        <XSmallText style={{fontSize: 7}}>{fileName}</XSmallText>
-        <XSmallText style={{fontSize: 7}}>{recordTime}</XSmallText>
-      </View>
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <SmallText
-          onPress={onDelete}
-          style={{textAlign: 'right', marginTop: 0, fontSize: 7}}>
-          삭제하기
-        </SmallText>
-      </View>
+          backgroundColor: '#F6F6F6',
+          width: 24,
+          height: 24,
+          borderRadius: 30,
+        }}></View>
     </View>
   );
 };
 export const StoryKeyboardVoiceRecord = (): JSX.Element => {
+  const navigation = useNavigation();
   const recordFileInfo = useRecoilValue(recordFileState);
   const resetRecord = useResetRecoilState(recordFileState);
 
@@ -98,20 +63,30 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-      }}>
-      {hasRecordFile() ? (
-        <RecordedVoice
-          fileName={getFileName()}
-          recordTime={recordFileInfo?.recordTime || ''}
-          onDelete={resetRecord}
-        />
-      ) : (
-        <VoiceRecordPageLink />
-      )}
-    </View>
+    <List.Accordion
+      title={'음성 업로드 (선택)'}
+      right={props =>
+        hasRecordFile() ? (
+          <RecordedVoice
+            fileName={getFileName()}
+            recordTime={recordFileInfo?.recordTime || ''}
+            onDelete={resetRecord}
+          />
+        ) : (
+          <></>
+        )
+      }
+      onPress={props =>
+        hasRecordFile() ? (
+          <></>
+        ) : (
+          navigation.push('NoTab', {
+            screen: 'PuzzleWritingNavigator',
+            params: {
+              screen: 'PuzzleWritingVoice',
+            },
+          })
+        )
+      }></List.Accordion>
   );
 };
