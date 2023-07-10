@@ -1,8 +1,11 @@
 import type {CompositeScreenProps} from '@react-navigation/native';
 import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {RootStackParamList} from './RootNavigator';
-import {HomeTabParamList} from './home-tab/HomeTabRootNavigator';
-import {NativeStackNavigationProp, NativeStackScreenProps,} from '@react-navigation/native-stack';
+import {HomeTabParamList} from './home-tab/HomeRootNavigator';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {HeroSettingParamList} from './no-tab/HeroSettingNavigator';
 import {StoryViewParamList} from './no-tab/StoryViewNavigator';
 import {PuzzleWritingParamList} from './no-tab/PuzzleWritingNavigator';
@@ -13,7 +16,8 @@ import {PolicyParamList} from './no-tab/PolicyNavigator';
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
-export type BasicNavigationProps = NativeStackNavigationProp<RootStackParamList>;
+export type BasicNavigationProps =
+  NativeStackNavigationProp<RootStackParamList>;
 
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
   CompositeScreenProps<

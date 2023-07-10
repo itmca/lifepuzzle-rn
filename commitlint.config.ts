@@ -4,7 +4,7 @@ const Configuration: UserConfig = {
   extends: ['@commitlint/config-conventional'],
   parserPreset: {
     parserOpts: {
-      headerPattern: /^(\[\w*-\d*\]) (\w*)(\(\w*\))?: (.*)$/,
+      headerPattern: /^(\[\w*-\d*\] )?(\w*)(\(\w*\))?: (.*)$/,
       headerCorrespondence: ['ticket', 'type', 'scope', 'subject'],
     },
   },
