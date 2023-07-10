@@ -9,6 +9,7 @@ import {isLoggedInState} from '../../recoils/auth.recoil';
 import StoryListPage from '../../pages/StoryList/StoryListPage';
 import Title from '../../components/styled/components/Title';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import NavigationBar from '../../components/navigation/NavigationBar';
 
 export type HomeTabParamList = {
   Home: undefined;
@@ -19,12 +20,12 @@ export type HomeTabParamList = {
 const Stack = createNativeStackNavigator<HomeTabParamList>();
 
 const HomeTabNavigator = (): JSX.Element => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{
+        header: () => <NavigationBar />,
+      }}>
       <Stack.Screen name="Home" component={StoryListPage} />
       <Stack.Screen
         name="PuzzleWritingQuestion"

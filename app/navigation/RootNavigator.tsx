@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeTabParamList} from './home-tab/HomeTabRootNavigator';
+import {HomeTabParamList} from './home-tab/HomeRootNavigator';
 import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import NavigationBar from '../components/navigation/NavigationBar';
@@ -17,8 +17,7 @@ const RootNavigator = (): JSX.Element => {
   return (
     <Stack.Navigator
       screenOptions={{
-        header: () => <NavigationBar />,
-        headerBackVisible: false,
+        headerShown: false,
       }}>
       <Stack.Screen name="HomeTab" component={HomeTabNavigator} />
       <Stack.Screen name="NoTab" component={NoTabRootNavigator} />

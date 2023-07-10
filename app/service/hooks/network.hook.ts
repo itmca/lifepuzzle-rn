@@ -7,8 +7,8 @@ import {getTokenState} from '../auth.service';
 import {convertDateStringToDate} from '../json-convert.service';
 import {useRefreshAuthTokens} from './refresh.hook';
 import {useLogout} from './logout.hook';
-import {useLoginAlert} from './login.hook';
 import {AuthTokens} from '../../types/auth.type';
+import logger from '../../utils/logger';
 
 type Param<R> = {
   requestOption: AxiosRequestConfig;
@@ -84,6 +84,9 @@ export const useAxios = <R>({
 
     const url = axiosConfig.url || '';
     axiosConfig.url = url.startsWith('http') ? url : SERVER_HOST + url;
+
+    logger.debug(axiosConfig.url);
+    console.log('loglevel: ', logger.getLevel());
 
     setLoading(true);
 

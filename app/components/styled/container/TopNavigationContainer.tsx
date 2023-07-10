@@ -14,6 +14,7 @@ export const TopNavigationContainer = styled.View`
   padding-right: 16px;
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
+  background-color: #ffffff;
 
   ${Platform.OS === 'ios'
     ? css`

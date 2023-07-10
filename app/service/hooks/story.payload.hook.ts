@@ -65,7 +65,7 @@ const addStoryinfoInFormData = function (
     recQuestionNo: writingStory?.recQuestionNo ?? -1,
     recQuestionModified: writingStory?.recQuestionModified ?? false,
     helpQuestionText: writingStory?.helpQuestionText ?? '',
-    date: writingStory?.date,
+    date: writingStory?.date || new Date(),
     title: writingStory?.title,
     storyText: writingStory?.storyText,
   };
