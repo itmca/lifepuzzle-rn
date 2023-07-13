@@ -9,6 +9,8 @@ import {getStoryDisplayDate} from '../../service/story-display.service';
 import Text from '../styled/components/Text';
 import Image, {Photo} from '../styled/components/Image';
 import {BasicNavigationProps} from '../../navigation/types';
+import {ContentsOnThumbnail} from './StoryItemContentsOnThumbnail';
+import {Thumbnail} from './StoryItemThumbnail';
 
 type props = {
   story: StoryType;
@@ -66,46 +68,7 @@ const StoryItem = ({story}: props): JSX.Element => {
         </View>
       ) : (
         <View style={styles.thumbnailListItemContainer}>
-          <View style={styles.thumbnailItemContainer}>
-            <View style={styles.thumbnailRecordItemContainer}>
-              <Text style={styles.dateOnThumbnail}>{date}</Text>
-              {isPhoto && (
-                <>
-                  <Photo
-                    backgroundColor="#d9d9d9"
-                    borderTopLeftRadius={6}
-                    borderTopRightRadius={6}
-                    resizeMode="cover"
-                    source={{
-                      uri: story.photos.length > 0 ? story.photos[0] : null,
-                    }}
-                  />
-                  <View style={styles.textOnThumbnail}>
-                    <Text style={styles.questionTextOnTumbnail}>
-                      추천질문이 들어오는 영역입니다.
-                    </Text>
-                  </View>
-                </>
-              )}
-              {isAudio && (
-                <View
-                  style={
-                    isPhoto
-                      ? styles.dissolveView
-                      : styles.thumbnailRecordItemContainer
-                  }>
-                  <View style={styles.textOnThumbnail}>
-                    <Text style={styles.recordText}>
-                      음성녹음 {story.recordingTime}
-                    </Text>
-                    <Text style={styles.questionTextOnTumbnail}>
-                      추천질문이 들어오는 영역입니다.
-                    </Text>
-                  </View>
-                </View>
-              )}
-            </View>
-          </View>
+          <Thumbnail story={story} />
           <View style={styles.contentsContainer}>
             <Text
               style={styles.itemTitle}
@@ -119,15 +82,6 @@ const StoryItem = ({story}: props): JSX.Element => {
               ellipsizeMode="tail">
               {story.content}
             </Text>
-            {isAudio && (
-              <View style={styles.recordIconContainer}>
-                <Image
-                  width={27}
-                  height={27}
-                  source={require('../../assets/images/recording-icon.png')}
-                />
-              </View>
-            )}
           </View>
         </View>
       )}

@@ -5,6 +5,7 @@ export type StoryType = {
   content: string;
   photos: string[];
   audios: string[];
+  videos: string[];
   tags: StoryTag[];
   date: Date;
   createdAt: Date;

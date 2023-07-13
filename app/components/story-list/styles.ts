@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#FFFFFF',
   },
-  thumbnailItemContainer: {
+  thumbnailContainer: {
     width: '100%',
     height: 160,
     borderTopLeftRadius: 6,
@@ -29,16 +29,30 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  recordIconContainer: {
-    position: 'absolute',
-    zIndex: 1000,
-    backgroundColor: '#32C5FF',
-    width: 50,
-    height: 50,
+  recordIconBlueContainer: {
+    backgroundColor: '#EEEDED',
+    width: 16,
+    height: 16,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
-    right: 16,
+  },
+  recordIconGrayContainer: {
+    backgroundColor: '#333333',
+    width: 16,
+    height: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+  },
+  playIconContainer: {
+    backgroundColor: 'rgba(246, 246, 246, 1)',
+    width: 16,
+    height: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    paddingLeft: 1,
   },
   thumbnailRecordItemContainer: {
     position: 'absolute',
@@ -59,15 +73,18 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
   },
-  textOnThumbnail: {
-    position: 'absolute',
-    left: 16,
-    bottom: 13,
-    gap: 5,
+  questionTextWidthBgOnTumbnail: {
+    fontWeight: '600',
+    fontSize: 14,
+    color: 'white',
+    padding: 5,
+    backgroundColor: 'rgba(26, 26, 26, 0.9)',
   },
-  textBox: {
-    textAlign: 'left',
-    maxWidth: '100%',
+  contentsOnThumbnailContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    gap: 6,
   },
   itemTitle: {
     width: '75%',
@@ -95,28 +112,6 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#A9A9A9',
   },
-  thumbnailBox: {
-    flex: 0.3,
-    width: 94,
-    height: 94,
-  },
-  thumbnailImage: {
-    width: 94,
-    height: 94,
-    borderRadius: 10,
-  },
-  bottomRowBox: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  dateText: {
-    fontSize: 11,
-    color: '#979797',
-  },
-  micIconBox: {},
   profileContainer: {
     flexDirection: 'row',
     width: '100%',
@@ -130,27 +125,6 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     color: 'rgba(0, 0, 0, 1)',
     lineHeight: 37,
-  },
-  contentTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  profileImage: {
-    width: 68,
-    height: 68,
-    borderRadius: 50,
-  },
-  profileTitle: {
-    fontWeight: '500',
-    letterSpacing: 0.15,
-    marginTop: 10,
-    height: 20,
-    lineHeight: 20,
-  },
-  profileText: {
-    letterSpacing: 0.15,
-    height: 20,
-    lineHeight: 20,
   },
   chipContainer: {
     display: 'none',
@@ -169,11 +143,6 @@ export const styles = StyleSheet.create({
   chipText: {
     fontSize: 14,
     letterSpacing: 0.25,
-  },
-  heroAvatarIcon: {
-    marginLeft: 20,
-    marginRight: 20,
-    backgroundColor: '#A9A9A9',
   },
   questionText: {
     fontSize: 14,
@@ -209,5 +178,28 @@ export const styles = StyleSheet.create({
     paddingLeft: 16,
     justifyContent: 'center',
     gap: 8,
+  },
+  videoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+  },
+  contentsOnThumbnail: {
+    position: 'absolute',
+    left: 17,
+    bottom: 15,
+    gap: 5,
+  },
+  iconsOnThumbnail: {
+    flexDirection: 'row',
+    gap: 3,
+    marginBottom: 2,
   },
 });

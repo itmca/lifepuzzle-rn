@@ -23,7 +23,6 @@ import {GoToTopButton} from '../../components/button/GoToTopButton';
 import {WritingButton} from '../../components/button/WritingButton';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import VideoPlayer from '../../components/viedo/ViedoPlayer';
 
 const StoryListPage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
