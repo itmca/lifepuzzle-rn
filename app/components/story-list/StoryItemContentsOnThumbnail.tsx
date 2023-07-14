@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, TurboModuleRegistry} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {styles} from './styles';
 import Image from '../styled/components/Image';
@@ -13,12 +13,12 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
   const isAudio = story.audios.length ? true : false;
   const date = getStoryDisplayDate(story.date);
 
-  //TODO 하단 Flag API 반영 이후 적용
+  //TODO
   const isVideo = false;
   const isQuestion = true;
 
   return (
-    <View style={styles.contentsOnThumbnailContainer}>
+    <>
       <Text style={styles.dateOnThumbnail}>{date}</Text>
       <View style={styles.contentsOnThumbnail}>
         <View style={styles.iconsOnThumbnail}>
@@ -34,7 +34,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
           {isAudio && (
             <View
               style={
-                isAudio && !isPhoto && !isVideo
+                !isPhoto && !isVideo
                   ? styles.recordIconBlueContainer
                   : styles.recordIconGrayContainer
               }>
@@ -42,7 +42,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
                 width={6.67}
                 height={9}
                 source={
-                  isPhoto
+                  isPhoto || isVideo
                     ? require('../../assets/images/recording-icon.png')
                     : require('../../assets/images/recording-icon-blue.png')
                 }
@@ -53,17 +53,16 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
         {isAudio && (
           <Text style={styles.recordText}>음성녹음 {story.recordingTime}</Text>
         )}
-        {isQuestion && (
-          <Text
-            style={
-              !isAudio && isPhoto && !isVideo
-                ? styles.questionTextWidthBgOnTumbnail
-                : styles.questionTextOnTumbnail
-            }>
-            추천질문이 들어오는 영역입니다.
-          </Text>
-        )}
+        <Text
+          style={
+            !isAudio && isPhoto && !isVideo
+              ? styles.questionTextWidthBgOnTumbnail
+              : styles.questionTextOnTumbnail
+          }>
+          {isVideo ? '30:05   ' : ''}
+          {isQuestion ? '추천질문이 들어오는 영역입니다.' : ''}
+        </Text>
       </View>
-    </View>
+    </>
   );
 };

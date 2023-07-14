@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Video from 'react-native-video';
-import {View} from 'react-native';
+import {TouchableHighlight, TouchableOpacity, View} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {Photo} from '../styled/components/Image';
 import {styles} from './styles';
@@ -14,25 +14,35 @@ export const Thumbnail = ({story}: props): JSX.Element => {
   const isPhoto = story.photos.length ? true : false;
   const isAudio = story.audios.length ? true : false;
 
-  //TODO 하단 Flag API 반영 이후 적용
+  const [isClicked, setClicked] = useState<boolean>(false);
+  const [isPaused, setPaused] = useState<boolean>(true);
+
+  //TODO
   const isVideo = false;
 
   return (
     <View style={styles.thumbnailContainer}>
       {isVideo ? (
-        <View style={styles.videoContainer}>
+        <TouchableHighlight
+          style={styles.videoContainer}
+          onPress={() => {
+            //TODO
+            // if (isClicked) {
+            //   setPaused(true);
+            //   setClicked(false);
+            // }
+          }}>
           <Video
             style={styles.video}
             source={{uri: ''}}
-            paused={true}
+            paused={isPaused}
             resizeMode={'cover'}
             controls={true}
             muted={false}
-            onLoad={() => {}}
             repeat={false}
             fullscreen={false}
           />
-        </View>
+        </TouchableHighlight>
       ) : (
         isPhoto && (
           <Photo
@@ -47,7 +57,7 @@ export const Thumbnail = ({story}: props): JSX.Element => {
         )
       )}
       {isVideo ? (
-        <View style={styles.dissolveView} />
+        <View style={isClicked ? {display: 'none'} : styles.dissolveView} />
       ) : (
         isAudio && (
           <View
@@ -59,7 +69,19 @@ export const Thumbnail = ({story}: props): JSX.Element => {
           />
         )
       )}
-      <ContentsOnThumbnail story={story} />
+      <TouchableOpacity
+        style={
+          isClicked ? {display: 'none'} : styles.contentsOnThumbnailContainer
+        }
+        disabled={isVideo ? false : true}
+        onPressIn={() => {
+          if (isVideo && !isClicked) {
+            setClicked(true);
+            setPaused(false);
+          }
+        }}>
+        <ContentsOnThumbnail story={story} />
+      </TouchableOpacity>
     </View>
   );
 };

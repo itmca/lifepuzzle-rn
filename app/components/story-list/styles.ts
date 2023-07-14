@@ -70,12 +70,12 @@ export const styles = StyleSheet.create({
   },
   questionTextOnTumbnail: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 12,
     color: 'white',
   },
   questionTextWidthBgOnTumbnail: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 12,
     color: 'white',
     padding: 5,
     backgroundColor: 'rgba(26, 26, 26, 0.9)',
@@ -87,7 +87,7 @@ export const styles = StyleSheet.create({
     gap: 6,
   },
   itemTitle: {
-    width: '75%',
+    width: '95%',
     fontSize: 16,
     fontWeight: '600',
     color: '#333333',
@@ -107,7 +107,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
   },
   description: {
-    width: '75%',
+    width: '95%',
     fontSize: 16,
     fontWeight: '400',
     color: '#A9A9A9',
@@ -194,7 +194,7 @@ export const styles = StyleSheet.create({
   contentsOnThumbnail: {
     position: 'absolute',
     left: 17,
-    bottom: 15,
+    bottom: 14,
     gap: 5,
   },
   iconsOnThumbnail: {
