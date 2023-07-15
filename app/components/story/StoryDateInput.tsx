@@ -68,7 +68,7 @@ function StoryDateInput({...props}) {
         onCancel={onCancel}
         locale="ko"
         confirmTextIOS={'확인'}
-        cancelTextIOS={'닫기'}
+        cancelTextIOS={'취소'}
       />
     </>
   );
