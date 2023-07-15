@@ -1,15 +1,8 @@
-import {
-  Button,
-  I18nManager,
-  Platform,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import RNDateTimePicker from 'react-native-modal-datetime-picker';
-import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
 import {XSmallText} from '../styled/components/Text';
 import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 function StoryDateInput({...props}) {
   const [visible, setVisible] = useState(false);
@@ -30,8 +23,8 @@ function StoryDateInput({...props}) {
       return `${year}.${month}.${day}`;
     }
   };
-  const onDatePick = (selectedValue: Date) => {
-    setVisible(Platform.OS === 'ios' ? true : false);
+  const onConfirm = (selectedValue: Date) => {
+    setVisible(false);
     if (selectedValue) {
       const currentDate = selectedValue || new Date();
       onChangeDate(currentDate);
@@ -56,23 +49,26 @@ function StoryDateInput({...props}) {
           alignItems: 'flex-start',
         }}>
         <HorizontalContentContainer>
-          <MaterialCommunityIcon
-            name="calendar"
-            size={14}
-            direction={I18nManager.getConstants().isRTL ? 'rtl' : 'ltr'}
-            color={'white'}
+          <Image
+            style={{width: 14, height: 14, tintColor: '#FFFFFF'}}
+            source={require('../../assets/images/calendar_month.png')}
           />
-          <XSmallText color={'white'}> {formatDate(date)}</XSmallText>
+          <XSmallText style={{color: '#FFFFFF'}}>
+            {' '}
+            {formatDate(date)}
+          </XSmallText>
         </HorizontalContentContainer>
       </TouchableOpacity>
-      <RNDateTimePicker
+      <DateTimePicker
         isVisible={visible}
         date={date}
         mode={'date'}
         display={'spinner'}
-        onConfirm={onDatePick}
+        onConfirm={onConfirm}
         onCancel={onCancel}
-        locale="en"
+        locale="ko"
+        confirmTextIOS={'확인'}
+        cancelTextIOS={'닫기'}
       />
     </>
   );
