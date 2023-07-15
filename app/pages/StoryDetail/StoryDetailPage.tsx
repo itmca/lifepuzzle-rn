@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import StoryPhotoCarousel from '../../components/story/StoryPhotoCarousel';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
@@ -9,15 +9,11 @@ import {StoryType} from '../../types/story.type';
 import {getStoryDisplayTagsDate} from '../../service/story-display.service';
 import {StoryAudioPlayer} from '../../components/story/StoryAudioPlayer';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {
-  NoOutLineScreenContainer,
-  ScreenContainer,
-} from '../../components/styled/container/ScreenContainer';
+import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 
 const StoryDetailPage = (): JSX.Element => {
   const storyKey = useRecoilValue(SelectedStoryKeyState);
   const [story, setStory] = useState<StoryType>();
-
   const [storiesLoading, fetchStory] = useAuthAxios<StoryType>({
     requestOption: {
       url: `/stories/${storyKey}`,

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import StoryList from '../../components/story-list/StoryList';
 import HeroStoryOverview from '../../components/story-list/HeroStoryOverview';
 import {useRecoilValue} from 'recoil';
@@ -6,9 +6,6 @@ import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useStories} from '../../service/hooks/story.query.hook';
-import {useUpdateObserver} from '../../service/hooks/update.hooks';
-import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
-import {FILTER_KEY_ALL} from '../../constants/filter.contant';
 import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
 import Sound from 'react-native-sound';
 import {toMinuteSeconds} from '../../service/time-display.service';
@@ -26,20 +23,7 @@ import {BasicNavigationProps} from '../../navigation/types';
 
 const StoryListPage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
-  const heroUpdateObserver = useUpdateObserver(heroUpdate);
-  const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
-
-  const [selectedTagKey, setSelectedTagKey] = useState<string>('');
-
-  useEffect(() => {
-    setSelectedTagKey(FILTER_KEY_ALL);
-  }, [hero.heroNo, heroUpdateObserver, storyListUpdateObserver]);
-
-  const {stories, tags, isLoading} = useStories({
-    storyFilter: story =>
-      selectedTagKey === FILTER_KEY_ALL ||
-      story.tags.some(tag => tag.key === selectedTagKey),
-  });
+  const {stories, isLoading} = useStories();
 
   const storyList = stories.map(story => {
     if (story.audios[0] !== undefined) {
@@ -51,7 +35,6 @@ const StoryListPage = (): JSX.Element => {
   });
 
   const navigation = useNavigation<BasicNavigationProps>();
-
   const scrollRef = useRef<ScrollView>(null);
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
 
@@ -68,11 +51,7 @@ const StoryListPage = (): JSX.Element => {
           onScroll={handleScroll}
           scrollEventThrottle={100}
           showsVerticalScrollIndicator={false}>
-          <HeroStoryOverview
-            hero={hero}
-            tags={tags}
-            onSelect={setSelectedTagKey}
-          />
+          <HeroStoryOverview hero={hero} />
           <View style={styles.customDivider} />
           <StoryList stories={storyList} />
         </ScrollView>

@@ -20,13 +20,17 @@ export type HomeTabParamList = {
 const Stack = createNativeStackNavigator<HomeTabParamList>();
 
 const HomeTabNavigator = (): JSX.Element => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   return (
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
         header: () => <NavigationBar />,
       }}>
-      <Stack.Screen name="Home" component={StoryListPage} />
+      <Stack.Screen
+        name="Home"
+        component={isLoggedIn ? StoryListPage : HomePage}
+      />
       <Stack.Screen
         name="PuzzleWritingQuestion"
         component={PuzzleWritingQuestionPage}
@@ -41,11 +45,7 @@ const HomeTabNavigator = (): JSX.Element => {
           ),
         }}
       />
-      <Stack.Screen
-        name="Profile"
-        component={ProfilePage}
-        options={{title: '', headerShown: false}}
-      />
+      <Stack.Screen name="Profile" component={ProfilePage} />
     </Stack.Navigator>
   );
 };

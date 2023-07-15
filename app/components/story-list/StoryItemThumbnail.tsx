@@ -23,15 +23,7 @@ export const Thumbnail = ({story}: props): JSX.Element => {
   return (
     <View style={styles.thumbnailContainer}>
       {isVideo ? (
-        <TouchableHighlight
-          style={styles.videoContainer}
-          onPress={() => {
-            //TODO
-            // if (isClicked) {
-            //   setPaused(true);
-            //   setClicked(false);
-            // }
-          }}>
+        <TouchableHighlight style={styles.videoContainer}>
           <Video
             style={styles.video}
             source={{uri: ''}}

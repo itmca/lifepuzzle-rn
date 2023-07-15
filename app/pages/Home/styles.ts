@@ -1,85 +1,72 @@
 import {Platform, StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  mainContainer: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#ffffff',
-    flexDirection: 'column',
-  },
   container: {
+    flexWrap: 'wrap',
+    backgroundColor: '#FFFFFF',
+    paddingBottom: 8,
+    marginTop: 24,
+  },
+  storyListContainer: {
     flex: 1,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  imageContainer: {
-    width: '100%',
-    overflow: 'hidden',
-    flex: 1.6,
-    maxHeight: 355,
-  },
-  mainImage: {
-    width: '100%',
+    backgroundColor: '#FFFFFF',
     height: '100%',
-    alignSelf: 'center',
-    borderRadius: 32,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    gap: 16,
+  },
+  storyListTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    marginTop: 8,
+    marginLeft: 5,
+  },
+  floatingBtBox: {
+    width: 48,
+    height: 48,
+    position: 'absolute',
+    backgroundColor: '#FF6200',
+    bottom: 95,
+    right: 16,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  floatingBtTop: {
+    borderRadius: 50,
+    color: '#FFFFFF',
+  },
+  writingButton: {
+    width: '100%',
+    height: 80,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
     ...Platform.select({
       ios: {
-        shadowColor: '#000000',
-        shadowOpacity: 0.25,
-        shadowOffset: {width: 0, height: 4},
-        shadowRadius: 32,
+        shadowOffset: {
+          width: 0,
+          height: -1,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 20,
       },
     }),
   },
-  descContainer: {
+  customDivider: {
     width: '100%',
-    paddingLeft: 9,
-    paddingRight: 9,
-    flex: 1,
-    alignItems: 'flex-start',
-  },
-  titleTextContainer: {
-    paddingTop: 19.75,
-  },
-  titleText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#171C2E',
-  },
-  subTextTopContainer: {
-    width: '100%',
-    overflow: 'hidden',
-    marginTop: 12,
-    alignItems: 'flex-start',
-  },
-  subTextBottomContainer: {
-    width: '100%',
-    overflow: 'hidden',
-    marginTop: 8,
-    alignItems: 'flex-start',
-  },
-  subText: {
-    lineHeight: 25,
-    fontSize: 13,
-    letterSpacing: 0.15,
-    fontWeight: '600',
-    color: '#171C2E',
-  },
-  aniContainer: {
-    width: '100%',
-    flex: 0.1,
-    position: 'relative',
-  },
-  animationText: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    lineHeight: 25,
-    letterSpacing: 0.15,
-    paddingBottom: 5,
-  },
-  fingerImage: {
-    width: 24,
-    height: 23,
+    height: 8,
+    backgroundColor: 'rgba(246, 246, 246, 1)',
   },
 });
