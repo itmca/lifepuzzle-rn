@@ -29,8 +29,8 @@ export const usePhotos = ({
   const selectedList: MediaInfo[] = target == 'photo' ? photoList : videoList;
   const setSelectedList = target == 'photo' ? setPhotoList : setVideoList;
 
-  const listSize = selectedList.length;
-
+  const lastKey =
+    selectedList.length > 0 ? selectedList[selectedList.length - 1].key : -1;
   usePhotoPermission();
   const openGallery = async function () {
     const result = await ImagePicker.openPicker({
@@ -46,7 +46,7 @@ export const usePhotos = ({
       const fileName =
         Platform.OS === 'android' ? uri?.split('/').pop() : item.filename;
       const file: MediaInfo = {
-        key: listSize + index,
+        key: lastKey + 1 + index,
         node: {
           image: {
             filename: fileName ?? null,
