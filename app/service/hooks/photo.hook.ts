@@ -1,12 +1,12 @@
-import {useEffect, useState} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
   selectedPhotoState,
   selectedVideoState,
 } from '../../recoils/selected-photo.recoil';
 import {usePhotoPermission} from './permission.hook';
 import {MediaInfo} from '../../types/writing-story.type';
+import {Platform} from 'react-native';
 
 type LibraryTarget = 'photo' | 'video';
 type Props = {
@@ -20,42 +20,50 @@ type Response = {
 };
 export const usePhotos = ({
   target = 'photo',
-  initialSize = 20,
-  nextSize = 20,
+  initialSize = 10,
 }: Props): Response => {
-  const setSelectedList =
-    target == 'photo'
-      ? useSetRecoilState(selectedPhotoState)
-      : useSetRecoilState(selectedVideoState);
-  useEffect(() => {
-    //setSelectedPhotoList([]);
-  }, []);
+  const [photoList, setPhotoList] = useRecoilState(selectedPhotoState);
+  const [videoList, setVideoList] = useRecoilState(selectedVideoState);
+
+  const addSelectedList: MediaInfo[] = [];
+  const selectedList: MediaInfo[] = target == 'photo' ? photoList : videoList;
+  const setSelectedList = target == 'photo' ? setPhotoList : setVideoList;
+
+  const listSize = selectedList.length;
+
   usePhotoPermission();
   const openGallery = async function () {
     const result = await ImagePicker.openPicker({
       multiple: true,
       mediaType: target,
+      maxFiles: initialSize,
+      compressImageMaxHeight: 400,
+      compressImageMaxWidth: 400,
+      compressImageQuality: 0.5,
     });
-    const selectedList: MediaInfo[] = [];
-    result.forEach(item => {
+    result.forEach((item, index) => {
       const uri = item.path;
-      const fileName = uri?.split('/').pop();
+      const fileName =
+        Platform.OS === 'android' ? uri?.split('/').pop() : item.filename;
       const file: MediaInfo = {
-        mediaType: target,
-        filename: fileName ?? null,
-        filepath: item.path,
-        extension: null,
-        uri: uri,
-        height: item.height,
-        width: item.width,
-        fileSize: item.size,
-        playableDuration: 0,
-        orientation: null,
+        key: listSize + index,
+        node: {
+          image: {
+            filename: fileName ?? null,
+            filepath: item.path,
+            extension: null,
+            uri: uri,
+            height: item.height,
+            width: item.width,
+            fileSize: item.size,
+            playableDuration: 0,
+            orientation: null,
+          },
+        },
       };
-      selectedList.push(file);
+      addSelectedList.push(file);
     });
-    setSelectedList(selectedList);
+    setSelectedList(photoList.concat(addSelectedList));
   };
-
   return {openGallery};
 };

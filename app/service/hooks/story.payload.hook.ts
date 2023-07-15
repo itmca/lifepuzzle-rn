@@ -23,15 +23,25 @@ const addImagesInFormData = function (
   writingStory: WritingStoryType | undefined,
 ) {
   const selectedImages = writingStory?.photos;
+  const selectedVideos = writingStory?.videos;
 
   selectedImages?.forEach((image, index) => {
-    const uri = image.uri;
-    const type = image.mediaType == 'photo' ? IMG_TYPE : VIDEO_TYPE;
+    const uri = image.node.image.uri;
     const fileParts = uri?.split('//').pop();
     const fileName = uri?.split('/').pop();
     formData.append('photos', {
       uri: uri,
-      type: type,
+      type: IMG_TYPE,
+      name: fileName,
+    });
+  });
+  selectedVideos?.forEach((image, index) => {
+    const uri = image.node.image.uri;
+    const fileParts = uri?.split('//').pop();
+    const fileName = uri?.split('/').pop();
+    formData.append('videos', {
+      uri: uri,
+      type: VIDEO_TYPE,
       name: fileName,
     });
   });

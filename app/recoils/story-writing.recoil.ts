@@ -5,7 +5,7 @@ import {
   WritingStoryQuestionInfo,
   WritingStoryTextInfo,
 } from '../types/writing-story.type';
-import {selectedPhotoState} from './selected-photo.recoil';
+import {selectedPhotoState, selectedVideoState} from './selected-photo.recoil';
 import {heroState} from './hero.recoil';
 
 export const helpQuestionState = atom<WritingStoryQuestionInfo | undefined>({
@@ -36,6 +36,7 @@ export const writingStoryState = selector<WritingStoryType | undefined>({
     const textInfo = get(storyTextState);
     const date = get(storyDateState);
     const photos = get(selectedPhotoState);
+    const videos = get(selectedVideoState);
     const recordFile = get(recordFileState);
 
     return {
@@ -44,6 +45,7 @@ export const writingStoryState = selector<WritingStoryType | undefined>({
       ...textInfo,
       date,
       photos,
+      videos,
       voice: recordFile?.filePath,
     };
   },
