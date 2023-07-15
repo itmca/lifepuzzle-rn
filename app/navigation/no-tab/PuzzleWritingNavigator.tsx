@@ -10,7 +10,6 @@ import PuzzleWritingDatePage from '../../pages/PuzzleWritingDate/PuzzleWritingDa
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title from '../../components/styled/components/Title';
-import PuzzleSelectingPhotoPage from '../../pages/PuzzleSelectingPhoto/PuzzleSelectingPhotoPage';
 import PuzzleWritingQuestionPage from '../../pages/PuzzleWritingQuestion/PuzzleWritingQuestionPage';
 
 export type PuzzleWritingParamList = {
@@ -18,7 +17,6 @@ export type PuzzleWritingParamList = {
   PuzzleWritingQuestion: undefined;
   PuzzleWritingPhoto: undefined;
   PuzzleWritingText: undefined;
-  PuzzleSelectingPhoto: undefined;
   PuzzleWritingVoice: undefined;
 };
 
@@ -91,15 +89,6 @@ const PuzzleWritingNavigator = (): JSX.Element => {
               />
             </LoadingContainer>
           ),
-          headerBackVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="PuzzleSelectingPhoto"
-        component={PuzzleSelectingPhotoPage}
-        options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>사진 선택</Title>,
           headerBackVisible: false,
         }}
       />
