@@ -1,3 +1,5 @@
+import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+
 export type WritingStoryType = {
   heroNo?: number;
   recQuestionNo?: number;
@@ -7,6 +9,7 @@ export type WritingStoryType = {
   storyText?: string;
   date?: Date;
   photos?: MediaInfo[];
+  videos?: MediaInfo[];
   voice?: string;
 };
 
@@ -20,16 +23,8 @@ export type WritingStoryTextInfo = Pick<
   'title' | 'storyText'
 >;
 export type MediaInfo = {
-  mediaType: 'photo' | 'video';
-  filename: string | null;
-  filepath: string;
-  extension: string | null;
-  uri: string;
-  height: number;
-  width: number;
-  fileSize: number | null;
-  playableDuration: number;
-  orientation: number | null;
+  key: number;
+  node: Pick<PhotoIdentifier['node'], 'image'>;
 };
 export type VoiceRecordInfo = {
   filePath: string | undefined;

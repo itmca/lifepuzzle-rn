@@ -5,34 +5,64 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
-  screenTopContainer: {
-    height: 160,
+  screenHTopContainer: {
+    height: 90,
     backgroundColor: '#333333',
     alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    borderBottomWidth: 5,
+  },
+  screenLTopContainer: {
+    backgroundColor: '#333333',
+    borderTopWidth: 0,
+  },
+  dateInput: {
+    position: 'absolute',
+    top: 0,
+  },
+  screenCenterContainer: {
+    height: 50,
   },
   screenBottomContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
   },
   helpQuestionContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignContent: 'flex-end',
-    alignItems: 'center',
-    marginLeft: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderWidth: 1,
+    borderColor: '#EBEBEB',
+    borderRadius: 4,
+    backgroundColor: 'white',
   },
   helpQuestionText: {
+    fontWeight: 700,
+    fontSize: 18,
+    marginLeft: 5,
     color: 'white',
   },
-  titleInput: {
-    position: 'absolute',
-    top: -40,
+  helpQuestionInput: {
     fontWeight: 'bold',
     height: 40,
     width: '100%',
     justifyContent: 'center',
   },
+  accordionIcon: {
+    width: 24,
+    height: 24,
+    backgroundColor: '#F6F6F6',
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleInput: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    height: 40,
+  },
   contentInput: {
-    height: '100%',
+    flex: 1,
+    fontSize: 16,
   },
 });

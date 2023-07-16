@@ -1,33 +1,39 @@
-import {Avatar, Button, List} from 'react-native-paper';
+import {List} from 'react-native-paper';
 import React from 'react';
-import {I18nManager, View} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import SelectedPhotoList from '../photo/SelectedPhotoList';
-import {useRecoilValue} from 'recoil';
-import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
-import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
+import Image from '../styled/components/Image';
+import Text from '../styled/components/Text';
+import {styles} from './styles';
 
+const DeviceWidth = Dimensions.get('window').width;
 export const StoryKeyboardPhotoRecord = (): JSX.Element => {
-  const selectedPhotoList = useRecoilValue(selectedPhotoState);
   return (
     <List.Accordion
-      title={'사진 업로드 (선택)'}
+      title={
+        <>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize: 16}}>사진 업로드 </Text>
+            <Text style={{fontSize: 14, color: '#B4B3B3'}}>(선택)</Text>
+          </View>
+        </>
+      }
       right={props => (
-        <View style={{backgroundColor: '#F6F6F6', borderRadius: 30}}>
-          <MaterialCommunityIcon
-            name={props.isExpanded ? 'chevron-up' : 'chevron-down'}
-            size={24}
-            direction={I18nManager.getConstants().isRTL ? 'rtl' : 'ltr'}
+        <View style={styles.uploadIconContainer}>
+          <Image
+            style={styles.uploadIcon}
+            source={
+              props.isExpanded
+                ? require('../../assets/images/expand_more.png')
+                : require('../../assets/images/expand_less.png')
+            }
           />
         </View>
       )}>
       <List.Item
-        title={
-          <SelectedPhotoList
-            target={'photo'}
-            size={80}
-            photoList={selectedPhotoList}
-          />
-        }
+        title={<SelectedPhotoList target={'photo'} size={80} />}
+        titleStyle={{width: DeviceWidth}}
+        style={{height: 120}}
       />
     </List.Accordion>
   );

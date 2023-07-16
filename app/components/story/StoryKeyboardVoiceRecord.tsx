@@ -1,12 +1,12 @@
-import {View} from 'react-native';
-import {Avatar, Button, List} from 'react-native-paper';
+import {Image, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {SmallText, XSmallText} from '../styled/components/Text';
+import Text, {XSmallText} from '../styled/components/Text';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {recordFileState} from '../../recoils/story-writing.recoil';
 import {SmallImage} from '../styled/components/Image';
 import {styles} from './styles';
+import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
 
 type VoiceRecordProps = {
   fileName: string;
@@ -20,7 +20,7 @@ const RecordedVoice = ({
   onDelete,
 }: VoiceRecordProps): JSX.Element => {
   return (
-    <View style={{flexDirection: 'row', width: '100%'}}>
+    <View style={{flexDirection: 'row'}}>
       <View style={styles.storyAudioIcon}>
         <SmallImage
           width={12}
@@ -32,13 +32,16 @@ const RecordedVoice = ({
           {recordTime}
         </XSmallText>
       </View>
-      <View
-        style={{
-          backgroundColor: '#F6F6F6',
-          width: 24,
-          height: 24,
-          borderRadius: 30,
-        }}></View>
+      <TouchableOpacity
+        style={styles.uploadIconContainer}
+        onPress={() => {
+          onDelete();
+        }}>
+        <Image
+          style={{width: 18, height: 18, tintColor: '#B4B3B3'}}
+          source={require('../../assets/images/close.png')}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -63,30 +66,50 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
   };
 
   return (
-    <List.Accordion
-      title={'음성 업로드 (선택)'}
-      right={props =>
-        hasRecordFile() ? (
-          <RecordedVoice
-            fileName={getFileName()}
-            recordTime={recordFileInfo?.recordTime || ''}
-            onDelete={resetRecord}
-          />
-        ) : (
-          <></>
-        )
-      }
-      onPress={props =>
-        hasRecordFile() ? (
-          <></>
-        ) : (
-          navigation.push('NoTab', {
-            screen: 'PuzzleWritingNavigator',
-            params: {
-              screen: 'PuzzleWritingVoice',
-            },
-          })
-        )
-      }></List.Accordion>
+    <>
+      <TouchableRipple
+        style={{
+          paddingVertical: 8,
+          paddingRight: 24,
+        }}
+        onPress={props =>
+          hasRecordFile() ? (
+            <></>
+          ) : (
+            navigation.push('NoTab', {
+              screen: 'PuzzleWritingNavigator',
+              params: {
+                screen: 'PuzzleWritingVoice',
+              },
+            })
+          )
+        }>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginVertical: 6,
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View style={{paddingLeft: 16, flexDirection: 'row'}}>
+            <Text style={{fontSize: 16}}>녹음본 업로드 </Text>
+            <Text style={{fontSize: 14, color: '#B4B3B3'}}>(선택)</Text>
+          </View>
+          <View
+            style={{
+              marginVertical: 6,
+              paddingLeft: 8,
+            }}>
+            {hasRecordFile() && (
+              <RecordedVoice
+                fileName={getFileName()}
+                recordTime={recordFileInfo?.recordTime || ''}
+                onDelete={resetRecord}
+              />
+            )}
+          </View>
+        </View>
+      </TouchableRipple>
+    </>
   );
 };

@@ -5,7 +5,10 @@ import {
   storyTextState,
   writingStoryState,
 } from '../../recoils/story-writing.recoil';
-import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
+import {
+  selectedPhotoState,
+  selectedVideoState,
+} from '../../recoils/selected-photo.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hooks';
@@ -19,12 +22,14 @@ export const useResetAllWritingStory = () => {
   const resetStoryText = useResetRecoilState(storyTextState);
   const resetHelpQuestion = useResetRecoilState(helpQuestionState);
   const resetSelectedPhoto = useResetRecoilState(selectedPhotoState);
+  const resetSelectedVideo = useResetRecoilState(selectedVideoState);
   const resetRecord = useResetRecoilState(recordFileState);
 
   return () => {
     resetStoryText();
     resetHelpQuestion();
     resetSelectedPhoto();
+    resetSelectedVideo();
     resetRecord();
   };
 };
