@@ -31,6 +31,7 @@ export const LargeText = styled.Text<Props>`
 `;
 
 export const MediumText = styled.Text<Props>`
+  height: 20px;
   color: ${props => (props.color ? props.color : '#000000')};
   font-size: 20px;
   font-weight: ${props => props.fontWeight || 'normal'};

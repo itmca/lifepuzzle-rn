@@ -1,45 +1,54 @@
 import styled from 'styled-components/native';
-type Color = '#F2C744'|'#55A5FD'|'#707070'|'#979797'|'#323232' |'#FFFFFF';
+
+type Color =
+  | '#F2C744'
+  | '#55A5FD'
+  | '#707070'
+  | '#979797'
+  | '#323232'
+  | '#FFFFFF';
 type Props = {
-  fontFamily?:string;
+  fontFamily?: string;
   letterSpacing?: string;
-  fontWeight?: string|number;
+  fontWeight?: string | number;
   lineHeight?: number;
-  color?: Color|'#000000';
+  color?: Color | '#000000';
   fontSize?: number;
 };
 
 export const XLargeTitle = styled.Text<Props>`
-   color: ${props => (props.color ? props.color : '#000000')};
-   fontSize: 32px;
-   fontWeight: bold;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 32px;
+  font-weight: 700;
+`;
 
 export const LargeTitle = styled.Text<Props>`
-    color: ${props => (props.color ? props.color : '#000000')};
-    fontSize: 24px;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 24px;
+  font-weight: 700;
+`;
 
 export const MediumTitle = styled.Text<Props>`
-    color: ${props => (props.color ? props.color : '#000000')};
-    fontSize: 20px;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 20px;
+  font-weight: 700;
+`;
 export const SmallTitle = styled.Text<Props>`
-   color: ${props => (props.color ? props.color : '#000000')};
-   fontSize: 13px;
-   fontWeight: ${props => props.fontWeight || 'normal'};
-   letterSpacing: ${({ letterSpacing }) => (letterSpacing ? `${letterSpacing}px` : '0.25px')};
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-size: 16px;
+  font-weight: 700;
+  letterspacing: ${({letterSpacing}) =>
+    letterSpacing ? `${letterSpacing}px` : '0.25px'};
+`;
 
 export const XSmallTitle = styled.Text<Props>`
-   color: ${props => (props.color ? props.color : '#000000')};
-   fontSize: 11px;
- `;
+  color: ${props => (props.color ? props.color : '#000000')};
+  font-weight: 700;
+  font-size: 11px;
+`;
 
-function Title({ ...props }) {
-  return (
-    <MediumTitle {...props}/>
-  );
+function Title({...props}) {
+  return <MediumTitle {...props} />;
 }
-export default Title;
 
+export default Title;

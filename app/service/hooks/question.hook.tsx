@@ -1,11 +1,9 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useAxios} from './network.hook';
 import {useRecoilValue} from 'recoil';
 import {HeroType} from '../../types/hero.type';
 import {heroState} from '../../recoils/hero.recoil';
 import {Question} from '../../types/question.type';
-import {useUpdateObserver, useUpdatePublisher} from './update.hooks';
-import {storyListUpdate} from '../../recoils/update.recoil';
 
 type Param = {
   category?: string;
@@ -19,19 +17,11 @@ type QuestionDTO = {
   question: string;
 };
 
-const useRecommendedQuestion = (
-  param?: Param,
-): [Question, () => void, boolean] => {
+const useRecommendedQuestion = (param?: Param): [Question[], boolean] => {
   const hero = useRecoilValue<HeroType>(heroState);
   const heroNo = hero.heroNo;
-  const defaultQuestion = param?.defaultQuestion || {
-    questionText: '',
-    questionNo: -1,
-  };
 
   const [preparedQuestions, setPreparedQuestions] = useState<Question[]>([]);
-
-  const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
 
   const [isLoading, fetchQuestions] = useAxios<QuestionDTO[]>({
     requestOption: {
@@ -45,33 +35,17 @@ const useRecommendedQuestion = (
           questionText: q.question,
         })) ?? [],
       );
-      setQuestionIndex(-1);
     },
     disableInitialRequest: false,
   });
 
-  useEffect(() => {
-    fetchQuestions({});
-  }, [heroNo, storyListUpdateObserver]);
-
-  const [questionIndex, setQuestionIndex] = useState(-1);
-
-  useEffect(() => {
-    if (
-      questionIndex >= 0 &&
-      typeof param?.onRecommendQuestionChanged === 'function'
-    ) {
-      param?.onRecommendQuestionChanged(preparedQuestions[questionIndex]);
-    }
-  }, [questionIndex]);
-
-  const changer = () => {
-    setQuestionIndex((questionIndex + 1) % preparedQuestions.length);
-  };
-
   return [
-    questionIndex > -1 ? preparedQuestions[questionIndex] : defaultQuestion,
-    changer,
+    [
+      {questionNo: 1, questionText: '이번 여름 가장 행복했던 일은?'},
+      {questionNo: 2, questionText: '이번 여름 가장 신경쓰였던 일은?'},
+      {questionNo: 3, questionText: '이번 여름 가장 신경쓰였던 일은?'},
+      {questionNo: 4, questionText: '이번 여름 가장 신경쓰였던 일은?'},
+    ],
     isLoading,
   ];
 };

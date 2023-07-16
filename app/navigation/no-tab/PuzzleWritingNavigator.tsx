@@ -48,7 +48,7 @@ const PuzzleWritingNavigator = (): JSX.Element => {
         component={PuzzleWritingQuestionPage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>조각 맞추기</Title>,
+          headerTitle: () => <Title>월별추천질문</Title>,
           headerBackVisible: false,
           headerRight: () => (
             <WritingHeaderRight
