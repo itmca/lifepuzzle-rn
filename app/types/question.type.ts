@@ -1,5 +1,5 @@
 export type Question = {
-  questionNo: number;
+  no: number;
   category?: string;
-  questionText: string;
+  text: string;
 };

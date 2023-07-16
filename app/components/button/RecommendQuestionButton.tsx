@@ -22,7 +22,7 @@ export const RecommendQuestionButton = ({
   const backgroundColor = order % 2 == 1 ? Color.BLACK : Color.WHITE;
   const fontColor = order % 2 == 1 ? Color.WHITE : Color.BLACK;
 
-  if (!question || question.questionNo < 0) {
+  if (!question || question.no < 0) {
     return (
       <WideSelectable
         gap={12}
@@ -51,9 +51,7 @@ export const RecommendQuestionButton = ({
       onPress={onSelect}>
       <PuzzleNumber displayNumber={order} />
       <ContentContainer flex={1} justifyContent={'center'} minHeight={42}>
-        <SmallTitle style={{color: fontColor}}>
-          {question.questionText}
-        </SmallTitle>
+        <SmallTitle style={{color: fontColor}}>{question.text}</SmallTitle>
       </ContentContainer>
     </WideSelectable>
   );

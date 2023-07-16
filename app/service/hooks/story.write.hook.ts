@@ -1,6 +1,7 @@
-import {useRecoilValue, useResetRecoilState} from 'recoil';
+import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
   helpQuestionState,
+  isStoryUploading,
   recordFileState,
   storyTextState,
   writingStoryState,
@@ -17,6 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useStoryHttpPayLoad} from './story.payload.hook';
 import {BasicNavigationProps} from '../../navigation/types';
+import {useEffect} from 'react';
 
 export const useResetAllWritingStory = () => {
   const resetStoryText = useResetRecoilState(storyTextState);
@@ -34,10 +36,11 @@ export const useResetAllWritingStory = () => {
   };
 };
 
-export const useSaveStory = (): [() => void, boolean] => {
+export const useSaveStory = (): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   const writingStory = useRecoilValue(writingStoryState);
+  const setStoryUploading = useSetRecoilState(isStoryUploading);
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
 
   const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
@@ -61,6 +64,10 @@ export const useSaveStory = (): [() => void, boolean] => {
     },
     disableInitialRequest: true,
   });
+
+  useEffect(() => {
+    setStoryUploading(isLoading);
+  }, [isLoading]);
 
   const submit = function () {
     saveStory({data: storyHttpPayLoad});
@@ -107,6 +114,11 @@ export const useSaveStory = (): [() => void, boolean] => {
 
       submit();
     },
-    isLoading,
   ];
+};
+
+export const useIsStoryUploading = (): boolean => {
+  const storyUploadingStatus = useRecoilValue(isStoryUploading);
+
+  return storyUploadingStatus;
 };

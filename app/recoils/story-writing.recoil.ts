@@ -1,9 +1,9 @@
 import {atom, selector} from 'recoil';
 import {
   VoiceRecordInfo,
-  WritingStoryType,
   WritingStoryQuestionInfo,
   WritingStoryTextInfo,
+  WritingStoryType,
 } from '../types/writing-story.type';
 import {selectedPhotoState, selectedVideoState} from './selected-photo.recoil';
 import {heroState} from './hero.recoil';
@@ -49,4 +49,9 @@ export const writingStoryState = selector<WritingStoryType | undefined>({
       voice: recordFile?.filePath,
     };
   },
+});
+
+export const isStoryUploading = atom<boolean>({
+  key: 'isStoryUploading',
+  default: false,
 });

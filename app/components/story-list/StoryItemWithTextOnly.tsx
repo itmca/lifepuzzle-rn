@@ -13,9 +13,6 @@ type props = {
 export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
   const date = getStoryDisplayDate(story.date);
 
-  //TODO
-  const isQuestion = true;
-
   return (
     <TouchableOpacity style={styles.onlyTextItemContainer} onPress={onPress}>
       <Text
@@ -29,10 +26,8 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
           source={require('../../assets/images/thumb-up-iso-color.png')}
           style={styles.thumbUpIcon}
         />
-        {isQuestion && (
-          <Text style={styles.questionText}>
-            추천질문이 들어오는 영역입니다.
-          </Text>
+        {story.question && (
+          <Text style={styles.questionText}>{story.question}</Text>
         )}
       </View>
       <Text

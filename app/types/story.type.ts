@@ -3,6 +3,7 @@ export type StoryType = {
   heroNo: number;
   title: string;
   content: string;
+  question: string;
   photos: string[];
   audios: string[];
   videos: string[];
