@@ -1,4 +1,4 @@
-import {View, Text, TurboModuleRegistry} from 'react-native';
+import {Text, View} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {styles} from './styles';
 import Image from '../styled/components/Image';
@@ -15,7 +15,6 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
 
   //TODO
   const isVideo = false;
-  const isQuestion = true;
 
   return (
     <>
@@ -60,7 +59,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
               : styles.questionTextOnTumbnail
           }>
           {isVideo ? '30:05   ' : ''}
-          {isQuestion ? '추천질문이 들어오는 영역입니다.' : ''}
+          {story.question ? story.question : ''}
         </Text>
       </View>
     </>

@@ -1,12 +1,13 @@
 import React from 'react';
-import {Pressable, Text} from 'react-native';
+import {Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import styles from './styles';
-import { SmallText } from '../styled/components/Text';
+import {SmallText} from '../styled/components/Text';
+import {BasicNavigationProps} from '../../navigation/types';
+import {StoryWritingParamList} from '../../navigation/no-tab/StoryWritingNavigator';
 
 type Props = {
   text: string;
-  nextScreenName?: string;
+  nextScreenName?: keyof StoryWritingParamList;
   customAction?: Function;
 };
 
@@ -15,7 +16,7 @@ const WritingHeaderRight = ({
   nextScreenName,
   customAction,
 }: Props): JSX.Element => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   return (
     <Pressable
       onPress={() => {
@@ -23,7 +24,7 @@ const WritingHeaderRight = ({
           customAction();
         } else {
           navigation.push('NoTab', {
-            screen: 'PuzzleWritingNavigator',
+            screen: 'StoryWritingNavigator',
             params: {
               screen: nextScreenName,
             },

@@ -19,7 +19,7 @@ import {RecommendQuestionButton} from '../../components/button/RecommendQuestion
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {Question} from '../../types/question.type';
 
-const PuzzleWritingQuestionPage = (): JSX.Element => {
+const StoryWritingQuestionPage = (): JSX.Element => {
   const [helpQuestionText, setHelpQuestionText] = useRecoilState(
     helpQuestionTextState,
   );
@@ -46,12 +46,12 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
     }
 
     setStoryQuestion({
-      recQuestionNo: selectedQuestion.questionNo,
-      helpQuestionText: selectedQuestion.questionText,
+      recQuestionNo: selectedQuestion.no,
+      helpQuestionText: selectedQuestion.text,
       recQuestionModified: false,
     });
 
-    setHelpQuestionText(selectedQuestion.questionText);
+    setHelpQuestionText(selectedQuestion.text);
   }, [selectedQuestion]);
 
   const [recommendQuestions, isLoading] = useRecommendedQuestion();
@@ -82,7 +82,7 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
                   question={question}
                   selected={
                     selectedQuestion !== undefined &&
-                    selectedQuestion.questionNo === question.questionNo
+                    selectedQuestion.no === question.no
                   }
                   onSelect={() => {
                     setSelectedQuestion(question);
@@ -105,4 +105,4 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
   );
 };
 
-export default PuzzleWritingQuestionPage;
+export default StoryWritingQuestionPage;
