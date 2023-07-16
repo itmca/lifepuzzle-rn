@@ -6,8 +6,6 @@ import PuzzleWritingPhotoPage from '../../pages/PuzzleWritingPhoto/PuzzleWriting
 import PuzzleWritingTextPage from '../../pages/PuzzleWritingText/PuzzleWritingTextPage';
 import PuzzleWritingVoicePage from '../../pages/PuzzleWritingVoice/PuzzleWritingVoicePage';
 import PuzzleWritingDatePage from '../../pages/PuzzleWritingDate/PuzzleWritingDatePage';
-
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title from '../../components/styled/components/Title';
 import PuzzleWritingQuestionPage from '../../pages/PuzzleWritingQuestion/PuzzleWritingQuestionPage';
@@ -23,7 +21,7 @@ export type PuzzleWritingParamList = {
 const Stack = createNativeStackNavigator<PuzzleWritingParamList>();
 
 const PuzzleWritingNavigator = (): JSX.Element => {
-  const [saveStory, isLoading] = useSaveStory();
+  const [saveStory] = useSaveStory();
 
   return (
     <Stack.Navigator
@@ -80,14 +78,12 @@ const PuzzleWritingNavigator = (): JSX.Element => {
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>글작성</Title>,
           headerRight: () => (
-            <LoadingContainer isLoading={isLoading}>
-              <WritingHeaderRight
-                text="등록"
-                customAction={() => {
-                  saveStory();
-                }}
-              />
-            </LoadingContainer>
+            <WritingHeaderRight
+              text="등록"
+              customAction={() => {
+                saveStory();
+              }}
+            />
           ),
           headerBackVisible: false,
         }}

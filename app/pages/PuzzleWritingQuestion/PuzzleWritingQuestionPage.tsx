@@ -46,12 +46,12 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
     }
 
     setStoryQuestion({
-      recQuestionNo: selectedQuestion.questionNo,
-      helpQuestionText: selectedQuestion.questionText,
+      recQuestionNo: selectedQuestion.no,
+      helpQuestionText: selectedQuestion.text,
       recQuestionModified: false,
     });
 
-    setHelpQuestionText(selectedQuestion.questionText);
+    setHelpQuestionText(selectedQuestion.text);
   }, [selectedQuestion]);
 
   const [recommendQuestions, isLoading] = useRecommendedQuestion();
@@ -82,7 +82,7 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
                   question={question}
                   selected={
                     selectedQuestion !== undefined &&
-                    selectedQuestion.questionNo === question.questionNo
+                    selectedQuestion.no === question.no
                   }
                   onSelect={() => {
                     setSelectedQuestion(question);
