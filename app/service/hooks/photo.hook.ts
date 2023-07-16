@@ -63,7 +63,7 @@ export const usePhotos = ({
       };
       addSelectedList.push(file);
     });
-    setSelectedList(photoList.concat(addSelectedList));
+    setSelectedList(selectedList.concat(addSelectedList));
   };
   return {openGallery};
 };
