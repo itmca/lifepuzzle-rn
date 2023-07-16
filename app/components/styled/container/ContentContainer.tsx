@@ -6,6 +6,7 @@ type Props = {
   alignItems?: string;
   gap?: string;
   flex?: number | string;
+  minHeight?: number;
 };
 
 export const ContentContainer = styled.View<Props>`
@@ -17,6 +18,7 @@ export const ContentContainer = styled.View<Props>`
   align-items: ${props => (props.alignItems ? props.alignItems : 'stretch')};
   gap: ${props => props.gap ?? '0px'};
   flex: ${props => props.flex ?? 'none'};
+  min-height: ${props => props.minHeight ?? '0'};
 `;
 
 export const HorizontalContentContainer = styled(ContentContainer)<{

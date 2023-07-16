@@ -1,30 +1,23 @@
-import React, {useEffect} from 'react';
-import {
-  Image,
-  KeyboardAvoidingView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {styles} from './styles';
+import React, {useEffect, useState} from 'react';
 import {useRecommendedQuestion} from '../../service/hooks/question.hook';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
   helpQuestionOpenState,
   helpQuestionTextState,
 } from '../../recoils/help-question.recoil';
 import {helpQuestionState} from '../../recoils/story-writing.recoil';
-import {userState} from '../../recoils/user.recoil';
-import {HeroType} from '../../types/hero.type';
-import {heroState} from '../../recoils/hero.recoil';
-import {UserType} from '../../types/user.type';
-import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {AdvancedTextInput} from '../../components/input/AdvancedTextInput';
 import {useLoginChecking} from '../../service/hooks/login.hook';
 import {useFocusAction} from '../../service/hooks/screen.hook';
-import {MediumButton} from '../../components/styled/components/Button';
 import {SmallText} from '../../components/styled/components/Text';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import Title from '../../components/styled/components/Title';
+import dayjs from 'dayjs';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {Color} from '../../constants/color.constant';
+import {RecommendQuestionButton} from '../../components/button/RecommendQuestionButton';
+import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {Question} from '../../types/question.type';
 
 const PuzzleWritingQuestionPage = (): JSX.Element => {
   const [helpQuestionText, setHelpQuestionText] = useRecoilState(
@@ -32,8 +25,9 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
   );
   const setHelpQuestionOpen = useSetRecoilState(helpQuestionOpenState);
   const [storyQuestion, setStoryQuestion] = useRecoilState(helpQuestionState);
-  const user = useRecoilValue<UserType>(userState);
-  const hero = useRecoilValue<HeroType>(heroState);
+  const [selectedQuestion, setSelectedQuestion] = useState<
+    Question | undefined
+  >(undefined);
 
   useLoginChecking({
     alertTitle: '미로그인 시점에 작성한 이야기는 저장되지 않습니다',
@@ -44,74 +38,70 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
     setHelpQuestionText(storyQuestion?.helpQuestionText || '');
   });
 
-  const [recommendQuestion, fetchNextRecommendQuestion, isLoading] =
-    useRecommendedQuestion({
-      onRecommendQuestionChanged: recommendQuestion => {
-        const {questionText, questionNo} = recommendQuestion;
-
-        setStoryQuestion({
-          ...storyQuestion,
-          recQuestionNo: questionNo,
-          recQuestionModified: false,
-          helpQuestionText: questionText,
-        });
-        setHelpQuestionText(questionText);
-      },
-    });
-
   useEffect(() => {
-    const recQuestionNo = storyQuestion?.recQuestionNo || -1;
-    const recQuestionModified =
-      !!recommendQuestion.questionText &&
-      helpQuestionText !== recommendQuestion.questionText;
+    if (!selectedQuestion) {
+      setStoryQuestion(undefined);
+      setHelpQuestionText('');
+      return;
+    }
 
     setStoryQuestion({
-      ...storyQuestion,
-      recQuestionNo,
-      recQuestionModified,
-      helpQuestionText,
+      recQuestionNo: selectedQuestion.questionNo,
+      helpQuestionText: selectedQuestion.questionText,
+      recQuestionModified: false,
     });
-  }, [helpQuestionText]);
+
+    setHelpQuestionText(selectedQuestion.questionText);
+  }, [selectedQuestion]);
+
+  const [recommendQuestions, isLoading] = useRecommendedQuestion();
+
+  const thisMonth = dayjs().format('M');
 
   return (
-    <LoadingContainer isLoading={isLoading}>
-      <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.topheader}>
-          <HeroAvatar imageURL={hero.imageURL} size={56} />
-          <View style={styles.headerText}>
-            <Text style={styles.topText}>
-              {user?.userNickName}님, {hero?.heroNickName}에게{' '}
-            </Text>
-            <Text style={styles.topTextBold}>어떤 질문을 드려 볼까요? </Text>
-          </View>
-        </View>
-
-        <View style={{alignItems: 'center'}}>
-          <AdvancedTextInput
-            activeUnderlineColor="none"
-            customStyle={styles.input}
-            placeholder={
-              '도움질문적기... \n도움질문은 더 풍성한 작성을 위한 보조 역할로 사용됩니다.'
-            }
-            text={helpQuestionText}
-            onChangeText={setHelpQuestionText}
-            multiline={true}
-            returnKeyType="done"
-          />
-        </View>
-        <View>
-          <MediumButton
-            style={styles.questionBtn}
-            onPress={fetchNextRecommendQuestion}>
-            <Image
-              style={styles.btnQuestionMark}
-              source={require('../../assets/images/question-styled.png')}
-            />
-            <SmallText color="white">질문 추천 받기</SmallText>
-          </MediumButton>
-        </View>
-      </KeyboardAvoidingView>
-    </LoadingContainer>
+    <>
+      <ScreenContainer style={{height: 96}}>
+        <ContentContainer>
+          <Title>{thisMonth}월의 추천질문</Title>
+        </ContentContainer>
+        <ContentContainer>
+          <SmallText>이번달 추천질문입니다.</SmallText>
+          <SmallText>이번달도 아름다운 퍼즐을 맞춰보아요!</SmallText>
+        </ContentContainer>
+      </ScreenContainer>
+      <LoadingContainer isLoading={isLoading}>
+        <ScrollContainer>
+          <ScreenContainer
+            style={{backgroundColor: Color.SECONDARY_LIGHT, flex: 1}}>
+            <ContentContainer
+              style={{alignItems: 'flex-start', height: '100%'}}
+              gap={'10px'}>
+              {recommendQuestions.map((question, index) => (
+                <RecommendQuestionButton
+                  order={index + 1}
+                  question={question}
+                  selected={
+                    selectedQuestion !== undefined &&
+                    selectedQuestion.questionNo === question.questionNo
+                  }
+                  onSelect={() => {
+                    setSelectedQuestion(question);
+                  }}
+                />
+              ))}
+              {
+                <RecommendQuestionButton
+                  question={undefined}
+                  order={recommendQuestions.length + 1}
+                  selected={!selectedQuestion}
+                  onSelect={() => setSelectedQuestion(undefined)}
+                />
+              }
+            </ContentContainer>
+          </ScreenContainer>
+        </ScrollContainer>
+      </LoadingContainer>
+    </>
   );
 };
 

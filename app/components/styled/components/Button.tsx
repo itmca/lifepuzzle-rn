@@ -42,6 +42,23 @@ export const LargeButton = styled.TouchableOpacity<Props>`
     `};
 `;
 
+export const LargeWideButton = styled.TouchableOpacity<Props>`
+  height: 48px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background-color: ${props =>
+    props.backgroundColor ? props.backgroundColor : '#32C5FF'};
+
+  ${props =>
+    props.disabled &&
+    css`
+      background-color: #eeeeee;
+      color: #d9d9d9;
+    `};
+`;
+
 export const ImageButton = styled.TouchableOpacity<Props>`
   width: 100%;
   justify-content: center;
