@@ -12,22 +12,16 @@ type StoryQueryResponse = {
   tags: StoryTag[];
 };
 
-type Props = {
-  storyFilter: (story: StoryType) => boolean;
-};
-
 type Response = {
   stories: StoryType[];
-  tags: StoryTag[];
   totalStoryCount: number;
   isLoading: boolean;
 };
-export const useStories = ({storyFilter}: Props): Response => {
+export const useStories = (): Response => {
   const hero = useRecoilValue<HeroType>(heroState);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
   const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
   const [stories, setStories] = useState<StoryType[]>([]);
-  const [tags, setTags] = useState<StoryTag[]>([]);
 
   const [isLoading, fetchStories] = useAuthAxios<StoryQueryResponse>({
     requestOption: {
@@ -36,9 +30,8 @@ export const useStories = ({storyFilter}: Props): Response => {
         heroNo: hero.heroNo,
       },
     },
-    onResponseSuccess: ({stories, tags}) => {
+    onResponseSuccess: ({stories}) => {
       setStories(stories);
-      setTags(tags);
     },
     disableInitialRequest: true,
   });
@@ -56,8 +49,7 @@ export const useStories = ({storyFilter}: Props): Response => {
   }, [hero.heroNo, heroUpdateObserver, storyListUpdateObserver]);
 
   return {
-    stories: stories.filter(storyFilter),
-    tags,
+    stories: stories,
     totalStoryCount: stories.length,
     isLoading,
   };

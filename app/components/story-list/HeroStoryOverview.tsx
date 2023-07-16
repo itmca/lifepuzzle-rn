@@ -7,15 +7,12 @@ import {StoryTag} from '../../types/story.type';
 
 type Props = {
   hero: HeroType;
-  tags: StoryTag[];
-  onSelect: (tagKey: string) => void;
 };
 
-const HeroStoryOverview = ({hero, tags, onSelect}: Props): JSX.Element => {
+const HeroStoryOverview = ({hero}: Props): JSX.Element => {
   return (
     <View>
       <HeroOverview hero={hero} />
-      <SwipingStoryTagChips tags={tags} onSelect={onSelect} />
     </View>
   );
 };

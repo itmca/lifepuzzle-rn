@@ -1,52 +1,76 @@
-import React from 'react';
-import {Image, Text, View} from 'react-native';
-import FingerBounceAnimation from '../../components/animation/FingerBounceAnimation';
+import React, {useRef, useState} from 'react';
+import StoryList from '../../components/story-list/StoryList';
+import HeroStoryOverview from '../../components/story-list/HeroStoryOverview';
+import {useRecoilValue} from 'recoil';
+import {heroState} from '../../recoils/hero.recoil';
+import {HeroType} from '../../types/hero.type';
+import {LoadingContainer} from '../../components/loadding/LoadingContainer';
+import {useStories} from '../../service/hooks/story.query.hook';
+import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
+import Sound from 'react-native-sound';
+import {toMinuteSeconds} from '../../service/time-display.service';
 import {styles} from './styles';
 import {
-  NoOutLineScreenContainer,
-  ScreenContainer,
-} from '../../components/styled/container/ScreenContainer';
-import {
-  ContentContainer,
-  OutLineContentContainer,
-} from '../../components/styled/container/ContentContainer';
-import NavigationBar from '../../components/navigation/NavigationBar';
-import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
-
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  View,
+} from 'react-native';
+import {GoToTopButton} from '../../components/button/GoToTopButton';
+import {WritingButton} from '../../components/button/WritingButton';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
+import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
 const HomePage = (): JSX.Element => {
+  const hero = useRecoilValue<HeroType>(heroState);
+
+  const storyList = DUMMY_STORY_LIST.map(story => {
+    if (story.audios[0] !== undefined) {
+      const audioSound = new Sound(story.audios[0], undefined, () => {
+        story.recordingTime = toMinuteSeconds(audioSound.getDuration());
+      });
+    }
+    return story;
+  });
+
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  const scrollRef = useRef<ScrollView>(null);
+  const [scrollPositionY, setScrollPositionY] = useState<number>(0);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const positionY = event.nativeEvent.contentOffset.y;
+    setScrollPositionY(positionY);
+  };
+
   return (
-    <NoOutLineScreenContainer>
-      <ScrollContainer>
-        <OutLineContentContainer flex={1}>
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.mainImage}
-              source={require('../../assets/images/puzzles.png')}
-            />
-          </View>
-          <View style={styles.titleTextContainer}>
-            <Text style={styles.titleText}>한 번에 맞추는 것은 어렵습니다</Text>
-            <Text style={styles.titleText}>한 조각씩은 쉽죠</Text>
-          </View>
-          <View style={styles.subTextTopContainer}>
-            <Text style={styles.subText}>
-              할아버지, 할머니, 부모님의 이야기를 자서전으로 남기고 싶지만 너무
-              거창해서 쉽게 손이 가지 않습니다.
-            </Text>
-          </View>
-          <View style={styles.subTextBottomContainer}>
-            <Text style={styles.subText}>
-              인생을 적은 작은 퍼즐들이 모여 자연스럽게 긴 이야기가 될 수 있도록
-              도와드립니다.{' '}
-            </Text>
-          </View>
-        </OutLineContentContainer>
-      </ScrollContainer>
-      <FingerBounceAnimation
-        text={'인생 한조각 맞추러 가기'}
-        durationSeconds={15}
-      />
-    </NoOutLineScreenContainer>
+    <LoadingContainer isLoading={false}>
+      <NoOutLineFullScreenContainer>
+        <ScrollView
+          ref={scrollRef}
+          onScroll={handleScroll}
+          scrollEventThrottle={100}
+          showsVerticalScrollIndicator={false}>
+          <HeroStoryOverview hero={hero} />
+          <View style={styles.customDivider} />
+          <StoryList stories={storyList} />
+        </ScrollView>
+        <GoToTopButton
+          visible={scrollPositionY > 10}
+          onPress={() => scrollRef.current?.scrollTo({y: 0})}
+        />
+        <WritingButton
+          onPress={() =>
+            navigation.push('NoTab', {
+              screen: 'PuzzleWritingNavigator',
+              params: {
+                screen: 'PuzzleWritingQuestion',
+              },
+            })
+          }
+        />
+      </NoOutLineFullScreenContainer>
+    </LoadingContainer>
   );
 };
 

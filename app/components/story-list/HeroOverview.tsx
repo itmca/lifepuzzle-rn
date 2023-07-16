@@ -2,9 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {styles} from './styles';
 import {HeroType} from '../../types/hero.type';
-import {isLoggedInState} from '../../recoils/auth.recoil';
 import Text from '../styled/components/Text';
-import {useRecoilValue} from 'recoil';
 import {HomeLoginButton} from '../button/HomeLoginButton';
 
 type Props = {
@@ -12,10 +10,9 @@ type Props = {
 };
 
 const HeroOverview = ({hero}: Props): JSX.Element => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
   return (
     <View style={styles.profileContainer}>
-      {isLoggedIn ? (
+      {hero.heroNo !== -1 ? (
         <View>
           <Text style={styles.titleText}>
             안녕하세요? {'\n'}

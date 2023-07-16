@@ -1,14 +1,15 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity, View} from 'react-native';
+import {View} from 'react-native';
 import {styles} from './styles';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {StoryType} from '../../types/story.type';
-import {getStoryDisplayDate} from '../../service/story-display.service';
-import Text from '../styled/components/Text';
-import Image, {Photo} from '../styled/components/Image';
 import {BasicNavigationProps} from '../../navigation/types';
+import {Thumbnail} from './StoryItemThumbnail';
+import {Contents} from './StoryItemContents';
+import {TextOnlyContents} from './StoryItemWithTextOnly';
+import {isLoggedInState} from '../../recoils/auth.recoil';
 
 type props = {
   story: StoryType;
@@ -17,121 +18,48 @@ type props = {
 const StoryItem = ({story}: props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const storyId = useSetRecoilState(SelectedStoryKeyState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const moveToStoryDetailPage = (id: StoryType['id']) => {
     storyId(id);
+
     navigation.push('NoTab', {
       screen: 'StoryViewNavigator',
       params: {
-        screen: 'StoryDetail',
+        screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
       },
     });
   };
 
+  //TODO
+  const isVideo = false;
+
   const isPhoto = story.photos.length ? true : false;
   const isAudio = story.audios.length ? true : false;
-  const isOnlyText = !isPhoto && !isAudio ? true : false;
-  const date = getStoryDisplayDate(story.date);
+  const isOnlyText = !isPhoto && !isAudio && !isVideo ? true : false;
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => {
-        moveToStoryDetailPage(story.id);
-      }}>
+    <View style={styles.container}>
       {isOnlyText ? (
-        <View style={styles.onlyTextItemContainer}>
-          <Text
-            style={{...styles.itemTitle, marginBottom: 8}}
-            numberOfLines={1}
-            ellipsizeMode="tail">
-            {story.title}
-          </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              source={require('../../assets/images/thumb-up-iso-color.png')}
-              style={styles.thumbUpIcon}
-            />
-            <Text style={styles.questionText}>
-              추천질문이 들어오는 영역입니다.
-            </Text>
-          </View>
-          <Text
-            style={styles.onlyTextContent}
-            numberOfLines={2}
-            ellipsizeMode="tail">
-            {story.content}
-          </Text>
-          <Text style={styles.date}>{date}</Text>
-        </View>
+        <TextOnlyContents
+          story={story}
+          onPress={() => {
+            moveToStoryDetailPage(story.id);
+          }}
+        />
       ) : (
         <View style={styles.thumbnailListItemContainer}>
-          <View style={styles.thumbnailItemContainer}>
-            <View style={styles.thumbnailRecordItemContainer}>
-              <Text style={styles.dateOnThumbnail}>{date}</Text>
-              {isPhoto && (
-                <>
-                  <Photo
-                    backgroundColor="#d9d9d9"
-                    borderTopLeftRadius={6}
-                    borderTopRightRadius={6}
-                    resizeMode="cover"
-                    source={{
-                      uri: story.photos.length > 0 ? story.photos[0] : null,
-                    }}
-                  />
-                  <View style={styles.textOnThumbnail}>
-                    <Text style={styles.questionTextOnTumbnail}>
-                      추천질문이 들어오는 영역입니다.
-                    </Text>
-                  </View>
-                </>
-              )}
-              {isAudio && (
-                <View
-                  style={
-                    isPhoto
-                      ? styles.dissolveView
-                      : styles.thumbnailRecordItemContainer
-                  }>
-                  <View style={styles.textOnThumbnail}>
-                    <Text style={styles.recordText}>
-                      음성녹음 {story.recordingTime}
-                    </Text>
-                    <Text style={styles.questionTextOnTumbnail}>
-                      추천질문이 들어오는 영역입니다.
-                    </Text>
-                  </View>
-                </View>
-              )}
-            </View>
-          </View>
-          <View style={styles.contentsContainer}>
-            <Text
-              style={styles.itemTitle}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {story.title}
-            </Text>
-            <Text
-              style={styles.description}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {story.content}
-            </Text>
-            {isAudio && (
-              <View style={styles.recordIconContainer}>
-                <Image
-                  width={27}
-                  height={27}
-                  source={require('../../assets/images/recording-icon.png')}
-                />
-              </View>
-            )}
-          </View>
+          <Thumbnail story={story} />
+          <Contents
+            title={story.title}
+            content={story.content}
+            onPress={() => {
+              moveToStoryDetailPage(story.id);
+            }}
+          />
         </View>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 
