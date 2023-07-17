@@ -1,16 +1,24 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import PuzzleWritingNavigator, {PuzzleWritingParamList} from './PuzzleWritingNavigator';
-import LoginRegisterNavigator, {LoginRegisterParamList} from './LoginRegisterNavigator';
-import HeroSettingNavigator, {HeroSettingParamList} from './HeroSettingNavigator';
-import AccountSettingNavigator, {AccountSettingParamList} from './AccountSettingNavigator';
+import StoryWritingNavigator, {
+  StoryWritingParamList,
+} from './StoryWritingNavigator';
+import LoginRegisterNavigator, {
+  LoginRegisterParamList,
+} from './LoginRegisterNavigator';
+import HeroSettingNavigator, {
+  HeroSettingParamList,
+} from './HeroSettingNavigator';
+import AccountSettingNavigator, {
+  AccountSettingParamList,
+} from './AccountSettingNavigator';
 import StoryViewNavigator, {StoryViewParamList} from './StoryViewNavigator';
 import PolicyNavigator, {PolicyParamList} from './PolicyNavigator';
-import {NavigatorScreenParams} from "@react-navigation/native";
+import {NavigatorScreenParams} from '@react-navigation/native';
 
 export type NoTabParamList = {
   StoryViewNavigator: NavigatorScreenParams<StoryViewParamList>;
-  PuzzleWritingNavigator: NavigatorScreenParams<PuzzleWritingParamList>;
+  StoryWritingNavigator: NavigatorScreenParams<StoryWritingParamList>;
   LoginRegisterNavigator: NavigatorScreenParams<LoginRegisterParamList>;
   HeroSettingNavigator: NavigatorScreenParams<HeroSettingParamList>;
   AccountSettingNavigator: NavigatorScreenParams<AccountSettingParamList>;
@@ -24,8 +32,8 @@ const NoTabRootNavigator = (): JSX.Element => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="StoryViewNavigator" component={StoryViewNavigator} />
       <Stack.Screen
-        name="PuzzleWritingNavigator"
-        component={PuzzleWritingNavigator}
+        name="StoryWritingNavigator"
+        component={StoryWritingNavigator}
       />
       <Stack.Screen
         name="LoginRegisterNavigator"

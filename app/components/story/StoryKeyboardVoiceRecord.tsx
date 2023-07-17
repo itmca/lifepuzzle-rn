@@ -7,6 +7,7 @@ import {recordFileState} from '../../recoils/story-writing.recoil';
 import {SmallImage} from '../styled/components/Image';
 import {styles} from './styles';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
+import {BasicNavigationProps} from '../../navigation/types';
 
 type VoiceRecordProps = {
   fileName: string;
@@ -46,7 +47,7 @@ const RecordedVoice = ({
   );
 };
 export const StoryKeyboardVoiceRecord = (): JSX.Element => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const recordFileInfo = useRecoilValue(recordFileState);
   const resetRecord = useResetRecoilState(recordFileState);
 
@@ -77,9 +78,9 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
             <></>
           ) : (
             navigation.push('NoTab', {
-              screen: 'PuzzleWritingNavigator',
+              screen: 'StoryWritingNavigator',
               params: {
-                screen: 'PuzzleWritingVoice',
+                screen: 'StoryWritingVoice',
               },
             })
           )

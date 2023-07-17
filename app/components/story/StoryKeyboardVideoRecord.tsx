@@ -24,8 +24,8 @@ export const StoryKeyboardVideoRecord = (): JSX.Element => {
             style={styles.uploadIcon}
             source={
               props.isExpanded
-                ? require('../../assets/images/expand_more.png')
-                : require('../../assets/images/expand_less.png')
+                ? require('../../assets/images/expand_less.png')
+                : require('../../assets/images/expand_more.png')
             }
           />
         </View>

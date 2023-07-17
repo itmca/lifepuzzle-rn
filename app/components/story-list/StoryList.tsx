@@ -1,6 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
-import {styles} from '../../pages/StoryList/styles';
+import {StyleSheet, View} from 'react-native';
 import StoryItem from './StoryItem';
 import {StoryType} from '../../types/story.type';
 import Text from '../styled/components/Text';
@@ -8,6 +7,23 @@ import Text from '../styled/components/Text';
 type Props = {
   stories: StoryType[];
 };
+
+const styles = StyleSheet.create({
+  storyListContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    height: '100%',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    gap: 16,
+  },
+  storyListTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    marginTop: 8,
+    marginLeft: 5,
+  },
+});
 
 const StoryList = ({stories}: Props): JSX.Element => {
   return (

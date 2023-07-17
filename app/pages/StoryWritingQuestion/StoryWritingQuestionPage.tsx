@@ -19,7 +19,7 @@ import {RecommendQuestionButton} from '../../components/button/RecommendQuestion
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {Question} from '../../types/question.type';
 
-const PuzzleWritingQuestionPage = (): JSX.Element => {
+const StoryWritingQuestionPage = (): JSX.Element => {
   const [helpQuestionText, setHelpQuestionText] = useRecoilState(
     helpQuestionTextState,
   );
@@ -105,4 +105,4 @@ const PuzzleWritingQuestionPage = (): JSX.Element => {
   );
 };
 
-export default PuzzleWritingQuestionPage;
+export default StoryWritingQuestionPage;

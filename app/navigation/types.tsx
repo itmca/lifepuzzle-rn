@@ -8,7 +8,7 @@ import {
 } from '@react-navigation/native-stack';
 import {HeroSettingParamList} from './no-tab/HeroSettingNavigator';
 import {StoryViewParamList} from './no-tab/StoryViewNavigator';
-import {PuzzleWritingParamList} from './no-tab/PuzzleWritingNavigator';
+import {StoryWritingParamList} from './no-tab/StoryWritingNavigator';
 import {LoginRegisterParamList} from './no-tab/LoginRegisterNavigator';
 import {AccountSettingParamList} from './no-tab/AccountSettingNavigator';
 import {PolicyParamList} from './no-tab/PolicyNavigator';
@@ -43,18 +43,17 @@ export type StoryViewNavigationProps<T extends keyof StoryViewParamList> =
 export type StoryViewRouteProps<T extends keyof StoryViewParamList> =
   StoryViewScreenProps<T>['route'];
 
-export type PuzzleWritingScreenProps<T extends keyof PuzzleWritingParamList> =
+export type StoryWritingScreenProps<T extends keyof StoryWritingParamList> =
   CompositeScreenProps<
-    NativeStackScreenProps<PuzzleWritingParamList, T>,
+    NativeStackScreenProps<StoryWritingParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
   >;
 
-export type PuzzleWritingNavigationProps<
-  T extends keyof PuzzleWritingParamList,
-> = PuzzleWritingScreenProps<T>['navigation'];
+export type StoryWritingNavigationProps<T extends keyof StoryWritingParamList> =
+  StoryWritingScreenProps<T>['navigation'];
 
-export type PuzzleWritingRouteProps<T extends keyof PuzzleWritingParamList> =
-  PuzzleWritingScreenProps<T>['route'];
+export type StoryWritingRouteProps<T extends keyof StoryWritingParamList> =
+  StoryWritingScreenProps<T>['route'];
 
 export type LoginRegisterScreenProps<T extends keyof LoginRegisterParamList> =
   CompositeScreenProps<

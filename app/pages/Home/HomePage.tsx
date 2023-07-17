@@ -20,21 +20,27 @@ import {GoToTopButton} from '../../components/button/GoToTopButton';
 import {WritingButton} from '../../components/button/WritingButton';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
+import {isLoggedInState} from '../../recoils/auth.recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
+
 const HomePage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
-  const storyList = DUMMY_STORY_LIST.map(story => {
-    if (story.audios[0] !== undefined) {
-      const audioSound = new Sound(story.audios[0], undefined, () => {
-        story.recordingTime = toMinuteSeconds(audioSound.getDuration());
-      });
-    }
-    return story;
-  });
+  const {stories, isLoading} = useStories();
+
+  const displayStories = (isLoggedIn ? stories : DUMMY_STORY_LIST).map(
+    story => {
+      if (story.audios[0] !== undefined) {
+        const audioSound = new Sound(story.audios[0], undefined, () => {
+          story.recordingTime = toMinuteSeconds(audioSound.getDuration());
+        });
+      }
+      return story;
+    },
+  );
 
   const navigation = useNavigation<BasicNavigationProps>();
-
   const scrollRef = useRef<ScrollView>(null);
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
 
@@ -44,7 +50,7 @@ const HomePage = (): JSX.Element => {
   };
 
   return (
-    <LoadingContainer isLoading={false}>
+    <LoadingContainer isLoading={isLoading}>
       <NoOutLineFullScreenContainer>
         <ScrollView
           ref={scrollRef}
@@ -53,7 +59,7 @@ const HomePage = (): JSX.Element => {
           showsVerticalScrollIndicator={false}>
           <HeroStoryOverview hero={hero} />
           <View style={styles.customDivider} />
-          <StoryList stories={storyList} />
+          <StoryList stories={displayStories} />
         </ScrollView>
         <GoToTopButton
           visible={scrollPositionY > 10}
@@ -62,9 +68,9 @@ const HomePage = (): JSX.Element => {
         <WritingButton
           onPress={() =>
             navigation.push('NoTab', {
-              screen: 'PuzzleWritingNavigator',
+              screen: 'StoryWritingNavigator',
               params: {
-                screen: 'PuzzleWritingQuestion',
+                screen: 'StoryWritingQuestion',
               },
             })
           }

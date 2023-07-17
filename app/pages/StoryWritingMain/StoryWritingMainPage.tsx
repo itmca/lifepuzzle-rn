@@ -28,7 +28,7 @@ import {
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 
-const PuzzleWritingTextPage = (): JSX.Element => {
+const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
   const helpQuestion = useRecoilValue(helpQuestionTextState);
   const [title, setTitle] = useState<string>('');
@@ -126,4 +126,4 @@ const PuzzleWritingTextPage = (): JSX.Element => {
   );
 };
 
-export default PuzzleWritingTextPage;
+export default StoryWritingMainPage;

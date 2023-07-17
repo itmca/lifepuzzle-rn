@@ -149,6 +149,7 @@ export const styles = StyleSheet.create({
     color: '#999999',
     marginBottom: 25,
     fontWeight: 600,
+    flex: 1,
   },
   onlyTextContent: {
     fontWeight: '400',
@@ -172,6 +173,7 @@ export const styles = StyleSheet.create({
     height: 20,
     opacity: 0.5,
     marginRight: 5,
+    flexBasis: 20,
   },
   contentsContainer: {
     height: 89,
