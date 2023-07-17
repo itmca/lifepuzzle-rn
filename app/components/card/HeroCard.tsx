@@ -9,7 +9,7 @@ import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
-import Text, {LargeText} from '../styled/components/Text';
+import Text, {XXLargeText} from '../styled/components/Text';
 import {MediumButton} from '../styled/components/Button';
 
 type Props = {
@@ -58,7 +58,9 @@ const HeroCard = ({hero}: Props): JSX.Element => {
       </View>
       <View style={styles.characterProfileContainer}>
         <HeroAvatar size={128} imageURL={imageURL} />
-        <LargeText style={styles.characterNickName}>{heroNickName}</LargeText>
+        <XXLargeText style={styles.characterNickName}>
+          {heroNickName}
+        </XXLargeText>
         <Text style={styles.characterName}>{heroName} 님</Text>
         <Text style={styles.characterTitle}>{'"' + title + '"'}</Text>
       </View>

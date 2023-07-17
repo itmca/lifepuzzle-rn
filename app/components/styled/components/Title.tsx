@@ -35,7 +35,7 @@ export const MediumTitle = styled.Text<Props>`
 `;
 export const SmallTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : '#000000')};
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   letterspacing: ${({letterSpacing}) =>
     letterSpacing ? `${letterSpacing}px` : '0.25px'};
@@ -44,7 +44,7 @@ export const SmallTitle = styled.Text<Props>`
 export const XSmallTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : '#000000')};
   font-weight: 700;
-  font-size: 11px;
+  font-size: 16px;
 `;
 
 function Title({...props}) {
