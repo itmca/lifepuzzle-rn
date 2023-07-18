@@ -50,15 +50,19 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
         {isAudio && (
           <Text style={styles.recordText}>음성녹음 {story.recordingTime}</Text>
         )}
-        <Text
-          style={
-            !isAudio && isPhoto && !isVideo
-              ? styles.questionTextWidthBgOnTumbnail
-              : styles.questionTextOnTumbnail
-          }>
-          {story.playingTime ? `${story.playingTime}    ` : ''}
-          {story.question ? story.question : ''}
-        </Text>
+        <View style={{width: '90%'}}>
+          <Text
+            style={
+              !isAudio && isPhoto && !isVideo && story.question
+                ? styles.questionTextWidthBgOnTumbnail
+                : styles.questionTextOnTumbnail
+            }
+            numberOfLines={1}
+            ellipsizeMode="tail">
+            {story.playingTime ? `${story.playingTime}    ` : ''}
+            {story.question ? story.question : null}
+          </Text>
+        </View>
       </View>
     </>
   );

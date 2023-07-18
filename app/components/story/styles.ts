@@ -44,4 +44,27 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
+  videoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+  },
+  contentsOnThumbnail: {
+    position: 'absolute',
+    left: 17,
+    bottom: 14,
+    gap: 5,
+  },
+  iconsOnThumbnail: {
+    flexDirection: 'row',
+    gap: 3,
+    marginBottom: 2,
+  },
 });

@@ -21,15 +21,20 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
         ellipsizeMode="tail">
         {story.title}
       </Text>
-      <View style={{flexDirection: 'row'}}>
-        <Image
-          source={require('../../assets/images/thumb-up-iso-color.png')}
-          style={styles.thumbUpIcon}
-        />
-        {story.question && (
-          <Text style={styles.questionText}>{story.question}</Text>
-        )}
-      </View>
+      {story.question && (
+        <View style={{flexDirection: 'row', width: '95%'}}>
+          <Image
+            source={require('../../assets/images/thumb-up-iso-color.png')}
+            style={styles.thumbUpIcon}
+          />
+          <Text
+            style={styles.questionText}
+            numberOfLines={1}
+            ellipsizeMode="tail">
+            {story.question}
+          </Text>
+        </View>
+      )}
       <Text
         style={styles.onlyTextContent}
         numberOfLines={2}

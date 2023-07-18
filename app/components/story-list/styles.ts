@@ -69,11 +69,14 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
   },
   questionTextOnTumbnail: {
+    width: '100%',
     fontWeight: '600',
     fontSize: 12,
     color: 'white',
   },
   questionTextWidthBgOnTumbnail: {
+    position: 'absolute',
+    bottom: 0,
     fontWeight: '600',
     fontSize: 12,
     color: 'white',
@@ -194,6 +197,7 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 6,
   },
   contentsOnThumbnail: {
+    width: '100%',
     position: 'absolute',
     left: 17,
     bottom: 14,
