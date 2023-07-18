@@ -11,6 +11,7 @@ export type StoryType = {
   date: Date;
   createdAt: Date;
   recordingTime?: string;
+  playingTime?: string;
 };
 
 export type StoryTag = {

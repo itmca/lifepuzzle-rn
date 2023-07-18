@@ -31,9 +31,7 @@ const StoryItem = ({story}: props): JSX.Element => {
     });
   };
 
-  //TODO
-  const isVideo = false;
-
+  const isVideo = story.videos.length ? true : false;
   const isPhoto = story.photos.length ? true : false;
   const isAudio = story.audios.length ? true : false;
   const isOnlyText = !isPhoto && !isAudio && !isVideo ? true : false;

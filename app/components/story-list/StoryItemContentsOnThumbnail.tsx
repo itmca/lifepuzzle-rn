@@ -11,10 +11,8 @@ type props = {
 export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
   const isPhoto = story.photos.length ? true : false;
   const isAudio = story.audios.length ? true : false;
+  const isVideo = story.videos.length ? true : false;
   const date = getStoryDisplayDate(story.date);
-
-  //TODO
-  const isVideo = false;
 
   return (
     <>
@@ -58,7 +56,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
               ? styles.questionTextWidthBgOnTumbnail
               : styles.questionTextOnTumbnail
           }>
-          {isVideo ? '30:05   ' : ''}
+          {story.playingTime ? `${story.playingTime}    ` : ''}
           {story.question ? story.question : ''}
         </Text>
       </View>
