@@ -3,6 +3,9 @@ import {StoryType} from '../../types/story.type';
 import {styles} from './styles';
 import Image from '../styled/components/Image';
 import {getStoryDisplayDate} from '../../service/story-display.service';
+import {XSmallText} from '../styled/components/Text';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {Color} from '../../constants/color.constant';
 
 type props = {
   story: StoryType;
@@ -19,50 +22,57 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
       <Text style={styles.dateOnThumbnail}>{date}</Text>
       <View style={styles.contentsOnThumbnail}>
         <View style={styles.iconsOnThumbnail}>
-          {isVideo && (
-            <View style={styles.playIconContainer}>
-              <Image
-                width={6}
-                height={8}
-                source={require('../../assets/images/playing-icon.png')}
-              />
-            </View>
-          )}
-          {isAudio && (
-            <View
+          <HorizontalContentContainer>
+            {isVideo && (
+              <>
+                <View style={styles.playIconContainer}>
+                  <Image
+                    width={6}
+                    height={8}
+                    source={require('../../assets/images/playing-icon-orange.png')}
+                  />
+                </View>
+                <XSmallText color={Color.WHITE} opacity={0.8} fontWeight={500}>
+                  {story.playingTime ? ` ${story.playingTime}  ` : null}
+                </XSmallText>
+              </>
+            )}
+            {isAudio && (
+              <>
+                <View
+                  style={
+                    !isPhoto && !isVideo
+                      ? styles.recordIconBlueContainer
+                      : styles.recordIconGrayContainer
+                  }>
+                  <Image
+                    width={6.67}
+                    height={9}
+                    source={require('../../assets/images/recording-icon-blue.png')}
+                  />
+                </View>
+                <XSmallText
+                  color={Color.WHITE}
+                  opacity={0.8}
+                  fontWeight={500}>{` ${story.recordingTime}`}</XSmallText>
+              </>
+            )}
+          </HorizontalContentContainer>
+        </View>
+        {story.question && (
+          <View style={styles.questionContainer}>
+            <Text
               style={
-                !isPhoto && !isVideo
-                  ? styles.recordIconBlueContainer
-                  : styles.recordIconGrayContainer
-              }>
-              <Image
-                width={6.67}
-                height={9}
-                source={
-                  isPhoto || isVideo
-                    ? require('../../assets/images/recording-icon.png')
-                    : require('../../assets/images/recording-icon-blue.png')
-                }
-              />
-            </View>
-          )}
-        </View>
-        {isAudio && (
-          <Text style={styles.recordText}>음성녹음 {story.recordingTime}</Text>
+                !isAudio && isPhoto && !isVideo && story.question
+                  ? styles.questionTextWidthBgOnTumbnail
+                  : styles.questionTextOnTumbnail
+              }
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {story.question}
+            </Text>
+          </View>
         )}
-        <View style={{width: '90%'}}>
-          <Text
-            style={
-              !isAudio && isPhoto && !isVideo && story.question
-                ? styles.questionTextWidthBgOnTumbnail
-                : styles.questionTextOnTumbnail
-            }
-            numberOfLines={1}
-            ellipsizeMode="tail">
-            {story.playingTime ? `${story.playingTime}    ` : ''}
-            {story.question ? story.question : null}
-          </Text>
-        </View>
       </View>
     </>
   );

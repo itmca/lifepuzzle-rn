@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   playIconContainer: {
-    backgroundColor: 'rgba(246, 246, 246, 1)',
+    backgroundColor: '#333333',
     width: 16,
     height: 16,
     justifyContent: 'center',
@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
   questionTextOnTumbnail: {
     width: '100%',
     fontWeight: '600',
-    fontSize: 12,
+    fontSize: 14,
     color: 'white',
   },
   questionTextWidthBgOnTumbnail: {
@@ -207,5 +207,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 3,
     marginBottom: 2,
+  },
+  questionContainer: {
+    width: '90%',
   },
 });

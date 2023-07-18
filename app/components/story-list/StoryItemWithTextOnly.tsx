@@ -4,6 +4,7 @@ import {StoryType} from '../../types/story.type';
 import Image from '../styled/components/Image';
 import Text from '../styled/components/Text';
 import {getStoryDisplayDate} from '../../service/story-display.service';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 
 type props = {
   story: StoryType;
@@ -22,7 +23,7 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
         {story.title}
       </Text>
       {story.question && (
-        <View style={{flexDirection: 'row', width: '95%'}}>
+        <HorizontalContentContainer>
           <Image
             source={require('../../assets/images/thumb-up-iso-color.png')}
             style={styles.thumbUpIcon}
@@ -33,7 +34,7 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
             ellipsizeMode="tail">
             {story.question}
           </Text>
-        </View>
+        </HorizontalContentContainer>
       )}
       <Text
         style={styles.onlyTextContent}
