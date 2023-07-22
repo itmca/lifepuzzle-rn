@@ -4,6 +4,7 @@ import {StoryType} from '../../types/story.type';
 import Image from '../styled/components/Image';
 import Text from '../styled/components/Text';
 import {getStoryDisplayDate} from '../../service/story-display.service';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 
 type props = {
   story: StoryType;
@@ -21,15 +22,20 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
         ellipsizeMode="tail">
         {story.title}
       </Text>
-      <View style={{flexDirection: 'row'}}>
-        <Image
-          source={require('../../assets/images/thumb-up-iso-color.png')}
-          style={styles.thumbUpIcon}
-        />
-        {story.question && (
-          <Text style={styles.questionText}>{story.question}</Text>
-        )}
-      </View>
+      {story.question && (
+        <HorizontalContentContainer>
+          <Image
+            source={require('../../assets/images/thumb-up-iso-color.png')}
+            style={styles.thumbUpIcon}
+          />
+          <Text
+            style={styles.questionText}
+            numberOfLines={1}
+            ellipsizeMode="tail">
+            {story.question}
+          </Text>
+        </HorizontalContentContainer>
+      )}
       <Text
         style={styles.onlyTextContent}
         numberOfLines={2}

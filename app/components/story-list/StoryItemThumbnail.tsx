@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import Video from 'react-native-video';
-import {TouchableHighlight, TouchableOpacity, View} from 'react-native';
+import {OnPlaybackRateData} from 'react-native-video';
+import {TouchableOpacity, View} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {Photo} from '../styled/components/Image';
 import {styles} from './styles';
 import {ContentsOnThumbnail} from './StoryItemContentsOnThumbnail';
+import {VideoPlayer} from '../story/StoryVideoPlayer';
+import {toMinuteSeconds} from '../../service/time-display.service';
 
 type props = {
   story: StoryType;
@@ -13,28 +15,29 @@ type props = {
 export const Thumbnail = ({story}: props): JSX.Element => {
   const isPhoto = story.photos.length ? true : false;
   const isAudio = story.audios.length ? true : false;
+  const isVideo = story.videos.length ? true : false;
 
   const [isClicked, setClicked] = useState<boolean>(false);
   const [isPaused, setPaused] = useState<boolean>(true);
 
-  //TODO
-  const isVideo = false;
+  const handlePause = (data: OnPlaybackRateData) => {
+    if (data.playbackRate === 0) {
+      setClicked(false);
+      setPaused(true);
+    }
+  };
 
   return (
     <View style={styles.thumbnailContainer}>
       {isVideo ? (
-        <TouchableHighlight style={styles.videoContainer}>
-          <Video
-            style={styles.video}
-            source={{uri: ''}}
-            paused={isPaused}
-            resizeMode={'cover'}
-            controls={true}
-            muted={false}
-            repeat={false}
-            fullscreen={false}
-          />
-        </TouchableHighlight>
+        <VideoPlayer
+          videoUrl={story.videos[0]}
+          onLoad={data => {
+            story.playingTime = toMinuteSeconds(data.duration);
+          }}
+          isPaused={isPaused}
+          handlPause={data => handlePause(data)}
+        />
       ) : (
         isPhoto && (
           <Photo

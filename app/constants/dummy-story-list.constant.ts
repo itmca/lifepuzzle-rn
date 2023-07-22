@@ -8,8 +8,11 @@ export const DUMMY_STORY_LIST: StoryType[] = [
     content:
       '테스트 내용입니다. 테스트 내용입니다. 테스트 내용입니다. 테스트 내용입니다. 테스트 내용입니다. 테스트 내용입니다. ',
     audios: [],
-    videos: [''],
+    videos: [
+      'https://itmca-public.s3.ap-northeast-2.amazonaws.com/stories/49-232743/video/VID_20230717_224732.mp4',
+    ],
     photos: [],
+    question: '',
     tags: [],
     createdAt: new Date('2023-06-02T03:29:16.000Z'),
     date: new Date('2023-12-30T00:00:00.000Z'),
@@ -23,6 +26,7 @@ export const DUMMY_STORY_LIST: StoryType[] = [
     audios: [],
     videos: [],
     photos: [],
+    question: '',
     tags: [],
     createdAt: new Date('2023-06-02T03:29:16.000Z'),
     date: new Date('2023-12-30T00:00:00.000Z'),
@@ -36,6 +40,7 @@ export const DUMMY_STORY_LIST: StoryType[] = [
     audios: [],
     videos: [],
     photos: [],
+    question: '',
     createdAt: new Date('2023-06-02T03:29:16.000Z'),
     date: new Date('2023-12-30T00:00:00.000Z'),
     tags: [],
