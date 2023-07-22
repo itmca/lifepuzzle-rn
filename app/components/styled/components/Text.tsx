@@ -1,61 +1,59 @@
 import styled from 'styled-components/native';
-
-type Color =
-  | '#F2C744'
-  | '#55A5FD'
-  | '#707070'
-  | '#979797'
-  | '#323232'
-  | '#FFFFFF'
-  | '#A9A9A9'
-  | '#32C5FF'
-  | '#FF6200';
+import {Color} from '../../../constants/color.constant';
 
 type Props = {
   letterSpacing?: number;
   fontWeight?: string | number;
   lineHeight?: number;
-  color?: Color | '#000000';
+  color?: string;
   fontSize?: number;
 };
 
 export const XXLargeText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
-  font-size: 24px;
-  font-weight: bold;
+  fontfamily: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  fontsize: 24px;
+  fontweight: bold;
 `;
 
 export const XLargeText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
-  font-size: 20px;
-  font-weight: bold;
+  fontfamily: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  fontsize: 20px;
+  fontweight: bold;
 `;
 
 export const LargeText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
-  font-size: 18px;
+  fontfamily: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  fontsize: 18px;
+  fontweight: ${props => props.fontWeight || 'normal'};
 `;
 
 export const MediumText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
-  font-size: 16px;
-  font-weight: ${props => props.fontWeight || 'normal'};
+  fontfamily: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  fontsize: 16px;
+  fontweight: ${props => props.fontWeight || 'normal'};
 `;
 
 export const SmallText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
-  font-size: 14px;
-  font-weight: ${props => props.fontWeight || 'normal'};
-  letter-spacing: ${({letterSpacing}) =>
+  fontfamily: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  fontsize: 14px;
+  fontweight: ${props => props.fontWeight || 'normal'};
+  letterspacing: ${({letterSpacing}) =>
     letterSpacing ? `${letterSpacing}px` : '0.25px'};
 `;
 
 export const XSmallText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
-  font-size: 12px;
+  fontfamily: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  fontsize: 12px;
 `;
 
 function Text({...props}) {
   return <MediumText {...props} />;
 }
-export default Text;
+
+export default MediumText;

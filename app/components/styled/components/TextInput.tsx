@@ -3,6 +3,7 @@ import {TextInput} from 'react-native-paper';
 import React, {useState} from 'react';
 import {XSmallText} from './Text';
 import {NativeSyntheticEvent, TextInputChangeEventData} from 'react-native';
+import {Color} from '../../../constants/color.constant';
 
 type Props = {
   width?: number;
@@ -15,8 +16,8 @@ const StyledTextInput = styled(TextInput).attrs(props => ({
   right: props.right,
 }))<Props>`
   width: ${props => (props.width ? `${props.width}%` : '100%')};
-  font-size: ${props => (props.fontSize ? `${props.fontSize}px` : '16px')};
-  font-weight: ${props =>
+  fontsize: ${props => (props.fontSize ? `${props.fontSize}px` : '16px')};
+  fontweight: ${props =>
     props.fontWeight ? `${props.fontWeight}px` : 'normal'};
 `;
 
@@ -31,14 +32,14 @@ function Input({...props}) {
     return false;
   };
   const theme = {
-    roundness: 8,
+    roundness: 4,
     colors: {
-      primary: '#32C5FF',
-      secondary: '#32C5FF',
-      outline: '#D9D9D9',
-      onSurface: 'black', //underline, textColor
+      primary: Color.PRIMARY_LIGHT,
+      secondary: Color.PRIMARY_LIGHT,
+      outline: Color.LIGHT_GRAY,
+      onSurface: Color.BLACK, //underline, textColor
       surfaceVariant: 'transparent', //underlineBackground
-      background: isFocused == true ? '#F7FDFF' : '#FFFFFF',
+      background: isFocused == true ? '#F7FDFF' : Color.WHITE,
     },
     fonts: {
       fontFamily: 'Pretendard Regular',
@@ -58,9 +59,15 @@ function Input({...props}) {
             position: 'absolute',
             right: 20,
             bottom: 20,
-            color: '#DAD9D9',
+            color: Color.DARK_GRAY,
           }}>
-          {inputCount}/500
+          <XSmallText
+            style={{
+              color: Color.PRIMARY_LIGHT,
+            }}>
+            {inputCount}
+          </XSmallText>
+          /500
         </XSmallText>
       )}
     </>
