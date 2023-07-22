@@ -19,33 +19,33 @@ type Props = {
 
 export const XLargeTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 32px;
-  fontweight: 700;
+  font-size: 32px;
+  font-weight: 700;
 `;
 
 export const LargeTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 24px;
-  fontweight: 700;
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 export const MediumTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 20px;
-  fontweight: 700;
+  font-size: 20px;
+  font-weight: 700;
 `;
 export const SmallTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 18px;
-  fontweight: 700;
-  letterspacing: ${({letterSpacing}) =>
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: ${({letterSpacing}) =>
     letterSpacing ? `${letterSpacing}px` : '0.25px'};
 `;
 
 export const XSmallTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontweight: 700;
-  fontsize: 16px;
+  font-weight: 700;
+  font-size: 16px;
 `;
 
 function Title({...props}) {

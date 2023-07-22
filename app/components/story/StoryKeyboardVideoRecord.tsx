@@ -11,11 +11,9 @@ export const StoryKeyboardVideoRecord = (): JSX.Element => {
   return (
     <List.Accordion
       title={
-        <>
-          <MediumText>
-            동영상 업로드 <SmallText color={Color.DARK_GRAY}>(선택)</SmallText>
-          </MediumText>
-        </>
+        <MediumText>
+          동영상 업로드 <SmallText color={Color.DARK_GRAY}>(선택)</SmallText>
+        </MediumText>
       }
       right={props => (
         <SmallImage

@@ -11,31 +11,31 @@ type Props = {
 export const MediumImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '33.94px')};
   height: ${({height}) => (height ? `${height}px` : '33.25px')};
-  justifycontent: center;
-  aligncontent: center;
+  justify-content: center;
+  align-content: center;
 `;
 export const SmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '20px')};
   height: ${({height}) => (height ? `${height}px` : '20px')};
-  tintcolor: ${({tintColor}) => (tintColor ? `${tintColor}` : '')};
-  backgroundcolor: ${({backgroundColor}) =>
+  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : '')};
+  background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : ''};
-  borderradius: ${({borderRadius}) =>
+  border-radius: ${({borderRadius}) =>
     borderRadius ? `${borderRadius}px` : '0px'};
 `;
 export const XSmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '16px')};
   height: ${({height}) => (height ? `${height}px` : '16px')};
-  tintcolor: ${({tintColor}) => (tintColor ? `${tintColor}` : '')};
-  backgroundcolor: ${({backgroundColor}) =>
+  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : '')};
+  background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : ''};
-  borderradius: ${({borderRadius}) =>
+  border-radius: ${({borderRadius}) =>
     borderRadius ? `${borderRadius}px` : '0px'};
 `;
 export const LargeImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '94px')};
   height: ${({height}) => (height ? `${height}px` : '94px')};
-  borderradius: 10px;
+  border-radius: 10px;
 `;
 export const Photo = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '100%')};

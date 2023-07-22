@@ -10,46 +10,46 @@ type Props = {
 };
 
 export const XXLargeText = styled.Text<Props>`
-  fontfamily: 'Pretendard';
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 24px;
-  fontweight: bold;
+  font-size: 24px;
+  font-weight: bold;
 `;
 
 export const XLargeText = styled.Text<Props>`
-  fontfamily: 'Pretendard';
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 20px;
-  fontweight: bold;
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 export const LargeText = styled.Text<Props>`
-  fontfamily: 'Pretendard';
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 18px;
-  fontweight: ${props => props.fontWeight || 'normal'};
+  font-size: 18px;
+  font-weight: ${props => props.fontWeight || 'normal'};
 `;
 
 export const MediumText = styled.Text<Props>`
-  fontfamily: 'Pretendard';
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 16px;
-  fontweight: ${props => props.fontWeight || 'normal'};
+  font-size: 16px;
+  font-weight: ${props => props.fontWeight || 'normal'};
 `;
 
 export const SmallText = styled.Text<Props>`
-  fontfamily: 'Pretendard';
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 14px;
-  fontweight: ${props => props.fontWeight || 'normal'};
-  letterspacing: ${({letterSpacing}) =>
+  font-size: 14px;
+  font-weight: ${props => props.fontWeight || 'normal'};
+  letter-spacing: ${({letterSpacing}) =>
     letterSpacing ? `${letterSpacing}px` : '0.25px'};
 `;
 
 export const XSmallText = styled.Text<Props>`
-  fontfamily: 'Pretendard';
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  fontsize: 12px;
+  font-size: 12px;
 `;
 
 function Text({...props}) {

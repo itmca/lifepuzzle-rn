@@ -16,8 +16,8 @@ const StyledTextInput = styled(TextInput).attrs(props => ({
   right: props.right,
 }))<Props>`
   width: ${props => (props.width ? `${props.width}%` : '100%')};
-  fontsize: ${props => (props.fontSize ? `${props.fontSize}px` : '16px')};
-  fontweight: ${props =>
+  font-size: ${props => (props.fontSize ? `${props.fontSize}px` : '16px')};
+  font-weight: ${props =>
     props.fontWeight ? `${props.fontWeight}px` : 'normal'};
 `;
 
