@@ -1,6 +1,9 @@
 export const Color = {
   WHITE: '#ffffff',
   BLACK: '#000000',
+  GRAY: '#EBEBEB',
+  LIGHT_GRAY: '#F6F6F6',
+  DARK_GRAY: '#999999',
   PRIMARY_DARK: '#02384E',
   PRIMARY_MEDIUM: '#0085FF',
   PRIMARY_LIGHT: '#32C5FF',

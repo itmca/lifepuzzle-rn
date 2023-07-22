@@ -14,7 +14,10 @@ import {
 } from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {helpQuestionTextState} from '../../recoils/help-question.recoil';
-import Text from '../../components/styled/components/Text';
+import Text, {
+  LargeText,
+  SmallText,
+} from '../../components/styled/components/Text';
 import StoryDateInput from '../../components/story/StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {List} from 'react-native-paper';
@@ -27,6 +30,12 @@ import {
 } from '../../components/styled/container/ContentContainer';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
+import {Color} from '../../constants/color.constant';
+import MediumText from '../../components/styled/components/Text';
+import {
+  MediumImage,
+  SmallImage,
+} from '../../components/styled/components/Image';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
@@ -60,22 +69,25 @@ const StoryWritingMainPage = (): JSX.Element => {
             onChange={setStoryDate}
             style={styles.dateInput}
           />
-          <Text style={styles.helpQuestionText}>이번달 추천질문</Text>
+          <SmallText
+            color={Color.WHITE}
+            fontWeight={700}
+            style={{marginLeft: 10}}>
+            이번달 추천질문
+          </SmallText>
         </ScreenContainer>
         <OutLineContentContainer style={styles.screenLTopContainer}>
           <List.Accordion
-            title={<Text style={{fontSize: 16}}>{helpQuestion}</Text>}
+            title={<MediumText fontWeight={800}>{helpQuestion}</MediumText>}
             right={props => (
-              <View style={styles.accordionIcon}>
-                <Image
-                  style={{width: 20, height: 20, tintColor: '#B4B3B3'}}
-                  source={
-                    props.isExpanded
-                      ? require('../../assets/images/expand_more.png')
-                      : require('../../assets/images/expand_less.png')
-                  }
-                />
-              </View>
+              <SmallImage
+                tintColor={Color.DARK_GRAY}
+                source={
+                  props.isExpanded
+                    ? require('../../assets/images/chevron_left.png')
+                    : require('../../assets/images/chevron_right.png')
+                }
+              />
             )}
             onPress={() => {
               numberOfLines == 1 ? setNumberOfLines(0) : setNumberOfLines(1);
@@ -102,7 +114,7 @@ const StoryWritingMainPage = (): JSX.Element => {
         </ScreenContainer>
         <ScreenContainer style={styles.screenBottomContainer}>
           <BasicTextInput
-            customStyle={styles.contentInput}
+            customStyle={{flex: 1}}
             placeholder="본문에 새로운 이야기를 작성해보세요!"
             text={storyText}
             onChangeText={setStoryText}
@@ -114,7 +126,7 @@ const StoryWritingMainPage = (): JSX.Element => {
         <ContentContainer>
           {!isKeyboardVisible && (
             <List.Section
-              style={{borderTopColor: '#F6F6F6', borderTopWidth: 8}}>
+              style={{borderTopColor: Color.LIGHT_GRAY, borderTopWidth: 8}}>
               <StoryKeyboardPhotoRecord></StoryKeyboardPhotoRecord>
               <StoryKeyboardVideoRecord></StoryKeyboardVideoRecord>
               <StoryKeyboardVoiceRecord></StoryKeyboardVoiceRecord>

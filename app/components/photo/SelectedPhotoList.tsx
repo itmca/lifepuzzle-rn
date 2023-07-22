@@ -1,12 +1,23 @@
 import React from 'react';
-import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
-import Image from '../styled/components/Image';
+import {
+  Alert,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Image, {
+  MediumImage,
+  SmallImage,
+  XSmallImage,
+} from '../styled/components/Image';
 import {usePhotos} from '../../service/hooks/photo.hook';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
   selectedPhotoState,
   selectedVideoState,
 } from '../../recoils/selected-photo.recoil';
+import {Color} from '../../constants/color.constant';
 
 type SelectedPhotoProps = {
   target?: 'photo' | 'video';
@@ -32,15 +43,29 @@ const SelectedPhotoList = ({
     <ScrollView horizontal={true} style={{width: DeviceWidth}}>
       <TouchableOpacity
         onPress={() => {
-          void openGallery();
+          Alert.alert(
+            '선택된 ' +
+              (target == 'photo' ? '사진' : '영상') +
+              '은 모두 초기화 됩니다.',
+            '',
+            [
+              {
+                text: 'ok',
+                onPress: () => {
+                  void openGallery();
+                },
+              },
+            ],
+            {cancelable: false},
+          );
         }}
         style={{
           width: size,
           height: size,
           margin: 5,
-          borderRadius: 8,
+          borderRadius: 4,
           borderWidth: 1,
-          borderColor: '#D9D9D9',
+          borderColor: Color.GRAY,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
@@ -48,7 +73,7 @@ const SelectedPhotoList = ({
           style={{
             height: 16,
             width: 1,
-            backgroundColor: '#e6e6e6',
+            backgroundColor: Color.GRAY,
             alignSelf: 'center',
           }}></View>
         <View
@@ -56,7 +81,7 @@ const SelectedPhotoList = ({
             position: 'absolute',
             height: 1,
             width: 16,
-            backgroundColor: '#e6e6e6',
+            backgroundColor: Color.GRAY,
             alignSelf: 'center',
             justifyContent: 'center',
           }}></View>
@@ -64,10 +89,10 @@ const SelectedPhotoList = ({
 
       {photoList?.map((photo, index) => {
         return (
-          <View>
-            <Image
+          <View key={photo.key}>
+            <MediumImage
               key={index}
-              style={{width: size, height: size, margin: 5, borderRadius: 8}}
+              style={{width: size, height: size, margin: 5, borderRadius: 4}}
               source={{uri: photo.node.image.uri}}
             />
             <TouchableOpacity
@@ -75,7 +100,7 @@ const SelectedPhotoList = ({
                 position: 'absolute',
                 top: 0,
                 right: 0,
-                backgroundColor: '#F6F6F6',
+                backgroundColor: Color.GRAY,
                 width: 16,
                 height: 16,
                 borderRadius: 30,
@@ -85,8 +110,8 @@ const SelectedPhotoList = ({
               onPress={() => {
                 setPhotoList(prev => prev.filter(e => e.key !== photo.key));
               }}>
-              <Image
-                style={{width: 14, height: 14}}
+              <XSmallImage
+                tintColor={Color.DARK_GRAY}
                 source={require('../../assets/images/close.png')}
               />
             </TouchableOpacity>
