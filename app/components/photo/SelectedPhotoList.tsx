@@ -43,21 +43,25 @@ const SelectedPhotoList = ({
     <ScrollView horizontal={true} style={{width: DeviceWidth}}>
       <TouchableOpacity
         onPress={() => {
-          Alert.alert(
-            '선택된 ' +
-              (target == 'photo' ? '사진' : '영상') +
-              '은 모두 초기화 됩니다.',
-            '',
-            [
-              {
-                text: 'ok',
-                onPress: () => {
-                  void openGallery();
+          if (photoList.length == 0) {
+            void openGallery();
+          } else {
+            Alert.alert(
+              '이미 선택된 ' +
+                (target == 'photo' ? '사진' : '영상') +
+                '은 모두 초기화 됩니다.',
+              '',
+              [
+                {
+                  text: 'ok',
+                  onPress: () => {
+                    void openGallery();
+                  },
                 },
-              },
-            ],
-            {cancelable: false},
-          );
+              ],
+              {cancelable: false},
+            );
+          }
         }}
         style={{
           width: size,
