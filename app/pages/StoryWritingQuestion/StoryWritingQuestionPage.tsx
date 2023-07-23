@@ -1,17 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useRecommendedQuestion} from '../../service/hooks/question.hook';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {
-  helpQuestionOpenState,
-  helpQuestionTextState,
-} from '../../recoils/help-question.recoil';
+import {helpQuestionTextState} from '../../recoils/help-question.recoil';
 import {helpQuestionState} from '../../recoils/story-writing.recoil';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {useLoginChecking} from '../../service/hooks/login.hook';
 import {useFocusAction} from '../../service/hooks/screen.hook';
 import {SmallText} from '../../components/styled/components/Text';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import Title from '../../components/styled/components/Title';
+import {SmallTitle} from '../../components/styled/components/Title';
 import dayjs from 'dayjs';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
@@ -20,21 +16,14 @@ import {ScrollContainer} from '../../components/styled/container/ScrollContainer
 import {Question} from '../../types/question.type';
 
 const StoryWritingQuestionPage = (): JSX.Element => {
-  const [helpQuestionText, setHelpQuestionText] = useRecoilState(
-    helpQuestionTextState,
-  );
-  const setHelpQuestionOpen = useSetRecoilState(helpQuestionOpenState);
+  const setHelpQuestionText = useSetRecoilState(helpQuestionTextState);
+
   const [storyQuestion, setStoryQuestion] = useRecoilState(helpQuestionState);
   const [selectedQuestion, setSelectedQuestion] = useState<
     Question | undefined
   >(undefined);
 
-  useLoginChecking({
-    alertTitle: '미로그인 시점에 작성한 이야기는 저장되지 않습니다',
-  });
-
   useFocusAction(() => {
-    setHelpQuestionOpen(true);
     setHelpQuestionText(storyQuestion?.helpQuestionText || '');
   });
 
@@ -62,17 +51,18 @@ const StoryWritingQuestionPage = (): JSX.Element => {
     <>
       <ScreenContainer style={{height: 96}}>
         <ContentContainer>
-          <Title>{thisMonth}월의 추천질문</Title>
+          <SmallTitle>{thisMonth}월의 추천질문</SmallTitle>
         </ContentContainer>
         <ContentContainer>
-          <SmallText>이번달 추천질문입니다.</SmallText>
-          <SmallText>이번달도 아름다운 퍼즐을 맞춰보아요!</SmallText>
+          <SmallText color={Color.GRAY}>이번달 추천질문입니다.</SmallText>
+          <SmallText color={Color.GRAY}>
+            이번달도 아름다운 퍼즐을 맞춰보아요!
+          </SmallText>
         </ContentContainer>
       </ScreenContainer>
       <LoadingContainer isLoading={isLoading}>
-        <ScrollContainer>
-          <ScreenContainer
-            style={{backgroundColor: Color.SECONDARY_LIGHT, flex: 1}}>
+        <ScrollContainer style={{height: '100%', backgroundColor: Color.WHITE}}>
+          <ScreenContainer style={{flex: 1, height: '100%'}}>
             <ContentContainer
               style={{alignItems: 'flex-start', height: '100%'}}
               gap={'10px'}>
@@ -89,14 +79,6 @@ const StoryWritingQuestionPage = (): JSX.Element => {
                   }}
                 />
               ))}
-              {
-                <RecommendQuestionButton
-                  question={undefined}
-                  order={recommendQuestions.length + 1}
-                  selected={!selectedQuestion}
-                  onSelect={() => setSelectedQuestion(undefined)}
-                />
-              }
             </ContentContainer>
           </ScreenContainer>
         </ScrollContainer>

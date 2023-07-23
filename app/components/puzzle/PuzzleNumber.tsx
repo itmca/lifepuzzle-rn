@@ -1,6 +1,6 @@
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {MediumImage} from '../styled/components/Image';
-import {SmallTitle} from '../styled/components/Title';
+import {XSmallTitle} from '../styled/components/Title';
 import {Color} from '../../constants/color.constant';
 import React from 'react';
 
@@ -17,77 +17,77 @@ export const PuzzleNumber = ({
   if (typeNo === 1) {
     return (
       <ContentContainer
-        style={{height: 42, width: 42, justifyContent: 'center'}}>
+        style={{height: 40, width: 48, justifyContent: 'center'}}>
         <MediumImage
           source={require('../../assets/images/puzzle-onepiece-type1.png')}
           width={41}
           height={35}
         />
-        <SmallTitle style={{position: 'absolute', left: 10, fontWeight: 700}}>
+        <XSmallTitle style={{position: 'absolute', left: 8, fontWeight: 700}}>
           {paddedDisplayNumber}
-        </SmallTitle>
+        </XSmallTitle>
       </ContentContainer>
     );
   } else if (typeNo === 2) {
     return (
       <ContentContainer
-        style={{height: 42, width: 42, justifyContent: 'center'}}>
+        style={{height: 40, width: 48, justifyContent: 'center'}}>
         <MediumImage
           source={require('../../assets/images/puzzle-onepiece-type2.png')}
           width={41}
           height={35}
         />
-        <SmallTitle
+        <XSmallTitle
           style={{
             position: 'absolute',
-            left: 9,
-            top: 13,
+            left: 8,
+            top: 12,
             fontWeight: 700,
             color: Color.WHITE,
           }}>
           {paddedDisplayNumber}
-        </SmallTitle>
+        </XSmallTitle>
       </ContentContainer>
     );
   } else if (typeNo === 3) {
     return (
       <ContentContainer
-        style={{height: 42, width: 42, justifyContent: 'center'}}>
+        style={{height: 40, width: 48, justifyContent: 'center'}}>
         <MediumImage
           source={require('../../assets/images/puzzle-onepiece-type3.png')}
-          width={40}
+          width={41}
           height={40}
         />
-        <SmallTitle
+        <XSmallTitle
           style={{
             position: 'absolute',
-            left: 9,
+            left: 8,
             top: 12,
             fontWeight: 700,
           }}>
           {paddedDisplayNumber}
-        </SmallTitle>
+        </XSmallTitle>
       </ContentContainer>
     );
   }
 
   return (
-    <ContentContainer style={{height: 42, width: 42, justifyContent: 'center'}}>
+    <ContentContainer style={{height: 40, width: 42, justifyContent: 'center'}}>
       <MediumImage
         source={require('../../assets/images/puzzle-onepiece-type4.png')}
         width={40}
         height={40}
       />
-      <SmallTitle
+      <XSmallTitle
         style={{
           position: 'absolute',
-          left: 9,
-          top: 13,
+          left: 8,
+          top: 12,
           fontWeight: 700,
           color: Color.WHITE,
         }}>
         {paddedDisplayNumber}
-      </SmallTitle>
+      </XSmallTitle>
     </ContentContainer>
   );
 };

@@ -1,21 +1,11 @@
 import styled from 'styled-components/native';
-
-type Color =
-  | '#F2C744'
-  | '#55A5FD'
-  | '#707070'
-  | '#979797'
-  | '#323232'
-  | '#FFFFFF'
-  | '#A9A9A9'
-  | '#32C5FF'
-  | '#FF6200';
+import {Color} from '../../../constants/color.constant';
 
 type Props = {
   letterSpacing?: number;
   fontWeight?: string | number;
   lineHeight?: number;
-  color?: Color | '#000000';
+  color?: (typeof Color)[keyof typeof Color] | '#000000';
   fontSize?: number;
 };
 

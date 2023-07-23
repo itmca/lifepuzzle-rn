@@ -1,6 +1,6 @@
 import React from 'react';
 import {WideSelectable} from '../styled/components/Selectable';
-import {SmallTitle} from '../styled/components/Title';
+import {XSmallTitle} from '../styled/components/Title';
 import {Color} from '../../constants/color.constant';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {PuzzleNumber} from '../puzzle/PuzzleNumber';
@@ -19,14 +19,15 @@ export const RecommendQuestionButton = ({
   selected = false,
   onSelect,
 }: Props): JSX.Element => {
-  const backgroundColor = order % 2 == 1 ? Color.BLACK : Color.WHITE;
-  const fontColor = order % 2 == 1 ? Color.WHITE : Color.BLACK;
+  const defaultBackgroundColor =
+    order % 2 == 1 ? Color.LIGHT_BLACK : Color.WHITE;
+  const defaultFontColor = order % 2 == 1 ? Color.WHITE : Color.BLACK;
 
   if (!question || question.no < 0) {
     return (
       <WideSelectable
         gap={12}
-        backgroundColor={backgroundColor}
+        backgroundColor={defaultBackgroundColor}
         justifyContents={'center'}
         selected={selected}
         disabled={selected}
@@ -35,8 +36,10 @@ export const RecommendQuestionButton = ({
           flex={1}
           alignItems={'center'}
           justifyContent={'center'}
-          minHeight={36}>
-          <SmallTitle style={{color: fontColor}}>선택하지 않음</SmallTitle>
+          minHeight={42}>
+          <XSmallTitle style={{color: defaultFontColor}}>
+            선택하지 않음
+          </XSmallTitle>
         </ContentContainer>
       </WideSelectable>
     );
@@ -44,14 +47,14 @@ export const RecommendQuestionButton = ({
 
   return (
     <WideSelectable
-      gap={12}
-      backgroundColor={backgroundColor}
+      gap={8}
+      backgroundColor={defaultBackgroundColor}
       selected={selected}
       disabled={selected}
       onPress={onSelect}>
       <PuzzleNumber displayNumber={order} />
-      <ContentContainer flex={1} justifyContent={'center'} minHeight={42}>
-        <SmallTitle style={{color: fontColor}}>{question.text}</SmallTitle>
+      <ContentContainer flex={1} justifyContent={'center'} minHeight={40}>
+        <XSmallTitle color={defaultFontColor}>{question.text}</XSmallTitle>
       </ContentContainer>
     </WideSelectable>
   );

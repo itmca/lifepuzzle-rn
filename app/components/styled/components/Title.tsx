@@ -12,7 +12,7 @@ type Props = {
   letterSpacing?: string;
   fontWeight?: string | number;
   lineHeight?: number;
-  color?: Color | '#000000';
+  color?: string | '#000000';
   fontSize?: number;
 };
 

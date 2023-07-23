@@ -14,13 +14,13 @@ type QuestionDTO = {
 
 const useRecommendedQuestion = (): [Question[], boolean] => {
   const hero = useRecoilValue<HeroType>(heroState);
-  const heroNo = hero.heroNo;
+  const heroNo = hero.heroNo ?? -1;
 
   const [recommendQuestions, setRecommendQuestions] = useState<Question[]>([]);
 
-  const [isLoading, fetchQuestions] = useAxios<QuestionDTO[]>({
+  const [isLoading] = useAxios<QuestionDTO[]>({
     requestOption: {
-      url: `/question/month-recommend?heroNo=${heroNo}&month=${dayjs().format(
+      url: `/questions/month-recommend?heroNo=${heroNo}&month=${dayjs().format(
         'M',
       )}`,
     },
