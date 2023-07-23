@@ -1,13 +1,19 @@
 import {Image, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import Text, {XSmallText} from '../styled/components/Text';
+import Text, {
+  MediumText,
+  SmallText,
+  XSmallText,
+} from '../styled/components/Text';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {recordFileState} from '../../recoils/story-writing.recoil';
-import {SmallImage} from '../styled/components/Image';
+import {SmallImage, XSmallImage} from '../styled/components/Image';
 import {styles} from './styles';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
+import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 
 type VoiceRecordProps = {
   fileName: string;
@@ -21,29 +27,31 @@ const RecordedVoice = ({
   onDelete,
 }: VoiceRecordProps): JSX.Element => {
   return (
-    <View style={{flexDirection: 'row'}}>
-      <View style={styles.storyAudioIcon}>
-        <SmallImage
-          width={12}
-          height={18}
-          style={{tintColor: '#B4B3B3'}}
-          source={require('../../assets/images/mic.png')}
-        />
-        <XSmallText style={{fontSize: 7, color: '#B4B3B3'}}>
-          {recordTime}
-        </XSmallText>
-      </View>
-      <TouchableOpacity
-        style={styles.uploadIconContainer}
-        onPress={() => {
-          onDelete();
-        }}>
-        <Image
-          style={{width: 18, height: 18, tintColor: '#B4B3B3'}}
-          source={require('../../assets/images/close.png')}
-        />
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      style={{
+        flexDirection: 'row',
+        backgroundColor: Color.PRIMARY_LIGHT,
+        borderRadius: 5,
+        width: 70,
+        height: 32,
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+      }}
+      onPress={() => {
+        onDelete();
+      }}>
+      <XSmallImage
+        style={{
+          backgroundColor: Color.WHITE,
+          borderRadius: 16,
+          tintColor: Color.PRIMARY_LIGHT,
+        }}
+        source={require('../../assets/images/mic.png')}
+      />
+      <XSmallText color={Color.WHITE}>
+        {recordTime.substring(recordTime.indexOf(':') + 1)}
+      </XSmallText>
+    </TouchableOpacity>
   );
 };
 export const StoryKeyboardVoiceRecord = (): JSX.Element => {
@@ -85,21 +93,18 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
             })
           )
         }>
-        <View
+        <HorizontalContentContainer
           style={{
-            flexDirection: 'row',
             marginVertical: 6,
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <View style={{paddingLeft: 16, flexDirection: 'row'}}>
-            <Text style={{fontSize: 16}}>녹음본 업로드 </Text>
-            <Text style={{fontSize: 14, color: '#B4B3B3'}}>(선택)</Text>
-          </View>
+          <MediumText style={{paddingLeft: 16}}>
+            녹음본 업로드 <SmallText color={Color.DARK_GRAY}>(선택)</SmallText>
+          </MediumText>
           <View
             style={{
               marginVertical: 6,
-              paddingLeft: 8,
             }}>
             {hasRecordFile() && (
               <RecordedVoice
@@ -109,7 +114,7 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
               />
             )}
           </View>
-        </View>
+        </HorizontalContentContainer>
       </TouchableRipple>
     </>
   );

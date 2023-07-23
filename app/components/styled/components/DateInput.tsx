@@ -18,7 +18,7 @@ const StyledDateInput = styled(Input).attrs(() => ({
   mode: 'outlined',
 }))<Props>`
   width: ${({width}) => (width ? `${width}%` : '100%')};
-  marginbottom: ${({marginBottom}) =>
+  margin-bottom: ${({marginBottom}) =>
     marginBottom ? `${marginBottom}px` : '8px'};
 `;
 
