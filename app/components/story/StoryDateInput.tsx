@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import {XSmallText} from '../styled/components/Text';
 import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import {Color} from '../../constants/color.constant';
+import {SmallImage, XSmallImage} from '../styled/components/Image';
 
 function StoryDateInput({...props}) {
   const [visible, setVisible] = useState(false);
@@ -45,16 +47,13 @@ function StoryDateInput({...props}) {
           width: 97,
           height: 14,
           margin: 0,
-          justifyContent: 'center',
-          alignItems: 'flex-start',
         }}>
         <HorizontalContentContainer>
-          <Image
-            style={{width: 14, height: 14, tintColor: '#FFFFFF'}}
+          <XSmallImage
+            tintColor={Color.WHITE}
             source={require('../../assets/images/calendar_month.png')}
           />
-          <XSmallText style={{color: '#FFFFFF'}}>
-            {' '}
+          <XSmallText color={Color.WHITE} style={{marginLeft: 3}}>
             {formatDate(date)}
           </XSmallText>
         </HorizontalContentContainer>

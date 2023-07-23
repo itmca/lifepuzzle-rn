@@ -6,7 +6,7 @@ import {
 } from '../../recoils/selected-photo.recoil';
 import {usePhotoPermission} from './permission.hook';
 import {MediaInfo} from '../../types/writing-story.type';
-import {Platform} from 'react-native';
+import {Alert, Platform} from 'react-native';
 
 type LibraryTarget = 'photo' | 'video';
 type Props = {
@@ -32,6 +32,7 @@ export const usePhotos = ({
   const lastKey =
     selectedList.length > 0 ? selectedList[selectedList.length - 1].key : -1;
   usePhotoPermission();
+
   const openGallery = async function () {
     const result = await ImagePicker.openPicker({
       multiple: true,
@@ -63,7 +64,7 @@ export const usePhotos = ({
       };
       addSelectedList.push(file);
     });
-    setSelectedList(selectedList.concat(addSelectedList));
+    setSelectedList(addSelectedList);
   };
   return {openGallery};
 };

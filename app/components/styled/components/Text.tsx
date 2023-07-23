@@ -5,35 +5,41 @@ type Props = {
   letterSpacing?: number;
   fontWeight?: string | number;
   lineHeight?: number;
-  color?: (typeof Color)[keyof typeof Color] | '#000000';
+  color?: string;
   fontSize?: number;
 };
 
 export const XXLargeText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 24px;
   font-weight: bold;
 `;
 
 export const XLargeText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 20px;
   font-weight: bold;
 `;
 
 export const LargeText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 18px;
+  font-weight: ${props => props.fontWeight || 'normal'};
 `;
 
 export const MediumText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 16px;
   font-weight: ${props => props.fontWeight || 'normal'};
 `;
 
 export const SmallText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 14px;
   font-weight: ${props => props.fontWeight || 'normal'};
   letter-spacing: ${({letterSpacing}) =>
@@ -41,11 +47,13 @@ export const SmallText = styled.Text<Props>`
 `;
 
 export const XSmallText = styled.Text<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 12px;
 `;
 
 function Text({...props}) {
   return <MediumText {...props} />;
 }
-export default Text;
+
+export default MediumText;
