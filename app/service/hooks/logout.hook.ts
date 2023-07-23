@@ -4,10 +4,7 @@ import {userState} from '../../recoils/user.recoil';
 import {authState} from '../../recoils/auth.recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
-import {
-  helpQuestionOpenState,
-  helpQuestionTextState,
-} from '../../recoils/help-question.recoil';
+import {helpQuestionTextState} from '../../recoils/help-question.recoil';
 import {SelectedCategoryState} from '../../recoils/selected-category.recoil';
 import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
@@ -29,7 +26,6 @@ export const useLogout = (option?: Option) => {
   const resetUser = useResetRecoilState(userState);
   const resetHero = useResetRecoilState(heroState);
   const resetQuestionText = useResetRecoilState(helpQuestionTextState);
-  const resetQuestionOpen = useResetRecoilState(helpQuestionOpenState);
   const resetSelectedCategory = useResetRecoilState(SelectedCategoryState);
   const resetSelectedPhoto = useResetRecoilState(selectedPhotoState);
   const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
@@ -43,7 +39,6 @@ export const useLogout = (option?: Option) => {
     resetUser();
     resetHero();
     resetQuestionText();
-    resetQuestionOpen();
     resetSelectedCategory();
     resetSelectedPhoto();
     resetSelectedStory();

@@ -86,6 +86,7 @@ export const useAxios = <R>({
     axiosConfig.url = url.startsWith('http') ? url : SERVER_HOST + url;
 
     logger.debug(axiosConfig.url);
+    console.log(axiosConfig.url);
 
     setLoading(true);
 
