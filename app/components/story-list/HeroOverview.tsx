@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {styles} from './styles';
 import {HeroType} from '../../types/hero.type';
-import Text from '../styled/components/Text';
+import {XXLargeText} from '../styled/components/Text';
 import {HomeLoginButton} from '../button/HomeLoginButton';
 
 type Props = {
@@ -14,21 +14,20 @@ const HeroOverview = ({hero}: Props): JSX.Element => {
     <View style={styles.profileContainer}>
       {hero.heroNo !== -1 ? (
         <View>
-          <Text style={styles.titleText}>
+          <XXLargeText style={{lineHeight: 35}}>
             안녕하세요? {'\n'}
             {hero.heroNickName} 님
-          </Text>
+          </XXLargeText>
         </View>
       ) : (
         <View
           style={{
-            width: '100%',
             gap: 10,
           }}>
-          <Text style={styles.titleText}>
+          <XXLargeText style={{lineHeight: 35}}>
             우리, 한조각씩 {'\n'}
             함께해 봐요!
-          </Text>
+          </XXLargeText>
           <HomeLoginButton />
         </View>
       )}

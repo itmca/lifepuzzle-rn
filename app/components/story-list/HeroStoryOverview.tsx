@@ -1,9 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import HeroOverview from './HeroOverview';
-import SwipingStoryTagChips from './SwipingStoryTagChips';
 import {HeroType} from '../../types/hero.type';
-import {StoryTag} from '../../types/story.type';
 
 type Props = {
   hero: HeroType;

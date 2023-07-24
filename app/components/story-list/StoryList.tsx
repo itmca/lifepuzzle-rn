@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   storyListTitle: {
-    fontSize: 18,
-    fontWeight: 700,
     marginTop: 8,
     marginLeft: 5,
   },
