@@ -33,7 +33,6 @@ export const MediumText = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 16px;
   font-weight: ${props => props.fontWeight || 'normal'};
-  line-height: ${props => props.lineHeight ?? '16px'};
 `;
 
 export const SmallText = styled.Text<Props>`

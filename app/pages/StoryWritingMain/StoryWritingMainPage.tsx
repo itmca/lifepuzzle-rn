@@ -70,8 +70,12 @@ const StoryWritingMainPage = (): JSX.Element => {
         </ScreenContainer>
         <OutLineContentContainer style={styles.screenLTopContainer}>
           <List.Accordion
-            title={<MediumText fontWeight={800}>{helpQuestion}</MediumText>}
-            right={props => <></>}
+            title={
+              <MediumText fontWeight={800} lineHeight={'18px'}>
+                {helpQuestion}
+              </MediumText>
+            }
+            right={() => <></>}
             onPress={() => {
               numberOfLines == 1 ? setNumberOfLines(0) : setNumberOfLines(1);
             }}
