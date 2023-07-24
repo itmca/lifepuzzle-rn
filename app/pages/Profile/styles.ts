@@ -15,10 +15,6 @@ export const styles = StyleSheet.create({
     height: 80,
     width: '100%',
   },
-  accountAvatar: {
-    marginLeft: 20,
-  },
-  accountNickName: {marginLeft: 24, fontSize: 24},
   accountModificationButton: {position: 'absolute', right: 16},
   customDivider: {
     width: '100%',

@@ -1,28 +1,23 @@
-import {Image, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import Text, {
-  MediumText,
-  SmallText,
-  XSmallText,
-} from '../styled/components/Text';
+import {MediumText, SmallText, XSmallText} from '../styled/components/Text';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {recordFileState} from '../../recoils/story-writing.recoil';
-import {SmallImage, XSmallImage} from '../styled/components/Image';
-import {styles} from './styles';
+import {XSmallImage} from '../styled/components/Image';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
 import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
 import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import Icon from '../styled/components/Icon';
+import {CustomAlert} from '../alert/CustomAlert';
 
 type VoiceRecordProps = {
-  fileName: string;
   recordTime: string;
   onDelete: () => void;
 };
 
 const RecordedVoice = ({
-  fileName,
   recordTime,
   onDelete,
 }: VoiceRecordProps): JSX.Element => {
@@ -32,13 +27,21 @@ const RecordedVoice = ({
         flexDirection: 'row',
         backgroundColor: Color.PRIMARY_LIGHT,
         borderRadius: 5,
-        width: 70,
+        width: 88,
         height: 32,
         justifyContent: 'space-evenly',
         alignItems: 'center',
+        marginRight: -8,
       }}
       onPress={() => {
-        onDelete();
+        CustomAlert.actionAlert({
+          title: '음성 녹음 삭제',
+          desc: '음성 녹음을 삭제하시겠습니까?',
+          actionBtnText: '삭제',
+          action: () => {
+            onDelete();
+          },
+        });
       }}>
       <XSmallImage
         style={{
@@ -51,6 +54,7 @@ const RecordedVoice = ({
       <XSmallText color={Color.WHITE}>
         {recordTime.substring(recordTime.indexOf(':') + 1)}
       </XSmallText>
+      <Icon name={'cancel'} size={16} style={{color: Color.WHITE}} />
     </TouchableOpacity>
   );
 };
@@ -81,7 +85,7 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
           paddingVertical: 8,
           paddingRight: 24,
         }}
-        onPress={props =>
+        onPress={() =>
           hasRecordFile() ? (
             <></>
           ) : (
@@ -108,7 +112,6 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
             }}>
             {hasRecordFile() && (
               <RecordedVoice
-                fileName={getFileName()}
                 recordTime={recordFileInfo?.recordTime || ''}
                 onDelete={resetRecord}
               />

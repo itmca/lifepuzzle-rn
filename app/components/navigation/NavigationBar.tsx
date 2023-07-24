@@ -3,12 +3,14 @@ import Text from '../styled/components/Text';
 import SmallImage from '../styled/components/Image';
 import React from 'react';
 import {Pressable} from 'react-native';
-import Icon from '../styled/components/Icon';
 import {styles} from './styles';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 
-const NavigationBar = (): JSX.Element => {
+type Props = {
+  displayRight: boolean;
+};
+const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   type RootStackParamList = {
@@ -38,15 +40,19 @@ const NavigationBar = (): JSX.Element => {
           인생퍼즐
         </Text>
       </Pressable>
-      <Pressable
-        style={styles.goToAccountIcon}
-        onPress={() => {
-          if (route.params?.screen !== 'Profile') {
+      {displayRight && (
+        <Pressable
+          style={styles.goToAccountIcon}
+          onPress={() => {
             navigation.push('HomeTab', {screen: 'Profile'});
-          }
-        }}>
-        <Icon name={'menu'} size={30} />
-      </Pressable>
+          }}>
+          <SmallImage
+            source={require('../../assets/images/icon-profile.png')}
+            width={30}
+            height={30}
+          />
+        </Pressable>
+      )}
     </TopNavigationContainer>
   );
 };

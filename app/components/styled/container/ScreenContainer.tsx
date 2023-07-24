@@ -1,17 +1,26 @@
 import styled from 'styled-components/native';
 
-export const ScreenContainer = styled.SafeAreaView`
+type ScreenContainerProps = {
+  flexDirections?: string;
+  justifyContent?: string;
+  alignItems?: string;
+  gap?: string;
+};
+
+export const ScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
   box-sizing: border-box;
   border: 16px solid #ffffff00;
   width: 100%;
   height: 100%;
   background-color: #ffffff;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: ${props =>
+    props.flexDirections ? props.flexDirections : 'column'};
+  justify-content: ${props =>
+    props.justifyContent ? props.justifyContent : 'center'};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'center')};
   align-content: space-around;
-  gap: 16px;
+  gap: ${props => (props.gap ? props.gap : '16px')};
 `;
 
 export const NoOutLineScreenContainer = styled.SafeAreaView`

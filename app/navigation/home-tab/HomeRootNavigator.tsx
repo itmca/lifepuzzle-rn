@@ -13,13 +13,21 @@ const Stack = createNativeStackNavigator<HomeTabParamList>();
 
 const HomeTabNavigator = (): JSX.Element => {
   return (
-    <Stack.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        header: () => <NavigationBar />,
-      }}>
-      <Stack.Screen name="Home" component={HomePage} />
-      <Stack.Screen name="Profile" component={ProfilePage} />
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={HomePage}
+        options={{
+          header: () => <NavigationBar />,
+        }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfilePage}
+        options={{
+          header: () => <NavigationBar displayRight={false} />,
+        }}
+      />
     </Stack.Navigator>
   );
 };
