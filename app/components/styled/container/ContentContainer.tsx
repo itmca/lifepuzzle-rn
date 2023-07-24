@@ -23,10 +23,14 @@ export const ContentContainer = styled.View<Props>`
 
 export const HorizontalContentContainer = styled(ContentContainer)<{
   height?: string;
+  marginTop?: string;
+  alignItems?: string;
 }>`
   flex-direction: row;
   align-items: ${props => (props.alignItems ? props.alignItems : 'stretch')};
   height: ${props => (props.height ? props.height : 'auto')};
+  margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};
+  gap: 8px;
 `;
 
 export const OutLineContentContainer = styled(ContentContainer)`

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Text, View} from 'react-native';
-import {styles} from './styles';
 import CtaButton from '../../components/button/CtaButton';
 import {useRecoilValue} from 'recoil';
 import {userState} from '../../recoils/user.recoil';
@@ -11,7 +10,6 @@ import {useUpdatePublisher} from '../../service/hooks/update.hooks';
 import {useLogout} from '../../service/hooks/logout.hook';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {authState} from '../../recoils/auth.recoil';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ValidatedTextInput from '../../components/input/ValidatedTextInput';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -154,17 +152,18 @@ const AccountModificationPage = ({
           <CtaButton
             text="회원탈퇴"
             onPress={() => {
-              CustomAlert.actionAlert(
-                '회원탈퇴',
-                '기록하셨던 주인공의 이야기를 포함하여 모든 데이터가 삭제됩니다. 탈퇴하시겠습니까?',
-                () => {
+              CustomAlert.actionAlert({
+                title: '회원탈퇴',
+                desc: '기록하셨던 주인공의 이야기를 포함하여 모든 데이터가 삭제됩니다. 탈퇴하시겠습니까?',
+                actionBtnText: '탈퇴',
+                action: () => {
                   withdraw({
                     data: {
                       socialToken: tokens.socialToken,
                     },
                   });
                 },
-              );
+              });
             }}
             marginTop="8px"
             color="red"

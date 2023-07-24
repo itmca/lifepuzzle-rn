@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {userState} from '../../recoils/user.recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
@@ -11,15 +11,11 @@ import {styles} from './styles';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {BasicNavigationProps} from '../../navigation/types';
 import {
-  NoOutLineScreenContainer,
-  ScreenContainer,
-} from '../../components/styled/container/ScreenContainer';
-import {
   ContentContainer,
   HorizontalContentContainer,
 } from '../../components/styled/container/ContentContainer';
-import style from '@ant-design/react-native/lib/accordion/style';
-import icon from '@ant-design/react-native/lib/icon';
+import {XXLargeText} from '../../components/styled/components/Text';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 
 const ProfilePage = (): JSX.Element | null => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -54,14 +50,13 @@ const ProfilePage = (): JSX.Element | null => {
   }
 
   return (
-    <NoOutLineScreenContainer>
-      <HorizontalContentContainer height="100px">
-        <Avatar.Text
-          style={styles.accountAvatar}
-          size={40}
-          label={user.userNickName.substr(0, 1)}
-        />
-        <Text style={styles.accountNickName}>{user.userNickName} 님</Text>
+    <ScreenContainer justifyContent={'flex-start'}>
+      <HorizontalContentContainer
+        height={'40px'}
+        alignItems="center"
+        marginTop={'8px'}>
+        <Avatar.Text size={40} label={user.userNickName.substr(0, 1)} />
+        <XXLargeText>{user.userNickName} 님</XXLargeText>
         <TouchableOpacity
           style={styles.accountModificationButton}
           onPress={goToModificationPage()}>
@@ -69,7 +64,7 @@ const ProfilePage = (): JSX.Element | null => {
         </TouchableOpacity>
       </HorizontalContentContainer>
       <View style={styles.customDivider} />
-      <ContentContainer gap="0px">
+      <ContentContainer gap="0px" style={{marginTop: -16}}>
         <List.Item
           style={{height: 80, justifyContent: 'center'}}
           title="공지사항"
@@ -102,7 +97,7 @@ const ProfilePage = (): JSX.Element | null => {
         />
         <Divider />
       </ContentContainer>
-    </NoOutLineScreenContainer>
+    </ScreenContainer>
   );
 };
 export default ProfilePage;

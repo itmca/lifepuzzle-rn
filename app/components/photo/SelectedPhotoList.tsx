@@ -6,11 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Image, {
-  MediumImage,
-  SmallImage,
-  XSmallImage,
-} from '../styled/components/Image';
+import {MediumImage, XSmallImage} from '../styled/components/Image';
 import {usePhotos} from '../../service/hooks/photo.hook';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -39,6 +35,8 @@ const SelectedPhotoList = ({
     target == 'photo'
       ? useSetRecoilState(selectedPhotoState)
       : useSetRecoilState(selectedVideoState);
+  const targetDisplayName = target == 'photo' ? '사진' : '영상';
+
   return (
     <ScrollView horizontal={true} style={{width: DeviceWidth}}>
       <TouchableOpacity
@@ -47,9 +45,7 @@ const SelectedPhotoList = ({
             void openGallery();
           } else {
             Alert.alert(
-              '이미 선택된 ' +
-                (target == 'photo' ? '사진' : '영상') +
-                '은 모두 초기화 됩니다.',
+              `새로운 ${targetDisplayName} 선택 완료 시 기존 선택 ${targetDisplayName}들은 모두 초기화 됩니다.`,
               '',
               [
                 {

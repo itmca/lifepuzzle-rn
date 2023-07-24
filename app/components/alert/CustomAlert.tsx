@@ -20,10 +20,20 @@ export const CustomAlert = {
       },
     ]);
   },
-  actionAlert: (actionName: string, desc: string, action: () => void) => {
-    Alert.alert(actionName, desc, [
+  actionAlert: ({
+    title,
+    desc,
+    actionBtnText,
+    action,
+  }: {
+    title: string;
+    desc: string;
+    actionBtnText: string;
+    action: () => void;
+  }) => {
+    Alert.alert(title, desc, [
       {
-        text: actionName,
+        text: actionBtnText,
         onPress: () => {
           action();
         },

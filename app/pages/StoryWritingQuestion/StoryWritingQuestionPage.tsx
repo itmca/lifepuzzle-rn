@@ -54,8 +54,8 @@ const StoryWritingQuestionPage = (): JSX.Element => {
           <SmallTitle>{thisMonth}월의 추천질문</SmallTitle>
         </ContentContainer>
         <ContentContainer>
-          <SmallText color={Color.GRAY}>이번달 추천질문입니다.</SmallText>
-          <SmallText color={Color.GRAY}>
+          <SmallText color={Color.DARK_GRAY}>이번달 추천질문입니다.</SmallText>
+          <SmallText color={Color.DARK_GRAY}>
             이번달도 아름다운 퍼즐을 맞춰보아요!
           </SmallText>
         </ContentContainer>
