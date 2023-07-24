@@ -91,23 +91,16 @@ export const styles = StyleSheet.create({
   },
   itemTitle: {
     width: '95%',
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333333',
   },
   date: {
-    color: '#A9A9A9',
-    fontSize: 12,
     marginLeft: 'auto',
+    marginTop: 10,
   },
   dateOnThumbnail: {
     position: 'absolute',
     zIndex: 1000,
     right: 18,
     top: 14,
-    color: 'white',
-    opacity: 0.8,
-    fontSize: 12,
   },
   description: {
     width: '95%',
@@ -122,12 +115,6 @@ export const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 40,
     paddingBottom: 40,
-  },
-  titleText: {
-    fontWeight: '600',
-    fontSize: 25,
-    color: 'rgba(0, 0, 0, 1)',
-    lineHeight: 37,
   },
   chipContainer: {
     display: 'none',
@@ -148,10 +135,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.25,
   },
   questionText: {
-    fontSize: 14,
-    color: '#999999',
-    marginBottom: 25,
-    fontWeight: 600,
     flex: 1,
   },
   onlyTextContent: {

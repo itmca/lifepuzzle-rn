@@ -1,9 +1,9 @@
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {styles} from './styles';
 import Image from '../styled/components/Image';
 import {getStoryDisplayDate} from '../../service/story-display.service';
-import {XSmallText} from '../styled/components/Text';
+import {SmallText, XSmallText} from '../styled/components/Text';
 import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 
@@ -19,7 +19,9 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
 
   return (
     <>
-      <Text style={styles.dateOnThumbnail}>{date}</Text>
+      <XSmallText style={styles.dateOnThumbnail} color={Color.LIGHT_GRAY}>
+        {date}
+      </XSmallText>
       <View style={styles.contentsOnThumbnail}>
         <View style={styles.iconsOnThumbnail}>
           <HorizontalContentContainer>
@@ -61,7 +63,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
         </View>
         {story.question && (
           <View style={styles.questionContainer}>
-            <Text
+            <SmallText
               style={
                 !isAudio && isPhoto && !isVideo && story.question
                   ? styles.questionTextWidthBgOnTumbnail
@@ -70,7 +72,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
               numberOfLines={1}
               ellipsizeMode="tail">
               {story.question}
-            </Text>
+            </SmallText>
           </View>
         )}
       </View>

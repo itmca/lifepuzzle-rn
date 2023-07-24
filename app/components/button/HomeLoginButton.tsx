@@ -1,10 +1,9 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import Text from '../styled/components/Text';
-import styles from './styles';
+import {MediumText} from '../styled/components/Text';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {LargeButton} from '../styled/components/Button';
+import {Color} from '../../constants/color.constant';
 
 export const HomeLoginButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -19,7 +18,9 @@ export const HomeLoginButton = (): JSX.Element => {
           },
         });
       }}>
-      <Text style={styles.loginText}>로그인 하러가기</Text>
+      <MediumText fontWeight={600} color={Color.WHITE}>
+        로그인 하러가기
+      </MediumText>
     </LargeButton>
   );
 };

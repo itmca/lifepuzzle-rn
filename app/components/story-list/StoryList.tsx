@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import StoryItem from './StoryItem';
 import {StoryType} from '../../types/story.type';
-import Text from '../styled/components/Text';
+import {LargeText} from '../styled/components/Text';
 
 type Props = {
   stories: StoryType[];
@@ -18,8 +18,6 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   storyListTitle: {
-    fontSize: 18,
-    fontWeight: 700,
     marginTop: 8,
     marginLeft: 5,
   },
@@ -28,7 +26,9 @@ const styles = StyleSheet.create({
 const StoryList = ({stories}: Props): JSX.Element => {
   return (
     <View style={styles.storyListContainer}>
-      <Text style={styles.storyListTitle}>나의 조각</Text>
+      <LargeText style={styles.storyListTitle} fontWeight={700}>
+        나의 조각
+      </LargeText>
       {stories.map((story: StoryType) => (
         <StoryItem key={story.id} story={story} />
       ))}

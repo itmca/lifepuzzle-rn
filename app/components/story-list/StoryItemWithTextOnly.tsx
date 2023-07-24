@@ -1,10 +1,11 @@
-import {GestureResponderEvent, TouchableOpacity, View} from 'react-native';
+import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {StoryType} from '../../types/story.type';
 import Image from '../styled/components/Image';
-import Text from '../styled/components/Text';
+import {MediumText, SmallText, XSmallText} from '../styled/components/Text';
 import {getStoryDisplayDate} from '../../service/story-display.service';
 import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {Color} from '../../constants/color.constant';
 
 type props = {
   story: StoryType;
@@ -16,33 +17,40 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
 
   return (
     <TouchableOpacity style={styles.onlyTextItemContainer} onPress={onPress}>
-      <Text
+      <MediumText
         style={{...styles.itemTitle, marginBottom: 8}}
+        color={Color.LIGHT_BLACK}
+        fontWeight={500}
         numberOfLines={1}
         ellipsizeMode="tail">
         {story.title}
-      </Text>
+      </MediumText>
       {story.question && (
-        <HorizontalContentContainer>
+        <HorizontalContentContainer style={{marginBottom: 13}}>
           <Image
             source={require('../../assets/images/thumb-up-iso-color.png')}
             style={styles.thumbUpIcon}
           />
-          <Text
+          <SmallText
+            color={Color.DARK_GRAY}
             style={styles.questionText}
+            fontWeight={'600'}
             numberOfLines={1}
             ellipsizeMode="tail">
             {story.question}
-          </Text>
+          </SmallText>
         </HorizontalContentContainer>
       )}
-      <Text
-        style={styles.onlyTextContent}
+      <SmallText
+        lineHeight={18}
+        color={Color.FONT_GRAY}
         numberOfLines={2}
         ellipsizeMode="tail">
         {story.content}
-      </Text>
-      <Text style={styles.date}>{date}</Text>
+      </SmallText>
+      <XSmallText color={Color.FONT_GRAY} style={styles.date}>
+        {date}
+      </XSmallText>
     </TouchableOpacity>
   );
 };
