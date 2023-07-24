@@ -1,9 +1,9 @@
 import {List} from 'react-native-paper';
 import React from 'react';
-import {Dimensions, View} from 'react-native';
+import {Dimensions} from 'react-native';
 import SelectedPhotoList from '../photo/SelectedPhotoList';
-import Image, {SmallImage} from '../styled/components/Image';
-import Text, {MediumText, SmallText} from '../styled/components/Text';
+import {SmallImage} from '../styled/components/Image';
+import {MediumText, SmallText} from '../styled/components/Text';
 import {Color} from '../../constants/color.constant';
 
 const DeviceWidth = Dimensions.get('window').width;
@@ -24,9 +24,10 @@ export const StoryKeyboardPhotoRecord = (): JSX.Element => {
           }
           source={
             props.isExpanded
-              ? require('../../assets/images/expand_more.png')
-              : require('../../assets/images/expand_less.png')
+              ? require('../../assets/images/expand_less.png')
+              : require('../../assets/images/expand_more.png')
           }
+          c
         />
       )}>
       <List.Item

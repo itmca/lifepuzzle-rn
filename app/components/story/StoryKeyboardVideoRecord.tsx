@@ -1,8 +1,8 @@
 import {List} from 'react-native-paper';
 import React from 'react';
-import {Dimensions, View} from 'react-native';
+import {Dimensions} from 'react-native';
 import SelectedPhotoList from '../photo/SelectedPhotoList';
-import Image, {SmallImage} from '../styled/components/Image';
+import {SmallImage} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import MediumText, {SmallText} from '../styled/components/Text';
 
@@ -24,8 +24,8 @@ export const StoryKeyboardVideoRecord = (): JSX.Element => {
           }
           source={
             props.isExpanded
-              ? require('../../assets/images/expand_more.png')
-              : require('../../assets/images/expand_less.png')
+              ? require('../../assets/images/expand_less.png')
+              : require('../../assets/images/expand_more.png')
           }
         />
       )}>

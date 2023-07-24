@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {Image, View} from 'react-native';
+import {Image} from 'react-native';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -14,10 +14,7 @@ import {
 } from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {helpQuestionTextState} from '../../recoils/help-question.recoil';
-import Text, {
-  LargeText,
-  SmallText,
-} from '../../components/styled/components/Text';
+import MediumText, {SmallText} from '../../components/styled/components/Text';
 import StoryDateInput from '../../components/story/StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {List} from 'react-native-paper';
@@ -31,11 +28,6 @@ import {
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {Color} from '../../constants/color.constant';
-import MediumText from '../../components/styled/components/Text';
-import {
-  MediumImage,
-  SmallImage,
-} from '../../components/styled/components/Image';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
@@ -79,16 +71,7 @@ const StoryWritingMainPage = (): JSX.Element => {
         <OutLineContentContainer style={styles.screenLTopContainer}>
           <List.Accordion
             title={<MediumText fontWeight={800}>{helpQuestion}</MediumText>}
-            right={props => (
-              <SmallImage
-                tintColor={Color.DARK_GRAY}
-                source={
-                  props.isExpanded
-                    ? require('../../assets/images/chevron_left.png')
-                    : require('../../assets/images/chevron_right.png')
-                }
-              />
-            )}
+            right={props => <></>}
             onPress={() => {
               numberOfLines == 1 ? setNumberOfLines(0) : setNumberOfLines(1);
             }}
