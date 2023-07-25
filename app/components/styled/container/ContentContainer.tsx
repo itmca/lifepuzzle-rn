@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-type Props = {
+type ContentContainerProps = {
   width?: string;
   justifyContent?: string;
   alignItems?: string;
@@ -9,7 +9,7 @@ type Props = {
   minHeight?: number;
 };
 
-export const ContentContainer = styled.View<Props>`
+export const ContentContainer = styled.View<ContentContainerProps>`
   width: 100%;
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-package com.lifepuzzle;
+package io.itmca.lifepuzzle;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
