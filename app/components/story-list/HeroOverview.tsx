@@ -1,9 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
-import {styles} from './styles';
 import {HeroType} from '../../types/hero.type';
-import {XXLargeText} from '../styled/components/Text';
 import {HomeLoginButton} from '../button/HomeLoginButton';
+import {LargeTitle} from '../styled/components/Title';
+import {
+  ContentContainer,
+  OutLineContentContainer,
+} from '../styled/container/ContentContainer';
 
 type Props = {
   hero: HeroType;
@@ -11,27 +13,24 @@ type Props = {
 
 const HeroOverview = ({hero}: Props): JSX.Element => {
   return (
-    <View style={styles.profileContainer}>
+    <OutLineContentContainer marginTop={'30px'} marginBottom={'30px'}>
       {hero.heroNo !== -1 ? (
-        <View>
-          <XXLargeText style={{lineHeight: 35}}>
+        <ContentContainer>
+          <LargeTitle lineHeight={'35px'}>
             안녕하세요? {'\n'}
             {hero.heroNickName} 님
-          </XXLargeText>
-        </View>
+          </LargeTitle>
+        </ContentContainer>
       ) : (
-        <View
-          style={{
-            gap: 10,
-          }}>
-          <XXLargeText style={{lineHeight: 35}}>
+        <ContentContainer gap={'10px'}>
+          <LargeTitle lineHeight={'35px'}>
             우리, 한조각씩 {'\n'}
             함께해 봐요!
-          </XXLargeText>
+          </LargeTitle>
           <HomeLoginButton />
-        </View>
+        </ContentContainer>
       )}
-    </View>
+    </OutLineContentContainer>
   );
 };
 

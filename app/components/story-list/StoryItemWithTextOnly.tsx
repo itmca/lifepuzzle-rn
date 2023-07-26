@@ -26,7 +26,7 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
         {story.title}
       </MediumText>
       {story.question && (
-        <HorizontalContentContainer style={{marginBottom: 13}}>
+        <HorizontalContentContainer marginBottom="13px">
           <Image
             source={require('../../assets/images/thumb-up-iso-color.png')}
             style={styles.thumbUpIcon}
