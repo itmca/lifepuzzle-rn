@@ -20,7 +20,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
   return (
     <>
       <XSmallText style={styles.dateOnThumbnail} color={Color.LIGHT_GRAY}>
-        {date}
+        {date && date !== undefined ? date : ''}
       </XSmallText>
       <View style={styles.contentsOnThumbnail}>
         <View style={styles.iconsOnThumbnail}>
@@ -53,10 +53,9 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
                     source={require('../../assets/images/recording-icon-blue.png')}
                   />
                 </View>
-                <XSmallText
-                  color={Color.WHITE}
-                  opacity={0.8}
-                  fontWeight={500}>{` ${story.recordingTime}`}</XSmallText>
+                <XSmallText color={Color.WHITE} opacity={0.8} fontWeight={500}>
+                  {story.recordingTime ? ` ${story.recordingTime}` : null}
+                </XSmallText>
               </>
             )}
           </HorizontalContentContainer>
