@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {OnPlaybackRateData} from 'react-native-video';
-import {TouchableOpacity, View} from 'react-native';
+import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {Photo} from '../styled/components/Image';
 import {styles} from './styles';
 import {ContentsOnThumbnail} from './StoryItemContentsOnThumbnail';
 import {VideoPlayer} from '../story/StoryVideoPlayer';
 import {toMinuteSeconds} from '../../service/time-display.service';
+import StoryPhotoCarousel from '../story/StoryPhotoCarousel';
 
 type props = {
   story: StoryType;
@@ -38,18 +39,29 @@ export const Thumbnail = ({story}: props): JSX.Element => {
           isPaused={isPaused}
           handlPause={data => handlePause(data)}
         />
+      ) : isPhoto && story.photos.length == 1 ? (
+        <Photo
+          backgroundColor="#d9d9d9"
+          borderTopLeftRadius={6}
+          borderTopRightRadius={6}
+          resizeMode="cover"
+          source={{
+            uri: story.photos.length > 0 ? story.photos[0] : null,
+          }}
+        />
       ) : (
-        isPhoto && (
-          <Photo
-            backgroundColor="#d9d9d9"
-            borderTopLeftRadius={6}
-            borderTopRightRadius={6}
-            resizeMode="cover"
-            source={{
-              uri: story.photos.length > 0 ? story.photos[0] : null,
-            }}
-          />
-        )
+        <StoryPhotoCarousel
+          photos={story?.photos}
+          containerStyle={{
+            height: '100%',
+            margin: 0,
+          }}
+          carouselStyle={{
+            borderTopLeftRadius: 6,
+            borderTopRightRadius: 6,
+          }}
+          carouselWidth={Dimensions.get('window').width - 34}
+        />
       )}
       {isVideo ? (
         <View style={isClicked ? {display: 'none'} : styles.dissolveView} />
