@@ -93,13 +93,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.lifepuzzle"
+    namespace "io.itmca.lifepuzzle"
     defaultConfig {
-        applicationId "com.lifepuzzle"
+        applicationId "io.itmca.lifepuzzle"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.1.0"
     }
 
     splits {

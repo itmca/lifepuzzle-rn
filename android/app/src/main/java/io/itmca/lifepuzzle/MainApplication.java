@@ -1,4 +1,4 @@
-package com.lifepuzzle;
+package io.itmca.lifepuzzle;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
@@ -8,6 +8,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
+import io.itmca.lifepuzzle.BuildConfig;
+import com.lifepuzzle.ReactNativeFlipper;
+
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
