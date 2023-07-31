@@ -42,7 +42,7 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
         </HorizontalContentContainer>
       )}
       <SmallText
-        lineHeight={18}
+        lineHeight={21}
         color={Color.FONT_GRAY}
         numberOfLines={2}
         ellipsizeMode="tail">
