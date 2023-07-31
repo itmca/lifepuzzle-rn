@@ -112,9 +112,9 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-    padding: 16,
-    paddingTop: 40,
-    paddingBottom: 40,
+    paddingLeft: 16,
+    marginTop: 40,
+    marginBottom: 40,
   },
   chipContainer: {
     display: 'none',

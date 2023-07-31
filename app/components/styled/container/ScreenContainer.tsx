@@ -1,40 +1,41 @@
 import styled from 'styled-components/native';
+import {Color} from '../../../constants/color.constant';
 
 type ScreenContainerProps = {
   flexDirections?: string;
   justifyContent?: string;
   alignItems?: string;
   gap?: string;
+  padding?: number | string;
 };
 
 export const ScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
+  width: 100%;
+  height: 100%;
+  display: flex;
   box-sizing: border-box;
   border: 16px solid #ffffff00;
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: ${props =>
-    props.flexDirections ? props.flexDirections : 'column'};
-  justify-content: ${props =>
-    props.justifyContent ? props.justifyContent : 'center'};
-  align-items: ${props => (props.alignItems ? props.alignItems : 'center')};
+  background-color: ${Color.WHITE};
+  gap: ${props => props.gap ?? '16px'};
+  flex-direction: ${props => props.flexDirections ?? 'column'};
+  justify-content: ${props => props.justifyContent ?? 'center'};
+  align-items: ${props => props.alignItems ?? 'center'};
   align-content: space-around;
-  gap: ${props => (props.gap ? props.gap : '16px')};
 `;
 
-export const NoOutLineScreenContainer = styled.SafeAreaView`
+export const NoOutLineScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  background-color: ${Color.WHITE};
+  padding: ${props => props.padding ?? '0px'};
 `;
 
 export const NoOutLineFullScreenContainer = styled.View`
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  background-color: ${Color.WHITE};
 `;

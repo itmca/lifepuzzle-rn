@@ -12,7 +12,7 @@ type Props = {
   fontFamily?: string;
   letterSpacing?: string;
   fontWeight?: string | number;
-  lineHeight?: number;
+  lineHeight?: string | number;
   color?: string | '#000000';
   fontSize?: number;
 };
@@ -27,6 +27,7 @@ export const LargeTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 24px;
   font-weight: 700;
+  line-height: ${props => (props.lineHeight ? props.lineHeight : '29px')};
 `;
 
 export const MediumTitle = styled.Text<Props>`
@@ -34,6 +35,7 @@ export const MediumTitle = styled.Text<Props>`
   font-size: 20px;
   font-weight: 700;
 `;
+
 export const SmallTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 18px;
