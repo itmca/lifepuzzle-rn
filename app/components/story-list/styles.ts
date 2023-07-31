@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   thumbnailListItemContainer: {
     display: 'flex',
-    height: 249,
+    height: 265,
     borderWidth: 1,
     borderColor: '#EBEBEB',
     borderRadius: 6,
@@ -103,7 +103,6 @@ export const styles = StyleSheet.create({
     top: 14,
   },
   description: {
-    width: '95%',
     fontSize: 16,
     fontWeight: '400',
     color: '#A9A9A9',
@@ -162,8 +161,9 @@ export const styles = StyleSheet.create({
     flexBasis: 20,
   },
   contentsContainer: {
-    height: 89,
-    paddingLeft: 16,
+    width: '100%',
+    height: 104,
+    padding: 16,
     justifyContent: 'center',
     gap: 8,
   },
