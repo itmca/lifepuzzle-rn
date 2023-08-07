@@ -59,7 +59,7 @@ export const useSaveStory = (): [() => void] => {
       // 글 작성 완료 pop up 띄우기
 
       // pop up 닫을 때 navigate하도록 만들기
-      // : navigation.navigate('HomeTab', {screen: 'Home'});
+      navigation.navigate('HomeTab', {screen: 'Home'});
     },
     onError: err => {
       console.log(err);
