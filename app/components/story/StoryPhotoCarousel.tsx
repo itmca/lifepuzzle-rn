@@ -14,9 +14,16 @@ import {Photo} from '../styled/components/Image';
 type Props = {
   photos: string[];
   containerStyle?: StyleProp<ViewStyle>;
+  carouselStyle?: StyleProp<ViewStyle>;
+  carouselWidth?: number;
 };
 
-const StoryPhotoCarousel = ({photos, containerStyle}: Props): JSX.Element => {
+const StoryPhotoCarousel = ({
+  photos,
+  containerStyle,
+  carouselStyle,
+  carouselWidth,
+}: Props): JSX.Element => {
   const [activePhotoIndexNo, setActivePhotoIndexNo] = useState<number>(0);
 
   if (!photos || photos.length === 0) {
@@ -30,10 +37,11 @@ const StoryPhotoCarousel = ({photos, containerStyle}: Props): JSX.Element => {
     <View style={containerStyle}>
       <Carousel
         data={photos}
-        sliderWidth={windowWidth}
+        sliderWidth={carouselWidth ?? windowWidth}
         sliderHeight={windowHeight}
         itemWidth={windowWidth}
         itemHeight={windowHeight}
+        containerCustomStyle={carouselStyle}
         renderItem={({item: photo}: ListRenderItemInfo<string>) => {
           return (
             <Photo
