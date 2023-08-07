@@ -55,3 +55,8 @@ export const isStoryUploading = atom<boolean>({
   key: 'isStoryUploading',
   default: false,
 });
+
+export const isModalOpening = atom<boolean>({
+  key: 'isModalOpening',
+  default: false,
+});

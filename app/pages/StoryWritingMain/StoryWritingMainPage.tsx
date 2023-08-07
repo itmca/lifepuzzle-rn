@@ -7,6 +7,7 @@ import {
   storyDateState,
   storyTextState,
   writingStoryState,
+  isModalOpening,
 } from '../../recoils/story-writing.recoil';
 import {
   NoOutLineFullScreenContainer,
@@ -43,6 +44,7 @@ const StoryWritingMainPage = (): JSX.Element => {
   const setStoryTextInfo = useSetRecoilState(storyTextState);
   const isKeyboardVisible = useKeyboardVisible();
   const isStoryUploading = useIsStoryUploading();
+  const setIsModalOpening = useSetRecoilState(isModalOpening);
 
   useEffect(() => {
     setTitle(writingStory?.title || '');
