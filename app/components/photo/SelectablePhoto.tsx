@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
-import { TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CheckCover, Container} from './styles';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import Image from '../styled/components/Image';
+import Title, {XLargeTitle} from '../styled/components/Title';
+import {Color} from '../../constants/color.constant';
 
 type SelectablePhotoProps = {
   onSelected: Function;
   onDeselected: Function;
   size: number;
   photo: PhotoIdentifier;
-  initalSelected?: boolean;
+  initialSelected?: boolean;
+  order?: number;
 };
 
 const SelectablePhoto = ({
@@ -18,9 +21,10 @@ const SelectablePhoto = ({
   onDeselected,
   size,
   photo,
-  initalSelected = false,
+  initialSelected = false,
+  order,
 }: SelectablePhotoProps): JSX.Element => {
-  const [isSelected, setIsSelected] = useState(initalSelected);
+  const [isSelected, setIsSelected] = useState(initialSelected);
 
   const _onPress = () => {
     isSelected === true ? onDeselected(photo) : onSelected(photo);
@@ -36,7 +40,11 @@ const SelectablePhoto = ({
         />
         {isSelected ? (
           <CheckCover style={{height: '100%', width: '100%'}}>
-            <Icon name="checkmark" size={70} color={'white'} />
+            {order ? (
+              <XLargeTitle color={Color.WHITE}>{order}</XLargeTitle>
+            ) : (
+              <Icon name="checkmark" size={70} color={'white'} />
+            )}
           </CheckCover>
         ) : null}
       </Container>

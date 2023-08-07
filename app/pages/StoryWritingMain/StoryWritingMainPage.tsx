@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {Image} from 'react-native';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -14,7 +14,10 @@ import {
 } from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {helpQuestionTextState} from '../../recoils/help-question.recoil';
-import MediumText, {SmallText} from '../../components/styled/components/Text';
+import MediumText, {
+  LargeText,
+  SmallText,
+} from '../../components/styled/components/Text';
 import StoryDateInput from '../../components/story/StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {List} from 'react-native-paper';
@@ -28,6 +31,7 @@ import {
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {Color} from '../../constants/color.constant';
+import {MediumImage} from '../../components/styled/components/Image';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
@@ -54,73 +58,76 @@ const StoryWritingMainPage = (): JSX.Element => {
 
   return (
     <LoadingContainer isLoading={isStoryUploading}>
-      <NoOutLineFullScreenContainer>
-        <ScreenContainer style={styles.screenHTopContainer}>
-          <StoryDateInput
-            date={new Date()}
-            onChange={setStoryDate}
-            style={styles.dateInput}
-          />
-          <SmallText
-            color={Color.WHITE}
-            fontWeight={700}
-            style={{marginLeft: 10}}>
-            이번달 추천질문
-          </SmallText>
-        </ScreenContainer>
-        <OutLineContentContainer style={styles.screenLTopContainer}>
-          <List.Accordion
-            title={
-              <MediumText fontWeight={800} lineHeight={'18px'}>
-                {helpQuestion}
-              </MediumText>
-            }
-            right={() => <></>}
-            onPress={() => {
-              numberOfLines == 1 ? setNumberOfLines(0) : setNumberOfLines(1);
-            }}
-            titleNumberOfLines={numberOfLines}
-            style={styles.helpQuestionContainer}
-            theme={{colors: {background: 'transparent'}}}></List.Accordion>
-          <Image
-            source={require('../../assets/images/puzzle-character.png')}
-            style={{position: 'absolute', top: -45, right: 5}}
-          />
-        </OutLineContentContainer>
-        <ScreenContainer style={styles.screenCenterContainer}>
-          <BasicTextInput
-            customStyle={styles.titleInput}
-            placeholder="제목을 입력해주세요."
-            text={title}
-            autoFocus={true}
-            onChangeText={setTitle}
-            mode={'outlined'}
-            underlineColor={'transparent'}
-            activeUnderlineColor={'transparent'}
-          />
-        </ScreenContainer>
-        <ScreenContainer style={styles.screenBottomContainer}>
-          <BasicTextInput
-            customStyle={{flex: 1}}
-            placeholder="본문에 새로운 이야기를 작성해보세요!"
-            text={storyText}
-            onChangeText={setStoryText}
-            multiline={true}
-            mode={'outlined'}
-            maxLength={500}
-          />
-        </ScreenContainer>
-        <ContentContainer>
-          {!isKeyboardVisible && (
-            <List.Section
-              style={{borderTopColor: Color.LIGHT_GRAY, borderTopWidth: 8}}>
-              <StoryKeyboardPhotoRecord></StoryKeyboardPhotoRecord>
-              <StoryKeyboardVideoRecord></StoryKeyboardVideoRecord>
-              <StoryKeyboardVoiceRecord></StoryKeyboardVoiceRecord>
-            </List.Section>
-          )}
-        </ContentContainer>
-      </NoOutLineFullScreenContainer>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <NoOutLineFullScreenContainer>
+          <ScreenContainer style={styles.screenHTopContainer}>
+            <StoryDateInput
+              date={new Date()}
+              onChange={setStoryDate}
+              style={styles.dateInput}
+            />
+            <SmallText
+              color={Color.WHITE}
+              fontWeight={700}
+              style={{marginLeft: 15}}>
+              이번달 추천질문
+            </SmallText>
+          </ScreenContainer>
+          <OutLineContentContainer style={styles.screenLTopContainer}>
+            <List.Accordion
+              title={
+                <LargeText fontWeight={700} lineHeight={'21px'}>
+                  {helpQuestion}
+                </LargeText>
+              }
+              right={() => <></>}
+              onPress={() => {
+                numberOfLines == 1 ? setNumberOfLines(0) : setNumberOfLines(1);
+              }}
+              titleNumberOfLines={numberOfLines}
+              style={styles.helpQuestionContainer}
+              theme={{colors: {background: 'transparent'}}}></List.Accordion>
+            <MediumImage
+              width={55}
+              height={55}
+              source={require('../../assets/images/puzzle-character.png')}
+              style={{position: 'absolute', top: -45, right: 10}}
+            />
+          </OutLineContentContainer>
+          <ScreenContainer style={styles.screenCenterContainer}>
+            <BasicTextInput
+              customStyle={styles.titleInput}
+              placeholder="제목을 입력해주세요."
+              text={title}
+              onChangeText={setTitle}
+              mode={'outlined'}
+              underlineColor={'transparent'}
+              activeUnderlineColor={'transparent'}
+            />
+          </ScreenContainer>
+          <ScreenContainer style={styles.screenBottomContainer}>
+            <BasicTextInput
+              customStyle={{flex: 1}}
+              placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
+              text={storyText}
+              onChangeText={setStoryText}
+              multiline={true}
+              mode={'outlined'}
+              maxLength={500}
+            />
+          </ScreenContainer>
+          <ContentContainer>
+            {!isKeyboardVisible && (
+              <List.Section
+                style={{borderTopColor: Color.LIGHT_GRAY, borderTopWidth: 8}}>
+                <StoryKeyboardPhotoRecord></StoryKeyboardPhotoRecord>
+                <StoryKeyboardVideoRecord></StoryKeyboardVideoRecord>
+                <StoryKeyboardVoiceRecord></StoryKeyboardVoiceRecord>
+              </List.Section>
+            )}
+          </ContentContainer>
+        </NoOutLineFullScreenContainer>
+      </TouchableWithoutFeedback>
     </LoadingContainer>
   );
 };

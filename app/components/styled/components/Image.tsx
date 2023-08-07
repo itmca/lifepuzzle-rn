@@ -7,6 +7,7 @@ type Props = {
   source: ImageSourcePropType;
   tintColor?: string;
   backgroundColor?: string;
+  borderRadius?: number;
 };
 export const MediumImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '33.94px')};
@@ -17,18 +18,18 @@ export const MediumImage = styled.Image<Props>`
 export const SmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '20px')};
   height: ${({height}) => (height ? `${height}px` : '20px')};
-  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : '')};
+  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : 'transparent')};
   background-color: ${({backgroundColor}) =>
-    backgroundColor ? `${backgroundColor}` : ''};
+    backgroundColor ? `${backgroundColor}` : 'transparent'};
   border-radius: ${({borderRadius}) =>
     borderRadius ? `${borderRadius}px` : '0px'};
 `;
 export const XSmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '16px')};
   height: ${({height}) => (height ? `${height}px` : '16px')};
-  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : '')};
+  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : 'transparent')};
   background-color: ${({backgroundColor}) =>
-    backgroundColor ? `${backgroundColor}` : ''};
+    backgroundColor ? `${backgroundColor}` : 'transparent'};
   border-radius: ${({borderRadius}) =>
     borderRadius ? `${borderRadius}px` : '0px'};
 `;

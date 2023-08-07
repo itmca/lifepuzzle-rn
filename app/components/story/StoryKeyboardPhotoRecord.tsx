@@ -27,7 +27,6 @@ export const StoryKeyboardPhotoRecord = (): JSX.Element => {
               ? require('../../assets/images/expand_less.png')
               : require('../../assets/images/expand_more.png')
           }
-          c
         />
       )}>
       <List.Item

@@ -1,19 +1,14 @@
 import React from 'react';
-import {
-  Alert,
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import {MediumImage, XSmallImage} from '../styled/components/Image';
-import {usePhotos} from '../../service/hooks/photo.hook';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
   selectedPhotoState,
   selectedVideoState,
 } from '../../recoils/selected-photo.recoil';
 import {Color} from '../../constants/color.constant';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
 
 type SelectedPhotoProps = {
   target?: 'photo' | 'video';
@@ -24,9 +19,8 @@ const SelectedPhotoList = ({
   target = 'photo',
   size,
 }: SelectedPhotoProps): JSX.Element => {
-  const {openGallery} = usePhotos({
-    target: target,
-  });
+  const navigation = useNavigation<BasicNavigationProps>();
+
   const photoList =
     target == 'photo'
       ? useRecoilValue(selectedPhotoState)
@@ -35,29 +29,20 @@ const SelectedPhotoList = ({
     target == 'photo'
       ? useSetRecoilState(selectedPhotoState)
       : useSetRecoilState(selectedVideoState);
-  const targetDisplayName = target == 'photo' ? '사진' : '영상';
 
   return (
     <ScrollView horizontal={true} style={{width: DeviceWidth}}>
       <TouchableOpacity
         onPress={() => {
-          if (photoList.length == 0) {
-            void openGallery();
-          } else {
-            Alert.alert(
-              `새로운 ${targetDisplayName} 선택 완료 시 기존 선택 ${targetDisplayName}들은 모두 초기화 됩니다.`,
-              '',
-              [
-                {
-                  text: 'ok',
-                  onPress: () => {
-                    void openGallery();
-                  },
-                },
-              ],
-              {cancelable: false},
-            );
-          }
+          navigation.push('NoTab', {
+            screen: 'StoryWritingNavigator',
+            params: {
+              screen:
+                target == 'photo'
+                  ? 'StorySelectingPhoto'
+                  : 'StorySelectingVideo',
+            },
+          });
         }}
         style={{
           width: size,
@@ -89,9 +74,8 @@ const SelectedPhotoList = ({
 
       {photoList?.map((photo, index) => {
         return (
-          <View key={photo.key}>
+          <View key={index}>
             <MediumImage
-              key={index}
               style={{width: size, height: size, margin: 5, borderRadius: 4}}
               source={{uri: photo.node.image.uri}}
             />
@@ -108,7 +92,9 @@ const SelectedPhotoList = ({
                 justifyContent: 'center',
               }}
               onPress={() => {
-                setPhotoList(prev => prev.filter(e => e.key !== photo.key));
+                setPhotoList(prev =>
+                  prev.filter(e => e.node.image.uri !== photo.node.image.uri),
+                );
               }}>
               <XSmallImage
                 tintColor={Color.DARK_GRAY}

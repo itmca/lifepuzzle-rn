@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import {DatePickerInput as Input} from 'react-native-paper-dates';
-import {Button, Platform, View} from 'react-native';
-import Text from './Text';
+import {Button, Platform, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import TextInput from './TextInput';
 import {TextInput as ReactInput} from 'react-native-paper';
@@ -53,7 +52,7 @@ function DateInput({...props}) {
   };
 
   return (
-    <>
+    <TouchableOpacity onPress={showPicker}>
       <TextInput
         label={props.label}
         value={formatDate(date)}
@@ -68,9 +67,9 @@ function DateInput({...props}) {
         display={'spinner'}
         onConfirm={onDatePick}
         onCancel={onCancel}
-        locale="en"
+        locale="ko"
       />
-    </>
+    </TouchableOpacity>
   );
 }
 export default DateInput;

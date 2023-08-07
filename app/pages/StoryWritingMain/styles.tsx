@@ -34,7 +34,7 @@ export default StyleSheet.create({
     backgroundColor: Color.WHITE,
   },
   titleInput: {
-    fontWeight: 'bold',
+    fontWeight: '700',
     height: 40,
     lineHeight: 20,
   },

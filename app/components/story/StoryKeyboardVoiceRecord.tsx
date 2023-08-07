@@ -84,6 +84,7 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
         style={{
           paddingVertical: 8,
           paddingRight: 24,
+          alignItems: 'center',
         }}
         onPress={() =>
           hasRecordFile() ? (
@@ -99,7 +100,6 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
         }>
         <HorizontalContentContainer
           style={{
-            marginVertical: 6,
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
@@ -110,11 +110,13 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
             style={{
               marginVertical: 6,
             }}>
-            {hasRecordFile() && (
+            {hasRecordFile() ? (
               <RecordedVoice
                 recordTime={recordFileInfo?.recordTime || ''}
                 onDelete={resetRecord}
               />
+            ) : (
+              <View style={{height: 32}}></View>
             )}
           </View>
         </HorizontalContentContainer>

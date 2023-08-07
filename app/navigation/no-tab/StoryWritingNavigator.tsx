@@ -7,10 +7,14 @@ import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoi
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title from '../../components/styled/components/Title';
 import StoryWritingQuestionPage from '../../pages/StoryWritingQuestion/StoryWritingQuestionPage';
+import StorySelectingPhotoPage from '../../pages/StorySelectingPhoto/StorySelectingPhotoPage';
+import StorySelectingVideoPage from '../../pages/StorySelectingVideo/StorySelectingVideoPage';
 
 export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
+  StorySelectingPhoto: undefined;
+  StorySelectingVideo: undefined;
   StoryWritingVoice: undefined;
 };
 
@@ -57,6 +61,24 @@ const StoryWritingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>음성 녹음</Title>,
+          headerBackVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="StorySelectingPhoto"
+        component={StorySelectingPhotoPage}
+        options={{
+          headerLeft: () => <WritingHeaderLeft type="before" />,
+          headerTitle: () => <Title>사진 업로드</Title>,
+          headerBackVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="StorySelectingVideo"
+        component={StorySelectingVideoPage}
+        options={{
+          headerLeft: () => <WritingHeaderLeft type="before" />,
+          headerTitle: () => <Title>영상 업로드</Title>,
           headerBackVisible: false,
         }}
       />

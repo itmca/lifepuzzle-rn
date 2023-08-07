@@ -122,7 +122,7 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
                 }}
                 size={DeviceWidth / 3}
                 photo={photo}
-                initalSelected={isDisabled}
+                initialSelected={isDisabled}
               />
             );
           })}
