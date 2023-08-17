@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import {XSmallText} from './Text';
 import {NativeSyntheticEvent, TextInputChangeEventData} from 'react-native';
 import {Color} from '../../../constants/color.constant';
+import {NoOutLineFullScreenContainer} from '../container/ScreenContainer';
 
 type Props = {
   width?: number;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const StyledTextInput = styled(TextInput).attrs(props => ({
-  outlineStyle: {borderWidth: 1},
+  outlineStyle: props.outlineStyle ?? {borderWidth: 1},
   right: props.right,
 }))<Props>`
   width: ${props => (props.width ? `${props.width}%` : '100%')};
@@ -36,7 +37,7 @@ function Input({...props}) {
     colors: {
       primary: Color.PRIMARY_LIGHT,
       secondary: Color.PRIMARY_LIGHT,
-      outline: Color.LIGHT_GRAY,
+      outline: 'transparent',
       onSurface: Color.BLACK, //underline, textColor
       surfaceVariant: 'transparent', //underlineBackground
       background: isFocused == true ? '#F7FDFF' : Color.WHITE,
@@ -47,28 +48,53 @@ function Input({...props}) {
   };
   return (
     <>
-      <StyledTextInput
-        theme={theme}
-        onChange={onChangeInputCount}
-        onBlur={() => setIsFocused(false)}
-        onFocus={() => setIsFocused(true)}
-        {...props}></StyledTextInput>
-      {props.maxLength != undefined && (
-        <XSmallText
-          style={{
-            position: 'absolute',
-            right: 20,
-            bottom: 20,
-            color: Color.DARK_GRAY,
-          }}>
+      {props.maxLength == undefined ? (
+        <StyledTextInput
+          theme={theme}
+          onChange={onChangeInputCount}
+          onBlur={() => setIsFocused(false)}
+          onFocus={() => setIsFocused(true)}
+          {...props}></StyledTextInput>
+      ) : (
+        <NoOutLineFullScreenContainer
+          style={
+            isFocused
+              ? {
+                  backgroundColor: '#F7FDFF',
+                  borderWidth: 1,
+                  borderColor: Color.PRIMARY_LIGHT,
+                  borderRadius: 4,
+                }
+              : {}
+          }>
+          <StyledTextInput
+            outlineStyle={{borderWidth: 0}}
+            theme={{
+              colors: {
+                primary: Color.PRIMARY_LIGHT,
+                background: 'transparent',
+              },
+            }}
+            onChange={onChangeInputCount}
+            onBlur={() => setIsFocused(false)}
+            onFocus={() => setIsFocused(true)}
+            {...props}></StyledTextInput>
           <XSmallText
             style={{
-              color: Color.PRIMARY_LIGHT,
+              color: Color.DARK_GRAY,
+              alignSelf: 'flex-end',
+              marginRight: 20,
+              marginBottom: 15,
             }}>
-            {inputCount}
+            <XSmallText
+              style={{
+                color: Color.PRIMARY_LIGHT,
+              }}>
+              {inputCount}
+            </XSmallText>{' '}
+            / 500
           </XSmallText>
-          /500
-        </XSmallText>
+        </NoOutLineFullScreenContainer>
       )}
     </>
   );

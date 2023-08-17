@@ -28,7 +28,11 @@ const StoryWritingVoicePage = (): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      <Text>{recordFile?.recordTime}</Text>
+      <Text>
+        {recordFile?.recordTime?.substring(
+          recordFile?.recordTime?.indexOf(':') + 1,
+        )}
+      </Text>
       <View>
         <Pressable
           style={styles.recordContainer}

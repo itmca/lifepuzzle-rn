@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
 
-import {Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {
+  Keyboard,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  ViewStyle,
+} from 'react-native';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -43,6 +48,7 @@ const StoryWritingMainPage = (): JSX.Element => {
   const writingStory = useRecoilValue(writingStoryState);
   const setStoryTextInfo = useSetRecoilState(storyTextState);
   const isKeyboardVisible = useKeyboardVisible();
+  const ishelpQuestionVisible = helpQuestion.length != 0;
   const isStoryUploading = useIsStoryUploading();
   const setIsModalOpening = useSetRecoilState(isModalOpening);
 
@@ -62,40 +68,59 @@ const StoryWritingMainPage = (): JSX.Element => {
     <LoadingContainer isLoading={isStoryUploading}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <NoOutLineFullScreenContainer>
-          <ScreenContainer style={styles.screenHTopContainer}>
-            <StoryDateInput
-              date={new Date()}
-              onChange={setStoryDate}
-              style={styles.dateInput}
-            />
-            <SmallText
-              color={Color.WHITE}
-              fontWeight={700}
-              style={{marginLeft: 15}}>
-              이번달 추천질문
-            </SmallText>
-          </ScreenContainer>
-          <OutLineContentContainer style={styles.screenLTopContainer}>
-            <List.Accordion
-              title={
-                <LargeText fontWeight={700} lineHeight={'21px'}>
-                  {helpQuestion}
-                </LargeText>
-              }
-              right={() => <></>}
-              onPress={() => {
-                numberOfLines == 1 ? setNumberOfLines(0) : setNumberOfLines(1);
-              }}
-              titleNumberOfLines={numberOfLines}
-              style={styles.helpQuestionContainer}
-              theme={{colors: {background: 'transparent'}}}></List.Accordion>
-            <MediumImage
-              width={55}
-              height={55}
-              source={require('../../assets/images/puzzle-character.png')}
-              style={{position: 'absolute', top: -45, right: 10}}
-            />
-          </OutLineContentContainer>
+          {!ishelpQuestionVisible ? (
+            <>
+              <ScreenContainer
+                style={StyleSheet.compose(styles.screenHTopContainer, {
+                  height: 50,
+                  backgroundColor: Color.WHITE,
+                  borderBottomWidth: 0,
+                })}>
+                <StoryDateInput
+                  date={new Date()}
+                  onChange={setStoryDate}
+                  style={styles.dateInput}
+                  backgroundColor={Color.SECONDARY_LIGHT}
+                  color={Color.PRIMARY_MEDIUM}
+                />
+              </ScreenContainer>
+            </>
+          ) : (
+            <>
+              <ScreenContainer style={styles.screenHTopContainer}>
+                <StoryDateInput
+                  date={new Date()}
+                  onChange={setStoryDate}
+                  style={styles.dateInput}
+                />
+                <SmallText
+                  color={Color.WHITE}
+                  fontWeight={700}
+                  style={{marginLeft: 15}}>
+                  이번달 추천질문
+                </SmallText>
+              </ScreenContainer>
+              <OutLineContentContainer style={styles.screenLTopContainer}>
+                <List.Accordion
+                  title={
+                    <LargeText fontWeight={700} lineHeight={'21px'}>
+                      {helpQuestion}
+                    </LargeText>
+                  }
+                  right={() => <></>}
+                  onPress={() => {
+                    numberOfLines == 1
+                      ? setNumberOfLines(0)
+                      : setNumberOfLines(1);
+                  }}
+                  titleNumberOfLines={numberOfLines}
+                  style={styles.helpQuestionContainer}
+                  theme={{
+                    colors: {background: 'transparent'},
+                  }}></List.Accordion>
+              </OutLineContentContainer>
+            </>
+          )}
           <ScreenContainer style={styles.screenCenterContainer}>
             <BasicTextInput
               customStyle={styles.titleInput}
@@ -118,6 +143,15 @@ const StoryWritingMainPage = (): JSX.Element => {
               maxLength={500}
             />
           </ScreenContainer>
+          <MediumImage
+            width={55}
+            height={55}
+            source={require('../../assets/images/puzzle-character.png')}
+            style={StyleSheet.compose(
+              {position: 'absolute', top: 45, right: 20},
+              !ishelpQuestionVisible ? {top: 10} : {},
+            )}
+          />
           <ContentContainer>
             {!isKeyboardVisible && (
               <List.Section

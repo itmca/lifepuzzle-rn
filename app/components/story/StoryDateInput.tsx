@@ -44,16 +44,19 @@ function StoryDateInput({...props}) {
           void showPicker();
         }}
         style={{
-          width: 97,
-          height: 14,
-          margin: 0,
+          backgroundColor: props.backgroundColor ?? 'transparent',
+          paddingVertical: 4,
+          paddingHorizontal: 8,
+          borderRadius: 5,
         }}>
         <HorizontalContentContainer gap={'4px'} alignItems={'center'}>
           <XSmallImage
-            tintColor={Color.WHITE}
+            tintColor={props.color ?? Color.WHITE}
             source={require('../../assets/images/calendar_month.png')}
           />
-          <XSmallText color={Color.WHITE}>{formatDate(date)}</XSmallText>
+          <XSmallText color={props.color ?? Color.WHITE}>
+            {formatDate(date)}
+          </XSmallText>
         </HorizontalContentContainer>
       </TouchableOpacity>
       <DateTimePicker

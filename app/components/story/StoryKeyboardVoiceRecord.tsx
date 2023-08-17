@@ -8,7 +8,10 @@ import {XSmallImage} from '../styled/components/Image';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
 import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {
+  ContentContainer,
+  HorizontalContentContainer,
+} from '../styled/container/ContentContainer';
 import Icon from '../styled/components/Icon';
 import {CustomAlert} from '../alert/CustomAlert';
 
@@ -43,14 +46,24 @@ const RecordedVoice = ({
           },
         });
       }}>
-      <XSmallImage
+      <View
         style={{
           backgroundColor: Color.WHITE,
           borderRadius: 16,
-          tintColor: Color.PRIMARY_LIGHT,
-        }}
-        source={require('../../assets/images/mic.png')}
-      />
+          width: 18,
+          height: 18,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <XSmallImage
+          style={{
+            width: 12,
+            height: 12,
+            tintColor: Color.PRIMARY_LIGHT,
+          }}
+          source={require('../../assets/images/mic.png')}
+        />
+      </View>
       <XSmallText color={Color.WHITE}>
         {recordTime.substring(recordTime.indexOf(':') + 1)}
       </XSmallText>

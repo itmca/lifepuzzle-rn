@@ -24,6 +24,7 @@ export default StyleSheet.create({
     flex: 1,
     borderTopWidth: 0,
     borderBottomWidth: 0,
+    marginTop: 5,
   },
   helpQuestionContainer: {
     paddingTop: 0,

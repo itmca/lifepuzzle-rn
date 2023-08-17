@@ -1,5 +1,12 @@
 import React from 'react';
-import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  ScrollView,
+  TouchableHighlight,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {MediumImage, XSmallImage} from '../styled/components/Image';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -74,7 +81,7 @@ const SelectedPhotoList = ({
 
       {photoList?.map((photo, index) => {
         return (
-          <View key={index}>
+          <TouchableOpacity activeOpacity={1} key={index}>
             <MediumImage
               style={{width: size, height: size, margin: 5, borderRadius: 4}}
               source={{uri: photo.node.image.uri}}
@@ -101,7 +108,7 @@ const SelectedPhotoList = ({
                 source={require('../../assets/images/close.png')}
               />
             </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         );
       })}
     </ScrollView>
