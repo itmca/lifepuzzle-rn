@@ -1,11 +1,14 @@
-import {GestureResponderEvent, TouchableOpacity} from 'react-native';
+import {GestureResponderEvent, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
 import {StoryType} from '../../types/story.type';
-import Image from '../styled/components/Image';
 import {MediumText, SmallText, XSmallText} from '../styled/components/Text';
 import {getStoryDisplayDate} from '../../service/story-display.service';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {
+  ContentContainer,
+  HorizontalContentContainer,
+} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
+import React from 'react';
 
 type props = {
   story: StoryType;
@@ -16,41 +19,48 @@ export const TextOnlyContents = ({story, onPress}: props): JSX.Element => {
   const date = getStoryDisplayDate(story.date);
 
   return (
-    <TouchableOpacity style={styles.onlyTextItemContainer} onPress={onPress}>
-      <MediumText
-        style={{...styles.itemTitle, marginBottom: 8}}
-        color={Color.LIGHT_BLACK}
-        fontWeight={500}
-        numberOfLines={1}
-        ellipsizeMode="tail">
-        {story.title}
-      </MediumText>
+    <View style={styles.onlyTextItemContainer}>
       {story.question && (
-        <HorizontalContentContainer marginBottom="13px">
-          <Image
-            source={require('../../assets/images/thumb-up-iso-color.png')}
-            style={styles.thumbUpIcon}
-          />
+        <HorizontalContentContainer marginBottom="10px">
           <SmallText
             color={Color.DARK_GRAY}
             style={styles.questionText}
             fontWeight={'600'}
             numberOfLines={1}
             ellipsizeMode="tail">
-            {story.question}
+            Q. {story.question}
           </SmallText>
+          <XSmallText color={Color.FONT_GRAY} style={styles.date}>
+            {date}
+          </XSmallText>
         </HorizontalContentContainer>
       )}
-      <SmallText
-        lineHeight={21}
-        color={Color.FONT_GRAY}
-        numberOfLines={2}
+      <MediumText
+        style={{...styles.itemTitle, marginBottom: 13}}
+        color={Color.LIGHT_BLACK}
+        fontWeight={500}
+        numberOfLines={1}
         ellipsizeMode="tail">
-        {story.content}
-      </SmallText>
-      <XSmallText color={Color.FONT_GRAY} style={styles.date}>
-        {date}
-      </XSmallText>
-    </TouchableOpacity>
+        {story.title}
+      </MediumText>
+      <HorizontalContentContainer alignItems="center">
+        <ContentContainer width={'80%'}>
+          <SmallText
+            style={{lineHeight: 20}}
+            color={Color.FONT_GRAY}
+            numberOfLines={2}
+            ellipsizeMode="tail">
+            {story.content}
+          </SmallText>
+        </ContentContainer>
+        <ContentContainer width="20%" alignItems="flex-end">
+          <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
+            <XSmallText color={Color.WHITE} fontWeight={600}>
+              더보기
+            </XSmallText>
+          </TouchableOpacity>
+        </ContentContainer>
+      </HorizontalContentContainer>
+    </View>
   );
 };

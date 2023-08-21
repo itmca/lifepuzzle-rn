@@ -13,23 +13,23 @@ type ContentContainerProps = {
   marginTop?: string;
   marginBottom?: string;
   backgroundColor?: string;
-  top?: string;
-  bottom?: string;
-  opacity?: string | number;
+  top?: number;
+  bottom?: number;
+  opacity?: number | string;
   zIndex?: number | string;
 };
 
 export const ContentContainer = styled.View<ContentContainerProps>`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: ${props => props.width ?? '100%'};
+  height: ${props => props.height ?? 'auto'};
   justify-content: ${props => props.justifyContent ?? 'flex-start'};
   align-items: ${props => props.alignItems ?? 'stretch'};
   gap: ${props => props.gap ?? '0px'};
   flex: ${props => props.flex ?? 'none'};
-  height: ${props => props.height ?? 'auto'};
   top: ${props => props.top ?? 'auto'};
-  bottom: ${props => props.bottom ?? '0px'};
+  bottom: ${props => props.bottom ?? 0};
   min-height: ${props => props.minHeight ?? '0px'};
   margin-top: ${props => props.marginTop ?? '0px'};
   margin-bottom: ${props => props.marginBottom ?? '0px'};

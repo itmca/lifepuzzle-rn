@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   container: {
@@ -94,7 +95,6 @@ export const styles = StyleSheet.create({
   },
   date: {
     marginLeft: 'auto',
-    marginTop: 10,
   },
   dateOnThumbnail: {
     position: 'absolute',
@@ -193,5 +193,13 @@ export const styles = StyleSheet.create({
   },
   questionContainer: {
     width: '90%',
+  },
+  readMoreButton: {
+    backgroundColor: Color.PRIMARY_LIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 45,
+    height: 45,
+    borderRadius: 50,
   },
 });
