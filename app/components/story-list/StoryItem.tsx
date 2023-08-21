@@ -38,25 +38,16 @@ const StoryItem = ({story}: props): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      {isOnlyText ? (
-        <TextOnlyContents
+      <View style={styles.thumbnailListItemContainer}>
+        {!isOnlyText && <Thumbnail story={story} />}
+        <Contents
+          isOnlyText={isOnlyText}
           story={story}
           onPress={() => {
             moveToStoryDetailPage(story.id);
           }}
         />
-      ) : (
-        <View style={styles.thumbnailListItemContainer}>
-          <Thumbnail story={story} />
-          <Contents
-            title={story.title}
-            content={story.content}
-            onPress={() => {
-              moveToStoryDetailPage(story.id);
-            }}
-          />
-        </View>
-      )}
+      </View>
     </View>
   );
 };

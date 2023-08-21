@@ -15,13 +15,9 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
   const isPhoto = story.photos.length ? true : false;
   const isAudio = story.audios.length ? true : false;
   const isVideo = story.videos.length ? true : false;
-  const date = getStoryDisplayDate(story.date);
 
   return (
     <>
-      <XSmallText style={styles.dateOnThumbnail} color={Color.LIGHT_GRAY}>
-        {date && date !== undefined ? date : ''}
-      </XSmallText>
       <View style={styles.contentsOnThumbnail}>
         <View style={styles.iconsOnThumbnail}>
           <HorizontalContentContainer>
@@ -60,20 +56,6 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
             )}
           </HorizontalContentContainer>
         </View>
-        {story.question && (
-          <View style={styles.questionContainer}>
-            <SmallText
-              style={
-                !isAudio && isPhoto && !isVideo && story.question
-                  ? styles.questionTextWidthBgOnTumbnail
-                  : styles.questionTextOnTumbnail
-              }
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {story.question}
-            </SmallText>
-          </View>
-        )}
       </View>
     </>
   );

@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
   },
   thumbnailListItemContainer: {
     display: 'flex',
-    height: 265,
     borderWidth: 1,
     borderColor: '#EBEBEB',
     borderRadius: 6,
@@ -161,11 +160,8 @@ export const styles = StyleSheet.create({
     flexBasis: 20,
   },
   contentsContainer: {
-    width: '100%',
-    height: 104,
     padding: 16,
     justifyContent: 'center',
-    gap: 8,
   },
   videoContainer: {
     justifyContent: 'center',
@@ -198,8 +194,8 @@ export const styles = StyleSheet.create({
     backgroundColor: Color.PRIMARY_LIGHT,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 45,
-    height: 45,
+    width: 43,
+    height: 43,
     borderRadius: 50,
   },
 });

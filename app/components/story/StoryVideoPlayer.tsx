@@ -152,16 +152,10 @@ export const VideoPlayer = ({
           padding={9}
           zIndex={200}>
           <HorizontalContentContainer>
-            <XSmallText
-              color={Color.WHITE}
-              fontWeight={800}
-              style={{marginRight: 'auto'}}>
+            <XSmallText color={Color.WHITE} style={{marginRight: 'auto'}}>
               {toMinuteSeconds(currentProgress * duration)}
             </XSmallText>
-            <XSmallText
-              color={Color.WHITE}
-              fontWeight={800}
-              style={{marginLeft: 'auto'}}>
+            <XSmallText color={Color.WHITE} style={{marginLeft: 'auto'}}>
               {playingTime}
             </XSmallText>
           </HorizontalContentContainer>
