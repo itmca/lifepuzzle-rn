@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
-import {OnPlaybackRateData} from 'react-native-video';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {Photo} from '../styled/components/Image';
 import {styles} from './styles';
 import {ContentsOnThumbnail} from './StoryItemContentsOnThumbnail';
 import {VideoPlayer} from '../story/StoryVideoPlayer';
-import {toMinuteSeconds} from '../../service/time-display.service';
 import StoryPhotoCarousel from '../story/StoryPhotoCarousel';
 
 type props = {
@@ -20,24 +18,23 @@ export const Thumbnail = ({story}: props): JSX.Element => {
 
   const [isClicked, setClicked] = useState<boolean>(false);
   const [isPaused, setPaused] = useState<boolean>(true);
+  const [playingTime, setPlayingTime] = useState<string>('');
 
-  const handlePause = (data: OnPlaybackRateData) => {
-    if (data.playbackRate === 0) {
-      setClicked(false);
-      setPaused(true);
-    }
-  };
+  useEffect(() => {
+    story.playingTime = playingTime;
+  }, [playingTime]);
 
   return (
     <View style={styles.thumbnailContainer}>
       {isVideo ? (
         <VideoPlayer
           videoUrl={story.videos[0]}
-          onLoad={data => {
-            story.playingTime = toMinuteSeconds(data.duration);
-          }}
           isPaused={isPaused}
-          handlPause={data => handlePause(data)}
+          isClicked={isClicked}
+          playingTime={playingTime}
+          setClicked={setClicked}
+          setPaused={setPaused}
+          setPlayingTime={setPlayingTime}
         />
       ) : isPhoto && story.photos.length == 1 ? (
         <Photo

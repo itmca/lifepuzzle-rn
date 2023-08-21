@@ -35,7 +35,7 @@ export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
                   />
                 </View>
                 <XSmallText color={Color.WHITE} opacity={0.8} fontWeight={500}>
-                  {story.playingTime ? ` ${story.playingTime}  ` : null}
+                  {story.playingTime ? ` ${story.playingTime}` : null}
                 </XSmallText>
               </>
             )}
