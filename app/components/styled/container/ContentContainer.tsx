@@ -17,6 +17,7 @@ type ContentContainerProps = {
   bottom?: number;
   opacity?: number | string;
   zIndex?: number | string;
+  borderRadius?: number;
 };
 
 export const ContentContainer = styled.View<ContentContainerProps>`
@@ -38,6 +39,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   backgroundcolor: ${props => props.backgroundColor ?? 'none'};
   zindex: ${props => props.zIndex ?? 'auto'};
   opacity: ${props => props.opacity ?? 100};
+  border-radius: ${props => props.borderRadius ?? 0};
 `;
 
 export const HorizontalContentContainer = styled(ContentContainer)`

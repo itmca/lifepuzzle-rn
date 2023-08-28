@@ -6,9 +6,8 @@ import {
   HorizontalContentContainer,
 } from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
-import Icon from 'react-native-vector-icons/AntDesign';
 import React from 'react';
-import {getStoryDisplayDate} from '../../service/story-display.service';
+import {getStoryDisplayDotDate} from '../../service/story-display.service';
 import {StoryType} from '../../types/story.type';
 
 type props = {
@@ -19,27 +18,25 @@ type props = {
 
 export const Contents = ({story, isOnlyText, onPress}: props): JSX.Element => {
   return (
-    <View
-      style={
-        isOnlyText ? styles.onlyTextItemContainer : styles.contentsContainer
-      }>
-      {story.question && (
-        <HorizontalContentContainer gap="5" marginBottom="10px">
+    <View style={styles.contentsContainer}>
+      <HorizontalContentContainer gap="5px" marginBottom="9px">
+        {story.question && (
           <SmallText
             color={Color.DARK_GRAY}
             style={styles.questionText}
-            fontWeight={'600'}
+            fontWeight={'700'}
+            letterSpacing={-0.3}
             numberOfLines={1}
             ellipsizeMode="tail">
-            Q. {story.question}
+            Q.{story.question}
           </SmallText>
-          <XSmallText color={Color.FONT_GRAY} style={styles.date}>
-            {getStoryDisplayDate(story.date)}
-          </XSmallText>
-        </HorizontalContentContainer>
-      )}
+        )}
+        <SmallText color={Color.FONT_GRAY} letterSpacing={-0.3}>
+          {getStoryDisplayDotDate(story.date)}
+        </SmallText>
+      </HorizontalContentContainer>
       <MediumText
-        style={{...styles.itemTitle, marginBottom: 13}}
+        style={{...styles.itemTitle, marginBottom: 11}}
         numberOfLines={1}
         ellipsizeMode="tail">
         {story.title}
@@ -48,6 +45,7 @@ export const Contents = ({story, isOnlyText, onPress}: props): JSX.Element => {
         <ContentContainer width={'80%'}>
           <SmallText
             style={{lineHeight: 19}}
+            letterSpacing={-0.3}
             color={Color.FONT_GRAY}
             numberOfLines={2}
             ellipsizeMode="tail">
@@ -56,7 +54,10 @@ export const Contents = ({story, isOnlyText, onPress}: props): JSX.Element => {
         </ContentContainer>
         <ContentContainer width="20%" alignItems="flex-end">
           <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
-            <XSmallText color={Color.WHITE} fontWeight={600}>
+            <XSmallText
+              color={Color.WHITE}
+              letterSpacing={-0.5}
+              fontWeight={600}>
               더보기
             </XSmallText>
           </TouchableOpacity>

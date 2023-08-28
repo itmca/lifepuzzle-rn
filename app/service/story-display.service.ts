@@ -10,6 +10,10 @@ export const getStoryDisplayDate = (date: Date) => {
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 };
 
+export const getStoryDisplayDotDate = (date: Date) => {
+  return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+};
+
 const getStoryTagsText = (tags: StoryTag[]) => {
   return tags.map(tag => tag.displayName).join(' ');
 };

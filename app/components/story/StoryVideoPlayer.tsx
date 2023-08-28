@@ -23,11 +23,12 @@ import {
 type props = {
   videoUrl: string;
   isPaused: boolean;
-  isClicked: boolean;
+  isControlShown: boolean;
   playingTime: string;
   setPaused: Function;
   setClicked: Function;
   setPlayingTime: Function;
+  setIsControlShown: Function;
 };
 
 const styles = StyleSheet.create({
@@ -61,17 +62,17 @@ const styles = StyleSheet.create({
 export const VideoPlayer = ({
   videoUrl,
   isPaused,
-  isClicked,
+  isControlShown,
   playingTime,
   setPaused,
   setClicked,
   setPlayingTime,
+  setIsControlShown,
 }: props) => {
   const width = Dimensions.get('window').width - 52;
   const player = useRef<any>(null);
   const [currentProgress, setcurrentProgress] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
-  const [isControlShown, setIsControlShown] = useState<boolean>(false);
 
   const handlePause = (data: OnPlaybackRateData) => {
     if (data.playbackRate === 0 && isPaused == true) {
@@ -148,7 +149,7 @@ export const VideoPlayer = ({
         <ContentContainer
           position={'absolute'}
           gap={'6px'}
-          bottom={'2px'}
+          bottom={2}
           padding={9}
           zIndex={200}>
           <HorizontalContentContainer>

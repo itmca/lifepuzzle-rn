@@ -1,62 +1,44 @@
 import {View} from 'react-native';
 import {StoryType} from '../../types/story.type';
 import {styles} from './styles';
-import Image from '../styled/components/Image';
-import {getStoryDisplayDate} from '../../service/story-display.service';
-import {SmallText, XSmallText} from '../styled/components/Text';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {XSmallText} from '../styled/components/Text';
+import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type props = {
   story: StoryType;
+  mediaType: string;
 };
-
-export const ContentsOnThumbnail = ({story}: props): JSX.Element => {
-  const isPhoto = story.photos.length ? true : false;
-  const isAudio = story.audios.length ? true : false;
-  const isVideo = story.videos.length ? true : false;
-
+export const ContentsOnThumbnail = ({story, mediaType}: props): JSX.Element => {
   return (
     <>
-      <View style={styles.contentsOnThumbnail}>
-        <View style={styles.iconsOnThumbnail}>
-          <HorizontalContentContainer>
-            {isVideo && (
-              <>
-                <View style={styles.playIconContainer}>
-                  <Image
-                    width={6}
-                    height={8}
-                    source={require('../../assets/images/playing-icon-orange.png')}
-                  />
-                </View>
-                <XSmallText color={Color.WHITE} opacity={0.8} fontWeight={500}>
-                  {story.playingTime ? ` ${story.playingTime}` : null}
-                </XSmallText>
-              </>
-            )}
-            {isAudio && (
-              <>
-                <View
-                  style={
-                    !isPhoto && !isVideo
-                      ? styles.recordIconBlueContainer
-                      : styles.recordIconGrayContainer
-                  }>
-                  <Image
-                    width={6.67}
-                    height={9}
-                    source={require('../../assets/images/recording-icon-blue.png')}
-                  />
-                </View>
-                <XSmallText color={Color.WHITE} opacity={0.8} fontWeight={500}>
-                  {story.recordingTime ? ` ${story.recordingTime}` : null}
-                </XSmallText>
-              </>
-            )}
-          </HorizontalContentContainer>
-        </View>
-      </View>
+      <ContentContainer
+        height="100%"
+        justifyContent="center"
+        alignItems="center"
+        gap="3px">
+        {mediaType === 'video' && (
+          <>
+            <View>
+              <Icon name="play-circle-filled" size={47} color={Color.WHITE} />
+            </View>
+            <XSmallText color={Color.WHITE} fontWeight={500}>
+              {story.playingTime ? ` ${story.playingTime}` : null}
+            </XSmallText>
+          </>
+        )}
+        {mediaType === 'audio' && (
+          <>
+            <View style={styles.recordIconBlueContainer}>
+              <Icon name="mic-none" size={26} color={'#03ACEE'} />
+            </View>
+            <XSmallText color={Color.WHITE} fontWeight={600}>
+              {story.recordingTime ? ` ${story.recordingTime}` : null}
+            </XSmallText>
+          </>
+        )}
+      </ContentContainer>
     </>
   );
 };
