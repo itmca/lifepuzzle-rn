@@ -4,16 +4,22 @@ import {Color} from '../../constants/color.constant';
 import {XSmallText} from '../styled/components/Text';
 import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 type Props = {
+  visible: boolean;
   mediaCount: number;
   activeMediaIndexNo: number;
   containerStyle?: StyleProp<ViewStyle>;
 };
 
 const StoryMediaCarouselPagination = ({
+  visible,
   mediaCount,
   activeMediaIndexNo,
   containerStyle,
 }: Props): JSX.Element => {
+  if (!visible) {
+    return <></>;
+  }
+
   return (
     <View
       style={StyleSheet.compose(

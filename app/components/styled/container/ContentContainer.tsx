@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 
 type ContentContainerProps = {
   width?: string;
@@ -18,6 +18,7 @@ type ContentContainerProps = {
   opacity?: number | string;
   zIndex?: number | string;
   borderRadius?: number;
+  listThumbnail?: boolean;
 };
 
 export const ContentContainer = styled.View<ContentContainerProps>`
@@ -40,6 +41,13 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   zindex: ${props => props.zIndex ?? 'auto'};
   opacity: ${props => props.opacity ?? 100};
   border-radius: ${props => props.borderRadius ?? 0};
+
+  ${props =>
+    props.listThumbnail &&
+    css`
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+    `};
 `;
 
 export const HorizontalContentContainer = styled(ContentContainer)`

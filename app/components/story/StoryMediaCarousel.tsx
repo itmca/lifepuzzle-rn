@@ -1,18 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Dimensions,
-  StyleProp,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Dimensions, StyleProp, ViewStyle} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {Photo} from '../styled/components/Image';
 import {StoryType} from '../../types/story.type';
 import {VideoPlayer} from './StoryVideoPlayer';
-import {ContentsOnThumbnail} from '../story-list/StoryItemContentsOnThumbnail';
 import StoryMediaCarouselPagination from './StoryMediaCarauselPagination';
 import {ContentContainer} from '../styled/container/ContentContainer';
+import {Color} from '../../constants/color.constant';
+import {StoryAudioPlayer} from './StoryAudioPlayer';
 
 type Props = {
   story: StoryType;
@@ -30,116 +25,67 @@ const StoryMediaCarousel = ({
   carouselStyle,
   carouselWidth,
 }: Props): JSX.Element => {
+  const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
+  const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
+
   const data: MediaItem[] = [
     ...story.videos.map(url => ({mediaType: 'video', url: url})),
     ...story.audios.map(url => ({mediaType: 'audio', url: url})),
     ...story.photos.map(url => ({mediaType: 'photo', url: url})),
   ];
 
-  const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
-  const [isClicked, setClicked] = useState<boolean>(false);
-  const [isPaused, setPaused] = useState<boolean>(true);
-  const [playingTime, setPlayingTime] = useState<string>('');
-  const [isControlShown, setIsControlShown] = useState<boolean>(false);
-
-  useEffect(() => {
-    story.playingTime = playingTime;
-  }, [playingTime]);
-
-  useEffect(() => {
-    if (activeMediaIndexNo > 1) {
-      setClicked(false);
-      setIsControlShown(false);
-    }
-  }, [activeMediaIndexNo]);
-
   const renderItem = ({item}: {item: MediaItem}) => {
     const mediaType = item.mediaType;
     const mediaUrl = item.url;
 
-    if (mediaType === 'video') {
-      return (
-        <>
+    return (
+      <>
+        {mediaType === 'video' && (
           <VideoPlayer
             videoUrl={mediaUrl}
-            isPaused={isPaused}
-            isControlShown={isControlShown}
-            playingTime={playingTime}
-            setPaused={setPaused}
-            setClicked={setClicked}
-            setPlayingTime={setPlayingTime}
-            setIsControlShown={setIsControlShown}
+            setIsPaginationShown={setIsPaginationShown}
           />
-          <TouchableOpacity
-            style={
-              isClicked
-                ? {display: 'none'}
-                : {
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    gap: 6,
-                  }
-            }
-            onPressIn={() => {
-              if (!isClicked) {
-                setClicked(true);
-                setIsControlShown(true);
-              }
-            }}>
-            <ContentsOnThumbnail story={story} mediaType={mediaType} />
-          </TouchableOpacity>
-        </>
-      );
-    } else if (mediaType === 'audio') {
-      return (
-        <>
-          <View
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: 160,
-              borderTopLeftRadius: 6,
-              borderTopRightRadius: 6,
-              backgroundColor: '#03ACEE',
+        )}
+        {mediaType === 'audio' && <StoryAudioPlayer audioURL={mediaUrl} />}
+        {mediaType === 'photo' && (
+          <Photo
+            borderTopLeftRadius={6}
+            borderTopRightRadius={6}
+            resizeMode="cover"
+            source={{
+              uri: mediaUrl,
             }}
           />
-          <ContentsOnThumbnail story={story} mediaType={mediaType} />
-        </>
-      );
-    } else if (mediaType === 'photo') {
-      return (
-        <Photo
-          backgroundColor="#d9d9d9"
-          borderTopLeftRadius={6}
-          borderTopRightRadius={6}
-          resizeMode="cover"
-          source={{
-            uri: mediaUrl,
-          }}
-        />
-      );
-    }
-
-    return null;
+        )}
+      </>
+    );
   };
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
 
   return (
-    <ContentContainer>
+    <ContentContainer
+      height="160px"
+      justifyContent="center"
+      alignItems="center"
+      listThumbnail={true}
+      style={{
+        borderBottomWidth: 0.8,
+        borderBottomColor: Color.GRAY,
+      }}>
       <Carousel
         data={data}
-        sliderWidth={carouselWidth ? carouselWidth : windowWidth}
         sliderHeight={windowHeight}
-        itemWidth={carouselWidth ? carouselWidth : windowWidth}
         itemHeight={windowHeight}
+        sliderWidth={carouselWidth ? carouselWidth : windowWidth}
+        itemWidth={carouselWidth ? carouselWidth : windowWidth}
         containerCustomStyle={carouselStyle}
         renderItem={renderItem}
         onSnapToItem={setActiveMediaIndexNo}
       />
       <StoryMediaCarouselPagination
+        visible={isPaginationShown}
         activeMediaIndexNo={activeMediaIndexNo}
         mediaCount={data.length}
         containerStyle={{width: carouselWidth}}

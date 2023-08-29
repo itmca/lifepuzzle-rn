@@ -1,10 +1,12 @@
-import {Text, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {toMinuteSeconds} from '../../service/time-display.service';
 import React, {useEffect, useState} from 'react';
 import Sound from 'react-native-sound';
-import {styles} from './styles';
-import { XSmallText } from "../styled/components/Text";
+import {XSmallText} from '../styled/components/Text';
+import {Color} from '../../constants/color.constant';
+import {ContentContainer} from '../styled/container/ContentContainer';
+import Image from '../styled/components/Image';
 
 type Props = {
   audioURL: string;
@@ -15,8 +17,13 @@ export const StoryAudioPlayer = ({audioURL}: Props): JSX.Element => {
   const [audioDisplayTimeText, setAudioDisplayTimeText] = useState<string>();
   const [isAudioPlaying, setAudioPlaying] = useState<boolean>(false);
 
+  const [isClicked, setClicked] = useState<boolean>(false);
+  const [isControlShown, setIsControlShown] = useState<boolean>(false);
+
   useEffect(() => {
-    if (!audioURL) return;
+    if (!audioURL) {
+      return;
+    }
 
     try {
       Sound.setCategory('Playback');
@@ -29,7 +36,7 @@ export const StoryAudioPlayer = ({audioURL}: Props): JSX.Element => {
         setAudio(audioSound);
         setAudioPlaying(false);
         setAudioDisplayTimeText(
-          `00:00/${toMinuteSeconds(audioSound.getDuration())}`,
+          `00:00 / ${toMinuteSeconds(audioSound.getDuration())}`,
         );
       });
     } catch (e) {
@@ -43,14 +50,14 @@ export const StoryAudioPlayer = ({audioURL}: Props): JSX.Element => {
         audio?.getCurrentTime((seconds, isPlaying) => {
           if (isPlaying) {
             setAudioDisplayTimeText(
-              `${toMinuteSeconds(seconds)}/${toMinuteSeconds(
+              `${toMinuteSeconds(seconds)} / ${toMinuteSeconds(
                 audio.getDuration(),
               )}`,
             );
           } else {
             if (seconds >= audio.getDuration()) {
               setAudioDisplayTimeText(
-                `${toMinuteSeconds(audio.getDuration())}/${toMinuteSeconds(
+                `${toMinuteSeconds(audio.getDuration())} / ${toMinuteSeconds(
                   audio.getDuration(),
                 )}`,
               );
@@ -67,45 +74,92 @@ export const StoryAudioPlayer = ({audioURL}: Props): JSX.Element => {
   }
 
   return (
-    <View style={styles.storyAudioContainer}>
-      {isAudioPlaying ? (
-        <Icon
-          name="pause-circle-filled"
-          size={36}
-          style={{color: 'red'}}
+    <>
+      <ContentContainer
+        gap="5px"
+        height="100%"
+        position="absolute"
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor={Color.DARK_BLUE}
+        listThumbnail={true}>
+        {isControlShown ? (
+          <>
+            <Icon
+              name={
+                isAudioPlaying
+                  ? 'pause-circle-outline'
+                  : 'caret-forward-circle-outline'
+              }
+              size={45}
+              color={Color.WHITE}
+              onPress={() => {
+                try {
+                  if (isAudioPlaying) {
+                    audio?.pause();
+                    setAudioPlaying(false);
+                  } else {
+                    audio?.play(() => {
+                      setAudioPlaying(false);
+                      setAudioDisplayTimeText(
+                        `${toMinuteSeconds(
+                          audio.getDuration(),
+                        )} / ${toMinuteSeconds(audio.getDuration())}`,
+                      );
+                    });
+
+                    setAudioPlaying(true);
+                  }
+                } catch (e) {
+                  console.log('cannot play the sound file', e);
+                }
+              }}
+            />
+            <XSmallText color={Color.WHITE} fontWeight={500}>
+              {audioDisplayTimeText}
+            </XSmallText>
+          </>
+        ) : (
+          <ContentContainer
+            position="absolute"
+            justifyContent="center"
+            alignItems="center"
+            height="100%"
+            gap="5px"
+            opacity={!isClicked ? 100 : 0}>
+            <TouchableOpacity
+              onPressIn={() => {
+                if (!isClicked) {
+                  setClicked(true);
+                  setIsControlShown(true);
+                }
+              }}>
+              <Image
+                source={require('../../assets/images/record-icon.png')}
+                style={{width: 40, height: 40}}
+              />
+            </TouchableOpacity>
+            <XSmallText color={Color.WHITE} fontWeight={500}>
+              {audio ? toMinuteSeconds(audio.getDuration()) : ''}
+            </XSmallText>
+          </ContentContainer>
+        )}
+        <TouchableWithoutFeedback
           onPress={() => {
-            try {
-              audio?.pause();
-              setAudioPlaying(false);
-            } catch (e) {
-              console.log('cannot play the sound file', e);
+            if (!isAudioPlaying && isControlShown) {
+              setIsControlShown(false);
+              setClicked(false);
+              audio?.reset();
             }
-          }}
-        />
-      ) : (
-        <Icon
-          name="play-circle-filled"
-          size={36}
-          style={{color: 'red'}}
-          onPress={() => {
-            try {
-              audio?.play(() => {
-                //audio?.reset();
-                setAudioPlaying(false);
-                setAudioDisplayTimeText(
-                  `${toMinuteSeconds(audio.getDuration())}/${toMinuteSeconds(
-                    audio.getDuration(),
-                  )}`,
-                );
-              });
-              setAudioPlaying(true);
-            } catch (e) {
-              console.log('cannot play the sound file', e);
-            }
-          }}
-        />
-      )}
-      <XSmallText>{audioDisplayTimeText}</XSmallText>
-    </View>
+          }}>
+          <ContentContainer
+            height="100%"
+            position="absolute"
+            zIndex={-1}
+            opacity={0}
+          />
+        </TouchableWithoutFeedback>
+      </ContentContainer>
+    </>
   );
 };
