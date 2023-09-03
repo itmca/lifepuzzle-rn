@@ -30,7 +30,7 @@ export const StoryKeyboardPhotoRecord = (): JSX.Element => {
         />
       )}>
       <List.Item
-        title={<SelectedPhotoList target={'photo'} size={80} />}
+        title={<SelectedPhotoList target={'photo'} size={80} upload={true} />}
         titleStyle={{width: DeviceWidth}}
         style={{height: 120}}
       />

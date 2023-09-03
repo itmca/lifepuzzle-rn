@@ -4,7 +4,6 @@ import {
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import React, {useEffect, useState} from 'react';
-
 import {
   Alert,
   Dimensions,
@@ -24,7 +23,7 @@ import {
   usePhotoPermission,
 } from '../../service/hooks/permission.hook';
 import {useNavigation} from '@react-navigation/native';
-
+import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
 const DeviceWidth = Dimensions.get('window').width;
 
 const StorySelectingVideoPage = (): JSX.Element => {
@@ -103,6 +102,12 @@ const StorySelectingVideoPage = (): JSX.Element => {
 
   return (
     <>
+      {selectedVideoList.length != 0 && (
+        <SelectedPhotoList
+          target={'video'}
+          upload={false}
+          size={50}></SelectedPhotoList>
+      )}
       <FlatList
         data={videos}
         numColumns={3}
@@ -118,7 +123,6 @@ const StorySelectingVideoPage = (): JSX.Element => {
             selectedVideoList?.findIndex(
               e => e.node.image.uri === item.node.image.uri,
             ) + 1;
-
           return (
             <SelectablePhoto
               onSelected={(photo: PhotoIdentifier) => {
@@ -132,7 +136,7 @@ const StorySelectingVideoPage = (): JSX.Element => {
               }}
               size={DeviceWidth / 3}
               photo={item}
-              initialSelected={isDisabled}
+              selected={isDisabled}
               order={order}
             />
           );

@@ -19,6 +19,7 @@ import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useStoryHttpPayLoad} from './story.payload.hook';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
+import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 
 export const useResetAllWritingStory = () => {
   const resetStoryText = useResetRecoilState(storyTextState);
@@ -38,7 +39,7 @@ export const useResetAllWritingStory = () => {
 
 export const useSaveStory = (): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-
+  const storyKey = useRecoilValue(SelectedStoryKeyState);
   const writingStory = useRecoilValue(writingStoryState);
   const setStoryUploading = useSetRecoilState(isStoryUploading);
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
@@ -49,8 +50,8 @@ export const useSaveStory = (): [() => void] => {
 
   const [isLoading, saveStory] = useAuthAxios<any>({
     requestOption: {
-      method: 'post',
-      url: '/story',
+      method: storyKey ? 'put' : 'post',
+      url: storyKey ? `/story/${storyKey}` : '/story',
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {

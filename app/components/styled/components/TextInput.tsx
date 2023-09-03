@@ -1,8 +1,6 @@
 import styled from 'styled-components/native';
 import {TextInput} from 'react-native-paper';
 import React, {useState} from 'react';
-import {XSmallText} from './Text';
-import {NativeSyntheticEvent, TextInputChangeEventData} from 'react-native';
 import {Color} from '../../../constants/color.constant';
 import {NoOutLineFullScreenContainer} from '../container/ScreenContainer';
 
@@ -23,15 +21,7 @@ const StyledTextInput = styled(TextInput).attrs(props => ({
 `;
 
 function Input({...props}) {
-  const [inputCount, setInputCount] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
-  const onChangeInputCount = (
-    event: NativeSyntheticEvent<TextInputChangeEventData>,
-  ) => {
-    const {text} = event.nativeEvent;
-    setInputCount(text.length);
-    return false;
-  };
   const theme = {
     roundness: 4,
     colors: {
@@ -51,7 +41,6 @@ function Input({...props}) {
       {props.maxLength == undefined ? (
         <StyledTextInput
           theme={theme}
-          onChange={onChangeInputCount}
           onBlur={() => setIsFocused(false)}
           onFocus={() => setIsFocused(true)}
           {...props}></StyledTextInput>
@@ -75,25 +64,9 @@ function Input({...props}) {
                 background: 'transparent',
               },
             }}
-            onChange={onChangeInputCount}
             onBlur={() => setIsFocused(false)}
             onFocus={() => setIsFocused(true)}
             {...props}></StyledTextInput>
-          <XSmallText
-            style={{
-              color: Color.DARK_GRAY,
-              alignSelf: 'flex-end',
-              marginRight: 20,
-              marginBottom: 15,
-            }}>
-            <XSmallText
-              style={{
-                color: Color.PRIMARY_LIGHT,
-              }}>
-              {inputCount}
-            </XSmallText>{' '}
-            / 500
-          </XSmallText>
         </NoOutLineFullScreenContainer>
       )}
     </>

@@ -25,6 +25,7 @@ export default StyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 0,
     marginTop: 5,
+    paddingBottom: 10,
   },
   helpQuestionContainer: {
     paddingTop: 0,

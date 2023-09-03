@@ -4,7 +4,6 @@ import {
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import React, {useEffect, useState} from 'react';
-
 import {
   Alert,
   Dimensions,
@@ -13,19 +12,17 @@ import {
   Platform,
 } from 'react-native';
 import {useRecoilState} from 'recoil';
-
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
-import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {
   photoState,
   selectedPhotoState,
 } from '../../recoils/selected-photo.recoil';
 import {
   hasAndroidPermission,
-  usePermission,
   usePhotoPermission,
 } from '../../service/hooks/permission.hook';
 import {useNavigation} from '@react-navigation/native';
+import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -105,6 +102,12 @@ const StorySelectingPhotoPage = (): JSX.Element => {
 
   return (
     <>
+      {selectedPhotoList.length != 0 && (
+        <SelectedPhotoList
+          target={'photo'}
+          upload={false}
+          size={50}></SelectedPhotoList>
+      )}
       <FlatList
         data={photos}
         numColumns={3}
@@ -134,7 +137,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
               }}
               size={DeviceWidth / 3}
               photo={item}
-              initialSelected={isDisabled}
+              selected={isDisabled}
               order={order}
             />
           );

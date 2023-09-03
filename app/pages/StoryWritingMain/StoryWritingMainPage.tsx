@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-
-import {
-  Keyboard,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  ViewStyle,
-} from 'react-native';
+import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -20,10 +14,7 @@ import {
 } from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {helpQuestionTextState} from '../../recoils/help-question.recoil';
-import MediumText, {
-  LargeText,
-  SmallText,
-} from '../../components/styled/components/Text';
+import {LargeText, SmallText} from '../../components/styled/components/Text';
 import StoryDateInput from '../../components/story/StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {List} from 'react-native-paper';
@@ -38,21 +29,25 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {Color} from '../../constants/color.constant';
 import {MediumImage} from '../../components/styled/components/Image';
+import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
   const helpQuestion = useRecoilValue(helpQuestionTextState);
   const [title, setTitle] = useState<string>('');
   const [storyText, setStoryText] = useState<string>('');
-  const [_, setStoryDate] = useRecoilState<Date | undefined>(storyDateState);
-  const writingStory = useRecoilValue(writingStoryState);
+  const [storyDate, setStoryDate] = useRecoilState<Date | undefined>(
+    storyDateState,
+  );
+  const [writingStory] = useRecoilState(writingStoryState);
   const setStoryTextInfo = useSetRecoilState(storyTextState);
+
   const isKeyboardVisible = useKeyboardVisible();
   const ishelpQuestionVisible = helpQuestion.length != 0;
   const isStoryUploading = useIsStoryUploading();
   const setIsModalOpening = useSetRecoilState(isModalOpening);
-
   useEffect(() => {
+    setStoryDate(writingStory?.date || new Date());
     setTitle(writingStory?.title || '');
     setStoryText(writingStory?.storyText || '');
   }, []);
@@ -77,7 +72,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                   borderBottomWidth: 0,
                 })}>
                 <StoryDateInput
-                  date={new Date()}
+                  date={storyDate}
                   onChange={setStoryDate}
                   style={styles.dateInput}
                   backgroundColor={Color.SECONDARY_LIGHT}
@@ -89,7 +84,7 @@ const StoryWritingMainPage = (): JSX.Element => {
             <>
               <ScreenContainer style={styles.screenHTopContainer}>
                 <StoryDateInput
-                  date={new Date()}
+                  date={storyDate}
                   onChange={setStoryDate}
                   style={styles.dateInput}
                 />
@@ -140,27 +135,49 @@ const StoryWritingMainPage = (): JSX.Element => {
               onChangeText={setStoryText}
               multiline={true}
               mode={'outlined'}
-              maxLength={500}
             />
           </ScreenContainer>
-          <MediumImage
-            width={55}
-            height={55}
-            source={require('../../assets/images/puzzle-character.png')}
-            style={StyleSheet.compose(
-              {position: 'absolute', top: 45, right: 20},
-              !ishelpQuestionVisible ? {top: 10} : {},
-            )}
-          />
+          {ishelpQuestionVisible && (
+            <MediumImage
+              width={55}
+              height={55}
+              source={require('../../assets/images/puzzle-character.png')}
+              style={{position: 'absolute', top: 45, right: 20}}
+            />
+          )}
           <ContentContainer>
-            {!isKeyboardVisible && (
-              <List.Section
-                style={{borderTopColor: Color.LIGHT_GRAY, borderTopWidth: 8}}>
-                <StoryKeyboardPhotoRecord></StoryKeyboardPhotoRecord>
-                <StoryKeyboardVideoRecord></StoryKeyboardVideoRecord>
-                <StoryKeyboardVoiceRecord></StoryKeyboardVoiceRecord>
-              </List.Section>
-            )}
+            <>
+              {!isKeyboardVisible ? (
+                <>
+                  <List.Section
+                    style={{
+                      borderTopColor: Color.LIGHT_GRAY,
+                      borderTopWidth: 8,
+                    }}>
+                    <StoryKeyboardPhotoRecord></StoryKeyboardPhotoRecord>
+                    <StoryKeyboardVideoRecord></StoryKeyboardVideoRecord>
+                    <StoryKeyboardVoiceRecord></StoryKeyboardVoiceRecord>
+                  </List.Section>
+                  {!ishelpQuestionVisible && (
+                    <MediumImage
+                      width={55}
+                      height={55}
+                      source={require('../../assets/images/puzzle-character.png')}
+                      style={{position: 'absolute', top: -40, right: 20}}
+                    />
+                  )}
+                </>
+              ) : (
+                !ishelpQuestionVisible && (
+                  <MediumImage
+                    width={64}
+                    height={61}
+                    source={require('../../assets/images/puzzle-character-reading.png')}
+                    style={{position: 'absolute', top: -60, right: 20}}
+                  />
+                )
+              )}
+            </>
           </ContentContainer>
         </NoOutLineFullScreenContainer>
       </TouchableWithoutFeedback>

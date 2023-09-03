@@ -12,7 +12,7 @@ type SelectablePhotoProps = {
   onDeselected: Function;
   size: number;
   photo: PhotoIdentifier;
-  initialSelected?: boolean;
+  selected?: boolean;
   order?: number;
 };
 
@@ -21,14 +21,11 @@ const SelectablePhoto = ({
   onDeselected,
   size,
   photo,
-  initialSelected = false,
+  selected = false,
   order,
 }: SelectablePhotoProps): JSX.Element => {
-  const [isSelected, setIsSelected] = useState(initialSelected);
-
   const _onPress = () => {
-    isSelected === true ? onDeselected(photo) : onSelected(photo);
-    setIsSelected(selected => !selected);
+    selected === true ? onDeselected(photo) : onSelected(photo);
   };
 
   return (
@@ -38,7 +35,7 @@ const SelectablePhoto = ({
           style={{width: size, height: size}}
           source={{uri: photo.node.image.uri}}
         />
-        {isSelected ? (
+        {selected ? (
           <CheckCover style={{height: '100%', width: '100%'}}>
             {order ? (
               <XLargeTitle color={Color.WHITE}>{order}</XLargeTitle>

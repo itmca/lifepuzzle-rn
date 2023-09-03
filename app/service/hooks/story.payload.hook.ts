@@ -28,17 +28,22 @@ const addImagesInFormData = function (
   selectedImages?.forEach((image, index) => {
     const uri = image.node.image.uri;
     const fileParts = uri?.split('//').pop();
-    const fileName = uri?.split('/').pop();
+    const fileName =
+      (uri.startsWith('https://itmca') ? 'lp-media-' : '') +
+      uri?.split('/').pop();
     formData.append('photos', {
       uri: uri,
       type: IMG_TYPE,
       name: fileName,
     });
   });
+
   selectedVideos?.forEach((image, index) => {
     const uri = image.node.image.uri;
     const fileParts = uri?.split('//').pop();
-    const fileName = uri?.split('/').pop();
+    const fileName =
+      (uri.startsWith('https://itmca') ? 'lp-media-' : '') +
+      uri?.split('/').pop();
     formData.append('videos', {
       uri: uri,
       type: VIDEO_TYPE,
@@ -79,7 +84,6 @@ const addStoryinfoInFormData = function (
     title: writingStory?.title,
     storyText: writingStory?.storyText,
   };
-
   formData.append('storyInfo', {
     string: JSON.stringify(stroyInfo),
     type: 'application/json',
