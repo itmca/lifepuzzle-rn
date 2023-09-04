@@ -12,11 +12,10 @@ import {StoryType} from '../../types/story.type';
 
 type props = {
   story: StoryType;
-  isOnlyText: boolean;
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
-export const Contents = ({story, isOnlyText, onPress}: props): JSX.Element => {
+export const Contents = ({story, onPress}: props): JSX.Element => {
   return (
     <View style={styles.contentsContainer}>
       <HorizontalContentContainer gap="5px" marginBottom="9px">
