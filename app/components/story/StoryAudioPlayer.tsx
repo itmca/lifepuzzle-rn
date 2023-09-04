@@ -10,9 +10,13 @@ import {MediaThumbnail} from './StoryMediaThumbnail';
 
 type Props = {
   audioURL: string;
+  listThumbnail?: boolean;
 };
 
-export const StoryAudioPlayer = ({audioURL}: Props): JSX.Element => {
+export const StoryAudioPlayer = ({
+  audioURL,
+  listThumbnail,
+}: Props): JSX.Element => {
   const [audio, setAudio] = useState<Sound>();
   const [audioDisplayTimeText, setAudioDisplayTimeText] = useState<string>();
   const [isAudioPlaying, setAudioPlaying] = useState<boolean>(false);
@@ -104,7 +108,7 @@ export const StoryAudioPlayer = ({audioURL}: Props): JSX.Element => {
         justifyContent="center"
         alignItems="center"
         backgroundColor={Color.DARK_BLUE}
-        listThumbnail={true}>
+        listThumbnail={listThumbnail ? listThumbnail : false}>
         {isControlShown ? (
           <>
             <TouchableWithoutFeedback onPressIn={onPress}>

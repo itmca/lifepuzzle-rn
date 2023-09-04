@@ -13,6 +13,8 @@ type Props = {
   story: StoryType;
   carouselStyle?: StyleProp<ViewStyle>;
   carouselWidth?: number;
+  listThumbnail?: boolean;
+  inDetail?: boolean;
 };
 
 type MediaItem = {
@@ -24,6 +26,8 @@ const StoryMediaCarousel = ({
   story,
   carouselStyle,
   carouselWidth,
+  listThumbnail,
+  inDetail,
 }: Props): JSX.Element => {
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
@@ -42,15 +46,21 @@ const StoryMediaCarousel = ({
       <>
         {mediaType === 'video' && (
           <VideoPlayer
+            listThumbnail={listThumbnail ? listThumbnail : false}
             videoUrl={mediaUrl}
             setIsPaginationShown={setIsPaginationShown}
           />
         )}
-        {mediaType === 'audio' && <StoryAudioPlayer audioURL={mediaUrl} />}
+        {mediaType === 'audio' && (
+          <StoryAudioPlayer
+            listThumbnail={listThumbnail ? listThumbnail : false}
+            audioURL={mediaUrl}
+          />
+        )}
         {mediaType === 'photo' && (
           <Photo
-            borderTopLeftRadius={6}
-            borderTopRightRadius={6}
+            borderTopLeftRadius={listThumbnail ? 6 : 0}
+            borderTopRightRadius={listThumbnail ? 6 : 0}
             resizeMode="cover"
             source={{
               uri: mediaUrl,
@@ -66,10 +76,10 @@ const StoryMediaCarousel = ({
 
   return (
     <ContentContainer
-      height="160px"
+      height={inDetail ? '200px' : '160px'}
       justifyContent="center"
       alignItems="center"
-      listThumbnail={true}
+      listThumbnail={listThumbnail ? listThumbnail : true}
       style={{
         borderBottomWidth: 0.8,
         borderBottomColor: Color.GRAY,

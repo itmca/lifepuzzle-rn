@@ -17,6 +17,7 @@ type Props = {
   isPaused: boolean;
   isControlShown: boolean;
   currentProgress: number;
+  listThumbnail?: boolean;
   handleProgress: (e: {nativeEvent: {pageX: number}}) => void;
   setPaused: (data: boolean) => void;
   setClicked: (data: boolean) => void;
@@ -30,6 +31,7 @@ export const VideoController = ({
   currentProgress,
   isPaused,
   isControlShown,
+  listThumbnail,
   setPaused,
   setClicked,
   setIsControlShown,
@@ -43,7 +45,7 @@ export const VideoController = ({
       alignItems="center"
       justifyContent="center"
       backgroundColor="rgba(0, 0, 0, .3)"
-      listThumbnail={true}>
+      listThumbnail={listThumbnail ? listThumbnail : false}>
       <TouchableWithoutFeedback
         onPressIn={() => {
           isPaused ? setPaused(false) : setPaused(true);
