@@ -1,39 +1,67 @@
 import {TouchableOpacity, GestureResponderEvent, View} from 'react-native';
 import {styles} from './styles';
-import MediumText, {SmallText} from '../styled/components/Text';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import MediumText, {SmallText, XSmallText} from '../styled/components/Text';
+import {
+  ContentContainer,
+  HorizontalContentContainer,
+} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
-import Icon from 'react-native-vector-icons/AntDesign';
+import React from 'react';
+import {getStoryDisplayDotDate} from '../../service/story-display.service';
+import {StoryType} from '../../types/story.type';
 
 type props = {
-  title: string;
-  content: string;
+  story: StoryType;
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
-export const Contents = ({title, content, onPress}: props): JSX.Element => {
+export const Contents = ({story, onPress}: props): JSX.Element => {
   return (
     <View style={styles.contentsContainer}>
+      <HorizontalContentContainer gap="5px" marginBottom="9px">
+        {story.question && (
+          <SmallText
+            color={Color.DARK_GRAY}
+            style={styles.questionText}
+            fontWeight={'700'}
+            letterSpacing={-0.3}
+            numberOfLines={1}
+            ellipsizeMode="tail">
+            Q.{story.question}
+          </SmallText>
+        )}
+        <SmallText color={Color.FONT_GRAY} letterSpacing={-0.3}>
+          {getStoryDisplayDotDate(story.date)}
+        </SmallText>
+      </HorizontalContentContainer>
       <MediumText
-        style={styles.itemTitle}
+        style={{...styles.itemTitle, marginBottom: 11}}
         numberOfLines={1}
         ellipsizeMode="tail">
-        {title}
+        {story.title}
       </MediumText>
-      <MediumText
-        style={styles.description}
-        numberOfLines={1}
-        ellipsizeMode="tail">
-        {content}
-      </MediumText>
-      <TouchableOpacity onPress={onPress}>
-        <HorizontalContentContainer
-          justifyContent="flex-end"
-          alignItems="center">
-          <SmallText color={Color.LIGHT_BLACK}>자세히 보기 </SmallText>
-          <Icon name="right" color={Color.LIGHT_BLACK} size={14} />
-        </HorizontalContentContainer>
-      </TouchableOpacity>
+      <HorizontalContentContainer alignItems="flex-start">
+        <ContentContainer width={'80%'}>
+          <SmallText
+            style={{lineHeight: 19}}
+            letterSpacing={-0.3}
+            color={Color.FONT_GRAY}
+            numberOfLines={2}
+            ellipsizeMode="tail">
+            {story.content}
+          </SmallText>
+        </ContentContainer>
+        <ContentContainer width="20%" alignItems="flex-end">
+          <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
+            <XSmallText
+              color={Color.WHITE}
+              letterSpacing={-0.5}
+              fontWeight={600}>
+              더보기
+            </XSmallText>
+          </TouchableOpacity>
+        </ContentContainer>
+      </HorizontalContentContainer>
     </View>
   );
 };

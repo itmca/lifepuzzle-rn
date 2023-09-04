@@ -1,19 +1,13 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
     position: 'relative',
   },
-  onlyTextItemContainer: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: '#EBEBEB',
-    borderRadius: 6,
-  },
   thumbnailListItemContainer: {
     display: 'flex',
-    height: 265,
     borderWidth: 1,
     borderColor: '#EBEBEB',
     borderRadius: 6,
@@ -30,9 +24,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recordIconBlueContainer: {
-    backgroundColor: '#EEEDED',
-    width: 16,
-    height: 16,
+    backgroundColor: Color.WHITE,
+    width: 40,
+    height: 40,
+    paddingTop: 2.5,
+    paddingLeft: 2,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
@@ -46,13 +42,14 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
   playIconContainer: {
-    backgroundColor: '#333333',
-    width: 16,
-    height: 16,
+    backgroundColor: Color.WHITE,
+    width: 40,
+    height: 40,
+    paddingTop: 2,
+    paddingLeft: 2,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
-    paddingLeft: 1,
   },
   thumbnailRecordItemContainer: {
     position: 'absolute',
@@ -91,10 +88,6 @@ export const styles = StyleSheet.create({
   },
   itemTitle: {
     width: '95%',
-  },
-  date: {
-    marginLeft: 'auto',
-    marginTop: 10,
   },
   dateOnThumbnail: {
     position: 'absolute',
@@ -161,11 +154,8 @@ export const styles = StyleSheet.create({
     flexBasis: 20,
   },
   contentsContainer: {
-    width: '100%',
-    height: 104,
     padding: 16,
     justifyContent: 'center',
-    gap: 8,
   },
   videoContainer: {
     justifyContent: 'center',
@@ -180,11 +170,11 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 6,
   },
   contentsOnThumbnail: {
+    height: '100%',
     width: '100%',
-    position: 'absolute',
-    left: 17,
-    bottom: 14,
-    gap: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
   },
   iconsOnThumbnail: {
     flexDirection: 'row',
@@ -193,5 +183,13 @@ export const styles = StyleSheet.create({
   },
   questionContainer: {
     width: '90%',
+  },
+  readMoreButton: {
+    backgroundColor: Color.PRIMARY_LIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 43,
+    height: 43,
+    borderRadius: 50,
   },
 });

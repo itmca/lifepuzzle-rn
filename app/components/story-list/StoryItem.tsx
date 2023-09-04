@@ -1,15 +1,14 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {View} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import {styles} from './styles';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {StoryType} from '../../types/story.type';
 import {BasicNavigationProps} from '../../navigation/types';
-import {Thumbnail} from './StoryItemThumbnail';
 import {Contents} from './StoryItemContents';
-import {TextOnlyContents} from './StoryItemWithTextOnly';
 import {isLoggedInState} from '../../recoils/auth.recoil';
+import StoryMediaCarousel from '../story/StoryMediaCarousel';
 
 type props = {
   story: StoryType;
@@ -38,25 +37,21 @@ const StoryItem = ({story}: props): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      {isOnlyText ? (
-        <TextOnlyContents
+      <View style={styles.thumbnailListItemContainer}>
+        {!isOnlyText && (
+          <StoryMediaCarousel
+            carouselWidth={Dimensions.get('window').width - 34}
+            story={story}
+          />
+        )}
+        <Contents
+          isOnlyText={isOnlyText}
           story={story}
           onPress={() => {
             moveToStoryDetailPage(story.id);
           }}
         />
-      ) : (
-        <View style={styles.thumbnailListItemContainer}>
-          <Thumbnail story={story} />
-          <Contents
-            title={story.title}
-            content={story.content}
-            onPress={() => {
-              moveToStoryDetailPage(story.id);
-            }}
-          />
-        </View>
-      )}
+      </View>
     </View>
   );
 };

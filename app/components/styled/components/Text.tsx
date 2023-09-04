@@ -47,6 +47,7 @@ export const SmallText = styled.Text<Props>`
 export const XSmallText = styled.Text<Props>`
   font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
+  font-weight: ${props => props.fontWeight || 'normal'};
   font-size: 12px;
 `;
 

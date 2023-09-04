@@ -10,6 +10,7 @@ export const HomeLoginButton = (): JSX.Element => {
 
   return (
     <LargeButton
+      backgroundColor={Color.LIGHT_GRAY}
       onPress={() => {
         navigation.push('NoTab', {
           screen: 'LoginRegisterNavigator',
@@ -18,7 +19,7 @@ export const HomeLoginButton = (): JSX.Element => {
           },
         });
       }}>
-      <MediumText fontWeight={600} color={Color.WHITE}>
+      <MediumText fontWeight={600} color={Color.LIGHT_BLACK}>
         로그인 하러가기
       </MediumText>
     </LargeButton>
