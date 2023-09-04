@@ -12,10 +12,11 @@ import {StoryType} from '../../types/story.type';
 
 type props = {
   story: StoryType;
+  inDetail?: boolean;
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
-export const Contents = ({story, onPress}: props): JSX.Element => {
+export const Contents = ({story, inDetail, onPress}: props): JSX.Element => {
   return (
     <View style={styles.contentsContainer}>
       <HorizontalContentContainer gap="5px" marginBottom="9px">
@@ -25,7 +26,7 @@ export const Contents = ({story, onPress}: props): JSX.Element => {
             style={styles.questionText}
             fontWeight={'700'}
             letterSpacing={-0.3}
-            numberOfLines={1}
+            numberOfLines={inDetail ? 2 : 1}
             ellipsizeMode="tail">
             Q.{story.question}
           </SmallText>
@@ -36,12 +37,12 @@ export const Contents = ({story, onPress}: props): JSX.Element => {
       </HorizontalContentContainer>
       <MediumText
         style={{...styles.itemTitle, marginBottom: 11}}
-        numberOfLines={1}
+        numberOfLines={inDetail ? 2 : 1}
         ellipsizeMode="tail">
         {story.title}
       </MediumText>
       <HorizontalContentContainer alignItems="flex-start">
-        <ContentContainer width={'80%'}>
+        <ContentContainer width={inDetail ? '100%' : '80%'}>
           <SmallText
             style={{lineHeight: 19}}
             letterSpacing={-0.3}
@@ -51,16 +52,18 @@ export const Contents = ({story, onPress}: props): JSX.Element => {
             {story.content}
           </SmallText>
         </ContentContainer>
-        <ContentContainer width="20%" alignItems="flex-end">
-          <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
-            <XSmallText
-              color={Color.WHITE}
-              letterSpacing={-0.5}
-              fontWeight={600}>
-              더보기
-            </XSmallText>
-          </TouchableOpacity>
-        </ContentContainer>
+        {!inDetail && (
+          <ContentContainer width="20%" alignItems="flex-end">
+            <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
+              <XSmallText
+                color={Color.WHITE}
+                letterSpacing={-0.5}
+                fontWeight={600}>
+                더보기
+              </XSmallText>
+            </TouchableOpacity>
+          </ContentContainer>
+        )}
       </HorizontalContentContainer>
     </View>
   );

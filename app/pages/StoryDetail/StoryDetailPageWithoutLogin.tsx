@@ -9,6 +9,8 @@ import {NoOutLineScreenContainer} from '../../components/styled/container/Screen
 import {useRecoilValue} from 'recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
+import {Contents} from '../../components/story-list/StoryItemContents';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
   const storyKey = useRecoilValue(SelectedStoryKeyState);
@@ -26,27 +28,22 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
     return <></>;
   }
 
+  const isOnlyText =
+    story.audios.length < 1 &&
+    story.videos.length < 1 &&
+    story.photos.length < 1;
+
   return (
     <NoOutLineScreenContainer>
       <ScrollView>
-        <StoryPhotoCarousel
-          photos={story?.photos}
-          containerStyle={{
-            height: 360,
-          }}
-        />
-        <View style={styles.contentMainContainer}>
-          <View style={styles.contentTopPartContainer}>
-            <View>
-              <Text style={{fontSize: 24}}>{story.title}</Text>
-              <Text style={{fontSize: 12}}>
-                {getStoryDisplayTagsDate(story)}
-              </Text>
-            </View>
-            <StoryAudioPlayer audioURL={story.audios[0]} />
-          </View>
-          <Text>{story.content}</Text>
-        </View>
+        {!isOnlyText && (
+          <StoryMediaCarousel
+            listThumbnail={false}
+            story={story}
+            inDetail={true}
+          />
+        )}
+        <Contents inDetail={true} story={story} />
       </ScrollView>
     </NoOutLineScreenContainer>
   );

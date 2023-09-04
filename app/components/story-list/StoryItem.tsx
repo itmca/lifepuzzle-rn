@@ -30,10 +30,10 @@ const StoryItem = ({story}: props): JSX.Element => {
     });
   };
 
-  const isVideo = story.videos.length ? true : false;
-  const isPhoto = story.photos.length ? true : false;
-  const isAudio = story.audios.length ? true : false;
-  const isOnlyText = !isPhoto && !isAudio && !isVideo ? true : false;
+  const isOnlyText =
+    story.audios.length < 1 &&
+    story.videos.length < 1 &&
+    story.photos.length < 1;
 
   return (
     <View style={styles.container}>
@@ -41,11 +41,11 @@ const StoryItem = ({story}: props): JSX.Element => {
         {!isOnlyText && (
           <StoryMediaCarousel
             carouselWidth={Dimensions.get('window').width - 34}
+            listThumbnail={true}
             story={story}
           />
         )}
         <Contents
-          isOnlyText={isOnlyText}
           story={story}
           onPress={() => {
             moveToStoryDetailPage(story.id);

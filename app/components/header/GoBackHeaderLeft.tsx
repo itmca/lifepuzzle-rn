@@ -1,20 +1,26 @@
 import React from 'react';
-import {Pressable, StyleProp, TextStyle, ViewStyle} from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  TextStyle,
+  Vibration,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Icon from '../styled/components/Icon';
+import Icon from 'react-native-vector-icons/Feather';
+import {Color} from '../../constants/color.constant';
 
 type Props = {
-  iconType?: 'close' | 'chevron-left';
+  iconType?: 'x' | 'chevron-left';
   containerStyle?: StyleProp<ViewStyle>;
-  iconStyle?: StyleProp<TextStyle>;
   iconSize?: number;
   customAction?: Function;
 };
 
 const GoBackHeaderLeft = ({
-  iconType = 'close',
+  iconType = 'x',
   containerStyle,
-  iconStyle,
   iconSize = 24,
   customAction,
 }: Props): JSX.Element => {
@@ -29,7 +35,9 @@ const GoBackHeaderLeft = ({
         navigation.goBack();
       }}
       style={containerStyle}>
-      <Icon style={iconStyle} name={iconType} size={iconSize} />
+      <View style={{marginLeft: -10}}>
+        <Icon name={iconType} size={iconSize} color={Color.DARK_GRAY} />
+      </View>
     </Pressable>
   );
 };

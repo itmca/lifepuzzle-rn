@@ -26,11 +26,7 @@ const StoryViewNavigator = (): JSX.Element => {
         options={{
           title: '',
           headerLeft: () => (
-            <GoBackHeaderLeft
-              iconType={'chevron-left'}
-              iconSize={32}
-              containerStyle={{marginLeft: -8}}
-            />
+            <GoBackHeaderLeft iconType={'chevron-left'} iconSize={32} />
           ),
           headerRight: () => <HeroBadgeHeader />,
         }}
@@ -41,11 +37,7 @@ const StoryViewNavigator = (): JSX.Element => {
         options={{
           title: '',
           headerLeft: () => (
-            <GoBackHeaderLeft
-              iconType={'chevron-left'}
-              iconSize={32}
-              containerStyle={{marginLeft: -8}}
-            />
+            <GoBackHeaderLeft iconType={'chevron-left'} iconSize={32} />
           ),
           headerRight: () => <HeroBadgeHeader />,
         }}

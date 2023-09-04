@@ -14,19 +14,14 @@ import {MediaThumbnail} from './StoryMediaThumbnail';
 type props = {
   videoUrl: string;
   setIsPaginationShown: Function;
+  listThumbnail?: boolean;
 };
 
-const styles = StyleSheet.create({
-  video: {
-    width: '100%',
-    height: '100%',
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-    backgroundColor: Color.BLACK,
-  },
-});
-
-export const VideoPlayer = ({videoUrl, setIsPaginationShown}: props) => {
+export const VideoPlayer = ({
+  videoUrl,
+  listThumbnail,
+  setIsPaginationShown,
+}: props) => {
   const width = Dimensions.get('window').width - 52;
   const player = useRef<any>(null);
 
@@ -78,7 +73,15 @@ export const VideoPlayer = ({videoUrl, setIsPaginationShown}: props) => {
       <ContentContainer height="100%">
         <Video
           ref={player}
-          style={styles.video}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: Color.BLACK,
+            ...{
+              borderTopLeftRadius: listThumbnail ? 6 : 0,
+              borderTopRightRadius: listThumbnail ? 6 : 0,
+            },
+          }}
           source={{uri: videoUrl}}
           paused={isPaused}
           resizeMode={'contain'}
@@ -94,6 +97,7 @@ export const VideoPlayer = ({videoUrl, setIsPaginationShown}: props) => {
         {isControlShown ? (
           <VideoController
             width={width}
+            listThumbnail={listThumbnail ? listThumbnail : false}
             duration={duration}
             playingTime={playingTime}
             isPaused={isPaused}
