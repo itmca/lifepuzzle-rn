@@ -18,13 +18,15 @@ type props = {
 
 export const Contents = ({story, inDetail, onPress}: props): JSX.Element => {
   return (
-    <View style={styles.contentsContainer}>
-      <HorizontalContentContainer gap="5px" marginBottom="9px">
+    <ContentContainer padding={16} justifyContent="center">
+      <HorizontalContentContainer
+        gap="5px"
+        marginBottom={inDetail ? '20px' : '9px'}>
         {story.question && (
           <SmallText
             color={Color.DARK_GRAY}
             style={styles.questionText}
-            fontWeight={'700'}
+            fontWeight={700}
             letterSpacing={-0.3}
             numberOfLines={inDetail ? 2 : 1}
             ellipsizeMode="tail">
@@ -36,35 +38,49 @@ export const Contents = ({story, inDetail, onPress}: props): JSX.Element => {
         </SmallText>
       </HorizontalContentContainer>
       <MediumText
-        style={{...styles.itemTitle, marginBottom: 11}}
+        style={styles.itemTitle}
+        color={Color.LIGHT_BLACK}
+        fontWeight={600}
         numberOfLines={inDetail ? 2 : 1}
         ellipsizeMode="tail">
         {story.title}
       </MediumText>
       <HorizontalContentContainer alignItems="flex-start">
-        <ContentContainer width={inDetail ? '100%' : '80%'}>
-          <SmallText
-            style={{lineHeight: 19}}
-            letterSpacing={-0.3}
-            color={Color.FONT_GRAY}
-            numberOfLines={2}
-            ellipsizeMode="tail">
-            {story.content}
-          </SmallText>
-        </ContentContainer>
-        {!inDetail && (
-          <ContentContainer width="20%" alignItems="flex-end">
-            <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
-              <XSmallText
-                color={Color.WHITE}
-                letterSpacing={-0.5}
-                fontWeight={600}>
-                더보기
-              </XSmallText>
-            </TouchableOpacity>
+        {inDetail ? (
+          <ContentContainer width="100%">
+            <MediumText
+              style={{lineHeight: 22}}
+              color={Color.DARK_GRAY}
+              numberOfLines={2}
+              ellipsizeMode="tail">
+              {story.content}
+            </MediumText>
           </ContentContainer>
+        ) : (
+          <>
+            <ContentContainer width="80%">
+              <SmallText
+                style={{lineHeight: 19}}
+                letterSpacing={-0.3}
+                color={Color.FONT_GRAY}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {story.content}
+              </SmallText>
+            </ContentContainer>
+            <ContentContainer width="20%" alignItems="flex-end">
+              <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
+                <XSmallText
+                  color={Color.WHITE}
+                  letterSpacing={-0.5}
+                  fontWeight={600}>
+                  더보기
+                </XSmallText>
+              </TouchableOpacity>
+            </ContentContainer>
+          </>
         )}
       </HorizontalContentContainer>
-    </View>
+    </ContentContainer>
   );
 };
