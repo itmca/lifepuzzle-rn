@@ -21,13 +21,13 @@ export const Contents = ({story, inDetail, onPress}: props): JSX.Element => {
     <ContentContainer padding={16} justifyContent="center">
       <HorizontalContentContainer
         gap="5px"
-        marginBottom={inDetail ? '20px' : '9px'}>
+        marginBottom={inDetail ? '25px' : '10px'}>
         {story.question && (
           <SmallText
             color={Color.DARK_GRAY}
             style={styles.questionText}
             fontWeight={700}
-            letterSpacing={-0.3}
+            letterSpacing={-0.1}
             numberOfLines={inDetail ? 2 : 1}
             ellipsizeMode="tail">
             Q.{story.question}
@@ -49,8 +49,8 @@ export const Contents = ({story, inDetail, onPress}: props): JSX.Element => {
         {inDetail ? (
           <ContentContainer width="100%">
             <MediumText
-              style={{lineHeight: 22}}
-              color={Color.DARK_GRAY}
+              style={{lineHeight: 24}}
+              color={Color.FONT_DARK}
               numberOfLines={2}
               ellipsizeMode="tail">
               {story.content}
@@ -61,7 +61,7 @@ export const Contents = ({story, inDetail, onPress}: props): JSX.Element => {
             <ContentContainer width="80%">
               <SmallText
                 style={{lineHeight: 19}}
-                letterSpacing={-0.3}
+                letterSpacing={-0.1}
                 color={Color.FONT_GRAY}
                 numberOfLines={2}
                 ellipsizeMode="tail">
