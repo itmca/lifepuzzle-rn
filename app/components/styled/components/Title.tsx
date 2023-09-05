@@ -18,12 +18,14 @@ type Props = {
 };
 
 export const XLargeTitle = styled.Text<Props>`
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 32px;
   font-weight: 700;
 `;
 
 export const LargeTitle = styled.Text<Props>`
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 24px;
   font-weight: 700;
@@ -31,12 +33,14 @@ export const LargeTitle = styled.Text<Props>`
 `;
 
 export const MediumTitle = styled.Text<Props>`
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 20px;
   font-weight: 700;
 `;
 
 export const SmallTitle = styled.Text<Props>`
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 18px;
   font-weight: 700;
@@ -45,6 +49,7 @@ export const SmallTitle = styled.Text<Props>`
 `;
 
 export const XSmallTitle = styled.Text<Props>`
+  font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-weight: 700;
   font-size: 16px;

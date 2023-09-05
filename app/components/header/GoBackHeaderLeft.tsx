@@ -21,7 +21,7 @@ type Props = {
 const GoBackHeaderLeft = ({
   iconType = 'x',
   containerStyle,
-  iconSize = 24,
+  iconSize = 26,
   customAction,
 }: Props): JSX.Element => {
   const navigation = useNavigation();
@@ -36,7 +36,7 @@ const GoBackHeaderLeft = ({
       }}
       style={containerStyle}>
       <View style={{marginLeft: -10}}>
-        <Icon name={iconType} size={iconSize} color={Color.DARK_GRAY} />
+        <Icon name={iconType} size={iconSize} color={Color.FONT_GRAY} />
       </View>
     </Pressable>
   );
