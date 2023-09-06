@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
-import StoryPhotoCarousel from '../../components/story/StoryPhotoCarousel';
-import {styles} from './styles';
+import {ScrollView} from 'react-native';
 import {StoryType} from '../../types/story.type';
-import {getStoryDisplayTagsDate} from '../../service/story-display.service';
-import {StoryAudioPlayer} from '../../components/story/StoryAudioPlayer';
 import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {useRecoilValue} from 'recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
@@ -37,11 +33,7 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
     <NoOutLineScreenContainer>
       <ScrollView>
         {!isOnlyText && (
-          <StoryMediaCarousel
-            listThumbnail={false}
-            story={story}
-            inDetail={true}
-          />
+          <StoryMediaCarousel listThumbnail={false} story={story} />
         )}
         <Contents inDetail={true} story={story} />
       </ScrollView>

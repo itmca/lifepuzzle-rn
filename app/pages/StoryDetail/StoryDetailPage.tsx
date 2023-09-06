@@ -42,11 +42,7 @@ const StoryDetailPage = (): JSX.Element => {
       <NoOutLineScreenContainer>
         <ScrollView>
           {!isOnlyText && (
-            <StoryMediaCarousel
-              listThumbnail={false}
-              story={story}
-              inDetail={true}
-            />
+            <StoryMediaCarousel listThumbnail={false} story={story} />
           )}
           <Contents inDetail={true} story={story} />
         </ScrollView>
