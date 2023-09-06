@@ -59,7 +59,7 @@ export const VideoController = ({
           style={{width: 45, height: 45}}
         />
       </TouchableWithoutFeedback>
-      <ContentContainer position="absolute" gap="6px" bottom={2} padding={9}>
+      <ContentContainer position="absolute" gap="6px" bottom={2} padding={10}>
         <HorizontalContentContainer>
           <XSmallText color={Color.WHITE} style={{marginRight: 'auto'}}>
             {toMinuteSeconds(currentProgress * duration)}

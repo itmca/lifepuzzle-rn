@@ -3,7 +3,7 @@ import Video, {
   OnPlaybackRateData,
   OnProgressData,
 } from 'react-native-video';
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions} from 'react-native';
 import {Color} from '../../constants/color.constant';
 import {toMinuteSeconds} from '../../service/time-display.service';
 import React, {useEffect, useRef, useState} from 'react';
@@ -22,7 +22,9 @@ export const VideoPlayer = ({
   listThumbnail,
   setIsPaginationShown,
 }: props) => {
-  const width = Dimensions.get('window').width - 52;
+  const width = listThumbnail
+    ? Dimensions.get('window').width - 52
+    : Dimensions.get('window').width - 20;
   const player = useRef<any>(null);
 
   const [duration, setDuration] = useState<number>(0);
@@ -58,7 +60,9 @@ export const VideoPlayer = ({
   };
 
   const handleProgress = (e: {nativeEvent: {pageX: number}}) => {
-    const position = e.nativeEvent.pageX - 26;
+    const position = listThumbnail
+      ? e.nativeEvent.pageX - 26
+      : e.nativeEvent.pageX - 10;
     const progress = (position / width) * duration;
     player.current.seek(progress);
     onProgress({
