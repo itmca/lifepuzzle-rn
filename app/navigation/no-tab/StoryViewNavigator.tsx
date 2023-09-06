@@ -37,7 +37,6 @@ const StoryViewNavigator = (): JSX.Element => {
           headerLeft: () => (
             <GoBackHeaderLeft iconType={'chevron-left'} iconSize={26} />
           ),
-          headerRight: () => <HeroBadgeHeader />,
         }}
       />
     </Stack.Navigator>
