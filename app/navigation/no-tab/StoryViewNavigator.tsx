@@ -4,6 +4,7 @@ import StoryDetailPage from '../../pages/StoryDetail/StoryDetailPage';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import HeroBadgeHeader from '../../components/header/HeroBadgeHeader';
 import StoryDetailPageWithoutLogin from '../../pages/StoryDetail/StoryDetailPageWithoutLogin';
+import DetailViewHeader from '../../components/header/DetailViewHeader';
 
 export type StoryViewParamList = {
   Story: undefined;
@@ -25,10 +26,7 @@ const StoryViewNavigator = (): JSX.Element => {
         component={StoryDetailPage}
         options={{
           title: '',
-          headerLeft: () => (
-            <GoBackHeaderLeft iconType={'chevron-left'} iconSize={32} />
-          ),
-          headerRight: () => <HeroBadgeHeader />,
+          header: () => <DetailViewHeader />,
         }}
       />
       <Stack.Screen
@@ -37,9 +35,8 @@ const StoryViewNavigator = (): JSX.Element => {
         options={{
           title: '',
           headerLeft: () => (
-            <GoBackHeaderLeft iconType={'chevron-left'} iconSize={32} />
+            <GoBackHeaderLeft iconType={'chevron-left'} iconSize={26} />
           ),
-          headerRight: () => <HeroBadgeHeader />,
         }}
       />
     </Stack.Navigator>

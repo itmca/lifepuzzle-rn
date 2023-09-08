@@ -5,10 +5,11 @@ import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage';
 import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoicePage';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
-import Title from '../../components/styled/components/Title';
+import Title, {SmallTitle} from '../../components/styled/components/Title';
 import StoryWritingQuestionPage from '../../pages/StoryWritingQuestion/StoryWritingQuestionPage';
 import StorySelectingPhotoPage from '../../pages/StorySelectingPhoto/StorySelectingPhotoPage';
 import StorySelectingVideoPage from '../../pages/StorySelectingVideo/StorySelectingVideoPage';
+import {Color} from '../../constants/color.constant';
 
 export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
@@ -43,7 +44,9 @@ const StoryWritingNavigator = (): JSX.Element => {
         component={StoryWritingMainPage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>글작성</Title>,
+          headerTitle: () => (
+            <SmallTitle color={Color.LIGHT_BLACK}>글작성</SmallTitle>
+          ),
           headerRight: () => (
             <WritingHeaderRight
               text="등록"

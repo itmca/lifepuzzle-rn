@@ -40,7 +40,8 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   backgroundcolor: ${props => props.backgroundColor ?? 'none'};
   zindex: ${props => props.zIndex ?? 'auto'};
   opacity: ${props => props.opacity ?? 100};
-  border-radius: ${props => props.borderRadius ?? 0};
+  border-radius: ${props =>
+    props.borderRadius ? props.borderRadius + 'px' : '0px'};
 
   ${props =>
     props.listThumbnail &&

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {StoryType} from '../../types/story.type';
@@ -8,20 +8,26 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
+import {SelectedStoryState} from '../../recoils/selected-story.recoil';
 
 const StoryDetailPage = (): JSX.Element => {
   const storyKey = useRecoilValue(SelectedStoryKeyState);
+  const [_, setSelectedStory] = useRecoilState(SelectedStoryState);
   const [story, setStory] = useState<StoryType>();
   const [storiesLoading, fetchStory] = useAuthAxios<StoryType>({
     requestOption: {
       url: `/stories/${storyKey}`,
     },
-    onResponseSuccess: setStory,
+    onResponseSuccess: data => {
+      setStory(data);
+      setSelectedStory(data);
+    },
     disableInitialRequest: false,
   });
 
   useEffect(() => {
     setStory(undefined);
+    setSelectedStory(undefined);
 
     fetchStory({
       url: `/stories/${storyKey}`,
@@ -42,11 +48,7 @@ const StoryDetailPage = (): JSX.Element => {
       <NoOutLineScreenContainer>
         <ScrollView>
           {!isOnlyText && (
-            <StoryMediaCarousel
-              listThumbnail={false}
-              story={story}
-              inDetail={true}
-            />
+            <StoryMediaCarousel listThumbnail={false} story={story} />
           )}
           <Contents inDetail={true} story={story} />
         </ScrollView>

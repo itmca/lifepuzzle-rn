@@ -1,9 +1,10 @@
 import React from 'react';
 import {Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {SmallText} from '../styled/components/Text';
+import MediumText from '../styled/components/Text';
 import {BasicNavigationProps} from '../../navigation/types';
 import {StoryWritingParamList} from '../../navigation/no-tab/StoryWritingNavigator';
+import {Color} from '../../constants/color.constant';
 
 type Props = {
   text: string;
@@ -31,7 +32,9 @@ const WritingHeaderRight = ({
           });
         }
       }}>
-      <SmallText color={'#55A5FD'}>{text}</SmallText>
+      <MediumText fontWeight={600} color={Color.PRIMARY_LIGHT}>
+        {text}
+      </MediumText>
     </Pressable>
   );
 };

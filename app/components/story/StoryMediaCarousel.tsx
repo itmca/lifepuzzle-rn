@@ -14,7 +14,6 @@ type Props = {
   carouselStyle?: StyleProp<ViewStyle>;
   carouselWidth?: number;
   listThumbnail?: boolean;
-  inDetail?: boolean;
 };
 
 type MediaItem = {
@@ -27,7 +26,6 @@ const StoryMediaCarousel = ({
   carouselStyle,
   carouselWidth,
   listThumbnail,
-  inDetail,
 }: Props): JSX.Element => {
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
@@ -76,7 +74,7 @@ const StoryMediaCarousel = ({
 
   return (
     <ContentContainer
-      height={inDetail ? '200px' : '160px'}
+      height={listThumbnail ? '160px' : '200px'}
       justifyContent="center"
       alignItems="center"
       listThumbnail={listThumbnail ? listThumbnail : true}
