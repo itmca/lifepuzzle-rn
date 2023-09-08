@@ -6,9 +6,19 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {FloatingMenu} from '../story/StoryDetailFloatingMenu';
 import Icon from 'react-native-vector-icons/Feather';
 import {Color} from '../../constants/color.constant';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {useDeleteStory} from '../../service/hooks/story.delete.hook';
+import {SelectedStoryState} from '../../recoils/selected-story.recoil';
+import {
+  recordFileState,
+  storyDateState,
+  storyTextState,
+} from '../../recoils/story-writing.recoil';
+import {WritingStoryTextInfo} from '../../types/writing-story.type';
+import {helpQuestionTextState} from '../../recoils/help-question.recoil';
+import Sound from 'react-native-sound';
+import {toMinuteSeconds} from '../../service/time-display.service';
 
 type Props = {
   customAction?: Function;
@@ -17,11 +27,53 @@ type Props = {
 const DetailViewHeader = ({customAction}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const storyKey = useRecoilValue(SelectedStoryKeyState);
+  const selectedStory = useRecoilValue(SelectedStoryState);
+
+  const setQuestion = useSetRecoilState(helpQuestionTextState);
+  const setTextInfo = useSetRecoilState<WritingStoryTextInfo | undefined>(
+    storyTextState,
+  );
+  const setDate = useSetRecoilState(storyDateState);
+  const setAudio = useSetRecoilState(recordFileState);
+
   const [isShowMenu, setIsShowMenu] = useState<boolean>(false);
   const [deleteStory] = useDeleteStory({storyKey: storyKey});
 
   const onClickEdit = () => {
-    // TODO 수정화면으로 이동시 파라미터 확인하기
+    setDate(selectedStory?.date);
+    setQuestion(selectedStory?.question ?? '');
+    setTextInfo({
+      title: selectedStory?.title,
+      storyText: selectedStory?.content,
+    });
+
+    if (
+      selectedStory?.audios !== undefined &&
+      selectedStory?.audios.length > 0
+    ) {
+      Sound.setCategory('Playback');
+      const audioSound = new Sound(
+        selectedStory.audios[0],
+        undefined,
+        error => {
+          if (error) {
+            return;
+          }
+
+          setAudio({
+            filePath: selectedStory.audios[0],
+            recordTime: ':' + toMinuteSeconds(audioSound.getDuration()),
+          });
+        },
+      );
+    }
+
+    // TODO 세팅 방법 확인 필요 (PhotoIdentifier 타입)
+    // const [photos, setPhotos] = useRecoilState(selectedPhotoState);
+    // const [videos, setVideos] = useRecoilState(selectedVideoState);
+    // setVideos(selectedStory?.videos);
+    // setPhotos(selectedStory?.photos);
+
     navigation.push('NoTab', {
       screen: 'StoryWritingNavigator',
       params: {
