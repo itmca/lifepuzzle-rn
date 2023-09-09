@@ -10,6 +10,8 @@ import StoryWritingQuestionPage from '../../pages/StoryWritingQuestion/StoryWrit
 import StorySelectingPhotoPage from '../../pages/StorySelectingPhoto/StorySelectingPhotoPage';
 import StorySelectingVideoPage from '../../pages/StorySelectingVideo/StorySelectingVideoPage';
 import {Color} from '../../constants/color.constant';
+import {useRecoilValue} from 'recoil';
+import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 
 export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
@@ -23,6 +25,7 @@ const Stack = createNativeStackNavigator<StoryWritingParamList>();
 
 const StoryWritingNavigator = (): JSX.Element => {
   const [saveStory] = useSaveStory();
+  const selectedStoryKey = useRecoilValue(SelectedStoryKeyState);
 
   return (
     <Stack.Navigator
@@ -45,11 +48,13 @@ const StoryWritingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => (
-            <SmallTitle color={Color.LIGHT_BLACK}>글작성</SmallTitle>
+            <SmallTitle color={Color.LIGHT_BLACK}>
+              {selectedStoryKey ? '글수정' : '글작성'}
+            </SmallTitle>
           ),
           headerRight: () => (
             <WritingHeaderRight
-              text="등록"
+              text={selectedStoryKey ? '수정' : '등록'}
               customAction={() => {
                 saveStory();
               }}

@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import StoryList from '../../components/story-list/StoryList';
 import HeroStoryOverview from '../../components/story-list/HeroStoryOverview';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
@@ -22,10 +22,12 @@ import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
+import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 
 const HomePage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType>(heroState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
 
   const {stories, isLoading} = useStories();
 
@@ -66,14 +68,16 @@ const HomePage = (): JSX.Element => {
           onPress={() => scrollRef.current?.scrollTo({y: 0})}
         />
         <WritingButton
-          onPress={() =>
+          onPress={() => {
+            setSelectedStoryKey('');
+
             navigation.push('NoTab', {
               screen: 'StoryWritingNavigator',
               params: {
                 screen: 'StoryWritingQuestion',
               },
-            })
-          }
+            });
+          }}
         />
       </NoOutLineFullScreenContainer>
     </LoadingContainer>
