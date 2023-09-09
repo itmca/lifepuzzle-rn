@@ -19,6 +19,10 @@ import {WritingStoryTextInfo} from '../../types/writing-story.type';
 import {helpQuestionTextState} from '../../recoils/help-question.recoil';
 import Sound from 'react-native-sound';
 import {toMinuteSeconds} from '../../service/time-display.service';
+import {
+  selectedPhotoState,
+  selectedVideoState,
+} from '../../recoils/selected-photo.recoil';
 
 type Props = {
   customAction?: Function;
@@ -35,6 +39,8 @@ const DetailViewHeader = ({customAction}: Props): JSX.Element => {
   );
   const setDate = useSetRecoilState(storyDateState);
   const setAudio = useSetRecoilState(recordFileState);
+  const setPhotos = useSetRecoilState(selectedPhotoState);
+  const setVideos = useSetRecoilState(selectedVideoState);
 
   const [isShowMenu, setIsShowMenu] = useState<boolean>(false);
   const [deleteStory] = useDeleteStory({storyKey: storyKey});
@@ -67,12 +73,31 @@ const DetailViewHeader = ({customAction}: Props): JSX.Element => {
         },
       );
     }
+    const toPhotoIdentifier = (uri: string) => ({
+      node: {
+        type: '',
+        group_name: '',
+        image: {
+          filename: uri.split('/').pop() || '',
+          filepath: null,
+          extension: null,
+          uri: uri,
+          height: 0,
+          width: 0,
+          fileSize: null,
+          playableDuration: 0,
+          orientation: null,
+        },
+        timestamp: 0,
+        location: null,
+      },
+    });
 
-    // TODO 세팅 방법 확인 필요 (PhotoIdentifier 타입)
-    // const [photos, setPhotos] = useRecoilState(selectedPhotoState);
-    // const [videos, setVideos] = useRecoilState(selectedVideoState);
-    // setVideos(selectedStory?.videos);
-    // setPhotos(selectedStory?.photos);
+    const currentPhotos = selectedStory?.photos.map(toPhotoIdentifier);
+    const currentVideos = selectedStory?.videos.map(toPhotoIdentifier);
+
+    setPhotos(currentPhotos ? currentPhotos : []);
+    setVideos(currentVideos ? currentVideos : []);
 
     navigation.push('NoTab', {
       screen: 'StoryWritingNavigator',

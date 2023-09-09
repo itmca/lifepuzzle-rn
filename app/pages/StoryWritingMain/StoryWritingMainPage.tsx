@@ -3,10 +3,10 @@ import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
+  isModalOpening,
   storyDateState,
   storyTextState,
   writingStoryState,
-  isModalOpening,
 } from '../../recoils/story-writing.recoil';
 import {
   NoOutLineFullScreenContainer,
@@ -29,7 +29,6 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {Color} from '../../constants/color.constant';
 import {MediumImage} from '../../components/styled/components/Image';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
@@ -46,6 +45,7 @@ const StoryWritingMainPage = (): JSX.Element => {
   const ishelpQuestionVisible = helpQuestion.length != 0;
   const isStoryUploading = useIsStoryUploading();
   const setIsModalOpening = useSetRecoilState(isModalOpening);
+
   useEffect(() => {
     setStoryDate(writingStory?.date || new Date());
     setTitle(writingStory?.title || '');

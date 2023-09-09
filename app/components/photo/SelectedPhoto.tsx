@@ -32,6 +32,7 @@ const SelectedPhoto = ({
     photoList[index].node.image.uri,
   );
 
+  console.log(photoList.map(photo => photo.node.image));
   const createThumbnailUrl = async () => {
     if (
       target == 'video' &&
