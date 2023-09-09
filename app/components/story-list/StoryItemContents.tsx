@@ -1,4 +1,4 @@
-import {TouchableOpacity, GestureResponderEvent, View} from 'react-native';
+import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import MediumText, {SmallText, XSmallText} from '../styled/components/Text';
 import {
@@ -51,7 +51,6 @@ export const Contents = ({story, inDetail, onPress}: props): JSX.Element => {
             <MediumText
               style={{lineHeight: 24}}
               color={Color.FONT_DARK}
-              numberOfLines={2}
               ellipsizeMode="tail">
               {story.content}
             </MediumText>
