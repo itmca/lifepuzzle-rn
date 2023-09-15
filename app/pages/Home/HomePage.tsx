@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
-import StoryList from '../../components/story-list/StoryList';
-import HeroStoryOverview from '../../components/story-list/HeroStoryOverview';
+import StoryList from './StoryList';
+import HeroStoryOverview from './HeroStoryOverview';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
@@ -16,8 +16,8 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import {GoToTopButton} from '../../components/button/GoToTopButton';
-import {WritingButton} from '../../components/button/WritingButton';
+import {GoToTopButton} from './GoToTopButton';
+import {WritingButton} from './WritingButton';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {isLoggedInState} from '../../recoils/auth.recoil';

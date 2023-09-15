@@ -1,8 +1,8 @@
 import React from 'react';
-import {MediumText} from '../styled/components/Text';
+import {MediumText} from '../../components/styled/components/Text';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {LargeButton} from '../styled/components/Button';
+import {LargeButton} from '../../components/styled/components/Button';
 import {Color} from '../../constants/color.constant';
 
 export const HomeLoginButton = (): JSX.Element => {
@@ -24,4 +24,5 @@ export const HomeLoginButton = (): JSX.Element => {
       </MediumText>
     </LargeButton>
   );
+  1;
 };

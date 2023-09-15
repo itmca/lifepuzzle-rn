@@ -1,14 +1,14 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Dimensions, View} from 'react-native';
-import {styles} from './styles';
+import {styles} from '../../components/story-list/styles';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {StoryType} from '../../types/story.type';
 import {BasicNavigationProps} from '../../navigation/types';
-import {Contents} from './StoryItemContents';
+import {Contents} from '../../components/story-list/StoryItemContents';
 import {isLoggedInState} from '../../recoils/auth.recoil';
-import StoryMediaCarousel from '../story/StoryMediaCarousel';
+import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 
 type props = {
   story: StoryType;

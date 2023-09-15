@@ -1,10 +1,10 @@
 import {TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {XSmallText} from '../styled/components/Text';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {XSmallText} from '../../components/styled/components/Text';
+import {HorizontalContentContainer} from '../../components/styled/container/ContentContainer';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {Color} from '../../constants/color.constant';
-import {XSmallImage} from '../styled/components/Image';
+import {XSmallImage} from '../../components/styled/components/Image';
 
 function StoryDateInput({...props}) {
   const [visible, setVisible] = useState(false);

@@ -1,12 +1,12 @@
 import React from 'react';
-import {Alert, Text, TouchableOpacity} from 'react-native';
-import styles from './styles';
-import {useAxios} from '../../../service/hooks/network.hook';
+import {Alert, Text} from 'react-native';
+import {styles} from './styles';
+import {useAxios} from '../../service/hooks/network.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../../service/hooks/login.hook';
-import {MediumButton} from '../../styled/components/Button';
+} from '../../service/hooks/login.hook';
+import {MediumButton} from '../../components/styled/components/Button';
 
 type Props = {
   userId: string;

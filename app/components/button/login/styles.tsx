@@ -38,22 +38,6 @@ export default StyleSheet.create({
     fontSize: 20,
     color: '#FFFFFF',
   },
-  generalLoginButtonContainer: {
-    flexDirection: 'row',
-    height: 48,
-    backgroundColor: '#343666',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    marginBottom: 8,
-  },
-  generalLoginFont: {
-    fontFamily: 'Pretendard Regular',
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#FFFFFF',
-  },
   otherLoginButtonContainer: {
     flexDirection: 'row',
     height: 48,

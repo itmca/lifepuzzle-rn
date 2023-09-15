@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
 import StoryItem from './StoryItem';
 import {StoryType} from '../../types/story.type';
-import {MediumText} from '../styled/components/Text';
-import {SmallTitle} from '../styled/components/Title';
-import {ContentContainer} from '../styled/container/ContentContainer';
+import {MediumText} from '../../components/styled/components/Text';
+import {SmallTitle} from '../../components/styled/components/Title';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 
 type Props = {
@@ -17,7 +16,7 @@ const StoryList = ({stories}: Props): JSX.Element => {
       <ContentContainer
         flex={1}
         padding={16}
-        gap="16"
+        gap="16px"
         backgroundColor={Color.WHITE}>
         <SmallTitle style={{marginTop: 8, marginLeft: 5}}>나의 조각</SmallTitle>
         <MediumText style={{marginLeft: 5}}>
@@ -32,7 +31,7 @@ const StoryList = ({stories}: Props): JSX.Element => {
     <ContentContainer
       flex={1}
       padding={16}
-      gap="16"
+      gap="16px"
       backgroundColor={Color.WHITE}>
       <SmallTitle style={{marginTop: 8, marginLeft: 5}}>나의 조각</SmallTitle>
       {stories.map((story: StoryType) => (

@@ -7,10 +7,10 @@ import {HeroType} from '../../types/hero.type';
 import {useRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
-import {HeroAvatar} from '../avatar/HeroAvatar';
+import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
-import Text, {XXLargeText} from '../styled/components/Text';
-import {MediumButton} from '../styled/components/Button';
+import Text, {XXLargeText} from '../../components/styled/components/Text';
+import {MediumButton} from '../../components/styled/components/Button';
 
 type Props = {
   hero: HeroType;
@@ -39,7 +39,7 @@ const HeroCard = ({hero}: Props): JSX.Element => {
   }, [currentHero]);
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={styles.HeroCardMainContainer}>
       <View style={styles.settingButtonContainer}>
         <TouchableOpacity
           onPress={() => {

@@ -1,9 +1,9 @@
 import React from 'react';
-import {WideSelectable} from '../styled/components/Selectable';
-import {XSmallTitle} from '../styled/components/Title';
+import {WideSelectable} from '../../components/styled/components/Selectable';
+import {XSmallTitle} from '../../components/styled/components/Title';
 import {Color} from '../../constants/color.constant';
-import {ContentContainer} from '../styled/container/ContentContainer';
-import {PuzzleNumber} from '../puzzle/PuzzleNumber';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {PuzzleNumber} from './PuzzleNumber';
 import {Question} from '../../types/question.type';
 
 type Props = {

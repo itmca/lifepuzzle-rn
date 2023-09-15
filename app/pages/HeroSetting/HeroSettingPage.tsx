@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
 import Carousel from 'react-native-snap-carousel';
-import HeroCard from '../../components/card/HeroCard';
+import HeroCard from './HeroCard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroType} from '../../types/hero.type';
