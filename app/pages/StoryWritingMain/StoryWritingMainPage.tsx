@@ -3,6 +3,7 @@ import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
+  helpQuestionTextState,
   isModalOpening,
   storyDateState,
   storyTextState,
@@ -13,7 +14,6 @@ import {
   ScreenContainer,
 } from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
-import {helpQuestionTextState} from '../../recoils/help-question.recoil';
 import {LargeText, SmallText} from '../../components/styled/components/Text';
 import StoryDateInput from '../../components/story/StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';

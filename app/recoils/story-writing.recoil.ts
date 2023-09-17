@@ -60,3 +60,7 @@ export const isModalOpening = atom<boolean>({
   key: 'isModalOpening',
   default: false,
 });
+export const helpQuestionTextState = atom<string>({
+  key: 'helpQuestionText',
+  default: '',
+});

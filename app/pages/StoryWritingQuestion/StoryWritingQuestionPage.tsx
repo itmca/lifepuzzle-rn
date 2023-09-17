@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useRecommendedQuestion} from '../../service/hooks/question.hook';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {helpQuestionTextState} from '../../recoils/help-question.recoil';
-import {helpQuestionState} from '../../recoils/story-writing.recoil';
+import {
+  helpQuestionState,
+  helpQuestionTextState,
+} from '../../recoils/story-writing.recoil';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useFocusAction} from '../../service/hooks/screen.hook';
 import {SmallText} from '../../components/styled/components/Text';
