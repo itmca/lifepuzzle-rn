@@ -4,12 +4,12 @@ import {userState} from '../../recoils/user.recoil';
 import {authState} from '../../recoils/auth.recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
-import {selectedPhotoState} from '../../recoils/selected-photo.recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {
   helpQuestionState,
   helpQuestionTextState,
   recordFileState,
+  selectedPhotoState,
   storyDateState,
   storyTextState,
 } from '../../recoils/story-write.recoil';

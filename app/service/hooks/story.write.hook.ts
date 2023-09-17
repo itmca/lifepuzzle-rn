@@ -3,13 +3,11 @@ import {
   helpQuestionState,
   isStoryUploading,
   recordFileState,
+  selectedPhotoState,
+  selectedVideoState,
   storyTextState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
-import {
-  selectedPhotoState,
-  selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hooks';

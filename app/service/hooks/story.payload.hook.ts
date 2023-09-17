@@ -6,14 +6,17 @@ import {
   VIDEO_TYPE,
 } from '../../constants/upload-file-type.constant';
 import {WritingStoryType} from '../../types/writing-story.type';
+import {heroState} from '../../recoils/hero.recoil';
+import {HeroType} from '../../types/hero.type';
 
 export const useStoryHttpPayLoad = () => {
   const formData = new FormData();
+  const hero = useRecoilValue(heroState);
   const writingStory = useRecoilValue(writingStoryState);
 
   addImagesInFormData(formData, writingStory);
   addVoiceInFormData(formData, writingStory);
-  addStoryinfoInFormData(formData, writingStory);
+  addStoryinfoInFormData(formData, hero, writingStory);
 
   return formData;
 };
@@ -71,10 +74,11 @@ const addVoiceInFormData = function (
 
 const addStoryinfoInFormData = function (
   formData: FormData,
+  hero: HeroType,
   writingStory: WritingStoryType | undefined,
 ) {
   const stroyInfo = {
-    heroNo: writingStory?.heroNo,
+    heroNo: hero?.heroNo,
     recQuestionNo: writingStory?.recQuestionNo ?? -1,
     recQuestionModified: writingStory?.recQuestionModified ?? false,
     helpQuestionText: writingStory?.helpQuestionText ?? '',

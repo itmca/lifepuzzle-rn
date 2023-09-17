@@ -1,12 +1,12 @@
 import ImagePicker from 'react-native-image-crop-picker';
 import {useRecoilState} from 'recoil';
+import {usePhotoPermission} from './permission.hook';
+import {MediaInfo} from '../../types/writing-story.type';
+import {Platform} from 'react-native';
 import {
   selectedPhotoState,
   selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
-import {usePhotoPermission} from './permission.hook';
-import {MediaInfo} from '../../types/writing-story.type';
-import {Alert, Platform} from 'react-native';
+} from '../../recoils/story-write.recoil';
 
 type LibraryTarget = 'photo' | 'video';
 type Props = {

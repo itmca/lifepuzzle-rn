@@ -5,8 +5,7 @@ import {
   WritingStoryTextInfo,
   WritingStoryType,
 } from '../types/writing-story.type';
-import {selectedPhotoState, selectedVideoState} from './selected-photo.recoil';
-import {heroState} from './hero.recoil';
+import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 export const helpQuestionState = atom<WritingStoryQuestionInfo | undefined>({
   key: 'helpQuestionState',
@@ -28,10 +27,17 @@ export const recordFileState = atom<VoiceRecordInfo | undefined>({
   default: undefined,
 });
 
+export const selectedPhotoState = atom<PhotoIdentifier[]>({
+  key: 'selectedPhotoState',
+  default: [],
+});
+export const selectedVideoState = atom<PhotoIdentifier[]>({
+  key: 'selectedVideoState',
+  default: [],
+});
 export const writingStoryState = selector<WritingStoryType | undefined>({
   key: 'writingStoryState',
   get: ({get}) => {
-    const hero = get(heroState);
     const questionInfo = get(helpQuestionState);
     const textInfo = get(storyTextState);
     const date = get(storyDateState);
@@ -40,7 +46,6 @@ export const writingStoryState = selector<WritingStoryType | undefined>({
     const recordFile = get(recordFileState);
 
     return {
-      heroNo: hero.heroNo,
       ...questionInfo,
       ...textInfo,
       date,

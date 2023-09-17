@@ -14,15 +14,12 @@ import {
 import {useRecoilState} from 'recoil';
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
 import {
-  photoState,
-  selectedPhotoState,
-} from '../../recoils/selected-photo.recoil';
-import {
   hasAndroidPermission,
   usePhotoPermission,
 } from '../../service/hooks/permission.hook';
 import {useNavigation} from '@react-navigation/native';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
+import {selectedPhotoState} from '../../recoils/story-write.recoil';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -30,7 +27,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
   const navigation = useNavigation();
   const [hasNextPage, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
-  const [photos, setPhotos] = useRecoilState(photoState);
+  const [photos, setPhotos] = useState([]);
   const [selectedPhotoList, setSelectedPhotoList] =
     useRecoilState(selectedPhotoState);
   const isAboveIOS14 =

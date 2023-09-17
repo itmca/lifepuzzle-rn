@@ -3,11 +3,11 @@ import {MediumImage, XSmallImage} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import {TouchableOpacity} from 'react-native';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {createThumbnail} from 'react-native-create-thumbnail';
 import {
   selectedPhotoState,
   selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
-import {createThumbnail} from 'react-native-create-thumbnail';
+} from '../../recoils/story-write.recoil';
 
 type SelectedPhotoProps = {
   target?: 'photo' | 'video';

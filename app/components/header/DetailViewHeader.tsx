@@ -15,16 +15,14 @@ import {useDeleteStory} from '../../service/hooks/story.delete.hook';
 import {
   helpQuestionTextState,
   recordFileState,
+  selectedPhotoState,
+  selectedVideoState,
   storyDateState,
   storyTextState,
 } from '../../recoils/story-write.recoil';
 import {WritingStoryTextInfo} from '../../types/writing-story.type';
 import Sound from 'react-native-sound';
 import {toMinuteSeconds} from '../../service/time-display.service';
-import {
-  selectedPhotoState,
-  selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
 
 type Props = {
   customAction?: Function;

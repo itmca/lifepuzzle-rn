@@ -1,9 +1,7 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 export type WritingStoryType = {
-  heroNo?: number;
   recQuestionNo?: number;
-  recQuestionModified?: boolean;
   helpQuestionText?: string;
   title?: string;
   storyText?: string;
@@ -15,7 +13,7 @@ export type WritingStoryType = {
 
 export type WritingStoryQuestionInfo = Pick<
   WritingStoryType,
-  'recQuestionNo' | 'recQuestionModified' | 'helpQuestionText'
+  'recQuestionNo' | 'helpQuestionText'
 >;
 
 export type WritingStoryTextInfo = Pick<

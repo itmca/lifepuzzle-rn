@@ -1,14 +1,14 @@
 import React from 'react';
 import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {
-  selectedPhotoState,
-  selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
 import {Color} from '../../constants/color.constant';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import SelectedPhoto from './SelectedPhoto';
+import {
+  selectedPhotoState,
+  selectedVideoState,
+} from '../../recoils/story-write.recoil';
 
 type SelectedPhotoListProps = {
   target?: 'photo' | 'video';
