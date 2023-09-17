@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Dimensions, View} from 'react-native';
 import {styles} from './styles';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {StoryType} from '../../types/story.type';
 import {BasicNavigationProps} from '../../navigation/types';
 import {Contents} from './StoryItemContents';

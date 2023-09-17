@@ -8,7 +8,7 @@ import {
   storyDateState,
   storyTextState,
   writingStoryState,
-} from '../../recoils/story-writing.recoil';
+} from '../../recoils/story-write.recoil';
 import {
   NoOutLineFullScreenContainer,
   ScreenContainer,

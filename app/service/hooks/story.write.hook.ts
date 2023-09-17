@@ -5,7 +5,7 @@ import {
   recordFileState,
   storyTextState,
   writingStoryState,
-} from '../../recoils/story-writing.recoil';
+} from '../../recoils/story-write.recoil';
 import {
   selectedPhotoState,
   selectedVideoState,
@@ -19,7 +19,7 @@ import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useStoryHttpPayLoad} from './story.payload.hook';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 
 export const useResetAllWritingStory = () => {
   const resetStoryText = useResetRecoilState(storyTextState);

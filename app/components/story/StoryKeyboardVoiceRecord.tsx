@@ -3,15 +3,12 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {MediumText, SmallText, XSmallText} from '../styled/components/Text';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
-import {recordFileState} from '../../recoils/story-writing.recoil';
+import {recordFileState} from '../../recoils/story-write.recoil';
 import {XSmallImage} from '../styled/components/Image';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
 import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../styled/container/ContentContainer';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 import Icon from '../styled/components/Icon';
 import {CustomAlert} from '../alert/CustomAlert';
 

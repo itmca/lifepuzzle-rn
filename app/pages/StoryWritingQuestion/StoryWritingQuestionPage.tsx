@@ -4,7 +4,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
   helpQuestionState,
   helpQuestionTextState,
-} from '../../recoils/story-writing.recoil';
+} from '../../recoils/story-write.recoil';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useFocusAction} from '../../service/hooks/screen.hook';
 import {SmallText} from '../../components/styled/components/Text';

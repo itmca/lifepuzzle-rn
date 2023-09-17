@@ -7,15 +7,17 @@ import {FloatingMenu} from '../story/StoryDetailFloatingMenu';
 import Icon from 'react-native-vector-icons/Feather';
 import {Color} from '../../constants/color.constant';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {
+  SelectedStoryKeyState,
+  SelectedStoryState,
+} from '../../recoils/story-view.recoil';
 import {useDeleteStory} from '../../service/hooks/story.delete.hook';
-import {SelectedStoryState} from '../../recoils/selected-story.recoil';
 import {
   helpQuestionTextState,
   recordFileState,
   storyDateState,
   storyTextState,
-} from '../../recoils/story-writing.recoil';
+} from '../../recoils/story-write.recoil';
 import {WritingStoryTextInfo} from '../../types/writing-story.type';
 import Sound from 'react-native-sound';
 import {toMinuteSeconds} from '../../service/time-display.service';

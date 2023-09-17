@@ -1,5 +1,5 @@
 import {useRecoilValue} from 'recoil';
-import {writingStoryState} from '../../recoils/story-writing.recoil';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 import {
   AUDIO_TYPE,
   IMG_TYPE,
