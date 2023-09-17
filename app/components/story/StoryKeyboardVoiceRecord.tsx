@@ -1,9 +1,12 @@
 import {TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {MediumText, SmallText, XSmallText} from '../styled/components/Text';
-import {useRecoilValue, useResetRecoilState} from 'recoil';
-import {recordFileState} from '../../recoils/story-write.recoil';
+import {useRecoilState} from 'recoil';
+import {
+  writingRecordTimeState,
+  writingStoryState,
+} from '../../recoils/story-write.recoil';
 import {XSmallImage} from '../styled/components/Image';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
 import {Color} from '../../constants/color.constant';
@@ -11,6 +14,8 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 import Icon from '../styled/components/Icon';
 import {CustomAlert} from '../alert/CustomAlert';
+import Sound from 'react-native-sound';
+import {getDisplayRecordTime} from '../../service/voice-record-info.service';
 
 type VoiceRecordProps = {
   recordTime: string;
@@ -68,24 +73,27 @@ const RecordedVoice = ({
     </TouchableOpacity>
   );
 };
+
 export const StoryKeyboardVoiceRecord = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const recordFileInfo = useRecoilValue(recordFileState);
-  const resetRecord = useResetRecoilState(recordFileState);
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const [recordTime, setRecordTime] = useRecoilState(writingRecordTimeState);
+
+  useEffect(() => {
+    if (writingStory.voice && !recordTime) {
+      Sound.setCategory('Playback');
+      const audioSound = new Sound(writingStory.voice, undefined, error => {
+        if (error) {
+          return;
+        }
+
+        setRecordTime(getDisplayRecordTime(audioSound.getDuration() * 1000));
+      });
+    }
+  }, [writingStory]);
 
   const hasRecordFile = function () {
-    return recordFileInfo != undefined && recordFileInfo?.filePath != undefined;
-  };
-
-  const getFileName = function () {
-    if (!hasRecordFile()) {
-      return '';
-    }
-
-    const fileParts = recordFileInfo?.filePath?.split('/') || [];
-    const recordName = fileParts[fileParts?.length - 1];
-
-    return decodeURI(recordName);
+    return !!writingStory?.voice;
   };
 
   return (
@@ -122,11 +130,13 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
             }}>
             {hasRecordFile() ? (
               <RecordedVoice
-                recordTime={recordFileInfo?.recordTime || ''}
-                onDelete={resetRecord}
+                recordTime={recordTime}
+                onDelete={() => {
+                  setWritingStory({voice: undefined});
+                }}
               />
             ) : (
-              <View style={{height: 32}}></View>
+              <View style={{height: 32}} />
             )}
           </View>
         </HorizontalContentContainer>

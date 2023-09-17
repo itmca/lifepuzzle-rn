@@ -1,58 +1,29 @@
-import {atom, selector} from 'recoil';
-import {
-  VoiceRecordInfo,
-  WritingStoryQuestionInfo,
-  WritingStoryTextInfo,
-  WritingStoryType,
-} from '../types/writing-story.type';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import {atom, DefaultValue, selector} from 'recoil';
+import {WritingStoryType} from '../types/writing-story.type';
 
-export const helpQuestionState = atom<WritingStoryQuestionInfo | undefined>({
-  key: 'helpQuestionState',
+export const writingRecordTimeState = atom<string>({
+  key: 'recentRecordedDurationState',
+  default: '',
+});
+
+const writingStoryInternalState = atom<WritingStoryType>({
+  key: 'writingStoryInternalState',
   default: undefined,
 });
 
-export const storyTextState = atom<WritingStoryTextInfo | undefined>({
-  key: 'storyTextState',
-  default: undefined,
-});
-
-export const storyDateState = atom<Date | undefined>({
-  key: 'storyDateState',
-  default: undefined,
-});
-
-export const recordFileState = atom<VoiceRecordInfo | undefined>({
-  key: 'recordFileState',
-  default: undefined,
-});
-
-export const selectedPhotoState = atom<PhotoIdentifier[]>({
-  key: 'selectedPhotoState',
-  default: [],
-});
-export const selectedVideoState = atom<PhotoIdentifier[]>({
-  key: 'selectedVideoState',
-  default: [],
-});
-export const writingStoryState = selector<WritingStoryType | undefined>({
+export const writingStoryState = selector<WritingStoryType>({
   key: 'writingStoryState',
-  get: ({get}) => {
-    const questionInfo = get(helpQuestionState);
-    const textInfo = get(storyTextState);
-    const date = get(storyDateState);
-    const photos = get(selectedPhotoState);
-    const videos = get(selectedVideoState);
-    const recordFile = get(recordFileState);
-
-    return {
-      ...questionInfo,
-      ...textInfo,
-      date,
-      photos,
-      videos,
-      voice: recordFile?.filePath,
-    };
+  get: ({get}) => get(writingStoryInternalState),
+  set: ({get, set, reset}, newValue) => {
+    if (newValue instanceof DefaultValue) {
+      reset(writingStoryInternalState);
+    } else {
+      const currentWritingStory = get(writingStoryInternalState);
+      set(writingStoryInternalState, {
+        ...currentWritingStory,
+        ...newValue,
+      });
+    }
   },
 });
 
@@ -64,8 +35,4 @@ export const isStoryUploading = atom<boolean>({
 export const isModalOpening = atom<boolean>({
   key: 'isModalOpening',
   default: false,
-});
-export const helpQuestionTextState = atom<string>({
-  key: 'helpQuestionText',
-  default: '',
 });

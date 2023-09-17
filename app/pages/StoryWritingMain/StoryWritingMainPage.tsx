@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
-  helpQuestionTextState,
   isModalOpening,
-  storyDateState,
-  storyTextState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {
@@ -32,28 +29,24 @@ import {MediumImage} from '../../components/styled/components/Image';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
-  const helpQuestion = useRecoilValue(helpQuestionTextState);
   const [title, setTitle] = useState<string>('');
   const [storyText, setStoryText] = useState<string>('');
-  const [storyDate, setStoryDate] = useRecoilState<Date | undefined>(
-    storyDateState,
-  );
-  const [writingStory] = useRecoilState(writingStoryState);
-  const setStoryTextInfo = useSetRecoilState(storyTextState);
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
 
+  const helpQuestion = writingStory?.helpQuestionText || '';
   const isKeyboardVisible = useKeyboardVisible();
   const ishelpQuestionVisible = helpQuestion.length != 0;
   const isStoryUploading = useIsStoryUploading();
   const setIsModalOpening = useSetRecoilState(isModalOpening);
 
   useEffect(() => {
-    setStoryDate(writingStory?.date || new Date());
+    setWritingStory({date: new Date()});
     setTitle(writingStory?.title || '');
     setStoryText(writingStory?.storyText || '');
   }, []);
 
   useEffect(() => {
-    setStoryTextInfo({
+    setWritingStory({
       title: title,
       storyText: storyText,
     });
@@ -72,8 +65,10 @@ const StoryWritingMainPage = (): JSX.Element => {
                   borderBottomWidth: 0,
                 })}>
                 <StoryDateInput
-                  date={storyDate}
-                  onChange={setStoryDate}
+                  date={writingStory?.date || new Date()}
+                  onChange={(date: Date) => {
+                    setWritingStory({date});
+                  }}
                   style={styles.dateInput}
                   backgroundColor={Color.SECONDARY_LIGHT}
                   color={Color.PRIMARY_MEDIUM}
@@ -84,8 +79,10 @@ const StoryWritingMainPage = (): JSX.Element => {
             <>
               <ScreenContainer style={styles.screenHTopContainer}>
                 <StoryDateInput
-                  date={storyDate}
-                  onChange={setStoryDate}
+                  date={writingStory.date}
+                  onChange={(date: Date) => {
+                    setWritingStory({date});
+                  }}
                   style={styles.dateInput}
                 />
                 <SmallText
@@ -112,7 +109,8 @@ const StoryWritingMainPage = (): JSX.Element => {
                   style={styles.helpQuestionContainer}
                   theme={{
                     colors: {background: 'transparent'},
-                  }}></List.Accordion>
+                  }}
+                />
               </OutLineContentContainer>
             </>
           )}
@@ -154,9 +152,9 @@ const StoryWritingMainPage = (): JSX.Element => {
                       borderTopColor: Color.LIGHT_GRAY,
                       borderTopWidth: 8,
                     }}>
-                    <StoryKeyboardPhotoRecord></StoryKeyboardPhotoRecord>
-                    <StoryKeyboardVideoRecord></StoryKeyboardVideoRecord>
-                    <StoryKeyboardVoiceRecord></StoryKeyboardVoiceRecord>
+                    <StoryKeyboardPhotoRecord />
+                    <StoryKeyboardVideoRecord />
+                    <StoryKeyboardVoiceRecord />
                   </List.Section>
                   {!ishelpQuestionVisible && (
                     <MediumImage

@@ -5,14 +5,7 @@ import {authState} from '../../recoils/auth.recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import {
-  helpQuestionState,
-  helpQuestionTextState,
-  recordFileState,
-  selectedPhotoState,
-  storyDateState,
-  storyTextState,
-} from '../../recoils/story-write.recoil';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 
 type Option = {
   customGoBackAction?: () => void;
@@ -24,26 +17,15 @@ export const useLogout = (option?: Option) => {
   const resetAuth = useResetRecoilState(authState);
   const resetUser = useResetRecoilState(userState);
   const resetHero = useResetRecoilState(heroState);
-  const resetQuestionText = useResetRecoilState(helpQuestionTextState);
-  const resetSelectedPhoto = useResetRecoilState(selectedPhotoState);
+  const resetWritingStory = useResetRecoilState(writingStoryState);
   const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
-  const resetQuestion = useResetRecoilState(helpQuestionState);
-  const resetStoryText = useResetRecoilState(storyTextState);
-  const resetStoryDate = useResetRecoilState(storyDateState);
-  const resetRecordFile = useResetRecoilState(recordFileState);
 
   const resetAllRecoil = () => {
     resetAuth();
     resetUser();
     resetHero();
-    resetQuestionText();
-    resetSelectedCategory();
-    resetSelectedPhoto();
+    resetWritingStory();
     resetSelectedStory();
-    resetQuestion();
-    resetStoryText();
-    resetStoryDate();
-    resetRecordFile();
   };
 
   const removeLocalStorage = () => {

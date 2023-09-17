@@ -12,17 +12,7 @@ import {
   SelectedStoryState,
 } from '../../recoils/story-view.recoil';
 import {useDeleteStory} from '../../service/hooks/story.delete.hook';
-import {
-  helpQuestionTextState,
-  recordFileState,
-  selectedPhotoState,
-  selectedVideoState,
-  storyDateState,
-  storyTextState,
-} from '../../recoils/story-write.recoil';
-import {WritingStoryTextInfo} from '../../types/writing-story.type';
-import Sound from 'react-native-sound';
-import {toMinuteSeconds} from '../../service/time-display.service';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 
 type Props = {
   customAction?: Function;
@@ -33,46 +23,12 @@ const DetailViewHeader = ({customAction}: Props): JSX.Element => {
   const storyKey = useRecoilValue(SelectedStoryKeyState);
   const selectedStory = useRecoilValue(SelectedStoryState);
 
-  const setQuestion = useSetRecoilState(helpQuestionTextState);
-  const setTextInfo = useSetRecoilState<WritingStoryTextInfo | undefined>(
-    storyTextState,
-  );
-  const setDate = useSetRecoilState(storyDateState);
-  const setAudio = useSetRecoilState(recordFileState);
-  const setPhotos = useSetRecoilState(selectedPhotoState);
-  const setVideos = useSetRecoilState(selectedVideoState);
+  const setWritingStory = useSetRecoilState(writingStoryState);
 
   const [isShowMenu, setIsShowMenu] = useState<boolean>(false);
   const [deleteStory] = useDeleteStory({storyKey: storyKey});
 
   const onClickEdit = () => {
-    setDate(selectedStory?.date);
-    setQuestion(selectedStory?.question ?? '');
-    setTextInfo({
-      title: selectedStory?.title,
-      storyText: selectedStory?.content,
-    });
-
-    if (
-      selectedStory?.audios !== undefined &&
-      selectedStory?.audios.length > 0
-    ) {
-      Sound.setCategory('Playback');
-      const audioSound = new Sound(
-        selectedStory.audios[0],
-        undefined,
-        error => {
-          if (error) {
-            return;
-          }
-
-          setAudio({
-            filePath: selectedStory.audios[0],
-            recordTime: ':' + toMinuteSeconds(audioSound.getDuration()),
-          });
-        },
-      );
-    }
     const toPhotoIdentifier = (uri: string) => ({
       node: {
         type: '',
@@ -96,8 +52,15 @@ const DetailViewHeader = ({customAction}: Props): JSX.Element => {
     const currentPhotos = selectedStory?.photos.map(toPhotoIdentifier);
     const currentVideos = selectedStory?.videos.map(toPhotoIdentifier);
 
-    setPhotos(currentPhotos ? currentPhotos : []);
-    setVideos(currentVideos ? currentVideos : []);
+    setWritingStory({
+      date: selectedStory?.date,
+      helpQuestionText: selectedStory?.question ?? '',
+      title: selectedStory?.title,
+      storyText: selectedStory?.content,
+      photos: currentPhotos ? currentPhotos : [],
+      videos: currentVideos ? currentVideos : [],
+      voice: selectedStory?.audios[0],
+    });
 
     navigation.push('NoTab', {
       screen: 'StoryWritingNavigator',

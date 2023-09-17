@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {MediumImage, XSmallImage} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import {TouchableOpacity} from 'react-native';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {createThumbnail} from 'react-native-create-thumbnail';
-import {
-  selectedPhotoState,
-  selectedVideoState,
-} from '../../recoils/story-write.recoil';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 
 type SelectedPhotoProps = {
   target?: 'photo' | 'video';
@@ -20,14 +17,10 @@ const SelectedPhoto = ({
   index,
   size,
 }: SelectedPhotoProps): JSX.Element => {
-  const photoList =
-    target == 'photo'
-      ? useRecoilValue(selectedPhotoState)
-      : useRecoilValue(selectedVideoState);
-  const setPhotoList =
-    target == 'photo'
-      ? useSetRecoilState(selectedPhotoState)
-      : useSetRecoilState(selectedVideoState);
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+
+  const photoList = writingStory[target == 'photo' ? 'photos' : 'videos'] || [];
+
   const [thumbnailUri, setThumbnailUri] = useState<string>(
     photoList[index].node.image.uri,
   );
@@ -70,11 +63,14 @@ const SelectedPhoto = ({
           justifyContent: 'center',
         }}
         onPress={() => {
-          setPhotoList(prev =>
-            prev.filter(
+          const currentList =
+            writingStory[target == 'photo' ? 'photos' : 'videos'] || [];
+
+          setWritingStory({
+            [target == 'photo' ? 'photos' : 'videos']: currentList.filter(
               e => e.node.image.uri !== photoList[index].node.image.uri,
             ),
-          );
+          });
         }}>
         <XSmallImage
           tintColor={Color.DARK_GRAY}

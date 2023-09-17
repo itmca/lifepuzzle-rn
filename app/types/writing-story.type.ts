@@ -21,7 +21,7 @@ export type WritingStoryTextInfo = Pick<
   'title' | 'storyText'
 >;
 export type MediaInfo = {
-  key: number;
+  key?: number;
   node: Pick<PhotoIdentifier['node'], 'image'>;
 };
 export type VoiceRecordInfo = {

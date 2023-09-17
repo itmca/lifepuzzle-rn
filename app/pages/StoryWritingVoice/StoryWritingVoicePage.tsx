@@ -20,7 +20,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
     },
   });
 
-  const {recordFile, isRecording, startRecord, stopRecord} = useVoiceRecorder({
+  const {recordTime, isRecording, startRecord, stopRecord} = useVoiceRecorder({
     onStopRecord: () => {
       navigation.goBack();
     },
@@ -28,11 +28,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      <Text>
-        {recordFile?.recordTime?.substring(
-          recordFile?.recordTime?.indexOf(':') + 1,
-        )}
-      </Text>
+      <Text>{recordTime?.substring(recordTime?.indexOf(':') + 1)}</Text>
       <View>
         <Pressable
           style={styles.recordContainer}

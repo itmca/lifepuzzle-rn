@@ -1,11 +1,6 @@
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
-  helpQuestionState,
   isStoryUploading,
-  recordFileState,
-  selectedPhotoState,
-  selectedVideoState,
-  storyTextState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {useAuthAxios} from './network.hook';
@@ -20,18 +15,10 @@ import {useEffect} from 'react';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 
 export const useResetAllWritingStory = () => {
-  const resetStoryText = useResetRecoilState(storyTextState);
-  const resetHelpQuestion = useResetRecoilState(helpQuestionState);
-  const resetSelectedPhoto = useResetRecoilState(selectedPhotoState);
-  const resetSelectedVideo = useResetRecoilState(selectedVideoState);
-  const resetRecord = useResetRecoilState(recordFileState);
+  const resetWritingSTory = useResetRecoilState(writingStoryState);
 
   return () => {
-    resetStoryText();
-    resetHelpQuestion();
-    resetSelectedPhoto();
-    resetSelectedVideo();
-    resetRecord();
+    resetWritingSTory();
   };
 };
 

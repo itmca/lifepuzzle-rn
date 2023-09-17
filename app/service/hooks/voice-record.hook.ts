@@ -7,14 +7,16 @@ import AudioRecorderPlayer, {
   AVEncodingOption,
   AVModeIOSOption,
 } from 'react-native-audio-recorder-player';
-import {VoiceRecordInfo} from '../../types/writing-story.type';
 import {useRecoilState} from 'recoil';
-import {recordFileState} from '../../recoils/story-write.recoil';
 import {useEffect, useState} from 'react';
 import {
   getDisplayRecordTime,
   getRecordFileName,
 } from '../voice-record-info.service';
+import {
+  writingRecordTimeState,
+  writingStoryState,
+} from '../../recoils/story-write.recoil';
 
 type Props = {
   onStartRecord?: () => void;
@@ -22,7 +24,8 @@ type Props = {
 };
 
 type Response = {
-  recordFile: VoiceRecordInfo | undefined;
+  fileName: string | undefined;
+  recordTime: string | undefined;
   isRecording: boolean;
   startRecord: () => Promise<void>;
   stopRecord: () => Promise<void>;
@@ -33,12 +36,15 @@ export const useVoiceRecorder = ({
   onStartRecord,
   onStopRecord,
 }: Props): Response => {
-  const [recordFile, setRecordFile] = useRecoilState(recordFileState);
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const [recordTime, setRecordTime] = useRecoilState(writingRecordTimeState);
   const [isRecording, setIsRecording] = useState(false);
 
   useEffect(() => {
-    setRecordFile({filePath: undefined, recordTime: undefined});
+    setWritingStory({voice: undefined});
+    setRecordTime('');
   }, []);
+
   const startRecord = async function () {
     const fileName = getRecordFileName();
     const dirs = RNFetchBlob.fs.dirs;
@@ -57,14 +63,12 @@ export const useVoiceRecorder = ({
 
     const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
     audioRecorderPlayer.addRecordBackListener(e => {
-      const HourMinuteSeconds = getDisplayRecordTime(
+      const hourMinuteSeconds = getDisplayRecordTime(
         Math.floor(e.currentPosition),
       );
 
-      setRecordFile({
-        filePath: uri,
-        recordTime: HourMinuteSeconds,
-      });
+      setWritingStory({voice: uri});
+      setRecordTime(hourMinuteSeconds);
     });
     setIsRecording(true);
     onStartRecord?.();
@@ -78,7 +82,8 @@ export const useVoiceRecorder = ({
   };
 
   return {
-    recordFile,
+    fileName: writingStory.voice,
+    recordTime,
     isRecording,
     startRecord,
     stopRecord,

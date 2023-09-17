@@ -19,7 +19,7 @@ import {
 } from '../../service/hooks/permission.hook';
 import {useNavigation} from '@react-navigation/native';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
-import {selectedPhotoState} from '../../recoils/story-write.recoil';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -27,11 +27,13 @@ const StorySelectingPhotoPage = (): JSX.Element => {
   const navigation = useNavigation();
   const [hasNextPage, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
-  const [photos, setPhotos] = useState([]);
-  const [selectedPhotoList, setSelectedPhotoList] =
-    useRecoilState(selectedPhotoState);
+  const [photos, setPhotos] = useState<PhotoIdentifier[]>([]);
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+
+  const selectedPhotoList = writingStory.photos ?? [];
   const isAboveIOS14 =
     Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
+
   usePhotoPermission({
     onDeny: () => {
       Alert.alert('앨범 권한이 없습니다.', '', [
@@ -42,6 +44,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
       ]);
     },
   });
+
   useEffect(() => {
     void initPhotos();
   }, []);
@@ -124,13 +127,17 @@ const StorySelectingPhotoPage = (): JSX.Element => {
           return (
             <SelectablePhoto
               onSelected={(photo: PhotoIdentifier) => {
-                setSelectedPhotoList(prev => prev.concat([photo]));
+                setWritingStory({
+                  videos: [...selectedPhotoList, photo],
+                });
               }}
               //! size 수정 필요
               onDeselected={(photo: PhotoIdentifier) => {
-                setSelectedPhotoList(prev =>
-                  prev.filter(e => e.node.image.uri !== photo.node.image.uri),
-                );
+                setWritingStory({
+                  videos: selectedPhotoList.filter(
+                    e => e.node.image.uri !== photo.node.image.uri,
+                  ),
+                });
               }}
               size={DeviceWidth / 3}
               photo={item}
