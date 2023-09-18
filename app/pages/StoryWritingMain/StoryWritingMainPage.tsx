@@ -65,7 +65,7 @@ const StoryWritingMainPage = (): JSX.Element => {
         <NoOutLineFullScreenContainer>
           {!ishelpQuestionVisible ? (
             <>
-              <ScreenContainer
+              <OutLineContentContainer
                 style={StyleSheet.compose(styles.screenHTopContainer, {
                   height: 50,
                   backgroundColor: Color.WHITE,
@@ -74,34 +74,27 @@ const StoryWritingMainPage = (): JSX.Element => {
                 <StoryDateInput
                   date={storyDate}
                   onChange={setStoryDate}
-                  style={styles.dateInput}
                   backgroundColor={Color.SECONDARY_LIGHT}
                   color={Color.PRIMARY_MEDIUM}
                 />
-              </ScreenContainer>
+              </OutLineContentContainer>
             </>
           ) : (
             <>
-              <ScreenContainer style={styles.screenHTopContainer}>
-                <StoryDateInput
-                  date={storyDate}
-                  onChange={setStoryDate}
-                  style={styles.dateInput}
-                />
+              <OutLineContentContainer style={styles.screenHTopContainer}>
+                <StoryDateInput date={storyDate} onChange={setStoryDate} />
+              </OutLineContentContainer>
+              <OutLineContentContainer
+                backgroundColor={Color.DARK_GRAY}
+                borderTopWidth={0}>
                 <SmallText
                   color={Color.WHITE}
                   fontWeight={700}
-                  style={{marginLeft: 15}}>
+                  style={{marginLeft: 10}}>
                   이번달 추천질문
                 </SmallText>
-              </ScreenContainer>
-              <OutLineContentContainer style={styles.screenLTopContainer}>
                 <List.Accordion
-                  title={
-                    <LargeText fontWeight={700} lineHeight={'21px'}>
-                      {helpQuestion}
-                    </LargeText>
-                  }
+                  title={<LargeText fontWeight={700}>{helpQuestion}</LargeText>}
                   right={() => <></>}
                   onPress={() => {
                     numberOfLines == 1
@@ -109,6 +102,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                       : setNumberOfLines(1);
                   }}
                   titleNumberOfLines={numberOfLines}
+                  titleStyle={{marginLeft: -5}}
                   style={styles.helpQuestionContainer}
                   theme={{
                     colors: {background: 'transparent'},
@@ -116,7 +110,7 @@ const StoryWritingMainPage = (): JSX.Element => {
               </OutLineContentContainer>
             </>
           )}
-          <ScreenContainer style={styles.screenCenterContainer}>
+          <OutLineContentContainer height={'50px'} borderTopWidth={2}>
             <BasicTextInput
               customStyle={styles.titleInput}
               placeholder="제목을 입력해주세요."
@@ -126,8 +120,8 @@ const StoryWritingMainPage = (): JSX.Element => {
               underlineColor={'transparent'}
               activeUnderlineColor={'transparent'}
             />
-          </ScreenContainer>
-          <ScreenContainer style={styles.screenBottomContainer}>
+          </OutLineContentContainer>
+          <OutLineContentContainer height={'100%'} flex={1} borderTopWidth={2}>
             <BasicTextInput
               customStyle={{flex: 1}}
               placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
@@ -136,7 +130,7 @@ const StoryWritingMainPage = (): JSX.Element => {
               multiline={true}
               mode={'outlined'}
             />
-          </ScreenContainer>
+          </OutLineContentContainer>
           {ishelpQuestionVisible && (
             <MediumImage
               width={55}

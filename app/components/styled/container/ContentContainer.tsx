@@ -19,6 +19,7 @@ type ContentContainerProps = {
   zIndex?: number | string;
   borderRadius?: number;
   listThumbnail?: boolean;
+  borderTopWidth?: number;
 };
 
 export const ContentContainer = styled.View<ContentContainerProps>`
@@ -57,5 +58,7 @@ export const HorizontalContentContainer = styled(ContentContainer)`
 
 export const OutLineContentContainer = styled(ContentContainer)`
   box-sizing: border-box;
-  border: 16px solid #ffffff00;
+  border: 16px solid transparent;
+  border-top-width: ${props =>
+    props.borderTopWidth ? props.borderTopWidth + 'px' : '16px'};
 `;
