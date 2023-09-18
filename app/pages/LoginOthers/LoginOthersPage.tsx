@@ -4,7 +4,7 @@ import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
 import KaKaoSocialLoginButton from '../../components/button/login/KaKaoSocialLoginButton';
 import AppleSocialLoginButton from '../../components/button/login/AppleSocialLoginButton';
 import {styles} from './styles';
-import GeneralLoginButton from '../../components/button/login/GeneralLoginButton';
+import GeneralLoginButton from './GeneralLoginButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useNavigation} from '@react-navigation/native';
 import {BasicTextInput} from '../../components/input/BasicTextInput';

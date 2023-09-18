@@ -15,7 +15,7 @@ import {
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {helpQuestionTextState} from '../../recoils/help-question.recoil';
 import {LargeText, SmallText} from '../../components/styled/components/Text';
-import StoryDateInput from '../../components/story/StoryDateInput';
+import StoryDateInput from './StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {List} from 'react-native-paper';
 import {StoryKeyboardPhotoRecord} from '../../components/story/StoryKeyboardPhotoRecord';
@@ -106,7 +106,8 @@ const StoryWritingMainPage = (): JSX.Element => {
                   style={styles.helpQuestionContainer}
                   theme={{
                     colors: {background: 'transparent'},
-                  }}></List.Accordion>
+                  }}
+                />
               </OutLineContentContainer>
             </>
           )}
@@ -148,9 +149,9 @@ const StoryWritingMainPage = (): JSX.Element => {
                       borderTopColor: Color.LIGHT_GRAY,
                       borderTopWidth: 8,
                     }}>
-                    <StoryKeyboardPhotoRecord></StoryKeyboardPhotoRecord>
-                    <StoryKeyboardVideoRecord></StoryKeyboardVideoRecord>
-                    <StoryKeyboardVoiceRecord></StoryKeyboardVoiceRecord>
+                    <StoryKeyboardPhotoRecord />
+                    <StoryKeyboardVideoRecord />
+                    <StoryKeyboardVoiceRecord />
                   </List.Section>
                   {!ishelpQuestionVisible && (
                     <MediumImage

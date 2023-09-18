@@ -1,11 +1,11 @@
 import React from 'react';
 import {HeroType} from '../../types/hero.type';
-import {HomeLoginButton} from '../button/HomeLoginButton';
-import {LargeTitle} from '../styled/components/Title';
+import {HomeLoginButton} from './HomeLoginButton';
+import {LargeTitle} from '../../components/styled/components/Title';
 import {
   ContentContainer,
   HorizontalContentContainer,
-} from '../styled/container/ContentContainer';
+} from '../../components/styled/container/ContentContainer';
 import {Image} from 'react-native';
 
 type Props = {

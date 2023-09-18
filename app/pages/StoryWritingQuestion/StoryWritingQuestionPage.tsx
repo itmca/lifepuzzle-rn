@@ -11,7 +11,7 @@ import {SmallTitle} from '../../components/styled/components/Title';
 import dayjs from 'dayjs';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
-import {RecommendQuestionButton} from '../../components/button/RecommendQuestionButton';
+import {RecommendQuestionButton} from './RecommendQuestionButton';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {Question} from '../../types/question.type';
 
