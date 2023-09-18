@@ -11,20 +11,7 @@ export type WritingStoryType = {
   voice?: string;
 };
 
-export type WritingStoryQuestionInfo = Pick<
-  WritingStoryType,
-  'recQuestionNo' | 'helpQuestionText'
->;
-
-export type WritingStoryTextInfo = Pick<
-  WritingStoryType,
-  'title' | 'storyText'
->;
 export type MediaInfo = {
   key?: number;
   node: Pick<PhotoIdentifier['node'], 'image'>;
-};
-export type VoiceRecordInfo = {
-  filePath: string | undefined;
-  recordTime: string | undefined;
 };
