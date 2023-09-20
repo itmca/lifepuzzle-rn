@@ -1,19 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
   isModalOpening,
-  storyDateState,
-  storyTextState,
   writingStoryState,
-} from '../../recoils/story-writing.recoil';
+} from '../../recoils/story-write.recoil';
 import {
   NoOutLineFullScreenContainer,
   ScreenContainer,
 } from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
-import {helpQuestionTextState} from '../../recoils/help-question.recoil';
 import {LargeText, SmallText} from '../../components/styled/components/Text';
 import StoryDateInput from './StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
@@ -32,28 +29,24 @@ import {MediumImage} from '../../components/styled/components/Image';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
-  const helpQuestion = useRecoilValue(helpQuestionTextState);
   const [title, setTitle] = useState<string>('');
   const [storyText, setStoryText] = useState<string>('');
-  const [storyDate, setStoryDate] = useRecoilState<Date | undefined>(
-    storyDateState,
-  );
-  const [writingStory] = useRecoilState(writingStoryState);
-  const setStoryTextInfo = useSetRecoilState(storyTextState);
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
 
+  const helpQuestion = writingStory?.helpQuestionText || '';
   const isKeyboardVisible = useKeyboardVisible();
   const ishelpQuestionVisible = helpQuestion.length != 0;
   const isStoryUploading = useIsStoryUploading();
   const setIsModalOpening = useSetRecoilState(isModalOpening);
 
   useEffect(() => {
-    setStoryDate(writingStory?.date || new Date());
+    setWritingStory({date: new Date()});
     setTitle(writingStory?.title || '');
     setStoryText(writingStory?.storyText || '');
   }, []);
 
   useEffect(() => {
-    setStoryTextInfo({
+    setWritingStory({
       title: title,
       storyText: storyText,
     });
@@ -72,8 +65,10 @@ const StoryWritingMainPage = (): JSX.Element => {
                   borderBottomWidth: 0,
                 })}>
                 <StoryDateInput
-                  date={storyDate}
-                  onChange={setStoryDate}
+                  date={writingStory?.date || new Date()}
+                  onChange={(date: Date) => {
+                    setWritingStory({date});
+                  }}
                   backgroundColor={Color.SECONDARY_LIGHT}
                   color={Color.PRIMARY_MEDIUM}
                 />
@@ -82,7 +77,12 @@ const StoryWritingMainPage = (): JSX.Element => {
           ) : (
             <>
               <OutLineContentContainer style={styles.screenHTopContainer}>
-                <StoryDateInput date={storyDate} onChange={setStoryDate} />
+                <StoryDateInput
+                  date={writingStory.date}
+                  onChange={(date: Date) => {
+                    setWritingStory({date});
+                  }}
+                />
               </OutLineContentContainer>
               <OutLineContentContainer
                 backgroundColor={Color.DARK_GRAY}

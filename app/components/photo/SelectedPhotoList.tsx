@@ -1,14 +1,11 @@
 import React from 'react';
 import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {
-  selectedPhotoState,
-  selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
+import {useRecoilValue} from 'recoil';
 import {Color} from '../../constants/color.constant';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import SelectedPhoto from './SelectedPhoto';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 
 type SelectedPhotoListProps = {
   target?: 'photo' | 'video';
@@ -22,15 +19,9 @@ const SelectedPhotoList = ({
   upload = false,
 }: SelectedPhotoListProps): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
+  const writingStory = useRecoilValue(writingStoryState);
 
-  const photoList =
-    target == 'photo'
-      ? useRecoilValue(selectedPhotoState)
-      : useRecoilValue(selectedVideoState);
-  const setPhotoList =
-    target == 'photo'
-      ? useSetRecoilState(selectedPhotoState)
-      : useSetRecoilState(selectedVideoState);
+  const photoList = writingStory[target == 'photo' ? 'photos' : 'videos'] || [];
 
   return (
     <View style={{height: size + 10}}>

@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useRecommendedQuestion} from '../../service/hooks/question.hook';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {helpQuestionTextState} from '../../recoils/help-question.recoil';
-import {helpQuestionState} from '../../recoils/story-writing.recoil';
+import {useSetRecoilState} from 'recoil';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {useFocusAction} from '../../service/hooks/screen.hook';
 import {SmallText} from '../../components/styled/components/Text';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {SmallTitle} from '../../components/styled/components/Title';
@@ -16,31 +14,24 @@ import {ScrollContainer} from '../../components/styled/container/ScrollContainer
 import {Question} from '../../types/question.type';
 
 const StoryWritingQuestionPage = (): JSX.Element => {
-  const setHelpQuestionText = useSetRecoilState(helpQuestionTextState);
-
-  const [storyQuestion, setStoryQuestion] = useRecoilState(helpQuestionState);
+  const setWritingStory = useSetRecoilState(writingStoryState);
   const [selectedQuestion, setSelectedQuestion] = useState<
     Question | undefined
   >(undefined);
 
-  useFocusAction(() => {
-    setHelpQuestionText(storyQuestion?.helpQuestionText || '');
-  });
-
   useEffect(() => {
     if (!selectedQuestion) {
-      setStoryQuestion(undefined);
-      setHelpQuestionText('');
+      setWritingStory({
+        recQuestionNo: undefined,
+        helpQuestionText: undefined,
+      });
       return;
     }
 
-    setStoryQuestion({
+    setWritingStory({
       recQuestionNo: selectedQuestion.no,
       helpQuestionText: selectedQuestion.text,
-      recQuestionModified: false,
     });
-
-    setHelpQuestionText(selectedQuestion.text);
   }, [selectedQuestion]);
 
   const [recommendQuestions, isLoading] = useRecommendedQuestion();

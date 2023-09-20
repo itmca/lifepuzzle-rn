@@ -11,7 +11,7 @@ import StorySelectingPhotoPage from '../../pages/StorySelectingPhoto/StorySelect
 import StorySelectingVideoPage from '../../pages/StorySelectingVideo/StorySelectingVideoPage';
 import {Color} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 
 export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
