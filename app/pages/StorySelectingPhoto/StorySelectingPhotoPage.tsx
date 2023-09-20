@@ -128,13 +128,13 @@ const StorySelectingPhotoPage = (): JSX.Element => {
             <SelectablePhoto
               onSelected={(photo: PhotoIdentifier) => {
                 setWritingStory({
-                  videos: [...selectedPhotoList, photo],
+                  photos: [...selectedPhotoList, photo],
                 });
               }}
               //! size 수정 필요
               onDeselected={(photo: PhotoIdentifier) => {
                 setWritingStory({
-                  videos: selectedPhotoList.filter(
+                  photos: selectedPhotoList.filter(
                     e => e.node.image.uri !== photo.node.image.uri,
                   ),
                 });
