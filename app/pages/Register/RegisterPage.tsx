@@ -5,7 +5,7 @@ import CtaButton from '../../components/button/CtaButton';
 import ValidatedTextInput from '../../components/input/ValidatedTextInput';
 import {useAxios} from '../../service/hooks/network.hook';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {PolicyAgreeSwitch} from '../../components/form/policy/PolicyAgreeSwitch';
+import {PolicyAgreeSwitch} from './PolicyAgreeSwitch';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
 import {

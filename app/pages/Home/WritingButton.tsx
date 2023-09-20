@@ -3,7 +3,7 @@ import React from 'react';
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
-import {LargeText} from '../styled/components/Text';
+import {LargeText} from '../../components/styled/components/Text';
 import {Color} from '../../constants/color.constant';
 
 type Props = {

@@ -3,29 +3,9 @@ import {Color} from '../../constants/color.constant';
 
 export default StyleSheet.create({
   screenHTopContainer: {
-    height: 90,
+    height: 55,
     backgroundColor: Color.DARK_GRAY,
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    borderBottomWidth: 5,
-  },
-  screenLTopContainer: {
-    backgroundColor: Color.DARK_GRAY,
-    borderTopWidth: 0,
-  },
-  dateInput: {
-    position: 'absolute',
-    top: 0,
-  },
-  screenCenterContainer: {
-    height: 50,
-  },
-  screenBottomContainer: {
-    flex: 1,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    marginTop: 5,
-    paddingBottom: 10,
   },
   helpQuestionContainer: {
     paddingTop: 0,

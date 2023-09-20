@@ -2,7 +2,7 @@ import React from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {Text, TouchableOpacity, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { SmallText,LargeText } from "../../styled/components/Text";
+import {SmallText, LargeText} from '../../components/styled/components/Text';
 
 type Props = {
   style?: ViewStyle;

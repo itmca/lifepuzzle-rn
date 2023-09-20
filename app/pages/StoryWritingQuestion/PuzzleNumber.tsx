@@ -1,6 +1,6 @@
-import {ContentContainer} from '../styled/container/ContentContainer';
-import {MediumImage} from '../styled/components/Image';
-import {XSmallTitle} from '../styled/components/Title';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {MediumImage} from '../../components/styled/components/Image';
+import {XSmallTitle} from '../../components/styled/components/Title';
 import {Color} from '../../constants/color.constant';
 import React from 'react';
 
