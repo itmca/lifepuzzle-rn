@@ -7,6 +7,7 @@ type Props = {
   mediaType: 'video' | 'audio';
   playingTime?: string;
   backgroundColor?: string;
+  listThumbnail?: boolean;
   onPress: (event: GestureResponderEvent) => void;
 };
 
@@ -14,6 +15,7 @@ export const MediaThumbnail = ({
   mediaType,
   backgroundColor,
   playingTime,
+  listThumbnail,
   onPress,
 }: Props) => {
   return (
@@ -25,7 +27,7 @@ export const MediaThumbnail = ({
       alignItems="center"
       justifyContent="center"
       backgroundColor={backgroundColor ? backgroundColor : 'rgba(0, 0, 0, 0)'}
-      listThumbnail={true}>
+      listThumbnail={listThumbnail}>
       <TouchableOpacity onPressIn={onPress}>
         {mediaType === 'video' && (
           <Image

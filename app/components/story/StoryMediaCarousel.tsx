@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleProp, ViewStyle} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {Photo} from '../styled/components/Image';
@@ -8,12 +8,16 @@ import StoryMediaCarouselPagination from './StoryMediaCarauselPagination';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import {StoryAudioPlayer} from './StoryAudioPlayer';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
+import GoBackHeaderLeft from '../header/GoBackHeaderLeft';
 
 type Props = {
   story: StoryType;
   carouselStyle?: StyleProp<ViewStyle>;
   carouselWidth?: number;
   listThumbnail?: boolean;
+  isFocused?: boolean;
 };
 
 type MediaItem = {
@@ -26,6 +30,7 @@ const StoryMediaCarousel = ({
   carouselStyle,
   carouselWidth,
   listThumbnail,
+  isFocused,
 }: Props): JSX.Element => {
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
@@ -44,15 +49,19 @@ const StoryMediaCarousel = ({
       <>
         {mediaType === 'video' && (
           <VideoPlayer
-            listThumbnail={listThumbnail ? listThumbnail : false}
             videoUrl={mediaUrl}
+            isFocused={isFocused}
+            activeMediaIndexNo={activeMediaIndexNo}
+            listThumbnail={listThumbnail ? listThumbnail : false}
             setIsPaginationShown={setIsPaginationShown}
           />
         )}
         {mediaType === 'audio' && (
           <StoryAudioPlayer
-            listThumbnail={listThumbnail ? listThumbnail : false}
             audioURL={mediaUrl}
+            isFocused={isFocused}
+            activeMediaIndexNo={activeMediaIndexNo}
+            listThumbnail={listThumbnail ? listThumbnail : false}
           />
         )}
         {mediaType === 'photo' && (

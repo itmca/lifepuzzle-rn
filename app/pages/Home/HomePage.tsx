@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import {GoToTopButton} from './GoToTopButton';
 import {WritingButton} from './WritingButton';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
@@ -45,6 +45,17 @@ const HomePage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const scrollRef = useRef<ScrollView>(null);
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsFocused(true);
+
+      return () => {
+        setIsFocused(false);
+      };
+    }, []),
+  );
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const positionY = event.nativeEvent.contentOffset.y;
@@ -61,7 +72,7 @@ const HomePage = (): JSX.Element => {
           showsVerticalScrollIndicator={false}>
           <HeroStoryOverview hero={hero} />
           <View style={styles.customDivider} />
-          <StoryList stories={displayStories} />
+          <StoryList stories={displayStories} isFocused={isFocused} />
         </ScrollView>
         <GoToTopButton
           visible={scrollPositionY > 10}

@@ -7,10 +7,11 @@ import {ContentContainer} from '../../components/styled/container/ContentContain
 import {Color} from '../../constants/color.constant';
 
 type Props = {
+  isFocused?: boolean;
   stories: StoryType[];
 };
 
-const StoryList = ({stories}: Props): JSX.Element => {
+const StoryList = ({stories, isFocused}: Props): JSX.Element => {
   if (stories.length <= 0) {
     return (
       <ContentContainer
@@ -35,7 +36,7 @@ const StoryList = ({stories}: Props): JSX.Element => {
       backgroundColor={Color.WHITE}>
       <SmallTitle style={{marginTop: 8, marginLeft: 5}}>나의 조각</SmallTitle>
       {stories.map((story: StoryType) => (
-        <StoryItem key={story.id} story={story} />
+        <StoryItem key={story.id} story={story} isFocused={isFocused} />
       ))}
     </ContentContainer>
   );

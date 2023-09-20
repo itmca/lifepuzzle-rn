@@ -10,34 +10,64 @@ import React, {useEffect, useRef, useState} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {VideoController} from './StoryVideoController';
 import {MediaThumbnail} from './StoryMediaThumbnail';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
+import GoBackHeaderLeft from '../header/GoBackHeaderLeft';
 
 type props = {
   videoUrl: string;
   setIsPaginationShown: Function;
   listThumbnail?: boolean;
+  isFocused?: boolean;
+  activeMediaIndexNo?: number;
 };
 
 export const VideoPlayer = ({
   videoUrl,
+  isFocused,
   listThumbnail,
   setIsPaginationShown,
+  activeMediaIndexNo,
 }: props) => {
   const width = listThumbnail
     ? Dimensions.get('window').width - 52
     : Dimensions.get('window').width - 20;
   const player = useRef<any>(null);
-
   const [duration, setDuration] = useState<number>(0);
   const [playingTime, setPlayingTime] = useState<string>('');
   const [currentProgress, setcurrentProgress] = useState<number>(0);
-
   const [isClicked, setClicked] = useState<boolean>(false);
   const [isPaused, setPaused] = useState<boolean>(true);
-  const [isControlShown, setIsControlShown] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isFocused) {
+      setPaused(true);
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     setIsPaginationShown(!isClicked);
   }, [isClicked]);
+
+  useEffect(() => {
+    setPaused(true);
+    setClicked(false);
+  }, [activeMediaIndexNo]);
+
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <GoBackHeaderLeft
+          iconType="chevron-left"
+          customAction={() => {
+            setPaused(true);
+          }}
+        />
+      ),
+    });
+  }, [navigation]);
 
   const onLoad = (data: OnLoadData) => {
     const videoDuration = data.duration;
@@ -65,67 +95,59 @@ export const VideoPlayer = ({
       : e.nativeEvent.pageX - 10;
     const progress = (position / width) * duration;
     player.current.seek(progress);
-    onProgress({
-      currentTime: progress,
-      playableDuration: duration,
-      seekableDuration: duration,
-    });
   };
 
   return (
-    <>
-      <ContentContainer height="100%">
-        <Video
-          ref={player}
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: Color.BLACK,
-            ...{
-              borderTopLeftRadius: listThumbnail ? 6 : 0,
-              borderTopRightRadius: listThumbnail ? 6 : 0,
-            },
-          }}
-          source={{uri: videoUrl}}
-          paused={isPaused}
-          resizeMode={'contain'}
-          controls={false}
-          muted={false}
-          repeat={true}
-          fullscreen={false}
-          onEnd={onEnd}
-          onLoad={onLoad}
-          onPlaybackRateChange={handlePause}
-          onProgress={onProgress}
+    <ContentContainer height="100%">
+      <Video
+        ref={player}
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: Color.BLACK,
+          ...{
+            borderTopLeftRadius: listThumbnail ? 6 : 0,
+            borderTopRightRadius: listThumbnail ? 6 : 0,
+          },
+        }}
+        source={{uri: videoUrl}}
+        paused={isPaused}
+        resizeMode={'contain'}
+        fullscreen={false}
+        controls={false}
+        muted={false}
+        repeat={true}
+        onEnd={onEnd}
+        onLoad={onLoad}
+        onProgress={onProgress}
+        onPlaybackRateChange={handlePause}
+      />
+      {isClicked ? (
+        <VideoController
+          listThumbnail={listThumbnail ? listThumbnail : false}
+          width={width}
+          duration={duration}
+          isPaused={isPaused}
+          isClicked={isClicked}
+          playingTime={playingTime}
+          currentProgress={currentProgress}
+          handleProgress={handleProgress}
+          setPaused={setPaused}
+          setClicked={setClicked}
         />
-        {isControlShown ? (
-          <VideoController
-            width={width}
-            listThumbnail={listThumbnail ? listThumbnail : false}
-            duration={duration}
-            playingTime={playingTime}
-            isPaused={isPaused}
-            isControlShown={isControlShown}
-            currentProgress={currentProgress}
-            handleProgress={handleProgress}
-            setPaused={setPaused}
-            setClicked={setClicked}
-            setIsControlShown={setIsControlShown}
-          />
-        ) : (
-          <MediaThumbnail
-            mediaType="video"
-            playingTime={playingTime}
-            backgroundColor={'rgba(0, 0, 0, 0.3)'}
-            onPress={() => {
-              if (!isClicked) {
-                setClicked(true);
-                setIsControlShown(true);
-              }
-            }}
-          />
-        )}
-      </ContentContainer>
-    </>
+      ) : (
+        <MediaThumbnail
+          mediaType="video"
+          playingTime={playingTime}
+          backgroundColor={'rgba(0, 0, 0, 0.3)'}
+          listThumbnail={listThumbnail ? listThumbnail : false}
+          onPress={() => {
+            if (!isClicked) {
+              setClicked(true);
+            }
+          }}
+        />
+      )}
+    </ContentContainer>
   );
 };
