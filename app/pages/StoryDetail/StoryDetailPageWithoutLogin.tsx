@@ -7,22 +7,12 @@ import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
-import {useFocusEffect} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
+  const isFocused = useIsFocused();
   const storyKey = useRecoilValue(SelectedStoryKeyState);
   const [story, setStory] = useState<StoryType>();
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      setIsFocused(true);
-
-      return () => {
-        setIsFocused(false);
-      };
-    }, []),
-  );
 
   useEffect(() => {
     const dummyStory: StoryType[] = DUMMY_STORY_LIST.filter(
@@ -46,9 +36,9 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
       <ScrollView>
         {!isOnlyText && (
           <StoryMediaCarousel
-            listThumbnail={false}
             story={story}
             isFocused={isFocused}
+            listThumbnail={false}
           />
         )}
         <Contents inDetail={true} story={story} />

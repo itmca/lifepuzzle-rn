@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Dimensions, StyleProp, ViewStyle} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {Photo} from '../styled/components/Image';
@@ -8,9 +8,6 @@ import StoryMediaCarouselPagination from './StoryMediaCarauselPagination';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import {StoryAudioPlayer} from './StoryAudioPlayer';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
-import GoBackHeaderLeft from '../header/GoBackHeaderLeft';
 
 type Props = {
   story: StoryType;

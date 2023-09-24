@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {StoryType} from '../../types/story.type';
@@ -9,10 +9,10 @@ import {NoOutLineScreenContainer} from '../../components/styled/container/Screen
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
 import {SelectedStoryState} from '../../recoils/selected-story.recoil';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
+import {useIsFocused} from '@react-navigation/native';
 
 const StoryDetailPage = (): JSX.Element => {
+  const isFocused = useIsFocused();
   const storyKey = useRecoilValue(SelectedStoryKeyState);
   const setSelectedStory = useSetRecoilState(SelectedStoryState);
   const [story, setStory] = useState<StoryType>();
@@ -26,18 +26,6 @@ const StoryDetailPage = (): JSX.Element => {
     },
     disableInitialRequest: false,
   });
-
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      setIsFocused(true);
-
-      return () => {
-        setIsFocused(false);
-      };
-    }, []),
-  );
 
   useEffect(() => {
     setStory(undefined);

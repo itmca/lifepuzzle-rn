@@ -18,13 +18,16 @@ import {
 } from 'react-native';
 import {GoToTopButton} from './GoToTopButton';
 import {WritingButton} from './WritingButton';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
 import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
 
 const HomePage = (): JSX.Element => {
+  const isFocused = useIsFocused();
+  const navigation = useNavigation<BasicNavigationProps>();
+
   const hero = useRecoilValue<HeroType>(heroState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
@@ -42,20 +45,8 @@ const HomePage = (): JSX.Element => {
     },
   );
 
-  const navigation = useNavigation<BasicNavigationProps>();
   const scrollRef = useRef<ScrollView>(null);
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      setIsFocused(true);
-
-      return () => {
-        setIsFocused(false);
-      };
-    }, []),
-  );
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const positionY = event.nativeEvent.contentOffset.y;
