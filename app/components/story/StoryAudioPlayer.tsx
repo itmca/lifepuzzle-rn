@@ -8,7 +8,6 @@ import {ContentContainer} from '../styled/container/ContentContainer';
 import Image from '../styled/components/Image';
 import {MediaThumbnail} from './StoryMediaThumbnail';
 import {useNavigation} from '@react-navigation/native';
-import GoBackHeaderLeft from '../header/GoBackHeaderLeft';
 import {BasicNavigationProps} from '../../navigation/types';
 
 type Props = {
@@ -46,17 +45,14 @@ export const StoryAudioPlayer = ({
   }, [isFocused]);
 
   useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <GoBackHeaderLeft
-          iconType="chevron-left"
-          customAction={() => {
-            setAudioPlaying(false);
-            audio?.pause();
-          }}
-        />
-      ),
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      setAudioPlaying(false);
+      audio?.pause();
     });
+
+    return () => {
+      unsubscribe();
+    };
   }, [navigation, audio]);
 
   useEffect(() => {

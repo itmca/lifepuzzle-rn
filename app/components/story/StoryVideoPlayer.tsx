@@ -12,13 +12,12 @@ import {VideoController} from './StoryVideoController';
 import {MediaThumbnail} from './StoryMediaThumbnail';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import GoBackHeaderLeft from '../header/GoBackHeaderLeft';
 
 type props = {
   videoUrl: string;
   setIsPaginationShown: Function;
-  listThumbnail?: boolean;
   isFocused?: boolean;
+  listThumbnail?: boolean;
   activeMediaIndexNo?: number;
 };
 
@@ -57,16 +56,13 @@ export const VideoPlayer = ({
   const navigation = useNavigation<BasicNavigationProps>();
 
   useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <GoBackHeaderLeft
-          iconType="chevron-left"
-          customAction={() => {
-            setPaused(true);
-          }}
-        />
-      ),
+    const unsubscribe = navigation.addListener('beforeRemove', e => {
+      setPaused(true);
     });
+
+    return () => {
+      unsubscribe();
+    };
   }, [navigation]);
 
   const onLoad = (data: OnLoadData) => {
