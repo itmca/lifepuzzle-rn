@@ -3,7 +3,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeTabParamList} from './home-tab/HomeRootNavigator';
 import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
-import NavigationBar from '../components/navigation/NavigationBar';
 import HomeTabNavigator from './home-tab/HomeRootNavigator';
 
 export type RootStackParamList = {
