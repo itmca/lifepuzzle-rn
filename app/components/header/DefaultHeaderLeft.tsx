@@ -1,8 +1,8 @@
 import React from 'react';
-import { Pressable} from 'react-native';
+import {Pressable} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import { SmallImage } from '../styled/components/Image';
+import {SmallImage} from '../styled/components/Image';
 
 const DefaultHeaderLeft = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -11,7 +11,7 @@ const DefaultHeaderLeft = (): JSX.Element => {
     <Pressable
       onPress={() => {
         if (route.name !== 'Home') {
-          navigation.push('HomeTab', {screen: 'Home'});
+          navigation.navigate('HomeTab', {screen: 'Home'});
         }
       }}>
       <SmallImage

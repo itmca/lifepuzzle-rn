@@ -4,31 +4,22 @@ import SmallImage from '../styled/components/Image';
 import React from 'react';
 import {Pressable} from 'react-native';
 import {styles} from './styles';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
+import {Color} from '../../constants/color.constant';
 
 type Props = {
-  displayRight: boolean;
+  displayRight?: boolean;
 };
 const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-
-  type RootStackParamList = {
-    Home: {screen?: string};
-    Profile: {screen?: string};
-  };
-
-  const route =
-    useRoute<RouteProp<RootStackParamList, keyof RootStackParamList>>();
 
   return (
     <TopNavigationContainer>
       <Pressable
         style={styles.leftSection}
         onPress={() => {
-          if (route.params?.screen !== 'Home') {
-            navigation.push('HomeTab', {screen: 'Home'});
-          }
+          navigation.navigate('HomeTab', {screen: 'Home'});
         }}>
         <SmallImage
           width={17}
@@ -36,7 +27,10 @@ const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
           style={styles.logoImage}
           source={require('../../assets/images/puzzle-onepiece.png')}
         />
-        <Text fontWeight={700} color={'#32C5FF'} style={styles.logoText}>
+        <Text
+          fontWeight={700}
+          color={Color.PRIMARY_LIGHT}
+          style={styles.logoText}>
           인생퍼즐
         </Text>
       </Pressable>
@@ -44,7 +38,7 @@ const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
         <Pressable
           style={styles.goToAccountIcon}
           onPress={() => {
-            navigation.push('HomeTab', {screen: 'Profile'});
+            navigation.navigate('HomeTab', {screen: 'Profile'});
           }}>
           <SmallImage
             source={require('../../assets/images/icon-profile.png')}

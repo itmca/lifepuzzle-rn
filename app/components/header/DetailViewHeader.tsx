@@ -16,9 +16,13 @@ import {writingStoryState} from '../../recoils/story-write.recoil';
 
 type Props = {
   customAction?: Function;
+  displayRight?: boolean;
 };
 
-const DetailViewHeader = ({customAction}: Props): JSX.Element => {
+const DetailViewHeader = ({
+  displayRight = true,
+  customAction,
+}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const storyKey = useRecoilValue(SelectedStoryKeyState);
   const selectedStory = useRecoilValue(SelectedStoryState);
@@ -101,18 +105,20 @@ const DetailViewHeader = ({customAction}: Props): JSX.Element => {
           <Icon name={'chevron-left'} size={26} color={Color.FONT_GRAY} />
         </View>
       </Pressable>
-      <Pressable
-        style={{marginLeft: 'auto'}}
-        onPress={() => {
-          setIsShowMenu(isShowMenu ? false : true);
-        }}>
-        <Icon
-          name="more-vertical"
-          size={23}
-          color={Color.FONT_GRAY}
-          style={{marginRight: -5}}
-        />
-      </Pressable>
+      {displayRight && (
+        <Pressable
+          style={{marginLeft: 'auto'}}
+          onPress={() => {
+            setIsShowMenu(isShowMenu ? false : true);
+          }}>
+          <Icon
+            name="more-vertical"
+            size={23}
+            color={Color.FONT_GRAY}
+            style={{marginRight: -5}}
+          />
+        </Pressable>
+      )}
       <FloatingMenu
         visible={isShowMenu}
         onClickEdit={onClickEdit}
