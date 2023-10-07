@@ -1,6 +1,10 @@
 import {atom} from 'recoil';
 import {StoryType} from '../types/story.type';
 
+export const SelectedStoryKeyState = atom<string>({
+  key: 'SelectedStoryKeyState',
+  default: '',
+});
 export const SelectedStoryState = atom<StoryType | undefined>({
   key: 'SelectedStoryState',
   default: {

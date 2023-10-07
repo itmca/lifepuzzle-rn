@@ -1,10 +1,10 @@
 import Modal from 'react-native-modal';
-import {useState} from 'react';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {MediumText} from '../styled/components/Text';
 import styles from './styles';
-import {isModalOpening} from '../../recoils/story-writing.recoil';
+import {isModalOpening} from '../../recoils/story-write.recoil';
 import {useRecoilState} from 'recoil';
+
 type Props = {
   text: string;
 };

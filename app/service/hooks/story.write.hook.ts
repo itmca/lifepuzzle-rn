@@ -1,15 +1,8 @@
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
-  helpQuestionState,
   isStoryUploading,
-  recordFileState,
-  storyTextState,
   writingStoryState,
-} from '../../recoils/story-writing.recoil';
-import {
-  selectedPhotoState,
-  selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
+} from '../../recoils/story-write.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hooks';
@@ -19,21 +12,13 @@ import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useStoryHttpPayLoad} from './story.payload.hook';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 
 export const useResetAllWritingStory = () => {
-  const resetStoryText = useResetRecoilState(storyTextState);
-  const resetHelpQuestion = useResetRecoilState(helpQuestionState);
-  const resetSelectedPhoto = useResetRecoilState(selectedPhotoState);
-  const resetSelectedVideo = useResetRecoilState(selectedVideoState);
-  const resetRecord = useResetRecoilState(recordFileState);
+  const resetWritingSTory = useResetRecoilState(writingStoryState);
 
   return () => {
-    resetStoryText();
-    resetHelpQuestion();
-    resetSelectedPhoto();
-    resetSelectedVideo();
-    resetRecord();
+    resetWritingSTory();
   };
 };
 

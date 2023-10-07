@@ -4,7 +4,7 @@ import {StoryType} from '../../types/story.type';
 import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {useRecoilValue} from 'recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
 import {useIsFocused} from '@react-navigation/native';

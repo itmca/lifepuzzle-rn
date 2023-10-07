@@ -15,24 +15,21 @@ import {useRecoilState} from 'recoil';
 
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
 import {
-  videoState,
-  selectedVideoState,
-} from '../../recoils/selected-photo.recoil';
-import {
   hasAndroidPermission,
   usePhotoPermission,
 } from '../../service/hooks/permission.hook';
 import {useNavigation} from '@react-navigation/native';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
+import {writingStoryState} from '../../recoils/story-write.recoil';
+
 const DeviceWidth = Dimensions.get('window').width;
 
 const StorySelectingVideoPage = (): JSX.Element => {
   const navigation = useNavigation();
   const [hasNextPage, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
-  const [videos, setVideos] = useRecoilState(videoState);
-  const [selectedVideoList, setSelectedVideoList] =
-    useRecoilState(selectedVideoState);
+  const [videos, setVideos] = useState<PhotoIdentifier[]>([]);
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   const isAboveIOS14 =
     Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
   usePhotoPermission({
@@ -100,13 +97,12 @@ const StorySelectingVideoPage = (): JSX.Element => {
     };
   }, []);
 
+  const selectedVideos = writingStory?.videos || [];
+
   return (
     <>
-      {selectedVideoList.length != 0 && (
-        <SelectedPhotoList
-          target={'video'}
-          upload={false}
-          size={50}></SelectedPhotoList>
+      {selectedVideos.length != 0 && (
+        <SelectedPhotoList target={'video'} upload={false} size={50} />
       )}
       <FlatList
         data={videos}
@@ -116,23 +112,36 @@ const StorySelectingVideoPage = (): JSX.Element => {
         onEndReachedThreshold={1}
         renderItem={({item, index}) => {
           const isDisabled =
-            selectedVideoList?.filter(
+            selectedVideos?.filter(
               e => e.node.image.uri === item.node.image.uri,
             ).length > 0;
           const order =
-            selectedVideoList?.findIndex(
+            selectedVideos?.findIndex(
               e => e.node.image.uri === item.node.image.uri,
             ) + 1;
           return (
             <SelectablePhoto
-              onSelected={(photo: PhotoIdentifier) => {
-                setSelectedVideoList(prev => prev.concat([photo]));
+              onSelected={(video: PhotoIdentifier) => {
+                const currentVideos = writingStory?.videos || [];
+
+                setWritingStory({
+                  videos: [
+                    ...currentVideos,
+                    {
+                      node: video.node,
+                    },
+                  ],
+                });
               }}
               //! size 수정 필요
               onDeselected={(photo: PhotoIdentifier) => {
-                setSelectedVideoList(prev =>
-                  prev.filter(e => e.node.image.uri !== photo.node.image.uri),
-                );
+                const currentVideos = writingStory?.videos || [];
+
+                setWritingStory({
+                  videos: currentVideos.filter(
+                    e => e.node.image.uri !== photo.node.image.uri,
+                  ),
+                });
               }}
               size={DeviceWidth / 3}
               photo={item}

@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {
+  SelectedStoryKeyState,
+  SelectedStoryState,
+} from '../../recoils/story-view.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {StoryType} from '../../types/story.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
