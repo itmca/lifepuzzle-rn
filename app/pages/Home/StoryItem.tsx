@@ -11,10 +11,11 @@ import {isLoggedInState} from '../../recoils/auth.recoil';
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 
 type props = {
+  isFocused?: boolean;
   story: StoryType;
 };
 
-const StoryItem = ({story}: props): JSX.Element => {
+const StoryItem = ({isFocused, story}: props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const storyId = useSetRecoilState(SelectedStoryKeyState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -42,6 +43,7 @@ const StoryItem = ({story}: props): JSX.Element => {
           <StoryMediaCarousel
             carouselWidth={Dimensions.get('window').width - 34}
             listThumbnail={true}
+            isFocused={isFocused}
             story={story}
           />
         )}

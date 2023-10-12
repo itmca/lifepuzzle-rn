@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import {GoToTopButton} from './GoToTopButton';
 import {WritingButton} from './WritingButton';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
@@ -26,6 +26,9 @@ import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 
 const HomePage = (): JSX.Element => {
+  const isFocused = useIsFocused();
+  const navigation = useNavigation<BasicNavigationProps>();
+
   const hero = useRecoilValue<HeroType>(heroState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
@@ -44,7 +47,6 @@ const HomePage = (): JSX.Element => {
     },
   );
 
-  const navigation = useNavigation<BasicNavigationProps>();
   const scrollRef = useRef<ScrollView>(null);
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
 
@@ -63,7 +65,7 @@ const HomePage = (): JSX.Element => {
           showsVerticalScrollIndicator={false}>
           <HeroStoryOverview hero={hero} />
           <View style={styles.customDivider} />
-          <StoryList stories={displayStories} />
+          <StoryList stories={displayStories} isFocused={isFocused} />
         </ScrollView>
         <GoToTopButton
           visible={scrollPositionY > 10}

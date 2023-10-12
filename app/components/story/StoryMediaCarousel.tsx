@@ -14,6 +14,7 @@ type Props = {
   carouselStyle?: StyleProp<ViewStyle>;
   carouselWidth?: number;
   listThumbnail?: boolean;
+  isFocused?: boolean;
 };
 
 type MediaItem = {
@@ -26,6 +27,7 @@ const StoryMediaCarousel = ({
   carouselStyle,
   carouselWidth,
   listThumbnail,
+  isFocused,
 }: Props): JSX.Element => {
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
@@ -44,15 +46,19 @@ const StoryMediaCarousel = ({
       <>
         {mediaType === 'video' && (
           <VideoPlayer
-            listThumbnail={listThumbnail ? listThumbnail : false}
             videoUrl={mediaUrl}
+            isFocused={isFocused}
+            activeMediaIndexNo={activeMediaIndexNo}
+            listThumbnail={listThumbnail ? listThumbnail : false}
             setIsPaginationShown={setIsPaginationShown}
           />
         )}
         {mediaType === 'audio' && (
           <StoryAudioPlayer
-            listThumbnail={listThumbnail ? listThumbnail : false}
             audioURL={mediaUrl}
+            isFocused={isFocused}
+            activeMediaIndexNo={activeMediaIndexNo}
+            listThumbnail={listThumbnail ? listThumbnail : false}
           />
         )}
         {mediaType === 'photo' && (

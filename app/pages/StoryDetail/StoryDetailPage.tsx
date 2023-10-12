@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
   SelectedStoryKeyState,
   SelectedStoryState,
@@ -11,10 +11,13 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
+import {SelectedStoryState} from '../../recoils/selected-story.recoil';
+import {useIsFocused} from '@react-navigation/native';
 
 const StoryDetailPage = (): JSX.Element => {
+  const isFocused = useIsFocused();
   const storyKey = useRecoilValue(SelectedStoryKeyState);
-  const [_, setSelectedStory] = useRecoilState(SelectedStoryState);
+  const setSelectedStory = useSetRecoilState(SelectedStoryState);
   const [story, setStory] = useState<StoryType>();
   const [storiesLoading, fetchStory] = useAuthAxios<StoryType>({
     requestOption: {
@@ -50,7 +53,11 @@ const StoryDetailPage = (): JSX.Element => {
       <NoOutLineScreenContainer>
         <ScrollView>
           {!isOnlyText && (
-            <StoryMediaCarousel listThumbnail={false} story={story} />
+            <StoryMediaCarousel
+              story={story}
+              listThumbnail={false}
+              isFocused={isFocused}
+            />
           )}
           <Contents inDetail={true} story={story} />
         </ScrollView>
