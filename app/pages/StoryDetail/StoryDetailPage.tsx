@@ -11,7 +11,6 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
-import {SelectedStoryState} from '../../recoils/selected-story.recoil';
 import {useIsFocused} from '@react-navigation/native';
 
 const StoryDetailPage = (): JSX.Element => {
