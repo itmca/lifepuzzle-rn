@@ -8,7 +8,7 @@ export const writingRecordTimeState = atom<string>({
 
 const writingStoryInternalState = atom<WritingStoryType>({
   key: 'writingStoryInternalState',
-  default: undefined,
+  default: {},
 });
 
 export const writingStoryState = selector<WritingStoryType>({
