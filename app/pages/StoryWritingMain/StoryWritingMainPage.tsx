@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {KeyboardAccessoryView} from 'react-native-keyboard-accessory';
 import styles from './styles';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   isModalOpening,
   writingStoryState,

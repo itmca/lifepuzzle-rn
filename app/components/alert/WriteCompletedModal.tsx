@@ -3,16 +3,14 @@ import Modal from 'react-native-modal';
 import {Image, View, Dimensions} from 'react-native';
 import {SmallText} from '../styled/components/Text';
 import styles from './styles';
-import {isModalOpening} from '../../recoils/story-writing.recoil';
+import {isModalOpening} from '../../recoils/story-write.recoil';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {Color} from '../../constants/color.constant';
 import {ModalButton} from '../button/ModalButton';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {useStories} from '../../service/hooks/story.query.hook';
-import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {StoryType} from '../../types/story.type';
-
 
 type Props = {
   heroNickName: string;
