@@ -2,27 +2,24 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   modalContainer: {
-    width: 303,
-    height: 200,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#0085FF',
-    backgroundColor: '#1CA5DE',
+    width: 315,
+    height: 240,
+    borderRadius: 8,
+    // borderWidth: 1,
+    // borderColor: '#F2F2F2',
+    backgroundColor: '#FFFFFF',
   },
-  modalCloseBtnContainer: {
-    width: '100%',
-    // height: '100%',
-    zIndex: 1,
-  },
+
   modalContentContainer: {
     width: '100%',
-    height: '100%',
+    height: 192,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalText: {
-    fontWeight: '400',
-    fontSize: 16,
-    color: 'white',
+
+  modalButtonContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
   },
 });

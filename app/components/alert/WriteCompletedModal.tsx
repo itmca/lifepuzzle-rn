@@ -1,40 +1,88 @@
 import Modal from 'react-native-modal';
-import {Image, TouchableOpacity, View} from 'react-native';
-import {MediumText} from '../styled/components/Text';
+
+import {Image, View, Dimensions} from 'react-native';
+import {SmallText} from '../styled/components/Text';
 import styles from './styles';
-import {isModalOpening} from '../../recoils/story-write.recoil';
-import {useRecoilState} from 'recoil';
+import {isModalOpening} from '../../recoils/story-writing.recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {Color} from '../../constants/color.constant';
+import {ModalButton} from '../button/ModalButton';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
+import {useStories} from '../../service/hooks/story.query.hook';
+import {SelectedStoryKeyState} from '../../recoils/selected-story-id.recoil';
+import {StoryType} from '../../types/story.type';
+
 
 type Props = {
-  text: string;
+  heroNickName: string;
+  isModalOpen: boolean;
 };
-const WriteCompletedModal = ({text}: Props): JSX.Element => {
-  const [isModalVisible, setModalVisible] = useRecoilState(isModalOpening);
+const WriteCompletedModal = ({
+  heroNickName,
+  isModalOpen,
+}: Props): JSX.Element => {
+  const setModalOpen = useSetRecoilState(isModalOpening);
+  const navigation = useNavigation<BasicNavigationProps>();
+  const storyId = useRecoilValue(SelectedStoryKeyState);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+  const moveToStoryDetailPage = (id: StoryType['id']) => {
+    navigation.push('NoTab', {
+      screen: 'StoryViewNavigator',
+      params: {
+        screen: 'Story',
+      },
+    });
   };
 
   return (
     <Modal
       animationIn="fadeIn"
       animationOut="fadeOut"
-      isVisible={isModalVisible}
-      style={{justifyContent: 'center', alignItems: 'center'}}>
+      isVisible={isModalOpen}
+      // deviceHeight={Dimensions.get('window').height - 100}
+      style={{justifyContent: 'flex-start', top: 100, alignItems: 'center'}}>
       <View style={styles.modalContainer}>
-        <View style={styles.modalCloseBtnContainer}>
-          <TouchableOpacity
-            style={{position: 'absolute', right: 12.76, top: 12.76}}
-            onPress={toggleModal}>
-            <Image source={require('../../assets/images/modal-close.png')} />
-          </TouchableOpacity>
-        </View>
         <View style={styles.modalContentContainer}>
           <Image
             source={require('../../assets/images/celebration-character.png')}
-            style={{marginBottom: 11}}
+            style={{marginBottom: 20}}
           />
-          <MediumText color={'#FFFFFF'}>{text}</MediumText>
+          <SmallText color={Color.FONT_DARK} fontWeight={600}>
+            {heroNickName}님의 퍼즐이 맞춰졌습니다!
+          </SmallText>
+        </View>
+        <View style={styles.modalButtonContainer}>
+          <ModalButton
+            onPress={() => {
+              navigation.navigate('HomeTab', {screen: 'Home'});
+              setModalOpen(false);
+            }}
+            flexBasis="50%"
+            backgroundColor="#F9F9F9"
+            borderTopLeftRadius="0px"
+            borderTopRightRadius="0px"
+            borderBottomLeftRadius="8px"
+            borderBottomRightRadius="0px"
+            text="메인 바로 가기"
+            fontColor="#B4B3B3"
+            fontWeight="500"
+          />
+          <ModalButton
+            onPress={() => {
+              moveToStoryDetailPage(storyId);
+              setModalOpen(false);
+            }}
+            flexBasis="50%"
+            backgroundColor="#FF6200"
+            borderTopLeftRadius="0px"
+            borderTopRightRadius="0px"
+            borderBottomLeftRadius="0px"
+            borderBottomRightRadius="8px"
+            text="퍼즐 조각 보러가기"
+            fontColor="#FFFFFF"
+            fontWeight="700"
+          />
         </View>
       </View>
     </Modal>

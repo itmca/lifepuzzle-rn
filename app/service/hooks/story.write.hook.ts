@@ -1,5 +1,7 @@
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
+  helpQuestionState,
+  isModalOpening,
   isStoryUploading,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
@@ -33,19 +35,20 @@ export const useSaveStory = (): [() => void] => {
   const resetAllWritingStory = useResetAllWritingStory();
   const storyHttpPayLoad = useStoryHttpPayLoad();
 
+  const setModalOpen = useSetRecoilState(isModalOpening);
+  const storyId = useSetRecoilState(SelectedStoryKeyState);
+
   const [isLoading, saveStory] = useAuthAxios<any>({
     requestOption: {
       method: storyKey ? 'put' : 'post',
       url: storyKey ? `/story/${storyKey}` : '/story',
       headers: {'Content-Type': 'multipart/form-data'},
     },
-    onResponseSuccess: () => {
+    onResponseSuccess: ({storyKey}) => {
+      storyId(storyKey);
       resetAllWritingStory();
       publishStoryListUpdate();
-      // 글 작성 완료 pop up 띄우기
-
-      // pop up 닫을 때 navigate하도록 만들기
-      navigation.navigate('HomeTab', {screen: 'Home'});
+      setModalOpen(true);
     },
     onError: err => {
       console.log(err);

@@ -1,18 +1,32 @@
 import styled, {css} from 'styled-components/native';
 
 type Props = {
+  width?: string;
+  flexBasis?: string;
   backgroundColor?: string;
   marginBottom?: string;
   marginTop?: string;
+  borderTopLeftRadius?: string;
+  borderTopRightRadius?: string;
+  borderBottomLeftRadius?: string;
+  borderBottomRightRadius?: string;
 };
 
 export const MediumButton = styled.TouchableOpacity<Props>`
   flex-direction: row;
+  flex-basis: ${props => (props.flexBasis ? props.flexBasis : 'auto')};
   height: 48px;
-  width: 100%;
+  width: ${props => (props.width ? props.width : '100%')};
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-top-left-radius: ${props =>
+    props.borderTopLeftRadius ? props.borderTopLeftRadius : '4px'};
+  border-top-right-radius: ${props =>
+    props.borderTopRightRadius ? props.borderTopRightRadius : '4px'};
+  border-bottom-left-radius: ${props =>
+    props.borderBottomLeftRadius ? props.borderBottomLeftRadius : '4px'};
+  border-bottom-right-radius: ${props =>
+    props.borderBottomRightRadius ? props.borderBottomRightRadius : '4px'};
   margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   background-color: ${props =>

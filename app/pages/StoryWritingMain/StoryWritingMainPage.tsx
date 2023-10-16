@@ -27,6 +27,8 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {Color} from '../../constants/color.constant';
 import {MediumImage} from '../../components/styled/components/Image';
+import WriteCompletedModal from '../../components/alert/WriteCompletedModal';
+import {heroState} from '../../recoils/hero.recoil';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
@@ -38,8 +40,9 @@ const StoryWritingMainPage = (): JSX.Element => {
   const isKeyboardVisible = useKeyboardVisible();
   const ishelpQuestionVisible = helpQuestion.length != 0;
   const isStoryUploading = useIsStoryUploading();
-  const setIsModalOpening = useSetRecoilState(isModalOpening);
+  const [isModalOpen, setModalOpen] = useRecoilState(isModalOpening);
 
+  const hero = useRecoilValue(heroState);
   useEffect(() => {
     setTitle(writingStory?.title || '');
     setStoryText(writingStory?.storyText || '');
@@ -183,6 +186,11 @@ const StoryWritingMainPage = (): JSX.Element => {
               )}
             </>
           </ContentContainer>
+
+          <WriteCompletedModal
+            heroNickName={hero.heroNickName}
+            isModalOpen={isModalOpen}
+          />
         </NoOutLineFullScreenContainer>
       </TouchableWithoutFeedback>
     </LoadingContainer>
