@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {KeyboardAccessoryView} from 'react-native-keyboard-accessory';
 import styles from './styles';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
@@ -40,7 +41,6 @@ const StoryWritingMainPage = (): JSX.Element => {
   const setIsModalOpening = useSetRecoilState(isModalOpening);
 
   useEffect(() => {
-    setWritingStory({date: new Date()});
     setTitle(writingStory?.title || '');
     setStoryText(writingStory?.storyText || '');
   }, []);
@@ -65,7 +65,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                   borderBottomWidth: 0,
                 })}>
                 <StoryDateInput
-                  date={writingStory?.date || new Date()}
+                  value={writingStory?.date}
                   onChange={(date: Date) => {
                     setWritingStory({date});
                   }}
@@ -78,7 +78,7 @@ const StoryWritingMainPage = (): JSX.Element => {
             <>
               <OutLineContentContainer style={styles.screenHTopContainer}>
                 <StoryDateInput
-                  date={writingStory.date}
+                  value={writingStory.date}
                   onChange={(date: Date) => {
                     setWritingStory({date});
                   }}
@@ -164,12 +164,21 @@ const StoryWritingMainPage = (): JSX.Element => {
                 </>
               ) : (
                 !ishelpQuestionVisible && (
-                  <MediumImage
-                    width={64}
-                    height={61}
-                    source={require('../../assets/images/puzzle-character-reading.png')}
-                    style={{position: 'absolute', top: -60, right: 20}}
-                  />
+                  <KeyboardAccessoryView
+                    behavior={Platform.OS === 'ios' && 'padding'}
+                    style={{
+                      flex: 1,
+                      borderTopWidth: 0,
+                      backgroundColor: 'transparent',
+                      alignItems: 'flex-end',
+                      paddingRight: 20,
+                    }}>
+                    <MediumImage
+                      width={64}
+                      height={61}
+                      source={require('../../assets/images/puzzle-character-reading.png')}
+                    />
+                  </KeyboardAccessoryView>
                 )
               )}
             </>
