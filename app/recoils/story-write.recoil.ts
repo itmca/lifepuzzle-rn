@@ -36,3 +36,8 @@ export const isModalOpening = atom<boolean>({
   key: 'isModalOpening',
   default: false,
 });
+
+export const PostStoryKeyState = atom<string>({
+  key: 'PostStoryKeyState',
+  default: '',
+});

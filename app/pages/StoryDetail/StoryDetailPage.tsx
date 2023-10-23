@@ -12,15 +12,19 @@ import {NoOutLineScreenContainer} from '../../components/styled/container/Screen
 import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
 import {useIsFocused} from '@react-navigation/native';
+import {PostStoryKeyState} from '../../recoils/story-write.recoil';
 
 const StoryDetailPage = (): JSX.Element => {
   const isFocused = useIsFocused();
   const storyKey = useRecoilValue(SelectedStoryKeyState);
+  const postStoryKey = useRecoilValue(PostStoryKeyState);
   const setSelectedStory = useSetRecoilState(SelectedStoryState);
   const [story, setStory] = useState<StoryType>();
   const [storiesLoading, fetchStory] = useAuthAxios<StoryType>({
     requestOption: {
-      url: `/stories/${storyKey}`,
+      url:
+        (storyKey && `/stories/${storyKey}`) ||
+        (postStoryKey && `/stories/${postStoryKey}`),
     },
     onResponseSuccess: data => {
       setStory(data);
@@ -32,10 +36,6 @@ const StoryDetailPage = (): JSX.Element => {
   useEffect(() => {
     setStory(undefined);
     setSelectedStory(undefined);
-
-    fetchStory({
-      url: `/stories/${storyKey}`,
-    });
   }, [storyKey]);
 
   if (!story) {

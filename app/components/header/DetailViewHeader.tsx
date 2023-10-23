@@ -12,7 +12,10 @@ import {
   SelectedStoryState,
 } from '../../recoils/story-view.recoil';
 import {useDeleteStory} from '../../service/hooks/story.delete.hook';
-import {writingStoryState} from '../../recoils/story-write.recoil';
+import {
+  PostStoryKeyState,
+  writingStoryState,
+} from '../../recoils/story-write.recoil';
 
 type Props = {
   customAction?: Function;
@@ -26,6 +29,8 @@ const DetailViewHeader = ({
   const navigation = useNavigation<BasicNavigationProps>();
   const storyKey = useRecoilValue(SelectedStoryKeyState);
   const selectedStory = useRecoilValue(SelectedStoryState);
+
+  const postStoryKey = useRecoilValue(PostStoryKeyState);
 
   const setWritingStory = useSetRecoilState(writingStoryState);
 
@@ -95,6 +100,14 @@ const DetailViewHeader = ({
     <TopNavigationContainer>
       <Pressable
         onPress={() => {
+          if (postStoryKey) {
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'HomeTab', params: {screen: 'Home'}}],
+            });
+            return;
+          }
+
           if (typeof customAction === 'function') {
             customAction();
           }

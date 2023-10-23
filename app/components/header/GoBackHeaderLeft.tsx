@@ -32,6 +32,7 @@ const GoBackHeaderLeft = ({
         if (typeof customAction === 'function') {
           customAction();
         }
+
         navigation.goBack();
       }}
       style={containerStyle}>

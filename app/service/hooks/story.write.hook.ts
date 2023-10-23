@@ -1,6 +1,6 @@
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
-  helpQuestionState,
+  PostStoryKeyState,
   isModalOpening,
   isStoryUploading,
   writingStoryState,
@@ -26,7 +26,7 @@ export const useResetAllWritingStory = () => {
 
 export const useSaveStory = (): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const storyKey = useRecoilValue(SelectedStoryKeyState);
+  const editStoryKey = useRecoilValue(SelectedStoryKeyState);
   const writingStory = useRecoilValue(writingStoryState);
   const setStoryUploading = useSetRecoilState(isStoryUploading);
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
@@ -36,19 +36,22 @@ export const useSaveStory = (): [() => void] => {
   const storyHttpPayLoad = useStoryHttpPayLoad();
 
   const setModalOpen = useSetRecoilState(isModalOpening);
-  const storyId = useSetRecoilState(SelectedStoryKeyState);
+  const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
 
   const [isLoading, saveStory] = useAuthAxios<any>({
     requestOption: {
-      method: storyKey ? 'put' : 'post',
-      url: storyKey ? `/story/${storyKey}` : '/story',
+      method: editStoryKey ? 'put' : 'post',
+      url: editStoryKey ? `/story/${editStoryKey}` : '/story',
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: ({storyKey}) => {
-      storyId(storyKey);
+      if (!editStoryKey) {
+        setPostStoryKey(storyKey);
+        setModalOpen(true);
+      }
+
       resetAllWritingStory();
       publishStoryListUpdate();
-      setModalOpen(true);
     },
     onError: err => {
       console.log(err);

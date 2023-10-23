@@ -3,14 +3,17 @@ import Modal from 'react-native-modal';
 import {Image, View, Dimensions} from 'react-native';
 import {SmallText} from '../styled/components/Text';
 import styles from './styles';
-import {isModalOpening} from '../../recoils/story-write.recoil';
+import {
+  PostStoryKeyState,
+  isModalOpening,
+} from '../../recoils/story-write.recoil';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {Color} from '../../constants/color.constant';
 import {ModalButton} from '../button/ModalButton';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {StoryType} from '../../types/story.type';
+import StoryViewNavigator from '../../navigation/no-tab/StoryViewNavigator';
 
 type Props = {
   heroNickName: string;
@@ -22,10 +25,14 @@ const WriteCompletedModal = ({
 }: Props): JSX.Element => {
   const setModalOpen = useSetRecoilState(isModalOpening);
   const navigation = useNavigation<BasicNavigationProps>();
-  const storyId = useRecoilValue(SelectedStoryKeyState);
+
+  const postStoryKey = useRecoilValue(PostStoryKeyState);
+  const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
 
   const moveToStoryDetailPage = (id: StoryType['id']) => {
-    navigation.push('NoTab', {
+    setPostStoryKey(id);
+
+    navigation.navigate('NoTab', {
       screen: 'StoryViewNavigator',
       params: {
         screen: 'Story',
@@ -38,7 +45,6 @@ const WriteCompletedModal = ({
       animationIn="fadeIn"
       animationOut="fadeOut"
       isVisible={isModalOpen}
-      // deviceHeight={Dimensions.get('window').height - 100}
       style={{justifyContent: 'flex-start', top: 100, alignItems: 'center'}}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContentContainer}>
@@ -68,7 +74,7 @@ const WriteCompletedModal = ({
           />
           <ModalButton
             onPress={() => {
-              moveToStoryDetailPage(storyId);
+              moveToStoryDetailPage(postStoryKey);
               setModalOpen(false);
             }}
             flexBasis="50%"

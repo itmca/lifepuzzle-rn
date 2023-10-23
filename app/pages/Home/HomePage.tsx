@@ -23,7 +23,10 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import {writingStoryState} from '../../recoils/story-write.recoil';
+import {
+  PostStoryKeyState,
+  writingStoryState,
+} from '../../recoils/story-write.recoil';
 
 const HomePage = (): JSX.Element => {
   const isFocused = useIsFocused();
@@ -33,7 +36,7 @@ const HomePage = (): JSX.Element => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
-
+  const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
   const {stories, isLoading} = useStories();
 
   const displayStories = (isLoggedIn ? stories : DUMMY_STORY_LIST).map(
@@ -74,6 +77,8 @@ const HomePage = (): JSX.Element => {
         <WritingButton
           onPress={() => {
             setSelectedStoryKey('');
+            setPostStoryKey('');
+
             resetWritingStory();
 
             navigation.push('NoTab', {
