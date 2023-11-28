@@ -5,17 +5,17 @@ import {useRecoilValue} from 'recoil';
 import {userState} from '../../recoils/user.recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Avatar, Divider, List} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {styles} from './styles';
-import {CustomAlert} from '../../components/alert/CustomAlert';
 import {BasicNavigationProps} from '../../navigation/types';
 import {
   ContentContainer,
   HorizontalContentContainer,
 } from '../../components/styled/container/ContentContainer';
-import {XXLargeText} from '../../components/styled/components/Text';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {XXLargeText, MediumText} from '../../components/styled/components/Text';
+import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {Color} from '../../constants/color.constant';
+import Image from '../../components/styled/components/Image';
 
 const ProfilePage = (): JSX.Element | null => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -38,66 +38,83 @@ const ProfilePage = (): JSX.Element | null => {
     return null;
   }
 
-  function goToModificationPage() {
-    return () => {
-      navigation.push('NoTab', {
-        screen: 'AccountSettingNavigator',
-        params: {
-          screen: 'AccountModification',
-        },
-      });
-    };
-  }
-
-  return (
-    <ScreenContainer justifyContent={'flex-start'}>
+  const ListItem = ({
+    backgroundColor = Color.WHITE,
+    ListItemTitle,
+    onPress,
+  }: {
+    backgroundColor?: string;
+    ListItemTitle: string;
+    onPress: () => void;
+  }): JSX.Element => {
+    return (
       <HorizontalContentContainer
-        height={'40px'}
+        padding={16}
         alignItems="center"
-        marginTop={'8px'}>
-        <Avatar.Text size={40} label={user.userNickName.substr(0, 1)} />
-        <XXLargeText>{user.userNickName} 님</XXLargeText>
+        backgroundColor={backgroundColor}>
+        <MediumText color={Color.FONT_DARK} fontWeight={500}>
+          {ListItemTitle}
+        </MediumText>
         <TouchableOpacity
-          style={styles.accountModificationButton}
-          onPress={goToModificationPage()}>
-          <Icon size={24} name={'chevron-right'} />
+          style={{
+            borderRadius: 50,
+            backgroundColor: Color.LIGHT_GRAY,
+            marginLeft: 'auto',
+          }}
+          onPress={onPress}>
+          <Icon
+            disabled
+            name={'chevron-right'}
+            size={24}
+            color={Color.FONT_GRAY}
+          />
         </TouchableOpacity>
       </HorizontalContentContainer>
+    );
+  };
+
+  return (
+    <NoOutLineScreenContainer justifyContent={'flex-start'}>
+      <HorizontalContentContainer alignItems="center" padding={38} gap={'20px'}>
+        <Image
+          width={60}
+          height={60}
+          source={require('../../assets/images/profile_icon.png')}
+        />
+        <ContentContainer>
+          <XXLargeText fontWeight={600} color={Color.LIGHT_BLACK}>
+            {user.userNickName}
+          </XXLargeText>
+          <MediumText fontWeight={500} color={Color.FONT_DARK}>
+            {user.userId}
+          </MediumText>
+        </ContentContainer>
+      </HorizontalContentContainer>
       <View style={styles.customDivider} />
-      <ContentContainer gap="0px" style={{marginTop: -16}}>
-        <List.Item
-          style={{height: 80, justifyContent: 'center'}}
-          title="공지사항"
-          left={props => (
-            <List.Icon {...props} style={styles.listItemIcon} icon="bell" />
-          )}
-          onPress={() => {
-            CustomAlert.simpleAlert('공지사항이 없습니다.');
-          }}
-        />
-        <Divider />
-        <List.Item
-          style={{height: 80, justifyContent: 'center'}}
-          title="주인공 관리"
-          left={props => (
-            <List.Icon
-              {...props}
-              style={styles.listItemIcon}
-              icon="account-supervisor"
-            />
-          )}
-          onPress={() => {
-            navigation.push('NoTab', {
-              screen: 'HeroSettingNavigator',
-              params: {
-                screen: 'HeroSetting',
-              },
-            });
-          }}
-        />
-        <Divider />
-      </ContentContainer>
-    </ScreenContainer>
+      <ListItem
+        ListItemTitle={'계정 관리'}
+        onPress={() => {
+          navigation.push('NoTab', {
+            screen: 'AccountSettingNavigator',
+            params: {
+              screen: 'AccountModification',
+            },
+          });
+        }}
+      />
+      <ListItem
+        backgroundColor={Color.WHITE_GRAY}
+        ListItemTitle={'주인공 관리'}
+        onPress={() => {
+          navigation.push('NoTab', {
+            screen: 'HeroSettingNavigator',
+            params: {
+              screen: 'HeroSetting',
+            },
+          });
+        }}
+      />
+    </NoOutLineScreenContainer>
   );
 };
 export default ProfilePage;

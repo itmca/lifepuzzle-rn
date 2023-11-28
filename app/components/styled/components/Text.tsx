@@ -13,6 +13,7 @@ export const XXLargeText = styled.Text<Props>`
   font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 24px;
+  font-weight: ${props => props.fontWeight || 'normal'};
 `;
 
 export const XLargeText = styled.Text<Props>`

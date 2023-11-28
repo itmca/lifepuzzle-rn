@@ -14,5 +14,6 @@ export const DUMMY_USER: UserType = {
   userNo: -1,
   userNickName: '게스트',
   userType: 'none',
+  userId: 'userId',
   recentHeroNo: -1,
 };
