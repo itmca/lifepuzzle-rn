@@ -85,9 +85,11 @@ const ProfilePage = (): JSX.Element | null => {
           <XXLargeText fontWeight={600} color={Color.LIGHT_BLACK}>
             {user.userNickName}
           </XXLargeText>
-          <MediumText fontWeight={500} color={Color.FONT_DARK}>
-            {user.userId}
-          </MediumText>
+          {user.userId && (
+            <MediumText fontWeight={500} color={Color.FONT_DARK}>
+              {user.userId}
+            </MediumText>
+          )}
         </ContentContainer>
       </HorizontalContentContainer>
       <View style={styles.customDivider} />
