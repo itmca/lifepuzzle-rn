@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -32,13 +33,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  formInput: {
-    flex: 1,
-    width: '100%',
-  },
+
   dateInput: {
     width: '100%',
     marginBottom: 0,
+  },
+  title: {
+    marginTop: 20,
+    marginLeft: 5,
   },
   formVerificationPartContainer: {
     flexDirection: 'row',
@@ -74,5 +76,23 @@ export const styles = StyleSheet.create({
     width: '90%',
     marginTop: 32,
     marginBottom: 120,
+  },
+  input: {
+    flex: 1,
+    paddingRight: 25,
+    paddingLeft: 0,
+    color: '#424242',
+  },
+  iconView: {
+    width: 'auto',
+    position: 'absolute',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    top: 0,
+    right: 5,
+    paddingTop: 8,
+  },
+  icon: {
+    marginRight: 10,
   },
 });

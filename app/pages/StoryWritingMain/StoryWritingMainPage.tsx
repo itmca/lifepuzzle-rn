@@ -123,6 +123,8 @@ const StoryWritingMainPage = (): JSX.Element => {
               mode={'outlined'}
               underlineColor={'transparent'}
               activeUnderlineColor={'transparent'}
+              borderColor={'transparent'}
+              backgroundColor={'transparent'}
             />
           </OutLineContentContainer>
           <OutLineContentContainer height={'100%'} flex={1} borderTopWidth={2}>
@@ -133,6 +135,8 @@ const StoryWritingMainPage = (): JSX.Element => {
               onChangeText={setStoryText}
               multiline={true}
               mode={'outlined'}
+              borderColor={'transparent'}
+              backgroundColor={'transparent'}
             />
           </OutLineContentContainer>
           {ishelpQuestionVisible && (

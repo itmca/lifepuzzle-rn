@@ -4,11 +4,13 @@ import LoginMainPage from '../../pages/LoginMain/LoginMainPage';
 import LoginHeaderLeft from '../../components/header/LoginHeaderLeft';
 import LoginOthersPage from '../../pages/LoginOthers/LoginOthersPage';
 import RegisterPage from '../../pages/Register/RegisterPage';
+import {LargeTitle} from '../../components/styled/components/Title';
+import {View} from 'react-native';
 
 export type LoginRegisterParamList = {
-    LoginMain: undefined;
-    LoginOthers: undefined;
-    Register: undefined;
+  LoginMain: undefined;
+  LoginOthers: undefined;
+  Register: undefined;
 };
 
 const Stack = createNativeStackNavigator<LoginRegisterParamList>();
@@ -42,9 +44,11 @@ const LoginRegisterNavigator = (): JSX.Element => {
         component={RegisterPage}
         options={{
           headerLeft: () => <LoginHeaderLeft type={'sub'} />,
+          headerTitle: () => <LargeTitle>회원가입</LargeTitle>,
           headerShown: true,
           title: '',
           headerShadowVisible: false,
+          headerBackVisible: false,
         }}
       />
     </Stack.Navigator>

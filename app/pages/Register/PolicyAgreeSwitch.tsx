@@ -2,7 +2,12 @@ import React from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {Text, TouchableOpacity, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {SmallText, LargeText} from '../../components/styled/components/Text';
+import MediumText, {
+  SmallText,
+  LargeText,
+} from '../../components/styled/components/Text';
+import {Color} from '../../constants/color.constant';
+import {SmallImage} from '../../components/styled/components/Image';
 
 type Props = {
   style?: ViewStyle;
@@ -18,7 +23,7 @@ export const PolicyAgreeSwitch = ({
 }: Props) => {
   const navigation = useNavigation();
   const policyName =
-    type === 'service' ? '서비스 이용약관' : '개인정보처리방침';
+    type === 'service' ? '서비스 이용 약관' : '개인정보 처리 방침';
   const screenName = type === 'service' ? 'ServicePolicy' : 'PrivacyPolicy';
 
   const onPress = () => {
@@ -47,14 +52,24 @@ export const PolicyAgreeSwitch = ({
       }}
       onPress={onPress}>
       <BouncyCheckbox
-        size={18}
-        iconStyle={{borderColor: '#343666', borderRadius: 4}}
-        fillColor={'#343666'}
+        size={16}
+        innerIconStyle={{
+          borderColor: checked ? Color.PRIMARY_LIGHT : Color.FONT_GRAY,
+          borderRadius: 1,
+        }}
+        checkIconImageSource={require('../../assets/images/check.png')}
+        fillColor={'transparent'}
         disableBuiltInState={true}
         isChecked={checked}
         onPress={onPress}
       />
-      <SmallText style={{marginLeft: -8}}>{policyName} 동의합니다.</SmallText>
+      <MediumText
+        style={{
+          marginLeft: -8,
+          color: checked ? Color.BLACK : Color.FONT_GRAY,
+        }}>
+        {policyName} 동의합니다.
+      </MediumText>
     </TouchableOpacity>
   );
 };

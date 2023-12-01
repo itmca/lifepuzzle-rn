@@ -15,6 +15,8 @@ type Props = {
   mode?: 'flat' | 'outlined' | undefined;
   underlineColor?: string | 'transparent';
   activeUnderlineColor?: string | 'transparent';
+  borderColor?: string;
+  backgroundColor?: string;
 };
 
 export const BasicTextInput = ({
@@ -29,6 +31,8 @@ export const BasicTextInput = ({
   mode = 'outlined',
   underlineColor,
   activeUnderlineColor,
+  borderColor,
+  backgroundColor
 }: Props): JSX.Element => {
   return (
     <TextInput
@@ -43,6 +47,8 @@ export const BasicTextInput = ({
       multiline={multiline}
       underlineColor={underlineColor}
       activeUnderlineColor={activeUnderlineColor}
+      borderColor={borderColor}
+      backgroundColor={backgroundColor}
     />
   );
 };

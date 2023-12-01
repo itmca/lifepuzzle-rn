@@ -1,12 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Alert, Text, View} from 'react-native';
+import {Alert} from 'react-native';
 import {styles} from './styles';
-import CtaButton from '../../components/button/CtaButton';
 import ValidatedTextInput from '../../components/input/ValidatedTextInput';
 import {useAxios} from '../../service/hooks/network.hook';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {PolicyAgreeSwitch} from './PolicyAgreeSwitch';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
 import {
   PASSWORD_REGEXP,
@@ -14,8 +12,11 @@ import {
 } from '../../constants/password.constant';
 import {debounce} from 'lodash';
 import {BasicNavigationProps} from '../../navigation/types';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {XSmallTitle} from '../../components/styled/components/Title';
+import {OutLineContentContainer} from '../../components/styled/container/ContentContainer';
+import {BottomButton} from '../../components/button/BottomButton';
 
 const RegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -84,10 +85,10 @@ const RegisterPage = (): JSX.Element => {
     }
 
     if (!isServicePolicyChecked) {
-      Alert.alert('서비스 이용약관에 동의하여 주세요.');
+      Alert.alert('서비스 이용 약관에 동의하여 주세요.');
       return;
     } else if (!isPrivacyPolicyChecked) {
-      Alert.alert('개인정보처리방침에 동의하여 주세요.');
+      Alert.alert('개인정보 처리 방침에 동의하여 주세요.');
       return;
     }
 
@@ -106,7 +107,7 @@ const RegisterPage = (): JSX.Element => {
           id: toCheck,
         },
       });
-    }, 100),
+    }, 200),
     [],
   );
 
@@ -114,108 +115,111 @@ const RegisterPage = (): JSX.Element => {
     if (!id) {
       return;
     }
-
     dupcheck(id);
   }, [id]);
 
   return (
     <LoadingContainer isLoading={registerLoading}>
-      <ScreenContainer>
-        <ScrollContainer extraHeight={0} keyboardShouldPersistTaps={'always'}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.registerText}>회원가입</Text>
-          </View>
-          <ValidatedTextInput
-            label={'아이디'}
-            value={id}
-            onChangeText={setId}
-            placeholder={'아이디'}
-            validations={[
-              {
-                condition: id => id.length > 0,
-                errorText: '아이디를 입력해주세요.',
-              },
-              {
-                condition: id => id?.length >= 3 && id?.length <= 30,
-                errorText: '3자 이상 31자 미만으로 입력해주세요.',
-              },
-              {
-                condition: id => !idDuplicated,
-                errorText: '이미 사용되고 있는 아이디 입니다.',
-              },
-            ]}
-            onIsErrorChanged={setIdError}
-          />
-          <ValidatedTextInput
-            label="닉네임"
-            value={nickname}
-            onChangeText={setNickname}
-            placeholder="공백 시 랜덤으로 설정"
-            validations={[
-              {
-                condition: nickname => nickname.length <= 32,
-                errorText: '닉네임은 32자 미만으로 입력해주세요.',
-              },
-            ]}
-            onIsErrorChanged={setNickNameError}
-          />
-          <ValidatedTextInput
-            secureTextEntry={true}
-            label="비밀번호"
-            value={password}
-            onChangeText={setPassword}
-            placeholder="8~16자 영문+숫자+특수문자"
-            validations={[
-              {
-                condition: password => password.length > 0,
-                errorText: '비밀번호를 입력 해 주세요.',
-              },
-              {
-                condition: password => PASSWORD_REGEXP.test(password),
-                errorText: `${PASSWORD_REGEXP_DISPLAY} 입력이 필요합니다.`,
-              },
-            ]}
-            onIsErrorChanged={setPasswordError}
-          />
-          <ValidatedTextInput
-            secureTextEntry={true}
-            label="비밀번호 확인"
-            value={passwordConfirm}
-            onChangeText={setPasswordConfirm}
-            placeholder="8~16자 영문+숫자+특수문자"
-            validations={[
-              {
-                condition: passwordConfirm => password === passwordConfirm,
-                errorText: '비밀번호와 비밀번호 확인이 다릅니다.',
-              },
-            ]}
-            onIsErrorChanged={setPasswordConfirmError}
-          />
-          <PolicyAgreeSwitch
-            type={'service'}
-            checked={isServicePolicyChecked}
-            onCheckedChange={setServicePolicyChecked}
-          />
-          <PolicyAgreeSwitch
-            type={'privacy'}
-            checked={isPrivacyPolicyChecked}
-            onCheckedChange={setPrivacyPolicyChecked}
-            style={{marginBottom: 16}}
-          />
-          <CtaButton
-            text="회원가입"
-            onPress={onSubmit}
-            disabled={
-              idError ||
-              nickNameError ||
-              passwordError ||
-              passwordConfirmError ||
-              !isServicePolicyChecked ||
-              !isPrivacyPolicyChecked
-            }
-          />
+      <NoOutLineFullScreenContainer>
+        <ScrollContainer>
+          <OutLineContentContainer flex={1}>
+            <XSmallTitle style={styles.title}>닉네임</XSmallTitle>
+            <ValidatedTextInput
+              label=""
+              value={nickname}
+              onChangeText={setNickname}
+              placeholder="공백 시 랜덤으로 설정"
+              validations={[
+                {
+                  condition: nickname => nickname.length < 32,
+                  errorText: '닉네임은 32자 미만으로 입력해주세요.',
+                },
+              ]}
+              onIsErrorChanged={setNickNameError}
+            />
+            <XSmallTitle style={styles.title}>아이디</XSmallTitle>
+            <ValidatedTextInput
+              label=""
+              value={id}
+              onChangeText={setId}
+              placeholder={''}
+              validations={[
+                {
+                  condition: id => id.length > 0,
+                  errorText: '아이디를 입력해주세요.',
+                },
+                {
+                  condition: id => id?.length >= 3 && id?.length <= 30,
+                  errorText: '3자 이상 31자 미만으로 입력해주세요.',
+                },
+                {
+                  condition: id => !idDuplicated,
+                  errorText: '이미 존재하는 아이디입니다',
+                },
+              ]}
+              onIsErrorChanged={setIdError}
+            />
+            <XSmallTitle style={styles.title}>비밀번호</XSmallTitle>
+            <ValidatedTextInput
+              secureTextEntry={true}
+              label=""
+              value={password}
+              onChangeText={setPassword}
+              placeholder="8~16자 영문+숫자+특수문자"
+              validations={[
+                {
+                  condition: password => password.length > 0,
+                  errorText: '*8글자, 영문+숫자+특수문자',
+                },
+                {
+                  condition: password => PASSWORD_REGEXP.test(password),
+                  errorText: `${PASSWORD_REGEXP_DISPLAY}`,
+                },
+              ]}
+              onIsErrorChanged={setPasswordError}
+            />
+            <XSmallTitle style={styles.title}>비밀번호 확인</XSmallTitle>
+            <ValidatedTextInput
+              secureTextEntry={true}
+              label=""
+              value={passwordConfirm}
+              onChangeText={setPasswordConfirm}
+              placeholder="8~16자 영문+숫자+특수문자"
+              validations={[
+                {
+                  condition: passwordConfirm => password === passwordConfirm,
+                  errorText: '비밀번호와 비밀번호 확인이 다릅니다.',
+                },
+              ]}
+              onIsErrorChanged={setPasswordConfirmError}
+            />
+            <PolicyAgreeSwitch
+              type={'service'}
+              checked={isServicePolicyChecked}
+              onCheckedChange={setServicePolicyChecked}
+              style={{marginTop: 20}}
+            />
+            <PolicyAgreeSwitch
+              type={'privacy'}
+              checked={isPrivacyPolicyChecked}
+              onCheckedChange={setPrivacyPolicyChecked}
+              style={{marginTop: 15}}
+            />
+          </OutLineContentContainer>
         </ScrollContainer>
-      </ScreenContainer>
+        <BottomButton
+          onPress={onSubmit}
+          disabled={
+            idError ||
+            nickNameError ||
+            passwordError ||
+            passwordConfirmError ||
+            !isServicePolicyChecked ||
+            !isPrivacyPolicyChecked
+          }
+          title="회원가입"
+        />
+      </NoOutLineFullScreenContainer>
     </LoadingContainer>
   );
 };
