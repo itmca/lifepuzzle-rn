@@ -14,6 +14,7 @@ export const DUMMY_USER: UserType = {
   userNo: -1,
   userNickName: '게스트',
   userType: 'none',
-  userId: 'userId',
+  userId: '',
   recentHeroNo: -1,
+  imageURL: require('../assets/images/profile_icon.png'),
 };

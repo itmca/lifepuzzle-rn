@@ -4,4 +4,5 @@ export type UserType = {
   userNickName: string;
   recentHeroNo: number;
   userType: 'general' | 'kakao' | 'apple' | 'none';
+  imageURL: string;
 };
