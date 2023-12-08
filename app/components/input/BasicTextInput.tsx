@@ -1,7 +1,8 @@
 import TextInput from '../styled/components/TextInput';
-import React from 'react';
+import {TextInput as ReactInput} from 'react-native-paper';
+import React, {useEffect, useState} from 'react';
 import {StyleProp, StyleSheet, TextStyle} from 'react-native';
-import styles from './styles';
+import {Color} from '../../constants/color.constant';
 
 type Props = {
   label?: string;
@@ -17,6 +18,7 @@ type Props = {
   activeUnderlineColor?: string | 'transparent';
   borderColor?: string;
   backgroundColor?: string;
+  clearButton?: boolean;
 };
 
 export const BasicTextInput = ({
@@ -32,7 +34,8 @@ export const BasicTextInput = ({
   underlineColor,
   activeUnderlineColor,
   borderColor,
-  backgroundColor
+  backgroundColor,
+  clearButton = false,
 }: Props): JSX.Element => {
   return (
     <TextInput
@@ -49,6 +52,19 @@ export const BasicTextInput = ({
       activeUnderlineColor={activeUnderlineColor}
       borderColor={borderColor}
       backgroundColor={backgroundColor}
+      right={
+        clearButton && onChangeText && text != '' ? (
+          <ReactInput.Icon
+            icon={'close'}
+            iconColor={Color.DARK_GRAY}
+            onPress={() => {
+              onChangeText('');
+            }}
+          />
+        ) : (
+          <></>
+        )
+      }
     />
   );
 };

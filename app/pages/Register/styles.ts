@@ -77,22 +77,4 @@ export const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 120,
   },
-  input: {
-    flex: 1,
-    paddingRight: 25,
-    paddingLeft: 0,
-    color: '#424242',
-  },
-  iconView: {
-    width: 'auto',
-    position: 'absolute',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    top: 0,
-    right: 5,
-    paddingTop: 8,
-  },
-  icon: {
-    marginRight: 10,
-  },
 });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HelperText } from 'react-native-paper';
 import TextInput from '../styled/components/TextInput';
-import { styles } from '../../pages/Register/styles';
+import styles from './styles';
 import { View } from 'react-native';
 import { Color } from '../../constants/color.constant';
 import Icon from '../styled/components/Icon';
@@ -37,7 +37,7 @@ const ValidatedTextInput = ({
   const isError = changed && !!violated;
   const isSuccess = value && !isError;
   const borderColor = isError ? Color.ALERT_DARK : Color.PRIMARY_LIGHT;
-  const [isPasswordSecure, setIsPasswordSecure] = useState(secureTextEntry);
+  const [visible, setVisible] = useState(secureTextEntry);
 
   const theme = {
     roundness: 6,
@@ -63,7 +63,6 @@ const ValidatedTextInput = ({
     <>
       <HorizontalContentContainer>
         <TextInput
-          style={styles.input}
           mode="outlined"
           label={label}
           value={value}
@@ -75,29 +74,30 @@ const ValidatedTextInput = ({
           onBlur={() => setFocused(false)}
           onFocus={() => setFocused(true)}
           placeholder={placeholder}
-          secureTextEntry={isPasswordSecure}
+          secureTextEntry={visible}
           theme={theme}
         />
         <HorizontalContentContainer style={styles.iconView}>
           {secureTextEntry && (
             <Icon
-              name={isPasswordSecure ? 'visibility' : 'visibility-off'}
+              name={visible ? 'visibility' : 'visibility-off'}
               size={24}
               color={Color.DARK_GRAY}
               style={styles.icon}
               onPress={() => {
-                isPasswordSecure
-                  ? setIsPasswordSecure(false)
-                  : setIsPasswordSecure(true);
+                visible
+                  ? setVisible(false)
+                  : setVisible(true);
               }}
             />
           )}
-          {isSuccess && (
+          {value && (
             <Icon
-              name={'check'}
+              name={'close'}
               size={24}
-              color={Color.PRIMARY_LIGHT}
+              color={Color.DARK_GRAY}
               style={styles.icon}
+              onPress={()=>{onChangeText("");}}
             />
           )}
         </HorizontalContentContainer>

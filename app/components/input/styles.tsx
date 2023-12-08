@@ -33,4 +33,16 @@ export default StyleSheet.create({
     width: '100%',
     marginBottom: 8,
   },
+  iconView: {
+    width: 'auto',
+    position: 'absolute',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    top: 0,
+    right: 5,
+    paddingTop: 8,
+  },
+  icon: {
+    marginRight: 10,
+  },
 });
