@@ -6,6 +6,7 @@ export const Color = {
   LIGHT_BLACK: '#333333',
   FONT_DARK: '#555555',
   FONT_GRAY: '#B4B3B3',
+  WHITE_GRAY: '#FCFCFC',
   LIGHT_GRAY: '#F6F6F6',
   MEDIUM_GRAY: '#C4C4C4',
   DARK_GRAY: '#999999',

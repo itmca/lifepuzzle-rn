@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -19,7 +20,7 @@ export const styles = StyleSheet.create({
   customDivider: {
     width: '100%',
     height: 8,
-    backgroundColor: '#E9E9E9',
+    backgroundColor: Color.LIGHT_GRAY,
   },
   listContainer: {
     justifyContent: 'center',
