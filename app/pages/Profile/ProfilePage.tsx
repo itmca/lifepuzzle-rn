@@ -41,7 +41,13 @@ const ProfilePage = (): JSX.Element | null => {
   return (
     <NoOutLineScreenContainer justifyContent={'flex-start'}>
       <HorizontalContentContainer alignItems="center" padding={38} gap={'20px'}>
-        <Image width={60} height={60} source={user.imageURL} />
+        <Image
+          width={60}
+          height={60}
+          source={
+            user.imageURL ?? require('../../assets/images/profile_icon.png')
+          }
+        />
         <ContentContainer>
           <XXLargeText fontWeight={600} color={Color.LIGHT_BLACK}>
             {user.userNickName}
