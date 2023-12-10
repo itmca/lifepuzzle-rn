@@ -114,7 +114,6 @@ const AccountModificationPage = ({
   });
 
   const addUserInFormData = (formData: FormData) => {
-    console.log('addUserInFormData');
     const photo: PhotoIdentifier | undefined = modifyingUser?.modifiedImage;
 
     const currentTime = Date.now();

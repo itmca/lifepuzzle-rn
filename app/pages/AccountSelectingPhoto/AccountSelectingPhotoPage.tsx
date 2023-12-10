@@ -97,11 +97,9 @@ const AccountSelectingPhotoPage = (): JSX.Element => {
               <SelectablePhoto
                 key={`${index}-${String(isDisabled)}`}
                 onSelected={(photo: PhotoIdentifier) => {
-                  console.log('onSelected');
                   setSelectedPhoto(photo);
                 }}
                 onDeselected={() => {
-                  console.log('onDeselected');
                   setSelectedPhoto(undefined);
                 }}
                 size={DeviceWidth / 3}
