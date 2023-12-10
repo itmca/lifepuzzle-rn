@@ -4,22 +4,24 @@ import {Color} from '../../constants/color.constant';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {HorizontalContentContainer} from '../../components/styled/container/ContentContainer';
 
+type Props = {
+  backgroundColor?: string;
+  listItemTitle: string;
+  onPress: () => void;
+};
+
 export const ProfileMenuListItem = ({
   backgroundColor = Color.WHITE,
-  ListItemTitle,
+  listItemTitle,
   onPress,
-}: {
-  backgroundColor?: string;
-  ListItemTitle: string;
-  onPress: () => void;
-}): JSX.Element => {
+}: Props): JSX.Element => {
   return (
     <HorizontalContentContainer
       padding={16}
       alignItems="center"
       backgroundColor={backgroundColor}>
       <MediumText color={Color.FONT_DARK} fontWeight={500}>
-        {ListItemTitle}
+        {listItemTitle}
       </MediumText>
       <TouchableOpacity
         style={{

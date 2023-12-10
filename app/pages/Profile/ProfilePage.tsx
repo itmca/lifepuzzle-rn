@@ -55,7 +55,7 @@ const ProfilePage = (): JSX.Element | null => {
       </HorizontalContentContainer>
       <View style={styles.customDivider} />
       <ProfileMenuListItem
-        ListItemTitle={'계정 관리'}
+        listItemTitle={'계정 관리'}
         onPress={() => {
           navigation.push('NoTab', {
             screen: 'AccountSettingNavigator',
@@ -67,7 +67,7 @@ const ProfilePage = (): JSX.Element | null => {
       />
       <ProfileMenuListItem
         backgroundColor={Color.WHITE_GRAY}
-        ListItemTitle={'주인공 관리'}
+        listItemTitle={'주인공 관리'}
         onPress={() => {
           navigation.push('NoTab', {
             screen: 'HeroSettingNavigator',
