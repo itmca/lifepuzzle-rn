@@ -6,6 +6,8 @@ type Props = {
   backgroundColor?: string;
   marginBottom?: string;
   marginTop?: string;
+  borderWidth?: number;
+  borderColor?: string;
   borderTopLeftRadius?: string;
   borderTopRightRadius?: string;
   borderBottomLeftRadius?: string;
@@ -31,7 +33,8 @@ export const MediumButton = styled.TouchableOpacity<Props>`
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : '#343666'};
-
+  border-width: ${props => (props.borderWidth ? props.borderWidth + 'px' : 0)};
+  border-color: ${props => (props.borderColor ? props.borderColor : 0)};
   ${props =>
     props.disabled &&
     css`
