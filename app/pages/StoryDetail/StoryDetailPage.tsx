@@ -13,6 +13,8 @@ import StoryMediaCarousel from '../../components/story/StoryMediaCarousel';
 import {Contents} from '../../components/story-list/StoryItemContents';
 import {useIsFocused} from '@react-navigation/native';
 import {PostStoryKeyState} from '../../recoils/story-write.recoil';
+import {useUpdateObserver} from '../../service/hooks/update.hooks';
+import {storyListUpdate} from '../../recoils/update.recoil';
 
 const StoryDetailPage = (): JSX.Element => {
   const isFocused = useIsFocused();
@@ -20,6 +22,8 @@ const StoryDetailPage = (): JSX.Element => {
   const postStoryKey = useRecoilValue(PostStoryKeyState);
   const setSelectedStory = useSetRecoilState(SelectedStoryState);
   const [story, setStory] = useState<StoryType>();
+  const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
+
   const [storiesLoading, fetchStory] = useAuthAxios<StoryType>({
     requestOption: {
       url:
@@ -37,6 +41,14 @@ const StoryDetailPage = (): JSX.Element => {
     setStory(undefined);
     setSelectedStory(undefined);
   }, [storyKey]);
+
+  useEffect(() => {
+    if (storyKey) {
+      fetchStory({
+        url: `/stories/${storyKey}`,
+      });
+    }
+  }, [storyListUpdateObserver]);
 
   if (!story) {
     return <></>;

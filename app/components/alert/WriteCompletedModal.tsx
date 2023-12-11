@@ -13,7 +13,6 @@ import {ModalButton} from '../button/ModalButton';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {StoryType} from '../../types/story.type';
-import StoryViewNavigator from '../../navigation/no-tab/StoryViewNavigator';
 
 type Props = {
   heroNickName: string;

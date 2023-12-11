@@ -17,10 +17,10 @@ import {useEffect} from 'react';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 
 export const useResetAllWritingStory = () => {
-  const resetWritingSTory = useResetRecoilState(writingStoryState);
+  const resetWritingStory = useResetRecoilState(writingStoryState);
 
   return () => {
-    resetWritingSTory();
+    resetWritingStory();
   };
 };
 
@@ -46,16 +46,24 @@ export const useSaveStory = (): [() => void] => {
     },
     onResponseSuccess: ({storyKey}) => {
       if (!editStoryKey) {
+        console.log(`editStoryKey가 아닙니다 ${storyKey}`);
         setPostStoryKey(storyKey);
         setModalOpen(true);
       }
 
       resetAllWritingStory();
       publishStoryListUpdate();
+
+      if (editStoryKey) {
+        console.log('글 수정 완료');
+        navigation.goBack();
+      }
     },
     onError: err => {
       console.log(err);
-      Alert.alert('파일 업로드가 실패했습니다. 재시도 부탁드립니다.');
+      editStoryKey
+        ? Alert.alert('퍼즐 수정에 실패했습니다. 재시도 부탁드립니다.')
+        : Alert.alert('퍼즐 등록에 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,
   });
