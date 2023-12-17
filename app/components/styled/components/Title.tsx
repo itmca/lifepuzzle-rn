@@ -1,19 +1,13 @@
 import styled from 'styled-components/native';
 import {Color} from '../../../constants/color.constant';
 
-type Color =
-  | '#F2C744'
-  | '#55A5FD'
-  | '#707070'
-  | '#979797'
-  | '#323232'
-  | '#FFFFFF';
 type Props = {
   fontFamily?: string;
   letterSpacing?: string;
   fontWeight?: string | number;
   lineHeight?: string | number;
   color?: string | '#000000';
+  left?: number;
   fontSize?: number;
 };
 
@@ -50,8 +44,9 @@ export const SmallTitle = styled.Text<Props>`
 
 export const XSmallTitle = styled.Text<Props>`
   font-family: 'Pretendard';
+  left: ${props => (props.left ? props.left + 'px' : 0)};
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-weight: 700;
+  font-weight: ${props => (props.fontWeight ? props.fontWeight : '700')};
   font-size: 16px;
 `;
 
