@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {
   getCurrentUserPhotoUri,
@@ -51,21 +51,6 @@ const AccountModificationPage = ({
   const [nicknameError, setNickNameError] = useState<boolean>(false);
   const resetWritingUser = useResetRecoilState(writingUserState);
   const publishUserUpdate = useUpdatePublisher(currentUserUpdate);
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Pressable
-          onPress={() => {
-            onSubmit();
-          }}>
-          <MediumText color={Color.FONT_BLUE} fontWeight={600}>
-            등록
-          </MediumText>
-        </Pressable>
-      ),
-    });
-  }, [navigation]);
 
   const [queryLoading] = useAuthAxios<AccountQueryResponse>({
     requestOption: {
@@ -174,6 +159,18 @@ const AccountModificationPage = ({
     resetWritingUser();
     navigation.goBack();
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable onPress={onSubmit}>
+          <MediumText color={Color.FONT_BLUE} fontWeight={600}>
+            등록
+          </MediumText>
+        </Pressable>
+      ),
+    });
+  }, [navigation, onSubmit]);
 
   return (
     <LoadingContainer
