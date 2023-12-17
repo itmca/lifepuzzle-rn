@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import RootNavigator from './navigation/RootNavigator';
 import {LoadingContainer} from './components/loadding/LoadingContainer';
@@ -17,6 +17,7 @@ import {MutableSnapshot, RecoilRoot} from 'recoil';
 import {LocalStorage} from './service/local-storage.service';
 import {authState} from './recoils/auth.recoil';
 import {NavigationContainer} from '@react-navigation/native';
+import SplashScreen from 'react-native-splash-screen';
 
 const theme = {
   ...DefaultTheme,
@@ -50,6 +51,10 @@ const InternalApp = (): JSX.Element => {
 };
 
 const App = (): JSX.Element => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <RecoilRoot initializeState={initializeRecoilState}>
       <NavigationContainer>
