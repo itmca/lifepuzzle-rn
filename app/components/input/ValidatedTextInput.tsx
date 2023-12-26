@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { HelperText } from 'react-native-paper';
+import React, {useEffect, useState} from 'react';
+import {HelperText} from 'react-native-paper';
 import TextInput from '../styled/components/TextInput';
 import styles from './styles';
-import { View } from 'react-native';
-import { Color } from '../../constants/color.constant';
+import {View} from 'react-native';
+import {Color} from '../../constants/color.constant';
 import Icon from '../styled/components/Icon';
-import { HorizontalContentContainer } from '../styled/container/ContentContainer';
+import {HorizontalContentContainer} from '../styled/container/ContentContainer';
 type Props = {
   label: string;
   value: string;
@@ -47,7 +47,7 @@ const ValidatedTextInput = ({
       outline: isError || value ? borderColor : Color.LIGHT_GRAY,
       onSurface: Color.FONT_DARK, //underline, textColor
       surfaceVariant: 'transparent', //underlineBackground
-      background: focused || isSuccess ? Color.WHITE : '#FDFDFD'
+      background: focused || isSuccess ? Color.WHITE : '#FDFDFD',
     },
     fonts: {
       fontFamily: 'Pretendard Regular',
@@ -85,9 +85,7 @@ const ValidatedTextInput = ({
               color={Color.DARK_GRAY}
               style={styles.icon}
               onPress={() => {
-                visible
-                  ? setVisible(false)
-                  : setVisible(true);
+                visible ? setVisible(false) : setVisible(true);
               }}
             />
           )}
@@ -97,7 +95,9 @@ const ValidatedTextInput = ({
               size={24}
               color={Color.DARK_GRAY}
               style={styles.icon}
-              onPress={()=>{onChangeText("");}}
+              onPress={() => {
+                onChangeText('');
+              }}
             />
           )}
         </HorizontalContentContainer>

@@ -4,6 +4,7 @@ import LoginMainPage from '../../pages/LoginMain/LoginMainPage';
 import LoginHeaderLeft from '../../components/header/LoginHeaderLeft';
 import LoginOthersPage from '../../pages/LoginOthers/LoginOthersPage';
 import RegisterPage from '../../pages/Register/RegisterPage';
+import {Color} from '../../constants/color.constant';
 import {LargeTitle} from '../../components/styled/components/Title';
 import {View} from 'react-native';
 
@@ -33,10 +34,15 @@ const LoginRegisterNavigator = (): JSX.Element => {
         name="LoginOthers"
         component={LoginOthersPage}
         options={{
-          headerLeft: () => <LoginHeaderLeft type={'sub'} />,
+          headerLeft: () => (
+            <LoginHeaderLeft type={'sub'} iconColor={Color.LIGHT_GRAY} />
+          ),
           headerShown: true,
           title: '',
           headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: Color.PRIMARY_LIGHT,
+          },
         }}
       />
       <Stack.Screen

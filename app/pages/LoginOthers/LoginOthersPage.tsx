@@ -1,79 +1,85 @@
 import React, {useState} from 'react';
 
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
+import {Platform} from 'react-native';
 import KaKaoSocialLoginButton from '../../components/button/login/KaKaoSocialLoginButton';
 import AppleSocialLoginButton from '../../components/button/login/AppleSocialLoginButton';
-import {styles} from './styles';
+
 import GeneralLoginButton from './GeneralLoginButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {useNavigation} from '@react-navigation/native';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {PasswordInput} from '../../components/input/PasswordInput';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {BasicNavigationProps} from '../../navigation/types';
+import {
+  NoOutLineScreenContainer,
+  ScreenContainer,
+} from '../../components/styled/container/ScreenContainer';
 import {
   ContentContainer,
   HorizontalContentContainer,
 } from '../../components/styled/container/ContentContainer';
-
+import {Color} from '../../constants/color.constant';
+import MediumText, {
+  XXXLargeText,
+  XSmallText,
+} from '../../components/styled/components/Text';
+import {Photo} from '../../components/styled/components/Image';
 const LoginOthersPage = (): JSX.Element => {
-  const navigation = useNavigation();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <ScreenContainer>
+    <NoOutLineScreenContainer justifyContent="space-between">
       <LoadingContainer isLoading={loading}>
-        <HorizontalContentContainer>
-          <Image
-            source={require('../../assets/images/puzzle-4piece-squared.png')}
-            style={styles.logo}
-          />
-          <Text style={styles.registerText}> 인생 퍼즐</Text>
-        </HorizontalContentContainer>
-        <ContentContainer>
-          <Text style={styles.loginText}>로그인</Text>
-        </ContentContainer>
-        <ContentContainer>
-          <BasicTextInput label="아이디" text={id} onChangeText={setId} />
-          <PasswordInput
-            label="비밀번호"
-            password={password}
-            onChangePassword={setPassword}
-          />
-          <View style={styles.passwordRegisterContainer}>
-            <Text style={styles.passwordRegisterText}> </Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.push('NoTab', {
-                  screen: 'LoginRegisterNavigator',
-                  params: {
-                    screen: 'Register',
-                  },
-                });
-              }}>
-              <Text style={styles.passwordRegisterText}>회원가입</Text>
-            </TouchableOpacity>
-          </View>
-          <GeneralLoginButton
-            userId={id}
-            password={password}
-            onChangeLoading={setLoading}
+        <ContentContainer
+          height="200px"
+          backgroundColor={Color.PRIMARY_LIGHT}
+          padding={30}>
+          <XXXLargeText color="#D2F2FF" fontWeight={700} lineHeight="40px">
+            사랑하는 사람의 이야기가 {'\n'}함께 계속 될 수 있도록
+          </XXXLargeText>
+          <HorizontalContentContainer marginTop="27px">
+            <MediumText color={Color.WHITE} fontWeight={600}>
+              간편 로그인
+            </MediumText>
+            <KaKaoSocialLoginButton type="icon" onChangeLoading={setLoading} />
+            {Platform.OS === 'ios' && (
+              <AppleSocialLoginButton
+                type="icon"
+                onChangeLoading={setLoading}
+              />
+            )}
+          </HorizontalContentContainer>
+          <Photo
+            width={75}
+            height={40}
+            source={require('../../assets/images/login-page-puzzle.png')}
+            style={{position: 'absolute', bottom: 0, right: 20}}
           />
         </ContentContainer>
-        <ContentContainer>
-          <KaKaoSocialLoginButton onChangeLoading={setLoading} />
-          {Platform.OS === 'ios' && (
-            <AppleSocialLoginButton
-              onChangeLoading={loading => {
-                console.log('loading: ', loading);
-              }}
-            />
-          )}
+
+        <ContentContainer padding={18}>
+          <ContentContainer marginBottom="20px">
+            <MediumText color={Color.PRIMARY_LIGHT}>아이디</MediumText>
+            <BasicTextInput text={id} onChangeText={setId} />
+          </ContentContainer>
+          <ContentContainer marginBottom="20px">
+            <MediumText color={Color.PRIMARY_LIGHT}>비밀번호</MediumText>
+            <PasswordInput password={password} onChangePassword={setPassword} />
+          </ContentContainer>
+          <ContentContainer justifyContent="center" alignItems="center">
+            <XSmallText color="#B0B0B0">
+              로그인 관련 문제가 생길 시, itmca.harmony@gmail.com으로 문의
+            </XSmallText>
+          </ContentContainer>
         </ContentContainer>
+        <GeneralLoginButton
+          userId={id}
+          password={password}
+          disabled={!id || !password}
+          onChangeLoading={setLoading}
+        />
       </LoadingContainer>
-    </ScreenContainer>
+    </NoOutLineScreenContainer>
   );
 };
 

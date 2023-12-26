@@ -28,6 +28,7 @@ export const NoOutLineScreenContainer = styled.SafeAreaView<ScreenContainerProps
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: ${props => props.justifyContent ?? 'center'};
   background-color: ${Color.WHITE};
   padding: ${props => props.padding ?? '0px'};
 `;

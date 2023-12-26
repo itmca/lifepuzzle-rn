@@ -11,11 +11,7 @@ export default StyleSheet.create({
     borderRadius: 4,
     marginBottom: 8,
   },
-  kakaoLoginFont: {
-    fontFamily: 'Pretendard Regular',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+
   appleLoginButtonContainer: {
     flexDirection: 'row',
     height: 48,
@@ -33,10 +29,10 @@ export default StyleSheet.create({
     color: '#FFFFFF',
   },
   appleLogo: {
-    fontFamily: 'Pretendard Regular',
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#FFFFFF',
+    width: 30,
+    height: 30,
+    marginRight: 12,
+    backgroundColor: '#32C5FF',
   },
   otherLoginButtonContainer: {
     flexDirection: 'row',
@@ -53,9 +49,9 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   socialLoginIcon: {
-    width: 16,
-    height: 16,
-    marginRight: 4,
+    width: 26,
+    height: 26,
+    marginRight: 12,
   },
   coloredButtonContainer: {
     flexDirection: 'row',
@@ -71,5 +67,10 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     color: '#FFFFFF',
+  },
+  roundLoginButtonImage: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#32C5FF',
   },
 });

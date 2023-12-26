@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Image} from 'react-native';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import styles from './styles';
 import {useAxios} from '../../../service/hooks/network.hook';
@@ -7,13 +7,19 @@ import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
-import {MediumButton} from '../../styled/components/Button';
+import {ImageButton, MediumButton} from '../../styled/components/Button';
+import {Color} from '../../../constants/color.constant';
+import MediumText from '../../styled/components/Text';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
+  type: 'button' | 'icon';
 };
 
-const AppleSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
+const AppleSocialLoginButton = ({
+  onChangeLoading,
+  type = 'button',
+}: Props): JSX.Element => {
   const loginResponseHandler = useLoginResponseHandler();
 
   const [_, appleLogin] = useAxios<LoginResponse>({
@@ -51,15 +57,37 @@ const AppleSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
       });
     }
   }
-
-  return (
-    <MediumButton
-      backgroundColor="#000000"
-      onPress={() => onAppleButtonPress()}>
-      <Text style={styles.appleLogo}> </Text>
-      <Text style={styles.appleLoginFont}>Apple로 계속하기</Text>
-    </MediumButton>
-  );
+  if (type === 'button') {
+    return (
+      <MediumButton
+        backgroundColor="#000000"
+        onPress={() => onAppleButtonPress()}
+        justifyContent="flex-start"
+        padding="12px 9px"
+        marginBottom="12px">
+        <Image
+          source={require('../../../assets/images/apple-logo.png')}
+          style={styles.appleLogo}
+        />
+        <MediumText color={Color.WHITE} fontWeight={600}>
+          애플 아이디로 계속하기
+        </MediumText>
+      </MediumButton>
+    );
+  } else if (type === 'icon') {
+    return (
+      <ImageButton
+        onPress={() => onAppleButtonPress()}
+        marginBottom="0px"
+        width="auto"
+        marginLeft="12px">
+        <Image
+          source={require('../../../assets/images/login-apple-logo.png')}
+          style={styles.roundLoginButtonImage}
+        />
+      </ImageButton>
+    );
+  }
 };
 
 export default AppleSocialLoginButton;

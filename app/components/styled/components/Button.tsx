@@ -6,12 +6,16 @@ type Props = {
   backgroundColor?: string;
   marginBottom?: string;
   marginTop?: string;
+  marginLeft?: string;
   borderWidth?: number;
   borderColor?: string;
   borderTopLeftRadius?: string;
   borderTopRightRadius?: string;
   borderBottomLeftRadius?: string;
   borderBottomRightRadius?: string;
+  justifyContent?: string;
+  padding?: string;
+  alignSelf?: string;
 };
 
 export const MediumButton = styled.TouchableOpacity<Props>`
@@ -19,7 +23,8 @@ export const MediumButton = styled.TouchableOpacity<Props>`
   flex-basis: ${props => (props.flexBasis ? props.flexBasis : 'auto')};
   height: 48px;
   width: ${props => (props.width ? props.width : '100%')};
-  justify-content: center;
+  justify-content: ${props =>
+    props.justifyContent ? props.justifyContent : 'center'};
   align-items: center;
   border-top-left-radius: ${props =>
     props.borderTopLeftRadius ? props.borderTopLeftRadius : '4px'};
@@ -33,6 +38,9 @@ export const MediumButton = styled.TouchableOpacity<Props>`
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : '#343666'};
+  padding: ${props => (props.padding ? props.padding : '0px')};
+  align-self: ${props => (props.alignSelf ? props.alignSelf : 'auto')};
+
   border-width: ${props => (props.borderWidth ? props.borderWidth + 'px' : 0)};
   border-color: ${props => (props.borderColor ? props.borderColor : 0)};
   ${props =>
@@ -77,8 +85,10 @@ export const LargeWideButton = styled.TouchableOpacity<Props>`
 `;
 
 export const ImageButton = styled.TouchableOpacity<Props>`
-  width: 100%;
+  background-color: black;
+  width: ${props => (props.width ? props.width : '100%')};
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
+  margin-left: ${props => (props.marginLeft ? props.marginLeft : '0px')};
 `;

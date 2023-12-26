@@ -1,22 +1,23 @@
 import React from 'react';
-import {Alert, Text} from 'react-native';
-import {styles} from './styles';
+import {Alert, TouchableOpacity} from 'react-native';
 import {useAxios} from '../../service/hooks/network.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../service/hooks/login.hook';
-import {MediumButton} from '../../components/styled/components/Button';
-
+import {LargeText} from '../../components/styled/components/Text';
+import {Color} from '../../constants/color.constant';
 type Props = {
   userId: string;
   password: string;
+  disabled: boolean;
   onChangeLoading: (loading: boolean) => void;
 };
 
 const GeneralLoginButton = ({
   userId,
   password,
+  disabled,
   onChangeLoading,
 }: Props): JSX.Element => {
   const loginResponseHandler = useLoginResponseHandler();
@@ -35,13 +36,23 @@ const GeneralLoginButton = ({
   });
 
   return (
-    <MediumButton
-      backgroundColor="#343666"
+    <TouchableOpacity
+      style={{
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 30,
+        paddingHorizontal: 133,
+        backgroundColor: disabled ? Color.LIGHT_GRAY : Color.PRIMARY_LIGHT,
+      }}
       onPress={() => {
         login({data: {username: userId, password: password}});
-      }}>
-      <Text style={styles.generalLoginFont}>로그인</Text>
-    </MediumButton>
+      }}
+      disabled={disabled}>
+      <LargeText color={disabled ? '#C2C2C2' : Color.WHITE} fontWeight={700}>
+        로그인
+      </LargeText>
+    </TouchableOpacity>
   );
 };
 

@@ -5,9 +5,10 @@ import Icon from '../styled/components/Icon';
 
 type Props = {
   type: 'main' | 'sub';
+  iconColor?: string;
 };
 
-const LoginHeaderLeft = ({type}: Props): JSX.Element => {
+const LoginHeaderLeft = ({type, iconColor}: Props): JSX.Element => {
   const navigation = useNavigation();
   if (type === 'main') {
     return (
@@ -17,7 +18,7 @@ const LoginHeaderLeft = ({type}: Props): JSX.Element => {
             screen: 'Home',
           });
         }}>
-        <Icon name={'close'} />
+        <Icon name={'chevron-left'} />
       </Pressable>
     );
   }
@@ -27,7 +28,7 @@ const LoginHeaderLeft = ({type}: Props): JSX.Element => {
       onPress={() => {
         navigation.goBack();
       }}>
-      <Icon name={'chevron-left'}/>
+      <Icon name={'chevron-left'} color={iconColor} />
     </Pressable>
   );
 };

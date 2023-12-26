@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {KakaoOAuthToken, login} from '@react-native-seoul/kakao-login';
 import {useAxios} from '../../../service/hooks/network.hook';
@@ -7,13 +7,18 @@ import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
-import {MediumButton} from '../../styled/components/Button';
-
+import {ImageButton, MediumButton} from '../../styled/components/Button';
+import MediumText from '../../styled/components/Text';
+import {Color} from '../../../constants/color.constant';
 type Props = {
   onChangeLoading: (loading: boolean) => void;
+  type: 'button' | 'icon';
 };
 
-const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
+const KaKaoSocialLoginButton = ({
+  onChangeLoading,
+  type,
+}: Props): JSX.Element => {
   const [kakaoAccessToken, setKakaoAccessToken] = useState('');
 
   const signInWithKakao = async (): Promise<void> => {
@@ -48,15 +53,38 @@ const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
     });
   }, [kakaoAccessToken]);
 
-  return (
-    <MediumButton onPress={signInWithKakao} backgroundColor="#FFE812">
-      <Image
-        source={require('../../../assets/images/kakao-talk.png')}
-        style={styles.socialLoginIcon}
-      />
-      <Text style={styles.kakaoLoginFont}>카카오로 계속하기</Text>
-    </MediumButton>
-  );
+  if (type === 'button') {
+    return (
+      <MediumButton
+        onPress={signInWithKakao}
+        backgroundColor="#FFE812"
+        justifyContent="flex-start"
+        padding="12px 9px"
+        marginBottom="12px"
+        marginTop="0px">
+        <Image
+          source={require('../../../assets/images/kakao-logo.png')}
+          style={styles.socialLoginIcon}
+        />
+        <MediumText color={Color.LIGHT_BLACK} fontWeight={600}>
+          카카오톡으로 계속하기
+        </MediumText>
+      </MediumButton>
+    );
+  } else if (type === 'icon') {
+    return (
+      <ImageButton
+        onPress={signInWithKakao}
+        marginBottom="0px"
+        width="auto"
+        marginLeft="12px">
+        <Image
+          source={require('../../../assets/images/login-kakao-logo.png')}
+          style={styles.roundLoginButtonImage}
+        />
+      </ImageButton>
+    );
+  }
 };
 
 export default KaKaoSocialLoginButton;

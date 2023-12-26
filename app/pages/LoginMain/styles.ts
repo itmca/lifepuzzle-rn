@@ -22,8 +22,8 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
   registerText: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: 26,
+    fontWeight: '700',
     color: '#000000',
     marginLeft: -8,
   },

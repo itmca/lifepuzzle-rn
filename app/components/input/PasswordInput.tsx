@@ -1,10 +1,9 @@
 import TextInput from '../styled/components/TextInput';
-import React,{ useState }  from 'react';
+import React, {useState} from 'react';
 import {StyleProp, TextStyle} from 'react-native';
 import {TextInput as ReactInput} from 'react-native-paper';
-import { Color } from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 type Props = {
-  label?: string;
   disabled?: boolean;
   customStyle?: StyleProp<TextStyle>;
   password: string;
@@ -15,7 +14,6 @@ type Props = {
 };
 
 export const PasswordInput = ({
-  label = '비밀번호',
   customStyle,
   password,
   placeholder,
@@ -28,15 +26,22 @@ export const PasswordInput = ({
     <TextInput
       style={customStyle}
       mode="outlined"
-      label={label}
       value={password}
       placeholder={placeholder}
       onChangeText={onChangePassword}
       secureTextEntry={isPasswordSecure}
       autoFocus={autoFocus}
-      right={<ReactInput.Icon icon={isPasswordSecure ? "eye" : "eye-off"} 
-      iconColor={Color.DARK_GRAY} onPress={() => { isPasswordSecure ? setIsPasswordSecure(false) : setIsPasswordSecure(true) }}/>
-    }
+      right={
+        <ReactInput.Icon
+          icon={isPasswordSecure ? 'eye' : 'eye-off'}
+          iconColor={Color.DARK_GRAY}
+          onPress={() => {
+            isPasswordSecure
+              ? setIsPasswordSecure(false)
+              : setIsPasswordSecure(true);
+          }}
+        />
+      }
     />
   );
 };

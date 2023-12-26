@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Platform, StyleSheet, TouchableOpacity } from 'react-native';
-import { LargeText } from '../styled/components/Text';
-import { Color } from '../../constants/color.constant';
+import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
+import {LargeText} from '../styled/components/Text';
+import {Color} from '../../constants/color.constant';
 
 type Props = {
   onPress: () => void;
@@ -11,7 +11,6 @@ type Props = {
 };
 
 export const BottomButton = (props: Props): JSX.Element => {
-
   const styles = StyleSheet.create({
     button: {
       width: '100%',
@@ -26,7 +25,7 @@ export const BottomButton = (props: Props): JSX.Element => {
             width: 0,
             height: -1,
           },
-          shadowOpacity: props.disabled ? 0: 0.1,
+          shadowOpacity: props.disabled ? 0 : 0.1,
           shadowRadius: 5,
         },
         android: {
@@ -40,7 +39,9 @@ export const BottomButton = (props: Props): JSX.Element => {
       onPress={props.onPress}
       style={styles.button}
       disabled={props.disabled}>
-      <LargeText fontWeight={600} color={props.disabled ? Color.MEDIUM_GRAY : Color.WHITE}>
+      <LargeText
+        fontWeight={600}
+        color={props.disabled ? Color.MEDIUM_GRAY : Color.WHITE}>
         {props.title}
       </LargeText>
     </TouchableOpacity>

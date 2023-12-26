@@ -38,8 +38,8 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   margin-bottom: ${props => props.marginBottom ?? '0px'};
   padding: ${props => (props.padding ? props.padding + 'px' : '0px')};
   position: ${props => props.position ?? 'static'};
-  backgroundcolor: ${props => props.backgroundColor ?? 'none'};
-  zindex: ${props => props.zIndex ?? 'auto'};
+  background-color: ${props => props.backgroundColor ?? 'none'};
+  z-index: ${props => props.zIndex ?? 0};
   opacity: ${props => props.opacity ?? 100};
   border-radius: ${props =>
     props.borderRadius ? props.borderRadius + 'px' : '0px'};
@@ -54,6 +54,8 @@ export const ContentContainer = styled.View<ContentContainerProps>`
 
 export const HorizontalContentContainer = styled(ContentContainer)`
   flex-direction: row;
+  margin-top: ${props => props.marginTop ?? '0px'};
+  align-items: center;
 `;
 
 export const OutLineContentContainer = styled(ContentContainer)`

@@ -9,6 +9,14 @@ type Props = {
   fontSize?: number;
 };
 
+export const XXXLargeText = styled.Text<Props>`
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  font-size: 26px;
+  font-weight: ${props => props.fontWeight || 'normal'};
+  line-height: ${props => (props.lineHeight ? props.lineHeight : 1.0)};
+`;
+
 export const XXLargeText = styled.Text<Props>`
   font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};

@@ -1,10 +1,10 @@
+import {MediumButton} from '../../styled/components/Button';
+import MediumText from '../../styled/components/Text';
+import {Color} from '../../../constants/color.constant';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
-import {MediumButton} from '../../styled/components/Button';
-import {Color} from '../../../constants/color.constant';
-import MediumText from '../../styled/components/Text';
 
-const OtherLoginButton = (): JSX.Element => {
+const RegisterButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <MediumButton
@@ -18,13 +18,13 @@ const OtherLoginButton = (): JSX.Element => {
         navigation.push('NoTab', {
           screen: 'LoginRegisterNavigator',
           params: {
-            screen: 'LoginOthers',
+            screen: 'Register',
           },
         });
       }}>
-      <MediumText color="#C4C4C4">다른 방법으로 로그인</MediumText>
+      <MediumText color="#C4C4C4">회원가입</MediumText>
     </MediumButton>
   );
 };
 
-export default OtherLoginButton;
+export default RegisterButton;
