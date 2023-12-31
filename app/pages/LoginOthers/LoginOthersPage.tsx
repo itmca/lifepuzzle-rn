@@ -8,27 +8,25 @@ import GeneralLoginButton from './GeneralLoginButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {PasswordInput} from '../../components/input/PasswordInput';
-import {
-  NoOutLineScreenContainer,
-  ScreenContainer,
-} from '../../components/styled/container/ScreenContainer';
+import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {
   ContentContainer,
   HorizontalContentContainer,
 } from '../../components/styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import MediumText, {
-  XXXLargeText,
   XSmallText,
+  XXXLargeText,
 } from '../../components/styled/components/Text';
 import {Photo} from '../../components/styled/components/Image';
+
 const LoginOthersPage = (): JSX.Element => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <NoOutLineScreenContainer justifyContent="space-between">
+    <NoOutLineScreenContainer justifyContent="flex-start">
       <LoadingContainer isLoading={loading}>
         <ContentContainer
           height="200px"
