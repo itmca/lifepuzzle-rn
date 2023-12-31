@@ -98,7 +98,7 @@ android {
         applicationId "io.itmca.lifepuzzle"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
+        versionCode 9
         versionName "1.1.0"
     }
 
