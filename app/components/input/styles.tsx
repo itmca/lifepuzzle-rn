@@ -38,9 +38,8 @@ export default StyleSheet.create({
     position: 'absolute',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    top: 0,
+    height: 50,
     right: 5,
-    paddingTop: 8,
   },
   icon: {
     marginRight: 10,

@@ -15,7 +15,7 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {XSmallTitle} from '../../components/styled/components/Title';
-import {OutLineContentContainer} from '../../components/styled/container/ContentContainer';
+import {ContentContainer, OutLineContentContainer} from '../../components/styled/container/ContentContainer';
 import {BottomButton} from '../../components/button/BottomButton';
 
 const RegisterPage = (): JSX.Element => {
@@ -123,6 +123,7 @@ const RegisterPage = (): JSX.Element => {
       <NoOutLineFullScreenContainer>
         <ScrollContainer>
           <OutLineContentContainer flex={1}>
+          <ContentContainer gap="6px">
             <XSmallTitle style={styles.title}>닉네임</XSmallTitle>
             <ValidatedTextInput
               label=""
@@ -137,6 +138,8 @@ const RegisterPage = (): JSX.Element => {
               ]}
               onIsErrorChanged={setNickNameError}
             />
+            </ContentContainer>
+            <ContentContainer gap="6px">
             <XSmallTitle style={styles.title}>아이디</XSmallTitle>
             <ValidatedTextInput
               label=""
@@ -159,6 +162,8 @@ const RegisterPage = (): JSX.Element => {
               ]}
               onIsErrorChanged={setIdError}
             />
+            </ContentContainer>
+            <ContentContainer gap="6px">
             <XSmallTitle style={styles.title}>비밀번호</XSmallTitle>
             <ValidatedTextInput
               secureTextEntry={true}
@@ -178,6 +183,8 @@ const RegisterPage = (): JSX.Element => {
               ]}
               onIsErrorChanged={setPasswordError}
             />
+            </ContentContainer>
+            <ContentContainer gap="6px">
             <XSmallTitle style={styles.title}>비밀번호 확인</XSmallTitle>
             <ValidatedTextInput
               secureTextEntry={true}
@@ -193,6 +200,7 @@ const RegisterPage = (): JSX.Element => {
               ]}
               onIsErrorChanged={setPasswordConfirmError}
             />
+            </ContentContainer>
             <PolicyAgreeSwitch
               type={'service'}
               checked={isServicePolicyChecked}
