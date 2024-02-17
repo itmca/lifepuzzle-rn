@@ -85,7 +85,8 @@ export const LargeWideButton = styled.TouchableOpacity<Props>`
 `;
 
 export const ImageButton = styled.TouchableOpacity<Props>`
-  background-color: black;
+  background-color: ${props =>
+    props.backgroundColor ? props.backgroundColor : 'black'};
   width: ${props => (props.width ? props.width : '100%')};
   justify-content: center;
   align-items: center;

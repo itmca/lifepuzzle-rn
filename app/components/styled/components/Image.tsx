@@ -8,12 +8,15 @@ type Props = {
   tintColor?: string;
   backgroundColor?: string;
   borderRadius?: number;
+  resizeMode?: string;
 };
+
 export const MediumImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '33.94px')};
   height: ${({height}) => (height ? `${height}px` : '33.25px')};
   justify-content: center;
   align-content: center;
+  resize-mode: ${({resizeMode}) => (resizeMode ? `${resizeMode}` : 'cover')};
 `;
 export const SmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '20px')};

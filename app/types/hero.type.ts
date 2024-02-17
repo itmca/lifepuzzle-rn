@@ -1,4 +1,5 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import {UserType, RoleType} from './user.type';
 
 export type HeroType = {
   heroNo: number;
@@ -8,4 +9,13 @@ export type HeroType = {
   birthday?: Date;
   title?: string;
   modifiedImage?: PhotoIdentifier | undefined;
+  linkedUser?: LinkedUserType[];
+};
+export type LinkedUserType = UserType & {
+  role: RoleType;
+};
+export type CodeType = {
+  code: string;
+  name: string;
+  description?: string;
 };

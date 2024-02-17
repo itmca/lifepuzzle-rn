@@ -18,6 +18,7 @@ import {LocalStorage} from './service/local-storage.service';
 import {authState} from './recoils/auth.recoil';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const theme = {
   ...DefaultTheme,
@@ -57,9 +58,11 @@ const App = (): JSX.Element => {
 
   return (
     <RecoilRoot initializeState={initializeRecoilState}>
-      <NavigationContainer>
-        <InternalApp />
-      </NavigationContainer>
+      <GestureHandlerRootView flex={1}>
+        <NavigationContainer>
+          <InternalApp />
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </RecoilRoot>
   );
 };

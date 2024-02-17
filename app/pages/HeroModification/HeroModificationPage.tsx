@@ -1,39 +1,84 @@
-import React, {useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {styles} from './styles';
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetScrollView,
+} from '@gorhom/bottom-sheet';
+import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
+import {CustomAlert} from '../../components/alert/CustomAlert';
+import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import CtaButton from '../../components/button/CtaButton';
-import {useAuthAxios} from '../../service/hooks/network.hook';
-import {HeroType} from '../../types/hero.type';
+import {AccountItem} from '../../components/hero/AccountItem';
+import {RoleItem} from '../../components/hero/RoleItem';
+import {RoleItemList} from '../../components/hero/RoleItemList';
+import {BasicTextInput} from '../../components/input/BasicTextInput';
+import {CustomDateInput} from '../../components/input/CustomDateInput';
+import {LoadingContainer} from '../../components/loadding/LoadingContainer';
+import {ImageButton} from '../../components/styled/components/Button';
+import {MediumImage} from '../../components/styled/components/Image';
+import {MediumText, SmallText} from '../../components/styled/components/Text';
+import {
+  MediumTitle,
+  XSmallTitle,
+} from '../../components/styled/components/Title';
+import {
+  ContentContainer,
+  HorizontalContentContainer,
+  OutLineContentContainer,
+} from '../../components/styled/container/ContentContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {DUMMY_LINKED_USER} from '../../constants/dummy.constant';
+import {RoleList} from '../../constants/role.constant';
+import {IMG_TYPE} from '../../constants/upload-file-type.constant';
+import {
+  HeroSettingNavigationProps,
+  HeroSettingRouteProps,
+} from '../../navigation/types';
 import {
   getCurrentHeroPhotoUri,
   heroState,
   wrtingHeroState,
 } from '../../recoils/hero.recoil';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {IMG_TYPE} from '../../constants/upload-file-type.constant';
-import {HeroAvatar} from '../../components/avatar/HeroAvatar';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {useUpdatePublisher} from '../../service/hooks/update.hooks';
 import {currentHeroUpdate, heroUpdate} from '../../recoils/update.recoil';
-import {CustomAlert} from '../../components/alert/CustomAlert';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {CustomDateInput} from '../../components/input/CustomDateInput';
-import {BasicTextInput} from '../../components/input/BasicTextInput';
-import {
-  HeroSettingNavigationProps,
-  HeroSettingRouteProps,
-} from '../../navigation/types';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {ImageButton} from '../../components/styled/components/Button';
+import {useAuthAxios} from '../../service/hooks/network.hook';
+import {useUpdatePublisher} from '../../service/hooks/update.hooks';
+import {HeroType, LinkedUserType} from '../../types/hero.type';
+import {styles} from './styles';
 
 const HeroModificationPage = (): JSX.Element => {
   const navigation =
     useNavigation<HeroSettingNavigationProps<'HeroModification'>>();
   const route = useRoute<HeroSettingRouteProps<'HeroModification'>>();
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['50%', '65%'], []);
+  // callbacks
+  const handlePresentModalPress = useCallback((linkedUser: LinkedUserType) => {
+    Keyboard.dismiss();
+    bottomSheetModalRef.current?.present();
+    setSelectedLinkedUser(linkedUser);
+  }, []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
+  const renderBackdrop = useCallback(
+    (props: any) => <BottomSheetBackdrop {...props} pressBehavior="close" />,
+    [],
+  );
+  const handleClosePress = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
+  const [linkedUser, setLinkedUser] = useState<LinkedUserType[]>([]);
+  const [selectedLinkedUser, setSelectedLinkedUser] =
+    useState<LinkedUserType>(undefined);
 
   const [name, setName] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
@@ -47,7 +92,16 @@ const HeroModificationPage = (): JSX.Element => {
 
   const publishHeroUpdate = useUpdatePublisher(heroUpdate);
   const publishCurrentHeroUpdate = useUpdatePublisher(currentHeroUpdate);
-
+  const updateRole = (role: string) => {
+    setSelectedLinkedUser({...selectedLinkedUser, role: role});
+    setLinkedUser(
+      linkedUser.map(item =>
+        item.userId === selectedLinkedUser.userId
+          ? {...item, role: role}
+          : item,
+      ),
+    );
+  };
   const heroNo = route.params.heroNo;
 
   const [loading] = useAuthAxios<HeroType>({
@@ -61,6 +115,9 @@ const HeroModificationPage = (): JSX.Element => {
       setNickName(hero.heroNickName);
       setBirthday(hero.birthday ? new Date(hero.birthday) : new Date());
       setTitle(hero.title || '');
+
+      //연결계정 임시 데이터
+      setLinkedUser(DUMMY_LINKED_USER);
     },
     disableInitialRequest: false,
   });
@@ -110,13 +167,11 @@ const HeroModificationPage = (): JSX.Element => {
       title: title,
       imageURL: imgPath,
     };
-
     formData.append('toUpdate', {
       string: JSON.stringify(savedHero),
       type: 'application/json',
     });
   };
-
   const addHeroPhotoInFormData = (formData: FormData) => {
     const photo: PhotoIdentifier | undefined = modifyingHero?.modifiedImage;
 
@@ -128,6 +183,7 @@ const HeroModificationPage = (): JSX.Element => {
     const fileParts = uri?.split('/');
     const fileName = fileParts ? fileParts[fileParts?.length - 1] : undefined;
     const type = IMG_TYPE;
+
     formData.append('photo', {
       uri: uri,
       type: type,
@@ -155,52 +211,78 @@ const HeroModificationPage = (): JSX.Element => {
   };
 
   return (
-    <ScreenContainer>
-      <LoadingContainer isLoading={loading || updateLoading}>
-        <ScrollContainer
-          contentContainerStyle={styles.formContainer}
-          extraHeight={0}
-          keyboardShouldPersistTaps={'always'}>
-          <ContentContainer>
-            <ImageButton
-              onPress={() => {
-                navigation.push('NoTab', {
-                  screen: 'HeroSettingNavigator',
-                  params: {
-                    screen: 'HeroSelectingPhoto',
-                  },
-                });
-              }}>
-              <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
-            </ImageButton>
-            <BasicTextInput
-              label="이름"
-              text={name}
-              onChangeText={setName}
-              placeholder="홍길동"
-            />
-            <BasicTextInput
-              label="닉네임"
-              text={nickName}
-              onChangeText={setNickName}
-              placeholder="소중한 당신"
-            />
-            <CustomDateInput
-              label="태어난 날"
-              date={birthday}
-              onChange={setBirthday}
-            />
-            <BasicTextInput
-              label="제목"
-              text={title}
-              onChangeText={setTitle}
-              placeholder="행복했던 나날들"
-            />
-            <CtaButton marginTop="16px" text="저장" onPress={onSubmit} />
-          </ContentContainer>
-        </ScrollContainer>
-      </LoadingContainer>
-    </ScreenContainer>
+    <BottomSheetModalProvider>
+      <ScrollContainer
+        contentContainerStyle={styles.formContainer}
+        extraHeight={0}
+        keyboardShouldPersistTaps={'always'}>
+        <ScreenContainer>
+          <LoadingContainer isLoading={loading || updateLoading}>
+            <ContentContainer>
+              <ImageButton
+                onPress={() => {
+                  navigation.push('NoTab', {
+                    screen: 'HeroSettingNavigator',
+                    params: {
+                      screen: 'HeroSelectingPhoto',
+                    },
+                  });
+                }}>
+                <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
+              </ImageButton>
+              <ContentContainer gap={'10px'}>
+                <XSmallTitle fontWeight={'600'}>이름</XSmallTitle>
+                <BasicTextInput
+                  label=""
+                  text={name}
+                  onChangeText={setName}
+                  placeholder="홍길동"
+                />
+                <XSmallTitle fontWeight={'600'}>닉네임</XSmallTitle>
+                <BasicTextInput
+                  label=""
+                  text={nickName}
+                  onChangeText={setNickName}
+                  placeholder="소중한 당신"
+                />
+                <XSmallTitle fontWeight={'600'}>제목</XSmallTitle>
+                <BasicTextInput
+                  label=""
+                  text={title}
+                  onChangeText={setTitle}
+                  placeholder="행복했던 나날들"
+                />
+                <XSmallTitle fontWeight={'600'}>태어난 날</XSmallTitle>
+                <CustomDateInput
+                  label=""
+                  date={birthday}
+                  onChange={setBirthday}
+                />
+                <XSmallTitle fontWeight={'600'}>연결 계정</XSmallTitle>
+                {linkedUser.map((linkedUser: LinkedUserType, index) => (
+                  <AccountItem
+                    key={index}
+                    linkedUser={linkedUser}
+                    onSelect={handlePresentModalPress}></AccountItem>
+                ))}
+              </ContentContainer>
+              <CtaButton marginTop="16px" text="저장" onPress={onSubmit} />
+            </ContentContainer>
+          </LoadingContainer>
+        </ScreenContainer>
+      </ScrollContainer>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        backdropComponent={renderBackdrop}>
+        <ScreenContainer>
+          <RoleItemList target={selectedLinkedUser} onSelect={updateRole} />
+          <CtaButton text="저장" onPress={handleClosePress} />
+        </ScreenContainer>
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
   );
 };
 export default HeroModificationPage;

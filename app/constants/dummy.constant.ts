@@ -1,4 +1,4 @@
-import {HeroType} from '../types/hero.type';
+import {HeroType, LinkedUserType} from '../types/hero.type';
 import {UserType} from '../types/user.type';
 
 export const DUMMY_HERO: HeroType = {
@@ -18,3 +18,24 @@ export const DUMMY_USER: UserType = {
   recentHeroNo: -1,
   imageURL: require('../assets/images/profile_icon.png'),
 };
+
+export const DUMMY_LINKED_USER: LinkedUserType[] = [
+  {
+    userNo: -1,
+    userNickName: '게스트1',
+    userType: 'none',
+    userId: '1',
+    recentHeroNo: -1,
+    imageURL: require('../assets/images/profile_icon.png'),
+    role: 'ADMIN',
+  },
+  {
+    userNo: 2,
+    userNickName: '게스트2',
+    userType: 'none',
+    userId: '2',
+    recentHeroNo: -1,
+    imageURL: require('../assets/images/profile_icon.png'),
+    role: 'WRITER',
+  },
+];

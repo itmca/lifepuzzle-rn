@@ -35,10 +35,10 @@ export default StyleSheet.create({
   },
   iconView: {
     width: 'auto',
+    height: '100%',
     position: 'absolute',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
-    height: 50,
     right: 5,
   },
   icon: {
