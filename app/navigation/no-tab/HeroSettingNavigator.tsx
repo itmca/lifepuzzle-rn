@@ -4,22 +4,23 @@ import HeroSettingPage from '../../pages/HeroSetting/HeroSettingPage';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import HeroRegisterPage from '../../pages/HeroRegister/HeroRegisterPage';
 import HeroModificationPage from '../../pages/HeroModification/HeroModificationPage';
+import HeroSharePage from '../../pages/HeroModification/HeroSharePage';
 import HeroSelectingPhotoPage from '../../pages/HeroSelectingPhoto/HeroSelectingPhotoPage';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {
-  selectedHeroPhotoState,
-  wrtingHeroState,
-} from '../../recoils/hero.recoil';
+import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 import Title from '../../components/styled/components/Title';
+import {useSaveHero} from '../../service/hooks/hero.write.hook';
+import {writingHeroState} from '../../recoils/hero-write.recoil';
 
 export type HeroSettingParamList = {
   HeroSetting: undefined;
   HeroRegister: undefined;
   HeroModification: {heroNo: number};
   HeroSelectingPhoto: undefined;
+  HeroShare: {heroNo: number};
 };
 
 const Stack = createNativeStackNavigator<HeroSettingParamList>();
@@ -27,12 +28,12 @@ const Stack = createNativeStackNavigator<HeroSettingParamList>();
 const HeroSettingNavigator = (): JSX.Element => {
   const navigation = useNavigation();
   const resetSelectedHeroPhoto = useResetRecoilState(selectedHeroPhotoState);
-  const resetWritingHero = useResetRecoilState(wrtingHeroState);
-  const [modifyingHero, setModifyingHero] = useRecoilState(wrtingHeroState);
+  const resetWritingHero = useResetRecoilState(writingHeroState);
+  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
   const seletedHeroPhoto: PhotoIdentifier | undefined = useRecoilValue(
     selectedHeroPhotoState,
   );
-
+  const [saveHero] = useSaveHero();
   return (
     <Stack.Navigator
       initialRouteName="HeroSetting"
@@ -43,7 +44,7 @@ const HeroSettingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <GoBackHeaderLeft />,
           headerTitle: () => <Title>주인공 관리</Title>,
-          headerBackVisible:false
+          headerBackVisible: false,
         }}
       />
       <Stack.Screen
@@ -58,7 +59,7 @@ const HeroSettingNavigator = (): JSX.Element => {
             />
           ),
           headerTitle: () => <Title>주인공 추가</Title>,
-          headerBackVisible:false
+          headerBackVisible: false,
         }}
       />
       <Stack.Screen
@@ -73,7 +74,15 @@ const HeroSettingNavigator = (): JSX.Element => {
             />
           ),
           headerTitle: () => <Title>주인공 정보 수정</Title>,
-          headerBackVisible:false
+          headerRight: () => (
+            <WritingHeaderRight
+              text={'저장'}
+              customAction={() => {
+                saveHero();
+              }}
+            />
+          ),
+          headerBackVisible: false,
         }}
       />
       <Stack.Screen
@@ -89,20 +98,30 @@ const HeroSettingNavigator = (): JSX.Element => {
             />
           ),
           headerTitle: () => <Title>주인공 사진 선택</Title>,
-          headerBackVisible:false,
+          headerBackVisible: false,
           headerRight: () => (
             <WritingHeaderRight
               text="확인"
               customAction={() => {
-                setModifyingHero({
-                  ...modifyingHero,
-                  modifiedImage: seletedHeroPhoto,
+                setWritingHero({
+                  ...writingHero,
+                  imageURL: seletedHeroPhoto,
                 });
                 resetSelectedHeroPhoto();
+
                 navigation.goBack();
               }}
             />
           ),
+        }}
+      />
+      <Stack.Screen
+        name="HeroShare"
+        component={HeroSharePage}
+        options={{
+          headerLeft: () => <GoBackHeaderLeft customAction={() => {}} />,
+          headerTitle: () => <Title>주인공 공유</Title>,
+          headerBackVisible: false,
         }}
       />
     </Stack.Navigator>

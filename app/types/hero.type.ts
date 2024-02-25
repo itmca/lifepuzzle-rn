@@ -14,6 +14,11 @@ export type HeroType = {
 export type LinkedUserType = UserType & {
   role: RoleType;
 };
+export type ShareType = {
+  heroNo: number;
+  role: string;
+  shareURL?: string;
+};
 export type CodeType = {
   code: string;
   name: string;

@@ -31,7 +31,7 @@ const addImagesInFormData = function (
   selectedImages?.forEach(image => {
     const uri = image.node.image.uri;
     const fileName =
-      (uri.startsWith('https://itmca') ? 'lp-media-' : '') +
+      (uri.startsWith('https://lifepuzzle') ? 'lp-media-' : '') +
       image.node.image.filename;
     formData.append('photos', {
       uri: uri,
@@ -43,7 +43,7 @@ const addImagesInFormData = function (
   selectedVideos?.forEach(image => {
     const uri = image.node.image.uri;
     const fileName =
-      (uri.startsWith('https://itmca') ? 'lp-media-' : '') +
+      (uri.startsWith('https://lifepuzzle') ? 'lp-media-' : '') +
       image.node.image.filename;
     formData.append('videos', {
       uri: uri,

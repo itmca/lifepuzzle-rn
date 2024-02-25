@@ -4,13 +4,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {HeroType} from '../../types/hero.type';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import {BasicNavigationProps} from '../../navigation/types';
 import Text, {XXLargeText} from '../../components/styled/components/Text';
 import {MediumButton} from '../../components/styled/components/Button';
+import {writingHeroKeyState} from '../../recoils/hero-write.recoil';
 
 type Props = {
   hero: HeroType;
@@ -30,6 +31,7 @@ const HeroCard = ({hero}: Props): JSX.Element => {
 
   const {imageURL, heroName, heroNickName, title, heroNo} = hero;
   const [currentHero, setCurrentHero] = useRecoilState<HeroType>(heroState);
+  const setWritingHeroNo = useSetRecoilState(writingHeroKeyState);
   const [isSelected, setSelected] = useState<boolean>(
     currentHero.heroNo === heroNo,
   );
@@ -43,6 +45,7 @@ const HeroCard = ({hero}: Props): JSX.Element => {
       <View style={styles.settingButtonContainer}>
         <TouchableOpacity
           onPress={() => {
+            setWritingHeroNo(heroNo);
             navigation.push('NoTab', {
               screen: 'HeroSettingNavigator',
               params: {

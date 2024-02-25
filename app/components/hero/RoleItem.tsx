@@ -24,8 +24,8 @@ export const RoleItem = ({target, role, onSelect}: props): JSX.Element => {
       onPress={() => {
         onSelect(role.code);
       }}>
-      <HorizontalContentContainer height={'40px'}>
-        <ContentContainer width={'37px'} alignItems={'center'}>
+      <HorizontalContentContainer height={'56px'}>
+        <ContentContainer width={'40px'} alignItems={'center'}>
           {target.role === role.code ? (
             <MediumImage
               width={22}

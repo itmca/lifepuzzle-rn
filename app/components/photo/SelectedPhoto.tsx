@@ -25,11 +25,10 @@ const SelectedPhoto = ({
     photoList[index].node.image.uri,
   );
 
-  console.log(photoList.map(photo => photo.node.image));
   const createThumbnailUrl = async () => {
     if (
       target == 'video' &&
-      photoList[index].node.image.uri.startsWith('https://itmca')
+      photoList[index].node.image.uri.startsWith('https://lifepuzzle')
     ) {
       const response = await createThumbnail({
         url: photoList[index].node.image.uri,

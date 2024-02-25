@@ -2,49 +2,35 @@ import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
-import {Keyboard, TouchableWithoutFeedback} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Keyboard} from 'react-native';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {CustomAlert} from '../../components/alert/CustomAlert';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import CtaButton from '../../components/button/CtaButton';
 import {AccountItem} from '../../components/hero/AccountItem';
-import {RoleItem} from '../../components/hero/RoleItem';
 import {RoleItemList} from '../../components/hero/RoleItemList';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ImageButton} from '../../components/styled/components/Button';
-import {MediumImage} from '../../components/styled/components/Image';
-import {MediumText, SmallText} from '../../components/styled/components/Text';
-import {
-  MediumTitle,
-  XSmallTitle,
-} from '../../components/styled/components/Title';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-  OutLineContentContainer,
-} from '../../components/styled/container/ContentContainer';
+import {XSmallTitle} from '../../components/styled/components/Title';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {DUMMY_LINKED_USER} from '../../constants/dummy.constant';
-import {RoleList} from '../../constants/role.constant';
-import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
 } from '../../navigation/types';
 import {
   getCurrentHeroPhotoUri,
-  heroState,
-  wrtingHeroState,
-} from '../../recoils/hero.recoil';
+  writingHeroState,
+} from '../../recoils/hero-write.recoil';
+import {heroState, selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {currentHeroUpdate, heroUpdate} from '../../recoils/update.recoil';
+import {useIsHeroUploading} from '../../service/hooks/hero.write.hook';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {useUpdatePublisher} from '../../service/hooks/update.hooks';
 import {HeroType, LinkedUserType} from '../../types/hero.type';
@@ -57,7 +43,7 @@ const HeroModificationPage = (): JSX.Element => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ['50%', '65%'], []);
+  const snapPoints = useMemo(() => ['30%', '55%'], []);
   // callbacks
   const handlePresentModalPress = useCallback((linkedUser: LinkedUserType) => {
     Keyboard.dismiss();
@@ -65,9 +51,7 @@ const HeroModificationPage = (): JSX.Element => {
     setSelectedLinkedUser(linkedUser);
   }, []);
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
+  const handleSheetChanges = useCallback(() => {}, []);
   const renderBackdrop = useCallback(
     (props: any) => <BottomSheetBackdrop {...props} pressBehavior="close" />,
     [],
@@ -84,14 +68,14 @@ const HeroModificationPage = (): JSX.Element => {
   const [nickName, setNickName] = useState<string>('');
   const [birthday, setBirthday] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>('');
-
-  const resetWritingHero = useResetRecoilState(wrtingHeroState);
-  const [modifyingHero, setModifyingHero] = useRecoilState(wrtingHeroState);
+  const resetWritingHero = useResetRecoilState(writingHeroState);
+  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
+  const [selectedHeroPhoto, setSelectedHeroPhoto] = useRecoilState(
+    selectedHeroPhotoState,
+  );
   const currentHeroPhotoUri = useRecoilValue(getCurrentHeroPhotoUri);
-  const currentHero = useRecoilValue(heroState);
 
-  const publishHeroUpdate = useUpdatePublisher(heroUpdate);
-  const publishCurrentHeroUpdate = useUpdatePublisher(currentHeroUpdate);
+  const isHeroUploading = useIsHeroUploading();
   const updateRole = (role: string) => {
     setSelectedLinkedUser({...selectedLinkedUser, role: role});
     setLinkedUser(
@@ -110,7 +94,39 @@ const HeroModificationPage = (): JSX.Element => {
       method: 'get',
     },
     onResponseSuccess: hero => {
-      setModifyingHero(hero);
+      const toPhotoIdentifier = (uri: string) => ({
+        node: {
+          type: '',
+          subTypes: undefined,
+          group_name: '',
+          image: {
+            filename: uri.split('/').pop() || '',
+            filepath: null,
+            extension: null,
+            uri: uri,
+            height: 0,
+            width: 0,
+            fileSize: null,
+            playableDuration: 0,
+            orientation: null,
+          },
+          timestamp: 0,
+          modificationTimestamp: 0,
+          location: null,
+        },
+      });
+
+      const currentPhoto = toPhotoIdentifier(hero.imageURL);
+
+      setWritingHero({
+        heroNo: -1,
+        heroName: hero?.heroName ?? '',
+        heroNickName: hero?.heroNickName,
+        birthday: hero?.birthday,
+        title: hero.title,
+        imageURL: currentPhoto ? currentPhoto : undefined,
+      });
+      console.log('writingHero:' + writingHero);
       setName(hero.heroName);
       setNickName(hero.heroNickName);
       setBirthday(hero.birthday ? new Date(hero.birthday) : new Date());
@@ -122,93 +138,15 @@ const HeroModificationPage = (): JSX.Element => {
     disableInitialRequest: false,
   });
 
-  const url = `/heroes/profile/${String(heroNo)}`;
-
-  const [updateLoading, refetch] = useAuthAxios<void>({
-    requestOption: {
-      method: 'post',
-      url: url,
-      headers: {'Content-Type': 'multipart/form-data'},
-    },
-    onResponseSuccess: () => {
-      CustomAlert.simpleAlert('주인공이 수정되었습니다.');
-      publishHeroUpdate();
-      if (currentHero.heroNo === heroNo) {
-        publishCurrentHeroUpdate();
-      }
-      goBack();
-    },
-    onError: () => {
-      CustomAlert.retryAlert(
-        '주인공 프로필 수정이 실패했습니다.',
-        onSubmit,
-        goBack,
-      );
-    },
-    disableInitialRequest: true,
-  });
-
-  const addHeroInFormData = (formData: FormData) => {
-    const photo: PhotoIdentifier | undefined = modifyingHero?.modifiedImage;
-
-    const currentTime = Date.now();
-    const uri = photo?.node.image.uri;
-    const fileParts = uri?.split('/');
-    const imgName = fileParts ? fileParts[fileParts?.length - 1] : undefined;
-    const imgPath = photo
-      ? `${currentTime}_${String(imgName)}`
-      : modifyingHero?.imageURL;
-    const savedHero: HeroType = {
-      ...modifyingHero,
-      heroNo: heroNo,
+  useEffect(() => {
+    setWritingHero({
+      heroNo: -1,
       heroName: name,
       heroNickName: nickName,
       birthday: birthday,
       title: title,
-      imageURL: imgPath,
-    };
-    formData.append('toUpdate', {
-      string: JSON.stringify(savedHero),
-      type: 'application/json',
     });
-  };
-  const addHeroPhotoInFormData = (formData: FormData) => {
-    const photo: PhotoIdentifier | undefined = modifyingHero?.modifiedImage;
-
-    if (!photo) {
-      return;
-    }
-
-    const uri = photo.node.image.uri;
-    const fileParts = uri?.split('/');
-    const fileName = fileParts ? fileParts[fileParts?.length - 1] : undefined;
-    const type = IMG_TYPE;
-
-    formData.append('photo', {
-      uri: uri,
-      type: type,
-      name: fileName,
-    });
-  };
-
-  const onSubmit = () => {
-    if (!name || !nickName || !birthday || !title) {
-      CustomAlert.simpleAlert('누락된 값이 있습니다.');
-      return;
-    }
-
-    const formData = new FormData();
-
-    addHeroInFormData(formData);
-    addHeroPhotoInFormData(formData);
-
-    refetch({data: formData});
-  };
-
-  const goBack = () => {
-    resetWritingHero();
-    navigation.goBack();
-  };
+  }, [name, nickName, birthday, title]);
 
   return (
     <BottomSheetModalProvider>
@@ -217,8 +155,8 @@ const HeroModificationPage = (): JSX.Element => {
         extraHeight={0}
         keyboardShouldPersistTaps={'always'}>
         <ScreenContainer>
-          <LoadingContainer isLoading={loading || updateLoading}>
-            <ContentContainer>
+          <LoadingContainer isLoading={loading || isHeroUploading}>
+            <ContentContainer gap={'20px'}>
               <ImageButton
                 onPress={() => {
                   navigation.push('NoTab', {
@@ -266,7 +204,23 @@ const HeroModificationPage = (): JSX.Element => {
                     onSelect={handlePresentModalPress}></AccountItem>
                 ))}
               </ContentContainer>
-              <CtaButton marginTop="16px" text="저장" onPress={onSubmit} />
+              <ContentContainer marginTop={'20px'}>
+                <CtaButton
+                  active
+                  text="연결 계정 추가"
+                  onPress={() => {
+                    navigation.push('NoTab', {
+                      screen: 'HeroSettingNavigator',
+                      params: {
+                        screen: 'HeroShare',
+                        params: {
+                          heroNo,
+                        },
+                      },
+                    });
+                  }}
+                />
+              </ContentContainer>
             </ContentContainer>
           </LoadingContainer>
         </ScreenContainer>
@@ -277,9 +231,9 @@ const HeroModificationPage = (): JSX.Element => {
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backdropComponent={renderBackdrop}>
-        <ScreenContainer>
+        <ScreenContainer justifyContent={'space-between'}>
           <RoleItemList target={selectedLinkedUser} onSelect={updateRole} />
-          <CtaButton text="저장" onPress={handleClosePress} />
+          <CtaButton active text="저장" onPress={handleClosePress} />
         </ScreenContainer>
       </BottomSheetModal>
     </BottomSheetModalProvider>

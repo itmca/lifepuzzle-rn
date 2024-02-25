@@ -1,33 +1,77 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Color} from '../../constants/color.constant';
 import {MediumButton} from '../styled/components/Button';
-import styles from './styles';
+import MediumText from '../styled/components/Text';
 
 type Props = {
   onPress: () => void;
-  color?: string;
   text: string;
-  style?: any;
+  active?: boolean;
+  filled?: boolean;
+  outlined?: boolean;
   disabled?: boolean;
-  marginTop?: string;
-  marginBottom?: string;
-};
 
+  marginTop?: string;
+};
+function theme(mode: string) {
+  switch (mode) {
+    case 'lightblue':
+      return {
+        backgroundColor: Color.SECONDARY_LIGHT,
+        color: Color.PRIMARY_LIGHT,
+        borderRadius: '16px',
+      };
+    case 'black':
+      return {
+        backgroundColor: Color.LIGHT_BLACK,
+        color: Color.WHITE,
+        borderRadius: '6px',
+      };
+    case 'white':
+      return {
+        backgroundColor: Color.WHITE,
+        color: Color.MEDIUM_GRAY,
+        borderRadius: '6px',
+        borderColor: Color.MEDIUM_GRAY,
+        borderWidth: 0.5,
+      };
+    default:
+      return {
+        backgroundColor: Color.SECONDARY_LIGHT,
+        color: Color.PRIMARY_LIGHT,
+      };
+  }
+}
 const CtaButton = ({
   onPress,
-  color,
   text,
   marginTop,
+  active = false,
+  filled = false,
+  outlined = false,
   disabled = false,
 }: Props): JSX.Element => {
-  const backgroundColor = color ? color : '#343666';
+  const mode = active
+    ? 'lightblue'
+    : filled
+    ? 'black'
+    : outlined
+    ? 'white'
+    : '';
+  const {backgroundColor, color, borderRadius, borderColor, borderWidth} =
+    theme(mode);
   return (
     <MediumButton
       marginTop={marginTop}
       disabled={disabled}
       onPress={onPress}
-      backgroundColor={backgroundColor}>
-      <Text style={styles.coloredButtonFont}>{text}</Text>
+      backgroundColor={backgroundColor}
+      borderRadius={borderRadius}
+      borderColor={borderColor}
+      borderWidth={borderWidth}>
+      <MediumText fontWeight={600} color={disabled ? Color.FONT_DARK : color}>
+        {text}
+      </MediumText>
     </MediumButton>
   );
 };

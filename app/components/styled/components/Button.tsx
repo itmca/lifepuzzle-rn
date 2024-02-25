@@ -1,6 +1,8 @@
 import styled, {css} from 'styled-components/native';
+import {Color} from '../../../constants/color.constant';
 
 type Props = {
+  mode?: string;
   width?: string;
   flexBasis?: string;
   backgroundColor?: string;
@@ -9,6 +11,7 @@ type Props = {
   marginLeft?: string;
   borderWidth?: number;
   borderColor?: string;
+  borderRadius?: string;
   borderTopLeftRadius?: string;
   borderTopRightRadius?: string;
   borderBottomLeftRadius?: string;
@@ -46,7 +49,15 @@ export const MediumButton = styled.TouchableOpacity<Props>`
   ${props =>
     props.disabled &&
     css`
-      background-color: grey;
+      background-color: ${Color.GRAY};
+    `};
+  ${props =>
+    props.borderRadius &&
+    css`
+      border-top-left-radius: ${props.borderRadius};
+      border-top-right-radius: ${props.borderRadius};
+      border-bottom-left-radius: ${props.borderRadius};
+      border-bottom-right-radius: ${props.borderRadius};
     `};
 `;
 

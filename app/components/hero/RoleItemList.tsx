@@ -19,9 +19,9 @@ type props = {
 
 export const RoleItemList = ({target, onSelect}: props): JSX.Element => {
   return (
-    <>
+    <ContentContainer>
       {target ? (
-        <HorizontalContentContainer height={'50px'}>
+        <HorizontalContentContainer height={'62px'}>
           <ContentContainer width={'60px'}>
             <MediumImage
               width={48}
@@ -43,6 +43,6 @@ export const RoleItemList = ({target, onSelect}: props): JSX.Element => {
       {RoleList.map((role, index) => (
         <RoleItem key={index} target={target} role={role} onSelect={onSelect} />
       ))}
-    </>
+    </ContentContainer>
   );
 };

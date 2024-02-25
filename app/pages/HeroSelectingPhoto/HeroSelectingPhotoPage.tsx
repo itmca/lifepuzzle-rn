@@ -8,6 +8,7 @@ import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   EmitterSubscription,
+  FlatList,
   PermissionsAndroid,
   Platform,
   ScrollView,
@@ -16,12 +17,16 @@ import {
 import {useRecoilState} from 'recoil';
 
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
+import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 
 const DeviceWidth = Dimensions.get('window').width;
 
 const HeroSelectingPhotoPage = (): JSX.Element => {
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [nextCursor, setNextCursor] = useState<string>();
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>();
+  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
   const [selectedPhoto, setSelectedPhoto] = useRecoilState(
     selectedHeroPhotoState,
   );
@@ -38,13 +43,33 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
       return;
     }
 
-    const result = await CameraRoll.getPhotos({
-      first: 20,
+    const {edges, page_info} = await CameraRoll.getPhotos({
+      first: !photos || photos.length < 20 ? 20 : photos.length,
       assetType: 'Photos',
     });
-    setPhotos(result.edges);
-  };
+    setPhotos(edges);
 
+    setNextCursor(page_info.end_cursor);
+    setHasNextPage(page_info.has_next_page);
+  };
+  const handleLoadMore = async () => {
+    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+      //TODO: Android 권한 없는 경우 Alert 필요
+      return;
+    }
+    if (!nextCursor) {
+      return;
+    }
+    const {edges, page_info} = await CameraRoll.getPhotos({
+      first: 20,
+      after: nextCursor,
+      assetType: 'Photos',
+    });
+    setPhotos(prev => [...(prev ?? []), ...edges]);
+
+    setNextCursor(page_info.end_cursor);
+    setHasNextPage(page_info.has_next_page);
+  };
   useEffect(() => {
     let subscription: EmitterSubscription;
     if (isAboveIOS14) {
@@ -95,39 +120,31 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
 
   return (
     <>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <ScrollView
-          style={{height: 500}}
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}>
-          {photos?.map((photo, index) => {
-            const isDisabled =
-              selectedPhoto?.node.image.uri === photo.node.image.uri;
-
-            return (
-              <SelectablePhoto
-                key={`${index}-${String(isDisabled)}`}
-                onSelected={(photo: PhotoIdentifier) => {
-                  setSelectedPhoto(photo);
-                }}
-                onDeselected={() => {
-                  setSelectedPhoto(undefined);
-                }}
-                size={DeviceWidth / 3}
-                photo={photo}
-                selected={isDisabled}
-              />
-            );
-          })}
-        </ScrollView>
-      </View>
+      <FlatList
+        data={photos}
+        numColumns={3}
+        keyExtractor={(item, index) => index.toString()}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={1}
+        renderItem={({item, index}) => {
+          const isDisabled =
+            selectedPhoto?.node.image.uri === item.node.image.uri;
+          return (
+            <SelectablePhoto
+              key={`${index}-${String(isDisabled)}`}
+              onSelected={(item: PhotoIdentifier) => {
+                setSelectedPhoto(item);
+              }}
+              onDeselected={() => {
+                setSelectedPhoto(undefined);
+              }}
+              size={DeviceWidth / 3}
+              photo={item}
+              selected={isDisabled}
+            />
+          );
+        }}
+      />
     </>
   );
 };

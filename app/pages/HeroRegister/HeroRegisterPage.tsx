@@ -1,13 +1,9 @@
 import React, {useState} from 'react';
-import {Alert, TouchableOpacity, View} from 'react-native';
+import {Alert} from 'react-native';
 import {styles} from './styles';
 import CtaButton from '../../components/button/CtaButton';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {
-  getCurrentHeroPhotoUri,
-  wrtingHeroState,
-} from '../../recoils/hero.recoil';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 
 import {HeroType} from '../../types/hero.type';
@@ -15,7 +11,6 @@ import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useUpdatePublisher} from '../../service/hooks/update.hooks';
 import {heroUpdate} from '../../recoils/update.recoil';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
@@ -26,6 +21,10 @@ import {ScreenContainer} from '../../components/styled/container/ScreenContainer
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ImageButton} from '../../components/styled/components/Button';
+import {
+  getCurrentHeroPhotoUri,
+  writingHeroState,
+} from '../../recoils/hero-write.recoil';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -42,19 +41,21 @@ const HeroRegisterPage = (): JSX.Element => {
   const [nickName, setNickName] = useState<string>('');
   const [birthday, setBirthday] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>('');
-  const resetWritingHero = useResetRecoilState(wrtingHeroState);
-  const [writingHero, setWritingHero] = useRecoilState(wrtingHeroState);
+  const resetWritingHero = useResetRecoilState(writingHeroState);
+  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
   const currentHeroPhotoUri = useRecoilValue(getCurrentHeroPhotoUri);
   const [loading, registerHero] = useAuthAxios({
     requestOption: {
       url: '/heroes',
       method: 'post',
+      headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {
       Alert.alert('주인공이 생성되었습니다.');
       goBack();
     },
-    onError: () => {
+    onError: err => {
+      console.log(err);
       CustomAlert.retryAlert(
         '주인공 프로필 수정이 실패했습니다.',
         onSubmit,
@@ -65,22 +66,20 @@ const HeroRegisterPage = (): JSX.Element => {
   });
 
   const addHeroInFormData = (formData: FormData) => {
-    const photo: PhotoIdentifier | undefined = writingHero?.modifiedImage;
-    console.log(photo?.node.image);
+    const photo: PhotoIdentifier | undefined = writingHero?.imageURL;
     const currentTime = Date.now();
     const uri = photo?.node.image.uri;
     const fileParts = uri?.split('/');
     const imgName = fileParts ? fileParts[fileParts?.length - 1] : undefined;
-    const imgPath = photo
-      ? `${currentTime}_${String(imgName)}`
-      : writingHero?.imageURL;
-    const savedHero: HeroType = {
-      ...writingHero,
+    const imgPath = `${currentTime}_${String(imgName)}`;
+
+    const savedHero = {
+      heroNo: -1,
       heroName: name,
       heroNickName: nickName,
       birthday: birthday,
       title: title,
-      imageURL: imgPath,
+      imageURL: undefined,
     };
 
     formData.append('toWrite', {
@@ -90,7 +89,7 @@ const HeroRegisterPage = (): JSX.Element => {
   };
 
   const addHeroPhotoInFormData = (formData: FormData) => {
-    const photo: PhotoIdentifier | undefined = writingHero?.modifiedImage;
+    const photo: PhotoIdentifier | undefined = writingHero?.imageURL;
 
     if (!photo) {
       return;

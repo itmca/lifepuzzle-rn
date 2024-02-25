@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {
   getCurrentUserPhotoUri,
@@ -19,7 +19,6 @@ import {RootStackParamList} from '../../navigation/RootNavigator';
 import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {MediumButton} from '../../components/styled/components/Button';
 import {MediumText} from '../../components/styled/components/Text';
 import {Color} from '../../constants/color.constant';
 import {Divider} from '../../components/styled/components/Divider';
@@ -29,6 +28,7 @@ import {Pressable, TouchableOpacity} from 'react-native';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {UserType} from '../../types/user.type';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
+import CtaButton from '../../components/button/CtaButton';
 
 type AccountQueryResponse = {
   userNo: number;
@@ -238,10 +238,9 @@ const AccountModificationPage = ({
           <ContentContainer padding={16}>
             <ContentContainer>
               {user?.userType === 'general' && (
-                <MediumButton
-                  borderWidth={0.5}
-                  borderColor={Color.MEDIUM_GRAY}
-                  backgroundColor={Color.WHITE}
+                <CtaButton
+                  outlined
+                  text="비밀번호 변경"
                   onPress={() => {
                     navigation.push('NoTab', {
                       screen: 'AccountSettingNavigator',
@@ -249,31 +248,23 @@ const AccountModificationPage = ({
                         screen: 'AccountPasswordModification',
                       },
                     });
-                  }}>
-                  <MediumText fontWeight={600} color={Color.MEDIUM_GRAY}>
-                    비밀번호 변경
-                  </MediumText>
-                </MediumButton>
+                  }}
+                />
               )}
-              <MediumButton
-                borderWidth={0.5}
-                borderColor={Color.MEDIUM_GRAY}
-                backgroundColor={Color.LIGHT_BLACK}
+              <CtaButton
+                filled
+                text="로그아웃"
                 onPress={() => {
                   logout();
-                }}>
-                <MediumText fontWeight={600} color={Color.WHITE}>
-                  로그아웃
-                </MediumText>
-              </MediumButton>
+                }}
+              />
             </ContentContainer>
           </ContentContainer>
           <Divider />
           <ContentContainer padding={16}>
-            <MediumButton
-              borderWidth={0.5}
-              borderColor={Color.MEDIUM_GRAY}
-              backgroundColor={Color.WHITE}
+            <CtaButton
+              outlined
+              text="회원탈퇴"
               onPress={() => {
                 CustomAlert.actionAlert({
                   title: '회원탈퇴',
@@ -287,11 +278,8 @@ const AccountModificationPage = ({
                     });
                   },
                 });
-              }}>
-              <MediumText fontWeight={600} color={Color.MEDIUM_GRAY}>
-                회원탈퇴
-              </MediumText>
-            </MediumButton>
+              }}
+            />
           </ContentContainer>
         </ScrollContainer>
       </NoOutLineScreenContainer>
