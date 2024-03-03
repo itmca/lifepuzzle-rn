@@ -14,13 +14,14 @@ import {useNavigation} from '@react-navigation/native';
 import Title from '../../components/styled/components/Title';
 import {useSaveHero} from '../../service/hooks/hero.write.hook';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
+import {HeroType} from '../../types/hero.type';
 
 export type HeroSettingParamList = {
   HeroSetting: undefined;
   HeroRegister: undefined;
   HeroModification: {heroNo: number};
   HeroSelectingPhoto: undefined;
-  HeroShare: {heroNo: number};
+  HeroShare: {hero: HeroType};
 };
 
 const Stack = createNativeStackNavigator<HeroSettingParamList>();

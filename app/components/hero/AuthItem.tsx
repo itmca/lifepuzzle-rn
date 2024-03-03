@@ -1,32 +1,41 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {useRecoilState} from 'recoil';
 import {Color} from '../../constants/color.constant';
-import {CodeType, LinkedUserType} from '../../types/hero.type';
+import {writingHeroState} from '../../recoils/hero-write.recoil';
+import {HeroUserType} from '../../service/hooks/hero.query.hook';
+import {useAuthAxios} from '../../service/hooks/network.hook';
+import {CodeType} from '../../types/code.type';
+import {UserType} from '../../types/user.type';
+import {CustomAlert} from '../alert/CustomAlert';
 import {ImageButton} from '../styled/components/Button';
 import {MediumImage} from '../styled/components/Image';
 import {XSmallText, MediumText} from '../styled/components/Text';
-import {XSmallTitle} from '../styled/components/Title';
 import {
   ContentContainer,
   HorizontalContentContainer,
 } from '../styled/container/ContentContainer';
 
 type props = {
-  target: LinkedUserType;
-  role: CodeType;
-  onSelect: Function;
+  user: HeroUserType;
+  auth: CodeType;
+  onUpdate: Function;
 };
 
-export const RoleItem = ({target, role, onSelect}: props): JSX.Element => {
+export const AuthItem = ({user, auth, onUpdate}: props): JSX.Element => {
+  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
+
+  const onSubmit = () => {
+    onUpdate(auth.code);
+  };
   return (
     <ImageButton
       backgroundColor={'transparent'}
       onPress={() => {
-        onSelect(role.code);
+        onSubmit();
       }}>
       <HorizontalContentContainer height={'56px'}>
         <ContentContainer width={'40px'} alignItems={'center'}>
-          {target.role === role.code ? (
+          {user.auth === auth.code ? (
             <MediumImage
               width={22}
               source={require('../../assets/images/check-round-edge.png')}
@@ -37,10 +46,10 @@ export const RoleItem = ({target, role, onSelect}: props): JSX.Element => {
           )}
         </ContentContainer>
         <ContentContainer flex={1}>
-          <MediumText fontWeight={'600'}>{role.name}</MediumText>
-          {role.description ? (
+          <MediumText fontWeight={'600'}>{auth.name}</MediumText>
+          {auth.description ? (
             <XSmallText fontWeight={'600'} color={Color.DARK_GRAY}>
-              {role.description}
+              {auth.description}
             </XSmallText>
           ) : (
             <></>

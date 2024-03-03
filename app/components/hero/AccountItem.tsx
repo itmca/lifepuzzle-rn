@@ -1,21 +1,21 @@
 import React from 'react';
 import {MediumImage} from '../../components/styled/components/Image';
 import {Color} from '../../constants/color.constant';
-import {RoleList} from '../../constants/role.constant';
-import {LinkedUserType} from '../../types/hero.type';
+import {AuthList} from '../../constants/auth.constant';
 import {ImageButton} from '../styled/components/Button';
 import {SmallText} from '../styled/components/Text';
 import {
   ContentContainer,
   HorizontalContentContainer,
 } from '../styled/container/ContentContainer';
+import {HeroUserType} from '../../types/hero.type';
 
 type props = {
-  linkedUser: LinkedUserType;
+  user: HeroUserType;
   onSelect: Function;
 };
 
-export const AccountItem = ({linkedUser, onSelect}: props): JSX.Element => {
+export const AccountItem = ({user, onSelect}: props): JSX.Element => {
   return (
     <HorizontalContentContainer height={'50px'}>
       <ContentContainer width={'58px'}>
@@ -23,16 +23,15 @@ export const AccountItem = ({linkedUser, onSelect}: props): JSX.Element => {
           width={48}
           height={48}
           source={
-            linkedUser?.imageURL ??
-            require('../../assets/images/profile_icon.png')
+            user?.imageURL ?? require('../../assets/images/profile_icon.png')
           }
         />
       </ContentContainer>
       <ContentContainer flex={1}>
-        <SmallText>{linkedUser.userNickName}</SmallText>
+        <SmallText>{user.nickName}</SmallText>
         <SmallText color={Color.FONT_GRAY}>
-          {RoleList.map(value => {
-            if (value.code == linkedUser.role) {
+          {AuthList.map(value => {
+            if (value.code == user.auth) {
               return value.name;
             }
           })}
@@ -44,7 +43,7 @@ export const AccountItem = ({linkedUser, onSelect}: props): JSX.Element => {
           width={'20px'}
           backgroundColor={'transparent'}
           onPress={() => {
-            onSelect(linkedUser);
+            onSelect(user);
           }}>
           <MediumImage
             width={20}

@@ -2,7 +2,6 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {authState} from '../../recoils/auth.recoil';
 import {useAuthAxios} from './network.hook';
 import {UserType} from '../../types/user.type';
-import {HeroType} from '../../types/hero.type';
 import {useEffect} from 'react';
 import {userState} from '../../recoils/user.recoil';
 import {heroState} from '../../recoils/hero.recoil';
@@ -13,6 +12,7 @@ import {
 } from '../../recoils/update.recoil';
 import {LocalStorage} from '../local-storage.service';
 import {getTokenState} from '../auth.service';
+import {HeroQueryResponse} from './hero.query.hook';
 
 export const useFetchLocalStorageUserHero = (): void => {
   const tokens = useRecoilValue(authState);
@@ -32,10 +32,10 @@ export const useFetchLocalStorageUserHero = (): void => {
     disableInitialRequest: true,
   });
 
-  const [, fetchHero] = useAuthAxios<HeroType>({
+  const [, fetchHero] = useAuthAxios<HeroQueryResponse>({
     requestOption: {},
-    onResponseSuccess: hero => {
-      setHero(hero);
+    onResponseSuccess: res => {
+      setHero(res.hero);
     },
     disableInitialRequest: true,
   });

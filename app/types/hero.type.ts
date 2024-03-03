@@ -1,5 +1,5 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {UserType, RoleType} from './user.type';
+import {AuthList} from '../constants/auth.constant';
 
 export type HeroType = {
   heroNo: number;
@@ -9,18 +9,34 @@ export type HeroType = {
   birthday?: Date;
   title?: string;
   modifiedImage?: PhotoIdentifier | undefined;
-  linkedUser?: LinkedUserType[];
 };
-export type LinkedUserType = UserType & {
-  role: RoleType;
+
+export type HeroUserType = {
+  userNo: number;
+  nickName?: string;
+  imageURL?: undefined | string;
+  auth?: AuthType;
 };
-export type ShareType = {
-  heroNo: number;
-  role: string;
-  shareURL?: string;
-};
-export type CodeType = {
-  code: string;
-  name: string;
-  description?: string;
-};
+export type AuthType = (typeof AuthList)[number]['code'];
+
+export const toPhotoIdentifier = (uri: string) => ({
+  node: {
+    type: '',
+    subTypes: undefined,
+    group_name: '',
+    image: {
+      filename: uri ? uri.split('/').pop() : '',
+      filepath: null,
+      extension: null,
+      uri: uri,
+      height: 0,
+      width: 0,
+      fileSize: null,
+      playableDuration: 0,
+      orientation: null,
+    },
+    timestamp: 0,
+    modificationTimestamp: 0,
+    location: null,
+  },
+});

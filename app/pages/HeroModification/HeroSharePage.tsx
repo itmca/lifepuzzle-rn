@@ -15,43 +15,47 @@ import {
 } from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
-import {RoleList} from '../../constants/role.constant';
+import {AuthList} from '../../constants/auth.constant';
 import {HeroSettingRouteProps} from '../../navigation/types';
 import {useAuthAxios} from '../../service/hooks/network.hook';
-import {HeroType, ShareType} from '../../types/hero.type';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 const HeroSharePage = (): JSX.Element => {
   const route = useRoute<HeroSettingRouteProps<'HeroShare'>>();
-  const heroNo = route.params.heroNo;
-  const [name, setName] = useState<string>('');
-  const [nickName, setNickName] = useState<string>('');
+  const hero = route.params.hero;
+
+  const [auth, setAuth] = useState(null);
+
+  const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState<boolean>(false);
-  const [loading] = useAuthAxios<HeroType>({
-    requestOption: {
-      url: `/heroes/${heroNo}`,
-      method: 'get',
-    },
-    onResponseSuccess: hero => {
-      setName(hero.heroName);
-      setNickName(hero.heroNickName);
-    },
-    disableInitialRequest: false,
+
+  const dropDownList = AuthList.map(item => {
+    return {
+      label: item.name,
+      value: item.code,
+      description: item.description,
+    };
   });
-  const [updateLoading, refetch] = useAuthAxios<ShareType>({
+  const [dropDownItem, setDropDownItem] = useState(dropDownList);
+
+  const [updateLoading, refetch] = useAuthAxios<any>({
     requestOption: {
-      url: `/heroes/${heroNo}`,
+      url: `/heroes/auth/${hero.heroNo}/link`,
       method: 'get',
+      params: {
+        auth: auth,
+      },
     },
-    onResponseSuccess: share => {
-      onCopy(share.shareURL);
+    onResponseSuccess: res => {
+      onCopy(res);
     },
     onError: () => {
       CustomAlert.retryAlert('권한 공유 실패했습니다.', onSubmit, () => {});
     },
     disableInitialRequest: true,
   });
+
   const onCopy = async (text: string) => {
     try {
       await Clipboard.setString(text);
@@ -61,47 +65,21 @@ const HeroSharePage = (): JSX.Element => {
       alert('복사에 실패하였습니다');
     }
   };
-  const addShareInFormData = (formData: FormData) => {
-    const share: ShareType = {
-      heroNo: heroNo,
-      role: role,
-      shareURL: '',
-    };
-    formData.append('toUpdate', {
-      string: JSON.stringify(share),
-      type: 'application/json',
-    });
-  };
   const onSubmit = () => {
-    if (!role) {
+    if (!auth) {
       CustomAlert.simpleAlert('공유할 권한이 선택되지 않았습니다.');
       return;
     }
-
-    const formData = new FormData();
-
-    addShareInFormData(formData);
-    refetch({data: formData});
+    refetch({});
   };
 
-  let dropDownItem = RoleList.map(item => {
-    return {
-      label: item.name,
-      value: item.code,
-      description: item.description,
-    };
-  });
-  const [role, setRole] = useState<string>('');
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState(dropDownItem);
   return (
     <ScreenContainer justifyContent={'flex-start'}>
-      <LoadingContainer isLoading={loading || updateLoading}>
+      <LoadingContainer isLoading={updateLoading}>
         <ContentContainer padding={5}>
-          <LargeTitle>{nickName}</LargeTitle>
+          <LargeTitle>{hero.heroNickName}</LargeTitle>
           <XSmallTitle fontWeight={'600'} color={Color.FONT_GRAY}>
-            {name}
+            {hero.heroName}
           </XSmallTitle>
         </ContentContainer>
         <ContentContainer>
@@ -110,19 +88,18 @@ const HeroSharePage = (): JSX.Element => {
           </ContentContainer>
           <DropDownPicker
             open={open}
-            value={value}
-            items={items}
+            value={auth}
+            items={dropDownItem}
             setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
+            setValue={setAuth}
+            setItems={setDropDownItem}
             placeholder={'권한 선택'}
             renderListItem={props => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    setValue(props.value);
+                    setAuth(props.value);
                     setOpen(false);
-                    setRole(props.value);
                     setCopied(false);
                   }}>
                   <HorizontalContentContainer>

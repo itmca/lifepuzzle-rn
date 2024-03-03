@@ -1,6 +1,6 @@
-import {CodeType} from '../types/hero.type';
+import {CodeType} from '../types/code.type';
 
-export const RoleList: CodeType[] = [
+export const AuthList: CodeType[] = [
   {
     code: 'ADMIN',
     name: '관리자',

@@ -19,7 +19,7 @@ type Props = {
 };
 
 const GoBackHeaderLeft = ({
-  iconType = 'x',
+  iconType = 'chevron-left',
   containerStyle,
   iconSize = 26,
   customAction,

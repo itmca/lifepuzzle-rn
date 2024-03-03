@@ -1,5 +1,4 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {RoleList} from '../constants/role.constant';
 
 export type UserType = {
   userNo: number;
@@ -10,4 +9,3 @@ export type UserType = {
   userType: 'general' | 'kakao' | 'apple' | 'none';
   modifiedImage?: PhotoIdentifier | undefined;
 };
-export type RoleType = (typeof RoleList)[number]['code'];

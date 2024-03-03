@@ -12,6 +12,7 @@ import {useUpdateObserver} from '../../service/hooks/update.hooks';
 import {heroUpdate} from '../../recoils/update.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
+import {HeroesQueryResponse} from '../../service/hooks/hero.query.hook';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -22,11 +23,13 @@ const HeroSettingPage = (): JSX.Element => {
   const [heroes, setHeroes] = useState<HeroType[]>([]);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
 
-  const [isLoading, fetchHeroes] = useAuthAxios<HeroType[]>({
+  const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
     requestOption: {
       url: '/heroes',
     },
-    onResponseSuccess: setHeroes,
+    onResponseSuccess: res => {
+      setHeroes(res.heroes.map((item, i) => item.hero));
+    },
     disableInitialRequest: false,
   });
 
