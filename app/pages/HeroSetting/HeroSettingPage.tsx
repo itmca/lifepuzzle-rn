@@ -25,7 +25,7 @@ const HeroSettingPage = (): JSX.Element => {
 
   const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
     requestOption: {
-      url: '/heroes',
+      url: '/heroes/v2',
     },
     onResponseSuccess: res => {
       setHeroes(res.heroes.map((item, i) => item.hero));
