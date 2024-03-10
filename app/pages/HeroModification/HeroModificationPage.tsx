@@ -3,7 +3,6 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Keyboard} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import CtaButton from '../../components/button/CtaButton';
 import {AccountItem} from '../../components/hero/AccountItem';
 import {AuthItemList} from '../../components/hero/AuthItemList';
@@ -11,7 +10,6 @@ import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import BottomSheet from '../../components/styled/components/BottomSheet';
-import {ImageButton} from '../../components/styled/components/Button';
 import {XSmallTitle} from '../../components/styled/components/Title';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
@@ -24,39 +22,41 @@ import {
   getCurrentHeroPhotoUri,
   writingHeroState,
 } from '../../recoils/hero-write.recoil';
-import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {useHero} from '../../service/hooks/hero.query.hook';
 import {HeroUserType} from '../../types/hero.type';
 import {useIsHeroUploading} from '../../service/hooks/hero.write.hook';
 import {toPhotoIdentifier} from '../../types/hero.type';
 import {styles} from './styles';
+import {HeroPhotoCard} from '../../components/hero/HeroPhotoCard';
 
 const HeroModificationPage = (): JSX.Element => {
   const navigation =
     useNavigation<HeroSettingNavigationProps<'HeroModification'>>();
   const route = useRoute<HeroSettingRouteProps<'HeroModification'>>();
-
   const heroNo = route.params.heroNo;
-  const {res} = useHero(heroNo);
-  const {hero, users, loading} = res;
+  const isHeroUploading = useIsHeroUploading();
 
+  //주인공 조회
+  const {res} = useHero(heroNo);
+  const {hero, puzzleCnt, users, loading} = res;
+
+  //초기값
   const [name, setName] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
   const [birthday, setBirthday] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>('');
 
+  const [selectedUsers, setSelectedUsers] = useState<HeroUserType[]>([]);
+  const [selectUser, setSelectUser] = useState<HeroUserType | undefined>(
+    undefined,
+  );
+
+  //recoil 데이터
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
   const currentHeroPhotoUri = useRecoilValue(getCurrentHeroPhotoUri);
-  const [selectedHeroPhoto, setSelectedHeroPhoto] = useRecoilState(
-    selectedHeroPhotoState,
-  );
-  const [selectedUsers, setSelectedUsers] = useState<HeroUserType[]>([]);
-  const [selectUser, setSelectUser] = useState<HeroUserType>(undefined);
 
-  const isHeroUploading = useIsHeroUploading();
-
+  //bottom sheet
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  // callbacks
   const handlePresentModalPress = useCallback((selectUser: HeroUserType) => {
     Keyboard.dismiss();
     bottomSheetModalRef.current?.present();
@@ -65,15 +65,15 @@ const HeroModificationPage = (): JSX.Element => {
 
   useEffect(() => {
     if (hero) {
-      const currentPhoto = toPhotoIdentifier(hero.imageURL);
-
+      const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
+      console.log(currentPhoto);
       setWritingHero({
         heroNo: heroNo,
         heroName: hero?.heroName ?? '',
         heroNickName: hero?.heroNickName,
         birthday: hero?.birthday,
         title: hero?.title,
-        imageURL: currentPhoto ? currentPhoto : undefined,
+        imageURL: currentPhoto,
       });
 
       setName(hero?.heroName);
@@ -107,54 +107,66 @@ const HeroModificationPage = (): JSX.Element => {
         <ScreenContainer>
           <LoadingContainer isLoading={loading || isHeroUploading}>
             <ContentContainer gap={'20px'}>
-              <ImageButton
-                onPress={() => {
+              <HeroPhotoCard
+                photoUri={currentHeroPhotoUri}
+                title={title}
+                onChangeTitle={setTitle}
+                puzzleCnt={puzzleCnt}
+                onClick={() => {
                   navigation.push('NoTab', {
                     screen: 'HeroSettingNavigator',
                     params: {
                       screen: 'HeroSelectingPhoto',
                     },
                   });
-                }}>
-                <HeroAvatar size={128} imageURL={currentHeroPhotoUri} />
-              </ImageButton>
-              <ContentContainer gap={'10px'}>
-                <XSmallTitle fontWeight={'600'}>이름</XSmallTitle>
-                <BasicTextInput
-                  label=""
-                  text={name}
-                  onChangeText={setName}
-                  placeholder="홍길동"
-                />
-                <XSmallTitle fontWeight={'600'}>닉네임</XSmallTitle>
-                <BasicTextInput
-                  label=""
-                  text={nickName}
-                  onChangeText={setNickName}
-                  placeholder="소중한 당신"
-                />
-                <XSmallTitle fontWeight={'600'}>제목</XSmallTitle>
-                <BasicTextInput
-                  label=""
-                  text={title}
-                  onChangeText={setTitle}
-                  placeholder="행복했던 나날들"
-                />
-                <XSmallTitle fontWeight={'600'}>태어난 날</XSmallTitle>
-                <CustomDateInput
-                  label=""
-                  date={birthday}
-                  onChange={setBirthday}
-                />
-                <XSmallTitle fontWeight={'600'}>연결 계정</XSmallTitle>
-                {selectedUsers.map((selectedUser: HeroUserType, index) => (
-                  <AccountItem
-                    key={index}
-                    user={selectedUser}
-                    onSelect={handlePresentModalPress}></AccountItem>
-                ))}
+                }}
+              />
+              <ContentContainer gap={'20px'}>
+                <ContentContainer gap={'10px'}>
+                  <XSmallTitle fontWeight={'600'} left={5}>
+                    이름
+                  </XSmallTitle>
+                  <BasicTextInput
+                    label=""
+                    text={name}
+                    onChangeText={setName}
+                    placeholder="홍길동"
+                  />
+                </ContentContainer>
+                <ContentContainer gap={'10px'}>
+                  <XSmallTitle fontWeight={'600'} left={5}>
+                    닉네임
+                  </XSmallTitle>
+                  <BasicTextInput
+                    label=""
+                    text={nickName}
+                    onChangeText={setNickName}
+                    placeholder="소중한 당신"
+                  />
+                </ContentContainer>
+                <ContentContainer gap={'10px'}>
+                  <XSmallTitle fontWeight={'600'} left={5}>
+                    태어난 날
+                  </XSmallTitle>
+                  <CustomDateInput
+                    label=""
+                    date={birthday}
+                    onChange={setBirthday}
+                  />
+                </ContentContainer>
+                <ContentContainer gap={'10px'}>
+                  <XSmallTitle fontWeight={'600'} left={5}>
+                    연결 계정
+                  </XSmallTitle>
+                  {selectedUsers.map((selectedUser: HeroUserType, index) => (
+                    <AccountItem
+                      key={index}
+                      user={selectedUser}
+                      onSelect={handlePresentModalPress}></AccountItem>
+                  ))}
+                </ContentContainer>
               </ContentContainer>
-              <ContentContainer marginTop={'20px'}>
+              <ContentContainer>
                 <CtaButton
                   active
                   text="연결 계정 추가"

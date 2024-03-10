@@ -4,25 +4,29 @@ import {
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import React, {useEffect, useState} from 'react';
-
 import {
+  Alert,
   Dimensions,
   EmitterSubscription,
   FlatList,
-  PermissionsAndroid,
   Platform,
-  ScrollView,
-  View,
 } from 'react-native';
 import {useRecoilState} from 'recoil';
+import {
+  hasAndroidPermission,
+  usePhotoPermission,
+} from '../../service/hooks/permission.hook';
 
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
-import {writingHeroState} from '../../recoils/hero-write.recoil';
+import {useNavigation} from '@react-navigation/native';
 import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
+import {writingHeroState} from '../../recoils/hero-write.recoil';
 
 const DeviceWidth = Dimensions.get('window').width;
 
 const HeroSelectingPhotoPage = (): JSX.Element => {
+  const navigation = useNavigation();
+
   const [hasNextPage, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
   const [photos, setPhotos] = useState<Array<PhotoIdentifier>>();
@@ -32,6 +36,17 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
   );
   const isAboveIOS14 =
     Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
+
+  usePhotoPermission({
+    onDeny: () => {
+      Alert.alert('앨범 권한이 없습니다.', '', [
+        {
+          text: '확인',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    },
+  });
 
   useEffect(() => {
     void initPhotos();
@@ -88,17 +103,17 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
     };
   }, []);
 
-  async function hasAndroidPermission() {
-    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+  // async function hasAndroidPermission() {
+  //   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 
-    const hasPermission = await PermissionsAndroid.check(permission);
-    if (hasPermission) {
-      return true;
-    }
+  //   const hasPermission = await PermissionsAndroid.check(permission);
+  //   if (hasPermission) {
+  //     return true;
+  //   }
 
-    const status = await PermissionsAndroid.request(permission);
-    return status === 'granted';
-  }
+  //   const status = await PermissionsAndroid.request(permission);
+  //   return status === 'granted';
+  // }
 
   // async function initIOSPermission() {
   //   const a = await Permissions.checkMultiple([

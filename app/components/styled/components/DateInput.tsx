@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 import TextInput from './TextInput';
 import {TextInput as ReactInput} from 'react-native-paper';
 import RNDateTimePicker from 'react-native-modal-datetime-picker';
+import {MediumImage} from './Image';
 
 type Props = {
   width?: '100%';
@@ -36,7 +37,7 @@ function DateInput({...props}) {
           ? '0' + (date.getMonth() + 1)
           : date.getMonth() + 1;
       const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      return `${day}/${month}/${date.getFullYear()}`;
+      return `${date.getFullYear()}.${month}.${day}`;
     }
   };
   const onDatePick = (selectedValue: Date) => {
@@ -58,7 +59,19 @@ function DateInput({...props}) {
         value={formatDate(date)}
         disabled={true}
         mode={'outlined'}
-        right={<ReactInput.Icon icon="calendar" onPress={showPicker} />}
+        left={
+          <ReactInput.Icon
+            icon={() => (
+              <MediumImage
+                width={23}
+                height={23}
+                resizeMode={'contain'}
+                source={require('../../../assets/images/calendar.png')}
+              />
+            )}
+            onPress={showPicker}
+          />
+        }
       />
       <RNDateTimePicker
         isVisible={visible}

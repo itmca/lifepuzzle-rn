@@ -44,6 +44,8 @@ export const LargeImage = styled.Image<Props>`
 export const Photo = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '100%')};
   height: ${({height}) => (height ? `${height}px` : '100%')};
+  border-radius: ${({borderRadius}) =>
+    borderRadius ? `${borderRadius}px` : '0px'};
 `;
 
 function Image({...props}) {

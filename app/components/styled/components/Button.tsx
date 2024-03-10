@@ -99,7 +99,8 @@ export const ImageButton = styled.TouchableOpacity<Props>`
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : 'black'};
   width: ${props => (props.width ? props.width : '100%')};
-  justify-content: center;
+  justify-content: ${props =>
+    props.justifyContent ? props.justifyContent : 'center'};
   align-items: center;
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   margin-left: ${props => (props.marginLeft ? props.marginLeft : '0px')};
