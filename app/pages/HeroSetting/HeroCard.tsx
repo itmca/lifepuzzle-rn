@@ -151,7 +151,7 @@ const HeroCard = ({hero, isButton}: Props): JSX.Element => {
       <View>
         <XSmallText fontWeight={700}>연결 계정</XSmallText>
         <View style={styles.connectedUserContainer}>
-          {users.map((user, index) => {
+          {users?.map((user, index) => {
             return (
               <View key={index} style={styles.connectedUser}>
                 <HeroAvatar
