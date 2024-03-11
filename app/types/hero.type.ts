@@ -40,3 +40,8 @@ export const toPhotoIdentifier = (uri: string) => ({
     location: null,
   },
 });
+
+export type HeroWithPuzzleCntType = HeroType & {
+  puzzleCount: number;
+  users: HeroUserType[];
+};

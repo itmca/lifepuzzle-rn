@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -15,41 +16,19 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginTop: 32,
   },
-  addButtonContainer: {
-    width: '80%',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
-    marginBottom: 8,
-    flex: 0.2,
-  },
-  addButton: {
-    marginTop: 16,
-    backgroundColor: '#010440',
-    borderRadius: 56,
-    width: 56,
-    height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addButtonIcon: {
-    color: '#ffffff',
-    marginLeft: 6,
-  },
-  HeroCardMainContainer: {
-    backgroundColor: '#010440',
+
+  heroCardMainContainer: {
     height: '100%',
+  },
+  heroCardHeader: {
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 16,
-    padding: 16,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    alignItems: 'baseline',
+    height: 40,
+  },
+  characterNickName: {
+    color: Color.BLACK,
+    zIndex: 100,
   },
   settingButtonContainer: {
     width: '100%',
@@ -57,54 +36,64 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flex: 1,
   },
-  settingButtonIcon: {
-    color: '#ffffff',
-  },
-  characterProfileContainer: {
-    width: '100%',
-    alignItems: 'center',
+
+  heroCardContainer: {
+    height: 395,
+    width: 320,
     justifyContent: 'center',
-    flex: 7,
-  },
-  characterNickName: {
-    color: '#ffffff',
-    marginTop: 16,
-  },
-  characterName: {
-    color: '#F2C744',
-    marginTop: 16,
-  },
-  characterTitle: {
-    color: '#F2C744',
-    marginTop: 8,
-  },
-  selectButton: {
-    marginLeft: 16,
-    marginRight: 16,
+    alignItems: 'center',
+    borderRadius: 12,
+    marginTop: 20,
     marginBottom: 20,
-    height: '80%',
-    borderRadius: 8,
+  },
+  heroInfoContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: Color.BLACK,
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  heroInfoTextContainer: {
+    flexDirection: 'column',
+  },
+  heroTitle: {
+    marginBottom: 5,
+  },
+  heroPhotoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoImage: {
+    marginRight: 4,
+    transform: [{rotate: '29.84deg'}],
+  },
+
+  connectedUserContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  connectedUser: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eacc97',
   },
-  disabledSelectButton: {
-    height: '80%',
-    borderRadius: 8,
+
+  addButton: {
+    height: 395,
+    width: 320,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e5e5e5',
+    borderRadius: 12,
+    marginTop: 60,
+    backgroundColor: Color.SECONDARY_LIGHT,
   },
-  selectButtonText: {
-    fontSize: 16,
-    color: '#010440',
-  },
-  disabledSelectButtonText: {
-    fontSize: 16,
-    color: '#010440',
-  },
-  mediumTextContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  addButtonText: {
+    color: Color.LIGHT_BLACK,
+    marginTop: 11,
   },
 });
