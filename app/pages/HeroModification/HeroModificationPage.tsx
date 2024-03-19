@@ -98,6 +98,22 @@ const HeroModificationPage = (): JSX.Element => {
     bottomSheetModalRef.current?.close();
   }, [loading]);
 
+  const openHeroSharePage = () => {
+    navigation.push('NoTab', {
+      screen: 'HeroSettingNavigator',
+      params: {
+        screen: 'HeroShare',
+        params: {
+          hero: {
+            heroNo: heroNo,
+            heroName: name,
+            heroNickName: nickName,
+          },
+        },
+      },
+    });
+  };
+
   return (
     <BottomSheetModalProvider>
       <ScrollContainer
@@ -106,9 +122,12 @@ const HeroModificationPage = (): JSX.Element => {
         keyboardShouldPersistTaps={'always'}>
         <ScreenContainer>
           <LoadingContainer isLoading={loading || isHeroUploading}>
-            <ContentContainer gap={'20px'}>
+            <ContentContainer
+              gap={'20px'}
+              alignItems={'center'}
+              padding={'0px 15'}>
               <HeroPhotoCard
-                photoUri={currentHeroPhotoUri}
+                photoUri={{uri: currentHeroPhotoUri}}
                 title={title}
                 onChangeTitle={setTitle}
                 puzzleCnt={puzzleCnt}
@@ -170,21 +189,7 @@ const HeroModificationPage = (): JSX.Element => {
                 <CtaButton
                   active
                   text="연결 계정 추가"
-                  onPress={() => {
-                    navigation.push('NoTab', {
-                      screen: 'HeroSettingNavigator',
-                      params: {
-                        screen: 'HeroShare',
-                        params: {
-                          hero: {
-                            heroNo: heroNo,
-                            heroName: name,
-                            heroNickName: nickName,
-                          },
-                        },
-                      },
-                    });
-                  }}
+                  onPress={openHeroSharePage}
                 />
               </ContentContainer>
             </ContentContainer>

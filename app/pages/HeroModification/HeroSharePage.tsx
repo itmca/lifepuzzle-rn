@@ -25,9 +25,8 @@ const HeroSharePage = (): JSX.Element => {
   const route = useRoute<HeroSettingRouteProps<'HeroShare'>>();
   const hero = route.params.hero;
 
-  const [auth, setAuth] = useState(null);
-
-  const [open, setOpen] = useState(false);
+  const [auth, setAuth] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
 
   const dropDownList = AuthList.map(item => {
@@ -60,9 +59,9 @@ const HeroSharePage = (): JSX.Element => {
     try {
       await Clipboard.setString(text);
       setCopied(true);
-      alert('클립보드에 주소가 복사되었습니다.');
+      CustomAlert.simpleAlert('클립보드에 주소가 복사되었습니다.');
     } catch (e) {
-      alert('복사에 실패하였습니다');
+      CustomAlert.simpleAlert('복사에 실패하였습니다');
     }
   };
   const onSubmit = () => {

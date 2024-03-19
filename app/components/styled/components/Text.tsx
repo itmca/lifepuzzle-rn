@@ -59,9 +59,10 @@ export const XSmallText = styled.Text<Props>`
   font-weight: ${props => props.fontWeight || 'normal'};
   font-size: 12px;
 `;
-
-function Text({...props}) {
-  return <MediumText {...props} />;
-}
-
+export const XXSmallText = styled.Text<Props>`
+  font-family: 'Pretendard';
+  color: ${props => (props.color ? props.color : Color.BLACK)};
+  font-weight: ${props => props.fontWeight || 'normal'};
+  font-size: 10px;
+`;
 export default MediumText;

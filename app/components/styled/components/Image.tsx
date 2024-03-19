@@ -21,7 +21,7 @@ export const MediumImage = styled.Image<Props>`
 export const SmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '20px')};
   height: ${({height}) => (height ? `${height}px` : '20px')};
-  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : 'transparent')};
+  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : undefined)};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
   border-radius: ${({borderRadius}) =>
@@ -30,7 +30,7 @@ export const SmallImage = styled.Image<Props>`
 export const XSmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '16px')};
   height: ${({height}) => (height ? `${height}px` : '16px')};
-  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : 'transparent')};
+  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : undefined)};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
   border-radius: ${({borderRadius}) =>
@@ -46,6 +46,7 @@ export const Photo = styled.Image<Props>`
   height: ${({height}) => (height ? `${height}px` : '100%')};
   border-radius: ${({borderRadius}) =>
     borderRadius ? `${borderRadius}px` : '0px'};
+  resize-mode: ${({resizeMode}) => (resizeMode ? `${resizeMode}` : 'cover')};
 `;
 
 function Image({...props}) {

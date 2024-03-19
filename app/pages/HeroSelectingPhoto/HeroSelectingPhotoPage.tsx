@@ -85,6 +85,24 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
     setNextCursor(page_info.end_cursor);
     setHasNextPage(page_info.has_next_page);
   };
+  const renderItem = ({item, index}) => {
+    const isDisabled = selectedPhoto?.node.image.uri === item.node.image.uri;
+    return (
+      <SelectablePhoto
+        key={`${index}-${String(isDisabled)}`}
+        onSelected={(item: PhotoIdentifier) => {
+          setSelectedPhoto(item);
+        }}
+        onDeselected={() => {
+          setSelectedPhoto(undefined);
+        }}
+        size={DeviceWidth / 3}
+        photo={item}
+        selected={isDisabled}
+      />
+    );
+  };
+
   useEffect(() => {
     let subscription: EmitterSubscription;
     if (isAboveIOS14) {
@@ -102,37 +120,6 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
       }
     };
   }, []);
-
-  // async function hasAndroidPermission() {
-  //   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-
-  //   const hasPermission = await PermissionsAndroid.check(permission);
-  //   if (hasPermission) {
-  //     return true;
-  //   }
-
-  //   const status = await PermissionsAndroid.request(permission);
-  //   return status === 'granted';
-  // }
-
-  // async function initIOSPermission() {
-  //   const a = await Permissions.checkMultiple([
-  //     PERMISSIONS.IOS.PHOTO_LIBRARY,
-  //     PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY,
-  //   ]);
-  //   console.log('prev', a);
-  //   //await Permissions.request(PERMISSIONS.IOS.CAMERA);
-  //   await Permissions.request(PERMISSIONS.IOS.PHOTO_LIBRARY);
-  //   await Permissions.request(PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY);
-  //   const c = await Permissions.checkMultiple([
-  //     PERMISSIONS.IOS.PHOTO_LIBRARY,
-  //     PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY,
-  //   ]);
-  //   console.log('next', c);
-  //   //Permissions.PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY
-  //   //await Permissions.openLimitedPhotoLibraryPicker();
-  // }
-
   return (
     <>
       <FlatList
@@ -141,24 +128,7 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
         keyExtractor={(item, index) => index.toString()}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={1}
-        renderItem={({item, index}) => {
-          const isDisabled =
-            selectedPhoto?.node.image.uri === item.node.image.uri;
-          return (
-            <SelectablePhoto
-              key={`${index}-${String(isDisabled)}`}
-              onSelected={(item: PhotoIdentifier) => {
-                setSelectedPhoto(item);
-              }}
-              onDeselected={() => {
-                setSelectedPhoto(undefined);
-              }}
-              size={DeviceWidth / 3}
-              photo={item}
-              selected={isDisabled}
-            />
-          );
-        }}
+        renderItem={renderItem}
       />
     </>
   );

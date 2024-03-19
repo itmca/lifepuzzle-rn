@@ -1,11 +1,9 @@
 import React from 'react';
-import {ScreenContainer} from 'react-native-screens';
 import {useRecoilState} from 'recoil';
 import {AuthList} from '../../constants/auth.constant';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroUserType} from '../../types/hero.type';
-import {UserType} from '../../types/user.type';
 import {CustomAlert} from '../alert/CustomAlert';
 import CtaButton from '../button/CtaButton';
 import {MediumImage} from '../styled/components/Image';
@@ -36,7 +34,7 @@ export const AuthItemList = ({
   const updateAuth = (auth: string) => {
     onSelected(
       selected.map(item =>
-        item.userNo === user.userNo ? {...user, auth: auth} : item,
+        item.userNo === user?.userNo ? {...user, auth: auth} : item,
       ),
     );
     onSelect({...user, auth: auth});
@@ -48,7 +46,7 @@ export const AuthItemList = ({
       method: 'put',
     },
     onResponseSuccess: () => {
-      alert('변경 완료되었습니다.');
+      CustomAlert.simpleAlert('변경 완료되었습니다.');
       onClose();
     },
     onError: () => {
@@ -58,15 +56,15 @@ export const AuthItemList = ({
   });
   const onSubmit = () => {
     //onClose();
-    if (!user.auth) {
+    if (!user?.auth) {
       CustomAlert.simpleAlert('공유할 권한이 선택되지 않았습니다.');
       return;
     }
 
     refetch({
       data: {
-        userNo: user.userNo,
-        heroAuthStatus: user.auth,
+        userNo: user?.userNo,
+        heroAuthStatus: user?.auth,
       },
     });
   };

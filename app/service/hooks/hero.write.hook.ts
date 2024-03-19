@@ -53,10 +53,11 @@ export const useSaveHero = (): [() => void] => {
     onResponseSuccess: ({heroNo}) => {
       if (!writingHeroKey) {
         //console.log(`editHeroKey가 아닙니다 ${heroKey}`);
-        setWritingHeroKey(heroNo);
+        //setWritingHeroKey(heroNo);
       } else if (writingHeroKey) {
         CustomAlert.simpleAlert('주인공이 수정되었습니다.');
       }
+      setWritingHeroKey(undefined);
       resetAllWritingHero();
       publishHeroUpdate();
       if (currentHero.heroNo === writingHeroKey) {
@@ -71,7 +72,7 @@ export const useSaveHero = (): [() => void] => {
             submit,
             navigation.goBack,
           )
-        : Alert.alert(
+        : CustomAlert.simpleAlert(
             '주인공 프로필 등록이 실패했습니다. 재시도 부탁드립니다.',
           );
     },
@@ -88,16 +89,16 @@ export const useSaveHero = (): [() => void] => {
 
   function validate(): boolean {
     if (!writingHero?.heroName) {
-      Alert.alert('이름을 입력해주세요.');
+      CustomAlert.simpleAlert('이름을 입력해주세요.');
       return false;
     } else if (!writingHero?.heroNickName) {
-      Alert.alert('닉네임을 입력해주세요.');
+      CustomAlert.simpleAlert('닉네임을 입력해주세요.');
       return false;
     } else if (!writingHero?.title) {
-      Alert.alert('제목을 입력해주세요.');
+      CustomAlert.simpleAlert('제목을 입력해주세요.');
       return false;
     } else if (!writingHero?.birthday) {
-      Alert.alert('태어난 날 을 입력해주세요.');
+      CustomAlert.simpleAlert('태어난 날 을 입력해주세요.');
       return false;
     } else if (!isLoggedIn) {
       Alert.alert(

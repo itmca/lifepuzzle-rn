@@ -43,7 +43,7 @@ const addHeroInFormData = (
   writingHeroKey: number,
   writingHero: WritingHeroType | undefined,
 ) => {
-  const photo: PhotoIdentifier | undefined = writingHero.imageURL;
+  const photo: PhotoIdentifier | undefined = writingHero?.imageURL;
 
   const currentTime = Date.now();
   const uri = photo?.node.image.uri;
