@@ -7,11 +7,19 @@ type Props = {
   imageURL: string | undefined;
   size: number;
   style?: StyleProp<any> | undefined;
+  color?: string;
 };
 
-export const HeroAvatar = ({imageURL, size, style}: Props): JSX.Element => {
+export const HeroAvatar = ({
+  imageURL,
+  size,
+  style,
+  color,
+}: Props): JSX.Element => {
   if (!imageURL) {
-    return <Avatar.Icon style={style} size={size} icon="account" />;
+    return (
+      <Avatar.Icon style={style} size={size} color={color} icon="account" />
+    );
   }
 
   return <Avatar.Image style={style} size={size} source={{uri: imageURL}} />;

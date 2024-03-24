@@ -4,6 +4,7 @@ import {Color} from '../../../constants/color.constant';
 type Props = {
   mode?: string;
   width?: string;
+  height?: string;
   flexBasis?: string;
   backgroundColor?: string;
   marginBottom?: string;
@@ -101,6 +102,8 @@ export const ImageButton = styled.TouchableOpacity<Props>`
   width: ${props => (props.width ? props.width : '100%')};
   justify-content: ${props =>
     props.justifyContent ? props.justifyContent : 'center'};
+  height:${props => (props.height ? props.height : 'auto')}
+  borderRadius:${props => (props.borderRadius ? props.borderRadius : '0')}
   align-items: center;
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   margin-left: ${props => (props.marginLeft ? props.marginLeft : '0px')};

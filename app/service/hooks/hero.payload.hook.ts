@@ -17,6 +17,16 @@ export const useHeroHttpPayLoad = () => {
   return formData;
 };
 
+export const useHeroPayLoadForCreate = () => {
+  const formData = new FormData();
+  const writingHeroKey = useRecoilValue(writingHeroKeyState);
+  const writingHero = useRecoilValue(writingHeroState);
+
+  addHeroPhotoInFormData(formData, writingHero);
+  addHeroInFormDataForCreate(formData, writingHeroKey, writingHero);
+  return formData;
+};
+
 const addHeroPhotoInFormData = function (
   formData: FormData,
   writingHero: WritingHeroType | undefined,
@@ -62,7 +72,37 @@ const addHeroInFormData = (
     imageURL: imgPath,
   };
 
-  formData.append(writingHeroKey ? 'toUpdate' : 'toWrite', {
+  formData.append(/* writingHeroKey ? 'toUpdate' : */ 'toWrite', {
+    string: JSON.stringify(savedHero),
+    type: 'application/json',
+  });
+};
+
+const addHeroInFormDataForCreate = (
+  formData: FormData,
+  writingHeroKey: number,
+  writingHero: WritingHeroType | undefined,
+) => {
+  const photo: PhotoIdentifier | undefined = writingHero.imageURL;
+
+  const currentTime = Date.now();
+  const uri = photo?.node.image.uri;
+  const fileParts = uri?.split('/');
+  const imgName = fileParts ? fileParts[fileParts?.length - 1] : undefined;
+  const imgPath = photo
+    ? `${currentTime}_${String(imgName)}`
+    : writingHero?.imageURL;
+
+  const savedHero = {
+    heroNo: writingHeroKey,
+    heroName: writingHero?.heroName,
+    heroNickName: writingHero?.heroNickName,
+    birthday: writingHero?.birthday,
+    title: writingHero?.title,
+    imageURL: imgPath,
+  };
+
+  formData.append('toWrite', {
     string: JSON.stringify(savedHero),
     type: 'application/json',
   });
