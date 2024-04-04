@@ -13,16 +13,16 @@ import {
 } from '../styled/container/ContentContainer';
 
 type props = {
-  user: HeroUserType;
   auth: CodeType;
-  onUpdate: Function;
+  selected: boolean;
+  onSelect: Function;
 };
 
-export const AuthItem = ({user, auth, onUpdate}: props): JSX.Element => {
+export const AuthItem = ({auth, selected, onSelect}: props): JSX.Element => {
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
 
   const onSubmit = () => {
-    onUpdate(auth.code);
+    onSelect(auth.code);
   };
   return (
     <ImageButton
@@ -32,7 +32,7 @@ export const AuthItem = ({user, auth, onUpdate}: props): JSX.Element => {
       }}>
       <HorizontalContentContainer height={'56px'}>
         <ContentContainer width={'40px'} alignItems={'center'}>
-          {user.auth === auth.code ? (
+          {selected ? (
             <MediumImage
               width={22}
               source={require('../../assets/images/check-round-edge.png')}

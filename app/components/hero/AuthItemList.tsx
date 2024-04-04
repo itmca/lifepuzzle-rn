@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {AuthList} from '../../constants/auth.constant';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
@@ -17,29 +17,16 @@ import {AuthItem} from './AuthItem';
 
 type props = {
   user: HeroUserType;
-  selected: HeroUserType[];
   onSelect: Function;
-  onSelected: Function;
   onClose: Function;
 };
 
-export const AuthItemList = ({
-  user,
-  selected,
-  onSelect,
-  onSelected,
-  onClose,
-}: props): JSX.Element => {
+export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
-  const updateAuth = (auth: string) => {
-    onSelected(
-      selected.map(item =>
-        item.userNo === user?.userNo ? {...user, auth: auth} : item,
-      ),
-    );
-    onSelect({...user, auth: auth});
+  const [selectAuth, setselectAuth] = useState<string>(user?.auth);
+  const onSelectAuth = (auth: string) => {
+    setselectAuth(auth);
   };
-
   const [updateLoading, refetch] = useAuthAxios<void>({
     requestOption: {
       url: `/heroes/auth/${writingHero.heroNo}`,
@@ -47,6 +34,7 @@ export const AuthItemList = ({
     },
     onResponseSuccess: () => {
       CustomAlert.simpleAlert('변경 완료되었습니다.');
+      onSelect(selectAuth);
       onClose();
     },
     onError: () => {
@@ -56,7 +44,7 @@ export const AuthItemList = ({
   });
   const onSubmit = () => {
     //onClose();
-    if (!user?.auth) {
+    if (!selectAuth) {
       CustomAlert.simpleAlert('공유할 권한이 선택되지 않았습니다.');
       return;
     }
@@ -64,7 +52,7 @@ export const AuthItemList = ({
     refetch({
       data: {
         userNo: user?.userNo,
-        heroAuthStatus: user?.auth,
+        heroAuthStatus: selectAuth,
       },
     });
   };
@@ -92,7 +80,12 @@ export const AuthItemList = ({
           <></>
         )}
         {AuthList.map((auth, index) => (
-          <AuthItem key={index} user={user} auth={auth} onUpdate={updateAuth} />
+          <AuthItem
+            key={index}
+            auth={auth}
+            selected={selectAuth == auth.code}
+            onSelect={onSelectAuth}
+          />
         ))}
       </ContentContainer>
       <CtaButton active text="저장" onPress={onSubmit} />

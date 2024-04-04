@@ -46,10 +46,8 @@ const HeroModificationPage = (): JSX.Element => {
   const [birthday, setBirthday] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>('');
 
-  const [selectedUsers, setSelectedUsers] = useState<HeroUserType[]>([]);
-  const [selectUser, setSelectUser] = useState<HeroUserType | undefined>(
-    undefined,
-  );
+  const [linkedUsers, setLinkedUsers] = useState<HeroUserType[]>([]);
+  const [selectUser, setSelectUser] = useState<HeroUserType>(undefined);
 
   //recoil 데이터
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
@@ -62,7 +60,14 @@ const HeroModificationPage = (): JSX.Element => {
     bottomSheetModalRef.current?.present();
     setSelectUser(selectUser);
   }, []);
-
+  const updateAuth = (auth: string) => {
+    setLinkedUsers(
+      linkedUsers.map(item =>
+        item.userNo === selectUser?.userNo ? {...selectUser, auth: auth} : item,
+      ),
+    );
+    setSelectUser({...selectUser, auth: auth});
+  };
   useEffect(() => {
     if (hero) {
       const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
@@ -80,7 +85,7 @@ const HeroModificationPage = (): JSX.Element => {
       setNickName(hero?.heroNickName);
       setBirthday(hero?.birthday ? new Date(hero?.birthday) : new Date());
       setTitle(hero?.title || '');
-      setSelectedUsers(users);
+      setLinkedUsers(users);
     }
   }, [loading]);
 
@@ -177,7 +182,7 @@ const HeroModificationPage = (): JSX.Element => {
                   <XSmallTitle fontWeight={'600'} left={5}>
                     연결 계정
                   </XSmallTitle>
-                  {selectedUsers.map((selectedUser: HeroUserType, index) => (
+                  {linkedUsers.map((selectedUser: HeroUserType, index) => (
                     <AccountItem
                       key={index}
                       user={selectedUser}
@@ -203,9 +208,7 @@ const HeroModificationPage = (): JSX.Element => {
         <ScreenContainer justifyContent={'space-between'}>
           <AuthItemList
             user={selectUser}
-            selected={selectedUsers}
-            onSelect={setSelectUser}
-            onSelected={setSelectedUsers}
+            onSelect={updateAuth}
             onClose={handleClosePress}
           />
         </ScreenContainer>
