@@ -46,7 +46,6 @@ export const HeroPhotoCard = ({
         <Photo
           source={photoUri ?? require('../../assets/images/profile_icon.png')}
           borderRadius={12}
-          resizeMode={'contain'}
         />
         <LinearGradient
           colors={['#FFFFFF22', '#81818122', '#00000022']}

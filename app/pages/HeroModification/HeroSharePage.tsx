@@ -1,6 +1,5 @@
 import {useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import CtaButton from '../../components/button/CtaButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
@@ -20,7 +19,9 @@ import {HeroSettingRouteProps} from '../../navigation/types';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Clipboard from '@react-native-clipboard/clipboard';
-
+import SelectDropdown from 'react-native-select-dropdown';
+import {SmallImage} from '../../components/styled/components/Image';
+import {styles} from './styles';
 const HeroSharePage = (): JSX.Element => {
   const route = useRoute<HeroSettingRouteProps<'HeroShare'>>();
   const hero = route.params.hero;
@@ -71,7 +72,6 @@ const HeroSharePage = (): JSX.Element => {
     }
     refetch({});
   };
-
   return (
     <ScreenContainer justifyContent={'flex-start'}>
       <LoadingContainer isLoading={updateLoading}>
@@ -82,36 +82,55 @@ const HeroSharePage = (): JSX.Element => {
           </XSmallTitle>
         </ContentContainer>
         <ContentContainer>
-          <ContentContainer padding={5}>
+          <ContentContainer padding={12}>
             <XSmallTitle>권한 공유</XSmallTitle>
           </ContentContainer>
-          <DropDownPicker
-            open={open}
-            value={auth}
-            items={dropDownItem}
-            setOpen={setOpen}
-            setValue={setAuth}
-            setItems={setDropDownItem}
-            placeholder={'권한 선택'}
-            renderListItem={props => {
+          <SelectDropdown
+            data={dropDownItem}
+            onSelect={(selectedItem, index) => {
+              setAuth(selectedItem.value);
+              setOpen(false);
+              setCopied(false);
+            }}
+            renderButton={(selectedItem, isOpened) => {
               return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setAuth(props.value);
-                    setOpen(false);
-                    setCopied(false);
-                  }}>
-                  <HorizontalContentContainer>
-                    <ContentContainer padding={11}>
-                      <XSmallTitle>{props.item.label}</XSmallTitle>
+                <HorizontalContentContainer style={styles.dropdown}>
+                  <ContentContainer flex={1}>
+                    <XSmallTitle>
+                      {(selectedItem && selectedItem.label) || '권한 선택'}
+                    </XSmallTitle>
+                    {selectedItem && (
                       <XSmallText color={Color.DARK_GRAY}>
-                        {props.item.description}
+                        {selectedItem.description}
                       </XSmallText>
-                    </ContentContainer>
-                  </HorizontalContentContainer>
-                </TouchableOpacity>
+                    )}
+                  </ContentContainer>
+                  <SmallImage
+                    borderRadius={30}
+                    source={
+                      isOpened
+                        ? require('../../assets/images/expand_less.png')
+                        : require('../../assets/images/expand_more.png')
+                    }
+                  />
+                </HorizontalContentContainer>
               );
             }}
+            dropdownStyle={styles.dropdownList}
+            dropdownOverlayColor={'transparent'}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <HorizontalContentContainer>
+                  <ContentContainer flex={1} padding={'11px 16'}>
+                    <XSmallTitle>{item.label}</XSmallTitle>
+                    <XSmallText color={Color.DARK_GRAY}>
+                      {item.description}
+                    </XSmallText>
+                  </ContentContainer>
+                </HorizontalContentContainer>
+              );
+            }}
+            showsVerticalScrollIndicator={false}
           />
           <ContentContainer marginTop={'20px'}>
             <CtaButton

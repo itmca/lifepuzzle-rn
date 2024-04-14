@@ -66,4 +66,18 @@ export const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 120,
   },
+  dropdown: {
+    height: 56,
+    borderdColor: '#000000',
+    borderWidth: 1,
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  dropdownList: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+  },
 });
