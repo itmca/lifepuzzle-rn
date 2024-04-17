@@ -72,7 +72,7 @@ const addHeroInFormData = (
     imageURL: imgPath,
   };
 
-  formData.append(/* writingHeroKey ? 'toUpdate' : */ 'toWrite', {
+  formData.append('toUpdate', {
     string: JSON.stringify(savedHero),
     type: 'application/json',
   });

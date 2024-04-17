@@ -63,7 +63,7 @@ export const useCreateHero = (): [() => void] => {
     publishHeroUpdate();
   };
 
-  const heroHttpPayLoad = useHeroHttpPayLoad();
+  const heroHttpPayLoad = useHeroPayLoadForCreate();
 
   useEffect(() => {
     setHeroUploading(isLoading);
