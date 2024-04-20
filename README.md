@@ -80,7 +80,7 @@ Basic Flow
 
 1. `main` 브랜치에서 작업 브랜치 생성 및 작업 진행
 2. 작업 완료 후 `main` 브랜치로 PR, 리뷰 후 머지
-3. 배포 시 `main` 브랜치에서 `production` 브랜치로 PR & 머지
+3. 배포 시 `main` 브랜치에서 `production/버전` 브랜치 생성
 4. 배포 완료 후 버전 tag 추가
 
 Hotfix Flow
