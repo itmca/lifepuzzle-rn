@@ -29,7 +29,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
   };
   const [updateLoading, refetch] = useAuthAxios<void>({
     requestOption: {
-      url: `/heroes/auth/${writingHero.heroNo}`,
+      url: `/heroes/auth`,
       method: 'put',
     },
     onResponseSuccess: () => {
@@ -52,6 +52,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
     refetch({
       data: {
         userNo: user?.userNo,
+        heroNo: writingHero.heroNo,
         heroAuthStatus: selectAuth,
       },
     });
