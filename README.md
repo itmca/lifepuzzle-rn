@@ -47,8 +47,8 @@ Format: `Major.Minor.Patch`
 
 - Branch Name: `<type>/<ticket no>-<subject>`
   - 예시: feat/LP-1-foo
-- Commit Msg: `[<ticket no>] <type>: <subject>`
-  - 예시: [LP-0] feat: foo
+- Commit Msg: `<type>: <subject>`
+  - 예시: feat: foo
 
 type 설명
 
@@ -69,7 +69,7 @@ type 설명
 
 ### Git Strategy
 
-기본적으로 [GitLab FLow](https://docs.gitlab.com/ee/topics/gitlab_flow.html)를 따릅니다.
+기본적으로 [Trunk Based Development](https://trunkbaseddevelopment.com/)를 따릅니다.
 
 Branches
 
@@ -89,3 +89,19 @@ Hotfix Flow
 2. `hotfix` 브랜치 작업 후 `production` 브랜치로 PR & 머지 (리뷰 권장되지만 생략 가능)
 3. 버그 해결 완료 후 버전 tag 추가 (hotfix는 patch 버전 업 e.g. 1.2.3 -> 1.2.4)
 4. `hotfix` 브랜치를 `main` 브랜치로 PR & 머지
+
+### Ship Show Ask 전략
+
+타입별 설명
+
+- Ship: PR 생성 후 바로 머지하며 별도 리뷰가 필요하지 않습니다.
+- Show:
+  - PR 생성 후 바로 머지하지만 리뷰가 필요합니다.
+  - 리뷰는 추후 별도 PR로 반영됩니다.
+- ASK
+  - PR 생성 후 리뷰 후 머지
+
+### PR Template
+
+- 형식: `[SHIP/SHOW/ASK][<ticket no>] <type>: <subject>`
+- 예시: `[SHIP][LP-1] feat: 기능 개발`
