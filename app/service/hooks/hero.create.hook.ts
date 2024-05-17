@@ -43,8 +43,12 @@ export const useCreateHero = (): [() => void] => {
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {
-      Alert.alert('주인공이 생성되었습니다.');
-      goBack();
+      CustomAlert.actionAlert({
+        title: '회원생성',
+        desc: '주인공이 생성되었습니다.',
+        actionBtnText: '확인',
+        action: goBack,
+      });
     },
     onError: err => {
       console.log(err, writingHeroKey);

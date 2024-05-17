@@ -95,10 +95,10 @@ const addHeroInFormDataForCreate = (
 
   const savedHero = {
     heroNo: writingHeroKey,
-    heroName: writingHero?.heroName,
-    heroNickName: writingHero?.heroNickName,
-    birthday: writingHero?.birthday,
-    title: writingHero?.title,
+    heroName: writingHero.heroName,
+    heroNickName: writingHero.heroNickName,
+    birthday: writingHero.birthday,
+    title: writingHero.title,
     imageURL: imgPath,
   };
 

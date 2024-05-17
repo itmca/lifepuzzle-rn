@@ -5,7 +5,7 @@ import CtaButton from '../../components/button/CtaButton';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
-
+import {Color} from '../../constants/color.constant';
 import {HeroType} from '../../types/hero.type';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
@@ -39,10 +39,6 @@ const HeroRegisterPage = (): JSX.Element => {
     title: '',
   });
 
-  const [name, setName] = useState<string>('');
-  const [nickName, setNickName] = useState<string>('');
-  const [birthday, setBirthday] = useState<Date | undefined>(undefined);
-  const [title, setTitle] = useState<string>('');
   const resetWritingHero = useResetRecoilState(writingHeroState);
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
   const currentHeroPhotoUri = useRecoilValue(getCurrentHeroPhotoUri);
@@ -55,24 +51,6 @@ const HeroRegisterPage = (): JSX.Element => {
       },
     });
   };
-
-  const cameraStyle = {
-    backgroundColor: '#FFFFFF',
-    position: 'absolute',
-    right: 15,
-    bottom: 15,
-  };
-
-  useEffect(() => {
-    setWritingHero({
-      heroNo: -1,
-      heroName: name,
-      heroNickName: nickName,
-      birthday: birthday,
-      title: title,
-      imageURL: undefined,
-    });
-  }, [name, nickName, birthday, title]);
 
   return (
     <ScreenContainer>
@@ -94,31 +72,40 @@ const HeroRegisterPage = (): JSX.Element => {
               size={156}
               imageURL={currentHeroPhotoUri}
             />
-            <Camera style={cameraStyle} size={34} color="#323232" />
+            <Camera
+              style={{
+                backgroundColor: Color.WHITE,
+                position: 'absolute',
+                right: 15,
+                bottom: 15,
+              }}
+              size={34}
+              color="#323232"
+            />
           </ImageButton>
           <BasicTextInput
             label="이름"
-            text={name}
-            onChangeText={setName}
+            text={writingHero.heroName}
+            onChangeText={heroName => setWritingHero({heroName})}
             placeholder="홍길동"
           />
           <BasicTextInput
             label="닉네임"
-            text={nickName}
-            onChangeText={setNickName}
+            text={writingHero.heroNickName}
+            onChangeText={heroNickName => setWritingHero({heroNickName})}
             placeholder="소중한 당신"
           />
           <BasicTextInput
             label="제목"
             placeholder={'행복했던 나날들'}
-            text={title}
-            onChangeText={setTitle}
+            text={writingHero.title}
+            onChangeText={title => setWritingHero({title})}
           />
           <View style={{width: '100%'}}>
             <CustomDateInput
               label="태어난 날"
-              date={birthday}
-              onChange={setBirthday}
+              date={writingHero.birthday}
+              onChange={birthday => setWritingHero({birthday})}
             />
           </View>
         </ContentContainer>
