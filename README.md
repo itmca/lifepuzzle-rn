@@ -80,15 +80,16 @@ Basic Flow
 
 1. `main` 브랜치에서 작업 브랜치 생성 및 작업 진행
 2. 작업 완료 후 `main` 브랜치로 PR, 리뷰 후 머지
-3. 배포 시 `main` 브랜치에서 `production/버전` 브랜치 생성
-4. 배포 완료 후 버전 tag 추가
+3. 배포 시 `main` 브랜치에서 배포
+4. 배포 후 버전 태그 추가 e.g. `v1.1.1`
 
 Hotfix Flow
 
-1. 배포 버전에서 버그 발생하여 긴급 수정 필요 시 `production` 브랜치에서 `hotfix` 브랜치 생성
-2. `hotfix` 브랜치 작업 후 `production` 브랜치로 PR & 머지 (리뷰 권장되지만 생략 가능)
-3. 버그 해결 완료 후 버전 tag 추가 (hotfix는 patch 버전 업 e.g. 1.2.3 -> 1.2.4)
-4. `hotfix` 브랜치를 `main` 브랜치로 PR & 머지
+1. 배포 버전에서 버그 발생하여 긴급 수정 필요 시 버전 tag에서 `production`브랜치와 `hotfix` 브랜치 생성
+   - e.g. `production/1.1.2`, `hotfix/fix-some-problem`
+2. `hotfix` 브랜치 작업 후 `production` 브랜치로 PR 생성 (리뷰 권장되지만 생략 가능)
+3. `production` 브랜치에서 배포 후 버전 tag 추가 (hotfix 시 patch 버전 업 e.g. 1.2.3 -> 1.2.4)
+4. `production` 브랜치를 `main` 브랜치로 PR & 머지
 
 ### Ship Show Ask 전략
 
