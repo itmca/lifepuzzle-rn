@@ -41,7 +41,7 @@ function initializeRecoilState({set}: MutableSnapshot): void {
   }
 }
 
-const InternalApp = (): JSX.Element => {
+const InternalApp = (): React.JSX.Element => {
   useFetchLocalStorageUserHero();
 
   return (
@@ -51,7 +51,7 @@ const InternalApp = (): JSX.Element => {
   );
 };
 
-const App = (): JSX.Element => {
+const App = (): React.JSX.Element => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
