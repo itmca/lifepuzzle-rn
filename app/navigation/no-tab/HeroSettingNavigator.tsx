@@ -15,6 +15,8 @@ import Title from '../../components/styled/components/Title';
 import {useSaveHero} from '../../service/hooks/hero.write.hook';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
+import {Text, View} from 'react-native';
+import {useCreateHero} from '../../service/hooks/hero.create.hook';
 
 export type HeroSettingParamList = {
   HeroSetting: undefined;
@@ -35,6 +37,8 @@ const HeroSettingNavigator = (): JSX.Element => {
     selectedHeroPhotoState,
   );
   const [saveHero] = useSaveHero();
+  const [createHero] = useCreateHero();
+  // const [registerHero] = useCreateHero();
   return (
     <Stack.Navigator
       initialRouteName="HeroSetting"
@@ -59,7 +63,15 @@ const HeroSettingNavigator = (): JSX.Element => {
               }}
             />
           ),
-          headerTitle: () => <Title>주인공 추가</Title>,
+          headerTitle: () => <Title>주인공 생성</Title>,
+          headerRight: () => (
+            <WritingHeaderRight
+              text={'생성'}
+              customAction={() => {
+                createHero();
+              }}
+            />
+          ),
           headerBackVisible: false,
         }}
       />
