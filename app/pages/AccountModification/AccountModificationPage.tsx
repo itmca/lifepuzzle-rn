@@ -142,11 +142,14 @@ const AccountModificationPage = ({
   };
 
   const onSubmit = () => {
-    if (nicknameError) {
+    if (nicknameError && !nickName) {
       CustomAlert.simpleAlert('닉네임을 입력해 주세요.');
       return;
     }
-
+    if (nicknameError && nickName.length > 8) {
+      CustomAlert.simpleAlert('닉네임은 8자 이하로 입력해주세요.');
+      return;
+    }
     const formData = new FormData();
 
     addUserInFormData(formData);
@@ -228,6 +231,10 @@ const AccountModificationPage = ({
                   {
                     condition: nickName => !!nickName,
                     errorText: '닉네임을 입력해주세요.',
+                  },
+                  {
+                    condition: nickName => nickName.length <= 8,
+                    errorText: '8자 이하로 입력해주세요.',
                   },
                 ]}
                 onIsErrorChanged={setNickNameError}
