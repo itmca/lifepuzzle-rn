@@ -74,7 +74,6 @@ type 설명
 Branches
 
 - `main`: 기본 브랜치로 작업 브랜치들이 머지 되는 브랜치
-- `production`: 배포 브랜치
 
 Basic Flow
 
