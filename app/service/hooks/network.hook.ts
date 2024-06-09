@@ -9,6 +9,7 @@ import {useRefreshAuthTokens} from './refresh.hook';
 import {useLogout} from './logout.hook';
 import {AuthTokens} from '../../types/auth.type';
 import logger from '../../utils/logger';
+import * as Sentry from '@sentry/react-native';
 
 type Param<R> = {
   requestOption: AxiosRequestConfig;
@@ -86,8 +87,6 @@ export const useAxios = <R>({
     axiosConfig.url = url.startsWith('http') ? url : SERVER_HOST + url;
 
     logger.debug(axiosConfig.url);
-    console.log(axiosConfig.url);
-
     setLoading(true);
 
     const client = axios.create();
@@ -107,7 +106,12 @@ export const useAxios = <R>({
       })
       .then(r => r.data)
       .then(onResponseSuccess)
-      .catch(onError)
+      .catch(error => {
+        Sentry.captureException(error);
+        if (onError) {
+          onError(error);
+        }
+      })
       .finally(() => {
         setLoading(false);
       });
