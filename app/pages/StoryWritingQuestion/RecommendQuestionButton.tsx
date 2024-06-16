@@ -26,7 +26,7 @@ export const RecommendQuestionButton = ({
   if (!question || question.no < 0) {
     return (
       <WideSelectable
-        gap={12}
+        gap={'12px'}
         backgroundColor={defaultBackgroundColor}
         justifyContents={'center'}
         selected={selected}
@@ -36,7 +36,7 @@ export const RecommendQuestionButton = ({
           flex={1}
           alignItems={'center'}
           justifyContent={'center'}
-          minHeight={42}>
+          minHeight={'42px'}>
           <XSmallTitle style={{color: defaultFontColor}}>
             선택하지 않음
           </XSmallTitle>
@@ -47,13 +47,13 @@ export const RecommendQuestionButton = ({
 
   return (
     <WideSelectable
-      gap={8}
+      gap={'8px'}
       backgroundColor={defaultBackgroundColor}
       selected={selected}
       disabled={selected}
       onPress={onSelect}>
       <PuzzleNumber displayNumber={order} />
-      <ContentContainer flex={1} justifyContent={'center'} minHeight={40}>
+      <ContentContainer flex={1} justifyContent={'center'} minHeight={'40px'}>
         <XSmallTitle color={defaultFontColor}>{question.text}</XSmallTitle>
       </ContentContainer>
     </WideSelectable>

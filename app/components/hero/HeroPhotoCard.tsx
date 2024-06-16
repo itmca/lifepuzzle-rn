@@ -13,10 +13,11 @@ import {GestureResponderEvent, ImageSourcePropType} from 'react-native';
 import Tag from '../styled/components/Tag';
 import {ImageButton} from '../styled/components/Button';
 import LinearGradient from 'react-native-linear-gradient';
+import {HeroAvatar} from '../avatar/HeroAvatar';
 
 type props = {
   width?: string;
-  photoUri?: ImageSourcePropType | undefined;
+  photoUri?: string;
   title?: string;
   onChangeTitle?: (text: string) => void;
   puzzleCnt?: number;
@@ -40,15 +41,30 @@ export const HeroPhotoCard = ({
       borderRadius={12}
       backgroundColor={Color.GRAY}>
       <ImageButton
-        backgroundColor={'transparent'}
-        marginBottom={'0px'}
+        backgroundColor="#D6F3FF"
+        height="395px"
+        width="320px"
+        borderRadius="12px"
         onPress={onClick}>
-        <Photo
-          source={photoUri ?? require('../../assets/images/profile_icon.png')}
-          borderRadius={12}
-        />
+        {photoUri ? (
+          <Photo
+            source={
+              photoUri
+                ? {uri: photoUri}
+                : require('../../assets/images/profile_icon.png')
+            }
+            borderRadius={12}
+          />
+        ) : (
+          <HeroAvatar
+            color="#32C5FF"
+            style={{backgroundColor: 'transparent'}}
+            size={156}
+            imageURL={photoUri}
+          />
+        )}
         <LinearGradient
-          colors={['#FFFFFF22', '#81818122', '#00000022']}
+          colors={['#FFFFFF22', '#2d292921', '#00000022']}
           style={{
             flex: 1,
             width: '100%',

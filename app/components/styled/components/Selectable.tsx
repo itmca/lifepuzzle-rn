@@ -6,7 +6,7 @@ type Props = {
   marginTop?: string;
   backgroundColor?: string;
   borderColor?: string;
-  gap?: number;
+  gap?: string;
   justifyContents?: string;
   alignItems?: string;
   selected?: boolean;

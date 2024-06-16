@@ -66,10 +66,12 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
               <MediumImage
                 width={48}
                 height={48}
-                resizeMode={'contain'}
+                borderRadius={20}
+                resizeMode={'cover'}
                 source={
-                  user?.imageURL ??
-                  require('../../assets/images/profile_icon.png')
+                  user.imageURL
+                    ? {uri: user.imageURL}
+                    : require('../../assets/images/profile_icon.png')
                 }
               />
             </ContentContainer>

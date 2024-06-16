@@ -22,8 +22,11 @@ export const AccountItem = ({user, onSelect}: props): JSX.Element => {
         <MediumImage
           width={48}
           height={48}
+          borderRadius={20}
           source={
-            user?.imageURL ?? require('../../assets/images/profile_icon.png')
+            user.imageURL
+              ? {uri: user.imageURL}
+              : require('../../assets/images/profile_icon.png')
           }
         />
       </ContentContainer>

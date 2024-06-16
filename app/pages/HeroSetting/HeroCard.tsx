@@ -129,7 +129,7 @@ const HeroCard = ({hero, isButton}: Props): JSX.Element => {
 
           <MediumButton
             width="52px"
-            borderRadius="16"
+            borderRadius="16px"
             marginBottom="0px"
             backgroundColor={isSelected ? Color.PRIMARY_LIGHT : '#D4F3FF'}
             onPress={() => {

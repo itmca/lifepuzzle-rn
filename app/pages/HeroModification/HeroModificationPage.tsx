@@ -71,7 +71,6 @@ const HeroModificationPage = (): JSX.Element => {
   useEffect(() => {
     if (hero) {
       const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
-      console.log(currentPhoto);
       setWritingHero({
         heroNo: heroNo,
         heroName: hero?.heroName ?? '',
@@ -132,7 +131,7 @@ const HeroModificationPage = (): JSX.Element => {
               alignItems={'center'}
               padding={'0px 15'}>
               <HeroPhotoCard
-                photoUri={{uri: currentHeroPhotoUri}}
+                photoUri={writingHero?.imageURL?.node.image.uri}
                 title={title}
                 onChangeTitle={setTitle}
                 puzzleCnt={puzzleCnt}

@@ -1,6 +1,6 @@
-import styled from 'styled-components/native';
 import {ImageSourcePropType} from 'react-native/Libraries/Image/Image';
 
+import styled, {css} from 'styled-components/native';
 type Props = {
   width?: number;
   height?: number;
@@ -16,25 +16,35 @@ export const MediumImage = styled.Image<Props>`
   height: ${({height}) => (height ? `${height}px` : '33.25px')};
   justify-content: center;
   align-content: center;
+  border-radius: ${({borderRadius}) =>
+    borderRadius ? `${borderRadius}px` : '0px'};
   resize-mode: ${({resizeMode}) => (resizeMode ? `${resizeMode}` : 'cover')};
 `;
 export const SmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '20px')};
   height: ${({height}) => (height ? `${height}px` : '20px')};
-  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : undefined)};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
   border-radius: ${({borderRadius}) =>
     borderRadius ? `${borderRadius}px` : '0px'};
+  ${props =>
+    props.tintColor &&
+    css`
+      tint-color: ${props.tintColor};
+    `};
 `;
 export const XSmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '16px')};
   height: ${({height}) => (height ? `${height}px` : '16px')};
-  tint-color: ${({tintColor}) => (tintColor ? `${tintColor}` : undefined)};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
   border-radius: ${({borderRadius}) =>
     borderRadius ? `${borderRadius}px` : '0px'};
+  ${props =>
+    props.tintColor &&
+    css`
+      tint-color: ${props.tintColor};
+    `};
 `;
 export const LargeImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '94px')};

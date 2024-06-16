@@ -4,7 +4,7 @@ import {
   ImageSourcePropType,
   StyleProp,
   TouchableOpacity,
-  ViewStyle,
+  ImageStyle,
 } from 'react-native';
 import {XSmallImage} from './Image';
 import {HorizontalContentContainer} from '../container/ContentContainer';
@@ -12,12 +12,12 @@ import {XXSmallText} from './Text';
 
 type Props = {
   iconSource?: ImageSourcePropType;
-  iconStyle?: StyleProp<ViewStyle>;
-  textStyle?: TextProps;
+  iconStyle?: StyleProp<ImageStyle>;
+  text?: string;
   width?: string;
-  height?: number;
+  height?: string;
   backgroundColor?: string;
-  borderRadius?: number;
+  borderRadius?: string;
   padding?: string;
   alignItems?: string;
   alignSelf?: string;
@@ -44,22 +44,16 @@ export const StyledTag = styled(TouchableOpacity)<Props>`
       border-bottom-right-radius: ${props.borderRadius};
     `};
 `;
-function Tag({
-  iconSource = {},
-  iconStyle = {},
-  textStyle = {fontWeight: 600},
-  text = '',
-  ...props
-}) {
+function Tag({iconSource, iconStyle, text = '', ...props}: Props) {
   return (
-    <StyledTag borderRadius={20} {...props}>
+    <StyledTag borderRadius={'20px'} {...props}>
       <HorizontalContentContainer>
         {iconSource ? (
           <XSmallImage style={iconStyle} source={iconSource} />
         ) : (
           <></>
         )}
-        <XXSmallText fontWeight={textStyle.fontWeight}>{text}</XXSmallText>
+        <XXSmallText fontWeight={600}>{text}</XXSmallText>
       </HorizontalContentContainer>
     </StyledTag>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {View} from 'react-native';
-import {useRecoilValue} from 'recoil';
+import {ImageErrorEventData, NativeSyntheticEvent, View} from 'react-native';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userState} from '../../recoils/user.recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -33,7 +33,6 @@ const ProfilePage = (): JSX.Element | null => {
   });
 
   const user = useRecoilValue(userState);
-
   if (!user) {
     return null;
   }
@@ -44,8 +43,12 @@ const ProfilePage = (): JSX.Element | null => {
         <Image
           width={60}
           height={60}
+          borderRadius={30}
+          resizeMode={'cover'}
           source={
-            user.imageURL ?? require('../../assets/images/profile_icon.png')
+            user.imageURL
+              ? {uri: user.imageURL}
+              : require('../../assets/images/profile_icon.png')
           }
         />
         <ContentContainer>

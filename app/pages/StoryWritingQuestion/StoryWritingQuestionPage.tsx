@@ -59,6 +59,7 @@ const StoryWritingQuestionPage = (): JSX.Element => {
               gap={'10px'}>
               {recommendQuestions.map((question, index) => (
                 <RecommendQuestionButton
+                  key={index}
                   order={index + 1}
                   question={question}
                   selected={
