@@ -68,7 +68,7 @@ export const HeroPhotoCard = ({
           style={{
             flex: 1,
             width: '100%',
-            height: '75px',
+            height: 80,
             position: 'absolute',
             bottom: 0,
             borderBottomLeftRadius: 12,
@@ -90,7 +90,7 @@ export const HeroPhotoCard = ({
                 <Tag
                   backgroundColor={Color.WHITE}
                   width={'auto'}
-                  height={'18px'}
+                  height={'22px'}
                   iconSource={require('../../assets/images/puzzle-onepiece.png')}
                   iconStyle={{transform: [{rotate: '29.84deg'}]}}
                   text={` ${puzzleCnt}개`}></Tag>

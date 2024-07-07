@@ -121,7 +121,7 @@ const HeroSharePage = (): JSX.Element => {
             renderItem={(item, index, isSelected) => {
               return (
                 <HorizontalContentContainer>
-                  <ContentContainer flex={1} padding={'11px 16'}>
+                  <ContentContainer flex={1} padding={11}>
                     <XSmallTitle>{item.label}</XSmallTitle>
                     <XSmallText color={Color.DARK_GRAY}>
                       {item.description}

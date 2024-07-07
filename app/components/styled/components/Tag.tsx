@@ -30,7 +30,7 @@ type TextProps = {
 };
 export const StyledTag = styled(TouchableOpacity)<Props>`
   width: ${({width}) => (width ? `${width}` : 'auto')};
-  height: ${({height}) => (height ? `${height}px` : '18px')};
+  height: ${({height}) => (height ? `${height}` : '18px')};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
   padding: ${({padding}) => (padding ? `${padding}` : '3px 10px')};

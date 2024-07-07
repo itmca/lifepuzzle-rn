@@ -31,8 +31,8 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   align-items: ${props => props.alignItems ?? 'stretch'};
   gap: ${props => props.gap ?? '0px'};
   flex: ${props => props.flex ?? 'none'};
-  top: ${props => props.top + 'px' ?? 'auto'};
-  bottom: ${props => props.bottom ?? 0};
+  top: ${props => (props.top ? props.top + 'px' : 'auto')};
+  bottom: ${props => (props.bottom ? props.bottom + 'px' : '0px')};
   min-height: ${props => props.minHeight ?? '0px'};
   margin-top: ${props => props.marginTop ?? '0px'};
   margin-bottom: ${props => props.marginBottom ?? '0px'};
@@ -54,7 +54,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
 
 export const HorizontalContentContainer = styled(ContentContainer)`
   flex-direction: row;
-  margin-top: ${props => props.marginTop ?? '0px'};
+  margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};
   align-items: center;
 `;
 

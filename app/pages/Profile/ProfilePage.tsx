@@ -33,7 +33,7 @@ const ProfilePage = (): JSX.Element | null => {
   });
 
   const user = useRecoilValue(userState);
-  if (!user) {
+  if (!user || user.userNo == -1) {
     return null;
   }
 

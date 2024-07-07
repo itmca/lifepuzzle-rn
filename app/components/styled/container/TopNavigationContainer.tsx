@@ -19,7 +19,7 @@ export const TopNavigationContainer = styled.View`
 
   ${Platform.OS === 'ios'
     ? css`
-        margin-top: ${statusBarHeight}px;
+        margin-top: ${statusBarHeight ? statusBarHeight + 'px' : '0px'};
       `
     : ''}
 `;
