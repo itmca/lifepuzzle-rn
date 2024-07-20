@@ -4,10 +4,7 @@ import {Color} from '../../constants/color.constant';
 import {AuthList} from '../../constants/auth.constant';
 import {ImageButton} from '../styled/components/Button';
 import {SmallText} from '../styled/components/Text';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../styled/container/ContentContainer';
+import {ContentContainer} from '../styled/container/ContentContainer';
 import {HeroUserType} from '../../types/hero.type';
 
 type props = {
@@ -17,7 +14,7 @@ type props = {
 
 export const AccountItem = ({user, onSelect}: props): JSX.Element => {
   return (
-    <HorizontalContentContainer height={'50px'}>
+    <ContentContainer height={'50px'}>
       <ContentContainer width={'58px'}>
         <MediumImage
           width={48}
@@ -55,6 +52,6 @@ export const AccountItem = ({user, onSelect}: props): JSX.Element => {
           />
         </ImageButton>
       </ContentContainer>
-    </HorizontalContentContainer>
+    </ContentContainer>
   );
 };

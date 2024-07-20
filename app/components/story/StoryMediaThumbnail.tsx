@@ -13,21 +13,16 @@ type Props = {
 
 export const MediaThumbnail = ({
   mediaType,
-  backgroundColor,
   playingTime,
-  listThumbnail,
+  backgroundColor,
   onPress,
 }: Props) => {
   return (
     <ContentContainer
-      gap="5px"
-      width="100%"
-      height="100%"
-      position="absolute"
-      alignItems="center"
-      justifyContent="center"
-      backgroundColor={backgroundColor ? backgroundColor : 'rgba(0, 0, 0, 0)'}
-      listThumbnail={listThumbnail}>
+      alignCenter
+      height={'100%'}
+      backgroundColor={backgroundColor ? backgroundColor : 'rgba(0, 0, 0, 0.3)'}
+      absoluteTopPosition>
       <TouchableOpacity onPressIn={onPress}>
         {mediaType === 'video' && (
           <Image

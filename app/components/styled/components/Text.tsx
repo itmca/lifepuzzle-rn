@@ -1,68 +1,61 @@
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 import {Color} from '../../../constants/color.constant';
+import {TextProps} from 'react-native';
 
-type Props = {
+type PartialTextProps = Pick<
+  TextProps,
+  'ellipsizeMode' | 'numberOfLines' | 'children'
+> & {
   letterSpacing?: number;
   fontWeight?: string | number;
   lineHeight?: string | number;
   color?: string;
   fontSize?: number;
+  alignCenter?: boolean;
 };
 
-export const XXXLargeText = styled.Text<Props>`
+const TextBase = styled.Text<PartialTextProps>`
   font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-size: 26px;
   font-weight: ${props => props.fontWeight || 'normal'};
-  line-height: ${props => (props.lineHeight ? props.lineHeight : 1.0)};
+  ${props =>
+    props.fontSize &&
+    css`
+      font-size: ${props.fontSize}px;
+      line-height: ${props.lineHeight ?? props.fontSize * 1.2}px;
+    `};
+  ${props => props.alignCenter && 'text-align: center;'};
 `;
 
-export const XXLargeText = styled.Text<Props>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-size: 24px;
-  font-weight: ${props => props.fontWeight || 'normal'};
-`;
+export const XXXLargeText = (props: PartialTextProps) => (
+  <TextBase fontSize={26} {...props} />
+);
 
-export const XLargeText = styled.Text<Props>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-size: 20px;
-`;
+export const XXLargeText = (props: PartialTextProps) => (
+  <TextBase fontSize={24} {...props} />
+);
 
-export const LargeText = styled.Text<Props>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-size: 18px;
-  font-weight: ${props => props.fontWeight || 'normal'};
-`;
+export const XLargeText = (props: PartialTextProps) => (
+  <TextBase fontSize={20} {...props} />
+);
 
-export const MediumText = styled.Text<Props>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-size: 16px;
-  font-weight: ${props => props.fontWeight || 'normal'};
-`;
+export const LargeText = (props: PartialTextProps) => (
+  <TextBase fontSize={18} {...props} />
+);
 
-export const SmallText = styled.Text<Props>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-size: 14px;
-  font-weight: ${props => props.fontWeight || 'normal'};
-  letter-spacing: ${({letterSpacing}) =>
-    letterSpacing ? `${letterSpacing}px` : '0.25px'};
-`;
+export const MediumText = (props: PartialTextProps) => (
+  <TextBase fontSize={16} {...props} />
+);
 
-export const XSmallText = styled.Text<Props>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-weight: ${props => props.fontWeight || 'normal'};
-  font-size: 12px;
-`;
-export const XXSmallText = styled.Text<Props>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-weight: ${props => props.fontWeight || 'normal'};
-  font-size: 10px;
-`;
+export const SmallText = (props: PartialTextProps) => (
+  <TextBase fontSize={14} {...props} />
+);
+
+export const XSmallText = (props: PartialTextProps) => (
+  <TextBase fontSize={12} {...props} />
+);
+export const XXSmallText = (props: PartialTextProps) => (
+  <TextBase fontSize={10} {...props} />
+);
+
 export default MediumText;

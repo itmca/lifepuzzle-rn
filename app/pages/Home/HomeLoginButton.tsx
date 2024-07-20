@@ -24,5 +24,4 @@ export const HomeLoginButton = (): JSX.Element => {
       </MediumText>
     </LargeButton>
   );
-  1;
 };

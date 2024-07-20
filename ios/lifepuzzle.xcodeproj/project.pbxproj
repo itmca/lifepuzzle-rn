@@ -11,7 +11,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1E11DB00D1FA106015691671 /* libPods-lifepuzzle-lifepuzzleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CC228F694D25844320ADCB0 /* libPods-lifepuzzle-lifepuzzleTests.a */; };
+		20BCDC3BA350F73553900196 /* libPods-lifepuzzle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC655CA297219D15DDE034A /* libPods-lifepuzzle.a */; };
+		5F6C4D28D4EAEB73758BE8DC /* libPods-lifepuzzle-lifepuzzleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 901C6E732F35B28BBF3C938A /* libPods-lifepuzzle-lifepuzzleTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A695A64929FE62E7009456FE /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A64029FE62E7009456FE /* Pretendard-Regular.ttf */; };
 		A695A64A29FE62E7009456FE /* Pretendard-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A64129FE62E7009456FE /* Pretendard-SemiBold.ttf */; };
@@ -24,7 +25,6 @@
 		A695A65129FE62E7009456FE /* Pretendard-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A64829FE62E7009456FE /* Pretendard-ExtraLight.ttf */; };
 		A695A65429FE647E009456FE /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A65229FE647E009456FE /* antfill.ttf */; };
 		A695A65529FE647E009456FE /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A65329FE647E009456FE /* antoutline.ttf */; };
-		B302D6CEE13F35F4BA6CB63B /* libPods-lifepuzzle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C822768A3F504AFB8C458E /* libPods-lifepuzzle.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,10 +47,11 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = lifepuzzle/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lifepuzzle/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lifepuzzle/main.m; sourceTree = "<group>"; };
-		1CC228F694D25844320ADCB0 /* libPods-lifepuzzle-lifepuzzleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle-lifepuzzleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		246CF2BD6670CA836BCD0749 /* Pods-lifepuzzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.release.xcconfig"; sourceTree = "<group>"; };
+		4CBF43BE42BF2A42F3E53F1C /* Pods-lifepuzzle-lifepuzzleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle-lifepuzzleTests.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests.release.xcconfig"; sourceTree = "<group>"; };
+		4E41E3E1476269255F644079 /* Pods-lifepuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lifepuzzle/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8850CE1703AEF6FE15A63DAC /* Pods-lifepuzzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.release.xcconfig"; sourceTree = "<group>"; };
-		A3C822768A3F504AFB8C458E /* libPods-lifepuzzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		901C6E732F35B28BBF3C938A /* libPods-lifepuzzle-lifepuzzleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle-lifepuzzleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A695A5F429FE5244009456FE /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		A695A5F529FE5244009456FE /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
 		A695A5F629FE5244009456FE /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
@@ -87,10 +88,9 @@
 		A695A64829FE62E7009456FE /* Pretendard-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-ExtraLight.ttf"; path = "../app/assets/fonts/Pretendard-ExtraLight.ttf"; sourceTree = "<group>"; };
 		A695A65229FE647E009456FE /* antfill.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
 		A695A65329FE647E009456FE /* antoutline.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
-		D6DC26150AB4F49DD450E5A1 /* Pods-lifepuzzle-lifepuzzleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle-lifepuzzleTests.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests.release.xcconfig"; sourceTree = "<group>"; };
+		C0C2C1776CF0ED777E1C0EEC /* Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F24F232DF59706AF8BDD3333 /* Pods-lifepuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.debug.xcconfig"; sourceTree = "<group>"; };
-		F913B571BED05603B9DEE24B /* Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FDC655CA297219D15DDE034A /* libPods-lifepuzzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E11DB00D1FA106015691671 /* libPods-lifepuzzle-lifepuzzleTests.a in Frameworks */,
+				5F6C4D28D4EAEB73758BE8DC /* libPods-lifepuzzle-lifepuzzleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B302D6CEE13F35F4BA6CB63B /* libPods-lifepuzzle.a in Frameworks */,
+				20BCDC3BA350F73553900196 /* libPods-lifepuzzle.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,8 +147,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				A3C822768A3F504AFB8C458E /* libPods-lifepuzzle.a */,
-				1CC228F694D25844320ADCB0 /* libPods-lifepuzzle-lifepuzzleTests.a */,
+				FDC655CA297219D15DDE034A /* libPods-lifepuzzle.a */,
+				901C6E732F35B28BBF3C938A /* libPods-lifepuzzle-lifepuzzleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -231,10 +231,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F24F232DF59706AF8BDD3333 /* Pods-lifepuzzle.debug.xcconfig */,
-				8850CE1703AEF6FE15A63DAC /* Pods-lifepuzzle.release.xcconfig */,
-				F913B571BED05603B9DEE24B /* Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig */,
-				D6DC26150AB4F49DD450E5A1 /* Pods-lifepuzzle-lifepuzzleTests.release.xcconfig */,
+				4E41E3E1476269255F644079 /* Pods-lifepuzzle.debug.xcconfig */,
+				246CF2BD6670CA836BCD0749 /* Pods-lifepuzzle.release.xcconfig */,
+				C0C2C1776CF0ED777E1C0EEC /* Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig */,
+				4CBF43BE42BF2A42F3E53F1C /* Pods-lifepuzzle-lifepuzzleTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -246,12 +246,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "lifepuzzleTests" */;
 			buildPhases = (
-				FF49AC9729433BDD4B6F5D6C /* [CP] Check Pods Manifest.lock */,
+				332827D477A4FE70E5D95EFE /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				5972CD8F32A127F5659744DF /* [CP] Embed Pods Frameworks */,
-				648F8CC8B60B0CAF84AFD241 /* [CP] Copy Pods Resources */,
+				4A8AF771A8473569324D63E8 /* [CP] Embed Pods Frameworks */,
+				AD54474BC90E84CCB76C3CF4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -267,15 +267,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lifepuzzle" */;
 			buildPhases = (
-				14F70C4C34BA80FC31EFDF68 /* [CP] Check Pods Manifest.lock */,
+				BD6F504B3D72C93AAA46788A /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				96220CB3FE596113E128E0B1 /* [CP] Embed Pods Frameworks */,
-				EA1D10C6113067EB17623C0B /* [CP] Copy Pods Resources */,
 				D6AEFEAFAD7B45CE9A444D7F /* Upload Debug Symbols to Sentry */,
+				EC33F2ACBFB0666F4E520D79 /* [CP] Embed Pods Frameworks */,
+				361F63AB568AF68207887F2E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -369,7 +369,81 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT \\\"/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode.sh $REACT_NATIVE_XCODE\\\"\"\n";
 		};
-		14F70C4C34BA80FC31EFDF68 /* [CP] Check Pods Manifest.lock */ = {
+
+		332827D477A4FE70E5D95EFE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lifepuzzle-lifepuzzleTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		361F63AB568AF68207887F2E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A8AF771A8473569324D63E8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD54474BC90E84CCB76C3CF4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD6F504B3D72C93AAA46788A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -391,57 +465,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5972CD8F32A127F5659744DF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		648F8CC8B60B0CAF84AFD241 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle-lifepuzzleTests/Pods-lifepuzzle-lifepuzzleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		96220CB3FE596113E128E0B1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D6AEFEAFAD7B45CE9A444D7F /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -456,21 +479,21 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode-debug-files.sh";
 		};
-		EA1D10C6113067EB17623C0B /* [CP] Copy Pods Resources */ = {
+		EC33F2ACBFB0666F4E520D79 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -490,28 +513,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FF49AC9729433BDD4B6F5D6C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-lifepuzzle-lifepuzzleTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -547,7 +548,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F913B571BED05603B9DEE24B /* Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig */;
+			baseConfigurationReference = C0C2C1776CF0ED777E1C0EEC /* Pods-lifepuzzle-lifepuzzleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = N58TUAY7X8;
@@ -575,7 +576,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6DC26150AB4F49DD450E5A1 /* Pods-lifepuzzle-lifepuzzleTests.release.xcconfig */;
+			baseConfigurationReference = 4CBF43BE42BF2A42F3E53F1C /* Pods-lifepuzzle-lifepuzzleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -600,7 +601,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F24F232DF59706AF8BDD3333 /* Pods-lifepuzzle.debug.xcconfig */;
+			baseConfigurationReference = 4E41E3E1476269255F644079 /* Pods-lifepuzzle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -634,7 +635,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8850CE1703AEF6FE15A63DAC /* Pods-lifepuzzle.release.xcconfig */;
+			baseConfigurationReference = 246CF2BD6670CA836BCD0749 /* Pods-lifepuzzle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

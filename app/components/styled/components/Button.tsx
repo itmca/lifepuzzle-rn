@@ -38,8 +38,6 @@ export const MediumButton = styled.TouchableOpacity<Props>`
     props.borderBottomLeftRadius ? props.borderBottomLeftRadius : '4px'};
   border-bottom-right-radius: ${props =>
     props.borderBottomRightRadius ? props.borderBottomRightRadius : '4px'};
-  margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};
-  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : '#343666'};
   padding: ${props => (props.padding ? props.padding : '0px')};

@@ -1,10 +1,7 @@
 import {TextInput} from 'react-native-paper';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {StyleProp, StyleSheet, TextStyle} from 'react-native';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../styled/container/ContentContainer';
+import {ContentContainer} from '../styled/container/ContentContainer';
 import {ImageButton} from '../styled/components/Button';
 import {MediumImage} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
@@ -48,8 +45,8 @@ export const LockableTextInput = ({
     },
   };
   return (
-    <HorizontalContentContainer>
-      <ContentContainer width={'auto'}>
+    <ContentContainer useHorizontalLayout withNoBackground width={'auto'}>
+      <ContentContainer width={'auto'} withNoBackground>
         <TextInput
           mode={mode}
           theme={theme}
@@ -64,7 +61,7 @@ export const LockableTextInput = ({
           onFocus={() => setEditable(true)}
         />
       </ContentContainer>
-      <ContentContainer width={'auto'}>
+      <ContentContainer width={'auto'} withNoBackground>
         <ImageButton
           onPress={() => {
             setEditable(editable => !editable);
@@ -79,6 +76,6 @@ export const LockableTextInput = ({
           />
         </ImageButton>
       </ContentContainer>
-    </HorizontalContentContainer>
+    </ContentContainer>
   );
 };

@@ -12,12 +12,11 @@ import {
 } from '../../constants/password.constant';
 import {debounce} from 'lodash';
 import {BasicNavigationProps} from '../../navigation/types';
-import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {XSmallTitle} from '../../components/styled/components/Title';
 import {
   ContentContainer,
-  OutLineContentContainer,
+  ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
 import {BottomButton} from '../../components/button/BottomButton';
 
@@ -123,101 +122,99 @@ const RegisterPage = (): JSX.Element => {
 
   return (
     <LoadingContainer isLoading={registerLoading}>
-      <NoOutLineFullScreenContainer>
-        <ScrollContainer>
-          <OutLineContentContainer flex={1}>
-            <ContentContainer gap="6px">
-              <XSmallTitle style={styles.title}>닉네임</XSmallTitle>
-              <ValidatedTextInput
-                label=""
-                value={nickname}
-                onChangeText={setNickname}
-                placeholder="공백 시 랜덤으로 설정"
-                validations={[
-                  {
-                    condition: nickname => nickname.length <= 8,
-                    errorText: '닉네임은 8자 이하로 입력해주세요.',
-                  },
-                ]}
-                onIsErrorChanged={setNickNameError}
-              />
-            </ContentContainer>
-            <ContentContainer gap="6px">
-              <XSmallTitle style={styles.title}>아이디</XSmallTitle>
-              <ValidatedTextInput
-                label=""
-                value={id}
-                onChangeText={setId}
-                placeholder={''}
-                validations={[
-                  {
-                    condition: id => id.length > 0,
-                    errorText: '아이디를 입력해주세요.',
-                  },
-                  {
-                    condition: id => id?.length >= 3 && id?.length <= 30,
-                    errorText: '3자 이상 31자 미만으로 입력해주세요.',
-                  },
-                  {
-                    condition: id => !idDuplicated,
-                    errorText: '이미 존재하는 아이디입니다',
-                  },
-                ]}
-                onIsErrorChanged={setIdError}
-              />
-            </ContentContainer>
-            <ContentContainer gap="6px">
-              <XSmallTitle style={styles.title}>비밀번호</XSmallTitle>
-              <ValidatedTextInput
-                secureTextEntry={true}
-                label=""
-                value={password}
-                onChangeText={setPassword}
-                placeholder="8~16자 영문+숫자+특수문자"
-                validations={[
-                  {
-                    condition: password => password.length > 0,
-                    errorText: '*8글자, 영문+숫자+특수문자',
-                  },
-                  {
-                    condition: password => PASSWORD_REGEXP.test(password),
-                    errorText: `${PASSWORD_REGEXP_DISPLAY}`,
-                  },
-                ]}
-                onIsErrorChanged={setPasswordError}
-              />
-            </ContentContainer>
-            <ContentContainer gap="6px">
-              <XSmallTitle style={styles.title}>비밀번호 확인</XSmallTitle>
-              <ValidatedTextInput
-                secureTextEntry={true}
-                label=""
-                value={passwordConfirm}
-                onChangeText={setPasswordConfirm}
-                placeholder="8~16자 영문+숫자+특수문자"
-                validations={[
-                  {
-                    condition: passwordConfirm => password === passwordConfirm,
-                    errorText: '비밀번호와 비밀번호 확인이 다릅니다.',
-                  },
-                ]}
-                onIsErrorChanged={setPasswordConfirmError}
-              />
-            </ContentContainer>
-            <PolicyAgreeSwitch
-              type={'service'}
-              checked={isServicePolicyChecked}
-              onCheckedChange={setServicePolicyChecked}
-              style={{marginTop: 20}}
+      <ScreenContainer>
+        <ScrollContentContainer withScreenPadding gap={0}>
+          <ContentContainer>
+            <XSmallTitle style={styles.title}>닉네임</XSmallTitle>
+            <ValidatedTextInput
+              label=""
+              value={nickname}
+              onChangeText={setNickname}
+              placeholder="공백 시 랜덤으로 설정"
+              validations={[
+                {
+                  condition: nickname => nickname.length <= 8,
+                  errorText: '닉네임은 8자 이하로 입력해주세요.',
+                },
+              ]}
+              onIsErrorChanged={setNickNameError}
             />
-            <PolicyAgreeSwitch
-              type={'privacy'}
-              checked={isPrivacyPolicyChecked}
-              onCheckedChange={setPrivacyPolicyChecked}
-              style={{marginTop: 15}}
+          </ContentContainer>
+          <ContentContainer>
+            <XSmallTitle style={styles.title}>아이디</XSmallTitle>
+            <ValidatedTextInput
+              label=""
+              value={id}
+              onChangeText={setId}
+              placeholder={''}
+              validations={[
+                {
+                  condition: id => id.length > 0,
+                  errorText: '아이디를 입력해주세요.',
+                },
+                {
+                  condition: id => id?.length >= 3 && id?.length <= 30,
+                  errorText: '3자 이상 31자 미만으로 입력해주세요.',
+                },
+                {
+                  condition: id => !idDuplicated,
+                  errorText: '이미 존재하는 아이디입니다',
+                },
+              ]}
+              onIsErrorChanged={setIdError}
             />
-          </OutLineContentContainer>
-        </ScrollContainer>
+          </ContentContainer>
+          <ContentContainer>
+            <XSmallTitle style={styles.title}>비밀번호</XSmallTitle>
+            <ValidatedTextInput
+              secureTextEntry={true}
+              label=""
+              value={password}
+              onChangeText={setPassword}
+              placeholder="8~16자 영문+숫자+특수문자"
+              validations={[
+                {
+                  condition: password => password.length > 0,
+                  errorText: '*8글자, 영문+숫자+특수문자',
+                },
+                {
+                  condition: password => PASSWORD_REGEXP.test(password),
+                  errorText: `${PASSWORD_REGEXP_DISPLAY}`,
+                },
+              ]}
+              onIsErrorChanged={setPasswordError}
+            />
+          </ContentContainer>
+          <ContentContainer>
+            <XSmallTitle style={styles.title}>비밀번호 확인</XSmallTitle>
+            <ValidatedTextInput
+              secureTextEntry={true}
+              label=""
+              value={passwordConfirm}
+              onChangeText={setPasswordConfirm}
+              placeholder="8~16자 영문+숫자+특수문자"
+              validations={[
+                {
+                  condition: passwordConfirm => password === passwordConfirm,
+                  errorText: '비밀번호와 비밀번호 확인이 다릅니다.',
+                },
+              ]}
+              onIsErrorChanged={setPasswordConfirmError}
+            />
+          </ContentContainer>
+          <PolicyAgreeSwitch
+            type={'service'}
+            checked={isServicePolicyChecked}
+            onCheckedChange={setServicePolicyChecked}
+            style={{marginTop: 20}}
+          />
+          <PolicyAgreeSwitch
+            type={'privacy'}
+            checked={isPrivacyPolicyChecked}
+            onCheckedChange={setPrivacyPolicyChecked}
+            style={{marginTop: 15}}
+          />
+        </ScrollContentContainer>
         <BottomButton
           onPress={onSubmit}
           disabled={
@@ -230,7 +227,7 @@ const RegisterPage = (): JSX.Element => {
           }
           title="회원가입"
         />
-      </NoOutLineFullScreenContainer>
+      </ScreenContainer>
     </LoadingContainer>
   );
 };

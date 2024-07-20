@@ -7,19 +7,19 @@ const statusBarHeight = getStatusBarHeight();
 
 export const TopNavigationContainer = styled.View`
   width: 100%;
-  height: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-bottom-width: 1px;
   border-bottom-color: ${Color.GRAY};
   background-color: ${Color.WHITE};
 
   ${Platform.OS === 'ios'
     ? css`
-        margin-top: ${statusBarHeight ? statusBarHeight + 'px' : '0px'};
+        padding-top: ${statusBarHeight + 8}px;
       `
     : ''}
 `;

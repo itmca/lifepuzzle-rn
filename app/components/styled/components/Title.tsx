@@ -23,7 +23,7 @@ export const LargeTitle = styled.Text<Props>`
   color: ${props => (props.color ? props.color : Color.BLACK)};
   font-size: 24px;
   font-weight: 700;
-  line-height: ${props => (props.lineHeight ? props.lineHeight : '29px')};
+  line-height: ${props => (props.lineHeight ? props.lineHeight : '36px')};
 `;
 
 export const MediumTitle = styled.Text<Props>`

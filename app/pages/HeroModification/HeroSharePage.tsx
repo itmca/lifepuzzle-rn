@@ -8,20 +8,17 @@ import {
   XSmallTitle,
 } from '../../components/styled/components/Title';
 import {XSmallText} from '../../components/styled/components/Text';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../../components/styled/container/ContentContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
 import {AuthList} from '../../constants/auth.constant';
 import {HeroSettingRouteProps} from '../../navigation/types';
 import {useAuthAxios} from '../../service/hooks/network.hook';
-import DropDownPicker from 'react-native-dropdown-picker';
 import Clipboard from '@react-native-clipboard/clipboard';
 import SelectDropdown from 'react-native-select-dropdown';
 import {SmallImage} from '../../components/styled/components/Image';
 import {styles} from './styles';
+
 const HeroSharePage = (): JSX.Element => {
   const route = useRoute<HeroSettingRouteProps<'HeroShare'>>();
   const hero = route.params.hero;
@@ -75,70 +72,72 @@ const HeroSharePage = (): JSX.Element => {
   return (
     <ScreenContainer justifyContent={'flex-start'}>
       <LoadingContainer isLoading={updateLoading}>
-        <ContentContainer padding={5}>
-          <LargeTitle>{hero.heroNickName}</LargeTitle>
-          <XSmallTitle fontWeight={'600'} color={Color.FONT_GRAY}>
-            {hero.heroName}
-          </XSmallTitle>
-        </ContentContainer>
-        <ContentContainer>
-          <ContentContainer padding={12}>
-            <XSmallTitle>권한 공유</XSmallTitle>
+        <ContentContainer withScreenPadding>
+          <ContentContainer padding={5}>
+            <LargeTitle>{hero.heroNickName}</LargeTitle>
+            <XSmallTitle fontWeight={'600'} color={Color.FONT_GRAY}>
+              {hero.heroName}
+            </XSmallTitle>
           </ContentContainer>
-          <SelectDropdown
-            data={dropDownItem}
-            onSelect={(selectedItem, index) => {
-              setAuth(selectedItem.value);
-              setOpen(false);
-              setCopied(false);
-            }}
-            renderButton={(selectedItem, isOpened) => {
-              return (
-                <HorizontalContentContainer style={styles.dropdown}>
-                  <ContentContainer flex={1}>
-                    <XSmallTitle>
-                      {(selectedItem && selectedItem.label) || '권한 선택'}
-                    </XSmallTitle>
-                    {selectedItem && (
+          <ContentContainer>
+            <ContentContainer padding={12}>
+              <XSmallTitle>권한 공유</XSmallTitle>
+            </ContentContainer>
+            <SelectDropdown
+              data={dropDownItem}
+              onSelect={(selectedItem, index) => {
+                setAuth(selectedItem.value);
+                setOpen(false);
+                setCopied(false);
+              }}
+              renderButton={(selectedItem, isOpened) => {
+                return (
+                  <ContentContainer withContentPadding style={styles.dropdown}>
+                    <ContentContainer flex={1} gap={8}>
+                      <XSmallTitle>
+                        {(selectedItem && selectedItem.label) || '권한 선택'}
+                      </XSmallTitle>
+                      {selectedItem && (
+                        <XSmallText color={Color.DARK_GRAY}>
+                          {selectedItem.description}
+                        </XSmallText>
+                      )}
+                    </ContentContainer>
+                    <SmallImage
+                      borderRadius={30}
+                      source={
+                        isOpened
+                          ? require('../../assets/images/expand_less.png')
+                          : require('../../assets/images/expand_more.png')
+                      }
+                    />
+                  </ContentContainer>
+                );
+              }}
+              dropdownStyle={styles.dropdownList}
+              dropdownOverlayColor={'transparent'}
+              renderItem={(item, index, isSelected) => {
+                return (
+                  <ContentContainer useHorizontalLayout>
+                    <ContentContainer flex={1} withContentPadding gap={8}>
+                      <XSmallTitle>{item.label}</XSmallTitle>
                       <XSmallText color={Color.DARK_GRAY}>
-                        {selectedItem.description}
+                        {item.description}
                       </XSmallText>
-                    )}
+                    </ContentContainer>
                   </ContentContainer>
-                  <SmallImage
-                    borderRadius={30}
-                    source={
-                      isOpened
-                        ? require('../../assets/images/expand_less.png')
-                        : require('../../assets/images/expand_more.png')
-                    }
-                  />
-                </HorizontalContentContainer>
-              );
-            }}
-            dropdownStyle={styles.dropdownList}
-            dropdownOverlayColor={'transparent'}
-            renderItem={(item, index, isSelected) => {
-              return (
-                <HorizontalContentContainer>
-                  <ContentContainer flex={1} padding={11}>
-                    <XSmallTitle>{item.label}</XSmallTitle>
-                    <XSmallText color={Color.DARK_GRAY}>
-                      {item.description}
-                    </XSmallText>
-                  </ContentContainer>
-                </HorizontalContentContainer>
-              );
-            }}
-            showsVerticalScrollIndicator={false}
-          />
-          <ContentContainer marginTop={'20px'}>
-            <CtaButton
-              active
-              disabled={copied}
-              text={copied ? 'Copied' : '공유하기'}
-              onPress={onSubmit}
+                );
+              }}
+              showsVerticalScrollIndicator={false}
             />
+            <ContentContainer marginTop={'20px'}>
+              <CtaButton
+                active
+                disabled={copied}
+                text={copied ? 'Copied' : '공유하기'}
+                onPress={onSubmit}
+              />
+            </ContentContainer>
           </ContentContainer>
         </ContentContainer>
       </LoadingContainer>

@@ -11,9 +11,11 @@ import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import BottomSheet from '../../components/styled/components/BottomSheet';
 import {XSmallTitle} from '../../components/styled/components/Title';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {
+  ContentContainer,
+  ScrollContentContainer,
+} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
@@ -23,10 +25,8 @@ import {
   writingHeroState,
 } from '../../recoils/hero-write.recoil';
 import {useHero} from '../../service/hooks/hero.query.hook';
-import {HeroUserType} from '../../types/hero.type';
+import {HeroUserType, toPhotoIdentifier} from '../../types/hero.type';
 import {useIsHeroUploading} from '../../service/hooks/hero.write.hook';
-import {toPhotoIdentifier} from '../../types/hero.type';
-import {styles} from './styles';
 import {HeroPhotoCard} from '../../components/hero/HeroPhotoCard';
 
 const HeroModificationPage = (): JSX.Element => {
@@ -120,16 +120,10 @@ const HeroModificationPage = (): JSX.Element => {
 
   return (
     <BottomSheetModalProvider>
-      <ScrollContainer
-        contentContainerStyle={styles.formContainer}
-        extraHeight={0}
-        keyboardShouldPersistTaps={'always'}>
-        <ScreenContainer>
-          <LoadingContainer isLoading={loading || isHeroUploading}>
-            <ContentContainer
-              gap={'20px'}
-              alignItems={'center'}
-              padding={'0px 15'}>
+      <ScrollContentContainer withScreenPadding>
+        <LoadingContainer isLoading={loading || isHeroUploading}>
+          <ContentContainer gap={16}>
+            <ContentContainer alignItems={'center'}>
               <HeroPhotoCard
                 photoUri={writingHero?.imageURL?.node.image.uri}
                 title={title}
@@ -144,8 +138,8 @@ const HeroModificationPage = (): JSX.Element => {
                   });
                 }}
               />
-              <ContentContainer gap={'20px'}>
-                <ContentContainer gap={'10px'}>
+              <ContentContainer>
+                <ContentContainer>
                   <XSmallTitle fontWeight={'600'} left={5}>
                     이름
                   </XSmallTitle>
@@ -156,7 +150,7 @@ const HeroModificationPage = (): JSX.Element => {
                     placeholder="홍길동"
                   />
                 </ContentContainer>
-                <ContentContainer gap={'10px'}>
+                <ContentContainer>
                   <XSmallTitle fontWeight={'600'} left={5}>
                     닉네임
                   </XSmallTitle>
@@ -167,7 +161,7 @@ const HeroModificationPage = (): JSX.Element => {
                     placeholder="소중한 당신"
                   />
                 </ContentContainer>
-                <ContentContainer gap={'10px'}>
+                <ContentContainer>
                   <XSmallTitle fontWeight={'600'} left={5}>
                     태어난 날
                   </XSmallTitle>
@@ -177,7 +171,7 @@ const HeroModificationPage = (): JSX.Element => {
                     onChange={setBirthday}
                   />
                 </ContentContainer>
-                <ContentContainer gap={'10px'}>
+                <ContentContainer>
                   <XSmallTitle fontWeight={'600'} left={5}>
                     연결 계정
                   </XSmallTitle>
@@ -185,7 +179,8 @@ const HeroModificationPage = (): JSX.Element => {
                     <AccountItem
                       key={index}
                       user={selectedUser}
-                      onSelect={handlePresentModalPress}></AccountItem>
+                      onSelect={handlePresentModalPress}
+                    />
                   ))}
                 </ContentContainer>
               </ContentContainer>
@@ -197,9 +192,9 @@ const HeroModificationPage = (): JSX.Element => {
                 />
               </ContentContainer>
             </ContentContainer>
-          </LoadingContainer>
-        </ScreenContainer>
-      </ScrollContainer>
+          </ContentContainer>
+        </LoadingContainer>
+      </ScrollContentContainer>
       <BottomSheet
         ref={bottomSheetModalRef}
         index={1}

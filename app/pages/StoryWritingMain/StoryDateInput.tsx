@@ -1,7 +1,7 @@
 import {TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {XSmallText} from '../../components/styled/components/Text';
-import {HorizontalContentContainer} from '../../components/styled/container/ContentContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {Color} from '../../constants/color.constant';
 import {XSmallImage} from '../../components/styled/components/Image';
@@ -48,8 +48,13 @@ function StoryDateInput({...props}) {
           paddingVertical: 4,
           paddingHorizontal: 8,
           borderRadius: 5,
+          width: 88,
         }}>
-        <HorizontalContentContainer gap={'4px'} alignItems={'center'}>
+        <ContentContainer
+          gap={4}
+          alignItems={'center'}
+          useHorizontalLayout
+          withNoBackground>
           <XSmallImage
             tintColor={props.color ?? Color.WHITE}
             source={require('../../assets/images/calendar_month.png')}
@@ -57,7 +62,7 @@ function StoryDateInput({...props}) {
           <XSmallText color={props.color ?? Color.WHITE}>
             {formatDate(date)}
           </XSmallText>
-        </HorizontalContentContainer>
+        </ContentContainer>
       </TouchableOpacity>
       <DateTimePicker
         isVisible={visible}

@@ -11,7 +11,7 @@ import {XSmallImage} from '../styled/components/Image';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
 import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {ContentContainer} from '../styled/container/ContentContainer';
 import Icon from '../styled/components/Icon';
 import {CustomAlert} from '../alert/CustomAlert';
 import Sound from 'react-native-sound';
@@ -116,7 +116,8 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
             })
           )
         }>
-        <HorizontalContentContainer
+        <ContentContainer
+          useHorizontalLayout
           style={{
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -139,7 +140,7 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
               <View style={{height: 32}} />
             )}
           </View>
-        </HorizontalContentContainer>
+        </ContentContainer>
       </TouchableRipple>
     </>
   );

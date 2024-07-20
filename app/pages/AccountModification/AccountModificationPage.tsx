@@ -16,7 +16,7 @@ import ValidatedTextInput from '../../components/input/ValidatedTextInput';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/RootNavigator';
-import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {MediumText} from '../../components/styled/components/Text';
@@ -178,7 +178,7 @@ const AccountModificationPage = ({
   return (
     <LoadingContainer
       isLoading={queryLoading || updateLoading || withdrawLoading}>
-      <NoOutLineScreenContainer>
+      <ScreenContainer>
         <ScrollContainer extraHeight={0} keyboardShouldPersistTaps={'always'}>
           <ContentContainer
             marginTop="40px"
@@ -206,7 +206,7 @@ const AccountModificationPage = ({
               />
             </TouchableOpacity>
           </ContentContainer>
-          <ContentContainer gap="16px" padding={16}>
+          <ContentContainer gap={16} padding={16}>
             {user?.userType === 'general' && (
               <ContentContainer gap="6px">
                 <XSmallTitle
@@ -218,7 +218,7 @@ const AccountModificationPage = ({
                 <BasicTextInput label="" text={id} disabled={true} />
               </ContentContainer>
             )}
-            <ContentContainer gap="6px">
+            <ContentContainer gap={6}>
               <XSmallTitle left={5} fontWeight={600} color={Color.LIGHT_BLACK}>
                 닉네임
               </XSmallTitle>
@@ -289,7 +289,7 @@ const AccountModificationPage = ({
             />
           </ContentContainer>
         </ScrollContainer>
-      </NoOutLineScreenContainer>
+      </ScreenContainer>
     </LoadingContainer>
   );
 };

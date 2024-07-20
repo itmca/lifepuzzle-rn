@@ -132,15 +132,12 @@ export const StoryAudioPlayer = ({
 
   return (
     <ContentContainer
-      gap="5px"
+      alignCenter
       height="100%"
-      position="absolute"
-      justifyContent="center"
-      alignItems="center"
-      backgroundColor={Color.DARK_BLUE}
-      listThumbnail={listThumbnail ? listThumbnail : false}>
+      // absoluteTopPosition
+      backgroundColor={Color.DARK_BLUE}>
       {isControlShown ? (
-        <>
+        <ContentContainer alignCenter withNoBackground gap={8}>
           <TouchableWithoutFeedback onPressIn={onPress}>
             <Image
               source={
@@ -163,13 +160,13 @@ export const StoryAudioPlayer = ({
               }
             }}>
             <ContentContainer
+              absoluteTopPosition
               height="100%"
-              position="absolute"
               zIndex={-1}
               opacity={0}
             />
           </TouchableWithoutFeedback>
-        </>
+        </ContentContainer>
       ) : (
         <MediaThumbnail
           mediaType="audio"

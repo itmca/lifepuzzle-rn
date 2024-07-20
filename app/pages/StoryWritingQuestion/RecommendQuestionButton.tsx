@@ -7,7 +7,7 @@ import {PuzzleNumber} from './PuzzleNumber';
 import {Question} from '../../types/question.type';
 
 type Props = {
-  question: Question | undefined;
+  question?: Question | undefined;
   order: number;
   selected: boolean;
   onSelect: () => void;
@@ -26,17 +26,11 @@ export const RecommendQuestionButton = ({
   if (!question || question.no < 0) {
     return (
       <WideSelectable
-        gap={'12px'}
         backgroundColor={defaultBackgroundColor}
-        justifyContents={'center'}
         selected={selected}
         disabled={selected}
         onPress={onSelect}>
-        <ContentContainer
-          flex={1}
-          alignItems={'center'}
-          justifyContent={'center'}
-          minHeight={'42px'}>
+        <ContentContainer alignCenter withNoBackground height={'36px'}>
           <XSmallTitle style={{color: defaultFontColor}}>
             선택하지 않음
           </XSmallTitle>
@@ -53,7 +47,10 @@ export const RecommendQuestionButton = ({
       disabled={selected}
       onPress={onSelect}>
       <PuzzleNumber displayNumber={order} />
-      <ContentContainer flex={1} justifyContent={'center'} minHeight={'40px'}>
+      <ContentContainer
+        withNoBackground
+        minHeight={'40px'}
+        justifyContent={'center'}>
         <XSmallTitle color={defaultFontColor}>{question.text}</XSmallTitle>
       </ContentContainer>
     </WideSelectable>

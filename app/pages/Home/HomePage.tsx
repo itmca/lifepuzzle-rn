@@ -1,12 +1,11 @@
 import React, {useRef, useState} from 'react';
 import StoryList from './StoryList';
-import HeroStoryOverview from './HeroStoryOverview';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useStories} from '../../service/hooks/story.query.hook';
-import {NoOutLineFullScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import Sound from 'react-native-sound';
 import {toMinuteSeconds} from '../../service/time-display.service';
 import {styles} from './styles';
@@ -27,6 +26,11 @@ import {
   PostStoryKeyState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
+import {
+  ContentContainer,
+  ScrollContentContainer,
+} from '../../components/styled/container/ContentContainer.tsx';
+import HeroOverview from './HeroOverview.tsx';
 
 const HomePage = (): JSX.Element => {
   const isFocused = useIsFocused();
@@ -60,36 +64,37 @@ const HomePage = (): JSX.Element => {
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <NoOutLineFullScreenContainer>
-        <ScrollView
+      <ScreenContainer gap={0}>
+        <ScrollContentContainer
+          withScreenPadding
           ref={scrollRef}
-          onScroll={handleScroll}
-          scrollEventThrottle={100}
-          showsVerticalScrollIndicator={false}>
-          <HeroStoryOverview hero={hero} />
+          onScroll={handleScroll}>
+          <HeroOverview hero={hero} />
           <View style={styles.customDivider} />
           <StoryList stories={displayStories} isFocused={isFocused} />
-        </ScrollView>
+        </ScrollContentContainer>
         <GoToTopButton
           visible={scrollPositionY > 10}
           onPress={() => scrollRef.current?.scrollTo({y: 0})}
         />
-        <WritingButton
-          onPress={() => {
-            setSelectedStoryKey('');
-            setPostStoryKey('');
+        <ContentContainer withScreenPadding paddingTop={8}>
+          <WritingButton
+            onPress={() => {
+              setSelectedStoryKey('');
+              setPostStoryKey('');
 
-            resetWritingStory();
+              resetWritingStory();
 
-            navigation.push('NoTab', {
-              screen: 'StoryWritingNavigator',
-              params: {
-                screen: 'StoryWritingQuestion',
-              },
-            });
-          }}
-        />
-      </NoOutLineFullScreenContainer>
+              navigation.push('NoTab', {
+                screen: 'StoryWritingNavigator',
+                params: {
+                  screen: 'StoryWritingQuestion',
+                },
+              });
+            }}
+          />
+        </ContentContainer>
+      </ScreenContainer>
     </LoadingContainer>
   );
 };

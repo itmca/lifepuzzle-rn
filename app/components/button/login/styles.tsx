@@ -9,9 +9,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
-    marginBottom: 8,
   },
-
   appleLoginButtonContainer: {
     flexDirection: 'row',
     height: 48,
@@ -20,7 +18,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
-    marginBottom: 8,
   },
   appleLoginFont: {
     fontFamily: 'Pretendard Regular',

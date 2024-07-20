@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Color} from '../../constants/color.constant';
 
 type Props = {
@@ -11,6 +11,10 @@ type Props = {
 
 const styles = StyleSheet.create({
   floatingBtBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 32,
+    backgroundColor: Color.WHITE,
     position: 'absolute',
     bottom: 95,
     right: 16,
@@ -19,9 +23,14 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 12,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    paddingLeft: 2,
   },
 });
 
@@ -32,7 +41,7 @@ export const GoToTopButton = ({visible, onPress}: Props): JSX.Element => {
 
   return (
     <TouchableOpacity style={styles.floatingBtBox} onPress={onPress}>
-      <Icon name="upcircle" size={35} color={'#FF6200'} />
+      <Icon name="chevron-up" size={24} color={Color.BLACK} />
     </TouchableOpacity>
   );
 };

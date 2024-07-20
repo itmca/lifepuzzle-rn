@@ -1,5 +1,5 @@
 import {TopNavigationContainer} from '../styled/container/TopNavigationContainer';
-import Text from '../styled/components/Text';
+import Text, {LargeText, XLargeText} from '../styled/components/Text';
 import SmallImage from '../styled/components/Image';
 import React from 'react';
 import {Pressable} from 'react-native';
@@ -22,17 +22,14 @@ const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
           navigation.navigate('HomeTab', {screen: 'Home'});
         }}>
         <SmallImage
-          width={17}
-          height={17}
+          width={20}
+          height={20}
           style={styles.logoImage}
           source={require('../../assets/images/puzzle-onepiece.png')}
         />
-        <Text
-          fontWeight={700}
-          color={Color.PRIMARY_LIGHT}
-          style={styles.logoText}>
+        <LargeText fontWeight={600} color={Color.PRIMARY_LIGHT}>
           인생퍼즐
-        </Text>
+        </LargeText>
       </Pressable>
       {displayRight && (
         <Pressable

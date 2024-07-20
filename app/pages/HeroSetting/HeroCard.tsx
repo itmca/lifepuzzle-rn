@@ -20,6 +20,7 @@ import {writingHeroKeyState} from '../../recoils/hero-write.recoil';
 import {Color} from '../../constants/color.constant';
 import {Photo} from '../../components/styled/components/Image';
 import {userState} from '../../recoils/user.recoil';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 
 type Props = {
   hero: HeroWithPuzzleCntType;
@@ -53,7 +54,7 @@ const HeroCard = ({hero, isButton}: Props): JSX.Element => {
 
   if (isButton) {
     return (
-      <View style={styles.heroCardMainContainer}>
+      <ContentContainer alignCenter>
         <TouchableOpacity
           style={styles.addButton}
           onPress={() => {
@@ -72,15 +73,15 @@ const HeroCard = ({hero, isButton}: Props): JSX.Element => {
             주인공 추가
           </SmallText>
         </TouchableOpacity>
-      </View>
+      </ContentContainer>
     );
   }
 
   return (
-    <View style={styles.heroCardMainContainer}>
+    <ContentContainer alignCenter withScreenPadding gap={0}>
       <View style={styles.heroCardHeader}>
         <View style={{marginRight: 5}}>
-          <XXXLargeText fontWeight={700} lineHeight={'40px'}>
+          <XXXLargeText fontWeight={700} lineHeight={40}>
             {heroNickName}
           </XXXLargeText>
         </View>
@@ -148,7 +149,7 @@ const HeroCard = ({hero, isButton}: Props): JSX.Element => {
           </MediumButton>
         </View>
       </View>
-      <View>
+      <ContentContainer paddingHorizontal={16} gap={0}>
         <XSmallText fontWeight={700}>연결 계정</XSmallText>
         <View style={styles.connectedUserContainer}>
           {users?.map((user, index) => {
@@ -174,8 +175,8 @@ const HeroCard = ({hero, isButton}: Props): JSX.Element => {
             );
           })}
         </View>
-      </View>
-    </View>
+      </ContentContainer>
+    </ContentContainer>
   );
 };
 

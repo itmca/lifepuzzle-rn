@@ -16,7 +16,7 @@ const WritingHeaderLeft = ({type}: Props): JSX.Element => {
         navigation.goBack();
       }}>
       <Icon
-        size={26}
+        size={32}
         color={Color.FONT_GRAY}
         style={{marginLeft: -10}}
         name={type === 'cancel' ? 'x' : 'chevron-left'}

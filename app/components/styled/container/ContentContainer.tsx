@@ -1,66 +1,146 @@
 import styled, {css} from 'styled-components/native';
+import {ScrollView} from 'react-native';
+import React, {ReactNode, RefAttributes} from 'react';
+import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
+import {Color} from '../../../constants/color.constant.ts';
 
 type ContentContainerProps = {
+  // Size
   width?: string;
   height?: string;
   minHeight?: string;
-  flex?: number | string;
-  gap?: string;
-  padding?: number | string;
-  position?: string;
+
+  // Layout
+  useHorizontalLayout?: boolean;
+  flex?: number;
+  gap?: number;
+  absoluteTopPosition?: boolean;
+  absoluteBottomPosition?: boolean;
+  absoluteLeftPosition?: boolean;
+  absoluteRightPosition?: boolean;
+  expandToEnd?: boolean;
+
+  // Align
+  alignCenter?: boolean;
   justifyContent?: string;
   alignItems?: string;
-  marginTop?: string;
-  marginBottom?: string;
-  backgroundColor?: string;
-  top?: number;
-  bottom?: number;
-  opacity?: number | string;
-  zIndex?: number | string;
+
+  // Padding
+  withScreenPadding?: boolean;
+  withContentPadding?: boolean;
+  paddingVertical?: number;
+  paddingHorizontal?: number;
+  paddingTop?: number;
+  paddingBottom?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+
+  // Border & Shadow
+  withUpperShadow?: boolean;
+  withBorder?: boolean;
+  withDebugBorder?: boolean;
   borderRadius?: number;
-  listThumbnail?: boolean;
-  borderTopWidth?: number;
+
+  // ETC
+  opacity?: number;
+  zIndex?: number;
+  backgroundColor?: string;
+  withNoBackground?: boolean;
 };
 
 export const ContentContainer = styled.View<ContentContainerProps>`
-  display: flex;
-  flex-direction: column;
+  /* Size */
   width: ${props => props.width ?? '100%'};
   height: ${props => props.height ?? 'auto'};
-  justify-content: ${props => props.justifyContent ?? 'flex-start'};
-  align-items: ${props => props.alignItems ?? 'stretch'};
-  gap: ${props => props.gap ?? '0px'};
-  flex: ${props => props.flex ?? 'none'};
-  top: ${props => (props.top ? props.top + 'px' : 'auto')};
-  bottom: ${props => (props.bottom ? props.bottom + 'px' : '0px')};
-  min-height: ${props => props.minHeight ?? '0px'};
-  margin-top: ${props => props.marginTop ?? '0px'};
-  margin-bottom: ${props => props.marginBottom ?? '0px'};
-  padding: ${props => (props.padding ? props.padding + 'px' : '0px')};
-  position: ${props => props.position ?? 'static'};
-  background-color: ${props => props.backgroundColor ?? 'none'};
-  z-index: ${props => props.zIndex ?? 0};
-  opacity: ${props => props.opacity ?? 100};
-  border-radius: ${props =>
-    props.borderRadius ? props.borderRadius + 'px' : '0px'};
+  ${props => props.minHeight && `min-height: ${props.minHeight}`}
 
+  /* Flex Basic */
+  display: flex;
+  ${props => props.expandToEnd && 'flex-grow: 1;'}
+  ${props => props.flex && `flex: ${props.flex}`}
+  
+  /* Layout */
+  flex-direction: ${props => (props.useHorizontalLayout ? 'row' : 'column')}
+  justify-content: ${props =>
+    props.useHorizontalLayout ? 'space-between' : 'flex-start'};
+  align-items: ${props => (props.useHorizontalLayout ? 'center' : 'stretch')};
+  gap: ${props => props.gap ?? 16}px;
   ${props =>
-    props.listThumbnail &&
+    (props.absoluteTopPosition ||
+      props.absoluteBottomPosition ||
+      props.absoluteLeftPosition ||
+      props.absoluteRightPosition) &&
+    'position: absolute;'}
+  ${props => props.absoluteTopPosition && 'top: 0;'}
+  ${props => props.absoluteBottomPosition && 'bottom: 0;'}
+  ${props => props.absoluteLeftPosition && 'left: 0;'}
+  ${props => props.absoluteRightPosition && 'right: 0;'}
+
+  /* Align */
+  ${props =>
+    props.alignCenter && 'align-items: center; justify-content: center;'}
+    ${props =>
+    props.justifyContent && `justify-content: ${props.justifyContent};`}
+    ${props => props.alignItems && `align-items: ${props.alignItems};`}
+
+  
+  /* Padding */
+  ${props => props.withScreenPadding && 'padding: 16px 20px 16px 20px;'}
+  ${props => props.withContentPadding && 'padding: 16px'}
+  ${props =>
+    props.paddingVertical !== undefined &&
     css`
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-    `};
+      padding-top: ${props.paddingVertical}px;
+      padding-bottom: ${props.paddingVertical}px;
+    `}
+  ${props =>
+    props.paddingTop !== undefined &&
+    `padding-top: ${props.paddingTop}px;
+    `}
+  ${props =>
+    props.paddingBottom !== undefined &&
+    css`
+      padding-bottom: ${props.paddingBottom}px;
+    `}
+  ${props =>
+    props.paddingHorizontal !== undefined &&
+    css`
+      padding-left: ${props.paddingHorizontal}px;
+      padding-right: ${props.paddingHorizontal}px;
+    `}
+  
+  /* Border & Shadow */
+  ${props => props.withUpperShadow && 'box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);'}
+  ${props => props.withBorder && `border: 1px solid ${Color.GRAY};`}
+  ${props => props.withDebugBorder && 'border: 1px solid red;'}
+  border-radius: ${props => props.borderRadius ?? 0}px;
+
+  /* ETC */
+  background-color: ${props => props.backgroundColor ?? Color.WHITE};
+  ${props => props.withNoBackground && 'background-color: transparent;'}
+  opacity: ${props => props.opacity ?? 100};
+  z-index: ${props => props.zIndex ?? 0};
+  overflow: hidden;
 `;
 
-export const HorizontalContentContainer = styled(ContentContainer)`
-  flex-direction: row;
-  margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};
-  align-items: center;
-`;
+type ScrollContentContainerProps = ContentContainerProps &
+  RefAttributes<ScrollView> & {
+    onScroll?:
+      | ((event: NativeSyntheticEvent<NativeScrollEvent>) => void)
+      | undefined;
+    children?: ReactNode;
+  };
 
-export const OutLineContentContainer = styled(ContentContainer)`
-  box-sizing: border-box;
-  border: 16px solid transparent;
-  border-top-width: ${props =>
-    props.borderTopWidth ? props.borderTopWidth + 'px' : '16px'};
-`;
+export const ScrollContentContainer = (props: ScrollContentContainerProps) => (
+  <ScrollView
+    ref={props.ref}
+    onScroll={props.onScroll}
+    scrollEventThrottle={100}
+    style={{width: '100%'}}
+    showsVerticalScrollIndicator={false}>
+    <ContentContainer {...(props as ContentContainerProps)}>
+      {props.children}
+    </ContentContainer>
+  </ScrollView>
+);

@@ -9,10 +9,7 @@ import CtaButton from '../button/CtaButton';
 import {MediumImage} from '../styled/components/Image';
 import MediumText from '../styled/components/Text';
 
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../styled/container/ContentContainer';
+import {ContentContainer} from '../styled/container/ContentContainer';
 import {AuthItem} from './AuthItem';
 
 type props = {
@@ -61,7 +58,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
     <>
       <ContentContainer>
         {user ? (
-          <HorizontalContentContainer height={'62px'}>
+          <ContentContainer height={'62px'} useHorizontalLayout>
             <ContentContainer width={'60px'}>
               <MediumImage
                 width={48}
@@ -78,7 +75,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
             <ContentContainer flex={1}>
               <MediumText fontWeight={'600'}>{user?.nickName}</MediumText>
             </ContentContainer>
-          </HorizontalContentContainer>
+          </ContentContainer>
         ) : (
           <></>
         )}

@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import {TextInput} from 'react-native-paper';
 import React, {useState} from 'react';
 import {Color} from '../../../constants/color.constant';
-import {NoOutLineFullScreenContainer} from '../container/ScreenContainer';
+import {ScreenContainer} from '../container/ScreenContainer';
 
 type Props = {
   width?: number;
@@ -52,7 +52,7 @@ function Input({...props}) {
           onFocus={() => setIsFocused(true)}
           {...props}></StyledTextInput>
       ) : (
-        <NoOutLineFullScreenContainer
+        <ScreenContainer
           style={
             isFocused
               ? {
@@ -74,7 +74,7 @@ function Input({...props}) {
             onBlur={() => setIsFocused(false)}
             onFocus={() => setIsFocused(true)}
             {...props}></StyledTextInput>
-        </NoOutLineFullScreenContainer>
+        </ScreenContainer>
       )}
     </>
   );

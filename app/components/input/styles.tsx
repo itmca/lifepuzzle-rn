@@ -27,11 +27,9 @@ export default StyleSheet.create({
   },
   inputDefaultStyle: {
     width: '100%',
-    marginBottom: 8,
   },
   dateInput: {
     width: '100%',
-    marginBottom: 8,
   },
   iconView: {
     width: 'auto',
@@ -40,8 +38,5 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     right: 5,
-  },
-  icon: {
-    marginRight: 10,
   },
 });

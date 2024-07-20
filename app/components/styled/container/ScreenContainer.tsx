@@ -5,38 +5,29 @@ type ScreenContainerProps = {
   flexDirections?: string;
   justifyContent?: string;
   alignItems?: string;
-  gap?: string;
-  padding?: number | string;
+  gap?: number;
+
+  // Border & Shadow
+  withUpperShadow?: boolean;
+  withBorder?: boolean;
+  withDebugBorder?: boolean;
+  borderRadius?: number;
 };
 
 export const ScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
   width: 100%;
   height: 100%;
   display: flex;
-  box-sizing: border-box;
-  border: 16px solid #ffffff00;
   background-color: ${Color.WHITE};
-  gap: ${props => props.gap ?? '16px'};
-  flex-direction: ${props => props.flexDirections ?? 'column'};
-  justify-content: ${props => props.justifyContent ?? 'center'};
-  align-items: ${props => props.alignItems ?? 'center'};
+  gap: ${props => props.gap ?? 16}px;
+  flex-direction: ${'column'};
+  justify-content: ${'stretch'};
+  align-items: ${'center'};
   align-content: space-around;
-`;
 
-export const NoOutLineScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: ${props => props.justifyContent ?? 'center'};
-  background-color: ${Color.WHITE};
-  padding: ${props => props.padding ?? '0px'};
-`;
-
-export const NoOutLineFullScreenContainer = styled.View`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: ${Color.WHITE};
+  /* Border & Shadow */
+  ${props => props.withUpperShadow && 'box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);'}
+  ${props => props.withBorder && `border: 1px solid ${Color.GRAY};`}
+  ${props => props.withDebugBorder && 'border: 1px solid red;'}
+  border-radius: ${props => props.borderRadius ?? 0}px;
 `;

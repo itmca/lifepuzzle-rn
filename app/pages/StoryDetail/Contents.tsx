@@ -1,6 +1,6 @@
 import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
-import MediumText, {SmallText, XXSmallText} from '../styled/components/Text';
+import MediumText, {SmallText, XSmallText} from '../styled/components/Text';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import React from 'react';
@@ -19,11 +19,12 @@ export const StoryItemContents = ({
   onPress,
 }: props): JSX.Element => {
   return (
-    <ContentContainer withContentPadding gap={12}>
-      <ContentContainer useHorizontalLayout>
+    <ContentContainer withContentPadding>
+      <ContentContainer direction="horizontal">
         {story.question && (
           <SmallText
             color={Color.DARK_GRAY}
+            style={styles.questionText}
             fontWeight={700}
             letterSpacing={-0.1}
             numberOfLines={inDetail ? 2 : 1}
@@ -35,32 +36,48 @@ export const StoryItemContents = ({
           {getStoryDisplayDotDate(story.date)}
         </SmallText>
       </ContentContainer>
-      <ContentContainer gap={8}>
+      <ContentContainer alignItems="flex-start">
         <MediumText
+          style={styles.itemTitle}
           color={Color.LIGHT_BLACK}
           fontWeight={600}
+          numberOfLines={inDetail ? 2 : 1}
           ellipsizeMode="tail">
           {story.title}
         </MediumText>
-        <ContentContainer useHorizontalLayout gap={4}>
-          <ContentContainer flex={1}>
-            <SmallText
-              color={Color.FONT_GRAY}
-              numberOfLines={2}
+        {inDetail ? (
+          <ContentContainer width="100%">
+            <MediumText
+              style={{lineHeight: 24}}
+              color={Color.FONT_DARK}
               ellipsizeMode="tail">
               {story.content}
-            </SmallText>
+            </MediumText>
           </ContentContainer>
-          {inDetail ? undefined : (
-            <ContentContainer width={'40px'}>
+        ) : (
+          <>
+            <ContentContainer width="80%">
+              <SmallText
+                style={{lineHeight: 19}}
+                letterSpacing={-0.1}
+                color={Color.FONT_GRAY}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {story.content}
+              </SmallText>
+            </ContentContainer>
+            <ContentContainer width="20%" alignItems="flex-end">
               <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
-                <XXSmallText color={Color.WHITE} fontWeight={600} alignCenter>
+                <XSmallText
+                  color={Color.WHITE}
+                  letterSpacing={-0.5}
+                  fontWeight={600}>
                   더보기
-                </XXSmallText>
+                </XSmallText>
               </TouchableOpacity>
             </ContentContainer>
-          )}
-        </ContentContainer>
+          </>
+        )}
       </ContentContainer>
     </ContentContainer>
   );

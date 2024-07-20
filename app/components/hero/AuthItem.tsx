@@ -3,14 +3,10 @@ import {useRecoilState} from 'recoil';
 import {Color} from '../../constants/color.constant';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {CodeType} from '../../types/code.type';
-import {HeroUserType} from '../../types/hero.type';
 import {ImageButton} from '../styled/components/Button';
 import {MediumImage} from '../styled/components/Image';
-import {XSmallText, MediumText} from '../styled/components/Text';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../styled/container/ContentContainer';
+import {MediumText, XSmallText} from '../styled/components/Text';
+import {ContentContainer} from '../styled/container/ContentContainer';
 
 type props = {
   auth: CodeType;
@@ -30,7 +26,7 @@ export const AuthItem = ({auth, selected, onSelect}: props): JSX.Element => {
       onPress={() => {
         onSubmit();
       }}>
-      <HorizontalContentContainer height={'56px'}>
+      <ContentContainer height={'56px'}>
         <ContentContainer width={'40px'} alignItems={'center'}>
           {selected ? (
             <MediumImage
@@ -52,7 +48,7 @@ export const AuthItem = ({auth, selected, onSelect}: props): JSX.Element => {
             <></>
           )}
         </ContentContainer>
-      </HorizontalContentContainer>
+      </ContentContainer>
     </ImageButton>
   );
 };

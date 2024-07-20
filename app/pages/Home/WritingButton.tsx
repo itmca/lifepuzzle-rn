@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {LargeText} from '../../components/styled/components/Text';
@@ -13,7 +13,8 @@ type Props = {
 const styles = StyleSheet.create({
   writingButton: {
     width: '100%',
-    height: 80,
+    height: 64,
+    borderRadius: 16,
     backgroundColor: Color.PRIMARY_LIGHT,
     alignItems: 'center',
     justifyContent: 'center',

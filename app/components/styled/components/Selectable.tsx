@@ -23,7 +23,7 @@ export const WideSelectable = styled.TouchableOpacity<Props>`
   border-radius: 6px;
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : Color.WHITE};
-  border-color: ${props => (props.selected ? Color.SECONDARY_DARK : '#555555')};
+  border-color: ${props => (props.selected ? Color.PRIMARY_LIGHT : '#555555')};
   border-width: ${props => (props.selected ? '3px' : '1px')};
   gap: ${props => (props.gap ? props.gap : '0px')};
   margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};

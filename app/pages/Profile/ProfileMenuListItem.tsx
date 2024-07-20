@@ -2,7 +2,7 @@ import {TouchableOpacity} from 'react-native';
 import MediumText from '../../components/styled/components/Text';
 import {Color} from '../../constants/color.constant';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {HorizontalContentContainer} from '../../components/styled/container/ContentContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
 type Props = {
   backgroundColor?: string;
@@ -16,7 +16,8 @@ export const ProfileMenuListItem = ({
   onPress,
 }: Props): JSX.Element => {
   return (
-    <HorizontalContentContainer
+    <ContentContainer
+      useHorizontalLayout
       padding={16}
       alignItems="center"
       backgroundColor={backgroundColor}>
@@ -37,6 +38,6 @@ export const ProfileMenuListItem = ({
           color={Color.FONT_GRAY}
         />
       </TouchableOpacity>
-    </HorizontalContentContainer>
+    </ContentContainer>
   );
 };

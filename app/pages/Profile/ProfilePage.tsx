@@ -1,18 +1,15 @@
 import React from 'react';
 
-import {ImageErrorEventData, NativeSyntheticEvent, View} from 'react-native';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {View} from 'react-native';
+import {useRecoilValue} from 'recoil';
 import {userState} from '../../recoils/user.recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {styles} from './styles';
 import {BasicNavigationProps} from '../../navigation/types';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../../components/styled/container/ContentContainer';
-import {XXLargeText, MediumText} from '../../components/styled/components/Text';
-import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {MediumText, XXLargeText} from '../../components/styled/components/Text';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
 import Image from '../../components/styled/components/Image';
 import {ProfileMenuListItem} from './ProfileMenuListItem';
@@ -37,16 +34,22 @@ const ProfilePage = (): JSX.Element | null => {
     return null;
   }
 
+  console.log(user);
+
   return (
-    <NoOutLineScreenContainer justifyContent={'flex-start'}>
-      <HorizontalContentContainer alignItems="center" padding={38} gap={'20px'}>
+    <ScreenContainer justifyContent={'flex-start'} gap={0}>
+      <ContentContainer
+        useHorizontalLayout
+        withScreenPadding
+        gap={20}
+        paddingVertical={32}>
         <Image
           width={60}
           height={60}
           borderRadius={30}
           resizeMode={'cover'}
           source={
-            user.imageURL
+            typeof user.imageURL === 'string'
               ? {uri: user.imageURL}
               : require('../../assets/images/profile_icon.png')
           }
@@ -61,7 +64,7 @@ const ProfilePage = (): JSX.Element | null => {
             </MediumText>
           )}
         </ContentContainer>
-      </HorizontalContentContainer>
+      </ContentContainer>
       <View style={styles.customDivider} />
       <ProfileMenuListItem
         listItemTitle={'계정 관리'}
@@ -86,7 +89,7 @@ const ProfilePage = (): JSX.Element | null => {
           });
         }}
       />
-    </NoOutLineScreenContainer>
+    </ScreenContainer>
   );
 };
 export default ProfilePage;

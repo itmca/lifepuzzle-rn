@@ -8,11 +8,8 @@ import GeneralLoginButton from './GeneralLoginButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {PasswordInput} from '../../components/input/PasswordInput';
-import {NoOutLineScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../../components/styled/container/ContentContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import MediumText, {
   XSmallText,
@@ -26,16 +23,19 @@ const LoginOthersPage = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <NoOutLineScreenContainer justifyContent="flex-start">
+    <ScreenContainer justifyContent="flex-start">
       <LoadingContainer isLoading={loading}>
         <ContentContainer
-          height="200px"
-          backgroundColor={Color.PRIMARY_LIGHT}
-          padding={30}>
+          withScreenPadding
+          backgroundColor={Color.PRIMARY_LIGHT}>
           <XXXLargeText color="#D2F2FF" fontWeight={700} lineHeight="40px">
             사랑하는 사람의 이야기가 {'\n'}함께 계속 될 수 있도록
           </XXXLargeText>
-          <HorizontalContentContainer marginTop="27px">
+          <ContentContainer
+            useHorizontalLayout
+            withNoBackground
+            justifyContent={'flex-start'}
+            gap={12}>
             <MediumText color={Color.WHITE} fontWeight={600}>
               간편 로그인
             </MediumText>
@@ -46,7 +46,7 @@ const LoginOthersPage = (): JSX.Element => {
                 onChangeLoading={setLoading}
               />
             )}
-          </HorizontalContentContainer>
+          </ContentContainer>
           <Photo
             width={75}
             height={40}
@@ -55,12 +55,12 @@ const LoginOthersPage = (): JSX.Element => {
           />
         </ContentContainer>
 
-        <ContentContainer padding={18}>
-          <ContentContainer marginBottom="20px">
+        <ContentContainer withScreenPadding gap={20}>
+          <ContentContainer>
             <MediumText color={Color.PRIMARY_LIGHT}>아이디</MediumText>
             <BasicTextInput text={id} onChangeText={setId} />
           </ContentContainer>
-          <ContentContainer marginBottom="20px">
+          <ContentContainer>
             <MediumText color={Color.PRIMARY_LIGHT}>비밀번호</MediumText>
             <PasswordInput password={password} onChangePassword={setPassword} />
           </ContentContainer>
@@ -77,7 +77,7 @@ const LoginOthersPage = (): JSX.Element => {
           onChangeLoading={setLoading}
         />
       </LoadingContainer>
-    </NoOutLineScreenContainer>
+    </ScreenContainer>
   );
 };
 

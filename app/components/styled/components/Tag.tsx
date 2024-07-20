@@ -2,13 +2,13 @@ import React from 'react';
 import styled, {css} from 'styled-components/native';
 import {
   ImageSourcePropType,
+  ImageStyle,
   StyleProp,
   TouchableOpacity,
-  ImageStyle,
 } from 'react-native';
 import {XSmallImage} from './Image';
-import {HorizontalContentContainer} from '../container/ContentContainer';
 import {XXSmallText} from './Text';
+import {ContentContainer} from '../container/ContentContainer.tsx';
 
 type Props = {
   iconSource?: ImageSourcePropType;
@@ -47,14 +47,14 @@ export const StyledTag = styled(TouchableOpacity)<Props>`
 function Tag({iconSource, iconStyle, text = '', ...props}: Props) {
   return (
     <StyledTag borderRadius={'20px'} {...props}>
-      <HorizontalContentContainer>
+      <ContentContainer useHorizontalLayout gap={0} width={'auto'}>
         {iconSource ? (
           <XSmallImage style={iconStyle} source={iconSource} />
         ) : (
           <></>
         )}
         <XXSmallText fontWeight={600}>{text}</XXSmallText>
-      </HorizontalContentContainer>
+      </ContentContainer>
     </StyledTag>
   );
 }

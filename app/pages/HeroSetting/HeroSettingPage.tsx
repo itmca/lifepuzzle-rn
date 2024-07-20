@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {Dimensions, View} from 'react-native';
-import {styles} from './styles';
-import Carousel from 'react-native-snap-carousel';
+import {Dimensions} from 'react-native';
 import HeroCard from './HeroCard';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroWithPuzzleCntType} from '../../types/hero.type';
@@ -12,6 +10,9 @@ import {heroUpdate} from '../../recoils/update.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {HeroesQueryResponse} from '../../service/hooks/hero.query.hook';
+import Carousel from 'react-native-reanimated-carousel';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -43,23 +44,19 @@ const HeroSettingPage = (): JSX.Element => {
   }, [heroUpdateObserver]);
 
   return (
-    <View style={styles.mainContainer}>
-      <LoadingContainer isLoading={isLoading}>
-        <View style={styles.carouselContainer}>
+    <LoadingContainer isLoading={isLoading}>
+      <ScreenContainer>
+        <ContentContainer alignCenter>
           <Carousel
             data={[...heroes, {isButton: true}]}
-            sliderWidth={windowWidth}
-            sliderHeight={windowHeight}
-            itemWidth={windowWidth * 0.8}
-            itemHeight={windowHeight}
-            layout={'default'}
+            width={windowWidth}
             renderItem={({item}: any) => {
               return <HeroCard hero={item} isButton={item.isButton} />;
             }}
           />
-        </View>
-      </LoadingContainer>
-    </View>
+        </ContentContainer>
+      </ScreenContainer>
+    </LoadingContainer>
   );
 };
 

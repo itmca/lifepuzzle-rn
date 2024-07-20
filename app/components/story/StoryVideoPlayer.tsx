@@ -3,7 +3,6 @@ import Video, {
   OnPlaybackRateData,
   OnProgressData,
 } from 'react-native-video';
-import {Dimensions} from 'react-native';
 import {Color} from '../../constants/color.constant';
 import {toMinuteSeconds} from '../../service/time-display.service';
 import React, {useEffect, useRef, useState} from 'react';
@@ -19,18 +18,16 @@ type props = {
   isFocused?: boolean;
   listThumbnail?: boolean;
   activeMediaIndexNo?: number;
+  width: number;
 };
 
 export const VideoPlayer = ({
   videoUrl,
   isFocused,
-  listThumbnail,
+  width,
   setIsPaginationShown,
   activeMediaIndexNo,
 }: props) => {
-  const width = listThumbnail
-    ? Dimensions.get('window').width - 52
-    : Dimensions.get('window').width - 20;
   const player = useRef<any>(null);
   const [duration, setDuration] = useState<number>(0);
   const [playingTime, setPlayingTime] = useState<string>('');
@@ -86,9 +83,7 @@ export const VideoPlayer = ({
   };
 
   const handleProgress = (e: {nativeEvent: {pageX: number}}) => {
-    const position = listThumbnail
-      ? e.nativeEvent.pageX - 26
-      : e.nativeEvent.pageX - 10;
+    const position = e.nativeEvent.pageX - 26;
     const progress = (position / width) * duration;
     player.current.seek(progress);
   };
@@ -101,10 +96,6 @@ export const VideoPlayer = ({
           width: '100%',
           height: '100%',
           backgroundColor: Color.BLACK,
-          ...{
-            borderTopLeftRadius: listThumbnail ? 6 : 0,
-            borderTopRightRadius: listThumbnail ? 6 : 0,
-          },
         }}
         source={{uri: videoUrl}}
         paused={isPaused}
@@ -120,7 +111,6 @@ export const VideoPlayer = ({
       />
       {isClicked ? (
         <VideoController
-          listThumbnail={listThumbnail ? listThumbnail : false}
           width={width}
           duration={duration}
           isPaused={isPaused}
@@ -135,8 +125,7 @@ export const VideoPlayer = ({
         <MediaThumbnail
           mediaType="video"
           playingTime={playingTime}
-          backgroundColor={'rgba(0, 0, 0, 0.3)'}
-          listThumbnail={listThumbnail ? listThumbnail : false}
+          backgroundColor={'rgba(0, 0, 0, 0.7)'}
           onPress={() => {
             if (!isClicked) {
               setClicked(true);

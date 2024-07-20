@@ -50,11 +50,12 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 6,
   },
   readMoreButton: {
+    textAlign: 'center',
     backgroundColor: Color.PRIMARY_LIGHT,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 43,
-    height: 43,
+    width: 40,
+    height: 40,
     borderRadius: 50,
   },
 });

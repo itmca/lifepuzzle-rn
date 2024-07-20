@@ -1,26 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, ImageBackground, Text, View} from 'react-native';
-import {styles} from './styles';
-import CtaButton from '../../components/button/CtaButton';
-import {useAuthAxios} from '../../service/hooks/network.hook';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import {Color} from '../../constants/color.constant';
 import {HeroType} from '../../types/hero.type';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
-import SelectablePhoto from '../../components/photo/SelectablePhoto';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useUpdatePublisher} from '../../service/hooks/update.hooks';
 import {heroUpdate} from '../../recoils/update.recoil';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
-import {CustomAlert} from '../../components/alert/CustomAlert';
 import {BasicNavigationProps} from '../../navigation/types';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {
+  ContentContainer,
+  ScrollContentContainer,
+} from '../../components/styled/container/ContentContainer';
 import {ImageButton} from '../../components/styled/components/Button';
 import {
   getCurrentHeroPhotoUri,
@@ -55,11 +49,8 @@ const HeroRegisterPage = (): JSX.Element => {
   return (
     <ScreenContainer>
       {/* <LoadingContainer isLoading={loading}> */}
-      <ScrollContainer
-        contentContainerStyle={styles.formContainer}
-        extraHeight={0}
-        keyboardShouldPersistTaps={'always'}>
-        <ContentContainer gap="15px" alignItems="center">
+      <ScrollContentContainer alignCenter withScreenPadding>
+        <ContentContainer alignCenter>
           <ImageButton
             backgroundColor="#D6F3FF"
             height="395px"
@@ -109,7 +100,7 @@ const HeroRegisterPage = (): JSX.Element => {
             />
           </View>
         </ContentContainer>
-      </ScrollContainer>
+      </ScrollContentContainer>
       {/* </LoadingContainer> */}
     </ScreenContainer>
   );

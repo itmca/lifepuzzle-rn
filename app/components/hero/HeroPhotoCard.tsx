@@ -3,13 +3,10 @@ import {Photo} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import {useNavigation} from '@react-navigation/native';
 import {HeroSettingNavigationProps} from '../../navigation/types';
-import {
-  ContentContainer,
-  HorizontalContentContainer,
-} from '../styled/container/ContentContainer';
+import {ContentContainer} from '../styled/container/ContentContainer';
 import {IconButton} from 'react-native-paper';
 import {LockableTextInput} from '../input/LockableTextInput';
-import {GestureResponderEvent, ImageSourcePropType} from 'react-native';
+import {GestureResponderEvent} from 'react-native';
 import Tag from '../styled/components/Tag';
 import {ImageButton} from '../styled/components/Button';
 import LinearGradient from 'react-native-linear-gradient';
@@ -63,49 +60,57 @@ export const HeroPhotoCard = ({
             imageURL={photoUri}
           />
         )}
-        <LinearGradient
-          colors={['#FFFFFF22', '#2d292921', '#00000022']}
-          style={{
-            flex: 1,
-            width: '100%',
-            height: 80,
-            position: 'absolute',
-            bottom: 0,
-            borderBottomLeftRadius: 12,
-            borderBottomRightRadius: 12,
-          }}>
-          <HorizontalContentContainer padding={14}>
-            <ContentContainer flex={1} gap={'5px'}>
-              <LockableTextInput
-                customStyle={{
-                  minWidth: 130,
-                  height: 30,
-                  paddingHorizontal: 5,
-                }}
-                text={title}
-                onChangeText={onChangeTitle}
-                placeholder="행복했던 나날들"
-              />
-              <ContentContainer alignItems={'flex-start'}>
-                <Tag
-                  backgroundColor={Color.WHITE}
-                  width={'auto'}
-                  height={'22px'}
-                  iconSource={require('../../assets/images/puzzle-onepiece.png')}
-                  iconStyle={{transform: [{rotate: '29.84deg'}]}}
-                  text={` ${puzzleCnt}개`}></Tag>
+        <ContentContainer height={200} absoluteBottomPosition withNoBackground>
+          <LinearGradient
+            colors={['#FFFFFF22', '#2d292921', '#00000022']}
+            style={{
+              flex: 1,
+              width: '100%',
+              height: '75px',
+              position: 'absolute',
+              bottom: 0,
+              borderBottomLeftRadius: 12,
+              borderBottomRightRadius: 12,
+            }}>
+            <ContentContainer
+              withContentPadding
+              useHorizontalLayout
+              withNoBackground>
+              <ContentContainer withNoBackground width={'200'}>
+                <LockableTextInput
+                  customStyle={{
+                    minWidth: 130,
+                    height: 30,
+                    paddingHorizontal: 5,
+                  }}
+                  text={title}
+                  onChangeText={onChangeTitle}
+                  placeholder="행복했던 나날들"
+                />
+                <ContentContainer alignItems={'flex-start'} withNoBackground>
+                  <Tag
+                    backgroundColor={Color.WHITE}
+                    height={'18px'}
+                    iconSource={require('../../assets/images/puzzle-onepiece.png')}
+                    iconStyle={{transform: [{rotate: '29.84deg'}]}}
+                    text={` ${puzzleCnt}개`}
+                  />
+                </ContentContainer>
+              </ContentContainer>
+              <ContentContainer
+                width={'40'}
+                alignItems={'center'}
+                withNoBackground>
+                <IconButton
+                  icon="camera"
+                  size={24}
+                  containerColor={Color.WHITE}
+                  onPress={onClick}
+                />
               </ContentContainer>
             </ContentContainer>
-            <ContentContainer width={'40px'} alignItems={'center'}>
-              <IconButton
-                icon="camera"
-                size={24}
-                containerColor={Color.WHITE}
-                onPress={onClick}
-              />
-            </ContentContainer>
-          </HorizontalContentContainer>
-        </LinearGradient>
+          </LinearGradient>
+        </ContentContainer>
       </ImageButton>
     </ContentContainer>
   );

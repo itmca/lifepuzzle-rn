@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, StyleProp, ViewStyle} from 'react-native';
-import Carousel from 'react-native-snap-carousel';
+import {StyleProp, ViewStyle} from 'react-native';
 import {Photo} from '../styled/components/Image';
 import {StoryType} from '../../types/story.type';
 import {VideoPlayer} from './StoryVideoPlayer';
@@ -8,12 +7,13 @@ import StoryMediaCarouselPagination from './StoryMediaCarauselPagination';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import {StoryAudioPlayer} from './StoryAudioPlayer';
+import Carousel from 'react-native-reanimated-carousel';
 
 type Props = {
   story: StoryType;
   carouselStyle?: StyleProp<ViewStyle>;
-  carouselWidth?: number;
-  listThumbnail?: boolean;
+  carouselHeight: number;
+  carouselWidth: number;
   isFocused?: boolean;
 };
 
@@ -22,11 +22,10 @@ type MediaItem = {
   url: string;
 };
 
-const StoryMediaCarousel = ({
+export const StoryMediaCarousel = ({
   story,
-  carouselStyle,
   carouselWidth,
-  listThumbnail,
+  carouselHeight,
   isFocused,
 }: Props): JSX.Element => {
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
@@ -38,6 +37,8 @@ const StoryMediaCarousel = ({
     ...story.photos.map(url => ({mediaType: 'photo', url: url})),
   ];
 
+  console.log('data : ', data);
+
   const renderItem = ({item}: {item: MediaItem}) => {
     const mediaType = item.mediaType;
     const mediaUrl = item.url;
@@ -48,8 +49,8 @@ const StoryMediaCarousel = ({
           <VideoPlayer
             videoUrl={mediaUrl}
             isFocused={isFocused}
+            width={carouselWidth}
             activeMediaIndexNo={activeMediaIndexNo}
-            listThumbnail={listThumbnail ? listThumbnail : false}
             setIsPaginationShown={setIsPaginationShown}
           />
         )}
@@ -58,13 +59,10 @@ const StoryMediaCarousel = ({
             audioURL={mediaUrl}
             isFocused={isFocused}
             activeMediaIndexNo={activeMediaIndexNo}
-            listThumbnail={listThumbnail ? listThumbnail : false}
           />
         )}
         {mediaType === 'photo' && (
           <Photo
-            borderTopLeftRadius={listThumbnail ? 6 : 0}
-            borderTopRightRadius={listThumbnail ? 6 : 0}
             resizeMode="cover"
             source={{
               uri: mediaUrl,
@@ -75,26 +73,17 @@ const StoryMediaCarousel = ({
     );
   };
 
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
-
   return (
     <ContentContainer
-      height={listThumbnail ? '160px' : '200px'}
-      justifyContent="center"
-      alignItems="center"
-      listThumbnail={listThumbnail ? listThumbnail : true}
       style={{
         borderBottomWidth: 0.8,
         borderBottomColor: Color.GRAY,
       }}>
       <Carousel
+        loop={false}
+        width={carouselWidth}
+        height={carouselHeight}
         data={data}
-        sliderHeight={windowHeight}
-        itemHeight={windowHeight}
-        sliderWidth={carouselWidth ? carouselWidth : windowWidth}
-        itemWidth={carouselWidth ? carouselWidth : windowWidth}
-        containerCustomStyle={carouselStyle}
         renderItem={renderItem}
         onSnapToItem={setActiveMediaIndexNo}
       />
@@ -107,5 +96,3 @@ const StoryMediaCarousel = ({
     </ContentContainer>
   );
 };
-
-export default StoryMediaCarousel;

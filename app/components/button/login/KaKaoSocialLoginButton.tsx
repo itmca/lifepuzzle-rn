@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, TouchableOpacity} from 'react-native';
+import {Image} from 'react-native';
 import styles from './styles';
 import {KakaoOAuthToken, login} from '@react-native-seoul/kakao-login';
 import {useAxios} from '../../../service/hooks/network.hook';
@@ -10,6 +10,7 @@ import {
 import {ImageButton, MediumButton} from '../../styled/components/Button';
 import MediumText from '../../styled/components/Text';
 import {Color} from '../../../constants/color.constant';
+
 type Props = {
   onChangeLoading: (loading: boolean) => void;
   type: 'button' | 'icon';
@@ -59,9 +60,7 @@ const KaKaoSocialLoginButton = ({
         onPress={signInWithKakao}
         backgroundColor="#FFE812"
         justifyContent="flex-start"
-        padding="12px 9px"
-        marginBottom="12px"
-        marginTop="0px">
+        padding="12px 9px">
         <Image
           source={require('../../../assets/images/kakao-logo.png')}
           style={styles.socialLoginIcon}
@@ -73,11 +72,7 @@ const KaKaoSocialLoginButton = ({
     );
   } else if (type === 'icon') {
     return (
-      <ImageButton
-        onPress={signInWithKakao}
-        marginBottom="0px"
-        width="auto"
-        marginLeft="12px">
+      <ImageButton onPress={signInWithKakao} marginBottom="0px" width="auto">
         <Image
           source={require('../../../assets/images/login-kakao-logo.png')}
           style={styles.roundLoginButtonImage}

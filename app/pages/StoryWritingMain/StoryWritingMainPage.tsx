@@ -1,5 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Keyboard, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {
+  Keyboard,
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {KeyboardAccessoryView} from 'react-native-keyboard-accessory';
 import styles from './styles';
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -7,10 +12,7 @@ import {
   isModalOpening,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
-import {
-  NoOutLineFullScreenContainer,
-  ScreenContainer,
-} from '../../components/styled/container/ScreenContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {LargeText, SmallText} from '../../components/styled/components/Text';
 import StoryDateInput from './StoryDateInput';
@@ -19,10 +21,7 @@ import {List} from 'react-native-paper';
 import {StoryKeyboardPhotoRecord} from '../../components/story/StoryKeyboardPhotoRecord';
 import {StoryKeyboardVideoRecord} from '../../components/story/StoryKeyboardVideoRecord';
 import {StoryKeyboardVoiceRecord} from '../../components/story/StoryKeyboardVoiceRecord';
-import {
-  ContentContainer,
-  OutLineContentContainer,
-} from '../../components/styled/container/ContentContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {Color} from '../../constants/color.constant';
@@ -58,10 +57,11 @@ const StoryWritingMainPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={isStoryUploading}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <NoOutLineFullScreenContainer>
+        <ScreenContainer gap={0}>
           {!ishelpQuestionVisible ? (
             <>
-              <OutLineContentContainer
+              <ContentContainer
+                paddingHorizontal={16}
                 style={StyleSheet.compose(styles.screenHTopContainer, {
                   height: 50,
                   backgroundColor: Color.WHITE,
@@ -75,19 +75,19 @@ const StoryWritingMainPage = (): JSX.Element => {
                   backgroundColor={Color.SECONDARY_LIGHT}
                   color={Color.PRIMARY_MEDIUM}
                 />
-              </OutLineContentContainer>
+              </ContentContainer>
             </>
           ) : (
             <>
-              <OutLineContentContainer style={styles.screenHTopContainer}>
+              <ContentContainer style={styles.screenHTopContainer}>
                 <StoryDateInput
                   value={writingStory.date}
                   onChange={(date: Date) => {
                     setWritingStory({date});
                   }}
                 />
-              </OutLineContentContainer>
-              <OutLineContentContainer
+              </ContentContainer>
+              <ContentContainer
                 backgroundColor={Color.DARK_GRAY}
                 borderTopWidth={0}>
                 <SmallText
@@ -111,10 +111,10 @@ const StoryWritingMainPage = (): JSX.Element => {
                     colors: {background: 'transparent'},
                   }}
                 />
-              </OutLineContentContainer>
+              </ContentContainer>
             </>
           )}
-          <OutLineContentContainer height={'50px'} borderTopWidth={2}>
+          <ContentContainer height={'50px'}>
             <BasicTextInput
               customStyle={styles.titleInput}
               placeholder="제목을 입력해주세요."
@@ -126,8 +126,8 @@ const StoryWritingMainPage = (): JSX.Element => {
               borderColor={'transparent'}
               backgroundColor={'transparent'}
             />
-          </OutLineContentContainer>
-          <OutLineContentContainer height={'100%'} flex={1} borderTopWidth={2}>
+          </ContentContainer>
+          <ContentContainer height={'100%'} flex={1}>
             <BasicTextInput
               customStyle={{flex: 1}}
               placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
@@ -138,7 +138,7 @@ const StoryWritingMainPage = (): JSX.Element => {
               borderColor={'transparent'}
               backgroundColor={'transparent'}
             />
-          </OutLineContentContainer>
+          </ContentContainer>
           {ishelpQuestionVisible && (
             <MediumImage
               width={55}
@@ -160,14 +160,6 @@ const StoryWritingMainPage = (): JSX.Element => {
                     <StoryKeyboardVideoRecord />
                     <StoryKeyboardVoiceRecord />
                   </List.Section>
-                  {!ishelpQuestionVisible && (
-                    <MediumImage
-                      width={55}
-                      height={55}
-                      source={require('../../assets/images/puzzle-character.png')}
-                      style={{position: 'absolute', top: -40, right: 20}}
-                    />
-                  )}
                 </>
               ) : (
                 !ishelpQuestionVisible && (
@@ -195,7 +187,7 @@ const StoryWritingMainPage = (): JSX.Element => {
             heroNickName={hero.heroNickName}
             isModalOpen={isModalOpen}
           />
-        </NoOutLineFullScreenContainer>
+        </ScreenContainer>
       </TouchableWithoutFeedback>
     </LoadingContainer>
   );

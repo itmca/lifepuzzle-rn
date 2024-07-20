@@ -63,8 +63,7 @@ const AppleSocialLoginButton = ({
         backgroundColor="#000000"
         onPress={() => onAppleButtonPress()}
         justifyContent="flex-start"
-        padding="12px 9px"
-        marginBottom="12px">
+        padding="12px 9px">
         <Image
           source={require('../../../assets/images/apple-logo.png')}
           style={styles.appleLogo}
@@ -79,8 +78,7 @@ const AppleSocialLoginButton = ({
       <ImageButton
         onPress={() => onAppleButtonPress()}
         marginBottom="0px"
-        width="auto"
-        marginLeft="12px">
+        width="auto">
         <Image
           source={require('../../../assets/images/login-apple-logo.png')}
           style={styles.roundLoginButtonImage}

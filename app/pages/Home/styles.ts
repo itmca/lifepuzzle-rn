@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   customDivider: {
     width: '100%',
-    height: 8,
+    height: 4,
     backgroundColor: 'rgba(246, 246, 246, 1)',
   },
 });

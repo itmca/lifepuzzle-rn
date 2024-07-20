@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {HelperText} from 'react-native-paper';
 import TextInput from '../styled/components/TextInput';
-import styles from './styles';
-import {View} from 'react-native';
 import {Color} from '../../constants/color.constant';
 import Icon from '../styled/components/Icon';
-import {HorizontalContentContainer} from '../styled/container/ContentContainer';
+import {ContentContainer} from '../styled/container/ContentContainer';
+
 type Props = {
   label: string;
   value: string;
@@ -60,8 +59,8 @@ const ValidatedTextInput = ({
   }, [isError]);
 
   return (
-    <>
-      <HorizontalContentContainer>
+    <ContentContainer gap={0}>
+      <ContentContainer useHorizontalLayout>
         <TextInput
           mode="outlined"
           label={label}
@@ -77,13 +76,18 @@ const ValidatedTextInput = ({
           secureTextEntry={visible}
           theme={theme}
         />
-        <HorizontalContentContainer style={styles.iconView}>
+        <ContentContainer
+          useHorizontalLayout
+          absoluteRightPosition
+          withNoBackground
+          width={'auto'}
+          paddingHorizontal={8}
+          gap={4}>
           {secureTextEntry && (
             <Icon
               name={visible ? 'visibility' : 'visibility-off'}
               size={24}
               color={Color.DARK_GRAY}
-              style={styles.icon}
               onPress={() => {
                 visible ? setVisible(false) : setVisible(true);
               }}
@@ -94,20 +98,14 @@ const ValidatedTextInput = ({
               name={'close'}
               size={24}
               color={Color.DARK_GRAY}
-              style={styles.icon}
               onPress={() => {
                 onChangeText('');
               }}
             />
           )}
-        </HorizontalContentContainer>
-      </HorizontalContentContainer>
-      <View
-        style={{
-          justifyContent: 'flex-start',
-          width: '100%',
-          alignContent: 'flex-start',
-        }}>
+        </ContentContainer>
+      </ContentContainer>
+      <ContentContainer>
         {isError ? (
           <HelperText type="error">
             {typeof violated?.errorText === 'function'
@@ -115,8 +113,8 @@ const ValidatedTextInput = ({
               : violated?.errorText}
           </HelperText>
         ) : null}
-      </View>
-    </>
+      </ContentContainer>
+    </ContentContainer>
   );
 };
 
