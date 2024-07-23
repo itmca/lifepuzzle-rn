@@ -1,4 +1,4 @@
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import CtaButton from '../../components/button/CtaButton';
@@ -12,13 +12,18 @@ import {ContentContainer} from '../../components/styled/container/ContentContain
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
 import {AuthList} from '../../constants/auth.constant';
-import {HeroSettingRouteProps} from '../../navigation/types';
+import {
+  BasicNavigationProps,
+  HeroSettingRouteProps,
+} from '../../navigation/types';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
 import SelectDropdown from 'react-native-select-dropdown';
 import {SmallImage} from '../../components/styled/components/Image';
 import {styles} from './styles';
-
+import {useRecoilState} from 'recoil';
+import {isModalOpening} from '../../recoils/story-write.recoil';
+import ImageModal from '../../components/alert/ImageModal';
 const HeroSharePage = (): JSX.Element => {
   const route = useRoute<HeroSettingRouteProps<'HeroShare'>>();
   const hero = route.params.hero;
@@ -36,18 +41,26 @@ const HeroSharePage = (): JSX.Element => {
   });
   const [dropDownItem, setDropDownItem] = useState(dropDownList);
 
+  const [isModalOpen, setModalOpen] = useRecoilState(isModalOpening);
+  console.log(`heroNo: ${hero.heroNo}, type: ${typeof hero.heroNo}`);
+  console.log(`auth: ${auth}, type: ${typeof auth}`);
+  console.log(`/user/hero/link?heroNo=${hero.heroNo}&auth=${auth}`);
   const [updateLoading, refetch] = useAuthAxios<any>({
     requestOption: {
-      url: `/heroes/auth/${hero.heroNo}/link`,
-      method: 'get',
-      params: {
-        auth: auth,
+      url: `/user/hero/link?heroNo=${hero.heroNo.toString()}&auth=${auth}`,
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
       },
     },
-    onResponseSuccess: res => {
-      onCopy(res);
+    onResponseSuccess: ({link}) => {
+      onCopy(link);
     },
-    onError: () => {
+    onError: error => {
+      console.log('에러');
+      console.log(typeof hero.heroNo);
+      console.log(typeof auth);
+      console.log(error.message);
       CustomAlert.retryAlert('권한 공유 실패했습니다.', onSubmit, () => {});
     },
     disableInitialRequest: true,
@@ -55,10 +68,15 @@ const HeroSharePage = (): JSX.Element => {
 
   const onCopy = async (text: string) => {
     try {
+      console.log('복사할 텍스트:', text);
+      if (typeof text !== 'string') {
+        throw new Error('텍스트가 문자열이 아닙니다.');
+      }
       await Clipboard.setString(text);
       setCopied(true);
-      CustomAlert.simpleAlert('클립보드에 주소가 복사되었습니다.');
+      setModalOpen(true);
     } catch (e) {
+      console.error('Clipboard.setString 실패', e);
       CustomAlert.simpleAlert('복사에 실패하였습니다');
     }
   };
@@ -69,6 +87,9 @@ const HeroSharePage = (): JSX.Element => {
     }
     refetch({});
   };
+
+  const navigation = useNavigation<BasicNavigationProps>();
+
   return (
     <ScreenContainer justifyContent={'flex-start'}>
       <LoadingContainer isLoading={updateLoading}>
@@ -140,6 +161,26 @@ const HeroSharePage = (): JSX.Element => {
             </ContentContainer>
           </ContentContainer>
         </ContentContainer>
+        <ImageModal
+          message="주인공 권한이 공유되었습니다."
+          leftBtnText="닫기"
+          // rightBtnText="닫기2"
+          onLeftBtnPress={() => {
+            // 주인공 카드 나오는 화면으로
+            navigation.push('NoTab', {
+              screen: 'HeroSettingNavigator',
+              params: {
+                screen: 'HeroSetting',
+              },
+            });
+            setModalOpen(false);
+          }}
+          // onRightBtnPress={() => {
+          //   console.log('닫기2');
+          // }}
+          imageSource={require('../../assets/images/celebration-character.png')}
+          isModalOpen={isModalOpen}
+        />
       </LoadingContainer>
     </ScreenContainer>
   );

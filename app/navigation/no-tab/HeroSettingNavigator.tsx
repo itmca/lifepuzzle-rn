@@ -19,7 +19,7 @@ import {Text, View} from 'react-native';
 import {useCreateHero} from '../../service/hooks/hero.create.hook';
 
 export type HeroSettingParamList = {
-  HeroSetting: undefined;
+  HeroSetting: {shareKey?: string};
   HeroRegister: undefined;
   HeroModification: {heroNo: number};
   HeroSelectingPhoto: undefined;

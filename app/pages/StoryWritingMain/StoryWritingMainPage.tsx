@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 import {KeyboardAccessoryView} from 'react-native-keyboard-accessory';
 import styles from './styles';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
+  PostStoryKeyState,
   isModalOpening,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
@@ -26,8 +27,10 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {Color} from '../../constants/color.constant';
 import {MediumImage} from '../../components/styled/components/Image';
-import WriteCompletedModal from '../../components/alert/WriteCompletedModal';
+import ImageModal from '../../components/alert/ImageModal';
 import {heroState} from '../../recoils/hero.recoil';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
@@ -53,6 +56,10 @@ const StoryWritingMainPage = (): JSX.Element => {
       storyText: storyText,
     });
   }, [title, storyText]);
+
+  const navigation = useNavigation<BasicNavigationProps>();
+  const postStoryKey = useRecoilValue(PostStoryKeyState);
+  const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
 
   return (
     <LoadingContainer isLoading={isStoryUploading}>
@@ -183,8 +190,25 @@ const StoryWritingMainPage = (): JSX.Element => {
             </>
           </ContentContainer>
 
-          <WriteCompletedModal
-            heroNickName={hero.heroNickName}
+          <ImageModal
+            message={`${hero.heroNickName}님의 퍼즐이 맞춰졌습니다!`}
+            leftBtnText="메인 바로 가기"
+            rightBtnText="퍼즐 조각 보러가기"
+            onLeftBtnPress={() => {
+              navigation.navigate('HomeTab', {screen: 'Home'});
+              setModalOpen(false);
+            }}
+            onRightBtnPress={() => {
+              setPostStoryKey(postStoryKey);
+              navigation.navigate('NoTab', {
+                screen: 'StoryViewNavigator',
+                params: {
+                  screen: 'Story',
+                },
+              });
+              setModalOpen(false);
+            }}
+            imageSource={require('../../assets/images/celebration-character.png')}
             isModalOpen={isModalOpen}
           />
         </ScreenContainer>

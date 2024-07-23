@@ -72,6 +72,7 @@ const AccountModificationPage = ({
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {
+      console.log(user.userNo);
       CustomAlert.simpleAlert('회원 정보가 수정되었습니다.');
       publishUserUpdate();
       navigation.goBack();

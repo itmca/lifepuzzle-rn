@@ -73,7 +73,6 @@ export type HeroSettingScreenProps<T extends keyof HeroSettingParamList> =
     NativeStackScreenProps<HeroSettingParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
   >;
-
 export type HeroSettingNavigationProps<T extends keyof HeroSettingParamList> =
   HeroSettingScreenProps<T>['navigation'];
 

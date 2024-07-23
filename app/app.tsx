@@ -20,7 +20,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
-
+import {Linking} from 'react-native';
 Sentry.init({
   dsn: Config.SENTRY_DSN,
 });
@@ -55,15 +55,72 @@ const InternalApp = (): React.JSX.Element => {
   );
 };
 
+const linking = {
+  prefixes: ['https://lifepuzzle.itmca.io', 'lifepuzzle://'],
+
+  config: {
+    screens: {
+      NoTab: {
+        screens: {
+          HeroSettingNavigator: {
+            screens: {
+              HeroSetting: {
+                path: 'share/hero',
+                parse: {
+                  shareKey: shareKey => `${shareKey}`,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  subscribe(listener: (url: string) => void) {
+    const onReceiveURL = ({url}: {url: string}) => {
+      console.log('Received URL in subscribe:', url);
+      listener(url);
+    };
+
+    // 새로운 방식으로 이벤트 리스너 추가
+    const subscription = Linking.addEventListener('url', onReceiveURL);
+
+    return () => {
+      // 구독 제거
+      subscription.remove();
+    };
+  },
+  getInitialURL: async () => {
+    const url = await Linking.getInitialURL();
+    console.log('Initial URL:', url);
+    return url;
+  },
+};
+
 const App = (): React.JSX.Element => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
+  useEffect(() => {
+    const handleDeepLink = ({url}: {url: string}) => {
+      console.log('Handling deep link:', url);
+      // 여기에 필요한 처리 로직 추가
+    };
+
+    // 새로운 방식으로 이벤트 리스너 추가
+    const subscription = Linking.addEventListener('url', handleDeepLink);
+
+    return () => {
+      // 구독 제거
+      subscription.remove();
+    };
+  }, []);
+
   return (
     <RecoilRoot initializeState={initializeRecoilState}>
       <GestureHandlerRootView flex={1}>
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <InternalApp />
         </NavigationContainer>
       </GestureHandlerRootView>
