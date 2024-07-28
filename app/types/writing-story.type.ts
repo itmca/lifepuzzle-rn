@@ -10,7 +10,12 @@ export type WritingStoryType = {
   videos?: MediaInfo[];
   voice?: string;
 };
-
+export type PlayingInfo = {
+  currentPositionSec?: number;
+  currentDurationSec?: number;
+  playTime?: string;
+  duration?: string;
+};
 export type MediaInfo = {
   key?: number;
   node: Pick<PhotoIdentifier['node'], 'image'>;

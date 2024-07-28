@@ -17,8 +17,8 @@ function theme(mode: string) {
   switch (mode) {
     case 'lightblue':
       return {
-        backgroundColor: Color.SECONDARY_LIGHT,
-        color: Color.PRIMARY_LIGHT,
+        backgroundColor: Color.PRIMARY_LIGHT,
+        color: Color.WHITE,
         borderRadius: '16px',
       };
     case 'black':
@@ -30,15 +30,16 @@ function theme(mode: string) {
     case 'white':
       return {
         backgroundColor: Color.WHITE,
-        color: Color.MEDIUM_GRAY,
-        borderRadius: '6px',
+        color: Color.BLACK,
+        borderRadius: '16px',
         borderColor: Color.MEDIUM_GRAY,
-        borderWidth: 0.5,
+        borderWidth: 1,
       };
     default:
       return {
         backgroundColor: Color.SECONDARY_LIGHT,
         color: Color.PRIMARY_LIGHT,
+        borderRadius: '16px',
       };
   }
 }

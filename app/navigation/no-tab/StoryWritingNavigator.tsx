@@ -40,7 +40,10 @@ const StoryWritingNavigator = (): JSX.Element => {
           headerTitle: () => <Title>월별추천질문</Title>,
           headerBackVisible: false,
           headerRight: () => (
-            <WritingHeaderRight text="다음" nextScreenName="StoryWritingMain" />
+            <WritingHeaderRight
+              text="다음"
+              nextScreenName="StoryWritingVoice"
+            />
           ),
         }}
       />
@@ -72,6 +75,9 @@ const StoryWritingNavigator = (): JSX.Element => {
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>음성 녹음</Title>,
           headerBackVisible: false,
+          headerRight: () => (
+            <WritingHeaderRight text="다음" nextScreenName="StoryWritingMain" />
+          ),
         }}
       />
       <Stack.Screen

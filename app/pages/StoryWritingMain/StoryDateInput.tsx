@@ -44,7 +44,7 @@ function StoryDateInput({...props}) {
           void showPicker();
         }}
         style={{
-          backgroundColor: props.backgroundColor ?? 'transparent',
+          backgroundColor: Color.SECONDARY_LIGHT,
           paddingVertical: 4,
           paddingHorizontal: 8,
           borderRadius: 5,
@@ -56,10 +56,10 @@ function StoryDateInput({...props}) {
           useHorizontalLayout
           withNoBackground>
           <XSmallImage
-            tintColor={props.color ?? Color.WHITE}
+            tintColor={Color.PRIMARY_MEDIUM}
             source={require('../../assets/images/calendar_month.png')}
           />
-          <XSmallText color={props.color ?? Color.WHITE}>
+          <XSmallText color={Color.PRIMARY_MEDIUM}>
             {formatDate(date)}
           </XSmallText>
         </ContentContainer>

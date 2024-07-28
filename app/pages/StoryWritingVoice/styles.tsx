@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../constants/color.constant';
 
 export default StyleSheet.create({
   container: {
@@ -8,11 +9,11 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   recordContainer: {
-    width: 62,
-    height: 62,
+    width: 80,
+    height: 80,
     borderRadius: 50,
-    borderColor: '#010440',
-    borderWidth: 1,
+    borderColor: Color.FONT_GRAY,
+    borderWidth: 4,
     margin: 10,
   },
   notIsRecordBox: {
@@ -28,5 +29,32 @@ export default StyleSheet.create({
     height: '100%',
     borderRadius: 12,
     transform: [{scale: 0.5}],
+  },
+  screenHTopContainer: {
+    width: '100%',
+    height: 76,
+    alignItems: 'flex-start',
+  },
+  helpQuestionContainer: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderWidth: 1,
+    borderColor: Color.GRAY,
+    borderRadius: 4,
+    backgroundColor: Color.WHITE,
+  },
+  viewBarWrapper: {
+    marginHorizontal: 10,
+    alignSelf: 'stretch',
+  },
+  viewBar: {
+    backgroundColor: '#ccc',
+    height: 4,
+    alignSelf: 'stretch',
+  },
+  viewBarPlay: {
+    backgroundColor: Color.PRIMARY_LIGHT,
+    height: 4,
+    width: 0,
   },
 });
