@@ -1,5 +1,5 @@
 import {atom, DefaultValue, selector} from 'recoil';
-import {PlayingInfo, WritingStoryType} from '../types/writing-story.type';
+import {WritingStoryType} from '../types/writing-story.type';
 
 export const writingRecordTimeState = atom<string>({
   key: 'recentRecordedDurationState',
@@ -9,15 +9,6 @@ export const writingRecordTimeState = atom<string>({
 const writingStoryInternalState = atom<WritingStoryType>({
   key: 'writingStoryInternalState',
   default: {},
-});
-export const playingRecordInfoState = atom<PlayingInfo>({
-  key: 'playingRecordInfoState',
-  default: {
-    currentPositionSec: 0,
-    currentDurationSec: 0,
-    playTime: '00:00:00',
-    duration: '00:00:00',
-  },
 });
 
 export const writingStoryState = selector<WritingStoryType>({
