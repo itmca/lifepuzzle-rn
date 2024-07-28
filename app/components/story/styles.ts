@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   photo: {
@@ -46,5 +47,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 3,
     marginBottom: 2,
+  },
+
+  viewBarWrapper: {
+    marginHorizontal: 10,
+    alignSelf: 'stretch',
+  },
+  viewBar: {
+    backgroundColor: '#ccc',
+    height: 4,
+    alignSelf: 'stretch',
+  },
+  viewBarPlay: {
+    backgroundColor: Color.PRIMARY_LIGHT,
+    height: 4,
+    width: 0,
   },
 });
