@@ -12,7 +12,7 @@ type Props = {
   marginLeft?: string;
   borderWidth?: number;
   borderColor?: string;
-  borderRadius?: string;
+  borderRadius?: number;
   borderTopLeftRadius?: string;
   borderTopRightRadius?: string;
   borderBottomLeftRadius?: string;
@@ -25,7 +25,7 @@ type Props = {
 export const MediumButton = styled.TouchableOpacity<Props>`
   flex-direction: row;
   flex-basis: ${props => (props.flexBasis ? props.flexBasis : 'auto')};
-  height: 48px;
+  height: ${props => props.height ?? '48px'};
   width: ${props => (props.width ? props.width : '100%')};
   justify-content: ${props =>
     props.justifyContent ? props.justifyContent : 'center'};

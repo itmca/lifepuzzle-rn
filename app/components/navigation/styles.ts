@@ -13,8 +13,4 @@ export const styles = StyleSheet.create({
     marginLeft: 'auto',
     alignItems: 'center',
   },
-  leftSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
 });

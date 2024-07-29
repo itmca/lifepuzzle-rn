@@ -1,5 +1,5 @@
 import {TouchableWithoutFeedback} from 'react-native';
-import {toMinuteSeconds} from '../../service/time-display.service';
+import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
 import React, {useEffect, useState} from 'react';
 import Sound from 'react-native-sound';
 import {XSmallText} from '../styled/components/Text';

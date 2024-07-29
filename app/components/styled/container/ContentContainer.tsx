@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components/native';
-import {ScrollView} from 'react-native';
+import {Platform, ScrollView} from 'react-native';
 import React, {ReactNode, RefAttributes} from 'react';
 import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
@@ -41,6 +41,8 @@ type ContentContainerProps = {
   withBorder?: boolean;
   withDebugBorder?: boolean;
   borderRadius?: number;
+  borderTopRadius?: number;
+  borderBottomRadius?: number;
 
   // ETC
   opacity?: number;
@@ -111,10 +113,34 @@ export const ContentContainer = styled.View<ContentContainerProps>`
     `}
   
   /* Border & Shadow */
-  ${props => props.withUpperShadow && 'box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);'}
+  ${props =>
+    props.withUpperShadow &&
+    Platform.select({
+      ios: `
+      shadow-offset: {width: 0, height: -4px}; /* Upper shadow */
+      shadow-opacity: 0.2; /* Full opacity since rgba already has the alpha */
+      shadow-radius: 4px; /* Blur radius */
+    `,
+      android: `
+        elevation: 4; /* Android shadow effect */
+      `,
+    })} 
   ${props => props.withBorder && `border: 1px solid ${Color.GRAY};`}
   ${props => props.withDebugBorder && 'border: 1px solid red;'}
   border-radius: ${props => props.borderRadius ?? 0}px;
+
+  ${props =>
+    props.borderTopRadius &&
+    `border-top-left-radius: ${props.borderTopRadius}px;`};
+  ${props =>
+    props.borderTopRadius &&
+    `border-top-right-radius: ${props.borderTopRadius}px;`};
+  ${props =>
+    props.borderBottomRadius &&
+    `border-bottom-left-radius: ${props.borderBottomRadius}px;`};
+  ${props =>
+    props.borderBottomRadius &&
+    `border-bottom-right-radius: ${props.borderBottomRadius}px;`};
 
   /* ETC */
   background-color: ${props => props.backgroundColor ?? Color.WHITE};
@@ -138,6 +164,7 @@ export const ScrollContentContainer = (props: ScrollContentContainerProps) => (
     onScroll={props.onScroll}
     scrollEventThrottle={100}
     style={{width: '100%'}}
+    horizontal={props.useHorizontalLayout}
     showsVerticalScrollIndicator={false}>
     <ContentContainer {...(props as ContentContainerProps)}>
       {props.children}

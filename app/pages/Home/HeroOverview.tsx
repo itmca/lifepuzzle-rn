@@ -1,47 +1,84 @@
 import React from 'react';
 import {HeroType} from '../../types/hero.type';
 import {HomeLoginButton} from './HomeLoginButton';
-import {LargeTitle} from '../../components/styled/components/Title';
+import {
+  LargeTitle,
+  MediumTitle,
+  SmallTitle,
+} from '../../components/styled/components/Title';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
+import {SmallText} from '../../components/styled/components/Text.tsx';
+import {XSmallImage} from '../../components/styled/components/Image.tsx';
+import {toHeroBirthdayAge} from '../../service/date-time-display.service.ts';
 import {Image} from 'react-native';
 
 type Props = {
   hero: HeroType;
+  puzzleCount: number;
 };
 
-const HeroOverview = ({hero}: Props): JSX.Element => {
+const HeroOverview = ({hero, puzzleCount}: Props): JSX.Element => {
+  console.log(hero);
+
   if (hero.heroNo !== -1) {
     return (
-      <ContentContainer useHorizontalLayout>
-        <ContentContainer width={'auto'}>
-          <LargeTitle lineHeight={'35px'}>
-            안녕하세요? {'\n'}
-            {hero.heroNickName} 님
-          </LargeTitle>
+      <ContentContainer gap={20} paddingVertical={8}>
+        <ContentContainer width={'auto'} style={{alignSelf: 'flex-start'}}>
+          <MediumTitle>{hero.title}</MediumTitle>
+          <ContentContainer zIndex={-1} absoluteBottomPosition width={'auto'}>
+            <Image
+              source={require('../../assets/images/underline-blue.png')}
+              style={{
+                height: 8,
+                width: hero.title ? hero.title.length * 16 : 0,
+              }}
+            />
+          </ContentContainer>
         </ContentContainer>
-        <ContentContainer
-          height="100%"
-          width={'auto'}
-          top={15}
-          style={{
-            paddingRight: 20,
-          }}>
-          <Image
-            source={require('../../assets/images/welcome-character.png')}
-            style={{width: 100, height: 120}}
-          />
+        <ContentContainer useHorizontalLayout>
+          <HeroAvatar imageURL={hero.imageURL} size={80} />
+          <ContentContainer gap={8}>
+            <ContentContainer
+              useHorizontalLayout
+              justifyContent={'flex-start'}
+              gap={4}>
+              <SmallTitle>{hero.heroName}</SmallTitle>
+              <SmallText>{hero.heroNickName}</SmallText>
+            </ContentContainer>
+            <ContentContainer>
+              <SmallText>
+                {hero.birthday ? toHeroBirthdayAge(hero.birthday) : '-'}
+              </SmallText>
+            </ContentContainer>
+            <ContentContainer
+              paddingVertical={2}
+              useHorizontalLayout
+              justifyContent={'flex-start'}
+              gap={4}>
+              <XSmallImage
+                source={require('../../assets/images/puzzle-onepiece.png')}
+              />
+              <SmallText>{puzzleCount}개</SmallText>
+            </ContentContainer>
+          </ContentContainer>
         </ContentContainer>
       </ContentContainer>
     );
   }
 
   return (
-    <ContentContainer useHorizontalLayout>
-      <LargeTitle>
-        우리, 한조각씩 {'\n'}
-        함께해 봐요!
-      </LargeTitle>
-      <HomeLoginButton />
+    <ContentContainer
+      useHorizontalLayout
+      paddingVertical={16}
+      justifyContent={'flex-start'}>
+      <ContentContainer flex={1} gap={8}>
+        <LargeTitle>우리, 한조각씩</LargeTitle>
+        <LargeTitle>함께해 봐요!</LargeTitle>
+      </ContentContainer>
+      <ContentContainer flex={1} alignItems={'flex-end'}>
+        <HomeLoginButton />
+      </ContentContainer>
     </ContentContainer>
   );
 };

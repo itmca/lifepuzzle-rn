@@ -16,28 +16,29 @@ export const ProfileMenuListItem = ({
   onPress,
 }: Props): JSX.Element => {
   return (
-    <ContentContainer
-      useHorizontalLayout
-      padding={16}
-      alignItems="center"
-      backgroundColor={backgroundColor}>
-      <MediumText color={Color.FONT_DARK} fontWeight={500}>
-        {listItemTitle}
-      </MediumText>
-      <TouchableOpacity
-        style={{
-          borderRadius: 50,
-          backgroundColor: Color.LIGHT_GRAY,
-          marginLeft: 'auto',
-        }}
-        onPress={onPress}>
+    <TouchableOpacity
+      style={{
+        borderRadius: 50,
+        backgroundColor: Color.LIGHT_GRAY,
+        marginLeft: 'auto',
+      }}
+      onPress={onPress}>
+      <ContentContainer
+        useHorizontalLayout
+        withScreenPadding
+        alignItems="center"
+        backgroundColor={backgroundColor}>
+        <MediumText color={Color.FONT_DARK} fontWeight={500}>
+          {listItemTitle}
+        </MediumText>
+
         <Icon
           disabled
           name={'chevron-right'}
           size={24}
           color={Color.FONT_GRAY}
         />
-      </TouchableOpacity>
-    </ContentContainer>
+      </ContentContainer>
+    </TouchableOpacity>
   );
 };

@@ -60,6 +60,7 @@ const KaKaoSocialLoginButton = ({
         onPress={signInWithKakao}
         backgroundColor="#FFE812"
         justifyContent="flex-start"
+        borderRadius={16}
         padding="12px 9px">
         <Image
           source={require('../../../assets/images/kakao-logo.png')}

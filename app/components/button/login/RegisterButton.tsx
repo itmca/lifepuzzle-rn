@@ -8,11 +8,12 @@ import {ContentContainer} from '../../styled/container/ContentContainer.tsx';
 const RegisterButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
-    <ContentContainer paddingHorizontal={4}>
+    <ContentContainer paddingHorizontal={8}>
       <MediumButton
         backgroundColor={Color.WHITE}
         justifyContent="flex-start"
         alignSelf="flex-start"
+        height={'40px'}
         width="auto"
         onPress={() => {
           navigation.push('NoTab', {

@@ -20,31 +20,9 @@ export const styles = StyleSheet.create({
   heroCardMainContainer: {
     height: '100%',
   },
-  heroCardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'baseline',
-    height: 40,
-  },
   characterNickName: {
     color: Color.BLACK,
     zIndex: 100,
-  },
-  settingButtonContainer: {
-    width: '100%',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-start',
-    flex: 1,
-  },
-
-  heroCardContainer: {
-    height: 395,
-    width: 320,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 12,
-    marginTop: 20,
-    marginBottom: 20,
   },
   heroInfoContainer: {
     width: '100%',
@@ -76,10 +54,6 @@ export const styles = StyleSheet.create({
   connectedUserContainer: {
     marginTop: 10,
     flexDirection: 'row',
-    alignItems: 'center',
-  },
-  connectedUser: {
-    justifyContent: 'center',
     alignItems: 'center',
   },
 

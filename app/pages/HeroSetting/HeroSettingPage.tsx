@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {Dimensions} from 'react-native';
+import {TouchableOpacity, useWindowDimensions} from 'react-native';
 import HeroCard from './HeroCard';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroWithPuzzleCntType} from '../../types/hero.type';
@@ -14,36 +14,53 @@ import {
 } from '../../navigation/types';
 import {HeroesQueryResponse} from '../../service/hooks/hero.query.hook';
 import {CustomAlert} from '../../components/alert/CustomAlert';
-import {method} from 'lodash';
 import ImageModal from '../../components/alert/ImageModal';
 import Carousel from 'react-native-reanimated-carousel';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {
+  ContentContainer,
+  ScrollContentContainer,
+} from '../../components/styled/container/ContentContainer.tsx';
+import {
+  MediumText,
+  SmallText,
+  XSmallText,
+  XXLargeText,
+} from '../../components/styled/components/Text.tsx';
+import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {userState} from '../../recoils/user.recoil.ts';
+import {Color} from '../../constants/color.constant.ts';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {writingHeroKeyState} from '../../recoils/hero-write.recoil.ts';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
+  const statusBarHeight = getStatusBarHeight();
   const route = useRoute<HeroSettingRouteProps<'HeroSetting'>>();
-  const share = route.params ?? {};
-  console.log('share', share);
-
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
+  const {width: windowWidth, height: windowHeight} = useWindowDimensions();
 
   const [heroes, setHeroes] = useState<HeroWithPuzzleCntType[]>([]);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
+  const currentUser = useRecoilValue(userState);
+  const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
+    heroes[0],
+  );
+  const setWritingHeroNo = useSetRecoilState(writingHeroKeyState);
 
   const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
     requestOption: {
       url: '/heroes/v2',
     },
     onResponseSuccess: res => {
-      setHeroes(
-        res.heroes.map(item => ({
-          ...item.hero,
-          puzzleCount: item.puzzleCnt,
-          users: item.users,
-        })),
-      );
+      let resHeroes = res.heroes.map(item => ({
+        ...item.hero,
+        puzzleCount: item.puzzleCnt,
+        users: item.users,
+      }));
+      setHeroes(resHeroes);
+      setFocusedHero(resHeroes[0]);
     },
     disableInitialRequest: false,
   });
@@ -133,14 +150,97 @@ const HeroSettingPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={isLoading}>
       <ScreenContainer>
-        <ContentContainer alignCenter>
-          <Carousel
-            data={[...heroes, {isButton: true}]}
-            width={windowWidth}
-            renderItem={({item}: any) => {
-              return <HeroCard hero={item} isButton={item.isButton} />;
-            }}
-          />
+        <ContentContainer alignCenter gap={0} flex={1}>
+          <ContentContainer
+            withContentPadding
+            paddingVertical={0}
+            gap={4}
+            useHorizontalLayout
+            alignItems={'flex-end'}
+            height={'40px'}>
+            <XXLargeText bold>{focusedHero?.heroName}</XXLargeText>
+            <MediumText color={Color.FONT_GRAY}>
+              {focusedHero?.heroNickName}
+            </MediumText>
+            <ContentContainer
+              alignItems={'flex-end'}
+              expandToEnd
+              width={'auto'}>
+              <TouchableOpacity
+                onPress={() => {
+                  setWritingHeroNo(focusedHero?.heroNo);
+                  navigation.push('NoTab', {
+                    screen: 'HeroSettingNavigator',
+                    params: {
+                      screen: 'HeroModification',
+                      params: {
+                        heroNo: focusedHero?.heroNo,
+                      },
+                    },
+                  });
+                }}>
+                <Icon name={'cog'} size={24} color="#D0D0D0" />
+              </TouchableOpacity>
+            </ContentContainer>
+          </ContentContainer>
+          <ContentContainer alignCenter flex={1} expandToEnd>
+            <Carousel
+              data={[...heroes]}
+              mode={'parallax'}
+              modeConfig={{
+                parallaxScrollingScale: 0.9,
+                parallaxAdjacentItemScale: 0.8,
+                parallaxScrollingOffset: 60,
+              }}
+              width={windowWidth}
+              loop={false}
+              onSnapToItem={index => {
+                setFocusedHero(heroes[index]);
+              }}
+              renderItem={({item}: any) => {
+                return <HeroCard hero={item} />;
+              }}
+            />
+          </ContentContainer>
+          <ContentContainer withScreenPadding paddingTop={0} paddingBottom={4}>
+            <SmallText>{focusedHero ? '연결 계정' : ''}</SmallText>
+            <ScrollContentContainer
+              useHorizontalLayout
+              gap={4}
+              alignItems={'flex-start'}
+              justifyContent={'flex-start'}>
+              {focusedHero?.users?.map((user, index) => {
+                return (
+                  <ContentContainer
+                    key={index}
+                    alignItems={'center'}
+                    justifyContent={'flex-start'}
+                    width={'56px'}
+                    height={'88px'}
+                    paddingBottom={8}
+                    gap={0}>
+                    <HeroAvatar
+                      style={{marginBottom: 6}}
+                      imageURL={user.imageURL}
+                      size={48}
+                    />
+                    {
+                      <XSmallText
+                        numberOfLines={2}
+                        color={
+                          user.userNo === currentUser.userNo
+                            ? Color.PRIMARY_LIGHT
+                            : Color.FONT_GRAY
+                        }
+                        bold>
+                        {user.nickName}
+                      </XSmallText>
+                    }
+                  </ContentContainer>
+                );
+              })}
+            </ScrollContentContainer>
+          </ContentContainer>
         </ContentContainer>
         <ImageModal
           message={modalState.message}

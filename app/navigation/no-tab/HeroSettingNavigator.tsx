@@ -15,8 +15,8 @@ import Title from '../../components/styled/components/Title';
 import {useSaveHero} from '../../service/hooks/hero.write.hook';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
-import {Text, View} from 'react-native';
 import {useCreateHero} from '../../service/hooks/hero.create.hook';
+import HeroSettingRightHeader from '../../components/header/HeroSettingRightHeader.tsx';
 
 export type HeroSettingParamList = {
   HeroSetting: {shareKey?: string};
@@ -49,6 +49,7 @@ const HeroSettingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <GoBackHeaderLeft />,
           headerTitle: () => <Title>주인공 관리</Title>,
+          headerRight: () => <HeroSettingRightHeader />,
           headerBackVisible: false,
         }}
       />

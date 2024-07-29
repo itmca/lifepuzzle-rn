@@ -1,4 +1,4 @@
-import {toMinuteSeconds} from './time-display.service';
+import {toMinuteSeconds} from './date-time-display.service.ts';
 
 test.each([1, 11, 21, 31, 41, 59])(
   '60초 미만의 숫자가 주어지는 경우에도 00:으로 시작한다.',

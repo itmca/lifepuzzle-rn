@@ -20,20 +20,17 @@ const LoginMainPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={loading}>
       <ScreenContainer gap={0}>
-        <ContentContainer
-          withScreenPadding
-          flex={3}
-          justifyContent={'flex-end'}>
-          <ContentContainer>
+        <ContentContainer withScreenPadding justifyContent={'flex-end'}>
+          <ContentContainer paddingHorizontal={4} gap={0}>
+            <XXXLargeText fontWeight={700}>기록을 공유하고</XXXLargeText>
             <XXXLargeText fontWeight={700}>
-              기록을 공유하고 {'\n'}
               <XXXLargeText
                 fontWeight={700}
                 lineHeight={40}
                 color={Color.PRIMARY_LIGHT}>
                 함께 할 기억
               </XXXLargeText>
-              을 더해가요.
+              을 더해가요
             </XXXLargeText>
           </ContentContainer>
           <ContentContainer gap={8} alignCenter>

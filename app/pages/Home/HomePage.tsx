@@ -7,13 +7,11 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useStories} from '../../service/hooks/story.query.hook';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import Sound from 'react-native-sound';
-import {toMinuteSeconds} from '../../service/time-display.service';
-import {styles} from './styles';
+import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
-  View,
 } from 'react-native';
 import {GoToTopButton} from './GoToTopButton';
 import {WritingButton} from './WritingButton';
@@ -31,6 +29,7 @@ import {
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer.tsx';
 import HeroOverview from './HeroOverview.tsx';
+import {Divider} from '../../components/styled/components/Divider.tsx';
 
 const HomePage = (): JSX.Element => {
   const isFocused = useIsFocused();
@@ -69,8 +68,8 @@ const HomePage = (): JSX.Element => {
           withScreenPadding
           ref={scrollRef}
           onScroll={handleScroll}>
-          <HeroOverview hero={hero} />
-          <View style={styles.customDivider} />
+          <HeroOverview hero={hero} puzzleCount={displayStories.length} />
+          <Divider />
           <StoryList stories={displayStories} isFocused={isFocused} />
         </ScrollContentContainer>
         <GoToTopButton
@@ -79,6 +78,8 @@ const HomePage = (): JSX.Element => {
         />
         <ContentContainer withScreenPadding paddingTop={8}>
           <WritingButton
+            heroName={hero.heroNickName}
+            puzzleCount={displayStories.length}
             onPress={() => {
               setSelectedStoryKey('');
               setPostStoryKey('');

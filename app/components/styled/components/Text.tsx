@@ -12,12 +12,19 @@ type PartialTextProps = Pick<
   color?: string;
   fontSize?: number;
   alignCenter?: boolean;
+  bold?: boolean;
 };
 
 const TextBase = styled.Text<PartialTextProps>`
   font-family: 'Pretendard';
   color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-weight: ${props => props.fontWeight || 'normal'};
+  font-weight: ${props => {
+    if (props.bold) {
+      return 'bold';
+    }
+
+    return props.fontWeight || 'normal';
+  }};
   ${props =>
     props.fontSize &&
     css`

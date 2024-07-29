@@ -61,6 +61,7 @@ const AppleSocialLoginButton = ({
     return (
       <MediumButton
         backgroundColor="#000000"
+        borderRadius={16}
         onPress={() => onAppleButtonPress()}
         justifyContent="flex-start"
         padding="12px 9px">

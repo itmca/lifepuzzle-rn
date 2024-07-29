@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import {Bar} from 'react-native-progress';
 import {Color} from '../../constants/color.constant';
-import {toMinuteSeconds} from '../../service/time-display.service';
+import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
 import {XXSmallText} from '../styled/components/Text';
 import {ContentContainer} from '../styled/container/ContentContainer';
 

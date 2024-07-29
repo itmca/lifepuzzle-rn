@@ -8,12 +8,13 @@ import {ContentContainer} from '../../styled/container/ContentContainer.tsx';
 const OtherLoginButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
-    <ContentContainer paddingHorizontal={4}>
+    <ContentContainer paddingHorizontal={8}>
       <MediumButton
         backgroundColor={Color.WHITE}
         justifyContent="flex-start"
         alignSelf="flex-start"
         width="auto"
+        height={'40px'}
         onPress={() => {
           navigation.push('NoTab', {
             screen: 'LoginRegisterNavigator',

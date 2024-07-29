@@ -1,12 +1,11 @@
 import {TopNavigationContainer} from '../styled/container/TopNavigationContainer';
-import Text, {LargeText, XLargeText} from '../styled/components/Text';
 import SmallImage from '../styled/components/Image';
 import React from 'react';
 import {Pressable} from 'react-native';
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {Color} from '../../constants/color.constant';
+import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 
 type Props = {
   displayRight?: boolean;
@@ -17,21 +16,16 @@ const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
   return (
     <TopNavigationContainer>
       <Pressable
-        style={styles.leftSection}
         onPress={() => {
           navigation.navigate('HomeTab', {screen: 'Home'});
         }}>
         <SmallImage
-          width={20}
+          width={115}
           height={20}
-          style={styles.logoImage}
-          source={require('../../assets/images/puzzle-onepiece.png')}
+          source={require('../../assets/images/app-title.png')}
         />
-        <LargeText fontWeight={600} color={Color.PRIMARY_LIGHT}>
-          인생퍼즐
-        </LargeText>
       </Pressable>
-      {displayRight && (
+      {displayRight ? (
         <Pressable
           style={styles.goToAccountIcon}
           onPress={() => {
@@ -43,6 +37,8 @@ const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
             height={30}
           />
         </Pressable>
+      ) : (
+        <ContentContainer height={'30px'} />
       )}
     </TopNavigationContainer>
   );

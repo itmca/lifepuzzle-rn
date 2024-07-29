@@ -9,6 +9,7 @@ export type HeroType = {
   birthday?: Date;
   title?: string;
   modifiedImage?: PhotoIdentifier | undefined;
+  puzzleCnt?: number;
 };
 
 export type HeroUserType = {
