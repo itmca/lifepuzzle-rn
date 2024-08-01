@@ -13,10 +13,10 @@ type Props = {
   borderWidth?: number;
   borderColor?: string;
   borderRadius?: number;
-  borderTopLeftRadius?: string;
-  borderTopRightRadius?: string;
-  borderBottomLeftRadius?: string;
-  borderBottomRightRadius?: string;
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomLeftRadius?: number;
+  borderBottomRightRadius?: number;
   justifyContent?: string;
   padding?: string;
   alignSelf?: string;
@@ -30,14 +30,19 @@ export const MediumButton = styled.TouchableOpacity<Props>`
   justify-content: ${props =>
     props.justifyContent ? props.justifyContent : 'center'};
   align-items: center;
-  border-top-left-radius: ${props =>
-    props.borderTopLeftRadius ? props.borderTopLeftRadius : '4px'};
-  border-top-right-radius: ${props =>
-    props.borderTopRightRadius ? props.borderTopRightRadius : '4px'};
-  border-bottom-left-radius: ${props =>
-    props.borderBottomLeftRadius ? props.borderBottomLeftRadius : '4px'};
-  border-bottom-right-radius: ${props =>
-    props.borderBottomRightRadius ? props.borderBottomRightRadius : '4px'};
+
+  ${props =>
+    props.borderTopLeftRadius &&
+    `border-top-left-radius: ${props.borderTopLeftRadius}px;`};
+  ${props =>
+    props.borderTopRightRadius &&
+    `border-top-right-radius: ${props.borderTopLeftRadius}px;`};
+  ${props =>
+    props.borderBottomLeftRadius &&
+    `border-bottom-left-radius: ${props.borderBottomLeftRadius}px;`};
+  ${props =>
+    props.borderBottomRightRadius &&
+    `border-bottom-right-radius: ${props.borderBottomRightRadius}px;`};
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : '#343666'};
   padding: ${props => (props.padding ? props.padding : '0px')};
@@ -53,10 +58,10 @@ export const MediumButton = styled.TouchableOpacity<Props>`
   ${props =>
     props.borderRadius &&
     css`
-      border-top-left-radius: ${props.borderRadius};
-      border-top-right-radius: ${props.borderRadius};
-      border-bottom-left-radius: ${props.borderRadius};
-      border-bottom-right-radius: ${props.borderRadius};
+      border-top-left-radius: ${props.borderRadius}px;
+      border-top-right-radius: ${props.borderRadius}px;
+      border-bottom-left-radius: ${props.borderRadius}px;
+      border-bottom-right-radius: ${props.borderRadius}px;
     `};
 `;
 
@@ -101,7 +106,8 @@ export const ImageButton = styled.TouchableOpacity<Props>`
   justify-content: ${props =>
     props.justifyContent ? props.justifyContent : 'center'};
   height:${props => (props.height ? props.height : 'auto')}
-  borderRadius:${props => (props.borderRadius ? props.borderRadius : '0')}
+  borderRadius:${props =>
+    props.borderRadius ? props.borderRadius + 'px' : '0'}
   align-items: center;
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
   margin-left: ${props => (props.marginLeft ? props.marginLeft : '0px')};

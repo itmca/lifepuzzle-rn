@@ -17,7 +17,7 @@ type Props = {
   width?: string;
   height?: string;
   backgroundColor?: string;
-  borderRadius?: string;
+  borderRadius?: number;
   padding?: string;
   alignItems?: string;
   alignSelf?: string;
@@ -38,15 +38,15 @@ export const StyledTag = styled(TouchableOpacity)<Props>`
   ${props =>
     props.borderRadius &&
     css`
-      border-top-left-radius: ${props.borderRadius};
-      border-top-right-radius: ${props.borderRadius};
-      border-bottom-left-radius: ${props.borderRadius};
-      border-bottom-right-radius: ${props.borderRadius};
+      border-top-left-radius: ${props.borderRadius}px;
+      border-top-right-radius: ${props.borderRadius}px;
+      border-bottom-left-radius: ${props.borderRadius}px;
+      border-bottom-right-radius: ${props.borderRadius}px;
     `};
 `;
 function Tag({iconSource, iconStyle, text = '', ...props}: Props) {
   return (
-    <StyledTag borderRadius={'20px'} {...props}>
+    <StyledTag borderRadius={20} {...props}>
       <ContentContainer useHorizontalLayout gap={0} width={'auto'}>
         {iconSource ? (
           <XSmallImage style={iconStyle} source={iconSource} />

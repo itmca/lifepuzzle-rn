@@ -28,7 +28,7 @@ const LoginOthersPage = (): JSX.Element => {
         <ContentContainer
           withScreenPadding
           backgroundColor={Color.PRIMARY_LIGHT}>
-          <XXXLargeText color="#D2F2FF" fontWeight={700} lineHeight="40px">
+          <XXXLargeText color="#D2F2FF" fontWeight={700} lineHeight={40}>
             사랑하는 사람의 이야기가 {'\n'}함께 계속 될 수 있도록
           </XXXLargeText>
           <ContentContainer

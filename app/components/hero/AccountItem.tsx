@@ -14,7 +14,7 @@ type props = {
 
 export const AccountItem = ({user, onSelect}: props): JSX.Element => {
   return (
-    <ContentContainer height={'50px'}>
+    <ContentContainer height={'50px'} useHorizontalLayout>
       <ContentContainer width={'58px'}>
         <MediumImage
           width={48}
@@ -37,7 +37,6 @@ export const AccountItem = ({user, onSelect}: props): JSX.Element => {
           })}
         </SmallText>
       </ContentContainer>
-
       <ContentContainer width={'30px'}>
         <ImageButton
           width={'20px'}

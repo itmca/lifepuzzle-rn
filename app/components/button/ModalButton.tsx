@@ -8,10 +8,10 @@ type Props = {
   width?: string;
   flexBasis?: string;
   backgroundColor: string;
-  borderTopLeftRadius?: string;
-  borderTopRightRadius?: string;
-  borderBottomLeftRadius?: string;
-  borderBottomRightRadius?: string;
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomLeftRadius?: number;
+  borderBottomRightRadius?: number;
   text: string;
   fontColor: string;
   fontWeight: string;

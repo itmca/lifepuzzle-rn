@@ -26,7 +26,7 @@ export const AuthItem = ({auth, selected, onSelect}: props): JSX.Element => {
       onPress={() => {
         onSubmit();
       }}>
-      <ContentContainer height={'56px'}>
+      <ContentContainer height={'56px'} useHorizontalLayout>
         <ContentContainer width={'40px'} alignItems={'center'}>
           {selected ? (
             <MediumImage

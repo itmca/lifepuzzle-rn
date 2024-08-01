@@ -8,7 +8,7 @@ import {CustomAlert} from '../alert/CustomAlert';
 import CtaButton from '../button/CtaButton';
 import {MediumImage} from '../styled/components/Image';
 import MediumText from '../styled/components/Text';
-
+import {ScreenContainer} from '../styled/container/ScreenContainer';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {AuthItem} from './AuthItem';
 
@@ -56,7 +56,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
   };
   return (
     <>
-      <ContentContainer>
+      <ContentContainer withScreenPadding>
         {user ? (
           <ContentContainer height={'62px'} useHorizontalLayout>
             <ContentContainer width={'60px'}>
@@ -87,8 +87,9 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
             onSelect={onSelectAuth}
           />
         ))}
+
+        <CtaButton active text="저장" onPress={onSubmit} />
       </ContentContainer>
-      <CtaButton active text="저장" onPress={onSubmit} />
     </>
   );
 };

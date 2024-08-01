@@ -55,7 +55,7 @@ const HeroRegisterPage = (): JSX.Element => {
             backgroundColor="#D6F3FF"
             height="395px"
             width="320px"
-            borderRadius="12px"
+            borderRadius={12}
             onPress={navigateToSelectingPhoto}>
             <HeroAvatar
               color="#32C5FF"

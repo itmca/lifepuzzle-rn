@@ -19,19 +19,19 @@ function theme(mode: string) {
       return {
         backgroundColor: Color.PRIMARY_LIGHT,
         color: Color.WHITE,
-        borderRadius: '16px',
+        borderRadius: 16,
       };
     case 'black':
       return {
         backgroundColor: Color.LIGHT_BLACK,
         color: Color.WHITE,
-        borderRadius: '6px',
+        borderRadius: 6,
       };
     case 'white':
       return {
         backgroundColor: Color.WHITE,
         color: Color.BLACK,
-        borderRadius: '16px',
+        borderRadius: 16,
         borderColor: Color.MEDIUM_GRAY,
         borderWidth: 1,
       };
@@ -39,7 +39,7 @@ function theme(mode: string) {
       return {
         backgroundColor: Color.SECONDARY_LIGHT,
         color: Color.PRIMARY_LIGHT,
-        borderRadius: '16px',
+        borderRadius: 16,
       };
   }
 }

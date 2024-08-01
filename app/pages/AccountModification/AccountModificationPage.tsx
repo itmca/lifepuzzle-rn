@@ -203,7 +203,7 @@ const AccountModificationPage = ({
             </ContentContainer>
             <ContentContainer gap={16} paddingHorizontal={20}>
               {user?.userType === 'general' && (
-                <ContentContainer gap="6px">
+                <ContentContainer gap={6}>
                   <XSmallTitle
                     left={5}
                     fontWeight={600}

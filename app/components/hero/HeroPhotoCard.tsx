@@ -41,7 +41,7 @@ export const HeroPhotoCard = ({
         backgroundColor="#D6F3FF"
         height="395px"
         width="320px"
-        borderRadius="12px"
+        borderRadius={12}
         onPress={onClick}>
         {photoUri ? (
           <Photo
@@ -60,7 +60,10 @@ export const HeroPhotoCard = ({
             imageURL={photoUri}
           />
         )}
-        <ContentContainer height={200} absoluteBottomPosition withNoBackground>
+        <ContentContainer
+          height={'200px'}
+          absoluteBottomPosition
+          withNoBackground>
           <LinearGradient
             colors={['#FFFFFF22', '#2d292921', '#00000022']}
             style={{
@@ -76,7 +79,7 @@ export const HeroPhotoCard = ({
               withContentPadding
               useHorizontalLayout
               withNoBackground>
-              <ContentContainer withNoBackground width={'200'}>
+              <ContentContainer withNoBackground width={'200px'}>
                 <LockableTextInput
                   customStyle={{
                     minWidth: 130,
@@ -98,7 +101,7 @@ export const HeroPhotoCard = ({
                 </ContentContainer>
               </ContentContainer>
               <ContentContainer
-                width={'40'}
+                width={'40px'}
                 alignItems={'center'}
                 withNoBackground>
                 <IconButton

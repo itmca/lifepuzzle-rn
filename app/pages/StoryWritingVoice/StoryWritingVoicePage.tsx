@@ -262,7 +262,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
               CustomAlert.actionAlert({
                 title: '녹음이 삭제됩니다. 음성녹음 없이 진행하시겠습니까?',
                 desc: '',
-                actionBtnText: '삭제',
+                actionBtnText: '확인',
                 action: () => {
                   onDelete();
                   nextPage();
