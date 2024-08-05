@@ -64,7 +64,7 @@ const StoryWritingMainPageOld = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={isStoryUploading}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScreenContainer gap={0} withDebugBorder>
+        <ScreenContainer gap={0}>
           {!ishelpQuestionVisible ? (
             <>
               <ContentContainer
