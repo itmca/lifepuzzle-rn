@@ -164,7 +164,7 @@ const HeroSharePage = (): JSX.Element => {
         <ImageModal
           message="주인공 권한이 공유되었습니다."
           leftBtnText="닫기"
-          // rightBtnText="닫기2"
+          rightBtnText=""
           onLeftBtnPress={() => {
             // 주인공 카드 나오는 화면으로
             navigation.push('NoTab', {
@@ -175,9 +175,7 @@ const HeroSharePage = (): JSX.Element => {
             });
             setModalOpen(false);
           }}
-          // onRightBtnPress={() => {
-          //   console.log('닫기2');
-          // }}
+          onRightBtnPress={() => {}}
           imageSource={require('../../assets/images/celebration-character.png')}
           isModalOpen={isModalOpen}
         />

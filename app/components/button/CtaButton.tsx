@@ -9,6 +9,7 @@ type Props = {
   active?: boolean;
   filled?: boolean;
   outlined?: boolean;
+  gray?: boolean;
   disabled?: boolean;
 
   marginTop?: string;
@@ -35,6 +36,14 @@ function theme(mode: string) {
         borderColor: Color.MEDIUM_GRAY,
         borderWidth: 1,
       };
+    case 'gray':
+      return {
+        backgroundColor: Color.WHITE_GRAY,
+        color: Color.FONT_DARK,
+        borderRadius: '16px',
+        borderColor: Color.LIGHT_GRAY,
+        borderWidth: 1,
+      };
     default:
       return {
         backgroundColor: Color.SECONDARY_LIGHT,
@@ -50,6 +59,7 @@ const CtaButton = ({
   active = false,
   filled = false,
   outlined = false,
+  gray = false,
   disabled = false,
 }: Props): JSX.Element => {
   const mode = active
@@ -58,6 +68,8 @@ const CtaButton = ({
     ? 'black'
     : outlined
     ? 'white'
+    : gray
+    ? 'gray'
     : '';
   const {backgroundColor, color, borderRadius, borderColor, borderWidth} =
     theme(mode);

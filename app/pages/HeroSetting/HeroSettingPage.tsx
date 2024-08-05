@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {TouchableOpacity, useWindowDimensions} from 'react-native';
 import HeroCard from './HeroCard';
@@ -39,6 +39,8 @@ const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const statusBarHeight = getStatusBarHeight();
   const route = useRoute<HeroSettingRouteProps<'HeroSetting'>>();
+  const carouselRef = useRef(null);
+
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
 
   const [heroes, setHeroes] = useState<HeroWithPuzzleCntType[]>([]);
@@ -61,6 +63,9 @@ const HeroSettingPage = (): JSX.Element => {
       }));
       setHeroes(resHeroes);
       setFocusedHero(resHeroes[0]);
+    },
+    onError: error => {
+      console.log('error', error);
     },
     disableInitialRequest: false,
   });
@@ -98,10 +103,16 @@ const HeroSettingPage = (): JSX.Element => {
         leftBtnText: '확인',
         rightBtnText: '',
         onLeftBtnPress: () => {
-          // 주인공 관리 화면으로 가도록 rightBtnPress 함수 로직 변경하기
-          // 새로 추가된 주인공이 뒤에 오도록 api 수정
-          // 맨 뒤에 carosel 로 화면에 보여질 수 있도록 하기
           setModalState(prev => ({...prev, isOpen: false}));
+          navigation.push('NoTab', {
+            screen: 'HeroSettingNavigator',
+            params: {
+              screen: 'HeroSetting',
+              params: {
+                scrollToEnd: true,
+              },
+            },
+          });
         },
         onRightBtnPress: () => {},
       });
@@ -131,6 +142,7 @@ const HeroSettingPage = (): JSX.Element => {
     },
     disableInitialRequest: true,
   });
+
   useEffect(() => {
     fetchHeroes({});
   }, [heroUpdateObserver]);
@@ -147,6 +159,12 @@ const HeroSettingPage = (): JSX.Element => {
     }
   }, [route.params]);
 
+  useEffect(() => {
+    if (route.params?.scrollToEnd && carouselRef.current && heroes.length > 0) {
+      setFocusedHero(heroes[heroes.length - 1]);
+      carouselRef.current.scrollTo({index: heroes.length - 1});
+    }
+  }, [heroes, route.params?.scrollToEnd]);
   return (
     <LoadingContainer isLoading={isLoading}>
       <ScreenContainer>
@@ -185,6 +203,7 @@ const HeroSettingPage = (): JSX.Element => {
           </ContentContainer>
           <ContentContainer alignCenter flex={1} expandToEnd>
             <Carousel
+              ref={carouselRef}
               data={[...heroes]}
               mode={'parallax'}
               modeConfig={{

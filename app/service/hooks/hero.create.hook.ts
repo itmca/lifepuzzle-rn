@@ -53,7 +53,7 @@ export const useCreateHero = (): [() => void] => {
     onError: err => {
       console.log(err, writingHeroKey);
       CustomAlert.retryAlert(
-        '주인공 프로필 수정이 실패했습니다.',
+        '주인공 프로필 생성이 실패했습니다.',
         submit,
         goBack,
       );

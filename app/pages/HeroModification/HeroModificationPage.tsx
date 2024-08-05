@@ -28,6 +28,9 @@ import {useHero} from '../../service/hooks/hero.query.hook';
 import {HeroUserType, toPhotoIdentifier} from '../../types/hero.type';
 import {useIsHeroUploading} from '../../service/hooks/hero.write.hook';
 import {HeroPhotoCard} from '../../components/hero/HeroPhotoCard';
+import {CustomAlert} from '../../components/alert/CustomAlert';
+import {useAuthAxios} from '../../service/hooks/network.hook';
+import {Divider} from '../../components/styled/components/Divider';
 
 const HeroModificationPage = (): JSX.Element => {
   const navigation =
@@ -118,6 +121,41 @@ const HeroModificationPage = (): JSX.Element => {
     });
   };
 
+  const [isLoading, deleteHero] = useAuthAxios<any>({
+    requestOption: {
+      url: `/heroes/${heroNo}`,
+      method: 'delete',
+    },
+    onResponseSuccess: () => {
+      CustomAlert.simpleAlert(`${hero.heroName}이 삭제되었습니다.`);
+      // 주인공 관리 화면으로 이동
+      navigation.push('NoTab', {
+        screen: 'HeroSettingNavigator',
+        params: {
+          screen: 'HeroSetting',
+        },
+      });
+    },
+    onError: error => {
+      console.log('error', error);
+      CustomAlert.simpleAlert(
+        `${hero.heroName} 삭제를 실패했습니다.\n잠시 후 다시 시도 부탁드립니다.`,
+      );
+    },
+    disableInitialRequest: true,
+  });
+
+  const onHeroDelete = () => {
+    CustomAlert.actionAlert({
+      title: '주인공을 삭제하시겠습니까?',
+      desc: '삭제 후 복원이 불가능합니다.',
+      actionBtnText: '삭제',
+      action: () => {
+        deleteHero({});
+      },
+    });
+  };
+
   return (
     <BottomSheetModalProvider>
       <ScrollContentContainer withScreenPadding>
@@ -184,12 +222,18 @@ const HeroModificationPage = (): JSX.Element => {
                   ))}
                 </ContentContainer>
               </ContentContainer>
-              <ContentContainer>
-                <CtaButton
-                  active
-                  text="연결 계정 추가"
-                  onPress={openHeroSharePage}
-                />
+              <ContentContainer gap={20}>
+                <ContentContainer>
+                  <CtaButton
+                    active
+                    text="연결 계정 추가"
+                    onPress={openHeroSharePage}
+                  />
+                </ContentContainer>
+                <Divider />
+                <ContentContainer>
+                  <CtaButton gray text="주인공 삭제" onPress={onHeroDelete} />
+                </ContentContainer>
               </ContentContainer>
             </ContentContainer>
           </ContentContainer>
