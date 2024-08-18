@@ -7,69 +7,61 @@ import {
   writingRecordTimeState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
-import {XSmallImage} from '../styled/components/Image';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
 import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import Icon from '../styled/components/Icon';
-import {CustomAlert} from '../alert/CustomAlert';
 import Sound from 'react-native-sound';
 import {getDisplayRecordTime} from '../../service/voice-record-info.service';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 type VoiceRecordProps = {
   recordTime: string;
-  onDelete: () => void;
+  onDelete?: () => void;
 };
 
-const RecordedVoice = ({
+export const RecordedVoice = ({
   recordTime,
   onDelete,
 }: VoiceRecordProps): JSX.Element => {
   return (
     <TouchableOpacity
       style={{
-        flexDirection: 'row',
+        width: 70,
+        height: 32,
         backgroundColor: Color.PRIMARY_LIGHT,
         borderRadius: 5,
-        width: 88,
-        height: 32,
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        marginRight: -8,
-      }}
-      onPress={() => {
-        CustomAlert.actionAlert({
-          title: '음성 녹음 삭제',
-          desc: '음성 녹음을 삭제하시겠습니까?',
-          actionBtnText: '삭제',
-          action: () => {
-            onDelete();
-          },
-        });
+        padding: 8,
       }}>
-      <View
-        style={{
-          backgroundColor: Color.WHITE,
-          borderRadius: 16,
-          width: 18,
-          height: 18,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <XSmallImage
-          style={{
-            width: 12,
-            height: 12,
-            tintColor: Color.PRIMARY_LIGHT,
-          }}
-          source={require('../../assets/images/mic.png')}
-        />
-      </View>
-      <XSmallText color={Color.WHITE}>
-        {recordTime.substring(recordTime.indexOf(':') + 1)}
-      </XSmallText>
-      <Icon name={'cancel'} size={16} style={{color: Color.WHITE}} />
+      <ContentContainer
+        useHorizontalLayout
+        gap={4}
+        backgroundColor={'transparent'}>
+        <ContentContainer
+          width={'16px'}
+          height={'16px'}
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor={Color.WHITE}
+          borderRadius={16}>
+          <Ionicons
+            size={13}
+            color={Color.PRIMARY_LIGHT}
+            name={'mic-outline'}
+          />
+        </ContentContainer>
+        <ContentContainer backgroundColor={'transparent'}>
+          <XSmallText color={Color.WHITE}>
+            {recordTime.substring(0, recordTime.lastIndexOf(':'))}
+          </XSmallText>
+          {onDelete ? (
+            <Icon name={'cancel'} size={16} style={{color: Color.WHITE}} />
+          ) : (
+            <></>
+          )}
+        </ContentContainer>
+      </ContentContainer>
     </TouchableOpacity>
   );
 };

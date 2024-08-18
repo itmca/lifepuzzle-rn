@@ -10,7 +10,9 @@ export type WritingStoryType = {
   videos?: MediaInfo[];
   voice?: string;
 };
-export type PlayingInfo = {
+export type PlayInfo = {
+  isOpen?: boolean;
+  isPlay?: boolean;
   currentPositionSec?: number;
   currentDurationSec?: number;
   playTime?: string;

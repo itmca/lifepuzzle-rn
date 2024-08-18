@@ -1,20 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
+import React, {useState} from 'react';
+import {useRecoilState, useResetRecoilState} from 'recoil';
 
 import {
-  playingRecordInfoState,
+  playInfoState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
-import {
-  Alert,
-  Dimensions,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, Dimensions, Pressable, View} from 'react-native';
 import styles from './styles';
 import {useVoicePermission} from '../../service/hooks/permission.hook';
 import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
@@ -23,7 +15,6 @@ import {ScreenContainer} from '../../components/styled/container/ScreenContainer
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {List} from 'react-native-paper';
 import {
-  SmallText,
   LargeText,
   XXXLargeText,
   XXSmallText,
@@ -43,8 +34,8 @@ const StoryWritingVoicePage = (): JSX.Element => {
   const [title, setTitle] = useState<string>('');
   const [storyText, setStoryText] = useState<string>('');
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const [playInfo, setPlayInfo] = useRecoilState(playingRecordInfoState);
-  const resetPlayInfo = useResetRecoilState(playingRecordInfoState);
+  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
+  const resetPlayInfo = useResetRecoilState(playInfoState);
 
   const helpQuestion = writingStory?.helpQuestionText || '';
   const ishelpQuestionVisible = helpQuestion.length != 0;
@@ -61,9 +52,9 @@ const StoryWritingVoicePage = (): JSX.Element => {
   });
 
   const {
+    fileName,
     recordTime,
     isRecording,
-    isPlaying,
     startRecord,
     stopRecord,
     startPlay,
@@ -72,7 +63,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
     seekPlay,
   } = useVoiceRecorder({
     onStopRecord: () => {
-      resetPlayInfo();
+      setWritingStory({voice: fileName});
     },
   });
   const DeviceWidth = Dimensions.get('window').width;
@@ -115,6 +106,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
     seekPlay(addSecs);
   };
   const onDelete = () => {
+    stopPlay();
     setWritingStory({voice: undefined});
     resetPlayInfo();
   };
@@ -171,7 +163,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
               }></View>
           </Pressable>
           <XXXLargeText fontSize={40}>
-            {writingStory.voice && recordTime
+            {recordTime
               ? recordTime.substring(recordTime?.indexOf(':') + 1)
               : '00:00'}
           </XXXLargeText>
@@ -225,12 +217,12 @@ const StoryWritingVoicePage = (): JSX.Element => {
           <Pressable
             disabled={disable}
             onPress={() => {
-              isPlaying ? pausePlay() : startPlay();
+              playInfo.isPlay ? pausePlay() : startPlay();
             }}>
             <FontAwesome6
               size={40}
               color={disable ? Color.FONT_GRAY : Color.PRIMARY_LIGHT}
-              name={isPlaying ? 'pause' : 'play'}
+              name={playInfo.isPlay ? 'pause' : 'play'}
             />
           </Pressable>
           <Pressable disabled={disable} onPress={onForward}>

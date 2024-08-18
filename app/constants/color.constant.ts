@@ -2,6 +2,7 @@ export const Color = {
   WHITE: '#ffffff',
   BLACK: '#000000',
   GRAY: '#EBEBEB',
+  YELLOW: '#FFC657',
   DARK_BLUE: '#03ACEE',
   LIGHT_BLACK: '#333333',
   FONT_BLUE: '#00B7FF',
