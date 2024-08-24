@@ -1,23 +1,22 @@
 import React from 'react';
 import {Avatar} from 'react-native-paper';
 import {StyleProp} from 'react-native';
+import {Color} from '../../constants/color.constant.ts';
 
 type Props = {
   imageURL: string | undefined;
   size: number;
   style?: StyleProp<any> | undefined;
-  color?: string;
 };
 
-export const AccountAvatar = ({
-  imageURL,
-  size,
-  style,
-  color,
-}: Props): JSX.Element => {
+export const AccountAvatar = ({imageURL, size, style}: Props): JSX.Element => {
   if (!imageURL) {
     return (
-      <Avatar.Icon style={style} size={size} color={color} icon="account" />
+      <Avatar.Icon
+        style={{backgroundColor: Color.LIGHT_GRAY, ...style}}
+        size={size}
+        icon="account"
+      />
     );
   }
 

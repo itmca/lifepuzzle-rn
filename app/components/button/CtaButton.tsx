@@ -11,7 +11,6 @@ type Props = {
   outlined?: boolean;
   gray?: boolean;
   disabled?: boolean;
-
   marginTop?: string;
 };
 function theme(mode: string) {
@@ -26,7 +25,7 @@ function theme(mode: string) {
       return {
         backgroundColor: Color.LIGHT_BLACK,
         color: Color.WHITE,
-        borderRadius: 6,
+        borderRadius: 16,
       };
     case 'white':
       return {
@@ -40,7 +39,7 @@ function theme(mode: string) {
       return {
         backgroundColor: Color.WHITE_GRAY,
         color: Color.FONT_DARK,
-        borderRadius: '16px',
+        borderRadius: 16,
         borderColor: Color.LIGHT_GRAY,
         borderWidth: 1,
       };
@@ -71,17 +70,18 @@ const CtaButton = ({
     : gray
     ? 'gray'
     : '';
-  const {backgroundColor, color, borderRadius, borderColor, borderWidth} =
+  const {backgroundColor, color, borderColor, borderWidth, borderRadius} =
     theme(mode);
+
   return (
     <MediumButton
       marginTop={marginTop}
       disabled={disabled}
       onPress={onPress}
       backgroundColor={backgroundColor}
-      borderRadius={borderRadius}
       borderColor={borderColor}
-      borderWidth={borderWidth}>
+      borderWidth={borderWidth}
+      borderRadius={borderRadius}>
       <MediumText fontWeight={600} color={disabled ? Color.FONT_DARK : color}>
         {text}
       </MediumText>

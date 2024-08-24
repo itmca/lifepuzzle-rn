@@ -25,7 +25,7 @@ type Props = {
 export const MediumButton = styled.TouchableOpacity<Props>`
   flex-direction: row;
   flex-basis: ${props => (props.flexBasis ? props.flexBasis : 'auto')};
-  height: ${props => props.height ?? '48px'};
+  height: ${props => props.height ?? '52px'};
   width: ${props => (props.width ? props.width : '100%')};
   justify-content: ${props =>
     props.justifyContent ? props.justifyContent : 'center'};

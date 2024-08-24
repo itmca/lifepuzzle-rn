@@ -31,7 +31,7 @@ export const AccountItem = ({user, onSelect}: props): JSX.Element => {
         <SmallText>{user.nickName}</SmallText>
         <SmallText color={Color.FONT_GRAY}>
           {AuthList.map(value => {
-            if (value.code == user.auth) {
+            if (value.code === user.auth) {
               return value.name;
             }
           })}

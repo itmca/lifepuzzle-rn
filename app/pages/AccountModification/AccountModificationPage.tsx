@@ -195,9 +195,9 @@ const AccountModificationPage = ({
                   });
                 }}>
                 <AccountAvatar
+                  userNickname={nickName}
                   imageURL={currentUserPhotoUri}
                   size={120}
-                  color={Color.LIGHT_GRAY}
                 />
               </TouchableOpacity>
             </ContentContainer>

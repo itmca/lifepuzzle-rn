@@ -11,7 +11,7 @@ import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
 import {SmallText} from '../../components/styled/components/Text.tsx';
 import {XSmallImage} from '../../components/styled/components/Image.tsx';
 import {toHeroBirthdayAge} from '../../service/date-time-display.service.ts';
-import {Image} from 'react-native';
+import {Image, Platform} from 'react-native';
 
 type Props = {
   hero: HeroType;
@@ -19,8 +19,6 @@ type Props = {
 };
 
 const HeroOverview = ({hero, puzzleCount}: Props): JSX.Element => {
-  console.log(hero);
-
   if (hero.heroNo !== -1) {
     return (
       <ContentContainer gap={20} paddingVertical={8}>
@@ -70,7 +68,8 @@ const HeroOverview = ({hero, puzzleCount}: Props): JSX.Element => {
   return (
     <ContentContainer
       useHorizontalLayout
-      paddingVertical={16}
+      paddingTop={Platform.OS === 'android' ? 20 : 16}
+      paddingBottom={16}
       justifyContent={'flex-start'}>
       <ContentContainer flex={1} gap={8}>
         <LargeTitle>우리, 한조각씩</LargeTitle>

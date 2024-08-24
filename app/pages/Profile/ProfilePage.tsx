@@ -8,10 +8,10 @@ import {ContentContainer} from '../../components/styled/container/ContentContain
 import {MediumText} from '../../components/styled/components/Text';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
-import Image from '../../components/styled/components/Image';
 import {ProfileMenuListItem} from './ProfileMenuListItem';
 import {Divider} from '../../components/styled/components/Divider.tsx';
 import {LargeTitle} from '../../components/styled/components/Title.tsx';
+import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
 
 const ProfilePage = (): JSX.Element | null => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -41,18 +41,10 @@ const ProfilePage = (): JSX.Element | null => {
         useHorizontalLayout
         withScreenPadding
         paddingVertical={32}>
-        <Image
-          width={80}
-          height={80}
-          borderRadius={40}
-          resizeMode={'cover'}
-          source={
-            typeof user.imageURL === 'string'
-              ? {uri: user.imageURL}
-              : require('../../assets/images/profile_icon.png')
-          }
-          borderColor={Color.GRAY}
-          borderWidth={1}
+        <AccountAvatar
+          imageURL={user.imageURL}
+          size={80}
+          color={Color.LIGHT_GRAY}
         />
         <ContentContainer gap={8}>
           <LargeTitle color={Color.LIGHT_BLACK}>{user.userNickName}</LargeTitle>

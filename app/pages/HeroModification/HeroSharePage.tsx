@@ -1,4 +1,4 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import CtaButton from '../../components/button/CtaButton';
@@ -12,18 +12,13 @@ import {ContentContainer} from '../../components/styled/container/ContentContain
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
 import {AuthList} from '../../constants/auth.constant';
-import {
-  BasicNavigationProps,
-  HeroSettingRouteProps,
-} from '../../navigation/types';
+import {HeroSettingRouteProps} from '../../navigation/types';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
 import SelectDropdown from 'react-native-select-dropdown';
 import {SmallImage} from '../../components/styled/components/Image';
 import {styles} from './styles';
-import {useRecoilState} from 'recoil';
-import {isModalOpening} from '../../recoils/story-write.recoil';
-import ImageModal from '../../components/alert/ImageModal';
+
 const HeroSharePage = (): JSX.Element => {
   const route = useRoute<HeroSettingRouteProps<'HeroShare'>>();
   const hero = route.params.hero;
@@ -41,7 +36,6 @@ const HeroSharePage = (): JSX.Element => {
   });
   const [dropDownItem, setDropDownItem] = useState(dropDownList);
 
-  const [isModalOpen, setModalOpen] = useRecoilState(isModalOpening);
   console.log(`heroNo: ${hero.heroNo}, type: ${typeof hero.heroNo}`);
   console.log(`auth: ${auth}, type: ${typeof auth}`);
   console.log(`/user/hero/link?heroNo=${hero.heroNo}&auth=${auth}`);
@@ -74,7 +68,6 @@ const HeroSharePage = (): JSX.Element => {
       }
       await Clipboard.setString(text);
       setCopied(true);
-      setModalOpen(true);
     } catch (e) {
       console.error('Clipboard.setString 실패', e);
       CustomAlert.simpleAlert('복사에 실패하였습니다');
@@ -88,69 +81,68 @@ const HeroSharePage = (): JSX.Element => {
     refetch({});
   };
 
-  const navigation = useNavigation<BasicNavigationProps>();
-
   return (
     <ScreenContainer justifyContent={'flex-start'}>
-      <LoadingContainer isLoading={updateLoading}>
-        <ContentContainer withScreenPadding>
-          <ContentContainer padding={5}>
-            <LargeTitle>{hero.heroNickName}</LargeTitle>
-            <XSmallTitle fontWeight={'600'} color={Color.FONT_GRAY}>
-              {hero.heroName}
-            </XSmallTitle>
-          </ContentContainer>
-          <ContentContainer>
-            <ContentContainer padding={12}>
-              <XSmallTitle>권한 공유</XSmallTitle>
-            </ContentContainer>
-            <SelectDropdown
-              data={dropDownItem}
-              onSelect={(selectedItem, index) => {
-                setAuth(selectedItem.value);
-                setOpen(false);
-                setCopied(false);
-              }}
-              renderButton={(selectedItem, isOpened) => {
-                return (
-                  <ContentContainer withContentPadding style={styles.dropdown}>
-                    <ContentContainer flex={1} gap={8}>
-                      <XSmallTitle>
-                        {(selectedItem && selectedItem.label) || '권한 선택'}
-                      </XSmallTitle>
-                      {selectedItem && (
-                        <XSmallText color={Color.DARK_GRAY}>
-                          {selectedItem.description}
-                        </XSmallText>
-                      )}
-                    </ContentContainer>
-                    <SmallImage
-                      borderRadius={30}
-                      source={
-                        isOpened
-                          ? require('../../assets/images/expand_less.png')
-                          : require('../../assets/images/expand_more.png')
-                      }
-                    />
-                  </ContentContainer>
-                );
-              }}
-              dropdownStyle={styles.dropdownList}
-              dropdownOverlayColor={'transparent'}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <ContentContainer useHorizontalLayout>
-                    <ContentContainer flex={1} withContentPadding gap={8}>
-                      <XSmallTitle>{item.label}</XSmallTitle>
+      <ContentContainer withScreenPadding>
+        <ContentContainer
+          useHorizontalLayout
+          justifyContent={'flex-start'}
+          gap={4}
+          alignItems={'flex-end'}>
+          <LargeTitle>{hero.heroNickName}</LargeTitle>
+          <XSmallTitle fontWeight={'600'} color={Color.FONT_GRAY}>
+            {hero.heroName}
+          </XSmallTitle>
+        </ContentContainer>
+        <ContentContainer>
+          <SelectDropdown
+            data={dropDownItem}
+            onSelect={(selectedItem, index) => {
+              setAuth(selectedItem.value);
+              setOpen(false);
+              setCopied(false);
+            }}
+            renderButton={(selectedItem, isOpened) => {
+              return (
+                <ContentContainer withContentPadding style={styles.dropdown}>
+                  <ContentContainer flex={1} gap={8}>
+                    <XSmallTitle>
+                      {(selectedItem && selectedItem.label) || '권한 선택'}
+                    </XSmallTitle>
+                    {selectedItem && (
                       <XSmallText color={Color.DARK_GRAY}>
-                        {item.description}
+                        {selectedItem.description}
                       </XSmallText>
-                    </ContentContainer>
+                    )}
                   </ContentContainer>
-                );
-              }}
-              showsVerticalScrollIndicator={false}
-            />
+                  <SmallImage
+                    borderRadius={30}
+                    source={
+                      isOpened
+                        ? require('../../assets/images/expand_less.png')
+                        : require('../../assets/images/expand_more.png')
+                    }
+                  />
+                </ContentContainer>
+              );
+            }}
+            dropdownStyle={styles.dropdownList}
+            dropdownOverlayColor={'transparent'}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <ContentContainer useHorizontalLayout>
+                  <ContentContainer flex={1} withContentPadding gap={8}>
+                    <XSmallTitle>{item.label}</XSmallTitle>
+                    <XSmallText color={Color.DARK_GRAY}>
+                      {item.description}
+                    </XSmallText>
+                  </ContentContainer>
+                </ContentContainer>
+              );
+            }}
+            showsVerticalScrollIndicator={false}
+          />
+          <LoadingContainer isLoading={updateLoading}>
             <ContentContainer marginTop={'20px'}>
               <CtaButton
                 active
@@ -159,27 +151,9 @@ const HeroSharePage = (): JSX.Element => {
                 onPress={onSubmit}
               />
             </ContentContainer>
-          </ContentContainer>
+          </LoadingContainer>
         </ContentContainer>
-        <ImageModal
-          message="주인공 권한이 공유되었습니다."
-          leftBtnText="닫기"
-          rightBtnText=""
-          onLeftBtnPress={() => {
-            // 주인공 카드 나오는 화면으로
-            navigation.push('NoTab', {
-              screen: 'HeroSettingNavigator',
-              params: {
-                screen: 'HeroSetting',
-              },
-            });
-            setModalOpen(false);
-          }}
-          onRightBtnPress={() => {}}
-          imageSource={require('../../assets/images/celebration-character.png')}
-          isModalOpen={isModalOpen}
-        />
-      </LoadingContainer>
+      </ContentContainer>
     </ScreenContainer>
   );
 };
