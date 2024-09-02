@@ -1,22 +1,14 @@
 import {
   BottomSheetBackdrop,
-  BottomSheetFooter,
-  BottomSheetFooterProps,
   BottomSheetModal,
-  useBottomSheet,
+  BottomSheetView,
   useBottomSheetTimingConfigs,
 } from '@gorhom/bottom-sheet';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer';
+import Config from 'react-native-config';
+import {Easing} from 'react-native-reanimated';
 
-import Animated, {
-  Easing,
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
-
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {
   OpenAlbum,
   PlayVoice,
@@ -30,6 +22,7 @@ import {
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {VoicePlayer} from './StoryVoicePlayer';
+import {Pressable} from 'react-native';
 type Props = {
   visible?: boolean;
 };
@@ -38,88 +31,95 @@ export const StoryWritingMenu = ({visible = true}: Props): JSX.Element => {
   //bottom sheet
   const menuModalRef = useRef<BottomSheetModal>(null);
   const playModalRef = useRef<BottomSheetModal>(null);
-
-  const mSnapPoints = useMemo(() => ['15%', '35%'], []);
+  const mSnapPoints = useMemo(() => ['35%'], []);
   const pSnapPoints = useMemo(() => ['15%'], []);
 
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
-  const [currentPosition, setCurrentPosition] = useState<number>(1);
+  const showList =
+    (writingStory.voice ?? false) || Config.TEXT_TO_IMAGE == 'TRUE'
+      ? true
+      : false;
 
-  const animationConfigs = useBottomSheetTimingConfigs({
-    duration: 250,
-    easing: Easing.exp,
-  });
-  const containerAnimatedStyle = useAnimatedStyle(
-    () => ({
-      opacity: interpolate(
-        currentPosition - 1,
-        [-0.85, 0],
-        [0, 1],
-        Extrapolate.CLAMP,
-      ),
-    }),
-    [currentPosition],
-  );
   const handleSheetChanges = useCallback((index: number) => {
-    setCurrentPosition(index);
+    console.log(index);
   }, []);
-  const renderBackdrop = useCallback(
+  //load
+  useEffect(() => {
+    if (showList) {
+      menuModalRef.current?.present();
+      menuModalRef.current?.snapToIndex(0);
+    }
+  }, []);
+  const playBackdrop = useCallback(
     props => (
       <BottomSheetBackdrop
         {...props}
-        pressBehavior={0}
-        disappearsOnIndex={0}
-        appearsOnIndex={1}
+        style={[props.style, {backgroundColor: 'transparent'}]}
+        pressBehavior={'none'}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
       />
     ),
     [],
   );
-  useEffect(() => {
-    menuModalRef.current?.present();
-  }, []);
+  const menuBackdrop = useCallback(
+    props => (
+      <BottomSheetBackdrop
+        {...props}
+        style={[props.style, {backgroundColor: 'transparent'}]}
+        onPress={() => {
+          menuModalRef.current?.close();
+        }}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+      />
+    ),
+    [],
+  );
+  //close,
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        if (!visible) {
+          // menuModalRef.current?.snapToIndex(-1);
+          // playModalRef.current?.close();
+        } else {
+          // setPlayInfo({isOpen: false});
+        }
+      };
+    }, []),
+  );
+  //음성 재생
   useEffect(() => {
     if (playInfo.isOpen) {
+      //menuModalRef.current?.present();
+      //menuModalRef.current?.snapToIndex(-1);
       menuModalRef.current?.close();
       playModalRef.current?.present();
     } else {
       menuModalRef.current?.present();
+      menuModalRef.current?.snapToIndex(0);
       playModalRef.current?.close();
     }
   }, [playInfo.isOpen]);
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => menuModalRef.current?.snapToIndex(0);
-    }, []),
-  );
+
+  const animationConfigs = useBottomSheetTimingConfigs({
+    duration: 20,
+    easing: Easing.exp,
+  });
 
   return (
     <>
-      <BottomSheetModal
-        ref={menuModalRef}
-        enableDismissOnClose={false}
-        enablePanDownToClose={false}
-        index={0}
-        snapPoints={mSnapPoints}
-        backdropComponent={renderBackdrop}
-        onChange={handleSheetChanges}
-        footerComponent={MenuFooter}
-        animationConfigs={animationConfigs}>
-        <Animated.View style={containerAnimatedStyle}>
-          <VoiceToText showText />
-          <PlayVoice showText />
-          <TextToImage showText />
-          <OpenAlbum showText />
-        </Animated.View>
-      </BottomSheetModal>
       <BottomSheetModal
         ref={playModalRef}
         handleHeight={0}
         enableDismissOnClose={false}
         enablePanDownToClose={false}
-        bottomInset={46}
+        bottomInset={30}
         detached={true}
         index={0}
+        backdropComponent={playBackdrop}
         snapPoints={pSnapPoints}
         animationConfigs={animationConfigs}
         handleComponent={null}
@@ -137,45 +137,54 @@ export const StoryWritingMenu = ({visible = true}: Props): JSX.Element => {
           <VoicePlayer modal voiceUrl={writingStory.voice ?? ''}></VoicePlayer>
         </ContentContainer>
       </BottomSheetModal>
+
+      {playInfo.isOpen ? (
+        <></>
+      ) : (
+        <Pressable
+          onPressOut={() => {
+            if (showList) {
+              menuModalRef.current?.present();
+              menuModalRef.current?.snapToIndex(0);
+            }
+          }}>
+          <ContentContainer
+            withScreenPadding
+            useHorizontalLayout
+            justifyContent="space-evenly">
+            <VoiceToText />
+            <PlayVoice />
+            <TextToImage />
+            <OpenAlbum />
+          </ContentContainer>
+        </Pressable>
+      )}
+      <BottomSheetModal
+        ref={menuModalRef}
+        enableDismissOnClose={false}
+        enablePanDownToClose={true}
+        index={-1}
+        backdropComponent={menuBackdrop}
+        snapPoints={mSnapPoints}
+        onChange={handleSheetChanges}
+        style={{
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+
+          elevation: 5,
+        }}>
+        <BottomSheetView>
+          <VoiceToText showText />
+          <PlayVoice showText />
+          <TextToImage showText />
+          <OpenAlbum showText />
+        </BottomSheetView>
+      </BottomSheetModal>
     </>
-  );
-};
-
-interface MenuFooterProps extends BottomSheetFooterProps {}
-
-const MenuFooter = ({animatedFooterPosition}: MenuFooterProps) => {
-  const {bottom: bottomSafeArea} = useSafeAreaInsets();
-  const {expand, collapse, animatedIndex} = useBottomSheet();
-  const containerAnimatedStyle = useAnimatedStyle(
-    () => ({
-      opacity: interpolate(
-        0 - animatedIndex.value,
-        [-0.85, 0],
-        [0, 1],
-        Extrapolate.CLAMP,
-      ),
-      display: animatedIndex.value == 1 ? 'none' : 'flex',
-    }),
-    [animatedIndex],
-  );
-  return (
-    <BottomSheetFooter
-      // we pass the bottom safe inset
-      bottomInset={bottomSafeArea}
-      // we pass the provided `animatedFooterPosition`
-      animatedFooterPosition={animatedFooterPosition}>
-      <Animated.View style={containerAnimatedStyle}>
-        <ContentContainer
-          withScreenPadding
-          useHorizontalLayout
-          justifyContent="space-between"
-          paddingHorizontal={50}>
-          <VoiceToText />
-          <PlayVoice />
-          <TextToImage />
-          <OpenAlbum />
-        </ContentContainer>
-      </Animated.View>
-    </BottomSheetFooter>
   );
 };

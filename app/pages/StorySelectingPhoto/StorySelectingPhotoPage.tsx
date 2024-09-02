@@ -56,7 +56,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
 
     const {edges, page_info} = await CameraRoll.getPhotos({
       first: !photos || photos.length < 20 ? 20 : photos.length,
-      assetType: 'Photos',
+      assetType: 'All',
     });
     setPhotos(edges);
 
@@ -74,7 +74,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
     const {edges, page_info} = await CameraRoll.getPhotos({
       first: 20,
       after: nextCursor,
-      assetType: 'Photos',
+      assetType: 'All',
     });
     setPhotos(prev => [...(prev ?? []), ...edges]);
 
@@ -104,7 +104,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
     <>
       {selectedPhotoList.length != 0 && (
         <SelectedPhotoList
-          target={'photo'}
+          target={'all'}
           upload={false}
           size={50}></SelectedPhotoList>
       )}

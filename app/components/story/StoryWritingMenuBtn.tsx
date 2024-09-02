@@ -14,13 +14,15 @@ import {
 } from '../../recoils/story-write.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-
+import Config from 'react-native-config';
 type Props = {
   showText?: boolean;
   onClick?: void;
 };
 export const VoiceToText = ({showText = false}: Props): JSX.Element => {
-  return (
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const visible = writingStory.voice;
+  return visible ? (
     <Pressable onPress={() => {}}>
       {showText ? (
         <ContentContainer
@@ -45,6 +47,8 @@ export const VoiceToText = ({showText = false}: Props): JSX.Element => {
         />
       )}
     </Pressable>
+  ) : (
+    <></>
   );
 };
 
@@ -81,7 +85,8 @@ export const PlayVoice = ({showText = false, onClick}: Props): JSX.Element => {
 };
 
 export const TextToImage = ({showText = false}: Props): JSX.Element => {
-  return (
+  const visible = Config.TEXT_TO_IMAGE == 'TRUE';
+  return visible ? (
     <Pressable onPress={() => {}}>
       {showText ? (
         <ContentContainer
@@ -106,6 +111,8 @@ export const TextToImage = ({showText = false}: Props): JSX.Element => {
         />
       )}
     </Pressable>
+  ) : (
+    <></>
   );
 };
 

@@ -25,6 +25,7 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {StoryWritingMenu} from '../../components/story/StoryWritingMenu';
+import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
   const [openSheet, setOpenSheet] = useState<boolean>(false);
@@ -93,6 +94,12 @@ const StoryWritingMainPage = (): JSX.Element => {
                 <></>
               )}
             </ContentContainer>
+            <SelectedPhotoList
+              target={'photo'}
+              size={180}
+              upload={false}
+              cancel={true}
+            />
             <ContentContainer height={'50px'}>
               <BasicTextInput
                 customStyle={styles.titleInput}

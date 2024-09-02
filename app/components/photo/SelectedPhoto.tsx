@@ -1,25 +1,28 @@
 import React, {useEffect, useState} from 'react';
-import {MediumImage, XSmallImage} from '../styled/components/Image';
+import {MediumImage} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
-import {TouchableOpacity} from 'react-native';
+import {Pressable, TouchableOpacity} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {createThumbnail} from 'react-native-create-thumbnail';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 type SelectedPhotoProps = {
-  target?: 'photo' | 'video';
+  target?: 'all' | 'photo' | 'video';
   index: number;
   size: number;
+  cancel: boolean;
 };
 
 const SelectedPhoto = ({
   target,
   index,
   size,
+  cancel = true,
 }: SelectedPhotoProps): JSX.Element => {
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-
-  const photoList = writingStory[target == 'photo' ? 'photos' : 'videos'] || [];
+  const photoKey = target == 'video' ? 'videos' : 'photos';
+  const photoList = writingStory[photoKey] || [];
 
   const [thumbnailUri, setThumbnailUri] = useState<string>(
     photoList[index].node.image.uri,
@@ -27,7 +30,7 @@ const SelectedPhoto = ({
 
   const createThumbnailUrl = async () => {
     if (
-      target == 'video' &&
+      target != 'photo' &&
       photoList[index].node.image.uri.startsWith('https://lifepuzzle')
     ) {
       const response = await createThumbnail({
@@ -44,38 +47,44 @@ const SelectedPhoto = ({
   }, [photoList[index].node.image.uri]);
 
   return (
-    <TouchableOpacity activeOpacity={1}>
+    <TouchableOpacity>
       <MediumImage
-        style={{width: size, height: size, margin: 5, borderRadius: 4}}
+        style={{
+          width: (size / 3) * 4,
+          height: size,
+          margin: 5,
+          borderRadius: 8,
+        }}
         source={{uri: thumbnailUri}}
       />
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          backgroundColor: Color.GRAY,
-          width: 16,
-          height: 16,
-          borderRadius: 30,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onPress={() => {
-          const currentList =
-            writingStory[target == 'photo' ? 'photos' : 'videos'] || [];
+      {cancel ? (
+        <Pressable
+          style={{
+            position: 'absolute',
+            top: 7,
+            right: 8,
+            backgroundColor: Color.BLACK,
+            opacity: 0.5,
+            width: 24,
+            height: 24,
+            borderRadius: 4,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={() => {
+            const currentList = writingStory[photoKey] || [];
 
-          setWritingStory({
-            [target == 'photo' ? 'photos' : 'videos']: currentList.filter(
-              e => e.node.image.uri !== photoList[index].node.image.uri,
-            ),
-          });
-        }}>
-        <XSmallImage
-          tintColor={Color.DARK_GRAY}
-          source={require('../../assets/images/close.png')}
-        />
-      </TouchableOpacity>
+            setWritingStory({
+              [photoKey]: currentList.filter(
+                e => e.node.image.uri !== photoList[index].node.image.uri,
+              ),
+            });
+          }}>
+          <MaterialIcons size={20} color={Color.WHITE} name={'close'} />
+        </Pressable>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 };
