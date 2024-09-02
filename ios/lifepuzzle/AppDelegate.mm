@@ -3,6 +3,7 @@
 #import "RNSplashScreen.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <React/RCTLinkingManager.h>
 
 
 @implementation AppDelegate
@@ -37,11 +38,19 @@
 - (BOOL)application:(UIApplication *)app
      openURL:(NSURL *)url
      options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
- if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+  if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
     return [RNKakaoLogins handleOpenUrl: url];
- }
+  }
 
- return NO;
+  return [RCTLinkingManager application:app openURL:url options:options];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
+ restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+ return [RCTLinkingManager application:application
+                  continueUserActivity:userActivity
+                    restorationHandler:restorationHandler];
 }
 
 @end
