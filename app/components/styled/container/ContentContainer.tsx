@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components/native';
 import {Platform, ScrollView} from 'react-native';
-import React, {ReactNode, RefAttributes} from 'react';
+import React, {forwardRef, ReactNode, RefAttributes} from 'react';
 import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
 import {Color} from '../../../constants/color.constant.ts';
@@ -158,16 +158,18 @@ type ScrollContentContainerProps = ContentContainerProps &
     children?: ReactNode;
   };
 
-export const ScrollContentContainer = (props: ScrollContentContainerProps) => (
-  <ScrollView
-    ref={props.ref}
-    onScroll={props.onScroll}
-    scrollEventThrottle={100}
-    style={{width: '100%'}}
-    horizontal={props.useHorizontalLayout}
-    showsVerticalScrollIndicator={false}>
-    <ContentContainer {...(props as ContentContainerProps)}>
-      {props.children}
-    </ContentContainer>
-  </ScrollView>
+export const ScrollContentContainer = forwardRef(
+  (props: ScrollContentContainerProps, ref: React.LegacyRef<ScrollView>) => (
+    <ScrollView
+      ref={ref}
+      onScroll={props.onScroll}
+      scrollEventThrottle={100}
+      style={{width: '100%'}}
+      horizontal={props.useHorizontalLayout}
+      showsVerticalScrollIndicator={false}>
+      <ContentContainer {...(props as ContentContainerProps)}>
+        {props.children}
+      </ContentContainer>
+    </ScrollView>
+  ),
 );
