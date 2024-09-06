@@ -35,13 +35,13 @@ export const HeroPhotoCard = ({
     <ContentContainer
       width={width}
       height={'395px'}
-      borderRadius={12}
+      borderRadius={32}
       backgroundColor={Color.GRAY}>
       <ImageButton
-        backgroundColor="#D6F3FF"
+        backgroundColor={Color.SECONDARY_LIGHT}
         height="395px"
         width="320px"
-        borderRadius={12}
+        borderRadius={32}
         onPress={onClick}>
         {photoUri ? (
           <Photo
@@ -50,7 +50,7 @@ export const HeroPhotoCard = ({
                 ? {uri: photoUri}
                 : require('../../assets/images/profile_icon.png')
             }
-            borderRadius={12}
+            borderRadius={32}
           />
         ) : (
           <HeroAvatar

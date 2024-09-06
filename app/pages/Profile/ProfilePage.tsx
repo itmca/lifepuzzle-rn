@@ -42,9 +42,9 @@ const ProfilePage = (): JSX.Element | null => {
         withScreenPadding
         paddingVertical={32}>
         <AccountAvatar
+          nickName={user.userNickName}
           imageURL={user.imageURL}
           size={80}
-          color={Color.LIGHT_GRAY}
         />
         <ContentContainer gap={8}>
           <LargeTitle color={Color.LIGHT_BLACK}>{user.userNickName}</LargeTitle>

@@ -160,7 +160,7 @@ const HeroModificationPage = (): JSX.Element => {
     <BottomSheetModalProvider>
       <ScrollContentContainer withScreenPadding>
         <LoadingContainer isLoading={loading || isHeroUploading}>
-          <ContentContainer gap={16}>
+          <ContentContainer gap={32}>
             <ContentContainer alignItems={'center'}>
               <HeroPhotoCard
                 photoUri={writingHero?.imageURL?.node.image.uri}

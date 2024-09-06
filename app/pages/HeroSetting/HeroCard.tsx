@@ -10,6 +10,7 @@ import {MediumButton} from '../../components/styled/components/Button';
 import {Color} from '../../constants/color.constant';
 import {Photo} from '../../components/styled/components/Image';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
 
 type Props = {
   hero: HeroWithPuzzleCntType;
@@ -38,14 +39,35 @@ const HeroCard = ({hero}: Props): JSX.Element => {
   return (
     <ContentContainer paddingHorizontal={8}>
       <ContentContainer alignCenter expandToEnd gap={0}>
-        <ContentContainer borderRadius={12} withBorder>
-          <Photo source={{uri: imageURL}} />
+        <ContentContainer borderRadius={32} withBorder>
+          {imageURL ? (
+            <Photo
+              source={
+                imageURL
+                  ? {uri: imageURL}
+                  : require('../../assets/images/hero-default-profile.jpeg')
+              }
+            />
+          ) : (
+            <ContentContainer
+              alignCenter
+              height={'100%'}
+              paddingBottom={48}
+              backgroundColor={Color.SECONDARY_LIGHT}>
+              <HeroAvatar
+                color="#32C5FF"
+                style={{backgroundColor: 'transparent'}}
+                size={156}
+                imageURL={''}
+              />
+            </ContentContainer>
+          )}
         </ContentContainer>
         <ContentContainer
           absoluteBottomPosition
           withContentPadding
           useHorizontalLayout
-          borderBottomRadius={12}
+          borderBottomRadius={32}
           backgroundColor={'rgba(0,0,0,0.7)'}>
           <ContentContainer withNoBackground width={'auto'} gap={4}>
             <Text color={Color.WHITE}>{title}</Text>

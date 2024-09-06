@@ -27,13 +27,13 @@ import {
   XSmallText,
   XXLargeText,
 } from '../../components/styled/components/Text.tsx';
-import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userState} from '../../recoils/user.recoil.ts';
 import {Color} from '../../constants/color.constant.ts';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {writingHeroKeyState} from '../../recoils/hero-write.recoil.ts';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -237,11 +237,11 @@ const HeroSettingPage = (): JSX.Element => {
                     width={'56px'}
                     height={'88px'}
                     paddingBottom={8}
-                    gap={0}>
-                    <HeroAvatar
-                      style={{marginBottom: 6}}
+                    gap={4}>
+                    <AccountAvatar
+                      nickName={user.nickName || ''}
                       imageURL={user.imageURL}
-                      size={48}
+                      size={40}
                     />
                     {
                       <XSmallText

@@ -195,7 +195,7 @@ const AccountModificationPage = ({
                   });
                 }}>
                 <AccountAvatar
-                  userNickname={nickName}
+                  nickName={nickName}
                   imageURL={currentUserPhotoUri}
                   size={120}
                 />
