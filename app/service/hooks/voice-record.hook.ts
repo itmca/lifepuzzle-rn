@@ -7,7 +7,7 @@ import AudioRecorderPlayer, {
   AVEncodingOption,
   AVModeIOSOption,
 } from 'react-native-audio-recorder-player';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useResetRecoilState} from 'recoil';
 import {useState} from 'react';
 import {
   getDisplayRecordTime,
@@ -16,7 +16,7 @@ import {
 import {playInfoState} from '../../recoils/story-write.recoil';
 
 type Props = {
-  fileUrl?: string;
+  audioUrl?: string;
   onStartRecord?: () => void;
   onStopRecord?: () => void;
 };
@@ -27,7 +27,7 @@ type Response = {
   isRecording: boolean;
   startRecord: () => Promise<void>;
   stopRecord: () => Promise<void>;
-  startPlay: (url?: string) => Promise<void>;
+  startPlay: () => Promise<void>;
   pausePlay: () => Promise<void>;
   stopPlay: () => Promise<void>;
   seekPlay: (sec: number) => Promise<void>;
@@ -35,14 +35,16 @@ type Response = {
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 export const useVoiceRecorder = ({
-  fileUrl,
+  audioUrl,
   onStartRecord,
   onStopRecord,
 }: Props): Response => {
+  const resetPlayInfo = useResetRecoilState(playInfoState);
+
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   const [isRecording, setIsRecording] = useState(false);
 
-  const [voiceUrl, setVoiceUrl] = useState<string>(fileUrl ?? '');
+  const [file, setFile] = useState<string>(audioUrl ?? '');
   const [recordTime, setRecordTime] = useState<string>('00:00:00');
 
   const startRecord = async function () {
@@ -60,19 +62,24 @@ export const useVoiceRecorder = ({
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
+    stopPlay();
+    resetPlayInfo();
+    setIsRecording(true);
 
     const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
+
     audioRecorderPlayer.addRecordBackListener(e => {
       const hourMinuteSeconds = getDisplayRecordTime(
         Math.floor(e.currentPosition),
       );
-      //setWritingStory({voice: uri});
       setRecordTime(hourMinuteSeconds);
+      setPlayInfo({
+        currentDurationSec: e.currentPosition,
+        duration: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+      });
     });
-    setIsRecording(true);
-    setPlayInfo({isPlay: false});
 
-    setVoiceUrl(uri);
+    setFile(uri);
     onStartRecord?.();
   };
 
@@ -84,9 +91,9 @@ export const useVoiceRecorder = ({
     setPlayInfo({isPlay: false});
     onStopRecord?.();
   };
-  const startPlay = async (url?: string) => {
+  const startPlay = async () => {
     setPlayInfo({isPlay: true});
-    const msg = await audioRecorderPlayer.startPlayer(url ?? voiceUrl);
+    const msg = await audioRecorderPlayer.startPlayer(file);
     audioRecorderPlayer.addPlayBackListener(e => {
       setPlayInfo({
         currentPositionSec: e.currentPosition,
@@ -96,6 +103,7 @@ export const useVoiceRecorder = ({
       });
       if (e.currentPosition == e.duration) {
         setPlayInfo({isPlay: false});
+
         stopRecord();
       }
     });
@@ -115,7 +123,7 @@ export const useVoiceRecorder = ({
     audioRecorderPlayer.seekToPlayer(sec);
   };
   return {
-    fileName: voiceUrl,
+    fileName: file,
     recordTime,
     isRecording,
     startRecord,

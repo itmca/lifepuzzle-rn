@@ -12,14 +12,7 @@ const writingStoryInternalState = atom<WritingStoryType>({
 });
 export const playInfoInternalState = atom<PlayInfo>({
   key: 'playInfoInternalState',
-  default: {
-    isOpen: false,
-    isPlay: false,
-    currentPositionSec: 0,
-    currentDurationSec: 0,
-    playTime: '00:00:00',
-    duration: '00:00:00',
-  },
+  default: {},
 });
 
 export const writingStoryState = selector<WritingStoryType>({

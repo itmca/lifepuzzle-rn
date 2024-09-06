@@ -15,14 +15,46 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import Config from 'react-native-config';
+type MenuProps = {
+  type: 'bar' | 'list';
+};
 type Props = {
   showText?: boolean;
   onClick?: void;
 };
-export const VoiceToText = ({showText = false}: Props): JSX.Element => {
+export const StoryWritingMenuBtn = ({type}: MenuProps): JSX.Element => {
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const visible = writingStory.voice;
-  return visible ? (
+  const voiceToText = writingStory.voice ? true : false;
+  const playVoice = writingStory.voice ? true : false;
+  const textToImage = Config.TEXT_TO_IMAGE == 'TRUE';
+  const openAlbum = true;
+  const iconCnt =
+    (voiceToText ? 1 : 0) +
+    (playVoice ? 1 : 0) +
+    (textToImage ? 1 : 0) +
+    (openAlbum ? 1 : 0);
+  return type == 'list' || iconCnt == 1 ? (
+    <>
+      {voiceToText ? <VoiceToText showText /> : <></>}
+      {playVoice ? <PlayVoice showText /> : <></>}
+      {textToImage ? <TextToImage showText /> : <></>}
+      {openAlbum ? <OpenAlbum showText /> : <></>}
+    </>
+  ) : (
+    <ContentContainer
+      withScreenPadding
+      useHorizontalLayout
+      justifyContent="space-around">
+      {voiceToText ? <VoiceToText /> : <></>}
+      {playVoice ? <PlayVoice /> : <></>}
+      {textToImage ? <TextToImage /> : <></>}
+      {openAlbum ? <OpenAlbum /> : <></>}
+    </ContentContainer>
+  );
+};
+
+const VoiceToText = ({showText = false}: Props): JSX.Element => {
+  return (
     <Pressable onPress={() => {}}>
       {showText ? (
         <ContentContainer
@@ -30,12 +62,14 @@ export const VoiceToText = ({showText = false}: Props): JSX.Element => {
           justifyContent="flex-start"
           paddingHorizontal={20}
           paddingVertical={12}>
-          <MediumImage
-            width={32}
-            height={32}
-            resizeMode={'contain'}
-            source={require('../../assets/images/record-text.png')}
-          />
+          <ContentContainer width={'32px'} alignCenter>
+            <MediumImage
+              width={32}
+              height={32}
+              resizeMode={'contain'}
+              source={require('../../assets/images/record-text.png')}
+            />
+          </ContentContainer>
           <MediumText>음성-{'>'}텍스트 변환</MediumText>
         </ContentContainer>
       ) : (
@@ -47,17 +81,12 @@ export const VoiceToText = ({showText = false}: Props): JSX.Element => {
         />
       )}
     </Pressable>
-  ) : (
-    <></>
   );
 };
 
-export const PlayVoice = ({showText = false, onClick}: Props): JSX.Element => {
-  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+const PlayVoice = ({showText = false, onClick}: Props): JSX.Element => {
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
-  const visible = writingStory.voice;
-  return visible ? (
-    // {writingStory.voice ?(
+  return (
     <Pressable
       onPress={() => {
         setPlayInfo({isOpen: true});
@@ -68,25 +97,23 @@ export const PlayVoice = ({showText = false, onClick}: Props): JSX.Element => {
           justifyContent="space-between"
           paddingHorizontal={20}
           paddingVertical={12}>
-          <FontAwesome6 size={32} color={Color.PRIMARY_LIGHT} name={'play'} />
+          <ContentContainer width={'32px'} alignCenter>
+            <FontAwesome6 size={30} color={Color.PRIMARY_LIGHT} name={'play'} />
+          </ContentContainer>
           <ContentContainer flex={1}>
             <MediumText>음성 재생</MediumText>
           </ContentContainer>
-          <RecordedVoice recordTime={playInfo.duration ?? '00:00'} />
+          <RecordedVoice recordTime={playInfo.duration ?? '00:00:00'} />
         </ContentContainer>
       ) : (
-        <FontAwesome6 size={32} color={Color.PRIMARY_LIGHT} name={'play'} />
+        <FontAwesome6 size={30} color={Color.PRIMARY_LIGHT} name={'play'} />
       )}
     </Pressable>
-  ) : (
-    <></>
   );
-  //):<></>}
 };
 
-export const TextToImage = ({showText = false}: Props): JSX.Element => {
-  const visible = Config.TEXT_TO_IMAGE == 'TRUE';
-  return visible ? (
+const TextToImage = ({showText = false}: Props): JSX.Element => {
+  return (
     <Pressable onPress={() => {}}>
       {showText ? (
         <ContentContainer
@@ -94,12 +121,14 @@ export const TextToImage = ({showText = false}: Props): JSX.Element => {
           justifyContent="flex-start"
           paddingHorizontal={20}
           paddingVertical={12}>
-          <MediumImage
-            width={32}
-            height={32}
-            resizeMode={'contain'}
-            source={require('../../assets/images/text-image.png')}
-          />
+          <ContentContainer width={'32px'} alignCenter>
+            <MediumImage
+              width={32}
+              height={32}
+              resizeMode={'contain'}
+              source={require('../../assets/images/text-image.png')}
+            />
+          </ContentContainer>
           <MediumText>텍스트 기반 이미지 생성</MediumText>
         </ContentContainer>
       ) : (
@@ -111,12 +140,10 @@ export const TextToImage = ({showText = false}: Props): JSX.Element => {
         />
       )}
     </Pressable>
-  ) : (
-    <></>
   );
 };
 
-export const OpenAlbum = ({showText = false}: Props): JSX.Element => {
+const OpenAlbum = ({showText = false}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <Pressable
@@ -134,7 +161,9 @@ export const OpenAlbum = ({showText = false}: Props): JSX.Element => {
           justifyContent="flex-start'"
           paddingHorizontal={20}
           paddingVertical={12}>
-          <FontAwesome6 size={32} color={Color.YELLOW} name={'camera'} />
+          <ContentContainer width={'32px'} alignCenter>
+            <FontAwesome6 size={32} color={Color.YELLOW} name={'camera'} />
+          </ContentContainer>
           <MediumText>사진/동영상</MediumText>
         </ContentContainer>
       ) : (

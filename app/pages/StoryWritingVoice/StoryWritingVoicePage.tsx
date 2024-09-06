@@ -14,29 +14,18 @@ import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {List} from 'react-native-paper';
-import {
-  LargeText,
-  XXXLargeText,
-  XXSmallText,
-} from '../../components/styled/components/Text';
-import {Color} from '../../constants/color.constant';
+import {LargeText, XXXLargeText} from '../../components/styled/components/Text';
 import StoryDateInput from '../StoryWritingMain/StoryDateInput';
 import {MediumImage} from '../../components/styled/components/Image';
 import CtaButton from '../../components/button/CtaButton';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome5';
 import {CustomAlert} from '../../components/alert/CustomAlert';
+import {VoicePlayer} from '../../components/story/StoryVoicePlayer';
 
 const StoryWritingVoicePage = (): JSX.Element => {
   const navigation = useNavigation();
-
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
-  const [title, setTitle] = useState<string>('');
-  const [storyText, setStoryText] = useState<string>('');
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   const resetPlayInfo = useResetRecoilState(playInfoState);
-
   const helpQuestion = writingStory?.helpQuestionText || '';
   const ishelpQuestionVisible = helpQuestion.length != 0;
 
@@ -53,7 +42,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
 
   const {
     fileName,
-    recordTime,
+    recordTime = '00:00',
     isRecording,
     startRecord,
     stopRecord,
@@ -62,6 +51,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
     stopPlay,
     seekPlay,
   } = useVoiceRecorder({
+    onStartRecord: () => {},
     onStopRecord: () => {
       setWritingStory({voice: fileName});
     },
@@ -76,35 +66,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
       },
     });
   };
-  const onStatusPress = (e: any): void => {
-    const touchX = e.nativeEvent.locationX;
-    const playWidth = playInfo?.currentDurationSec
-      ? (playInfo?.currentPositionSec ?? 0 / playInfo?.currentDurationSec) *
-        DeviceWidth
-      : 0;
-    const currentPosition = Math.round(playInfo?.currentPositionSec ?? 0);
 
-    if (playWidth && playWidth < touchX) {
-      const addSecs = Math.round(currentPosition + 1000);
-      seekPlay(addSecs);
-    } else {
-      const subSecs = Math.round(currentPosition - 1000);
-      seekPlay(subSecs);
-    }
-  };
-  const onReplay = () => {
-    const currentPosition = Math.round(playInfo?.currentPositionSec ?? 0);
-    const subSecs = Math.max(Math.round(currentPosition - 10000), 1);
-    seekPlay(subSecs);
-  };
-  const onForward = () => {
-    const currentPosition = Math.round(playInfo?.currentPositionSec ?? 0);
-    const addSecs = Math.min(
-      Math.round(currentPosition + 10000),
-      playInfo?.currentDurationSec ?? 1,
-    );
-    seekPlay(addSecs);
-  };
   const onDelete = () => {
     stopPlay();
     setWritingStory({voice: undefined});
@@ -168,78 +130,14 @@ const StoryWritingVoicePage = (): JSX.Element => {
               : '00:00'}
           </XXXLargeText>
         </ContentContainer>
-        <ContentContainer>
-          <ContentContainer useHorizontalLayout>
-            <XXSmallText color={disable ? Color.FONT_GRAY : Color.BLACK}>
-              {playInfo.playTime
-                ? playInfo.playTime.substring(
-                    0,
-                    playInfo.playTime.lastIndexOf(':'),
-                  )
-                : '00:00'}
-            </XXSmallText>
-            <XXSmallText color={disable ? Color.FONT_GRAY : Color.BLACK}>
-              {playInfo.duration
-                ? playInfo.duration.substring(
-                    0,
-                    playInfo.duration.lastIndexOf(':'),
-                  )
-                : '00:00'}
-            </XXSmallText>
-          </ContentContainer>
-          <View style={styles.viewBar}>
-            <View
-              style={[
-                styles.viewBarPlay,
-                {
-                  width:
-                    playInfo.currentPositionSec && playInfo.currentDurationSec
-                      ? (playInfo.currentPositionSec /
-                          playInfo.currentDurationSec) *
-                        DeviceWidth
-                      : 0,
-                },
-              ]}
-            />
-          </View>
-        </ContentContainer>
-        <ContentContainer
-          withContentPadding
-          useHorizontalLayout
-          height={'80px'}>
-          <Pressable disabled={disable} onPress={onReplay}>
-            <MaterialIcons
-              size={40}
-              color={disable ? Color.FONT_GRAY : Color.BLACK}
-              name={'replay-10'}
-            />
-          </Pressable>
-          <Pressable
-            disabled={disable}
-            onPress={() => {
-              playInfo.isPlay ? pausePlay() : startPlay();
-            }}>
-            <FontAwesome6
-              size={40}
-              color={disable ? Color.FONT_GRAY : Color.PRIMARY_LIGHT}
-              name={playInfo.isPlay ? 'pause' : 'play'}
-            />
-          </Pressable>
-          <Pressable disabled={disable} onPress={onForward}>
-            <MaterialIcons
-              size={40}
-              color={disable ? Color.FONT_GRAY : Color.BLACK}
-              name={'forward-10'}
-            />
-          </Pressable>
-          <Pressable disabled={disable} onPress={onDelete}>
-            <MaterialIcons
-              size={40}
-              color={disable ? Color.FONT_GRAY : Color.BLACK}
-              name={'delete'}
-            />
-          </Pressable>
-        </ContentContainer>
+        <VoicePlayer
+          source={fileName}
+          disable={disable}
+          startPlay={startPlay}
+          pausePlay={pausePlay}
+          stopPlay={stopPlay}
+          seekPlay={seekPlay}
+          onDelete={onDelete}></VoicePlayer>
         <CtaButton
           active={!disable}
           disabled={disable}

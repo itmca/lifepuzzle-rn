@@ -22,7 +22,7 @@ type VoiceRecordProps = {
 };
 
 export const RecordedVoice = ({
-  recordTime,
+  recordTime = '00:00:00',
   onDelete,
 }: VoiceRecordProps): JSX.Element => {
   return (

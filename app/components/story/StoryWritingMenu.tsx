@@ -9,12 +9,7 @@ import {ContentContainer} from '../styled/container/ContentContainer';
 import Config from 'react-native-config';
 import {Easing} from 'react-native-reanimated';
 
-import {
-  OpenAlbum,
-  PlayVoice,
-  TextToImage,
-  VoiceToText,
-} from './StoryWritingMenuBtn';
+import {StoryWritingMenuBtn} from './StoryWritingMenuBtn';
 import {useFocusEffect} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
 import {
@@ -23,32 +18,38 @@ import {
 } from '../../recoils/story-write.recoil';
 import {VoicePlayer} from './StoryVoicePlayer';
 import {Pressable} from 'react-native';
+import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
 type Props = {
-  visible?: boolean;
+  keyboardVisible?: boolean;
 };
 
-export const StoryWritingMenu = ({visible = true}: Props): JSX.Element => {
+export const StoryWritingMenu = ({
+  keyboardVisible = true,
+}: Props): JSX.Element => {
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
+  const voiceToText = writingStory.voice ? true : false;
+  const playVoice = writingStory.voice ? true : false;
+  const textToImage = Config.TEXT_TO_IMAGE == 'TRUE';
+  const openAlbum = true;
+  const iconCnt =
+    (voiceToText ? 1 : 0) +
+    (playVoice ? 1 : 0) +
+    (textToImage ? 1 : 0) +
+    (openAlbum ? 1 : 0);
+
   //bottom sheet
   const menuModalRef = useRef<BottomSheetModal>(null);
   const playModalRef = useRef<BottomSheetModal>(null);
-  const mSnapPoints = useMemo(() => ['35%'], []);
+  const mSnapPoints = useMemo(() => [iconCnt * 60 + 30], []);
   const pSnapPoints = useMemo(() => ['15%'], []);
-
-  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
-  const showList =
-    (writingStory.voice ?? false) || Config.TEXT_TO_IMAGE == 'TRUE'
-      ? true
-      : false;
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log(index);
   }, []);
   //load
   useEffect(() => {
-    if (showList) {
-      menuModalRef.current?.present();
-      menuModalRef.current?.snapToIndex(0);
+    if (iconCnt > 1) {
     }
   }, []);
   const playBackdrop = useCallback(
@@ -80,21 +81,12 @@ export const StoryWritingMenu = ({visible = true}: Props): JSX.Element => {
   //close,
   useFocusEffect(
     React.useCallback(() => {
-      return () => {
-        if (!visible) {
-          // menuModalRef.current?.snapToIndex(-1);
-          // playModalRef.current?.close();
-        } else {
-          // setPlayInfo({isOpen: false});
-        }
-      };
+      return () => {};
     }, []),
   );
   //음성 재생
   useEffect(() => {
     if (playInfo.isOpen) {
-      //menuModalRef.current?.present();
-      //menuModalRef.current?.snapToIndex(-1);
       menuModalRef.current?.close();
       playModalRef.current?.present();
     } else {
@@ -103,26 +95,37 @@ export const StoryWritingMenu = ({visible = true}: Props): JSX.Element => {
       playModalRef.current?.close();
     }
   }, [playInfo.isOpen]);
+  useEffect(() => {
+    if (keyboardVisible) {
+      menuModalRef.current?.close();
+    } else {
+      menuModalRef.current?.present();
+    }
+  }, [keyboardVisible]);
 
   const animationConfigs = useBottomSheetTimingConfigs({
     duration: 20,
     easing: Easing.exp,
   });
-
+  const {fileName, startPlay, pausePlay, stopPlay, seekPlay} = useVoiceRecorder(
+    {
+      audioUrl: writingStory.voice,
+    },
+  );
   return (
     <>
       <BottomSheetModal
         ref={playModalRef}
-        handleHeight={0}
-        enableDismissOnClose={false}
-        enablePanDownToClose={false}
+        index={0}
         bottomInset={30}
         detached={true}
-        index={0}
-        backdropComponent={playBackdrop}
         snapPoints={pSnapPoints}
+        backdropComponent={playBackdrop}
         animationConfigs={animationConfigs}
+        handleHeight={0}
         handleComponent={null}
+        enableDismissOnClose={false}
+        enablePanDownToClose={false}
         style={{
           marginHorizontal: 16,
           shadowOffset: {
@@ -130,43 +133,40 @@ export const StoryWritingMenu = ({visible = true}: Props): JSX.Element => {
             height: 2,
           },
           shadowOpacity: 0.25,
-          shadowRadius: 3.84,
           elevation: 5,
         }}>
-        <ContentContainer withContentPadding>
-          <VoicePlayer modal voiceUrl={writingStory.voice ?? ''}></VoicePlayer>
+        <ContentContainer withContentPadding borderRadius={30}>
+          <VoicePlayer
+            modal
+            source={writingStory.voice ?? ''}
+            startPlay={startPlay}
+            pausePlay={pausePlay}
+            stopPlay={stopPlay}
+            seekPlay={seekPlay}></VoicePlayer>
         </ContentContainer>
       </BottomSheetModal>
 
-      {playInfo.isOpen ? (
+      {playInfo.isOpen || keyboardVisible ? (
         <></>
       ) : (
         <Pressable
           onPressOut={() => {
-            if (showList) {
+            if (iconCnt > 1) {
               menuModalRef.current?.present();
               menuModalRef.current?.snapToIndex(0);
             }
           }}>
-          <ContentContainer
-            withScreenPadding
-            useHorizontalLayout
-            justifyContent="space-evenly">
-            <VoiceToText />
-            <PlayVoice />
-            <TextToImage />
-            <OpenAlbum />
-          </ContentContainer>
+          <StoryWritingMenuBtn type="bar" />
         </Pressable>
       )}
       <BottomSheetModal
         ref={menuModalRef}
+        index={iconCnt > 1 ? 0 : -1}
+        snapPoints={mSnapPoints}
+        backdropComponent={menuBackdrop}
+        animationConfigs={animationConfigs}
         enableDismissOnClose={false}
         enablePanDownToClose={true}
-        index={-1}
-        backdropComponent={menuBackdrop}
-        snapPoints={mSnapPoints}
-        onChange={handleSheetChanges}
         style={{
           shadowColor: '#000',
           shadowOffset: {
@@ -175,14 +175,10 @@ export const StoryWritingMenu = ({visible = true}: Props): JSX.Element => {
           },
           shadowOpacity: 0.25,
           shadowRadius: 3.84,
-
           elevation: 5,
         }}>
         <BottomSheetView>
-          <VoiceToText showText />
-          <PlayVoice showText />
-          <TextToImage showText />
-          <OpenAlbum showText />
+          <StoryWritingMenuBtn type="list" />
         </BottomSheetView>
       </BottomSheetModal>
     </>

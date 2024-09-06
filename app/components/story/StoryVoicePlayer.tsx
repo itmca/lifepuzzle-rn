@@ -17,53 +17,42 @@ import {
 import {useVoiceRecorder} from '../../service/hooks/voice-record.hook.ts';
 
 type props = {
-  voiceUrl: string;
+  source: string | undefined;
+  disable?: boolean;
   modal?: boolean;
+  startPlay: () => Promise<void>;
+  pausePlay: () => Promise<void>;
+  stopPlay: () => Promise<void>;
+  seekPlay: (sec: number) => Promise<void>;
+  onDelete?: () => void;
 };
 
-export const VoicePlayer = ({voiceUrl, modal = false}: props) => {
+export const VoicePlayer = ({
+  source,
+  disable,
+  modal = false,
+  startPlay,
+  pausePlay,
+  stopPlay,
+  seekPlay,
+  onDelete,
+}: props) => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   const resetPlayInfo = useResetRecoilState(playInfoState);
-
+  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
-      pausePlay();
-      setPlayInfo({isOpen: false});
+      stopPlay();
+      setPlayInfo({isPlay: false, playTime: '00:00:00', currentPositionSec: 0});
     });
 
     return () => {
       unsubscribe();
     };
   }, [navigation]);
-  const {
-    fileName,
-    recordTime,
-    isRecording,
-    startRecord,
-    stopRecord,
-    startPlay,
-    pausePlay,
-    stopPlay,
-    seekPlay,
-  } = useVoiceRecorder({
-    fileUrl: writingStory.voice,
-    onStopRecord: () => {
-      setWritingStory({voice: fileName});
-      //resetPlayInfo();
-    },
-  });
   const DeviceWidth = Dimensions.get('window').width;
-  const disable = !writingStory.voice || isRecording;
-  const nextPage = () => {
-    navigation.push('NoTab', {
-      screen: 'StoryWritingNavigator',
-      params: {
-        screen: 'StoryWritingMain',
-      },
-    });
-  };
+
   const onReplay = () => {
     const currentPosition = Math.round(playInfo?.currentPositionSec ?? 0);
     const subSecs = Math.max(Math.round(currentPosition - 10000), 1);
@@ -77,10 +66,10 @@ export const VoicePlayer = ({voiceUrl, modal = false}: props) => {
     );
     seekPlay(addSecs);
   };
-  const onDelete = () => {
+  const onClose = () => {
     stopPlay();
-    setWritingStory({voice: undefined});
     resetPlayInfo();
+    onDelete?.();
   };
   return (
     <>
@@ -133,7 +122,7 @@ export const VoicePlayer = ({voiceUrl, modal = false}: props) => {
             playInfo.isPlay ? pausePlay() : startPlay();
           }}>
           <FontAwesome6
-            size={40}
+            size={32}
             color={disable ? Color.FONT_GRAY : Color.PRIMARY_LIGHT}
             name={playInfo.isPlay ? 'pause' : 'play'}
           />
@@ -159,7 +148,7 @@ export const VoicePlayer = ({voiceUrl, modal = false}: props) => {
             />
           </Pressable>
         ) : (
-          <Pressable disabled={disable} onPress={onDelete}>
+          <Pressable disabled={disable} onPress={onClose}>
             <MaterialIcons
               size={40}
               color={disable ? Color.FONT_GRAY : Color.BLACK}

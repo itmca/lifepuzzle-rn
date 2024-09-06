@@ -58,79 +58,81 @@ const StoryWritingMainPage = (): JSX.Element => {
       <BottomSheetModalProvider>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScreenContainer gap={0}>
-            <ContentContainer>
-              <StoryDateInput
-                value={writingStory.date}
-                onChange={(date: Date) => {
-                  setWritingStory({date});
-                }}></StoryDateInput>
-              {ishelpQuestionVisible ? (
-                <>
-                  <List.Accordion
-                    title={
-                      <LargeText fontWeight={700}>{helpQuestion}</LargeText>
-                    }
-                    right={() => <></>}
-                    onPress={() => {
-                      numberOfLines == 1
-                        ? setNumberOfLines(0)
-                        : setNumberOfLines(1);
-                    }}
-                    titleNumberOfLines={numberOfLines}
-                    titleStyle={{marginLeft: -5}}
-                    style={styles.helpQuestionContainer}
-                    theme={{
-                      colors: {background: 'transparent'},
-                    }}
-                  />
-                  <MediumImage
-                    width={32}
-                    height={32}
-                    source={require('../../assets/images/puzzle-character.png')}
-                    style={{position: 'absolute', top: 15, right: 20}}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-            </ContentContainer>
-            <SelectedPhotoList
-              target={'photo'}
-              size={180}
-              upload={false}
-              cancel={true}
-            />
-            <ContentContainer height={'50px'}>
-              <BasicTextInput
-                customStyle={styles.titleInput}
-                placeholder="제목을 입력해주세요."
-                text={title}
-                onChangeText={setTitle}
-                mode={'outlined'}
-                underlineColor={'transparent'}
-                activeUnderlineColor={'transparent'}
-                borderColor={'transparent'}
-                backgroundColor={'transparent'}
+            <ContentContainer withScreenPadding flex={1}>
+              <ContentContainer>
+                <StoryDateInput
+                  value={writingStory.date}
+                  onChange={(date: Date) => {
+                    setWritingStory({date});
+                  }}></StoryDateInput>
+                {ishelpQuestionVisible ? (
+                  <>
+                    <List.Accordion
+                      title={
+                        <LargeText fontWeight={700}>{helpQuestion}</LargeText>
+                      }
+                      right={() => <></>}
+                      onPress={() => {
+                        numberOfLines == 1
+                          ? setNumberOfLines(0)
+                          : setNumberOfLines(1);
+                      }}
+                      titleNumberOfLines={numberOfLines}
+                      titleStyle={{marginLeft: -5}}
+                      style={styles.helpQuestionContainer}
+                      theme={{
+                        colors: {background: 'transparent'},
+                      }}
+                    />
+                    <MediumImage
+                      width={32}
+                      height={32}
+                      source={require('../../assets/images/puzzle-character.png')}
+                      style={{position: 'absolute', top: 15, right: 20}}
+                    />
+                  </>
+                ) : (
+                  <></>
+                )}
+              </ContentContainer>
+              <SelectedPhotoList
+                target={'photo'}
+                size={180}
+                upload={false}
+                cancel={true}
               />
-            </ContentContainer>
-            <ContentContainer height={'100%'} flex={1}>
-              <BasicTextInput
-                customStyle={{flex: 1}}
-                placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
-                text={storyText}
-                onChangeText={setStoryText}
-                multiline={true}
-                mode={'outlined'}
-                borderColor={'transparent'}
-                backgroundColor={'transparent'}
-              />
+              <ContentContainer gap={0}>
+                <BasicTextInput
+                  customStyle={styles.titleInput}
+                  placeholder="제목을 입력해주세요."
+                  text={title}
+                  onChangeText={setTitle}
+                  mode={'outlined'}
+                  underlineColor={'transparent'}
+                  activeUnderlineColor={'transparent'}
+                  borderColor={'transparent'}
+                  backgroundColor={'transparent'}
+                />
+              </ContentContainer>
+              <ContentContainer flex={1}>
+                <BasicTextInput
+                  customStyle={{flex: 1}}
+                  placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
+                  text={storyText}
+                  onChangeText={setStoryText}
+                  multiline={true}
+                  mode={'outlined'}
+                  borderColor={'transparent'}
+                  backgroundColor={'transparent'}
+                />
+              </ContentContainer>
             </ContentContainer>
             <ContentContainer>
               <>
-                <StoryWritingMenu visible={!isKeyboardVisible} />
+                <StoryWritingMenu keyboardVisible={isKeyboardVisible} />
                 {!ishelpQuestionVisible && (
                   <KeyboardAccessoryView
-                    behavior={Platform.OS === 'ios' && 'padding'}
+                    behavior={Platform.OS === 'ios' ?? 'padding'}
                     style={{
                       flex: 1,
                       borderTopWidth: 0,
