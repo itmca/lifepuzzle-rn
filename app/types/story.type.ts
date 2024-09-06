@@ -7,6 +7,7 @@ export type StoryType = {
   photos: string[];
   audios: string[];
   videos: string[];
+  gallery: string[];
   tags: StoryTag[];
   date: Date;
   createdAt: Date;

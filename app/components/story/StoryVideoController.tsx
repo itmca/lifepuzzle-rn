@@ -13,10 +13,9 @@ type Props = {
   isPaused: boolean;
   currentProgress: number;
   listThumbnail?: boolean;
-  isClicked: boolean;
   handleProgress: (e: {nativeEvent: {pageX: number}}) => void;
   setPaused: (data: boolean) => void;
-  setClicked: (data: boolean) => void;
+  onVisibleChanged: (data: boolean) => void;
 };
 
 export const VideoController = ({
@@ -25,24 +24,28 @@ export const VideoController = ({
   playingTime,
   currentProgress,
   isPaused,
-  isClicked,
   setPaused,
-  setClicked,
+  onVisibleChanged,
   handleProgress,
 }: Props) => {
-  const [isControlPadShown, setIsControlPadShown] = useState<boolean>(false);
+  const [isControlPadShown, setControlPadShown] = useState<boolean>(true);
 
   useEffect(() => {
-    setIsControlPadShown(isClicked);
-  }, [isClicked]);
+    if (isPaused === undefined) {
+      return;
+    }
+
+    setControlPadShown(isPaused);
+    onVisibleChanged(isPaused);
+  }, [isPaused]);
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        isControlPadShown
-          ? setIsControlPadShown(false)
-          : setIsControlPadShown(true);
-        isPaused && isControlPadShown ? setClicked(false) : null;
+        if (isControlPadShown === undefined || isPaused) {
+          return;
+        }
+        setControlPadShown(!isControlPadShown);
       }}>
       <ContentContainer
         absoluteTopPosition

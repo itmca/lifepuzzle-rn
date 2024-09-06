@@ -6,7 +6,6 @@ import {XSmallText} from '../styled/components/Text';
 import {Color} from '../../constants/color.constant';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import Image from '../styled/components/Image';
-import {MediaThumbnail} from './StoryMediaThumbnail';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 
@@ -134,51 +133,37 @@ export const StoryAudioPlayer = ({
     <ContentContainer
       alignCenter
       height="100%"
-      // absoluteTopPosition
       backgroundColor={Color.DARK_BLUE}>
-      {isControlShown ? (
-        <ContentContainer alignCenter withNoBackground gap={8}>
-          <TouchableWithoutFeedback onPressIn={onPress}>
-            <Image
-              source={
-                isAudioPlaying
-                  ? require('../../assets/images/control_pause_icon.png')
-                  : require('../../assets/images/control_play_icon.png')
-              }
-              style={{width: 45, height: 45}}
-            />
-          </TouchableWithoutFeedback>
-          <XSmallText color={Color.WHITE} fontWeight={500}>
-            {audioDisplayTimeText}
-          </XSmallText>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              if (!isAudioPlaying && isControlShown) {
-                setIsControlShown(false);
-                setClicked(false);
-                audio?.reset();
-              }
-            }}>
-            <ContentContainer
-              absoluteTopPosition
-              height="100%"
-              zIndex={-1}
-              opacity={0}
-            />
-          </TouchableWithoutFeedback>
-        </ContentContainer>
-      ) : (
-        <MediaThumbnail
-          mediaType="audio"
-          playingTime={audio ? toMinuteSeconds(audio.getDuration()) : ''}
-          onPress={() => {
-            if (!isClicked) {
-              setClicked(true);
-              setIsControlShown(true);
+      <ContentContainer alignCenter withNoBackground gap={8}>
+        <TouchableWithoutFeedback onPressIn={onPress}>
+          <Image
+            source={
+              isAudioPlaying
+                ? require('../../assets/images/control_pause_icon.png')
+                : require('../../assets/images/control_play_icon.png')
             }
-          }}
-        />
-      )}
+            style={{width: 45, height: 45}}
+          />
+        </TouchableWithoutFeedback>
+        <XSmallText color={Color.WHITE} fontWeight={500}>
+          {audioDisplayTimeText}
+        </XSmallText>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            if (!isAudioPlaying && isControlShown) {
+              setIsControlShown(false);
+              setClicked(false);
+              audio?.reset();
+            }
+          }}>
+          <ContentContainer
+            absoluteTopPosition
+            height="100%"
+            zIndex={-1}
+            opacity={0}
+          />
+        </TouchableWithoutFeedback>
+      </ContentContainer>
     </ContentContainer>
   );
 };

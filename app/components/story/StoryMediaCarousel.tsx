@@ -51,7 +51,7 @@ export const StoryMediaCarousel = ({
             isFocused={isFocused}
             width={carouselWidth}
             activeMediaIndexNo={activeMediaIndexNo}
-            setIsPaginationShown={setIsPaginationShown}
+            setPaginationShown={setIsPaginationShown}
           />
         )}
         {mediaType === 'audio' && (
