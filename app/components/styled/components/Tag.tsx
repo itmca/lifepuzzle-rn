@@ -6,9 +6,9 @@ import {
   StyleProp,
   TouchableOpacity,
 } from 'react-native';
-import {XSmallImage} from './Image';
 import {XXSmallText} from './Text';
 import {ContentContainer} from '../container/ContentContainer.tsx';
+import {XXSmallImage} from './Image.tsx';
 
 type Props = {
   iconSource?: ImageSourcePropType;
@@ -33,7 +33,7 @@ export const StyledTag = styled(TouchableOpacity)<Props>`
   height: ${({height}) => (height ? `${height}` : '18px')};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
-  padding: ${({padding}) => (padding ? `${padding}` : '3px 10px')};
+  padding: ${({padding}) => (padding ? `${padding}` : '2px 10px')};
   align-self: ${({alignSelf}) => (alignSelf ? alignSelf : 'flex-start')};
   ${props =>
     props.borderRadius &&
@@ -49,7 +49,7 @@ function Tag({iconSource, iconStyle, text = '', ...props}: Props) {
     <StyledTag borderRadius={20} {...props}>
       <ContentContainer useHorizontalLayout gap={0} width={'auto'}>
         {iconSource ? (
-          <XSmallImage style={iconStyle} source={iconSource} />
+          <XXSmallImage style={iconStyle} source={iconSource} />
         ) : (
           <></>
         )}

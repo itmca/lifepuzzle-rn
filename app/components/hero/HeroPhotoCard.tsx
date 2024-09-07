@@ -1,8 +1,6 @@
 import React from 'react';
 import {Photo} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
-import {useNavigation} from '@react-navigation/native';
-import {HeroSettingNavigationProps} from '../../navigation/types';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {IconButton} from 'react-native-paper';
 import {LockableTextInput} from '../input/LockableTextInput';
@@ -29,8 +27,6 @@ export const HeroPhotoCard = ({
   puzzleCnt = 0,
   onClick,
 }: props): JSX.Element => {
-  const navigation =
-    useNavigation<HeroSettingNavigationProps<'HeroModification'>>();
   return (
     <ContentContainer
       width={width}
@@ -65,7 +61,7 @@ export const HeroPhotoCard = ({
           absoluteBottomPosition
           withNoBackground>
           <LinearGradient
-            colors={['#FFFFFF22', '#2d292921', '#00000022']}
+            colors={['#00000066', '#00000077', '#00000099']}
             style={{
               flex: 1,
               width: '100%',
@@ -90,7 +86,7 @@ export const HeroPhotoCard = ({
                   onChangeText={onChangeTitle}
                   placeholder="행복했던 나날들"
                 />
-                <ContentContainer alignItems={'flex-start'} withNoBackground>
+                <ContentContainer alignCenter withNoBackground>
                   <Tag
                     backgroundColor={Color.WHITE}
                     height={'18px'}

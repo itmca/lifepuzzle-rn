@@ -41,8 +41,16 @@ const HeroOverview = ({hero, puzzleCount}: Props): JSX.Element => {
               useHorizontalLayout
               justifyContent={'flex-start'}
               gap={4}>
-              <SmallTitle>{hero.heroName}</SmallTitle>
-              <SmallText>{hero.heroNickName}</SmallText>
+              <SmallTitle>
+                {hero.heroName.length > 8
+                  ? hero.heroName.substring(0, 8) + '...'
+                  : hero.heroName}
+              </SmallTitle>
+              <SmallText>
+                {hero.heroNickName.length > 8
+                  ? hero.heroNickName.substring(0, 12) + '...'
+                  : hero.heroNickName}
+              </SmallText>
             </ContentContainer>
             <ContentContainer>
               <SmallText>

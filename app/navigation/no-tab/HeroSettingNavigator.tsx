@@ -12,7 +12,7 @@ import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 import Title from '../../components/styled/components/Title';
-import {useSaveHero} from '../../service/hooks/hero.write.hook';
+import {useUpdateHero} from '../../service/hooks/hero.update.hook.ts';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
 import {useCreateHero} from '../../service/hooks/hero.create.hook';
@@ -36,7 +36,7 @@ const HeroSettingNavigator = (): JSX.Element => {
   const seletedHeroPhoto: PhotoIdentifier | undefined = useRecoilValue(
     selectedHeroPhotoState,
   );
-  const [saveHero] = useSaveHero();
+  const [saveHero] = useUpdateHero();
   const [createHero] = useCreateHero();
   // const [registerHero] = useCreateHero();
   return (

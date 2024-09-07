@@ -25,7 +25,7 @@ import {
 } from '../../recoils/hero-write.recoil';
 import {useHero} from '../../service/hooks/hero.query.hook';
 import {HeroUserType, toPhotoIdentifier} from '../../types/hero.type';
-import {useIsHeroUploading} from '../../service/hooks/hero.write.hook';
+import {useIsHeroUploading} from '../../service/hooks/hero.update.hook.ts';
 import {HeroPhotoCard} from '../../components/hero/HeroPhotoCard';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {useAuthAxios} from '../../service/hooks/network.hook';

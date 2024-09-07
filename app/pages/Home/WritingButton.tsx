@@ -42,11 +42,15 @@ export const WritingButton = ({
   heroName,
 }: Props): JSX.Element => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
+
+  const displayHeroName =
+    heroName.length > 8 ? `${heroName.substring(0, 8)}...` : heroName;
+
   return (
     <TouchableOpacity onPress={onPress} style={styles.writingButton}>
       <LargeText color={Color.WHITE}>
         {isLoggedIn
-          ? `${heroName}의 ${puzzleCount + 1}번째 이야기 작성하기`
+          ? `${displayHeroName}의 ${puzzleCount + 1}번째 이야기 작성하기`
           : '이야기 작성 체험하기'}
       </LargeText>
     </TouchableOpacity>

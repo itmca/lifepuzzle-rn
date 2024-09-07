@@ -2,40 +2,29 @@ import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useUpdatePublisher} from './update.hooks';
 import {heroUpdate} from '../../recoils/update.recoil';
-import {useEffect, useState} from 'react';
-import {HeroType} from '../../types/hero.type';
+import {useEffect} from 'react';
+import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
-import {
-  getCurrentHeroPhotoUri,
-  writingHeroState,
   isHeroUploading,
   writingHeroKeyState,
+  writingHeroState,
 } from '../../recoils/hero-write.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {CustomAlert} from '../../components/alert/CustomAlert';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {IMG_TYPE} from '../../constants/upload-file-type.constant';
-import {useHeroPayLoadForCreate, useHeroHttpPayLoad} from './hero.payload.hook';
 import {isLoggedInState} from '../../recoils/auth.recoil';
+import {useHeroHttpPayLoad} from './hero.payload.hook.ts';
 
 export const useCreateHero = (): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const publishHeroUpdate = useUpdatePublisher(heroUpdate);
 
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
-  const [writingHeroKey, setWritingHeroKey] =
-    useRecoilState<number>(writingHeroKeyState);
+  const writingHeroKey = useRecoilValue<number>(writingHeroKeyState);
 
   const resetWritingHero = useResetRecoilState(writingHeroState);
   const setHeroUploading = useSetRecoilState(isHeroUploading);
-  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
-  const currentHeroPhotoUri = useRecoilValue(getCurrentHeroPhotoUri);
+  const writingHero = useRecoilValue(writingHeroState);
   const [isLoading, registerHero] = useAuthAxios({
     requestOption: {
       url: '/heroes',
@@ -44,7 +33,7 @@ export const useCreateHero = (): [() => void] => {
     },
     onResponseSuccess: () => {
       CustomAlert.actionAlert({
-        title: '회원생성',
+        title: '주인공 생성',
         desc: '주인공이 생성되었습니다.',
         actionBtnText: '확인',
         action: goBack,
@@ -52,11 +41,7 @@ export const useCreateHero = (): [() => void] => {
     },
     onError: err => {
       console.log(err, writingHeroKey);
-      CustomAlert.retryAlert(
-        '주인공 프로필 생성이 실패했습니다.',
-        submit,
-        goBack,
-      );
+      CustomAlert.retryAlert('주인공 생성 실패하였습니다.', submit, goBack);
     },
     disableInitialRequest: true,
   });
@@ -67,7 +52,7 @@ export const useCreateHero = (): [() => void] => {
     publishHeroUpdate();
   };
 
-  const heroHttpPayLoad = useHeroPayLoadForCreate();
+  const heroHttpPayLoad = useHeroHttpPayLoad();
 
   useEffect(() => {
     setHeroUploading(isLoading);

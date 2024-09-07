@@ -1,6 +1,7 @@
 import {ImageSourcePropType} from 'react-native/Libraries/Image/Image';
 
 import styled, {css} from 'styled-components/native';
+
 type Props = {
   width?: number;
   height?: number;
@@ -36,6 +37,20 @@ export const SmallImage = styled.Image<Props>`
 export const XSmallImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '16px')};
   height: ${({height}) => (height ? `${height}px` : '16px')};
+  background-color: ${({backgroundColor}) =>
+    backgroundColor ? `${backgroundColor}` : 'transparent'};
+  border-radius: ${({borderRadius}) =>
+    borderRadius ? `${borderRadius}px` : '0px'};
+  ${props =>
+    props.tintColor &&
+    css`
+      tint-color: ${props.tintColor};
+    `};
+`;
+
+export const XXSmallImage = styled.Image<Props>`
+  width: ${({width}) => (width ? `${width}px` : '14px')};
+  height: ${({height}) => (height ? `${height}px` : '14px')};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
   border-radius: ${({borderRadius}) =>

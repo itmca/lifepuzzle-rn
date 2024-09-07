@@ -165,6 +165,11 @@ const HeroSettingPage = (): JSX.Element => {
       carouselRef.current.scrollTo({index: heroes.length - 1});
     }
   }, [heroes, route.params?.scrollToEnd]);
+
+  if (focusedHero === undefined) {
+    return <></>;
+  }
+
   return (
     <LoadingContainer isLoading={isLoading}>
       <ScreenContainer>
@@ -176,9 +181,15 @@ const HeroSettingPage = (): JSX.Element => {
             useHorizontalLayout
             alignItems={'flex-end'}
             height={'40px'}>
-            <XXLargeText bold>{focusedHero?.heroName}</XXLargeText>
+            <XXLargeText bold>
+              {focusedHero.heroName.length > 8
+                ? focusedHero.heroName.substring(0, 8) + '...'
+                : focusedHero.heroName}
+            </XXLargeText>
             <MediumText color={Color.FONT_GRAY}>
-              {focusedHero?.heroNickName}
+              {focusedHero.heroNickName.length > 8
+                ? focusedHero.heroNickName.substring(0, 12) + '...'
+                : focusedHero.heroNickName}
             </MediumText>
             <ContentContainer
               alignItems={'flex-end'}

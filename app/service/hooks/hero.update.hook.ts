@@ -29,10 +29,11 @@ export const useResetAllWritingHero = () => {
   };
 };
 
-export const useSaveHero = (): [() => void] => {
+export const useUpdateHero = (): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [writingHeroKey, setWritingHeroKey] =
-    useRecoilState<number>(writingHeroKeyState);
+  const [writingHeroKey, setWritingHeroKey] = useRecoilState<
+    number | undefined
+  >(writingHeroKeyState);
   const writingHero = useRecoilValue(writingHeroState);
   const setHeroUploading = useSetRecoilState(isHeroUploading);
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
@@ -44,19 +45,15 @@ export const useSaveHero = (): [() => void] => {
   const heroHttpPayLoad = useHeroHttpPayLoad();
 
   const currentHero = useRecoilValue(heroState);
+
   const [isLoading, saveHero] = useAuthAxios<any>({
     requestOption: {
-      method: writingHeroKey ? 'post' : 'post',
-      url: writingHeroKey ? `/heroes/profile/${writingHeroKey}` : '/heroes',
+      method: 'put',
+      url: `/heroes/${writingHeroKey}`,
       headers: {'Content-Type': 'multipart/form-data'},
     },
-    onResponseSuccess: ({heroNo}) => {
-      if (!writingHeroKey) {
-        //console.log(`editHeroKey가 아닙니다 ${heroKey}`);
-        //setWritingHeroKey(heroNo);
-      } else if (writingHeroKey) {
-        CustomAlert.simpleAlert('주인공이 수정되었습니다.');
-      }
+    onResponseSuccess: () => {
+      CustomAlert.simpleAlert('주인공이 수정되었습니다.');
       setWritingHeroKey(undefined);
       resetAllWritingHero();
       publishHeroUpdate();
@@ -65,16 +62,12 @@ export const useSaveHero = (): [() => void] => {
       }
       navigation.goBack();
     },
-    onError: err => {
-      writingHeroKey
-        ? CustomAlert.retryAlert(
-            '주인공 프로필 수정이 실패했습니다.',
-            submit,
-            navigation.goBack,
-          )
-        : CustomAlert.simpleAlert(
-            '주인공 프로필 등록이 실패했습니다. 재시도 부탁드립니다.',
-          );
+    onError: () => {
+      CustomAlert.retryAlert(
+        '주인공 수정 실패했습니다.',
+        submit,
+        navigation.goBack,
+      );
     },
     disableInitialRequest: true,
   });
@@ -84,6 +77,10 @@ export const useSaveHero = (): [() => void] => {
   }, [isLoading]);
 
   const submit = function () {
+    if (writingHeroKey === undefined) {
+      return;
+    }
+
     saveHero({data: heroHttpPayLoad});
   };
 
