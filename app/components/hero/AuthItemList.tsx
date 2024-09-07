@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useRecoilState} from 'recoil';
-import {AuthList} from '../../constants/auth.constant';
+import {SortedHeroAuthTypes} from '../../constants/auth.constant';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroUserType} from '../../types/hero.type';
@@ -8,7 +8,6 @@ import {CustomAlert} from '../alert/CustomAlert';
 import CtaButton from '../button/CtaButton';
 import {MediumImage} from '../styled/components/Image';
 import MediumText from '../styled/components/Text';
-import {ScreenContainer} from '../styled/container/ScreenContainer';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {AuthItem} from './AuthItem';
 
@@ -79,11 +78,11 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
         ) : (
           <></>
         )}
-        {AuthList.map((auth, index) => (
+        {SortedHeroAuthTypes.map((auth, index) => (
           <AuthItem
             key={index}
             auth={auth}
-            selected={selectAuth == auth.code}
+            selected={selectAuth === auth.code}
             onSelect={onSelectAuth}
           />
         ))}

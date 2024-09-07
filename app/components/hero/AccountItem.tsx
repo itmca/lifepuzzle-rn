@@ -1,18 +1,23 @@
 import React from 'react';
 import {MediumImage} from '../../components/styled/components/Image';
 import {Color} from '../../constants/color.constant';
-import {AuthList} from '../../constants/auth.constant';
+import {HeroAuthTypeByCode} from '../../constants/auth.constant';
 import {ImageButton} from '../styled/components/Button';
-import {SmallText} from '../styled/components/Text';
+import {MediumText, SmallText} from '../styled/components/Text';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {HeroUserType} from '../../types/hero.type';
 
 type props = {
   user: HeroUserType;
   onSelect: Function;
+  allowModification: boolean;
 };
 
-export const AccountItem = ({user, onSelect}: props): JSX.Element => {
+export const AccountItem = ({
+  user,
+  onSelect,
+  allowModification,
+}: props): JSX.Element => {
   return (
     <ContentContainer height={'50px'} useHorizontalLayout>
       <ContentContainer width={'58px'}>
@@ -27,30 +32,31 @@ export const AccountItem = ({user, onSelect}: props): JSX.Element => {
           }
         />
       </ContentContainer>
-      <ContentContainer flex={1}>
-        <SmallText>{user.nickName}</SmallText>
+      <ContentContainer flex={1} gap={4}>
+        <MediumText>{user.nickName}</MediumText>
         <SmallText color={Color.FONT_GRAY}>
-          {AuthList.map(value => {
-            if (value.code === user.auth) {
-              return value.name;
-            }
-          })}
+          {HeroAuthTypeByCode[user.auth].name}
         </SmallText>
       </ContentContainer>
-      <ContentContainer width={'30px'}>
-        <ImageButton
-          width={'20px'}
-          backgroundColor={'transparent'}
-          onPress={() => {
-            onSelect(user);
-          }}>
-          <MediumImage
-            width={20}
-            height={20}
-            source={require('../../assets/images/setting.png')}
-          />
-        </ImageButton>
-      </ContentContainer>
+      {
+        // 소유자(OWNER)는 변경될 수 없다
+        allowModification && user.auth !== 'OWNER' && (
+          <ContentContainer width={'30px'}>
+            <ImageButton
+              width={'20px'}
+              backgroundColor={'transparent'}
+              onPress={() => {
+                onSelect(user);
+              }}>
+              <MediumImage
+                width={20}
+                height={20}
+                source={require('../../assets/images/setting.png')}
+              />
+            </ImageButton>
+          </ContentContainer>
+        )
+      }
     </ContentContainer>
   );
 };

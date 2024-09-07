@@ -15,7 +15,6 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
@@ -31,6 +30,8 @@ import {HeroPhotoCard} from '../../components/hero/HeroPhotoCard';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {Divider} from '../../components/styled/components/Divider';
+import {userState} from '../../recoils/user.recoil.ts';
+import {HeroAuthTypeCode} from '../../constants/auth.constant.ts';
 
 const HeroModificationPage = (): JSX.Element => {
   const navigation =
@@ -38,6 +39,7 @@ const HeroModificationPage = (): JSX.Element => {
   const route = useRoute<HeroSettingRouteProps<'HeroModification'>>();
   const heroNo = route.params.heroNo;
   const isHeroUploading = useIsHeroUploading();
+  const currentUser = useRecoilValue(userState);
 
   //주인공 조회
   const {res} = useHero(heroNo);
@@ -50,6 +52,9 @@ const HeroModificationPage = (): JSX.Element => {
   const [title, setTitle] = useState<string>('');
 
   const [linkedUsers, setLinkedUsers] = useState<HeroUserType[]>([]);
+  const [currentUserAuth, setCurrentUserAuth] = useState<
+    HeroAuthTypeCode | undefined
+  >(undefined);
   const [selectUser, setSelectUser] = useState<HeroUserType>(undefined);
 
   //recoil 데이터
@@ -88,6 +93,11 @@ const HeroModificationPage = (): JSX.Element => {
       setBirthday(hero?.birthday ? new Date(hero?.birthday) : new Date());
       setTitle(hero?.title || '');
       setLinkedUsers(users);
+      setCurrentUserAuth(
+        users
+          .filter(user => user.userNo === currentUser.userNo)
+          .map(user => user.auth)[0],
+      );
     }
   }, [loading]);
 
@@ -217,6 +227,10 @@ const HeroModificationPage = (): JSX.Element => {
                     <AccountItem
                       key={index}
                       user={selectedUser}
+                      allowModification={
+                        currentUserAuth === 'ADMIN' ||
+                        currentUserAuth === 'OWNER'
+                      }
                       onSelect={handlePresentModalPress}
                     />
                   ))}
@@ -243,13 +257,13 @@ const HeroModificationPage = (): JSX.Element => {
         ref={bottomSheetModalRef}
         index={1}
         onDismiss={handleClosePress}>
-        <ScreenContainer justifyContent={'space-between'}>
+        <ScrollContentContainer>
           <AuthItemList
             user={selectUser}
             onSelect={updateAuth}
             onClose={handleClosePress}
           />
-        </ScreenContainer>
+        </ScrollContentContainer>
       </BottomSheet>
     </BottomSheetModalProvider>
   );

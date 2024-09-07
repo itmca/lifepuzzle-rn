@@ -11,7 +11,7 @@ import {XSmallText} from '../../components/styled/components/Text';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
-import {AuthList} from '../../constants/auth.constant';
+import {SortedHeroAuthTypes} from '../../constants/auth.constant';
 import {HeroSettingRouteProps} from '../../navigation/types';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -27,7 +27,9 @@ const HeroSharePage = (): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
 
-  const dropDownList = AuthList.map(item => {
+  const dropDownList = SortedHeroAuthTypes.filter(
+    auth => auth.code !== 'OWNER',
+  ).map(item => {
     return {
       label: item.name,
       value: item.code,

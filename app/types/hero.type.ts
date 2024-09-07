@@ -1,5 +1,5 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {AuthList} from '../constants/auth.constant';
+import {HeroAuthTypeCode} from '../constants/auth.constant.ts';
 
 export type HeroType = {
   heroNo: number;
@@ -16,9 +16,8 @@ export type HeroUserType = {
   userNo: number;
   nickName?: string;
   imageURL?: undefined | string;
-  auth?: AuthType;
+  auth: HeroAuthTypeCode;
 };
-export type AuthType = (typeof AuthList)[number]['code'];
 
 export const toPhotoIdentifier = (uri: string) => ({
   node: {
