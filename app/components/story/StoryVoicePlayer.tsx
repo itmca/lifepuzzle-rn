@@ -73,9 +73,9 @@ export const VoicePlayer = ({
   };
   return (
     <>
-      <ContentContainer>
+      <ContentContainer gap={3}>
         <ContentContainer useHorizontalLayout>
-          <XXSmallText color={disable ? Color.FONT_GRAY : Color.BLACK}>
+          <XXSmallText color={disable ? Color.FONT_GRAY : Color.DARK_GRAY}>
             {playInfo.playTime
               ? playInfo.playTime.substring(
                   0,
@@ -83,7 +83,7 @@ export const VoicePlayer = ({
                 )
               : '00:00'}
           </XXSmallText>
-          <XXSmallText color={disable ? Color.FONT_GRAY : Color.BLACK}>
+          <XXSmallText color={disable ? Color.FONT_GRAY : Color.DARK_GRAY}>
             {playInfo.duration
               ? playInfo.duration.substring(
                   0,

@@ -10,7 +10,7 @@ import Config from 'react-native-config';
 import {Easing} from 'react-native-reanimated';
 
 import {StoryWritingMenuBtn} from './StoryWritingMenuBtn';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
 import {
   playInfoState,
@@ -19,6 +19,7 @@ import {
 import {VoicePlayer} from './StoryVoicePlayer';
 import {Pressable} from 'react-native';
 import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
+import {BasicNavigationProps} from '../../navigation/types';
 type Props = {
   keyboardVisible?: boolean;
 };
@@ -79,11 +80,25 @@ export const StoryWritingMenu = ({
     [],
   );
   //close,
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => {};
-    }, []),
-  );
+
+  const navigation = useNavigation<BasicNavigationProps>();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', e => {
+      setPlayInfo({
+        isOpen: false,
+        isPlay: false,
+        playTime: '00:00:00',
+        currentPositionSec: 0,
+      });
+      stopPlay();
+      playModalRef.current?.close();
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
+
   //음성 재생
   useEffect(() => {
     if (playInfo.isOpen) {

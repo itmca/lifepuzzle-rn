@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {useRecoilState, useResetRecoilState} from 'recoil';
 
 import {
@@ -25,6 +25,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
   const navigation = useNavigation();
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   const resetPlayInfo = useResetRecoilState(playInfoState);
   const helpQuestion = writingStory?.helpQuestionText || '';
   const ishelpQuestionVisible = helpQuestion.length != 0;
@@ -39,7 +40,13 @@ const StoryWritingVoicePage = (): JSX.Element => {
       ]);
     },
   });
-
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (!isFocused) {
+      setPlayInfo({isPlay: false, playTime: '00:00:00', currentPositionSec: 0});
+      stopPlay();
+    }
+  }, [isFocused]);
   const {
     fileName,
     recordTime = '00:00',
@@ -72,6 +79,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
     setWritingStory({voice: undefined});
     resetPlayInfo();
   };
+
   return (
     <ScreenContainer>
       <ContentContainer flex={1} height={'100%'} withScreenPadding>

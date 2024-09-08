@@ -61,9 +61,7 @@ export const BasicTextInput = ({
               onChangeText('');
             }}
           />
-        ) : (
-          <></>
-        )
+        ) : null
       }
     />
   );

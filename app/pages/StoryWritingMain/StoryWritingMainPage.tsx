@@ -39,17 +39,7 @@ const StoryWritingMainPage = (): JSX.Element => {
   const isStoryUploading = useIsStoryUploading();
   const [isModalOpen, setModalOpen] = useRecoilState(isModalOpening);
   const hero = useRecoilValue(heroState);
-  useEffect(() => {
-    setTitle(writingStory?.title || '');
-    setStoryText(writingStory?.storyText || '');
-  }, []);
 
-  useEffect(() => {
-    setWritingStory({
-      title: title,
-      storyText: storyText,
-    });
-  }, [title, storyText]);
   const navigation = useNavigation<BasicNavigationProps>();
   const postStoryKey = useRecoilValue(PostStoryKeyState);
   const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
@@ -96,7 +86,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                 )}
               </ContentContainer>
               <SelectedPhotoList
-                target={'photo'}
+                target={'all'}
                 size={180}
                 upload={false}
                 cancel={true}
@@ -105,8 +95,10 @@ const StoryWritingMainPage = (): JSX.Element => {
                 <BasicTextInput
                   customStyle={styles.titleInput}
                   placeholder="제목을 입력해주세요."
-                  text={title}
-                  onChangeText={setTitle}
+                  text={writingStory.title ?? ''}
+                  onChangeText={text => {
+                    setWritingStory({title: text});
+                  }}
                   mode={'outlined'}
                   underlineColor={'transparent'}
                   activeUnderlineColor={'transparent'}
@@ -118,8 +110,10 @@ const StoryWritingMainPage = (): JSX.Element => {
                 <BasicTextInput
                   customStyle={{flex: 1}}
                   placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
-                  text={storyText}
-                  onChangeText={setStoryText}
+                  text={writingStory.storyText ?? ''}
+                  onChangeText={text => {
+                    setWritingStory({storyText: text});
+                  }}
                   multiline={true}
                   mode={'outlined'}
                   borderColor={'transparent'}

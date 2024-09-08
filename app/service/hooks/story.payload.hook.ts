@@ -20,7 +20,12 @@ export const useStoryHttpPayLoad = () => {
 
   return formData;
 };
-
+export const useVoiceHttpPayLoad = () => {
+  const formData = new FormData();
+  const writingStory = useRecoilValue(writingStoryState);
+  addVoiceInFormData(formData, writingStory);
+  return formData;
+};
 const addImagesInFormData = function (
   formData: FormData,
   writingStory: WritingStoryType | undefined,
@@ -80,7 +85,7 @@ const addStoryinfoInFormData = function (
   const stroyInfo = {
     heroNo: hero?.heroNo,
     recQuestionNo: writingStory?.recQuestionNo ?? -1,
-    recQuestionModified: writingStory?.recQuestionModified ?? false,
+    recQuestionModified: false,
     helpQuestionText: writingStory?.helpQuestionText ?? '',
     date: writingStory?.date || new Date(),
     title: writingStory?.title,

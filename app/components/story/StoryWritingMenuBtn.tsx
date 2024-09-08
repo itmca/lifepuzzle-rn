@@ -15,6 +15,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import Config from 'react-native-config';
+import {useVoiceToText} from '../../service/hooks/story.write.hook';
 type MenuProps = {
   type: 'bar' | 'list';
 };
@@ -54,8 +55,12 @@ export const StoryWritingMenuBtn = ({type}: MenuProps): JSX.Element => {
 };
 
 const VoiceToText = ({showText = false}: Props): JSX.Element => {
+  const [voiceText] = useVoiceToText();
   return (
-    <Pressable onPress={() => {}}>
+    <Pressable
+      onPress={() => {
+        voiceText();
+      }}>
       {showText ? (
         <ContentContainer
           useHorizontalLayout

@@ -54,9 +54,10 @@ export const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   viewBar: {
-    backgroundColor: '#ccc',
+    backgroundColor: Color.FONT_GRAY,
     height: 4,
     alignSelf: 'stretch',
+    borderRadius: 2,
   },
   viewBarPlay: {
     backgroundColor: Color.PRIMARY_LIGHT,
