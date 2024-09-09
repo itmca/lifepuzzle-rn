@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Keyboard, Platform, TouchableWithoutFeedback} from 'react-native';
+import React, {useState} from 'react';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {KeyboardAccessoryView} from 'react-native-keyboard-accessory';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
-  PostStoryKeyState,
   isModalOpening,
+  PostStoryKeyState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
@@ -26,6 +26,7 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {StoryWritingMenu} from '../../components/story/StoryWritingMenu';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
+
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
   const [openSheet, setOpenSheet] = useState<boolean>(false);
@@ -54,7 +55,8 @@ const StoryWritingMainPage = (): JSX.Element => {
                   value={writingStory.date}
                   onChange={(date: Date) => {
                     setWritingStory({date});
-                  }}></StoryDateInput>
+                  }}
+                />
                 {ishelpQuestionVisible ? (
                   <>
                     <List.Accordion
@@ -85,12 +87,6 @@ const StoryWritingMainPage = (): JSX.Element => {
                   <></>
                 )}
               </ContentContainer>
-              <SelectedPhotoList
-                target={'all'}
-                size={180}
-                upload={false}
-                cancel={true}
-              />
               <ContentContainer gap={0}>
                 <BasicTextInput
                   customStyle={styles.titleInput}
@@ -106,6 +102,12 @@ const StoryWritingMainPage = (): JSX.Element => {
                   backgroundColor={'transparent'}
                 />
               </ContentContainer>
+              <SelectedPhotoList
+                target={'all'}
+                size={120}
+                upload={false}
+                cancel={true}
+              />
               <ContentContainer flex={1}>
                 <BasicTextInput
                   customStyle={{flex: 1}}
@@ -122,28 +124,19 @@ const StoryWritingMainPage = (): JSX.Element => {
               </ContentContainer>
             </ContentContainer>
             <ContentContainer>
-              <>
-                <StoryWritingMenu keyboardVisible={isKeyboardVisible} />
-                {!ishelpQuestionVisible && (
-                  <KeyboardAccessoryView
-                    behavior={Platform.OS === 'ios' ?? 'padding'}
-                    style={{
-                      flex: 1,
-                      borderTopWidth: 0,
-                      backgroundColor: 'transparent',
-                      alignItems: 'flex-end',
-                      paddingRight: 20,
-                    }}>
-                    <MediumImage
-                      width={64}
-                      height={61}
-                      source={require('../../assets/images/puzzle-character-reading.png')}
-                    />
-                  </KeyboardAccessoryView>
-                )}
-              </>
+              <KeyboardAccessoryView
+                alwaysVisible={true}
+                avoidKeyboard={true}
+                style={{
+                  borderTopWidth: 0,
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                }}>
+                <ContentContainer width={'100%'}>
+                  <StoryWritingMenu keyboardVisible={isKeyboardVisible} />
+                </ContentContainer>
+              </KeyboardAccessoryView>
             </ContentContainer>
-
             <ImageModal
               message={`${hero.heroNickName}님의 퍼즐이 맞춰졌습니다!`}
               leftBtnText="메인 바로 가기"

@@ -14,7 +14,7 @@ export type HeroType = {
 
 export type HeroUserType = {
   userNo: number;
-  nickName?: string;
+  nickName: string;
   imageURL?: undefined | string;
   auth: HeroAuthTypeCode;
 };

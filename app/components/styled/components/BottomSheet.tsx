@@ -8,7 +8,7 @@ import React, {forwardRef, useCallback, useMemo} from 'react';
 
 const BottomSheet = forwardRef<BottomSheetModal, BottomSheetModalProps>(
   (props, ref) => {
-    const snapPoints = useMemo(() => ['30%', '55%'], []);
+    const snapPoints = useMemo(() => ['60%'], []);
 
     const handleSheetChanges = useCallback(() => {}, []);
     const renderBackdrop = useCallback(
@@ -22,7 +22,7 @@ const BottomSheet = forwardRef<BottomSheetModal, BottomSheetModalProps>(
       <BottomSheetModal
         ref={ref}
         {...props}
-        index={1}
+        index={0}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backdropComponent={renderBackdrop}>

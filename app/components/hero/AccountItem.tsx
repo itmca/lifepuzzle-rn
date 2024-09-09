@@ -6,6 +6,7 @@ import {ImageButton} from '../styled/components/Button';
 import {MediumText, SmallText} from '../styled/components/Text';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {HeroUserType} from '../../types/hero.type';
+import {AccountAvatar} from '../avatar/AccountAvatar.tsx';
 
 type props = {
   user: HeroUserType;
@@ -21,15 +22,10 @@ export const AccountItem = ({
   return (
     <ContentContainer height={'50px'} useHorizontalLayout>
       <ContentContainer width={'58px'}>
-        <MediumImage
-          width={48}
-          height={48}
-          borderRadius={20}
-          source={
-            user.imageURL
-              ? {uri: user.imageURL}
-              : require('../../assets/images/profile_icon.png')
-          }
+        <AccountAvatar
+          nickName={user.nickName}
+          size={48}
+          imageURL={user.imageURL}
         />
       </ContentContainer>
       <ContentContainer flex={1} gap={4}>
@@ -40,7 +36,7 @@ export const AccountItem = ({
       </ContentContainer>
       {
         // 소유자(OWNER)는 변경될 수 없다
-        allowModification && user.auth !== 'OWNER' && (
+        allowModification && (
           <ContentContainer width={'30px'}>
             <ImageButton
               width={'20px'}

@@ -257,13 +257,11 @@ const HeroModificationPage = (): JSX.Element => {
         ref={bottomSheetModalRef}
         index={1}
         onDismiss={handleClosePress}>
-        <ScrollContentContainer>
-          <AuthItemList
-            user={selectUser}
-            onSelect={updateAuth}
-            onClose={handleClosePress}
-          />
-        </ScrollContentContainer>
+        <AuthItemList
+          user={selectUser}
+          onSelect={updateAuth}
+          onClose={handleClosePress}
+        />
       </BottomSheet>
     </BottomSheetModalProvider>
   );

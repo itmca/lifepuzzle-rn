@@ -20,6 +20,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
 import {writingStoryState} from '../../recoils/story-write.recoil';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -103,10 +104,12 @@ const StorySelectingPhotoPage = (): JSX.Element => {
   return (
     <>
       {selectedPhotoList.length != 0 && (
-        <SelectedPhotoList
-          target={'all'}
-          upload={false}
-          size={50}></SelectedPhotoList>
+        <ContentContainer
+          withContentPadding
+          paddingVertical={8}
+          paddingHorizontal={4}>
+          <SelectedPhotoList target={'all'} upload={false} size={80} />
+        </ContentContainer>
       )}
       <FlatList
         data={photos}

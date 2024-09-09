@@ -6,10 +6,13 @@ import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroUserType} from '../../types/hero.type';
 import {CustomAlert} from '../alert/CustomAlert';
 import CtaButton from '../button/CtaButton';
-import {MediumImage} from '../styled/components/Image';
 import MediumText from '../styled/components/Text';
-import {ContentContainer} from '../styled/container/ContentContainer';
+import {
+  ContentContainer,
+  ScrollContentContainer,
+} from '../styled/container/ContentContainer';
 import {AuthItem} from './AuthItem';
+import {AccountAvatar} from '../avatar/AccountAvatar.tsx';
 
 type props = {
   user: HeroUserType;
@@ -25,7 +28,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
   };
   const [updateLoading, refetch] = useAuthAxios<void>({
     requestOption: {
-      url: `/heroes/auth`,
+      url: '/heroes/auth',
       method: 'put',
     },
     onResponseSuccess: () => {
@@ -54,21 +57,15 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
     });
   };
   return (
-    <>
+    <ContentContainer>
       <ContentContainer withScreenPadding>
         {user ? (
-          <ContentContainer height={'62px'} useHorizontalLayout>
+          <ContentContainer height={'62px'} useHorizontalLayout gap={8}>
             <ContentContainer width={'60px'}>
-              <MediumImage
-                width={48}
-                height={48}
-                borderRadius={20}
-                resizeMode={'cover'}
-                source={
-                  user.imageURL
-                    ? {uri: user.imageURL}
-                    : require('../../assets/images/profile_icon.png')
-                }
+              <AccountAvatar
+                nickName={user.nickName}
+                size={48}
+                imageURL={user.imageURL}
               />
             </ContentContainer>
             <ContentContainer flex={1}>
@@ -78,17 +75,20 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
         ) : (
           <></>
         )}
-        {SortedHeroAuthTypes.map((auth, index) => (
-          <AuthItem
-            key={index}
-            auth={auth}
-            selected={selectAuth === auth.code}
-            onSelect={onSelectAuth}
-          />
-        ))}
-
+        <ScrollContentContainer>
+          {SortedHeroAuthTypes.filter(auth => auth.code !== 'OWNER').map(
+            (auth, index) => (
+              <AuthItem
+                key={index}
+                auth={auth}
+                selected={selectAuth === auth.code}
+                onSelect={onSelectAuth}
+              />
+            ),
+          )}
+        </ScrollContentContainer>
         <CtaButton active text="저장" onPress={onSubmit} />
       </ContentContainer>
-    </>
+    </ContentContainer>
   );
 };

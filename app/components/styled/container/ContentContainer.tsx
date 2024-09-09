@@ -166,6 +166,7 @@ export const ScrollContentContainer = forwardRef(
       scrollEventThrottle={100}
       style={{width: '100%'}}
       horizontal={props.useHorizontalLayout}
+      automaticallyAdjustKeyboardInsets={true}
       showsVerticalScrollIndicator={false}>
       <ContentContainer {...(props as ContentContainerProps)}>
         {props.children}

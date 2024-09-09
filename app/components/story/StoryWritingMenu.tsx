@@ -10,7 +10,7 @@ import Config from 'react-native-config';
 import {Easing} from 'react-native-reanimated';
 
 import {StoryWritingMenuBtn} from './StoryWritingMenuBtn';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
 import {
   playInfoState,
@@ -20,6 +20,7 @@ import {VoicePlayer} from './StoryVoicePlayer';
 import {Pressable} from 'react-native';
 import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
 import {BasicNavigationProps} from '../../navigation/types';
+
 type Props = {
   keyboardVisible?: boolean;
 };
@@ -45,14 +46,6 @@ export const StoryWritingMenu = ({
   const mSnapPoints = useMemo(() => [iconCnt * 60 + 30], []);
   const pSnapPoints = useMemo(() => ['15%'], []);
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log(index);
-  }, []);
-  //load
-  useEffect(() => {
-    if (iconCnt > 1) {
-    }
-  }, []);
   const playBackdrop = useCallback(
     props => (
       <BottomSheetBackdrop
@@ -132,7 +125,7 @@ export const StoryWritingMenu = ({
       <BottomSheetModal
         ref={playModalRef}
         index={0}
-        bottomInset={30}
+        bottomInset={60}
         detached={true}
         snapPoints={pSnapPoints}
         backdropComponent={playBackdrop}
@@ -161,7 +154,7 @@ export const StoryWritingMenu = ({
         </ContentContainer>
       </BottomSheetModal>
 
-      {playInfo.isOpen || keyboardVisible ? (
+      {playInfo.isOpen ? (
         <></>
       ) : (
         <Pressable
@@ -178,7 +171,7 @@ export const StoryWritingMenu = ({
         ref={menuModalRef}
         index={iconCnt > 1 ? 0 : -1}
         snapPoints={mSnapPoints}
-        backdropComponent={menuBackdrop}
+        // backdropComponent={menuBackdrop}
         animationConfigs={animationConfigs}
         enableDismissOnClose={false}
         enablePanDownToClose={true}
