@@ -49,6 +49,7 @@ export const RecommendQuestionButton = ({
       <PuzzleNumber displayNumber={order} />
       <ContentContainer
         withNoBackground
+        flex={1}
         minHeight={'40px'}
         justifyContent={'center'}>
         <XSmallTitle color={defaultFontColor}>{question.text}</XSmallTitle>

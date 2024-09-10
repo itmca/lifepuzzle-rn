@@ -15,31 +15,36 @@ const NavigationBar = ({displayRight = true}: Props): JSX.Element => {
 
   return (
     <TopNavigationContainer>
-      <Pressable
-        onPress={() => {
-          navigation.navigate('HomeTab', {screen: 'Home'});
-        }}>
-        <SmallImage
-          width={115}
-          height={20}
-          source={require('../../assets/images/app-title.png')}
-        />
-      </Pressable>
-      {displayRight ? (
+      <ContentContainer
+        useHorizontalLayout
+        paddingVertical={8}
+        withScreenPadding>
         <Pressable
-          style={styles.goToAccountIcon}
           onPress={() => {
-            navigation.navigate('HomeTab', {screen: 'Profile'});
+            navigation.navigate('HomeTab', {screen: 'Home'});
           }}>
           <SmallImage
-            source={require('../../assets/images/icon-profile.png')}
-            width={30}
-            height={30}
+            width={115}
+            height={20}
+            source={require('../../assets/images/app-title.png')}
           />
         </Pressable>
-      ) : (
-        <ContentContainer height={'30px'} />
-      )}
+        {displayRight ? (
+          <Pressable
+            style={styles.goToAccountIcon}
+            onPress={() => {
+              navigation.navigate('HomeTab', {screen: 'Profile'});
+            }}>
+            <SmallImage
+              source={require('../../assets/images/icon-profile.png')}
+              width={30}
+              height={30}
+            />
+          </Pressable>
+        ) : (
+          <ContentContainer height={'30px'} />
+        )}
+      </ContentContainer>
     </TopNavigationContainer>
   );
 };

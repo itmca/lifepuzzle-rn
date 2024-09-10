@@ -16,7 +16,7 @@ export const WideSelectable = styled.TouchableOpacity<Props>`
   justify-content: ${props =>
     props.justifyContents ? props.justifyContents : 'flex-start'};
   align-items: ${props => (props.alignItems ? props.alignItems : 'flex-start')};
-  padding: 12px;
+  padding: ${props => (props.selected ? '8px' : '12px')};
   height: auto;
   min-height: 59px;
   width: 100%;
@@ -24,9 +24,9 @@ export const WideSelectable = styled.TouchableOpacity<Props>`
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : Color.WHITE};
   border-color: ${props => (props.selected ? Color.PRIMARY_LIGHT : '#555555')};
-  border-width: ${props => (props.selected ? '3px' : '1px')};
+  border-width: ${props => (props.selected ? '5px' : '1px')};
   gap: ${props => (props.gap ? props.gap : '0px')};
   margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '8px')};
-  disabled: true;
+  box-sizing: border-box;
 `;

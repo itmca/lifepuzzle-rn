@@ -91,9 +91,15 @@ const HeroSharePage = (): JSX.Element => {
           justifyContent={'flex-start'}
           gap={4}
           alignItems={'flex-end'}>
-          <LargeTitle>{hero.heroNickName}</LargeTitle>
+          <LargeTitle>
+            {hero.heroNickName.length > 12
+              ? hero.heroNickName.substring(0, 12) + '...'
+              : hero.heroNickName}
+          </LargeTitle>
           <XSmallTitle fontWeight={'600'} color={Color.FONT_GRAY}>
-            {hero.heroName}
+            {hero.heroName.length > 8
+              ? hero.heroName.substring(0, 8) + '...'
+              : hero.heroName}
           </XSmallTitle>
         </ContentContainer>
         <ContentContainer>
