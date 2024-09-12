@@ -1,10 +1,9 @@
 import {
-  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
   useBottomSheetTimingConfigs,
 } from '@gorhom/bottom-sheet';
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import Config from 'react-native-config';
 import {Easing} from 'react-native-reanimated';
@@ -17,7 +16,7 @@ import {
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {VoicePlayer} from './StoryVoicePlayer';
-import {Pressable} from 'react-native';
+import {Keyboard, Pressable} from 'react-native';
 import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
 import {BasicNavigationProps} from '../../navigation/types';
 
@@ -46,45 +45,19 @@ export const StoryWritingMenu = ({
   const mSnapPoints = useMemo(() => [iconCnt * 60 + 30], []);
   const pSnapPoints = useMemo(() => ['15%'], []);
 
-  const playBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        {...props}
-        style={[props.style, {backgroundColor: 'transparent'}]}
-        pressBehavior={'none'}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-      />
-    ),
-    [],
-  );
-  const menuBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        {...props}
-        style={[props.style, {backgroundColor: 'transparent'}]}
-        onPress={() => {
-          menuModalRef.current?.close();
-        }}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-      />
-    ),
-    [],
-  );
-  //close,
-
   const navigation = useNavigation<BasicNavigationProps>();
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
-      setPlayInfo({
-        isOpen: false,
-        isPlay: false,
-        playTime: '00:00:00',
-        currentPositionSec: 0,
-      });
-      stopPlay();
-      playModalRef.current?.close();
+      if (playInfo.isOpen) {
+        setPlayInfo({
+          isOpen: false,
+          isPlay: false,
+          playTime: '00:00:00',
+          currentPositionSec: 0,
+        });
+        stopPlay();
+        playModalRef.current?.close();
+      }
     });
 
     return () => {
@@ -98,19 +71,35 @@ export const StoryWritingMenu = ({
       menuModalRef.current?.close();
       playModalRef.current?.present();
     } else {
-      menuModalRef.current?.present();
-      menuModalRef.current?.snapToIndex(0);
+      if (!keyboardVisible) {
+        menuModalRef.current?.present();
+        menuModalRef.current?.snapToIndex(0);
+      }
+      setPlayInfo({
+        isOpen: false,
+        isPlay: false,
+        playTime: '00:00:00',
+        currentPositionSec: 0,
+      });
+      stopPlay();
       playModalRef.current?.close();
     }
   }, [playInfo.isOpen]);
   useEffect(() => {
     if (keyboardVisible) {
       menuModalRef.current?.close();
-    } else {
-      menuModalRef.current?.present();
+      if (playInfo.isOpen) {
+        setPlayInfo({
+          isOpen: false,
+          isPlay: false,
+          playTime: '00:00:00',
+          currentPositionSec: 0,
+        });
+        stopPlay();
+        playModalRef.current?.close();
+      }
     }
   }, [keyboardVisible]);
-
   const animationConfigs = useBottomSheetTimingConfigs({
     duration: 20,
     easing: Easing.exp,
@@ -128,11 +117,10 @@ export const StoryWritingMenu = ({
         bottomInset={60}
         detached={true}
         snapPoints={pSnapPoints}
-        backdropComponent={playBackdrop}
         animationConfigs={animationConfigs}
         handleHeight={0}
         handleComponent={null}
-        enableDismissOnClose={false}
+        enableDismissOnClose={true}
         enablePanDownToClose={false}
         style={{
           marginHorizontal: 16,
@@ -154,11 +142,14 @@ export const StoryWritingMenu = ({
         </ContentContainer>
       </BottomSheetModal>
 
-      {playInfo.isOpen ? (
-        <></>
-      ) : (
+      {!playInfo.isOpen ? (
         <Pressable
-          onPressOut={() => {
+          onPressIn={() => {
+            if (keyboardVisible) {
+              Keyboard.dismiss();
+            }
+          }}
+          onPress={() => {
             if (iconCnt > 1) {
               menuModalRef.current?.present();
               menuModalRef.current?.snapToIndex(0);
@@ -166,29 +157,34 @@ export const StoryWritingMenu = ({
           }}>
           <StoryWritingMenuBtn type="bar" />
         </Pressable>
+      ) : (
+        <></>
       )}
-      <BottomSheetModal
-        ref={menuModalRef}
-        index={iconCnt > 1 ? 0 : -1}
-        snapPoints={mSnapPoints}
-        // backdropComponent={menuBackdrop}
-        animationConfigs={animationConfigs}
-        enableDismissOnClose={false}
-        enablePanDownToClose={true}
-        style={{
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
-        }}>
-        <BottomSheetView>
-          <StoryWritingMenuBtn type="list" />
-        </BottomSheetView>
-      </BottomSheetModal>
+      {iconCnt > 1 ? (
+        <BottomSheetModal
+          ref={menuModalRef}
+          index={0}
+          snapPoints={mSnapPoints}
+          enableDismissOnClose={true}
+          enablePanDownToClose={true}
+          animationConfigs={animationConfigs}
+          style={{
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }}>
+          <BottomSheetView>
+            <StoryWritingMenuBtn type="list" />
+          </BottomSheetView>
+        </BottomSheetModal>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

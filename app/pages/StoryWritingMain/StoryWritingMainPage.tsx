@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
-import {Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {KeyboardAccessoryView} from 'react-native-keyboard-accessory';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
@@ -26,6 +31,9 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {StoryWritingMenu} from '../../components/story/StoryWritingMenu';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
+import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Color} from '../../constants/color.constant';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [numberOfLines, setNumberOfLines] = useState<number>(1);
@@ -87,55 +95,64 @@ const StoryWritingMainPage = (): JSX.Element => {
                   <></>
                 )}
               </ContentContainer>
-              <ContentContainer gap={0}>
-                <BasicTextInput
-                  customStyle={styles.titleInput}
-                  placeholder="제목을 입력해주세요."
-                  text={writingStory.title ?? ''}
-                  onChangeText={text => {
-                    setWritingStory({title: text});
-                  }}
-                  mode={'outlined'}
-                  underlineColor={'transparent'}
-                  activeUnderlineColor={'transparent'}
-                  borderColor={'transparent'}
-                  backgroundColor={'transparent'}
+              <ScrollView
+                style={{flex: 1}}
+                contentContainerStyle={{flexGrow: 1}}
+                keyboardShouldPersistTaps={'always'}>
+                <ContentContainer gap={0}>
+                  <BasicTextInput
+                    customStyle={styles.titleInput}
+                    placeholder="제목을 입력해주세요."
+                    text={writingStory.title ?? ''}
+                    onChangeText={text => {
+                      setWritingStory({title: text});
+                    }}
+                    mode={'outlined'}
+                    underlineColor={'transparent'}
+                    activeUnderlineColor={'transparent'}
+                    borderColor={'transparent'}
+                    backgroundColor={'transparent'}
+                  />
+                </ContentContainer>
+                <SelectedPhotoList
+                  target={'all'}
+                  size={120}
+                  upload={false}
+                  cancel={true}
                 />
-              </ContentContainer>
-              <SelectedPhotoList
-                target={'all'}
-                size={120}
-                upload={false}
-                cancel={true}
-              />
-              <ContentContainer flex={1}>
-                <BasicTextInput
-                  customStyle={{flex: 1}}
-                  placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
-                  text={writingStory.storyText ?? ''}
-                  onChangeText={text => {
-                    setWritingStory({storyText: text});
-                  }}
-                  multiline={true}
-                  mode={'outlined'}
-                  borderColor={'transparent'}
-                  backgroundColor={'transparent'}
-                />
-              </ContentContainer>
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                  contentContainerStyle={{}}
+                  keyboardVerticalOffset={5}
+                  style={{flex: 1}}>
+                  <ContentContainer expandToEnd>
+                    <BasicTextInput
+                      customStyle={{flex: 1}}
+                      placeholder="글작성을 완료해서 퍼즐을 맞춰보세요!"
+                      text={writingStory.storyText ?? ''}
+                      onChangeText={text => {
+                        setWritingStory({storyText: text});
+                      }}
+                      multiline={true}
+                      mode={'outlined'}
+                      borderColor={'transparent'}
+                      backgroundColor={'transparent'}
+                    />
+                  </ContentContainer>
+                </KeyboardAvoidingView>
+              </ScrollView>
             </ContentContainer>
-            <ContentContainer>
-              <KeyboardAccessoryView
-                alwaysVisible={true}
-                avoidKeyboard={true}
+            <ContentContainer width={'100%'}>
+              <KeyboardAvoidingView
+                behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
                 style={{
-                  borderTopWidth: 0,
+                  borderTopWidth: 1,
+                  borderTopColor: Color.LIGHT_GRAY,
                   backgroundColor: 'transparent',
                   width: '100%',
                 }}>
-                <ContentContainer width={'100%'}>
-                  <StoryWritingMenu keyboardVisible={isKeyboardVisible} />
-                </ContentContainer>
-              </KeyboardAccessoryView>
+                <StoryWritingMenu keyboardVisible={isKeyboardVisible} />
+              </KeyboardAvoidingView>
             </ContentContainer>
             <ImageModal
               message={`${hero.heroNickName}님의 퍼즐이 맞춰졌습니다!`}

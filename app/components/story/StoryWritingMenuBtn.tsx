@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable} from 'react-native';
+import {Keyboard, Pressable} from 'react-native';
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome5';
 import {Color} from '../../constants/color.constant';
@@ -93,6 +93,9 @@ const PlayVoice = ({showText = false, onClick}: Props): JSX.Element => {
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   return (
     <Pressable
+      onPressIn={() => {
+        Keyboard.dismiss();
+      }}
       onPress={() => {
         setPlayInfo({isOpen: true});
       }}>
@@ -152,7 +155,7 @@ const OpenAlbum = ({showText = false}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <Pressable
-      onPress={() => {
+      onPressOut={() => {
         navigation.push('NoTab', {
           screen: 'StoryWritingNavigator',
           params: {

@@ -1,7 +1,10 @@
 import {useEffect} from 'react';
 import Permissions, {
   check,
+  checkMultiple,
   PERMISSIONS,
+  request,
+  requestMultiple,
   RESULTS,
 } from 'react-native-permissions';
 import {PermissionsAndroid, Platform} from 'react-native';
@@ -32,43 +35,40 @@ export const useVoicePermission = ({
   onDeny,
 }: Pick<Permission, 'onAgree' | 'onDeny'>) => {
   useEffect(() => {
-    void initVoicePermission().then(() => {
-      void hasVoicePermission().then(statuses => {
-        const deniedPermissions = Object.values(statuses).filter(
-          e => e != RESULTS.GRANTED,
-        );
-        if (deniedPermissions.length > 0) {
-          onDeny?.();
-        }
-      });
-    });
+    void checkPermissions();
   }, []);
-
-  const initVoicePermission = async function () {
-    if (Platform.OS === 'android') {
-      return Permissions.requestMultiple([
-        PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
-        PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
-        PERMISSIONS.ANDROID.RECORD_AUDIO,
-      ]);
-    } else {
-      return Permissions.request(PERMISSIONS.IOS.MICROPHONE);
+  const permissions = Platform.select({
+    ios: [PERMISSIONS.IOS.MICROPHONE],
+    android: [
+      PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+      PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+      PERMISSIONS.ANDROID.RECORD_AUDIO,
+    ],
+  });
+  const requestPermissions = async () => {
+    if (permissions) {
+      const statuses = await requestMultiple(permissions);
+      const allGranted = permissions.every(
+        permission => statuses[permission] === RESULTS.GRANTED,
+      );
+      if (!allGranted) {
+        onDeny?.();
+        return;
+      }
     }
   };
-
-  const hasVoicePermission = async function () {
-    if (Platform.OS == 'android') {
-      return Permissions.checkMultiple([
-        PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
-        PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
-        PERMISSIONS.ANDROID.RECORD_AUDIO,
-      ]);
-    } else {
-      return Permissions.checkMultiple([PERMISSIONS.IOS.MICROPHONE]);
+  const checkPermissions = async () => {
+    if (permissions) {
+      const statuses = await checkMultiple(permissions);
+      const allGranted = permissions.every(
+        permission => statuses[permission] === RESULTS.GRANTED,
+      );
+      if (!allGranted) {
+        requestPermissions();
+      }
     }
   };
 };
-
 export const usePhotoPermission = ({
   onAgree,
   onDeny,
