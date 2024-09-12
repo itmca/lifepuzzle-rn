@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './styles';
 import DateInput from '../styled/components/DateInput';
 
 type Props = {

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {DatePickerInput as Input} from 'react-native-paper-dates';
-import {Button, Platform, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import TextInput from './TextInput';
 import {TextInput as ReactInput} from 'react-native-paper';
@@ -41,7 +41,7 @@ function DateInput({...props}) {
     }
   };
   const onDatePick = (selectedValue: Date) => {
-    setVisible(Platform.OS === 'ios' ? true : false);
+    setVisible(false);
     if (selectedValue) {
       const currentDate = selectedValue || new Date();
       onChangeDate(currentDate);
@@ -57,8 +57,9 @@ function DateInput({...props}) {
       <TextInput
         label={props.label}
         value={formatDate(date)}
-        disabled={true}
         mode={'outlined'}
+        disabled={true}
+        onPress={showPicker}
         left={
           <ReactInput.Icon
             icon={() => (
@@ -81,6 +82,7 @@ function DateInput({...props}) {
         onConfirm={onDatePick}
         onCancel={onCancel}
         locale="ko"
+        timeZoneName={'Asia/Seoul'}
       />
     </TouchableOpacity>
   );

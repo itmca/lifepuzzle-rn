@@ -6,7 +6,6 @@ import {IconButton} from 'react-native-paper';
 import {LockableTextInput} from '../input/LockableTextInput';
 import {GestureResponderEvent} from 'react-native';
 import Tag from '../styled/components/Tag';
-import {ImageButton} from '../styled/components/Button';
 import LinearGradient from 'react-native-linear-gradient';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 
@@ -16,7 +15,7 @@ type props = {
   title?: string;
   onChangeTitle?: (text: string) => void;
   puzzleCnt?: number;
-  onClick?: (e: GestureResponderEvent) => void;
+  onCameraClick?: (e: GestureResponderEvent) => void;
 };
 
 export const HeroPhotoCard = ({
@@ -25,7 +24,7 @@ export const HeroPhotoCard = ({
   title = '',
   onChangeTitle,
   puzzleCnt = 0,
-  onClick,
+  onCameraClick,
 }: props): JSX.Element => {
   return (
     <ContentContainer
@@ -33,12 +32,11 @@ export const HeroPhotoCard = ({
       height={'395px'}
       borderRadius={32}
       backgroundColor={Color.GRAY}>
-      <ImageButton
+      <ContentContainer
         backgroundColor={Color.SECONDARY_LIGHT}
         height="395px"
         width="320px"
-        borderRadius={32}
-        onPress={onClick}>
+        borderRadius={32}>
         {photoUri ? (
           <Photo
             source={
@@ -104,13 +102,13 @@ export const HeroPhotoCard = ({
                   icon="camera"
                   size={24}
                   containerColor={Color.WHITE}
-                  onPress={onClick}
+                  onPress={onCameraClick}
                 />
               </ContentContainer>
             </ContentContainer>
           </LinearGradient>
         </ContentContainer>
-      </ImageButton>
+      </ContentContainer>
     </ContentContainer>
   );
 };

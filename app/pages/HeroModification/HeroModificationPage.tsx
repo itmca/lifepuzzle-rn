@@ -177,7 +177,7 @@ const HeroModificationPage = (): JSX.Element => {
                 title={title}
                 onChangeTitle={setTitle}
                 puzzleCnt={puzzleCnt}
-                onClick={() => {
+                onCameraClick={() => {
                   navigation.push('NoTab', {
                     screen: 'HeroSettingNavigator',
                     params: {
@@ -236,7 +236,7 @@ const HeroModificationPage = (): JSX.Element => {
                   ))}
                 </ContentContainer>
               </ContentContainer>
-              <ContentContainer gap={20}>
+              <ContentContainer gap={20} paddingBottom={32}>
                 <ContentContainer>
                   <CtaButton
                     active

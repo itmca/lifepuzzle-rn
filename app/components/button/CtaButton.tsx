@@ -37,7 +37,7 @@ function theme(mode: string) {
       };
     case 'gray':
       return {
-        backgroundColor: Color.WHITE_GRAY,
+        backgroundColor: Color.LIGHT_GRAY,
         color: Color.FONT_DARK,
         borderRadius: 16,
         borderColor: Color.LIGHT_GRAY,

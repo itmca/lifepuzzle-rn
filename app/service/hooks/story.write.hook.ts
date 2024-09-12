@@ -5,9 +5,9 @@ import {
   useSetRecoilState,
 } from 'recoil';
 import {
-  PostStoryKeyState,
   isModalOpening,
   isStoryUploading,
+  PostStoryKeyState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {useAuthAxios} from './network.hook';
@@ -135,6 +135,7 @@ export const useVoiceToText = (): [() => void] => {
       method: 'post',
       url: `/stories/speech-to-text?isTest=${isTest}`,
       headers: {'Content-Type': 'multipart/form-data'},
+      timeout: 30_000, // speech to text 시 10~20초가 걸려 30초로 하며 관련 처리 시간 단축 시 timeout 조정 필요
     },
     onResponseSuccess: res => {
       if (res) {

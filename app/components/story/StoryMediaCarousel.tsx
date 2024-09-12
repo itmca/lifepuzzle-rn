@@ -33,8 +33,8 @@ export const StoryMediaCarousel = ({
 
   const data: MediaItem[] = [
     ...story.videos.map(url => ({mediaType: 'video', url: url})),
-    ...story.audios.map(url => ({mediaType: 'audio', url: url})),
     ...story.photos.map(url => ({mediaType: 'photo', url: url})),
+    ...story.audios.map(url => ({mediaType: 'audio', url: url})),
   ];
 
   console.log('data : ', data);

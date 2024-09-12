@@ -73,29 +73,33 @@ export const VideoController = ({
                 />
               </TouchableWithoutFeedback>
             </ContentContainer>
-            <ContentContainer absoluteBottomPosition gap={6} withNoBackground>
-              <ContentContainer
-                useHorizontalLayout
-                withNoBackground
-                paddingHorizontal={4}>
-                <XXSmallText color={Color.WHITE}>
-                  {toMinuteSeconds(currentProgress * duration)}
-                </XXSmallText>
-                <XXSmallText color={Color.WHITE}>{playingTime}</XXSmallText>
+            {currentProgress > 0.01 && (
+              <ContentContainer absoluteBottomPosition gap={6} withNoBackground>
+                {!isPaused && (
+                  <ContentContainer
+                    useHorizontalLayout
+                    withNoBackground
+                    paddingHorizontal={4}>
+                    <XXSmallText color={Color.WHITE}>
+                      {toMinuteSeconds(currentProgress * duration)}
+                    </XXSmallText>
+                    <XXSmallText color={Color.WHITE}>{playingTime}</XXSmallText>
+                  </ContentContainer>
+                )}
+                <TouchableWithoutFeedback onPress={handleProgress}>
+                  <Bar
+                    progress={currentProgress}
+                    width={width}
+                    height={4}
+                    color={Color.PRIMARY_LIGHT}
+                    unfilledColor={Color.WHITE}
+                    borderColor={Color.GRAY}
+                    borderRadius={50}
+                    borderWidth={0}
+                  />
+                </TouchableWithoutFeedback>
               </ContentContainer>
-              <TouchableWithoutFeedback onPress={handleProgress}>
-                <Bar
-                  progress={currentProgress}
-                  width={width}
-                  height={4}
-                  color={Color.PRIMARY_LIGHT}
-                  unfilledColor={Color.WHITE}
-                  borderColor={Color.GRAY}
-                  borderRadius={50}
-                  borderWidth={0}
-                />
-              </TouchableWithoutFeedback>
-            </ContentContainer>
+            )}
           </>
         )}
       </ContentContainer>

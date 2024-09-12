@@ -48,6 +48,7 @@ function Input({...props}) {
       {props.maxLength == undefined ? (
         <StyledTextInput
           theme={theme}
+          onPressIn={props.onPress}
           onBlur={() => setIsFocused(false)}
           onFocus={() => setIsFocused(true)}
           {...props}></StyledTextInput>
@@ -71,6 +72,7 @@ function Input({...props}) {
                 background: 'transparent',
               },
             }}
+            onPressIn={props.onPress}
             onBlur={() => setIsFocused(false)}
             onFocus={() => setIsFocused(true)}
             {...props}></StyledTextInput>
