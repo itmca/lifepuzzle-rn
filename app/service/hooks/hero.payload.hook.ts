@@ -22,7 +22,7 @@ const addHeroPhotoInFormData = function (
   writingHero: WritingHeroType | undefined,
 ) {
   const photo = writingHero?.imageURL;
-  if (photo) {
+  if (photo?.node?.image?.uri) {
     const uri = photo.node.image.uri;
     const fileParts = uri?.split('/');
     // const fileName =

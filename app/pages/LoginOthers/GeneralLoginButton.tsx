@@ -7,6 +7,7 @@ import {
 } from '../../service/hooks/login.hook';
 import {LargeText} from '../../components/styled/components/Text';
 import {Color} from '../../constants/color.constant';
+
 type Props = {
   userId: string;
   password: string;
@@ -30,7 +31,6 @@ const GeneralLoginButton = ({
     onError: error => {
       onChangeLoading(false);
       Alert.alert('로그인 실패', '아이디와 패스워드 확인 부탁드립니다.');
-      console.log('로그인 실패:', error.response?.data || error.message);
     },
     onLoadingStatusChange: onChangeLoading,
     disableInitialRequest: true,
@@ -47,7 +47,6 @@ const GeneralLoginButton = ({
         backgroundColor: disabled ? Color.LIGHT_GRAY : Color.PRIMARY_LIGHT,
       }}
       onPress={() => {
-        console.log(userId, password, '로그인 직전');
         login({data: {username: userId, password: password}});
       }}
       disabled={disabled}>

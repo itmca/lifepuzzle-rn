@@ -51,6 +51,8 @@ const HeroModificationPage = (): JSX.Element => {
   const [birthday, setBirthday] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>('');
 
+  console.log('birthday - ', birthday);
+
   const [linkedUsers, setLinkedUsers] = useState<HeroUserType[]>([]);
   const [currentUserAuth, setCurrentUserAuth] = useState<
     HeroAuthTypeCode | undefined

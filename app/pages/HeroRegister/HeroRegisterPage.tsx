@@ -21,6 +21,7 @@ import {
   writingHeroState,
 } from '../../recoils/hero-write.recoil';
 import {Camera} from '../../assets/icons/camera';
+import {Photo} from '../../components/styled/components/Image.tsx';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -46,6 +47,8 @@ const HeroRegisterPage = (): JSX.Element => {
     });
   };
 
+  var photoUri = writingHero?.imageURL?.node.image.uri;
+
   return (
     <ScreenContainer>
       {/* <LoadingContainer isLoading={loading}> */}
@@ -55,14 +58,25 @@ const HeroRegisterPage = (): JSX.Element => {
             backgroundColor="#D6F3FF"
             height="395px"
             width="320px"
-            borderRadius={24}
+            borderRadius={32}
             onPress={navigateToSelectingPhoto}>
-            <HeroAvatar
-              color="#32C5FF"
-              style={{backgroundColor: 'transparent'}}
-              size={156}
-              imageURL={currentHeroPhotoUri}
-            />
+            {photoUri ? (
+              <Photo
+                source={
+                  photoUri
+                    ? {uri: photoUri}
+                    : require('../../assets/images/profile_icon.png')
+                }
+                borderRadius={32}
+              />
+            ) : (
+              <HeroAvatar
+                color="#32C5FF"
+                style={{backgroundColor: 'transparent'}}
+                size={156}
+                imageURL={photoUri}
+              />
+            )}
             <Camera
               style={{
                 backgroundColor: Color.WHITE,

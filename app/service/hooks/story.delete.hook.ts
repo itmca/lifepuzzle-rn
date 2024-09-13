@@ -27,7 +27,6 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
       navigation.navigate('HomeTab', {screen: 'Home'});
     },
     onError: err => {
-      console.log(err);
       Alert.alert('스토리 삭제를 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,
