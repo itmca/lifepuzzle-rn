@@ -34,6 +34,8 @@ export const HeroPhotoCard = ({
       backgroundColor={Color.GRAY}>
       <ContentContainer
         backgroundColor={Color.SECONDARY_LIGHT}
+        alignCenter
+        paddingBottom={56}
         height="395px"
         width="320px"
         borderRadius={32}>

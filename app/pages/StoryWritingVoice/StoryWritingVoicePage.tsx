@@ -23,7 +23,7 @@ import {VoicePlayer} from '../../components/story/StoryVoicePlayer';
 
 const StoryWritingVoicePage = (): JSX.Element => {
   const navigation = useNavigation();
-  const [numberOfLines, setNumberOfLines] = useState<number>(1);
+  const [numberOfLines, setNumberOfLines] = useState<number>(0);
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   const resetPlayInfo = useResetRecoilState(playInfoState);
@@ -93,7 +93,6 @@ const StoryWritingVoicePage = (): JSX.Element => {
             <>
               <List.Accordion
                 title={<LargeText fontWeight={700}>{helpQuestion}</LargeText>}
-                right={() => <></>}
                 onPress={() => {
                   numberOfLines == 1
                     ? setNumberOfLines(0)
@@ -105,6 +104,7 @@ const StoryWritingVoicePage = (): JSX.Element => {
                 theme={{
                   colors: {background: 'transparent'},
                 }}
+                expanded={numberOfLines === 0}
               />
               <MediumImage
                 width={32}

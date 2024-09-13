@@ -5,7 +5,6 @@ import {
   Platform,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {KeyboardAccessoryView} from 'react-native-keyboard-accessory';
 import styles from './styles';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -31,12 +30,11 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {StoryWritingMenu} from '../../components/story/StoryWritingMenu';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
-import {ScrollContainer} from '../../components/styled/container/ScrollContainer';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Color} from '../../constants/color.constant';
 
 const StoryWritingMainPage = (): JSX.Element => {
-  const [numberOfLines, setNumberOfLines] = useState<number>(1);
+  const [numberOfLines, setNumberOfLines] = useState<number>(0);
   const [openSheet, setOpenSheet] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [storyText, setStoryText] = useState<string>('');
@@ -71,12 +69,12 @@ const StoryWritingMainPage = (): JSX.Element => {
                       title={
                         <LargeText fontWeight={700}>{helpQuestion}</LargeText>
                       }
-                      right={() => <></>}
                       onPress={() => {
-                        numberOfLines == 1
+                        numberOfLines === 1
                           ? setNumberOfLines(0)
                           : setNumberOfLines(1);
                       }}
+                      expanded={numberOfLines === 0}
                       titleNumberOfLines={numberOfLines}
                       titleStyle={{marginLeft: -5}}
                       style={styles.helpQuestionContainer}
