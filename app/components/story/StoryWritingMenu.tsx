@@ -85,6 +85,7 @@ export const StoryWritingMenu = ({
       playModalRef.current?.close();
     }
   }, [playInfo.isOpen]);
+
   useEffect(() => {
     if (keyboardVisible) {
       menuModalRef.current?.close();
@@ -138,7 +139,14 @@ export const StoryWritingMenu = ({
             startPlay={startPlay}
             pausePlay={pausePlay}
             stopPlay={stopPlay}
-            seekPlay={seekPlay}></VoicePlayer>
+            seekPlay={seekPlay}
+            onClose={() => {
+              setPlayInfo({
+                isOpen: false,
+              });
+              playModalRef.current?.close();
+            }}
+          />
         </ContentContainer>
       </BottomSheetModal>
 

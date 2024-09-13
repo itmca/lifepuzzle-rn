@@ -7,6 +7,7 @@ import {
 import {
   isModalOpening,
   isStoryUploading,
+  isVoiceToTextProcessing,
   PostStoryKeyState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
@@ -124,10 +125,9 @@ export const useSaveStory = (): [() => void] => {
     },
   ];
 };
-export const useVoiceToText = (): [() => void] => {
-  const navigation = useNavigation<BasicNavigationProps>();
+export const useVoiceToText = (): [() => void, boolean] => {
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const setStoryUploading = useSetRecoilState(isStoryUploading);
+  const setVoiceToTextProcessing = useSetRecoilState(isVoiceToTextProcessing);
   const voiceHttpPayLoad = useVoiceHttpPayLoad();
   const isTest = false;
   const [isLoading, voiceToText] = useAuthAxios<any>({
@@ -141,16 +141,17 @@ export const useVoiceToText = (): [() => void] => {
       if (res) {
         setWritingStory({storyText: writingStory.storyText ?? '' + res});
       }
+      setVoiceToTextProcessing(false);
     },
     onError: err => {
-      console.log(err);
+      setVoiceToTextProcessing(false);
       Alert.alert('음성 텍스트 변환에 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,
   });
 
   useEffect(() => {
-    //setStoryUploading(isLoading);
+    setVoiceToTextProcessing(isLoading);
   }, [isLoading]);
 
   const submit = function () {
@@ -172,10 +173,17 @@ export const useVoiceToText = (): [() => void] => {
       }
       submit();
     },
+    isLoading,
   ];
 };
 export const useIsStoryUploading = (): boolean => {
   const storyUploadingStatus = useRecoilValue(isStoryUploading);
 
   return storyUploadingStatus;
+};
+
+export const useIsVoiceToTextProcessing = (): boolean => {
+  const voiceToTextProcessingStatus = useRecoilValue(isVoiceToTextProcessing);
+
+  return voiceToTextProcessingStatus;
 };

@@ -5,16 +5,15 @@ import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
-import {Pressable, View, Dimensions} from 'react-native';
+import {Dimensions, Pressable, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {XXSmallText} from '../styled/components/Text.tsx';
 import {styles} from './styles.ts';
 import {useRecoilState, useResetRecoilState} from 'recoil';
 import {
-  writingStoryState,
   playInfoState,
+  writingStoryState,
 } from '../../recoils/story-write.recoil.ts';
-import {useVoiceRecorder} from '../../service/hooks/voice-record.hook.ts';
 
 type props = {
   source: string | undefined;
@@ -24,6 +23,7 @@ type props = {
   pausePlay: () => Promise<void>;
   stopPlay: () => Promise<void>;
   seekPlay: (sec: number) => Promise<void>;
+  onClose?: () => void;
   onDelete?: () => void;
 };
 
@@ -35,6 +35,7 @@ export const VoicePlayer = ({
   pausePlay,
   stopPlay,
   seekPlay,
+  onClose,
   onDelete,
 }: props) => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -66,7 +67,7 @@ export const VoicePlayer = ({
     );
     seekPlay(addSecs);
   };
-  const onClose = () => {
+  const onRemove = () => {
     stopPlay();
     resetPlayInfo();
     onDelete?.();
@@ -138,7 +139,7 @@ export const VoicePlayer = ({
           <Pressable
             disabled={disable}
             onPress={() => {
-              setPlayInfo({isOpen: false});
+              onClose?.();
               stopPlay();
             }}>
             <MaterialIcons
@@ -148,7 +149,7 @@ export const VoicePlayer = ({
             />
           </Pressable>
         ) : (
-          <Pressable disabled={disable} onPress={onClose}>
+          <Pressable disabled={disable} onPress={onRemove}>
             <MaterialIcons
               size={40}
               color={disable ? Color.FONT_GRAY : Color.BLACK}

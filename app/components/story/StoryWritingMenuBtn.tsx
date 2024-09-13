@@ -9,13 +9,14 @@ import MediumText from '../styled/components/Text';
 import {RecordedVoice} from './StoryKeyboardVoiceRecord';
 import {useRecoilState} from 'recoil';
 import {
-  writingStoryState,
   playInfoState,
+  writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import Config from 'react-native-config';
 import {useVoiceToText} from '../../service/hooks/story.write.hook';
+
 type MenuProps = {
   type: 'bar' | 'list';
 };

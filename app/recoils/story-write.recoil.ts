@@ -50,6 +50,11 @@ export const isStoryUploading = atom<boolean>({
   default: false,
 });
 
+export const isVoiceToTextProcessing = atom<boolean>({
+  key: 'isVoiceToTextProcessing',
+  default: false,
+});
+
 export const isModalOpening = atom<boolean>({
   key: 'isModalOpening',
   default: false,
