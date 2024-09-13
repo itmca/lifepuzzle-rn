@@ -63,7 +63,7 @@ const StoryDetailPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={storiesLoading}>
       <ScreenContainer>
-        <ScrollContentContainer>
+        <ScrollContentContainer gap={0}>
           {!isOnlyText && (
             <StoryMediaCarousel
               story={story}

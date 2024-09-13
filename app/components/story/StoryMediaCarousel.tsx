@@ -37,8 +37,6 @@ export const StoryMediaCarousel = ({
     ...story.audios.map(url => ({mediaType: 'audio', url: url})),
   ];
 
-  console.log('data : ', data);
-
   const renderItem = ({item}: {item: MediaItem}) => {
     const mediaType = item.mediaType;
     const mediaUrl = item.url;

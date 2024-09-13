@@ -21,6 +21,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
 import {Linking} from 'react-native';
+
 Sentry.init({
   dsn: Config.SENTRY_DSN,
 });
@@ -78,7 +79,6 @@ const linking = {
   },
   subscribe(listener: (url: string) => void) {
     const onReceiveURL = ({url}: {url: string}) => {
-      console.log('Received URL in subscribe:', url);
       listener(url);
     };
 
@@ -92,7 +92,6 @@ const linking = {
   },
   getInitialURL: async () => {
     const url = await Linking.getInitialURL();
-    console.log('Initial URL:', url);
     return url;
   },
 };

@@ -20,5 +20,5 @@ export type PlayInfo = {
 };
 export type MediaInfo = {
   key?: number;
-  node: Pick<PhotoIdentifier['node'], 'image'>;
+  node: Pick<PhotoIdentifier['node'], 'image' | 'type'>;
 };

@@ -49,6 +49,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
   useEffect(() => {
     void initPhotos();
   }, []);
+
   const initPhotos = async () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
       //TODO: Android 권한 없는 경우 Alert 필요

@@ -16,6 +16,7 @@ import {
   PostStoryKeyState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
+import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 
 type Props = {
   customAction?: Function;
@@ -98,40 +99,46 @@ const DetailViewHeader = ({
 
   return (
     <TopNavigationContainer>
-      <Pressable
-        onPress={() => {
-          if (postStoryKey) {
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'HomeTab', params: {screen: 'Home'}}],
-            });
-            return;
-          }
-
-          if (typeof customAction === 'function') {
-            customAction();
-          }
-
-          navigation.goBack();
-        }}>
-        <View style={{marginLeft: -10}}>
-          <Icon name={'chevron-left'} size={26} color={Color.FONT_GRAY} />
-        </View>
-      </Pressable>
-      {displayRight && (
+      <ContentContainer
+        useHorizontalLayout
+        withScreenPadding
+        paddingVertical={8}
+        alignCenter>
         <Pressable
-          style={{marginLeft: 'auto'}}
           onPress={() => {
-            setIsShowMenu(isShowMenu ? false : true);
+            if (postStoryKey) {
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'HomeTab', params: {screen: 'Home'}}],
+              });
+              return;
+            }
+
+            if (typeof customAction === 'function') {
+              customAction();
+            }
+
+            navigation.goBack();
           }}>
-          <Icon
-            name="more-vertical"
-            size={23}
-            color={Color.FONT_GRAY}
-            style={{marginRight: -5}}
-          />
+          <View style={{marginLeft: -10}}>
+            <Icon name={'chevron-left'} size={26} color={Color.FONT_GRAY} />
+          </View>
         </Pressable>
-      )}
+        {displayRight && (
+          <Pressable
+            style={{marginLeft: 'auto'}}
+            onPress={() => {
+              setIsShowMenu(!isShowMenu);
+            }}>
+            <Icon
+              name="more-vertical"
+              size={23}
+              color={Color.FONT_GRAY}
+              style={{marginRight: -5}}
+            />
+          </Pressable>
+        )}
+      </ContentContainer>
       <FloatingMenu
         visible={isShowMenu}
         onClickEdit={onClickEdit}

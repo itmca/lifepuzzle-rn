@@ -20,21 +20,19 @@ export const StoryItemContents = ({
 }: props): JSX.Element => {
   return (
     <ContentContainer withContentPadding gap={12}>
-      <ContentContainer useHorizontalLayout>
-        {story.question && (
-          <SmallText
-            color={Color.DARK_GRAY}
-            fontWeight={700}
-            letterSpacing={-0.1}
-            numberOfLines={inDetail ? 2 : 1}
-            ellipsizeMode="tail">
-            Q.{story.question}
-          </SmallText>
-        )}
-        <SmallText color={Color.FONT_GRAY} letterSpacing={-0.3}>
-          {getStoryDisplayDotDate(story.date)}
+      <SmallText color={Color.FONT_GRAY} letterSpacing={-0.3}>
+        {getStoryDisplayDotDate(story.date)}
+      </SmallText>
+      {story.question && (
+        <SmallText
+          color={Color.DARK_GRAY}
+          fontWeight={700}
+          letterSpacing={-0.1}
+          numberOfLines={inDetail ? 2 : 1}
+          ellipsizeMode="tail">
+          Q.{story.question}
         </SmallText>
-      </ContentContainer>
+      )}
       <ContentContainer gap={8}>
         <MediumText
           color={Color.LIGHT_BLACK}

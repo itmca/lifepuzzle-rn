@@ -49,10 +49,10 @@ export const useSaveStory = (): [() => void] => {
       method: editStoryKey ? 'put' : 'post',
       url: editStoryKey ? `/story/${editStoryKey}` : '/story',
       headers: {'Content-Type': 'multipart/form-data'},
+      timeout: 30_000, // speech to text 시 10~20초가 걸려 30초로 하며 관련 처리 시간 단축 시 timeout 조정 필요
     },
     onResponseSuccess: ({storyKey}) => {
       if (!editStoryKey) {
-        console.log(`editStoryKey가 아닙니다 ${storyKey}`);
         setPostStoryKey(storyKey);
         setModalOpen(true);
       }

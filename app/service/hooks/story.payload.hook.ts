@@ -35,12 +35,13 @@ const addImagesInFormData = function (
 
   selectedImages?.forEach(image => {
     const uri = image.node.image.uri;
+    const fileType = image.node.type;
     const fileName =
       (uri.startsWith('https://lifepuzzle') ? 'lp-media-' : '') +
       image.node.image.filename;
-    formData.append('photos', {
+    formData.append('gallery', {
       uri: uri,
-      type: IMG_TYPE,
+      type: fileType === 'image' ? IMG_TYPE : VIDEO_TYPE,
       name: fileName,
     });
   });

@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     width: 100,
-    height: 90,
+    height: 45,
     zIndex: 999,
     right: 20,
-    top: 40,
+    top: 100,
     borderRadius: 6,
     backgroundColor: Color.WHITE,
     borderWidth: 1,
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   eachMenuButton: {
-    height: '50%',
+    /* TODO : 수정 기능이 정상 동작하지 않아 50% 였던 것을 100%로 변경 */
+    height: '100%',
     paddingHorizontal: 16,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -60,12 +61,13 @@ export const FloatingMenu = ({
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.eachMenuButton} onPress={onClickEdit}>
-        <Icon size={20} color={Color.LIGHT_BLACK} name="rotate-cw" />
-        <MediumText color={Color.LIGHT_BLACK} fontWeight={600}>
-          수정
-        </MediumText>
-      </TouchableOpacity>
+      {/*// TODO : 수정 기능이 정상 동작하지 않아 주석 처리하였고 수정 기능 확인 후 다시 주석 해제*/}
+      {/*<TouchableOpacity style={styles.eachMenuButton} onPress={onClickEdit}>*/}
+      {/*  <Icon size={20} color={Color.LIGHT_BLACK} name="rotate-cw" />*/}
+      {/*  <MediumText color={Color.LIGHT_BLACK} fontWeight={600}>*/}
+      {/*    수정*/}
+      {/*  </MediumText>*/}
+      {/*</TouchableOpacity>*/}
       <View style={styles.divider} />
       <TouchableOpacity style={styles.eachMenuButton} onPress={onClickDelete}>
         <Icon size={20} name="trash-2" color={Color.LIGHT_BLACK} />

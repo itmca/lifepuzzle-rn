@@ -33,8 +33,6 @@ const ProfilePage = (): JSX.Element | null => {
     return null;
   }
 
-  console.log(user);
-
   return (
     <ScreenContainer justifyContent={'flex-start'} gap={0}>
       <ContentContainer
