@@ -74,7 +74,7 @@ const StorySelectingPhotoPage = (): JSX.Element => {
       return;
     }
     const {edges, page_info} = await CameraRoll.getPhotos({
-      first: 20,
+      first: 50,
       after: nextCursor,
       assetType: 'All',
     });
@@ -117,7 +117,12 @@ const StorySelectingPhotoPage = (): JSX.Element => {
         numColumns={3}
         keyExtractor={(item, index) => index.toString()}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={1}
+        onEndReachedThreshold={0.8}
+        getItemLayout={(data, index) => ({
+          length: DeviceWidth / 3,
+          offset: (DeviceWidth / 3) * index,
+          index,
+        })}
         renderItem={({item, index}) => {
           const isDisabled =
             selectedPhotoList?.filter(

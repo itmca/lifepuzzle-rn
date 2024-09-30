@@ -61,8 +61,8 @@ const StoryWritingMainPage = (): JSX.Element => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScreenContainer gap={0}>
             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              keyboardVerticalOffset={100}
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
               style={{
                 borderTopWidth: 1,
                 borderTopColor: Color.LIGHT_GRAY,

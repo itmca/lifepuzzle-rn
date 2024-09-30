@@ -112,45 +112,45 @@ export const StoryWritingMenu = ({
   );
   return (
     <>
-      <BottomSheetModal
-        ref={playModalRef}
-        index={0}
-        bottomInset={60}
-        detached={true}
-        snapPoints={pSnapPoints}
-        animationConfigs={animationConfigs}
-        handleHeight={0}
-        handleComponent={null}
-        enableDismissOnClose={true}
-        enablePanDownToClose={false}
-        style={{
-          marginHorizontal: 16,
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          elevation: 5,
-        }}>
-        <ContentContainer withContentPadding borderRadius={30}>
-          <VoicePlayer
-            modal
-            source={writingStory.voice ?? ''}
-            startPlay={startPlay}
-            pausePlay={pausePlay}
-            stopPlay={stopPlay}
-            seekPlay={seekPlay}
-            onClose={() => {
-              setPlayInfo({
-                isOpen: false,
-              });
-              playModalRef.current?.close();
-            }}
-          />
-        </ContentContainer>
-      </BottomSheetModal>
-
-      {!playInfo.isOpen ? (
+      {playInfo.isOpen ? (
+        <BottomSheetModal
+          ref={playModalRef}
+          index={0}
+          bottomInset={60}
+          detached={true}
+          snapPoints={pSnapPoints}
+          animationConfigs={animationConfigs}
+          handleHeight={0}
+          handleComponent={null}
+          enableDismissOnClose={true}
+          enablePanDownToClose={false}
+          style={{
+            marginHorizontal: 16,
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            elevation: 5,
+          }}>
+          <ContentContainer withContentPadding borderRadius={30}>
+            <VoicePlayer
+              modal
+              source={writingStory.voice ?? ''}
+              startPlay={startPlay}
+              pausePlay={pausePlay}
+              stopPlay={stopPlay}
+              seekPlay={seekPlay}
+              onClose={() => {
+                setPlayInfo({
+                  isOpen: false,
+                });
+                playModalRef.current?.close();
+              }}
+            />
+          </ContentContainer>
+        </BottomSheetModal>
+      ) : (
         <Pressable
           onPressIn={() => {
             if (keyboardVisible) {
@@ -165,8 +165,6 @@ export const StoryWritingMenu = ({
           }}>
           <StoryWritingMenuBtn type="bar" />
         </Pressable>
-      ) : (
-        <></>
       )}
       {iconCnt > 1 ? (
         <BottomSheetModal
