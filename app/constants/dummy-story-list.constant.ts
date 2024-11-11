@@ -13,10 +13,10 @@ export const DUMMY_STORY_LIST: StoryType[] = [
       '그렇지 않아도 괜찮았는데 땅을 파보니 보석이 있었던 거지.',
     audios: [],
     videos: [
-      'https://itmca-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/family.mp4',
+      'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/family.mp4',
     ],
     photos: [
-      'https://itmca-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/couple.jpg',
+      'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/couple.jpg',
     ],
     question: '신혼 시절은 어떠셨나요?',
     tags: [],
@@ -34,11 +34,11 @@ export const DUMMY_STORY_LIST: StoryType[] = [
       '소풍 끝나고는 근처 유명한 콩국수 집 가서 콩국수를 먹었던 것 같은데\n' +
       '아직도 그 집이 있을지 모르겠네',
     audios: [
-      'https://itmca-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/holiday.mp3',
+      'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/holiday.mp3',
     ],
     videos: [],
     photos: [
-      'https://itmca-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/picnic.jpg',
+      'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/picnic.jpg',
     ],
     question: '중학교 때 가장 재미있었던 기억은?',
     tags: [],
@@ -71,8 +71,8 @@ export const DUMMY_STORY_LIST: StoryType[] = [
     audios: [],
     videos: [],
     photos: [
-      'https://itmca-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/nk-noodle1.jpg',
-      'https://itmca-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/nk-noodle2.jpg',
+      'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/nk-noodle1.jpg',
+      'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/nk-noodle2.jpg',
     ],
     question: '여름마다 즐겨 먹던 음식은?',
     createdAt: new Date('2023-06-02T03:29:16.000Z'),
