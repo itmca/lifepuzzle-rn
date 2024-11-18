@@ -42,10 +42,7 @@ export const StoryItemContents = ({
         </MediumText>
         <ContentContainer useHorizontalLayout gap={4}>
           <ContentContainer flex={1}>
-            <SmallText
-              color={Color.FONT_GRAY}
-              numberOfLines={2}
-              ellipsizeMode="tail">
+            <SmallText color={Color.FONT_GRAY} ellipsizeMode="tail">
               {story.content}
             </SmallText>
           </ContentContainer>
