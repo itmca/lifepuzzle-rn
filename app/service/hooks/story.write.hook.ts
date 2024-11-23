@@ -139,7 +139,9 @@ export const useVoiceToText = (): [() => void, boolean] => {
     },
     onResponseSuccess: res => {
       if (res) {
-        setWritingStory({storyText: writingStory.storyText ?? '' + res});
+        setWritingStory({
+          storyText: (writingStory.storyText ?? '') + res,
+        });
       }
       setVoiceToTextProcessing(false);
     },
