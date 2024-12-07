@@ -30,7 +30,7 @@ export const useLogout = (option?: Option) => {
 
   const removeLocalStorage = () => {
     LocalStorage.delete('authToken');
-    LocalStorage.delete('useNo');
+    LocalStorage.delete('userNo');
   };
 
   return () => {
