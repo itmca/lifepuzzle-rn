@@ -73,9 +73,6 @@ export const useCreateHero = (): [() => void] => {
     } else if (!writingHero?.heroNickName) {
       Alert.alert('닉네임을 입력해주세요.');
       return false;
-    } else if (!writingHero?.title) {
-      Alert.alert('제목을 입력해주세요.');
-      return false;
     } else if (!writingHero?.birthday) {
       Alert.alert('태어난 날 을 입력해주세요.');
       return false;

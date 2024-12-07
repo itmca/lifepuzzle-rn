@@ -91,9 +91,6 @@ export const useUpdateHero = (): [() => void] => {
     } else if (!writingHero?.heroNickName) {
       CustomAlert.simpleAlert('닉네임을 입력해주세요.');
       return false;
-    } else if (!writingHero?.title) {
-      CustomAlert.simpleAlert('제목을 입력해주세요.');
-      return false;
     } else if (!writingHero?.birthday) {
       CustomAlert.simpleAlert('태어난 날 을 입력해주세요.');
       return false;

@@ -1,11 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {Color} from '../../constants/color.constant';
-import {HeroType} from '../../types/hero.type';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
-import {useUpdatePublisher} from '../../service/hooks/update.hooks';
-import {heroUpdate} from '../../recoils/update.recoil';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {useNavigation} from '@react-navigation/native';
@@ -16,27 +13,13 @@ import {
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
 import {ImageButton} from '../../components/styled/components/Button';
-import {
-  getCurrentHeroPhotoUri,
-  writingHeroState,
-} from '../../recoils/hero-write.recoil';
+import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {Camera} from '../../assets/icons/camera';
 import {Photo} from '../../components/styled/components/Image.tsx';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const publishHeroUpdate = useUpdatePublisher(heroUpdate);
-  const [newHero, setNewHero] = useState<HeroType>({
-    heroNo: -1,
-    heroName: '',
-    heroNickName: '',
-    birthday: undefined,
-    title: '',
-  });
-
-  const resetWritingHero = useResetRecoilState(writingHeroState);
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
-  const currentHeroPhotoUri = useRecoilValue(getCurrentHeroPhotoUri);
 
   const navigateToSelectingPhoto = () => {
     navigation.push('NoTab', {
@@ -98,13 +81,7 @@ const HeroRegisterPage = (): JSX.Element => {
             label="닉네임"
             text={writingHero.heroNickName}
             onChangeText={heroNickName => setWritingHero({heroNickName})}
-            placeholder="소중한 당신"
-          />
-          <BasicTextInput
-            label="제목"
-            placeholder={'행복했던 나날들'}
-            text={writingHero.title}
-            onChangeText={title => setWritingHero({title})}
+            placeholder="할아버지"
           />
           <View style={{width: '100%'}}>
             <CustomDateInput

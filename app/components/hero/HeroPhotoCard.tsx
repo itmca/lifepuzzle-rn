@@ -3,10 +3,7 @@ import {Photo} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {IconButton} from 'react-native-paper';
-import {LockableTextInput} from '../input/LockableTextInput';
 import {GestureResponderEvent} from 'react-native';
-import Tag from '../styled/components/Tag';
-import LinearGradient from 'react-native-linear-gradient';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 
 type props = {
@@ -35,7 +32,6 @@ export const HeroPhotoCard = ({
       <ContentContainer
         backgroundColor={Color.SECONDARY_LIGHT}
         alignCenter
-        paddingBottom={56}
         height="395px"
         width="320px"
         borderRadius={32}>
@@ -57,58 +53,18 @@ export const HeroPhotoCard = ({
           />
         )}
         <ContentContainer
-          height={'200px'}
           absoluteBottomPosition
+          withContentPadding
+          useHorizontalLayout
           withNoBackground>
-          <LinearGradient
-            colors={['#00000066', '#00000077', '#00000099']}
-            style={{
-              flex: 1,
-              width: '100%',
-              height: '75px',
-              position: 'absolute',
-              bottom: 0,
-              borderBottomLeftRadius: 12,
-              borderBottomRightRadius: 12,
-            }}>
-            <ContentContainer
-              withContentPadding
-              useHorizontalLayout
-              withNoBackground>
-              <ContentContainer withNoBackground width={'200px'}>
-                <LockableTextInput
-                  customStyle={{
-                    minWidth: 130,
-                    height: 30,
-                    paddingHorizontal: 5,
-                  }}
-                  text={title}
-                  onChangeText={onChangeTitle}
-                  placeholder="행복했던 나날들"
-                />
-                <ContentContainer alignCenter withNoBackground>
-                  <Tag
-                    backgroundColor={Color.WHITE}
-                    height={'18px'}
-                    iconSource={require('../../assets/images/puzzle-onepiece.png')}
-                    iconStyle={{transform: [{rotate: '29.84deg'}]}}
-                    text={` ${puzzleCnt}개`}
-                  />
-                </ContentContainer>
-              </ContentContainer>
-              <ContentContainer
-                width={'40px'}
-                alignItems={'center'}
-                withNoBackground>
-                <IconButton
-                  icon="camera"
-                  size={24}
-                  containerColor={Color.WHITE}
-                  onPress={onCameraClick}
-                />
-              </ContentContainer>
-            </ContentContainer>
-          </LinearGradient>
+          <ContentContainer alignItems={'flex-end'} withNoBackground>
+            <IconButton
+              icon="camera"
+              size={24}
+              containerColor={Color.WHITE}
+              onPress={onCameraClick}
+            />
+          </ContentContainer>
         </ContentContainer>
       </ContentContainer>
     </ContentContainer>

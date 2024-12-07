@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
-import {styles} from './styles';
 import {HeroType, HeroWithPuzzleCntType} from '../../types/hero.type';
 import {useRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
-import Text, {XSmallText} from '../../components/styled/components/Text';
+import {XSmallText} from '../../components/styled/components/Text';
 import {MediumButton} from '../../components/styled/components/Button';
 import {Color} from '../../constants/color.constant';
 import {Photo} from '../../components/styled/components/Image';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types.tsx';
 
 type Props = {
   hero: HeroWithPuzzleCntType;
@@ -26,6 +26,7 @@ const HeroCard = ({hero}: Props): JSX.Element => {
     disableInitialRequest: true,
   });
 
+  const navigation = useNavigation<BasicNavigationProps>();
   const {imageURL, title, heroNo, puzzleCount} = hero;
   const [currentHero, setCurrentHero] = useRecoilState<HeroType>(heroState);
   const [isSelected, setSelected] = useState<boolean>(
@@ -68,24 +69,15 @@ const HeroCard = ({hero}: Props): JSX.Element => {
           withContentPadding
           useHorizontalLayout
           borderBottomRadius={32}
-          backgroundColor={'rgba(0,0,0,0.7)'}>
-          <ContentContainer withNoBackground width={'auto'} gap={4}>
-            <Text color={Color.WHITE}>{title}</Text>
-            <View style={styles.heroPhotoContainer}>
-              <Photo
-                style={styles.logoImage}
-                width={16}
-                height={16}
-                source={require('../../assets/images/puzzle-onepiece.png')}
-              />
-              <XSmallText color={Color.WHITE}>{puzzleCount}개</XSmallText>
-            </View>
-          </ContentContainer>
+          justifyContent={'flex-end'}
+          width={'100%'}
+          withNoBackground>
           <MediumButton
-            width="52px"
+            width="80px"
             borderRadius={16}
-            marginBottom="0px"
-            backgroundColor={isSelected ? Color.PRIMARY_LIGHT : '#D4F3FF'}
+            backgroundColor={
+              isSelected ? Color.PRIMARY_LIGHT : Color.SECONDARY_MEDIUM
+            }
             onPress={() => {
               setCurrentHero(hero);
               refetch({
@@ -93,11 +85,17 @@ const HeroCard = ({hero}: Props): JSX.Element => {
                   heroNo,
                 },
               });
+
+              navigation.navigate('HomeTab', {screen: 'Home'});
             }}>
             {isSelected ? (
-              <XSmallText color={Color.WHITE}>작성중</XSmallText>
+              <XSmallText color={Color.WHITE} bold>
+                작성중
+              </XSmallText>
             ) : (
-              <XSmallText color={Color.PRIMARY_LIGHT}>선택</XSmallText>
+              <XSmallText color={Color.PRIMARY_DARK} bold>
+                작성하기
+              </XSmallText>
             )}
           </MediumButton>
         </ContentContainer>
