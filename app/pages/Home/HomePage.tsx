@@ -30,11 +30,13 @@ import {
 } from '../../components/styled/container/ContentContainer.tsx';
 import HeroOverview from './HeroOverview.tsx';
 import {Divider} from '../../components/styled/components/Divider.tsx';
+import {userState} from '../../recoils/user.recoil.ts';
 
 const HomePage = (): JSX.Element => {
   const isFocused = useIsFocused();
   const navigation = useNavigation<BasicNavigationProps>();
 
+  const user = useRecoilValue(userState);
   const hero = useRecoilValue<HeroType>(heroState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
@@ -76,25 +78,27 @@ const HomePage = (): JSX.Element => {
           visible={scrollPositionY > 10}
           onPress={() => scrollRef.current?.scrollTo({y: 0})}
         />
-        <ContentContainer withScreenPadding paddingTop={8}>
-          <WritingButton
-            heroName={hero.heroNickName}
-            puzzleCount={displayStories.length}
-            onPress={() => {
-              setSelectedStoryKey('');
-              setPostStoryKey('');
+        {hero.auth !== 'VIEWER' && (
+          <ContentContainer withScreenPadding paddingTop={8}>
+            <WritingButton
+              heroName={hero.heroNickName}
+              puzzleCount={displayStories.length}
+              onPress={() => {
+                setSelectedStoryKey('');
+                setPostStoryKey('');
 
-              resetWritingStory();
+                resetWritingStory();
 
-              navigation.push('NoTab', {
-                screen: 'StoryWritingNavigator',
-                params: {
-                  screen: 'StoryWritingQuestion',
-                },
-              });
-            }}
-          />
-        </ContentContainer>
+                navigation.push('NoTab', {
+                  screen: 'StoryWritingNavigator',
+                  params: {
+                    screen: 'StoryWritingQuestion',
+                  },
+                });
+              }}
+            />
+          </ContentContainer>
+        )}
       </ScreenContainer>
     </LoadingContainer>
   );

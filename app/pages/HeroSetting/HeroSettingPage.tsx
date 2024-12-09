@@ -158,7 +158,6 @@ const HeroSettingPage = (): JSX.Element => {
       });
     }
   }, [route.params]);
-
   useEffect(() => {
     if (route.params?.scrollToEnd && carouselRef.current && heroes.length > 0) {
       setFocusedHero(heroes[heroes.length - 1]);
@@ -195,21 +194,23 @@ const HeroSettingPage = (): JSX.Element => {
               alignItems={'flex-end'}
               expandToEnd
               width={'auto'}>
-              <TouchableOpacity
-                onPress={() => {
-                  setWritingHeroNo(focusedHero?.heroNo);
-                  navigation.push('NoTab', {
-                    screen: 'HeroSettingNavigator',
-                    params: {
-                      screen: 'HeroModification',
+              {focusedHero.auth !== 'VIEWER' && (
+                <TouchableOpacity
+                  onPress={() => {
+                    setWritingHeroNo(focusedHero?.heroNo);
+                    navigation.push('NoTab', {
+                      screen: 'HeroSettingNavigator',
                       params: {
-                        heroNo: focusedHero?.heroNo,
+                        screen: 'HeroModification',
+                        params: {
+                          heroNo: focusedHero?.heroNo,
+                        },
                       },
-                    },
-                  });
-                }}>
-                <Icon name={'cog'} size={24} color="#D0D0D0" />
-              </TouchableOpacity>
+                    });
+                  }}>
+                  <Icon name={'cog'} size={24} color="#D0D0D0" />
+                </TouchableOpacity>
+              )}
             </ContentContainer>
           </ContentContainer>
           <ContentContainer alignCenter flex={1} expandToEnd>
