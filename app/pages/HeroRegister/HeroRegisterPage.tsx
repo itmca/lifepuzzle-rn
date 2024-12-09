@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {Color} from '../../constants/color.constant';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
@@ -16,6 +15,7 @@ import {ImageButton} from '../../components/styled/components/Button';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {Camera} from '../../assets/icons/camera';
 import {Photo} from '../../components/styled/components/Image.tsx';
+import {XSmallTitle} from '../../components/styled/components/Title.tsx';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -71,28 +71,39 @@ const HeroRegisterPage = (): JSX.Element => {
               color="#323232"
             />
           </ImageButton>
-          <BasicTextInput
-            label="이름"
-            text={writingHero.heroName}
-            onChangeText={heroName => setWritingHero({heroName})}
-            placeholder="홍길동"
-          />
-          <BasicTextInput
-            label="닉네임"
-            text={writingHero.heroNickName}
-            onChangeText={heroNickName => setWritingHero({heroNickName})}
-            placeholder="할아버지"
-          />
-          <View style={{width: '100%'}}>
-            <CustomDateInput
-              label="태어난 날"
-              date={writingHero.birthday}
-              onChange={birthday => setWritingHero({birthday})}
-            />
-          </View>
+          <ContentContainer>
+            <ContentContainer>
+              <XSmallTitle fontWeight={'600'} left={5}>
+                이름
+              </XSmallTitle>
+              <BasicTextInput
+                text={writingHero.heroName}
+                onChangeText={heroName => setWritingHero({heroName})}
+                placeholder="홍길동"
+              />
+            </ContentContainer>
+            <ContentContainer>
+              <XSmallTitle fontWeight={'600'} left={5}>
+                닉네임
+              </XSmallTitle>
+              <BasicTextInput
+                text={writingHero.heroNickName}
+                onChangeText={heroNickName => setWritingHero({heroNickName})}
+                placeholder="할아버지"
+              />
+            </ContentContainer>
+            <ContentContainer>
+              <XSmallTitle fontWeight={'600'} left={5}>
+                태어난 날
+              </XSmallTitle>
+              <CustomDateInput
+                date={writingHero.birthday}
+                onChange={birthday => setWritingHero({birthday})}
+              />
+            </ContentContainer>
+          </ContentContainer>
         </ContentContainer>
       </ScrollContentContainer>
-      {/* </LoadingContainer> */}
     </ScreenContainer>
   );
 };

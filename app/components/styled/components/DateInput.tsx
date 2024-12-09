@@ -5,7 +5,11 @@ import React, {useState} from 'react';
 import TextInput from './TextInput';
 import {TextInput as ReactInput} from 'react-native-paper';
 import RNDateTimePicker from 'react-native-modal-datetime-picker';
-import {MediumImage} from './Image';
+import {MediumImage, SmallImage} from './Image';
+import {ContentContainer} from '../container/ContentContainer.tsx';
+import {styles} from '../../../pages/HeroModification/styles.ts';
+import {XSmallTitle} from './Title.tsx';
+import SelectDropdown from 'react-native-select-dropdown';
 
 type Props = {
   width?: '100%';
@@ -53,38 +57,103 @@ function DateInput({...props}) {
   };
 
   return (
-    <TouchableOpacity onPress={showPicker}>
-      <TextInput
-        label={props.label}
-        value={formatDate(date)}
-        mode={'outlined'}
-        disabled={true}
-        onPress={showPicker}
-        left={
-          <ReactInput.Icon
-            icon={() => (
-              <MediumImage
-                width={23}
-                height={23}
-                resizeMode={'contain'}
-                source={require('../../../assets/images/calendar.png')}
-              />
-            )}
+    <ContentContainer useHorizontalLayout>
+      <ContentContainer
+        width={'80px'}
+        height={'56px'}
+        borderRadius={4}
+        alignCenter>
+        <SelectDropdown
+          data={[
+            {label: '양력', value: 'SOLAR'},
+            {label: '음력', value: 'LUNAR'},
+          ]}
+          onSelect={(selectedItem, index) => {}}
+          renderButton={(selectedItem, isOpened) => {
+            return (
+              <ContentContainer>
+                <ContentContainer
+                  useHorizontalLayout
+                  alignCenter
+                  gap={0}
+                  width={'80px'}>
+                  <ContentContainer
+                    width={'60px'}
+                    flex={1}
+                    alignCenter
+                    expandToEnd>
+                    <XSmallTitle>
+                      {(selectedItem && selectedItem.label) || '양/음력'}
+                    </XSmallTitle>
+                  </ContentContainer>
+                  <ContentContainer width={'20px'}>
+                    <SmallImage
+                      borderRadius={30}
+                      source={
+                        isOpened
+                          ? require('../../../assets/images/expand_less.png')
+                          : require('../../../assets/images/expand_more.png')
+                      }
+                    />
+                  </ContentContainer>
+                </ContentContainer>
+              </ContentContainer>
+            );
+          }}
+          dropdownStyle={styles.dropdownList}
+          dropdownOverlayColor={'transparent'}
+          renderItem={(item, index, isSelected) => {
+            return (
+              <ContentContainer>
+                <ContentContainer
+                  flex={1}
+                  withContentPadding
+                  gap={8}
+                  alignCenter>
+                  <XSmallTitle>{item.label}</XSmallTitle>
+                </ContentContainer>
+              </ContentContainer>
+            );
+          }}
+          showsVerticalScrollIndicator={false}
+        />
+      </ContentContainer>
+      <ContentContainer flex={1} expandToEnd>
+        <TouchableOpacity onPress={showPicker}>
+          <TextInput
+            label={props.label}
+            value={formatDate(date)}
+            mode={'outlined'}
+            disabled={true}
             onPress={showPicker}
+            left={
+              <ReactInput.Icon
+                icon={() => (
+                  <MediumImage
+                    width={23}
+                    height={23}
+                    resizeMode={'contain'}
+                    source={require('../../../assets/images/calendar.png')}
+                  />
+                )}
+                onPress={showPicker}
+              />
+            }
           />
-        }
-      />
-      <RNDateTimePicker
-        isVisible={visible}
-        date={date}
-        mode={'date'}
-        display={'spinner'}
-        onConfirm={onDatePick}
-        onCancel={onCancel}
-        locale="ko"
-        timeZoneName={'Asia/Seoul'}
-      />
-    </TouchableOpacity>
+          <RNDateTimePicker
+            isVisible={visible}
+            date={date}
+            mode={'date'}
+            display={'spinner'}
+            onConfirm={onDatePick}
+            onCancel={onCancel}
+            locale="ko"
+            timeZoneName={'Asia/Seoul'}
+          />
+        </TouchableOpacity>
+      </ContentContainer>
+    </ContentContainer>
   );
 }
+
 export default DateInput;
