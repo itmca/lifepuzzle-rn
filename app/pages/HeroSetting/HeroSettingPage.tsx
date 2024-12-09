@@ -13,7 +13,6 @@ import {
   HeroSettingRouteProps,
 } from '../../navigation/types';
 import {HeroesQueryResponse} from '../../service/hooks/hero.query.hook';
-import {CustomAlert} from '../../components/alert/CustomAlert';
 import ImageModal from '../../components/alert/ImageModal';
 import Carousel from 'react-native-reanimated-carousel';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
@@ -32,16 +31,16 @@ import {userState} from '../../recoils/user.recoil.ts';
 import {Color} from '../../constants/color.constant.ts';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {writingHeroKeyState} from '../../recoils/hero-write.recoil.ts';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
+import {useRegisterSharedHero} from '../../service/hooks/share.hero.hook.ts';
+import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const statusBarHeight = getStatusBarHeight();
   const route = useRoute<HeroSettingRouteProps<'HeroSetting'>>();
-  const carouselRef = useRef(null);
+  const carouselRef = useRef<ICarouselInstance>(null);
 
-  const {width: windowWidth, height: windowHeight} = useWindowDimensions();
+  const {width: windowWidth} = useWindowDimensions();
 
   const [heroes, setHeroes] = useState<HeroWithPuzzleCntType[]>([]);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
@@ -49,6 +48,7 @@ const HeroSettingPage = (): JSX.Element => {
   const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
     heroes[0],
   );
+
   const setWritingHeroNo = useSetRecoilState(writingHeroKeyState);
 
   const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
@@ -70,6 +70,32 @@ const HeroSettingPage = (): JSX.Element => {
     disableInitialRequest: false,
   });
 
+  useEffect(() => {
+    fetchHeroes({});
+  }, [heroUpdateObserver]);
+
+  useRegisterSharedHero({
+    shareKey: route.params?.shareKey,
+    onRegisterSuccess: () => {
+      setModalState({
+        isOpen: true,
+        message: '주인공을 추가하였습니다',
+        imageSource: require('../../assets/images/celebration-character.png'),
+        leftBtnText: '확인',
+        rightBtnText: '',
+        onLeftBtnPress: () => {
+          setModalState(prev => ({...prev, isOpen: false}));
+        },
+        onRightBtnPress: () => {},
+      });
+
+      if (carouselRef && carouselRef.current) {
+        setFocusedHero(heroes[heroes.length - 1]);
+        carouselRef.current.scrollTo({index: heroes.length - 1});
+      }
+    },
+  });
+
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     message: string;
@@ -87,83 +113,6 @@ const HeroSettingPage = (): JSX.Element => {
     onLeftBtnPress: () => {},
     onRightBtnPress: () => {},
   });
-
-  const shareKey = route.params?.shareKey;
-
-  const [isRegisterLoading, registerHero] = useAuthAxios<any>({
-    requestOption: {
-      url: `/heroes/auth?shareKey=${encodeURIComponent(shareKey)}`,
-      method: 'post',
-    },
-    onResponseSuccess: () => {
-      setModalState({
-        isOpen: true,
-        message: '주인공을 추가하였습니다',
-        imageSource: require('../../assets/images/celebration-character.png'),
-        leftBtnText: '확인',
-        rightBtnText: '',
-        onLeftBtnPress: () => {
-          setModalState(prev => ({...prev, isOpen: false}));
-          navigation.push('NoTab', {
-            screen: 'HeroSettingNavigator',
-            params: {
-              screen: 'HeroSetting',
-              params: {
-                scrollToEnd: true,
-              },
-            },
-          });
-        },
-        onRightBtnPress: () => {},
-      });
-    },
-    onError: error => {
-      if (error.response?.status === 409) {
-        CustomAlert.simpleAlert('이미 등록되어 있는 주인공입니다');
-      } else if (error.response?.status === 410) {
-        // TODO : 기간 만료 코드 확인 필요
-        CustomAlert.simpleAlert('기간 만료된 링크입니다');
-      } else {
-        // action alert
-        CustomAlert.actionAlert({
-          title: '오류가 발생했습니다.',
-          desc: '잠시 후 다시 시도하거나 새로 접속해주세요',
-          actionBtnText: '재시도',
-          action: () => {
-            registerHero({
-              requestOption: {
-                url: `/heroes/auth?shareKey=${encodeURIComponent(shareKey)}`,
-                method: 'post',
-              },
-            });
-          },
-        });
-      }
-    },
-    disableInitialRequest: true,
-  });
-
-  useEffect(() => {
-    fetchHeroes({});
-  }, [heroUpdateObserver]);
-
-  useEffect(() => {
-    const shareKey = route.params?.shareKey;
-    if (shareKey) {
-      registerHero({
-        requestOption: {
-          url: `/heroes/auth?shareKey=${encodeURIComponent(shareKey)}`,
-          method: 'post',
-        },
-      });
-    }
-  }, [route.params]);
-  useEffect(() => {
-    if (route.params?.scrollToEnd && carouselRef.current && heroes.length > 0) {
-      setFocusedHero(heroes[heroes.length - 1]);
-      carouselRef.current.scrollTo({index: heroes.length - 1});
-    }
-  }, [heroes, route.params?.scrollToEnd]);
 
   if (focusedHero === undefined) {
     return <></>;

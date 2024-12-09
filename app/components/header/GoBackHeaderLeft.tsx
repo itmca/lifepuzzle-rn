@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Pressable,
-  StyleProp,
-  TextStyle,
-  Vibration,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {Pressable, StyleProp, View, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import {Color} from '../../constants/color.constant';
@@ -33,7 +26,13 @@ const GoBackHeaderLeft = ({
           customAction();
         }
 
-        navigation.goBack();
+        if (navigation.canGoBack()) {
+          navigation.goBack();
+        } else {
+          navigation.navigate('HomeTab', {
+            screen: 'Home',
+          });
+        }
       }}
       style={containerStyle}>
       <View style={{marginLeft: -10}}>
