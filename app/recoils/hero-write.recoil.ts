@@ -10,6 +10,7 @@ const writingHeroInternalState = atom<WritingHeroType>({
     birthday: new Date(1948, 1, 1),
     title: '',
     imageURL: undefined,
+    isProfileImageUpdate: false,
   },
 });
 export const writingHeroKeyState = atom<number>({

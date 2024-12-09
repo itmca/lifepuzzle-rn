@@ -120,6 +120,7 @@ const HeroSettingNavigator = (): JSX.Element => {
                 setWritingHero({
                   ...writingHero,
                   imageURL: seletedHeroPhoto,
+                  isProfileImageUpdate: true,
                 });
                 resetSelectedHeroPhoto();
 

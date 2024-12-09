@@ -10,6 +10,7 @@ export type HeroType = {
   title?: string;
   modifiedImage?: PhotoIdentifier | undefined;
   puzzleCnt?: number;
+  auth?: HeroAuthTypeCode;
 };
 
 export type HeroUserType = {

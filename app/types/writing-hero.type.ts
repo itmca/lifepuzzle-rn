@@ -7,4 +7,5 @@ export type WritingHeroType = {
   birthday?: Date;
   title?: string;
   imageURL?: PhotoIdentifier;
+  isProfileImageUpdate?: boolean;
 };

@@ -3,9 +3,15 @@ import {Photo} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {IconButton} from 'react-native-paper';
-import {GestureResponderEvent} from 'react-native';
+import {LockableTextInput} from '../input/LockableTextInput';
+import {GestureResponderEvent, Pressable} from 'react-native';
+import Tag from '../styled/components/Tag';
+import LinearGradient from 'react-native-linear-gradient';
 import {HeroAvatar} from '../avatar/HeroAvatar';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useRecoilState} from 'recoil';
+import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
+import {writingHeroState} from '../../recoils/hero-write.recoil';
 type props = {
   width?: string;
   photoUri?: string;
@@ -23,13 +29,11 @@ export const HeroPhotoCard = ({
   puzzleCnt = 0,
   onCameraClick,
 }: props): JSX.Element => {
+  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
   return (
-    <ContentContainer
-      width={width}
-      height={'395px'}
-      borderRadius={32}
-      backgroundColor={Color.GRAY}>
+    <ContentContainer width={width} height={'395px'}>
       <ContentContainer
+        borderRadius={32}
         backgroundColor={Color.SECONDARY_LIGHT}
         alignCenter
         height="395px"
@@ -67,6 +71,27 @@ export const HeroPhotoCard = ({
           </ContentContainer>
         </ContentContainer>
       </ContentContainer>
+      {photoUri && (
+        <Pressable
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            backgroundColor: Color.WHITE,
+            borderColor: Color.GRAY,
+            borderWidth: 0.5,
+            width: 24,
+            height: 24,
+            borderRadius: 12,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={() => {
+            setWritingHero({imageURL: undefined, isProfileImageUpdate: true});
+          }}>
+          <Icon size={18} color={Color.BLACK} name={'close'} />
+        </Pressable>
+      )}
     </ContentContainer>
   );
 };

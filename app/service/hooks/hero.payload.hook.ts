@@ -59,7 +59,8 @@ const addHeroInFormData = (
     heroNickName: writingHero?.heroNickName,
     birthday: writingHero?.birthday,
     title: writingHero?.title,
-    imageURL: imgPath,
+    imageURL: imgPath ?? '',
+    isProfileImageUpdate: writingHero.isProfileImageUpdate,
   };
 
   formData.append('toWrite', {
