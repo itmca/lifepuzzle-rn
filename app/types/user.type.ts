@@ -8,4 +8,5 @@ export type UserType = {
   imageURL: undefined | string;
   userType: 'general' | 'kakao' | 'apple' | 'none';
   modifiedImage?: PhotoIdentifier | undefined;
+  isProfileImageUpdate: boolean;
 };

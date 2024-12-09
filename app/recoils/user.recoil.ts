@@ -23,6 +23,7 @@ export const writingUserState = atom<UserType>({
     recentHeroNo: -1,
     imageURL: '',
     modifiedImage: undefined,
+    isProfileImageUpdate: false,
   },
 });
 

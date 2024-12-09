@@ -31,7 +31,7 @@ import {UserType} from '../../types/user.type';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import CtaButton from '../../components/button/CtaButton';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 type AccountQueryResponse = {
   userNo: number;
   userId: string;
@@ -60,7 +60,7 @@ const AccountModificationPage = ({
       method: 'GET',
     },
     onResponseSuccess: responseUser => {
-      setModifyingUser(responseUser);
+      setModifyingUser({...responseUser, isProfileImageUpdate: false});
       setId(responseUser.userId);
       setNickName(responseUser.userNickName);
     },
@@ -198,6 +198,30 @@ const AccountModificationPage = ({
                   imageURL={currentUserPhotoUri}
                   size={120}
                 />
+                {currentUserPhotoUri && (
+                  <Pressable
+                    style={{
+                      position: 'absolute',
+                      top: 5,
+                      right: 0,
+                      backgroundColor: Color.WHITE,
+                      borderColor: Color.GRAY,
+                      borderWidth: 0.5,
+                      width: 24,
+                      height: 24,
+                      borderRadius: 12,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    onPress={() => {
+                      setModifyingUser({
+                        modifiedImage: undefined,
+                        isProfileImageUpdate: true,
+                      });
+                    }}>
+                    <Icon size={18} color={Color.BLACK} name={'close'} />
+                  </Pressable>
+                )}
               </TouchableOpacity>
             </ContentContainer>
             <ContentContainer gap={16} paddingHorizontal={20}>

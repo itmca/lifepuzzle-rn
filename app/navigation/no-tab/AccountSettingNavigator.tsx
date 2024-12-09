@@ -92,6 +92,7 @@ const AccountSettingNavigator = (): JSX.Element => {
                 setModifyingUser({
                   ...modifyingUser,
                   modifiedImage: seletedUserPhoto,
+                  isProfileImageUpdate: true,
                 });
 
                 resetSelectedUserPhoto();
