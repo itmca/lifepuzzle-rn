@@ -29,12 +29,12 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="https" android:host="lifepuzzle.itmca.io" android:pathPrefix="/share/hero" />
         </intent-filter>
-        <!-- <intent-filter>
+        <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="lifepuzzle" android:host="share" android:pathPrefix="/hero" />
-        </intent-filter> -->
+        </intent-filter>
       </activity>
       <activity
         android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
@@ -49,10 +49,5 @@
                 android:scheme="kakao***REMOVED***" />
           </intent-filter>
       </activity>
-      <!-- <activity android:name="io.itmca.lifepuzzle.AppLink">
-        <intent-filter>
-          <action android:name=""
-        </intent-filter>
-      </activity> -->
     </application>
 </manifest>
