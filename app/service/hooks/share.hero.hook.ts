@@ -2,8 +2,9 @@ import {useAuthAxios} from './network.hook.ts';
 import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
 import {useEffect} from 'react';
 import {AxiosError} from 'axios';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil.ts';
+import {shareKeyState} from '../../recoils/share.recoil.ts';
 
 type Params = {
   shareKey?: string;
@@ -13,6 +14,7 @@ type Params = {
 
 export const useRegisterSharedHero = ({shareKey}: Params) => {
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
+  const setShareKey = useSetRecoilState(shareKeyState);
 
   const [_, registerHero] = useAuthAxios<any>({
     requestOption: {
@@ -54,7 +56,7 @@ export const useRegisterSharedHero = ({shareKey}: Params) => {
         desc: '로그인/회원가입 시 해당 주인공을 연결하시겠습니까?',
         actionBtnText: '연결하기',
         action: () => {
-          // TODO(border-line): LocalStorage 연결
+          setShareKey(shareKey);
         },
       });
     } else {

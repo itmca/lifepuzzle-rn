@@ -10,6 +10,8 @@ import {
 import {ImageButton, MediumButton} from '../../styled/components/Button';
 import MediumText from '../../styled/components/Text';
 import {Color} from '../../../constants/color.constant';
+import {useRecoilValue} from 'recoil';
+import {shareKeyState} from '../../../recoils/share.recoil.ts';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
@@ -20,6 +22,7 @@ const KaKaoSocialLoginButton = ({
   onChangeLoading,
   type,
 }: Props): JSX.Element => {
+  const shareKey = useRecoilValue(shareKeyState);
   const [kakaoAccessToken, setKakaoAccessToken] = useState('');
 
   const signInWithKakao = async (): Promise<void> => {
@@ -50,6 +53,9 @@ const KaKaoSocialLoginButton = ({
     kakaoLogin({
       headers: {
         'kakao-access-token': kakaoAccessToken,
+      },
+      data: {
+        shareKey,
       },
     });
   }, [kakaoAccessToken]);

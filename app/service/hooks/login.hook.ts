@@ -1,4 +1,4 @@
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {LocalStorage} from '../local-storage.service';
 import {userState} from '../../recoils/user.recoil';
 import {authState, isLoggedInState} from '../../recoils/auth.recoil';
@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import {useEffect} from 'react';
 import {BasicNavigationProps} from '../../navigation/types';
+import {shareKeyState} from '../../recoils/share.recoil.ts';
 
 type Option = {
   customGoBackAction?: () => void;
@@ -26,6 +27,7 @@ export const useLoginResponseHandler = (option?: Option) => {
   const setUser = useSetRecoilState(userState);
   const setAuthTokens = useSetRecoilState(authState);
   const setHero = useSetRecoilState(heroState);
+  const resetShareKey = useResetRecoilState(shareKeyState);
 
   return (loginResponse: LoginResponse) => {
     const {user, tokens, hero} = loginResponse;
@@ -37,6 +39,7 @@ export const useLoginResponseHandler = (option?: Option) => {
       refreshTokenExpireAt: new Date(tokens.refreshTokenExpireAt),
     });
     setHero(hero);
+    resetShareKey();
 
     LocalStorage.set('authToken', JSON.stringify(tokens));
     LocalStorage.set('userNo', user.userNo);

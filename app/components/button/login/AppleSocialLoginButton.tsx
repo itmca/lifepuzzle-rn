@@ -10,6 +10,8 @@ import {
 import {ImageButton, MediumButton} from '../../styled/components/Button';
 import {Color} from '../../../constants/color.constant';
 import MediumText from '../../styled/components/Text';
+import {useRecoilValue} from 'recoil';
+import {shareKeyState} from '../../../recoils/share.recoil.ts';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
@@ -20,6 +22,7 @@ const AppleSocialLoginButton = ({
   onChangeLoading,
   type = 'button',
 }: Props): JSX.Element => {
+  const shareKey = useRecoilValue(shareKeyState);
   const loginResponseHandler = useLoginResponseHandler();
 
   const [_, appleLogin] = useAxios<LoginResponse>({
@@ -53,6 +56,7 @@ const AppleSocialLoginButton = ({
           email: appleAuthRequestResponse.email,
           identityToken: appleAuthRequestResponse.identityToken,
           nonce: appleAuthRequestResponse.nonce,
+          shareKey,
         },
       });
     }

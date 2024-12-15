@@ -7,6 +7,8 @@ import {
 } from '../../service/hooks/login.hook';
 import {LargeText} from '../../components/styled/components/Text';
 import {Color} from '../../constants/color.constant';
+import {useRecoilValue} from 'recoil';
+import {shareKeyState} from '../../recoils/share.recoil.ts';
 
 type Props = {
   userId: string;
@@ -21,6 +23,7 @@ const GeneralLoginButton = ({
   disabled,
   onChangeLoading,
 }: Props): JSX.Element => {
+  const shareKey = useRecoilValue(shareKeyState);
   const loginResponseHandler = useLoginResponseHandler();
   const [_, login] = useAxios<LoginResponse>({
     requestOption: {
@@ -47,7 +50,7 @@ const GeneralLoginButton = ({
         backgroundColor: disabled ? Color.LIGHT_GRAY : Color.PRIMARY_LIGHT,
       }}
       onPress={() => {
-        login({data: {username: userId, password: password}});
+        login({data: {username: userId, password, shareKey}});
       }}
       disabled={disabled}>
       <LargeText color={disabled ? '#C2C2C2' : Color.WHITE} fontWeight={700}>
