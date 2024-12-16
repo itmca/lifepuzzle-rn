@@ -8,7 +8,7 @@ import React, {forwardRef, useCallback, useMemo} from 'react';
 
 const BottomSheet = forwardRef<BottomSheetModal, BottomSheetModalProps>(
   (props, ref) => {
-    const snapPoints = useMemo(() => ['60%'], []);
+    const snapPoints = props.snapPoints ?? useMemo(() => ['60%'], []);
 
     const handleSheetChanges = useCallback(() => {}, []);
     const renderBackdrop = useCallback(

@@ -4,6 +4,7 @@ import StoryDetailPage from '../../pages/StoryDetail/StoryDetailPage';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import StoryDetailPageWithoutLogin from '../../pages/StoryDetail/StoryDetailPageWithoutLogin';
 import DetailViewHeader from '../../components/header/DetailViewHeader';
+import DetailViewHeaderLeft from '../../components/header/DetailViewHeaderLeft';
 
 export type StoryViewParamList = {
   Story: undefined;
@@ -24,8 +25,8 @@ const StoryViewNavigator = (): JSX.Element => {
         name="Story"
         component={StoryDetailPage}
         options={{
-          title: '',
-          header: () => <DetailViewHeader />,
+          title: '사진 상세',
+          headerLeft: () => <DetailViewHeaderLeft />,
         }}
       />
       <Stack.Screen

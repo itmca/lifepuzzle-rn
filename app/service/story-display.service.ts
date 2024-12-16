@@ -17,3 +17,23 @@ export const getStoryDisplayDotDate = (date: Date) => {
 const getStoryTagsText = (tags: StoryTag[]) => {
   return tags.map(tag => tag.displayName).join(' ');
 };
+
+export const toPhotoIdentifier = (uri: string) => ({
+  node: {
+    type: '',
+    group_name: '',
+    image: {
+      filename: uri.split('/').pop() || '',
+      filepath: null,
+      extension: null,
+      uri: uri,
+      height: 0,
+      width: 0,
+      fileSize: null,
+      playableDuration: 0,
+      orientation: null,
+    },
+    timestamp: 0,
+    location: null,
+  },
+});
