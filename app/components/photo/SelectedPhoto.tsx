@@ -7,6 +7,7 @@ import {createThumbnail} from 'react-native-create-thumbnail';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 type SelectedPhotoProps = {
   target?: 'all' | 'photo' | 'video';
   index: number;
@@ -21,30 +22,35 @@ const SelectedPhoto = ({
   cancel = true,
 }: SelectedPhotoProps): JSX.Element => {
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const photoKey = target == 'video' ? 'videos' : 'photos';
+  const photoKey = target === 'video' ? 'videos' : 'photos';
   const photoList = writingStory[photoKey] || [];
+  const photo = photoList[index];
 
   const [thumbnailUri, setThumbnailUri] = useState<string>(
-    photoList[index].node.image.uri,
+    photo?.node.image.uri,
   );
 
   const createThumbnailUrl = async () => {
     if (
-      target != 'photo' &&
-      photoList[index].node.image.uri.startsWith('https://lifepuzzle')
+      target !== 'photo' &&
+      photo?.node.image.uri.startsWith('https://lifepuzzle')
     ) {
       const response = await createThumbnail({
-        url: photoList[index].node.image.uri,
+        url: photo.node.image.uri,
       });
       setThumbnailUri(response.path);
     } else {
-      setThumbnailUri(photoList[index].node.image.uri);
+      setThumbnailUri(photo.node.image.uri);
     }
   };
 
   useEffect(() => {
     void createThumbnailUrl();
-  }, [photoList[index].node.image.uri]);
+  }, [photo?.node.image.uri]);
+
+  if (!photo) {
+    return <></>;
+  }
 
   return (
     <TouchableOpacity>
@@ -76,7 +82,7 @@ const SelectedPhoto = ({
 
             setWritingStory({
               [photoKey]: currentList.filter(
-                e => e.node.image.uri !== photoList[index].node.image.uri,
+                e => e.node.image.uri !== photo.node.image.uri,
               ),
             });
           }}>

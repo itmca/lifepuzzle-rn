@@ -1,9 +1,6 @@
 import React from 'react';
-import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
+import {Dimensions, ScrollView, View} from 'react-native';
 import {useRecoilValue} from 'recoil';
-import {Color} from '../../constants/color.constant';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
 import SelectedPhoto from './SelectedPhoto';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 
@@ -16,16 +13,15 @@ type SelectedPhotoListProps = {
 const DeviceWidth = Dimensions.get('window').width - 15;
 const SelectedPhotoList = ({
   target = 'photo',
-  size = 10,
-  upload = false,
+  size = 2,
   cancel = false,
 }: SelectedPhotoListProps): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
   const writingStory = useRecoilValue(writingStoryState);
 
   const photoList =
-    writingStory[target == 'all' || target == 'photo' ? 'photos' : 'videos'] ||
-    [];
+    writingStory[
+      target === 'all' || target === 'photo' ? 'photos' : 'videos'
+    ] || [];
   if (photoList.length == 0) {
     return <></>;
   }
@@ -40,7 +36,8 @@ const SelectedPhotoList = ({
                 index={index}
                 key={index}
                 size={size}
-                cancel={cancel}></SelectedPhoto>
+                cancel={cancel}
+              />
             );
           })}
         </ScrollView>
