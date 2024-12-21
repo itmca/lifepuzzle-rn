@@ -16,6 +16,8 @@ type Props = {
   text?: string;
   width?: string;
   height?: string;
+  fontWeight?: string | number;
+  fontColor?: string;
   backgroundColor?: string;
   borderRadius?: number;
   padding?: string;
@@ -23,6 +25,7 @@ type Props = {
   alignSelf?: string;
   justifyContent?: string;
   marginRight?: number;
+  onPress?: () => void;
 };
 type TextProps = {
   color?: string;
@@ -30,10 +33,10 @@ type TextProps = {
 };
 export const StyledTag = styled(TouchableOpacity)<Props>`
   width: ${({width}) => (width ? `${width}` : 'auto')};
-  height: ${({height}) => (height ? `${height}` : '18px')};
+  height: ${({height}) => (height ? `${height}` : 'auto')};
   background-color: ${({backgroundColor}) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
-  padding: ${({padding}) => (padding ? `${padding}` : '2px 10px')};
+  padding: ${({padding}) => (padding ? `${padding}` : '2px 8px')};
   align-self: ${({alignSelf}) => (alignSelf ? alignSelf : 'flex-start')};
   ${props =>
     props.borderRadius &&
@@ -44,16 +47,29 @@ export const StyledTag = styled(TouchableOpacity)<Props>`
       border-bottom-right-radius: ${props.borderRadius}px;
     `};
 `;
-function Tag({iconSource, iconStyle, text = '', ...props}: Props) {
+function Tag({
+  iconSource,
+  iconStyle,
+  text = '',
+  fontWeight = 600,
+  fontColor,
+  ...props
+}: Props) {
   return (
-    <StyledTag borderRadius={20} {...props}>
-      <ContentContainer useHorizontalLayout gap={0} width={'auto'}>
+    <StyledTag borderRadius={16} {...props}>
+      <ContentContainer
+        useHorizontalLayout
+        gap={0}
+        width={'auto'}
+        backgroundColor="transparent">
         {iconSource ? (
           <XXSmallImage style={iconStyle} source={iconSource} />
         ) : (
           <></>
         )}
-        <XXSmallText fontWeight={600}>{text}</XXSmallText>
+        <XXSmallText fontWeight={fontWeight} color={fontColor} lineHeight={20}>
+          {text}
+        </XXSmallText>
       </ContentContainer>
     </StyledTag>
   );

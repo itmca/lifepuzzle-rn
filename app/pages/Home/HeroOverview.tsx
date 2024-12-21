@@ -1,71 +1,47 @@
-import React from 'react';
-import {HeroType} from '../../types/hero.type';
+import {format} from 'date-fns';
 import {HomeLoginButton} from './HomeLoginButton';
-import {
-  LargeTitle,
-  MediumTitle,
-  SmallTitle,
-} from '../../components/styled/components/Title';
+import {LargeTitle, SmallTitle} from '../../components/styled/components/Title';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
 import {SmallText} from '../../components/styled/components/Text.tsx';
-import {XSmallImage} from '../../components/styled/components/Image.tsx';
-import {toHeroBirthdayAge} from '../../service/date-time-display.service.ts';
-import {Image, Platform} from 'react-native';
+import {Platform} from 'react-native';
+import {PhotoHeroType} from '../../types/photo.type.ts';
 
 type Props = {
-  hero: HeroType;
-  puzzleCount: number;
+  hero: PhotoHeroType;
 };
 
-const HeroOverview = ({hero, puzzleCount}: Props): JSX.Element => {
-  if (hero.heroNo !== -1) {
+const HeroOverview = ({hero}: Props): JSX.Element => {
+  if (hero && hero.id !== -1) {
     return (
       <ContentContainer gap={20} paddingVertical={8}>
-        <ContentContainer width={'auto'} style={{alignSelf: 'flex-start'}}>
-          <MediumTitle>{hero.title}</MediumTitle>
-          <ContentContainer zIndex={-1} absoluteBottomPosition width={'auto'}>
-            <Image
-              source={require('../../assets/images/underline-blue.png')}
-              style={{
-                height: 8,
-                width: hero.title ? hero.title.length * 16 : 0,
-              }}
-            />
-          </ContentContainer>
-        </ContentContainer>
         <ContentContainer useHorizontalLayout>
-          <HeroAvatar imageURL={hero.imageURL} size={80} />
+          <HeroAvatar imageURL={hero.image} size={80} />
           <ContentContainer gap={8}>
             <ContentContainer
               useHorizontalLayout
               justifyContent={'flex-start'}
               gap={4}>
               <SmallTitle>
-                {hero.heroName.length > 8
-                  ? hero.heroName.substring(0, 8) + '...'
-                  : hero.heroName}
+                {hero.name.length > 8
+                  ? hero.name.substring(0, 8) + '...'
+                  : hero.name}
               </SmallTitle>
               <SmallText>
-                {hero.heroNickName.length > 8
-                  ? hero.heroNickName.substring(0, 12) + '...'
-                  : hero.heroNickName}
+                {hero.nickname.length > 8
+                  ? hero.nickname.substring(0, 12) + '...'
+                  : hero.nickname}
               </SmallText>
             </ContentContainer>
             <ContentContainer>
               <SmallText>
-                {hero.birthday ? toHeroBirthdayAge(hero.birthday) : '-'}
+                {hero.birthdate
+                  ? format(new Date(hero.birthdate), 'yyyy.MM.dd') +
+                    ' (' +
+                    hero.age +
+                    '세)'
+                  : '-'}
               </SmallText>
-            </ContentContainer>
-            <ContentContainer
-              paddingVertical={2}
-              useHorizontalLayout
-              justifyContent={'flex-start'}
-              gap={4}>
-              <XSmallImage
-                source={require('../../assets/images/puzzle-onepiece.png')}
-              />
-              <SmallText>{puzzleCount}개</SmallText>
             </ContentContainer>
           </ContentContainer>
         </ContentContainer>
