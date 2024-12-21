@@ -1,7 +1,6 @@
-import React from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {Color} from '../../constants/color.constant';
-import {XSmallText} from '../styled/components/Text';
+import {XXSmallText} from '../styled/components/Text';
 import {ContentContainer} from '../styled/container/ContentContainer';
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
   containerStyle?: StyleProp<ViewStyle>;
 };
 
-const StoryMediaCarouselPagination = ({
+const MediaCarouselPagination = ({
   visible,
   mediaCount,
   activeMediaIndexNo,
@@ -23,26 +22,27 @@ const StoryMediaCarouselPagination = ({
 
   return (
     <View
-      style={StyleSheet.compose(
-        {alignItems: 'flex-end', position: 'absolute', bottom: 12, right: 12},
-        containerStyle,
-      )}>
+      style={StyleSheet.compose({
+        alignItems: 'flex-end',
+        position: 'absolute',
+        bottom: 12,
+        right: 12,
+      })}>
       <ContentContainer
-        useHorizontalLayout
         alignCenter
         gap={0}
-        width="40px"
-        height="20px"
-        borderRadius={3}
-        opacity={0.7}
+        width="auto"
+        paddingHorizontal={10}
+        borderRadius={4}
+        opacity={0.5}
+        backgroundColor={Color.BLACK}
         zIndex={100}>
-        <XSmallText color={Color.FONT_DARK}>{`${
+        <XXSmallText bold lineHeight={20} color={Color.LIGHT_GRAY}>{`${
           activeMediaIndexNo + 1
-        }`}</XSmallText>
-        <XSmallText color={Color.DARK_GRAY}>{` / ${mediaCount}`}</XSmallText>
+        }/${mediaCount}`}</XXSmallText>
       </ContentContainer>
     </View>
   );
 };
 
-export default StoryMediaCarouselPagination;
+export default MediaCarouselPagination;

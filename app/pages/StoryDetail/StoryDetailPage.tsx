@@ -1,23 +1,12 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useCallback, useMemo, useRef, useState} from 'react';
 import {Dimensions, Image, Keyboard, Pressable} from 'react-native';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {
-  SelectedStoryKeyState,
-  SelectedStoryState,
-} from '../../recoils/story-view.recoil';
-import {useAuthAxios} from '../../service/hooks/network.hook';
-import {StoryType} from '../../types/story.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {StoryMediaCarousel} from '../../components/story/StoryMediaCarousel';
+import {MediaCarousel} from '../../components/story/MediaCarousel.tsx';
 import {StoryItemContents} from '../../components/story-list/StoryItemContents';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {
-  PostStoryKeyState,
-  writingStoryState,
-} from '../../recoils/story-write.recoil';
-import {useUpdateObserver} from '../../service/hooks/update.hooks';
-import {storyListUpdate} from '../../recoils/update.recoil';
+import {writingStoryState} from '../../recoils/story-write.recoil';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -29,26 +18,39 @@ import BottomSheet from '../../components/styled/components/BottomSheet';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Color} from '../../constants/color.constant.ts';
 import {StoryDetailMenu} from '../../components/story/StoryDetailBottomMenu.tsx';
-import Title, {
+import {
   MediumTitle,
   XSmallTitle,
 } from '../../components/styled/components/Title.tsx';
-import {max} from 'lodash';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {toPhotoIdentifier} from '../../service/story-display.service.ts';
+import {
+  selectedGalleryIndexState,
+  tagState,
+  selectedTagState,
+  getGallery,
+} from '../../recoils/photos.recoil.ts';
+import {TagType} from '../../types/photo.type.ts';
 
 const StoryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
+  const [galleryIndex, setGalleryIndex] = useRecoilState(
+    selectedGalleryIndexState,
+  );
+  const [selectedTag, setSelectedTag] = useRecoilState(selectedTagState);
+  const [tags, setTags] = useRecoilState<TagType[]>(tagState);
 
+  const gallery = useRecoilValue(getGallery);
+  const [isStory, setIsStory] = useState<boolean>(
+    gallery[galleryIndex - 1].story,
+  );
+  const [width, setWidth] = useState<number>(Dimensions.get('window').width);
+  const [height, setHeight] = useState<number>(
+    Dimensions.get('window').height * 0.55,
+  );
   const setWritingStory = useSetRecoilState(writingStoryState);
   const isFocused = useIsFocused();
-  const storyKey = useRecoilValue(SelectedStoryKeyState);
-  const postStoryKey = useRecoilValue(PostStoryKeyState);
-  const isStory = storyKey ? true : false;
-  const [selectedStory, setSelectedStory] = useRecoilState(SelectedStoryState);
-  const [story, setStory] = useState<StoryType>();
 
-  const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
   //bottom sheet
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => [isStory ? '35%' : '15%'], []);
@@ -59,40 +61,15 @@ const StoryDetailPage = (): JSX.Element => {
   const handleClosePress = useCallback(() => {
     bottomSheetModalRef.current?.close();
   }, []);
-  const [storiesLoading, fetchStory] = useAuthAxios<StoryType>({
-    requestOption: {
-      url:
-        (storyKey && `/stories/${storyKey}`) ||
-        (postStoryKey && `/stories/${postStoryKey}`),
-    },
-    onResponseSuccess: data => {
-      setStory(data);
-      setSelectedStory(data);
-    },
-    disableInitialRequest: false,
-  });
 
-  useEffect(() => {
-    setStory(undefined);
-    setSelectedStory(undefined);
-  }, [storyKey]);
-
-  useEffect(() => {
-    if (storyKey) {
-      fetchStory({
-        url: `/stories/${storyKey}`,
-      });
-    }
-  }, [storyListUpdateObserver]);
-
-  if (!story) {
+  if (!galleryIndex) {
     return <></>;
   }
   const onClickWrite = () => {
     setWritingStory({
-      date: selectedStory?.date,
-      photos: selectedStory?.photos.map(toPhotoIdentifier) || [],
-      videos: selectedStory?.videos.map(toPhotoIdentifier) || [],
+      //date: photos[galleryIndex].story?.date,
+      photos: [toPhotoIdentifier(gallery[galleryIndex - 1].url)] || [],
+      videos: [],
     });
 
     navigation.push('NoTab', {
@@ -103,14 +80,36 @@ const StoryDetailPage = (): JSX.Element => {
     });
     //닫기
   };
+  const fetchImageSize = async (index: number) => {
+    try {
+      const {width, height} = await new Promise((resolve, reject) => {
+        Image.getSize(
+          gallery[index - 1].url,
+          (width, height) => {
+            resolve({width, height});
+          },
+          error => reject(error),
+        );
+      });
+      const DeviceWidth = Dimensions.get('window').width;
+      const maxHeight = Dimensions.get('window').height * 0.55;
 
-  const isOnlyText =
-    story.audios.length < 1 &&
-    story.videos.length < 1 &&
-    story.photos.length < 1;
-
+      const carouselHeight = height < maxHeight ? height : maxHeight;
+      const carouselWidth =
+        height < maxHeight ? width : (width * maxHeight) / height;
+      if (carouselWidth > DeviceWidth) {
+        setWidth(DeviceWidth);
+        setHeight((carouselWidth * height) / width);
+      } else {
+        setWidth(carouselWidth);
+        setHeight(carouselHeight);
+      }
+    } catch (error) {
+      console.error('Failed to get size for image:', error);
+    }
+  };
   return (
-    <LoadingContainer isLoading={storiesLoading}>
+    <LoadingContainer isLoading={false}>
       <BottomSheetModalProvider>
         <ScreenContainer>
           <ScrollContentContainer gap={16}>
@@ -119,7 +118,9 @@ const StoryDetailPage = (): JSX.Element => {
               paddingHorizontal={16}
               alignItems="flex-end"
               height={Dimensions.get('window').height * 0.1 + 'px' ?? '10%'}>
-              <MediumTitle>10세 미만</MediumTitle>
+              <MediumTitle>
+                {gallery[galleryIndex - 1].tag?.label ?? ''}
+              </MediumTitle>
               <Pressable
                 style={{marginLeft: 'auto'}}
                 onPress={handlePresentModalPress}>
@@ -132,26 +133,35 @@ const StoryDetailPage = (): JSX.Element => {
               </Pressable>
             </ContentContainer>
 
-            {!isOnlyText && (
-              <ContentContainer
-                backgroundColor={Color.BLACK}
-                style={{
-                  height: Dimensions.get('window').height * 0.55 + 'px',
-                }}>
-                <StoryMediaCarousel
-                  story={story}
-                  isFocused={isFocused}
-                  carouselWidth={Dimensions.get('window').width}
-                  carouselHeight={
-                    200
-                    // Image.resolveAssetSource({uri: story.photos[0]}).height
+            <ContentContainer
+              backgroundColor={Color.BLACK}
+              style={{
+                height: 'auto',
+              }}>
+              <MediaCarousel
+                data={gallery.map(item => ({
+                  type: item.type,
+                  url: item.url,
+                }))}
+                activeIndex={galleryIndex - 1}
+                isFocused={isFocused}
+                carouselWidth={width}
+                carouselHeight={height}
+                onScroll={index => {
+                  fetchImageSize((index % gallery.length) + 1);
+                  if (bottomSheetModalRef.current) {
+                    bottomSheetModalRef.current.close();
                   }
-                />
-              </ContentContainer>
-            )}
+                  setGalleryIndex((index % gallery.length) + 1);
+                }}
+              />
+            </ContentContainer>
             <ContentContainer paddingHorizontal={16} paddingBottom={10}>
-              {isStory ? (
-                <StoryItemContents inDetail={true} story={story} />
+              {gallery[galleryIndex - 1]?.story ? (
+                <StoryItemContents
+                  inDetail={true}
+                  story={gallery[galleryIndex - 1].story}
+                />
               ) : (
                 <Pressable onPress={onClickWrite}>
                   <ContentContainer

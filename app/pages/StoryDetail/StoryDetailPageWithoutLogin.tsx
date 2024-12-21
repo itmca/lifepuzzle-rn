@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions} from 'react-native';
+import {useEffect, useState} from 'react';
 import {StoryType} from '../../types/story.type';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {useRecoilValue} from 'recoil';
 import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import {StoryMediaCarousel} from '../../components/story/StoryMediaCarousel';
-import {StoryItemContents} from '../../components/story-list/StoryItemContents';
 import {useIsFocused} from '@react-navigation/native';
 import {ScrollContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 
@@ -27,15 +24,10 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
     return <></>;
   }
 
-  const isOnlyText =
-    story.audios.length < 1 &&
-    story.videos.length < 1 &&
-    story.photos.length < 1;
-
   return (
     <ScreenContainer>
       <ScrollContentContainer>
-        {!isOnlyText && (
+        {/* {!isOnlyText && (
           <StoryMediaCarousel
             story={story}
             isFocused={isFocused}
@@ -43,7 +35,7 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
             carouselHeight={200}
           />
         )}
-        <StoryItemContents inDetail={true} story={story} />
+        <StoryItemContents inDetail={true} story={story} /> */}
       </ScrollContentContainer>
     </ScreenContainer>
   );

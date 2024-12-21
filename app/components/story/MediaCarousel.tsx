@@ -1,49 +1,47 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 import {Photo} from '../styled/components/Image';
-import {StoryType} from '../../types/story.type';
 import {VideoPlayer} from './StoryVideoPlayer';
-import StoryMediaCarouselPagination from './StoryMediaCarauselPagination';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
-import {StoryAudioPlayer} from './StoryAudioPlayer';
 import Carousel from 'react-native-reanimated-carousel';
+import MediaCarouselPagination from './MediaCarouselPagination';
 
 type Props = {
-  story: StoryType;
+  data: MediaItem[];
+  activeIndex?: number;
   carouselStyle?: StyleProp<ViewStyle>;
   carouselHeight: number;
   carouselWidth: number;
   isFocused?: boolean;
+  onScroll?: (index: number) => void;
 };
 
 type MediaItem = {
-  mediaType: string;
+  type: string;
   url: string;
 };
 
-export const StoryMediaCarousel = ({
-  story,
+export const MediaCarousel = ({
+  data,
+  activeIndex,
   carouselWidth,
   carouselHeight,
   isFocused,
+  onScroll,
 }: Props): JSX.Element => {
-  const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(0);
+  const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(
+    activeIndex ?? 0,
+  );
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
 
-  const data: MediaItem[] = [
-    ...story.videos.map(url => ({mediaType: 'video', url: url})),
-    ...story.photos.map(url => ({mediaType: 'photo', url: url})),
-    ...story.audios.map(url => ({mediaType: 'audio', url: url})),
-  ];
-
   const renderItem = ({item}: {item: MediaItem}) => {
-    const mediaType = item.mediaType;
+    const type = item.type;
     const mediaUrl = item.url;
 
     return (
       <>
-        {mediaType === 'video' && (
+        {type === 'video' && (
           <VideoPlayer
             videoUrl={mediaUrl}
             isFocused={isFocused}
@@ -52,14 +50,7 @@ export const StoryMediaCarousel = ({
             setPaginationShown={setIsPaginationShown}
           />
         )}
-        {mediaType === 'audio' && (
-          <StoryAudioPlayer
-            audioURL={mediaUrl}
-            isFocused={isFocused}
-            activeMediaIndexNo={activeMediaIndexNo}
-          />
-        )}
-        {mediaType === 'photo' && (
+        {type === 'photo' && (
           <Photo
             resizeMode="cover"
             source={{
@@ -73,23 +64,28 @@ export const StoryMediaCarousel = ({
 
   return (
     <ContentContainer
+      backgroundColor={Color.BLACK}
       style={{
         borderBottomWidth: 0.8,
         borderBottomColor: Color.GRAY,
       }}>
       <Carousel
+        style={{alignSelf: 'center'}}
         loop={false}
         width={carouselWidth}
         height={carouselHeight}
         data={data}
+        defaultIndex={activeMediaIndexNo}
         renderItem={renderItem}
-        onSnapToItem={setActiveMediaIndexNo}
+        onSnapToItem={index => {
+          setActiveMediaIndexNo(index);
+          onScroll && onScroll(index);
+        }}
       />
-      <StoryMediaCarouselPagination
+      <MediaCarouselPagination
         visible={isPaginationShown}
         activeMediaIndexNo={activeMediaIndexNo}
         mediaCount={data.length}
-        containerStyle={{width: carouselWidth}}
       />
     </ContentContainer>
   );
