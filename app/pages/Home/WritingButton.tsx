@@ -3,12 +3,12 @@ import React from 'react';
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
-import {LargeText} from '../../components/styled/components/Text';
+import {XLargeText} from '../../components/styled/components/Text';
 import {Color} from '../../constants/color.constant';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
 type Props = {
-  heroName: string;
-  puzzleCount: number;
+  tagLabel: string;
   onPress: () => void;
 };
 
@@ -36,23 +36,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export const WritingButton = ({
-  onPress,
-  puzzleCount,
-  heroName,
-}: Props): JSX.Element => {
+export const WritingButton = ({onPress, tagLabel}: Props): JSX.Element => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
-
-  const displayHeroName =
-    heroName.length > 8 ? `${heroName.substring(0, 8)}...` : heroName;
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.writingButton}>
-      <LargeText color={Color.WHITE}>
-        {isLoggedIn
-          ? `${displayHeroName}의 ${puzzleCount + 1}번째 이야기 작성하기`
-          : '이야기 작성 체험하기'}
-      </LargeText>
+      <ContentContainer
+        useHorizontalLayout
+        backgroundColor="transparent"
+        alignCenter
+        gap={8}>
+        <Icon size={30} color={Color.WHITE} name={'camera'} />
+        <XLargeText color={Color.WHITE} fontWeight={700}>
+          {isLoggedIn
+            ? `${tagLabel} 사진/동영상 추가하기`
+            : '이야기 작성 체험하기'}
+        </XLargeText>
+      </ContentContainer>
     </TouchableOpacity>
   );
 };
