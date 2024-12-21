@@ -1,13 +1,14 @@
-import React, {useRef, useState} from 'react';
-import StoryList from './StoryList';
-import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
+import {useRef, useState} from 'react';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {useStories} from '../../service/hooks/story.query.hook';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import Sound from 'react-native-sound';
-import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -18,19 +19,26 @@ import {WritingButton} from './WritingButton';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {isLoggedInState} from '../../recoils/auth.recoil';
-import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {
   PostStoryKeyState,
   writingStoryState,
 } from '../../recoils/story-write.recoil';
-import {
-  ContentContainer,
-  ScrollContentContainer,
-} from '../../components/styled/container/ContentContainer.tsx';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 import HeroOverview from './HeroOverview.tsx';
-import {Divider} from '../../components/styled/components/Divider.tsx';
 import {userState} from '../../recoils/user.recoil.ts';
+import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
+import {
+  DUMMY_AGE_GROUPS,
+  DUMMY_TAGS,
+} from '../../constants/dummy-age-group.constant.ts';
+import {
+  ageGroupsState,
+  selectedTagState,
+  tagState,
+} from '../../recoils/photos.recoil.ts';
+import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
+import Gallery from './Gallery.tsx';
 
 const HomePage = (): JSX.Element => {
   const isFocused = useIsFocused();
@@ -42,18 +50,16 @@ const HomePage = (): JSX.Element => {
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
   const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
-  const {stories, isLoading} = useStories();
+  //const {stories, isLoading} = useStories();
 
-  const displayStories = (isLoggedIn ? stories : DUMMY_STORY_LIST).map(
-    story => {
-      if (story.audios[0] !== undefined) {
-        const audioSound = new Sound(story.audios[0], undefined, () => {
-          story.recordingTime = toMinuteSeconds(audioSound.getDuration());
-        });
-      }
-      return story;
-    },
-  );
+  const [selectedTag, setSelectedTag] =
+    useRecoilState<TagType>(selectedTagState);
+  const [ageGroups, setAgeGroups] =
+    useRecoilState<AgeGroupsType>(ageGroupsState);
+  const [tags, setTags] = useRecoilState<TagType[]>(tagState);
+  const {photoHero, isLoading} = useHeroPhotos();
+  const displayAgeGroups = isLoggedIn ? ageGroups : DUMMY_AGE_GROUPS;
+  const displayTags = isLoggedIn ? tags : DUMMY_TAGS;
 
   const scrollRef = useRef<ScrollView>(null);
   const [scrollPositionY, setScrollPositionY] = useState<number>(0);
@@ -66,33 +72,34 @@ const HomePage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={isLoading}>
       <ScreenContainer gap={0}>
-        <ScrollContentContainer
-          withScreenPadding
-          ref={scrollRef}
-          onScroll={handleScroll}>
-          <HeroOverview hero={hero} puzzleCount={displayStories.length} />
-          <Divider />
-          <StoryList stories={displayStories} isFocused={isFocused} />
-        </ScrollContentContainer>
+        <ContentContainer withScreenPadding>
+          <HeroOverview hero={photoHero} />
+        </ContentContainer>
+        <Gallery
+          hero={photoHero}
+          ageGroups={displayAgeGroups}
+          tags={displayTags}></Gallery>
         <GoToTopButton
           visible={scrollPositionY > 10}
           onPress={() => scrollRef.current?.scrollTo({y: 0})}
         />
         {hero.auth !== 'VIEWER' && (
-          <ContentContainer withScreenPadding paddingTop={8}>
+          <ContentContainer withScreenPadding backgroundColor="transparent">
             <WritingButton
-              heroName={hero.heroNickName}
-              puzzleCount={displayStories.length}
+              tagLabel={
+                (selectedTag?.key === 'under10'
+                  ? '10세 미만'
+                  : selectedTag?.label) ?? ''
+              }
               onPress={() => {
                 setSelectedStoryKey('');
                 setPostStoryKey('');
-
                 resetWritingStory();
 
                 navigation.push('NoTab', {
                   screen: 'StoryWritingNavigator',
                   params: {
-                    screen: 'StoryWritingQuestion',
+                    screen: 'StoryWritingMain',
                   },
                 });
               }}
