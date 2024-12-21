@@ -1,6 +1,6 @@
 import TextInput from '../styled/components/TextInput';
 import {TextInput as ReactInput} from 'react-native-paper';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleProp, StyleSheet, TextStyle} from 'react-native';
 import {Color} from '../../constants/color.constant';
 

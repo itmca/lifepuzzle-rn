@@ -14,7 +14,7 @@ type Props = {
 
 export const MediumImage = styled.Image<Props>`
   width: ${({width}) => (width ? `${width}px` : '33.94px')};
-  height: ${({height}) => (height ? `${height}px` : '100')};
+  height: ${({height}) => (height ? `${height}` : '100')};
   justify-content: center;
   align-content: center;
   border-radius: ${({borderRadius}) =>

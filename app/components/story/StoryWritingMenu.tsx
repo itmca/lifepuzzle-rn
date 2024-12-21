@@ -5,7 +5,6 @@ import {
 } from '@gorhom/bottom-sheet';
 import React, {useEffect, useMemo, useRef} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import Config from 'react-native-config';
 import {Easing} from 'react-native-reanimated';
 
 import {StoryWritingMenuBtn} from './StoryWritingMenuBtn';
@@ -29,15 +28,7 @@ export const StoryWritingMenu = ({
 }: Props): JSX.Element => {
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
-  const voiceToText = writingStory.voice ? true : false;
-  const playVoice = writingStory.voice ? true : false;
-  const textToImage = Config.TEXT_TO_IMAGE == 'TRUE';
-  const openAlbum = true;
-  const iconCnt =
-    (voiceToText ? 1 : 0) +
-    (playVoice ? 1 : 0) +
-    (textToImage ? 1 : 0) +
-    (openAlbum ? 1 : 0);
+  const iconCnt = 1;
 
   //bottom sheet
   const menuModalRef = useRef<BottomSheetModal>(null);

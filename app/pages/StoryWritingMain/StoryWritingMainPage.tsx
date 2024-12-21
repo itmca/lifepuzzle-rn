@@ -5,7 +5,6 @@ import {
   Platform,
   TouchableWithoutFeedback,
 } from 'react-native';
-import styles from './styles';
 import {useRecoilState} from 'recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
@@ -42,18 +41,38 @@ const StoryWritingMainPage = (): JSX.Element => {
                 width: '100%',
                 height: '100%',
               }}>
-              <ContentContainer>
-                {writingStory.photos && writingStory.photos[0] && (
-                  <MediumImage
-                    style={{
-                      width: '100%',
-                      maxHeight: '40%',
-                    }}
-                    source={{uri: writingStory.photos[0].node.image.uri}}
-                  />
-                )}
-                <ContentContainer flex={1} gap={0}>
-                  <ContentContainer paddingHorizontal={16}>
+              <ContentContainer height={'100%'} gap={0}>
+                <ContentContainer
+                  flex={1}
+                  maxHeight={'40%'}
+                  backgroundColor={Color.BLACK}>
+                  {writingStory.photos && writingStory.photos[0] ? (
+                    <MediumImage
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                      }}
+                      source={{uri: writingStory.photos[0].node.image.uri}}
+                    />
+                  ) : (
+                    // TODO(border-line): 화면 레이아웃을 위해 테스트로 추가된 것으로 홈 V2 API 연결 후 삭제
+                    <MediumImage
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                      }}
+                      source={{
+                        // short height photo
+                        // uri: 'https://cdn.pixabay.com/photo/2022/09/29/03/17/baby-7486419_1280.jpg',
+                        // long height photo
+                        uri: 'https://cdn.pixabay.com/photo/2023/12/14/20/24/christmas-balls-8449615_1280.jpg',
+                      }}
+                      resizeMode={'contain'}
+                    />
+                  )}
+                </ContentContainer>
+                <ContentContainer expandToEnd withScreenPadding>
+                  <ContentContainer>
                     <StoryDateInput
                       value={writingStory.date}
                       onChange={(date: Date) => {
@@ -61,9 +80,9 @@ const StoryWritingMainPage = (): JSX.Element => {
                       }}
                     />
                   </ContentContainer>
-                  <ContentContainer gap={0}>
+                  <ContentContainer>
                     <BasicTextInput
-                      customStyle={styles.titleInput}
+                      customStyle={{height: 40, lineHeight: 40}}
                       placeholder="제목을 입력해주세요"
                       text={writingStory.title ?? ''}
                       onChangeText={text => {

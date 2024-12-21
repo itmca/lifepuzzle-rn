@@ -2,8 +2,6 @@ import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WritingHeaderLeft from '../../components/header/WritingHeaderLeft';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
-import StoryWritingMainPageOld from '../../pages/StoryWritingMain/StoryWritingMainPageOld';
-import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage';
 import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoicePage';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title, {SmallTitle} from '../../components/styled/components/Title';
@@ -14,7 +12,8 @@ import {Color} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {PostStoryKeyState} from '../../recoils/story-write.recoil';
-import Config from 'react-native-config';
+import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
+
 export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
@@ -50,11 +49,7 @@ const StoryWritingNavigator = (): JSX.Element => {
       />
       <Stack.Screen
         name="StoryWritingMain"
-        component={
-          Config.NEW_WRITING_PAGE == 'TRUE'
-            ? StoryWritingMainPage
-            : StoryWritingMainPageOld
-        }
+        component={StoryWritingMainPage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => (

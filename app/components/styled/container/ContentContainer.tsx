@@ -10,6 +10,7 @@ type ContentContainerProps = {
   width?: string;
   height?: string;
   minHeight?: string;
+  maxHeight?: string;
 
   // Layout
   useHorizontalLayout?: boolean;
@@ -49,6 +50,7 @@ type ContentContainerProps = {
   zIndex?: number;
   backgroundColor?: string;
   withNoBackground?: boolean;
+  showOverflow?: boolean;
 };
 
 export const ContentContainer = styled.View<ContentContainerProps>`
@@ -56,6 +58,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   width: ${props => props.width ?? '100%'};
   height: ${props => props.height ?? 'auto'};
   ${props => props.minHeight && `min-height: ${props.minHeight}`}
+  ${props => props.maxHeight && `max-height: ${props.maxHeight}`}
 
   /* Flex Basic */
   display: flex;
@@ -147,7 +150,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   ${props => props.withNoBackground && 'background-color: transparent;'}
   opacity: ${props => props.opacity ?? 100};
   z-index: ${props => props.zIndex ?? 0};
-  overflow: hidden;
+  overflow: ${props => (props.showOverflow ? 'auto' : 'hidden')};
 `;
 
 type ScrollContentContainerProps = ContentContainerProps &
