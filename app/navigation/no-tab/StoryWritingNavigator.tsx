@@ -75,9 +75,6 @@ const StoryWritingNavigator = (): JSX.Element => {
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>음성 녹음</Title>,
           headerBackVisible: false,
-          headerRight: () => (
-            <WritingHeaderRight text="다음" nextScreenName="StoryWritingMain" />
-          ),
         }}
       />
       <Stack.Screen
