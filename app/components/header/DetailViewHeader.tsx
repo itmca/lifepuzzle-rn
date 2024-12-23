@@ -66,7 +66,7 @@ const DetailViewHeader = ({
       date: selectedStory?.date,
       helpQuestionText: selectedStory?.question ?? '',
       title: selectedStory?.title,
-      storyText: selectedStory?.content,
+      content: selectedStory?.content,
       photos: currentPhotos ? currentPhotos : [],
       videos: currentVideos ? currentVideos : [],
       voice: selectedStory?.audios[0],

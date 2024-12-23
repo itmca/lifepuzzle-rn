@@ -1,12 +1,10 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 export type WritingStoryType = {
-  recQuestionNo?: number;
-  helpQuestionText?: string;
   title?: string;
-  storyText?: string;
+  content?: string;
   date?: Date;
-  photos?: MediaInfo[];
+  galleryIds?: number[];
   videos?: MediaInfo[];
   voice?: string;
 };

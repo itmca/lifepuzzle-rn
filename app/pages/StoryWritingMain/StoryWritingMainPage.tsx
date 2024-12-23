@@ -111,9 +111,9 @@ const StoryWritingMainPage = (): JSX.Element => {
                         }}
                         outlineStyle={{borderWidth: 0}}
                         placeholder="사진과 관련된 이야기를 기록해보세요"
-                        text={writingStory.storyText ?? ''}
+                        text={writingStory.content ?? ''}
                         onChangeText={text => {
-                          setWritingStory({storyText: text});
+                          setWritingStory({content: text});
                         }}
                         multiline={true}
                         mode={'outlined'}

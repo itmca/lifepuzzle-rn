@@ -1,15 +1,9 @@
-import {
-  Alert,
-  GestureResponderEvent,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import {Color} from '../../constants/color.constant';
 import MediumText from '../styled/components/Text';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import {useSetRecoilState, useRecoilValue, useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {BasicNavigationProps} from '../../navigation/types';
 import {
   SelectedStoryKeyState,
@@ -43,7 +37,7 @@ export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
       date: selectedStory?.date,
       helpQuestionText: selectedStory?.question ?? '',
       title: selectedStory?.title,
-      storyText: selectedStory?.content,
+      content: selectedStory?.content,
       photos: currentPhotos ? currentPhotos : [],
       videos: currentVideos ? currentVideos : [],
       voice: selectedStory?.audios[0],
