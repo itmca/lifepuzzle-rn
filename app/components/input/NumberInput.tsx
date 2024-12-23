@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { Alert, StyleProp, StyleSheet, TextStyle } from "react-native";
-import Input from '../styled/components/TextInput';
+import {Alert, StyleProp, StyleSheet, TextStyle} from 'react-native';
+import {CustomTextInput} from '../styled/components/CustomTextInput.tsx';
+
 type Props = {
   onChangeNumber: (number: number) => void;
   initialNumber: number;
@@ -53,7 +54,7 @@ export const NumberInput = ({
   }
 
   return (
-    <Input
+    <CustomTextInput
       keyboardType={'numeric'}
       onChangeText={(text: string) => {
         if (!text) {
@@ -77,10 +78,7 @@ export const NumberInput = ({
         setNumber(newNumber);
       }}
       value={text}
-      style={StyleSheet.compose(
-        {width: 'auto',fontSize:24},
-        customStyle,
-      )}
+      style={StyleSheet.compose({width: 'auto', fontSize: 24}, customStyle)}
       autoFocus={autoFocus}
       onBlur={() => {
         if (!text) {

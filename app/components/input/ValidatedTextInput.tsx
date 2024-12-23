@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {HelperText} from 'react-native-paper';
-import TextInput from '../styled/components/TextInput';
+import {CustomTextInput} from '../styled/components/CustomTextInput.tsx';
 import {Color} from '../../constants/color.constant';
 import Icon from '../styled/components/Icon';
 import {ContentContainer} from '../styled/container/ContentContainer';
@@ -61,7 +61,7 @@ const ValidatedTextInput = ({
   return (
     <ContentContainer gap={0}>
       <ContentContainer useHorizontalLayout>
-        <TextInput
+        <CustomTextInput
           mode="outlined"
           label={label}
           value={value}

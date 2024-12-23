@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import {DatePickerInput as Input} from 'react-native-paper-dates';
 import {TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import TextInput from './TextInput';
+import {CustomTextInput} from './CustomTextInput.tsx';
 import {TextInput as ReactInput} from 'react-native-paper';
 import RNDateTimePicker from 'react-native-modal-datetime-picker';
 import {MediumImage, SmallImage} from './Image';
@@ -120,7 +120,7 @@ function DateInput({...props}) {
       </ContentContainer>
       <ContentContainer flex={1} expandToEnd>
         <TouchableOpacity onPress={showPicker}>
-          <TextInput
+          <CustomTextInput
             label={props.label}
             value={formatDate(date)}
             mode={'outlined'}

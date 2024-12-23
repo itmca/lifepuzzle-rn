@@ -82,7 +82,12 @@ const StoryWritingMainPage = (): JSX.Element => {
                   </ContentContainer>
                   <ContentContainer>
                     <BasicTextInput
-                      customStyle={{height: 40, lineHeight: 40}}
+                      customStyle={{
+                        paddingHorizontal: 0,
+                        height: 40,
+                        lineHeight: 20,
+                      }}
+                      outlineStyle={{borderWidth: 0}}
                       placeholder="제목을 입력해주세요"
                       text={writingStory.title ?? ''}
                       onChangeText={text => {
@@ -93,6 +98,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                       activeUnderlineColor={'transparent'}
                       borderColor={'transparent'}
                       backgroundColor={'transparent'}
+                      focusedBackgroundColor={'transparent'}
                     />
                   </ContentContainer>
                   <ScrollView
@@ -101,7 +107,11 @@ const StoryWritingMainPage = (): JSX.Element => {
                     keyboardShouldPersistTaps={'always'}>
                     <ContentContainer expandToEnd>
                       <BasicTextInput
-                        customStyle={{flex: 1}}
+                        noPadding
+                        customStyle={{
+                          flex: 1,
+                        }}
+                        outlineStyle={{borderWidth: 0}}
                         placeholder="사진과 관련된 이야기를 기록해보세요"
                         text={writingStory.storyText ?? ''}
                         onChangeText={text => {
@@ -111,6 +121,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                         mode={'outlined'}
                         borderColor={'transparent'}
                         backgroundColor={'transparent'}
+                        focusedBackgroundColor={'transparent'}
                       />
                     </ContentContainer>
                   </ScrollView>
