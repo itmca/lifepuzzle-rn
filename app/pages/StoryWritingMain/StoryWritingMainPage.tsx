@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import {useRecoilState} from 'recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import StoryDateInput from './StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
@@ -30,10 +29,9 @@ const StoryWritingMainPage = (): JSX.Element => {
     <LoadingContainer isLoading={isStoryUploading}>
       <BottomSheetModalProvider>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScreenContainer>
+          <ContentContainer>
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-              keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
               style={{
                 borderTopWidth: 1,
                 borderTopColor: Color.LIGHT_GRAY,
@@ -129,7 +127,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                 <StoryWritingMenu keyboardVisible={isKeyboardVisible} />
               </ContentContainer>
             </KeyboardAvoidingView>
-          </ScreenContainer>
+          </ContentContainer>
         </TouchableWithoutFeedback>
       </BottomSheetModalProvider>
     </LoadingContainer>

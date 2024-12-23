@@ -7,9 +7,9 @@ import React, {useEffect, useMemo, useRef} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Easing} from 'react-native-reanimated';
 
-import {StoryWritingMenuBtn} from './StoryWritingMenuBtn';
+import {StoryWritingMenuItem} from './StoryWritingMenuItem.tsx';
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   playInfoState,
   writingStoryState,
@@ -26,7 +26,7 @@ type Props = {
 export const StoryWritingMenu = ({
   keyboardVisible = true,
 }: Props): JSX.Element => {
-  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const writingStory = useRecoilValue(writingStoryState);
   const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   const iconCnt = 1;
 
@@ -96,14 +96,12 @@ export const StoryWritingMenu = ({
     duration: 20,
     easing: Easing.exp,
   });
-  const {fileName, startPlay, pausePlay, stopPlay, seekPlay} = useVoiceRecorder(
-    {
-      audioUrl: writingStory.voice,
-    },
-  );
+  const {startPlay, pausePlay, stopPlay, seekPlay} = useVoiceRecorder({
+    audioUrl: writingStory.voice,
+  });
   return (
     <>
-      {playInfo.isOpen ? (
+      {playInfo.isOpen && (
         <BottomSheetModal
           ref={playModalRef}
           index={0}
@@ -141,23 +139,8 @@ export const StoryWritingMenu = ({
             />
           </ContentContainer>
         </BottomSheetModal>
-      ) : (
-        <Pressable
-          onPressIn={() => {
-            if (keyboardVisible) {
-              Keyboard.dismiss();
-            }
-          }}
-          onPress={() => {
-            if (iconCnt > 1) {
-              menuModalRef.current?.present();
-              menuModalRef.current?.snapToIndex(0);
-            }
-          }}>
-          <StoryWritingMenuBtn type="bar" />
-        </Pressable>
       )}
-      {iconCnt > 1 ? (
+      {keyboardVisible && iconCnt > 1 ? (
         <BottomSheetModal
           ref={menuModalRef}
           index={0}
@@ -176,11 +159,24 @@ export const StoryWritingMenu = ({
             elevation: 5,
           }}>
           <BottomSheetView>
-            <StoryWritingMenuBtn type="list" />
+            <StoryWritingMenuItem type="bar" />
           </BottomSheetView>
         </BottomSheetModal>
       ) : (
-        <></>
+        <Pressable
+          onPressIn={() => {
+            if (keyboardVisible) {
+              Keyboard.dismiss();
+            }
+          }}
+          onPress={() => {
+            if (iconCnt > 1) {
+              menuModalRef.current?.present();
+              menuModalRef.current?.snapToIndex(0);
+            }
+          }}>
+          <StoryWritingMenuItem type="list" />
+        </Pressable>
       )}
     </>
   );
