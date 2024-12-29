@@ -11,8 +11,6 @@ import {
   FlatList,
   Platform,
 } from 'react-native';
-import {useRecoilState} from 'recoil';
-
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
 import {
   hasAndroidPermission,
@@ -20,18 +18,22 @@ import {
 } from '../../service/hooks/permission.hook';
 import {useNavigation} from '@react-navigation/native';
 import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
-import {writingStoryState} from '../../recoils/story-write.recoil';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 
 const DeviceWidth = Dimensions.get('window').width;
 
-const StorySelectingVideoPage = (): JSX.Element => {
+const StorySelectingPhotoGallery = (): JSX.Element => {
   const navigation = useNavigation();
-  const [hasNextPage, setHasNextPage] = useState(false);
+  const [, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
-  const [videos, setVideos] = useState<PhotoIdentifier[]>([]);
-  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const [gallery, setGallery] = useState<PhotoIdentifier[]>([]);
+
+  const [selectedGalleryItems, setSelectedGalleryItems] = useState<
+    PhotoIdentifier[]
+  >([]);
   const isAboveIOS14 =
     Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
+
   usePhotoPermission({
     onDeny: () => {
       Alert.alert('앨범 권한이 없습니다.', '', [
@@ -42,24 +44,26 @@ const StorySelectingVideoPage = (): JSX.Element => {
       ]);
     },
   });
+
   useEffect(() => {
     void initPhotos();
   }, []);
+
   const initPhotos = async () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
       //TODO: Android 권한 없는 경우 Alert 필요
       return;
     }
+
     const {edges, page_info} = await CameraRoll.getPhotos({
-      first: !videos || videos.length < 20 ? 20 : videos.length,
-      assetType: 'Videos',
+      first: !gallery || gallery.length < 20 ? 20 : gallery.length,
+      assetType: 'All',
     });
-    setVideos(edges);
+    setGallery(edges);
 
     setNextCursor(page_info.end_cursor);
     setHasNextPage(page_info.has_next_page);
   };
-
   const handleLoadMore = async () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
       //TODO: Android 권한 없는 경우 Alert 필요
@@ -69,11 +73,11 @@ const StorySelectingVideoPage = (): JSX.Element => {
       return;
     }
     const {edges, page_info} = await CameraRoll.getPhotos({
-      first: 20,
+      first: 50,
       after: nextCursor,
-      assetType: 'Videos',
+      assetType: 'All',
     });
-    setVideos(prev => [...(prev ?? []), ...edges]);
+    setGallery(prev => [...(prev ?? []), ...edges]);
 
     setNextCursor(page_info.end_cursor);
     setHasNextPage(page_info.has_next_page);
@@ -97,51 +101,49 @@ const StorySelectingVideoPage = (): JSX.Element => {
     };
   }, []);
 
-  const selectedVideos = writingStory?.videos || [];
-
   return (
     <>
-      {selectedVideos.length != 0 && (
-        <SelectedPhotoList target={'video'} upload={false} size={50} />
+      {selectedGalleryItems.length != 0 && (
+        <ContentContainer
+          withContentPadding
+          paddingVertical={8}
+          paddingHorizontal={4}>
+          <SelectedPhotoList target={'all'} upload={false} size={80} />
+        </ContentContainer>
       )}
       <FlatList
-        data={videos}
+        data={gallery}
         numColumns={3}
         keyExtractor={(item, index) => index.toString()}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={1}
+        onEndReachedThreshold={0.8}
+        getItemLayout={(data, index) => ({
+          length: DeviceWidth / 3,
+          offset: (DeviceWidth / 3) * index,
+          index,
+        })}
         renderItem={({item, index}) => {
           const isDisabled =
-            selectedVideos?.filter(
+            selectedGalleryItems?.filter(
               e => e.node.image.uri === item.node.image.uri,
             ).length > 0;
           const order =
-            selectedVideos?.findIndex(
+            selectedGalleryItems?.findIndex(
               e => e.node.image.uri === item.node.image.uri,
             ) + 1;
+
           return (
             <SelectablePhoto
-              onSelected={(video: PhotoIdentifier) => {
-                const currentVideos = writingStory?.videos || [];
-
-                setWritingStory({
-                  videos: [
-                    ...currentVideos,
-                    {
-                      node: video.node,
-                    },
-                  ],
-                });
+              onSelected={(photo: PhotoIdentifier) => {
+                setSelectedGalleryItems([...selectedGalleryItems, photo]);
               }}
               //! size 수정 필요
               onDeselected={(photo: PhotoIdentifier) => {
-                const currentVideos = writingStory?.videos || [];
-
-                setWritingStory({
-                  videos: currentVideos.filter(
+                setSelectedGalleryItems(
+                  selectedGalleryItems.filter(
                     e => e.node.image.uri !== photo.node.image.uri,
                   ),
-                });
+                );
               }}
               size={DeviceWidth / 3}
               photo={item}
@@ -155,4 +157,4 @@ const StorySelectingVideoPage = (): JSX.Element => {
   );
 };
 
-export default StorySelectingVideoPage;
+export default StorySelectingPhotoGallery;

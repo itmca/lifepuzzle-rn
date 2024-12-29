@@ -6,19 +6,18 @@ import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoi
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title, {SmallTitle} from '../../components/styled/components/Title';
 import StoryWritingQuestionPage from '../../pages/StoryWritingQuestion/StoryWritingQuestionPage';
-import StorySelectingPhotoPage from '../../pages/StorySelectingPhoto/StorySelectingPhotoPage';
-import StorySelectingVideoPage from '../../pages/StorySelectingVideo/StorySelectingVideoPage';
+import StorySelectingGallery from '../../pages/StorySelectingGallery/StorySelectingPhotoGallery.tsx';
 import {Color} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {PostStoryKeyState} from '../../recoils/story-write.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
 
+// TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
-  StorySelectingPhoto: undefined;
-  StorySelectingVideo: undefined;
+  StoryGallerySelector: undefined;
   StoryWritingVoice: undefined;
 };
 
@@ -69,29 +68,28 @@ const StoryWritingNavigator = (): JSX.Element => {
         }}
       />
       <Stack.Screen
+        name="StoryGallerySelector"
+        component={StorySelectingGallery}
+        options={{
+          headerLeft: () => <WritingHeaderLeft type="before" />,
+          headerTitle: () => <Title>사진/비디오</Title>,
+          headerRight: () => (
+            <WritingHeaderRight
+              text={'업로드'}
+              customAction={() => {
+                saveStory();
+              }}
+            />
+          ),
+          headerBackVisible: false,
+        }}
+      />
+      <Stack.Screen
         name="StoryWritingVoice"
         component={StoryWritingVoicePage}
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => <Title>음성 녹음</Title>,
-          headerBackVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="StorySelectingPhoto"
-        component={StorySelectingPhotoPage}
-        options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>사진 업로드</Title>,
-          headerBackVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="StorySelectingVideo"
-        component={StorySelectingVideoPage}
-        options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>영상 업로드</Title>,
           headerBackVisible: false,
         }}
       />

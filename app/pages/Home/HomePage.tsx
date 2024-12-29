@@ -99,7 +99,7 @@ const HomePage = (): JSX.Element => {
                 navigation.push('NoTab', {
                   screen: 'StoryWritingNavigator',
                   params: {
-                    screen: 'StoryWritingMain',
+                    screen: 'StoryGallerySelector',
                   },
                 });
               }}
