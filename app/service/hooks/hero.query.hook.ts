@@ -11,12 +11,7 @@ export type HeroQueryResponse = {
   puzzleCnt: number;
   users: HeroUserType[];
 };
-type Response = {
-  hero: HeroType;
-  puzzleCnt: number;
-  users: HeroUserType[];
-  loading: boolean;
-};
+
 export const useHero = (heroNo: number) => {
   const [hero, setHero] = useState<HeroType>();
   const [puzzleCnt, setPuzzleCnt] = useState<number>(0);

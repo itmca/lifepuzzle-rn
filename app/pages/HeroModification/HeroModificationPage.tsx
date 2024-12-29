@@ -19,10 +19,7 @@ import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
 } from '../../navigation/types';
-import {
-  getCurrentHeroPhotoUri,
-  writingHeroState,
-} from '../../recoils/hero-write.recoil';
+import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {useHero} from '../../service/hooks/hero.query.hook';
 import {HeroUserType, toPhotoIdentifier} from '../../types/hero.type';
 import {useIsHeroUploading} from '../../service/hooks/hero.update.hook.ts';
@@ -50,8 +47,7 @@ const HeroModificationPage = (): JSX.Element => {
   const [nickName, setNickName] = useState<string>('');
   const [birthday, setBirthday] = useState<Date | undefined>(undefined);
   const [title, setTitle] = useState<string>('');
-
-  console.log('birthday - ', birthday);
+  const [isLunar, setIsLunar] = useState<boolean>(false);
 
   const [linkedUsers, setLinkedUsers] = useState<HeroUserType[]>([]);
   const [currentUserAuth, setCurrentUserAuth] = useState<
@@ -61,7 +57,6 @@ const HeroModificationPage = (): JSX.Element => {
 
   //recoil 데이터
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
-  const currentHeroPhotoUri = useRecoilValue(getCurrentHeroPhotoUri);
 
   //bottom sheet
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -79,28 +74,31 @@ const HeroModificationPage = (): JSX.Element => {
     setSelectUser({...selectUser, auth: auth});
   };
   useEffect(() => {
-    if (hero) {
-      const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
-      setWritingHero({
-        heroNo: heroNo,
-        heroName: hero?.heroName ?? '',
-        heroNickName: hero?.heroNickName,
-        birthday: hero?.birthday,
-        title: hero?.title,
-        imageURL: currentPhoto,
-      });
-
-      setName(hero?.heroName);
-      setNickName(hero?.heroNickName);
-      setBirthday(hero?.birthday ? new Date(hero?.birthday) : new Date());
-      setTitle(hero?.title || '');
-      setLinkedUsers(users);
-      setCurrentUserAuth(
-        users
-          .filter(user => user.userNo === currentUser.userNo)
-          .map(user => user.auth)[0],
-      );
+    if (!hero) {
+      return;
     }
+    const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
+    setWritingHero({
+      heroNo: heroNo,
+      heroName: hero.heroName ?? '',
+      heroNickName: hero.heroNickName,
+      birthday: hero.birthday,
+      isLunar: hero.isLunar,
+      title: hero.title,
+      imageURL: currentPhoto,
+    });
+
+    setName(hero.heroName);
+    setNickName(hero.heroNickName);
+    setBirthday(hero.birthday ? new Date(hero.birthday) : new Date());
+    setIsLunar(hero.isLunar);
+    setTitle(hero.title || '');
+    setLinkedUsers(users);
+    setCurrentUserAuth(
+      users
+        .filter(user => user.userNo === currentUser.userNo)
+        .map(user => user.auth)[0],
+    );
   }, [loading]);
 
   useEffect(() => {
@@ -110,8 +108,9 @@ const HeroModificationPage = (): JSX.Element => {
       heroNickName: nickName,
       birthday: birthday,
       title: title,
+      isLunar: isLunar,
     });
-  }, [name, nickName, birthday, title]);
+  }, [name, nickName, birthday, title, isLunar]);
 
   const handleClosePress = useCallback(() => {
     bottomSheetModalRef.current?.close();
@@ -218,7 +217,9 @@ const HeroModificationPage = (): JSX.Element => {
                   <CustomDateInput
                     label=""
                     date={birthday}
-                    onChange={setBirthday}
+                    onDateChange={setBirthday}
+                    isLunar={isLunar}
+                    onIsLunarChange={setIsLunar}
                   />
                 </ContentContainer>
                 <ContentContainer>

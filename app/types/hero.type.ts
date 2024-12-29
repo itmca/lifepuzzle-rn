@@ -6,7 +6,8 @@ export type HeroType = {
   heroName: string;
   heroNickName: string;
   imageURL?: string;
-  birthday?: Date;
+  birthday: Date;
+  isLunar: boolean;
   title?: string;
   modifiedImage?: PhotoIdentifier | undefined;
   puzzleCnt?: number;

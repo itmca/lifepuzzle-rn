@@ -3,26 +3,26 @@ import DateInput from '../styled/components/DateInput';
 
 type Props = {
   label?: string;
-  disabled?: boolean;
-  placeholder?: string;
   date: Date | undefined;
-  onChange: (date: Date | undefined) => void;
+  onDateChange: (date: Date | undefined) => void;
+  isLunar?: boolean;
+  onIsLunarChange?: (isLunar: boolean) => void;
 };
 
 export const CustomDateInput = ({
   label,
-  disabled,
-  placeholder,
   date,
-  onChange,
+  onDateChange,
+  isLunar,
+  onIsLunarChange,
 }: Props): JSX.Element => {
   return (
     <DateInput
       label={label}
-      disabled={disabled}
-      placeholder={placeholder}
-      value={date}
-      onChange={onChange}
+      date={date}
+      onDateChange={onDateChange}
+      isLunar={isLunar}
+      onIsLunarChange={onIsLunarChange}
     />
   );
 };

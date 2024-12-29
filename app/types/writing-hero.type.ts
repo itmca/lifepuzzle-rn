@@ -5,6 +5,7 @@ export type WritingHeroType = {
   heroName: string;
   heroNickName: string;
   birthday?: Date;
+  isLunar?: boolean;
   title?: string;
   imageURL?: PhotoIdentifier;
   isProfileImageUpdate?: boolean;

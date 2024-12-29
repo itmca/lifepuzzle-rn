@@ -1,5 +1,3 @@
-import styled from 'styled-components/native';
-import {DatePickerInput as Input} from 'react-native-paper-dates';
 import {TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {CustomTextInput} from './CustomTextInput.tsx';
@@ -12,24 +10,23 @@ import {XSmallTitle} from './Title.tsx';
 import SelectDropdown from 'react-native-select-dropdown';
 
 type Props = {
-  width?: '100%';
-  marginBottom?: number | 8;
+  label?: string;
+  date: Date | undefined;
+  onDateChange: (date: Date | undefined) => void;
+  isLunar?: boolean;
+  onIsLunarChange?: (isLunar: boolean) => void;
 };
 
-const StyledDateInput = styled(Input).attrs(() => ({
-  locale: 'en',
-  inputMode: 'start',
-  mode: 'outlined',
-}))<Props>`
-  width: ${({width}) => (width ? `${width}%` : '100%')};
-  margin-bottom: ${({marginBottom}) =>
-    marginBottom ? `${marginBottom}px` : '8px'};
-`;
-
-function DateInput({...props}) {
+function DateInput({
+  label,
+  date: propDate,
+  onDateChange,
+  isLunar,
+  onIsLunarChange,
+}: Props) {
   const [visible, setVisible] = useState(false);
   const [date, onChangeDate] = useState<Date>(
-    props.value ? new Date(props.value) : new Date(),
+    propDate ? new Date(propDate) : new Date(),
   );
   const showPicker = () => {
     setVisible(true);
@@ -48,8 +45,8 @@ function DateInput({...props}) {
     setVisible(false);
     if (selectedValue) {
       const currentDate = selectedValue || new Date();
+      onDateChange(currentDate);
       onChangeDate(currentDate);
-      props.onChange(currentDate);
     }
   };
   const onCancel = () => {
@@ -68,7 +65,18 @@ function DateInput({...props}) {
             {label: '양력', value: 'SOLAR'},
             {label: '음력', value: 'LUNAR'},
           ]}
-          onSelect={(selectedItem, index) => {}}
+          defaultValue={
+            isLunar
+              ? {label: '음력', value: 'LUNAR'}
+              : {label: '양력', value: 'SOLAR'}
+          }
+          onSelect={selectedItem => {
+            if (onIsLunarChange === undefined) {
+              return;
+            }
+
+            onIsLunarChange(selectedItem.value === 'LUNAR');
+          }}
           renderButton={(selectedItem, isOpened) => {
             return (
               <ContentContainer>
@@ -121,7 +129,7 @@ function DateInput({...props}) {
       <ContentContainer flex={1} expandToEnd>
         <TouchableOpacity onPress={showPicker}>
           <CustomTextInput
-            label={props.label}
+            label={label}
             value={formatDate(date)}
             mode={'outlined'}
             disabled={true}

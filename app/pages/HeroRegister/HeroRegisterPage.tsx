@@ -98,7 +98,7 @@ const HeroRegisterPage = (): JSX.Element => {
               </XSmallTitle>
               <CustomDateInput
                 date={writingHero.birthday}
-                onChange={birthday => setWritingHero({birthday})}
+                onDateChange={birthday => setWritingHero({birthday})}
               />
             </ContentContainer>
           </ContentContainer>

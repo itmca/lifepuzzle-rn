@@ -58,6 +58,7 @@ const addHeroInFormData = (
     heroName: writingHero?.heroName,
     heroNickName: writingHero?.heroNickName,
     birthday: writingHero?.birthday,
+    isLunar: writingHero?.isLunar,
     title: writingHero?.title,
     imageURL: imgPath ?? '',
     isProfileImageUpdate: writingHero.isProfileImageUpdate,
