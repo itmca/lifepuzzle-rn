@@ -4,7 +4,6 @@ import {
   DUMMY_AGE_GROUPS,
   DUMMY_TAGS,
 } from '../constants/dummy-age-group.constant';
-import {Dimensions, Image} from 'react-native';
 
 export const selectedGalleryIndexState = atom<number>({
   key: 'selectedGalleryIndexState',
@@ -13,8 +12,8 @@ export const selectedGalleryIndexState = atom<number>({
 export const selectedTagState = atom<TagType>({
   key: 'selectedTagState',
   default: {
-    key: 'under10',
-    label: '~10',
+    key: 'UNDER_TEENAGER',
+    label: '10대 미만',
   },
 });
 const ageGroupsInternalState = atom<AgeGroupsType>({

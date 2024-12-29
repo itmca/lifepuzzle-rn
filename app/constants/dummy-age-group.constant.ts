@@ -1,8 +1,7 @@
 import {AgeGroupsType, TagType} from '../types/photo.type';
-import {StoryType} from '../types/story.type';
 
 export const DUMMY_AGE_GROUPS: AgeGroupsType = {
-  under10: {
+  UNDER_TEENAGER: {
     startYear: 1941,
     endYear: 1950,
     galleryCount: 1,
@@ -23,7 +22,7 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       },
     ],
   },
-  '10s': {
+  TEENAGER: {
     startYear: 1951,
     endYear: 1960,
     galleryCount: 2,
@@ -49,7 +48,7 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       },
     ],
   },
-  '20s': {
+  TWENTIES: {
     startYear: 1961,
     endYear: 1970,
     galleryCount: 3,
@@ -74,7 +73,7 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       },
     ],
   },
-  '30s': {
+  THIRTY: {
     startYear: 1971,
     endYear: 1980,
     galleryCount: 5,
@@ -111,7 +110,7 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       },
     ],
   },
-  '70s': {
+  SEVENTY: {
     startYear: 2011,
     endYear: 2020,
     galleryCount: 1,
@@ -128,42 +127,42 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
 };
 export const DUMMY_TAGS: TagType[] = [
   {
-    key: 'under10',
-    label: '~10',
+    key: 'UNDER_TEENAGER',
+    label: '10대 미만',
     count: 0,
   },
   {
-    key: '10s',
+    key: 'TEENAGER',
     label: '10대',
     count: 10,
   },
   {
-    key: '20s',
+    key: 'TWENTIES',
     label: '20대',
     count: 9,
   },
   {
-    key: '30s',
+    key: 'THIRTY',
     label: '30대',
     count: 8,
   },
   {
-    key: '40s',
+    key: 'FORTY',
     label: '40대',
     count: 7,
   },
   {
-    key: '50s',
+    key: 'FIFTY',
     label: '50대',
     count: 6,
   },
   {
-    key: '60s',
+    key: 'SIXTY',
     label: '60대',
     count: 5,
   },
   {
-    key: '70s',
+    key: 'SEVENTY',
     label: '70대',
     count: 4,
   },

@@ -1,5 +1,15 @@
-type ValidDecades = 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90;
-export type AgeType = 'under10' | `${ValidDecades}s`;
+export type AgeType =
+  | 'UNDER_TEENAGER'
+  | 'TEENAGER'
+  | 'TWENTIES'
+  | 'THIRTY'
+  | 'FORTY'
+  | 'FIFTY'
+  | 'SIXTY'
+  | 'SEVENTY'
+  | 'EIGHTY'
+  | 'NINETY'
+  | 'UPPER_NINETY';
 export type AgeGroupsType = {
   totalGallery: number;
 } & Partial<Record<AgeType, AgeGroupType>>;

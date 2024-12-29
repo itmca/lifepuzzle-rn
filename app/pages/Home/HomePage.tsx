@@ -86,11 +86,7 @@ const HomePage = (): JSX.Element => {
         {hero.auth !== 'VIEWER' && (
           <ContentContainer withScreenPadding backgroundColor="transparent">
             <WritingButton
-              tagLabel={
-                (selectedTag?.key === 'under10'
-                  ? '10세 미만'
-                  : selectedTag?.label) ?? ''
-              }
+              tagLabel={selectedTag?.label ?? ''}
               onPress={() => {
                 setSelectedStoryKey('');
                 setPostStoryKey('');

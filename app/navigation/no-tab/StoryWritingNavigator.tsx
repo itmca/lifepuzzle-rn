@@ -6,12 +6,13 @@ import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoi
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title, {SmallTitle} from '../../components/styled/components/Title';
 import StoryWritingQuestionPage from '../../pages/StoryWritingQuestion/StoryWritingQuestionPage';
-import StorySelectingGallery from '../../pages/StorySelectingGallery/StorySelectingPhotoGallery.tsx';
+import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
 import {Color} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {PostStoryKeyState} from '../../recoils/story-write.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
+import {useUploadGallery} from '../../service/hooks/gallery.write.hook.ts';
 
 // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {
@@ -25,6 +26,7 @@ const Stack = createNativeStackNavigator<StoryWritingParamList>();
 
 const StoryWritingNavigator = (): JSX.Element => {
   const [saveStory] = useSaveStory();
+  const [uploadGallery] = useUploadGallery();
   const selectedStoryKey = useRecoilValue(SelectedStoryKeyState);
   const postStoryKey = useRecoilValue(PostStoryKeyState);
 
@@ -77,7 +79,7 @@ const StoryWritingNavigator = (): JSX.Element => {
             <WritingHeaderRight
               text={'업로드'}
               customAction={() => {
-                saveStory();
+                uploadGallery();
               }}
             />
           ),

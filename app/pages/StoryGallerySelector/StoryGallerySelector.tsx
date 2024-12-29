@@ -17,20 +17,27 @@ import {
   usePhotoPermission,
 } from '../../service/hooks/permission.hook';
 import {useNavigation} from '@react-navigation/native';
-import SelectedPhotoList from '../../components/photo/SelectedPhotoList';
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {
+  isGalleryUploadingState,
+  selectedGalleryItemsState,
+} from '../../recoils/gallery-write.recoil.ts';
+import {LoadingContainer} from '../../components/loadding/LoadingContainer.tsx';
 
 const DeviceWidth = Dimensions.get('window').width;
 
-const StorySelectingPhotoGallery = (): JSX.Element => {
+const StoryGallerySelector = (): JSX.Element => {
   const navigation = useNavigation();
   const [, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
   const [gallery, setGallery] = useState<PhotoIdentifier[]>([]);
 
-  const [selectedGalleryItems, setSelectedGalleryItems] = useState<
-    PhotoIdentifier[]
-  >([]);
+  const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
+    selectedGalleryItemsState,
+  );
+
+  const isGalleryUploading = useRecoilValue(isGalleryUploadingState);
+
   const isAboveIOS14 =
     Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
 
@@ -46,6 +53,7 @@ const StorySelectingPhotoGallery = (): JSX.Element => {
   });
 
   useEffect(() => {
+    setSelectedGalleryItems([]);
     void initPhotos();
   }, []);
 
@@ -102,15 +110,7 @@ const StorySelectingPhotoGallery = (): JSX.Element => {
   }, []);
 
   return (
-    <>
-      {selectedGalleryItems.length != 0 && (
-        <ContentContainer
-          withContentPadding
-          paddingVertical={8}
-          paddingHorizontal={4}>
-          <SelectedPhotoList target={'all'} upload={false} size={80} />
-        </ContentContainer>
-      )}
+    <LoadingContainer isLoading={isGalleryUploading}>
       <FlatList
         data={gallery}
         numColumns={3}
@@ -153,8 +153,8 @@ const StorySelectingPhotoGallery = (): JSX.Element => {
           );
         }}
       />
-    </>
+    </LoadingContainer>
   );
 };
 
-export default StorySelectingPhotoGallery;
+export default StoryGallerySelector;

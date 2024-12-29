@@ -2,8 +2,7 @@ import {useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {SelectedStoryKeyState} from '../../recoils/story-view.recoil.ts';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {isLoggedInState} from '../../recoils/auth.recoil.ts';
 import {
