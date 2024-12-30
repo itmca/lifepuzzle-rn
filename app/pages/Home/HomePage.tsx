@@ -39,6 +39,7 @@ import {
 } from '../../recoils/photos.recoil.ts';
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
+import {useLoginAlert} from '../../service/hooks/login.hook.ts';
 
 const HomePage = (): JSX.Element => {
   const isFocused = useIsFocused();
@@ -51,6 +52,7 @@ const HomePage = (): JSX.Element => {
   const resetWritingStory = useResetRecoilState(writingStoryState);
   const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
   //const {stories, isLoading} = useStories();
+  const loginAlert = useLoginAlert();
 
   const [selectedTag, setSelectedTag] =
     useRecoilState<TagType>(selectedTagState);
@@ -78,7 +80,8 @@ const HomePage = (): JSX.Element => {
         <Gallery
           hero={photoHero}
           ageGroups={displayAgeGroups}
-          tags={displayTags}></Gallery>
+          tags={displayTags}
+        />
         <GoToTopButton
           visible={scrollPositionY > 10}
           onPress={() => scrollRef.current?.scrollTo({y: 0})}
@@ -88,6 +91,14 @@ const HomePage = (): JSX.Element => {
             <WritingButton
               tagLabel={selectedTag?.label ?? ''}
               onPress={() => {
+                if (!isLoggedIn) {
+                  loginAlert({
+                    title:
+                      '로그인 후 사랑하는 사람의 사진/동영상을 업로드해보세요',
+                  });
+                  return;
+                }
+
                 setSelectedStoryKey('');
                 setPostStoryKey('');
                 resetWritingStory();

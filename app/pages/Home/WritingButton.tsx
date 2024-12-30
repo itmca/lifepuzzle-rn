@@ -7,6 +7,7 @@ import {XLargeText} from '../../components/styled/components/Text';
 import {Color} from '../../constants/color.constant';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
+
 type Props = {
   tagLabel: string;
   onPress: () => void;
@@ -48,9 +49,7 @@ export const WritingButton = ({onPress, tagLabel}: Props): JSX.Element => {
         gap={8}>
         <Icon size={30} color={Color.WHITE} name={'camera'} />
         <XLargeText color={Color.WHITE} fontWeight={700}>
-          {isLoggedIn
-            ? `${tagLabel} 사진/동영상 추가하기`
-            : '이야기 작성 체험하기'}
+          {`${tagLabel} 사진/동영상 추가하기`}
         </XLargeText>
       </ContentContainer>
     </TouchableOpacity>
