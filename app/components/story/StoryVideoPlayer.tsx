@@ -17,6 +17,7 @@ type props = {
   listThumbnail?: boolean;
   activeMediaIndexNo?: number;
   width: number;
+  onLoad?: (data: OnLoadData) => void;
 };
 
 export const VideoPlayer = ({
@@ -24,6 +25,7 @@ export const VideoPlayer = ({
   width,
   setPaginationShown,
   activeMediaIndexNo,
+  onLoad,
 }: props) => {
   const player = useRef<any>(null);
   const [duration, setDuration] = useState<number>(0);
@@ -48,10 +50,11 @@ export const VideoPlayer = ({
     };
   }, [navigation]);
 
-  const onLoad = (data: OnLoadData) => {
+  const _onLoad = (data: OnLoadData) => {
     const videoDuration = data.duration;
     setDuration(videoDuration);
     setPlayingTime(toMinuteSeconds(videoDuration));
+    onLoad && onLoad(data);
   };
 
   const onProgress = (data: OnProgressData) => {
@@ -91,7 +94,7 @@ export const VideoPlayer = ({
         muted={false}
         repeat={true}
         onEnd={onEnd}
-        onLoad={onLoad}
+        onLoad={_onLoad}
         onProgress={onProgress}
         onPlaybackRateChange={handlePause}
       />

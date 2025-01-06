@@ -9,9 +9,11 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
 
 type Props = {
-  storyKey: string;
+  storyKey: number;
 };
-
+type GalleryProps = {
+  galleryId: number;
+};
 export const useDeleteStory = ({storyKey}: Props): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const setStoryloading = useSetRecoilState(isStoryUploading);
@@ -40,6 +42,43 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
     deleteStory({
       data: {
         storyKey: storyKey,
+      },
+    });
+  };
+
+  return [
+    () => {
+      submit();
+    },
+  ];
+};
+export const useDeleteGallery = ({galleryId}: GalleryProps): [() => void] => {
+  const navigation = useNavigation<BasicNavigationProps>();
+  const setStoryloading = useSetRecoilState(isStoryUploading);
+  const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
+
+  const [isLoading, deleteStory] = useAuthAxios<any>({
+    requestOption: {
+      method: 'DELETE',
+      url: `/v1/heroes/gallery/${galleryId}`,
+    },
+    onResponseSuccess: () => {
+      navigation.navigate('HomeTab', {screen: 'Home'});
+    },
+    onError: err => {
+      Alert.alert('사진 삭제를 실패했습니다. 재시도 부탁드립니다.');
+    },
+    disableInitialRequest: true,
+  });
+
+  useEffect(() => {
+    setStoryloading(isLoading);
+  }, [isLoading]);
+
+  const submit = function () {
+    deleteStory({
+      data: {
+        galleryId: galleryId,
       },
     });
   };

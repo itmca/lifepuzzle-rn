@@ -43,6 +43,7 @@ function StoryDateInput({...props}) {
         onPress={() => {
           void showPicker();
         }}
+        disabled={props.disabled}
         style={{
           backgroundColor: Color.SECONDARY_LIGHT,
           paddingVertical: 4,

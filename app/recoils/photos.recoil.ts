@@ -42,7 +42,6 @@ export const getGallery = selector({
     const tags = get(tagState);
     const gallery = Object.entries(ageGroups)
       .map(([key, value]: [string, any]) => {
-        if (key === 'totalGallery') return [];
         const tag = tags.find((tag: any) => tag.key === key);
         return value.gallery.map((item: any) => ({
           ...item,

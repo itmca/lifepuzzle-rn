@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   useRecoilState,
   useRecoilValue,
@@ -77,11 +77,13 @@ const HomePage = (): JSX.Element => {
         <ContentContainer withScreenPadding>
           <HeroOverview hero={photoHero} />
         </ContentContainer>
-        <Gallery
-          hero={photoHero}
-          ageGroups={displayAgeGroups}
-          tags={displayTags}
-        />
+        <ContentContainer flex={1}>
+          <Gallery
+            hero={photoHero}
+            ageGroups={displayAgeGroups}
+            tags={displayTags}></Gallery>
+        </ContentContainer>
+
         <GoToTopButton
           visible={scrollPositionY > 10}
           onPress={() => scrollRef.current?.scrollTo({y: 0})}

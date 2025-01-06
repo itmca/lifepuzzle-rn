@@ -10,9 +10,7 @@ export type AgeType =
   | 'EIGHTY'
   | 'NINETY'
   | 'UPPER_NINETY';
-export type AgeGroupsType = {
-  totalGallery: number;
-} & Partial<Record<AgeType, AgeGroupType>>;
+export type AgeGroupsType = Partial<Record<AgeType, AgeGroupType>>;
 export type AgeGroupType = {
   startYear: number;
   endYear: number;
@@ -22,7 +20,7 @@ export type AgeGroupType = {
 export type GalleryType = {
   id: number;
   index: number;
-  type: 'photo' | 'video';
+  type: 'IMAGE' | 'VIDEO';
   url: string;
   story?: StoryType;
   tag?: TagType;

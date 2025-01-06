@@ -9,8 +9,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       {
         id: 49,
         index: 1,
-        type: 'photo',
-        url: 'https://cdn.pixabay.com/photo/2023/01/08/18/11/plants-7705865_1280.jpg',
+        type: 'IMAGE',
+        url: 'https://item.kakaocdn.net/do/1401e813472967e3b572fee1ee192eb89f17e489affba0627eb1eb39695f93dd',
         story: {
           id: 31,
           title: '1.나는 수박이 제일 좋아',
@@ -30,8 +30,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       {
         id: 82,
         index: 2,
-        type: 'photo',
-        url: 'https://cdn.pixabay.com/photo/2023/01/08/18/11/plants-7705865_1280.jpg',
+        type: 'VIDEO',
+        url: 'https://va.media.tumblr.com/tumblr_o600t8hzf51qcbnq0_480.mp4',
         story: {
           id: 31,
           title: '2.나는 수박이 제일 좋아',
@@ -43,7 +43,7 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       {
         id: 21,
         index: 3,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2023/11/17/19/07/cookies-8394894_1280.jpg',
       },
     ],
@@ -56,19 +56,19 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       {
         id: 21,
         index: 4,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2023/11/17/19/07/cookies-8394894_1280.jpg',
       },
       {
         id: 9,
         index: 5,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2024/02/16/06/18/cat-8576777_1280.jpg',
       },
       {
         id: 9,
         index: 6,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2024/02/16/06/18/cat-8576777_1280.jpg',
       },
     ],
@@ -81,31 +81,31 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       {
         id: 4,
         index: 7,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2023/11/17/19/07/cookies-8394894_1280.jpg',
       },
       {
         id: 9,
         index: 8,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2024/02/16/06/18/cat-8576777_1280.jpg',
       },
       {
         id: 9,
         index: 9,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2024/02/16/06/18/cat-8576777_1280.jpg',
       },
       {
         id: 60,
         index: 10,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2023/01/08/18/11/plants-7705865_1280.jpg',
       },
       {
         id: 60,
         index: 11,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2023/01/08/18/11/plants-7705865_1280.jpg',
       },
     ],
@@ -118,12 +118,11 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       {
         id: 4,
         index: 12,
-        type: 'photo',
+        type: 'IMAGE',
         url: 'https://cdn.pixabay.com/photo/2024/02/16/06/18/cat-8576777_1280.jpg',
       },
     ],
   },
-  totalGallery: 12,
 };
 export const DUMMY_TAGS: TagType[] = [
   {

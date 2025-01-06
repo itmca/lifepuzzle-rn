@@ -10,37 +10,47 @@ import {
   SelectedStoryState,
 } from '../../recoils/story-view.recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
-import {useDeleteStory} from '../../service/hooks/story.delete.hook';
+import {
+  useDeleteGallery,
+  useDeleteStory,
+} from '../../service/hooks/story.delete.hook';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Divider} from 'react-native-paper';
 import {toPhotoIdentifier} from '../../service/story-display.service';
+import {GalleryType} from '../../types/photo.type';
 
 type Props = {
   type: 'story' | 'photo';
+  gallery: GalleryType;
 };
 
-export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
+export const StoryDetailMenu = ({
+  type = 'story',
+  gallery,
+}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   const setWritingStory = useSetRecoilState(writingStoryState);
   const storyKey = useRecoilValue(SelectedStoryKeyState);
   const isStory = type === 'story';
   const [selectedStory, setSelectedStory] = useRecoilState(SelectedStoryState);
+  const [deleteStory] = useDeleteStory({
+    storyKey: gallery.story ? gallery.story.id : -1,
+  });
+  const [deleteGallery] = useDeleteGallery({galleryId: gallery.id});
 
-  const [deleteStory] = useDeleteStory({storyKey: storyKey});
-
-  const onClickEdit = () => {
+  const onEditStory = () => {
+    //TODO 이야기 수정 확인
     const currentPhotos = selectedStory?.photos.map(toPhotoIdentifier);
     const currentVideos = selectedStory?.videos.map(toPhotoIdentifier);
 
     setWritingStory({
-      date: selectedStory?.date,
-      helpQuestionText: selectedStory?.question ?? '',
-      title: selectedStory?.title,
-      content: selectedStory?.content,
-      photos: currentPhotos ? currentPhotos : [],
-      videos: currentVideos ? currentVideos : [],
-      voice: selectedStory?.audios[0],
+      title: gallery.story?.title ?? '',
+      content: gallery.story?.content ?? '',
+      date: gallery.story?.date ? new Date(gallery.story?.date) : new Date(),
+      galleryIds: [gallery.id],
+      videos: [...(currentVideos ?? [])],
+      voice: gallery.story?.audio ?? '',
     });
 
     navigation.push('NoTab', {
@@ -50,7 +60,8 @@ export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
       },
     });
   };
-  const onClickDelete = () => {
+  const onDeleteStory = () => {
+    //TODO 이야기 삭제 확인
     Alert.alert('', '사진에 연결된 이야기를 삭제하시겠습니까?', [
       {
         text: '삭제',
@@ -64,7 +75,8 @@ export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
       },
     ]);
   };
-  const onClickPhotoDelete = () => {
+  const onDeleteGallery = () => {
+    //TODO 사진 삭제 확인
     let msg = isStory
       ? '연결된 이야기도 함께 삭제가 됩니다. 사진을 삭제하시겠습니까?'
       : '사진을 삭제하시겠습니까?';
@@ -72,8 +84,7 @@ export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
       {
         text: '삭제',
         onPress: () => {
-          //TODO 사진 삭제
-          deleteStory();
+          deleteGallery();
         },
       },
       {
@@ -86,7 +97,7 @@ export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
     <ContentContainer withScreenPadding gap={16}>
       {isStory && (
         <ContentContainer gap={0}>
-          <TouchableOpacity onPress={onClickEdit}>
+          <TouchableOpacity onPress={onEditStory}>
             <ContentContainer
               height={'56px'}
               useHorizontalLayout
@@ -107,7 +118,7 @@ export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
           <Divider
             theme={{colors: {outlineVariant: Color.WHITE}}}
             bold></Divider>
-          <TouchableOpacity onPress={onClickDelete}>
+          <TouchableOpacity onPress={onDeleteStory}>
             <ContentContainer
               height={'56px'}
               useHorizontalLayout
@@ -127,7 +138,7 @@ export const StoryDetailMenu = ({type = 'story'}: Props): JSX.Element => {
           </TouchableOpacity>
         </ContentContainer>
       )}
-      <TouchableOpacity onPress={onClickPhotoDelete}>
+      <TouchableOpacity onPress={onDeleteGallery}>
         <ContentContainer
           height={'56px'}
           useHorizontalLayout

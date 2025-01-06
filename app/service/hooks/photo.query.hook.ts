@@ -4,7 +4,12 @@ import {useUpdateObserver} from './update.hooks';
 import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
 import {useEffect, useState} from 'react';
 import {useAuthAxios} from './network.hook';
-import {PhotoHeroType, AgeGroupsType, TagType} from '../../types/photo.type';
+import {
+  PhotoHeroType,
+  AgeGroupsType,
+  TagType,
+  AgeType,
+} from '../../types/photo.type';
 import {HeroType} from '../../types/hero.type';
 import {
   ageGroupsState,
@@ -15,14 +20,12 @@ import {
   DUMMY_AGE_GROUPS,
   DUMMY_TAGS,
 } from '../../constants/dummy-age-group.constant';
-export type AgeGroupKeysWithoutTotalPhotos = Exclude<
-  keyof AgeGroupsType,
-  'totalGallery'
->;
+export type AgeGroupKeysWithoutTotalPhotos = keyof AgeGroupsType;
 type PhotoQueryResponse = {
   hero: PhotoHeroType;
   ageGroups: AgeGroupsType;
   tags: TagType[];
+  totalGallery: number;
 };
 
 type Response = {
@@ -44,6 +47,7 @@ const tmpResponse: PhotoQueryResponse = {
   },
   ageGroups: DUMMY_AGE_GROUPS,
   tags: DUMMY_TAGS,
+  totalGallery: 12,
 };
 export const useHeroPhotos = (): Response => {
   const hero = useRecoilValue<HeroType>(heroState);
@@ -57,13 +61,10 @@ export const useHeroPhotos = (): Response => {
     useRecoilState<TagType>(selectedTagState);
   const [isLoading, fetchHeroStories] = useAuthAxios<PhotoQueryResponse>({
     requestOption: {
-      url: '/stories', // url: '/v1/heroes/{heroNo}/photos',
-      params: {
-        heroNo: hero.heroNo,
-      },
+      url: `/v1/heroes/${hero.heroNo}/gallery`,
     },
     onResponseSuccess: res => {
-      setPhotoHero(tmpResponse.hero);
+      setPhotoHero(res.hero);
       setAgeGroups(tmpResponse.ageGroups);
       setTags([
         ...tmpResponse.tags.map(item => ({
@@ -71,16 +72,18 @@ export const useHeroPhotos = (): Response => {
           label: item.label,
           count:
             item.key in ageGroups
-              ? ageGroups[item.key as AgeGroupKeysWithoutTotalPhotos]
-                  ?.galleryCount
+              ? ageGroups[item.key as AgeType]?.galleryCount
               : 0,
         })),
       ]);
-      if (ageGroups.totalGallery == 0) {
+      if (res.totalGallery == 0) {
         setSelectedTag(tags[(photoHero?.age ?? 0) / 10]);
       } else {
         setSelectedTag(tags[tags.findIndex(item => (item.count ?? 0) > 0)]);
       }
+    },
+    onError: err => {
+      console.log('err', err);
     },
     disableInitialRequest: true,
   });

@@ -1,41 +1,72 @@
-import {useEffect, useState} from 'react';
-import {StoryType} from '../../types/story.type';
+import {useState} from 'react';
+import {Dimensions} from 'react-native';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {useRecoilValue} from 'recoil';
-import {DUMMY_STORY_LIST} from '../../constants/dummy-story-list.constant';
-import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import {useIsFocused} from '@react-navigation/native';
-import {ScrollContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {MediaCarousel} from '../../components/story/MediaCarousel.tsx';
+import {StoryItemContents} from '../../components/story-list/StoryItemContents';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {writingStoryState} from '../../recoils/story-write.recoil';
+import {
+  ContentContainer,
+  ScrollContentContainer,
+} from '../../components/styled/container/ContentContainer.tsx';
+
+import {Color} from '../../constants/color.constant.ts';
+import {MediumTitle} from '../../components/styled/components/Title.tsx';
+import {BasicNavigationProps} from '../../navigation/types.tsx';
+import {
+  selectedGalleryIndexState,
+  getGallery,
+} from '../../recoils/photos.recoil.ts';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  const [galleryIndex, setGalleryIndex] = useRecoilState(
+    selectedGalleryIndexState,
+  );
+
+  const gallery = useRecoilValue(getGallery);
+  const [isStory, setIsStory] = useState<boolean>(gallery[galleryIndex].story);
+
+  const setWritingStory = useSetRecoilState(writingStoryState);
   const isFocused = useIsFocused();
-  const storyKey = useRecoilValue(SelectedStoryKeyState);
-  const [story, setStory] = useState<StoryType>();
-
-  useEffect(() => {
-    const dummyStory: StoryType[] = DUMMY_STORY_LIST.filter(
-      story => story.id === storyKey,
-    );
-
-    setStory(dummyStory[0]);
-  }, [storyKey]);
-
-  if (!story) {
-    return <></>;
-  }
 
   return (
     <ScreenContainer>
-      <ScrollContentContainer>
-        {/* {!isOnlyText && (
-          <StoryMediaCarousel
-            story={story}
+      <ScrollContentContainer gap={16}>
+        <ContentContainer
+          useHorizontalLayout
+          paddingHorizontal={16}
+          alignItems="flex-end"
+          height={Dimensions.get('window').height * 0.1 + 'px' ?? '10%'}>
+          <MediumTitle>{gallery[galleryIndex].tag?.label ?? ''}</MediumTitle>
+        </ContentContainer>
+
+        <ContentContainer backgroundColor={Color.BLACK}>
+          <MediaCarousel
+            data={gallery.map(item => ({
+              type: item.type,
+              url: item.url,
+            }))}
+            activeIndex={galleryIndex}
             isFocused={isFocused}
             carouselWidth={Dimensions.get('window').width}
-            carouselHeight={200}
+            onScroll={index => {
+              setGalleryIndex(index % gallery.length);
+              setIsStory(gallery[index % gallery.length].story);
+            }}
           />
-        )}
-        <StoryItemContents inDetail={true} story={story} /> */}
+        </ContentContainer>
+        <ContentContainer
+          paddingHorizontal={16}
+          paddingBottom={10}
+          flex={1}
+          expandToEnd>
+          {gallery[galleryIndex]?.story && (
+            <StoryItemContents story={gallery[galleryIndex].story} />
+          )}
+        </ContentContainer>
       </ScrollContentContainer>
     </ScreenContainer>
   );

@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Color} from '../../constants/color.constant.ts';
 import {Photo} from '../../components/styled/components/Image.tsx';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
@@ -10,145 +10,126 @@ import {
   MediumTitle,
   SmallTitle,
 } from '../../components/styled/components/Title.tsx';
+import {createThumbnail} from 'react-native-create-thumbnail';
 
 type Props = {
   tag: TagType;
   data: GalleryType[];
   onClick: (index: GalleryType['id']) => void;
 };
+type MediaProps = {
+  item: GalleryType;
+};
+const Media = ({item}: MediaProps): JSX.Element => {
+  const [thumbnailUrl, setThumbnailUri] = useState<string>(item.url);
+  const createThumbnailUrl = async () => {
+    const response = await createThumbnail({
+      url: item.url,
+    });
+    setThumbnailUri(response.path);
+  };
+  useEffect(() => {
+    if (item.type === 'VIDEO') {
+      void createThumbnailUrl();
+    }
+  }, [item.url]);
 
+  if (item.type === 'IMAGE') {
+    return (
+      <Photo
+        source={
+          item.url
+            ? {uri: item.url}
+            : require('../../assets/images/no-image-photo.png')
+        }
+      />
+    );
+  } else if (item.type === 'VIDEO') {
+    return (
+      <Photo
+        source={
+          item.url
+            ? {uri: thumbnailUrl}
+            : require('../../assets/images/no-image-photo.png')
+        }
+      />
+    );
+  }
+  return <></>;
+};
 const GalleryCard = ({tag, data, onClick}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const count = data.length ?? 0;
-  const topContainer =
-    count == 1
-      ? {width: '100%', height: '100%'}
-      : count == 2
-      ? {width: '100%', height: '50%'}
-      : {width: '100%', height: '50%'};
-  const bottomContainer =
-    count == 1
-      ? {width: '0%', height: '0%'}
-      : count == 2
-      ? {width: '100%', height: '50%'}
-      : {width: '100%', height: '50%'};
+  const topContainer = count == 1 ? {flex: 1} : {flex: 0.5};
+  const bottomContainer = count == 1 ? {flex: 0} : {flex: 0.5};
 
   const container1 =
-    count == 1
-      ? {width: '100%', height: '100%'}
-      : count == 2
-      ? {width: '100%', height: '100%'}
-      : {width: '50%', height: '100%'};
+    count == 1 ? {flex: 1} : count == 2 ? {flex: 1} : {flex: 0.5};
   const container2 =
-    count == 1
-      ? {width: '0%', height: '0%'}
-      : count == 2
-      ? {width: '0%', height: '0%'}
-      : {width: '50%', height: '100%'};
+    count == 1 ? {flex: 0} : count == 2 ? {flex: 0} : {flex: 0.5};
   const container3 =
     count == 1
-      ? {width: '0%', height: '0%'}
+      ? {flex: 0}
       : count == 2
-      ? {width: '100%', height: '100%'}
+      ? {flex: 1}
       : count == 3
-      ? {width: '100%', height: '100%'}
-      : {width: '50%', height: '100%'};
+      ? {flex: 1}
+      : {flex: 0.5};
   const container4 =
     count == 1
-      ? {width: '0%', height: '0%'}
+      ? {flex: 0}
       : count == 2
-      ? {width: '0%', height: '0%'}
+      ? {flex: 0}
       : count == 3
-      ? {width: '0%', height: '0%'}
-      : {width: '50%', height: '100%'};
+      ? {flex: 0}
+      : {flex: 0.5};
 
   useEffect(() => {}, []);
   return (
     <>
-      <ContentContainer paddingHorizontal={20}>
-        <MediumTitle>
-          {(tag?.key === 'under10' ? '10세 미만' : tag?.label) ?? ''}
-        </MediumTitle>
-      </ContentContainer>
-      <ContentContainer paddingHorizontal={8}>
-        <ContentContainer alignCenter gap={0}>
-          <ContentContainer borderRadius={16} withBorder gap={0}>
-            <TouchableOpacity
-              activeOpacity={count > 0 ? 0.8 : 0}
-              onPress={() => {
-                if (count > 0) onClick(data[0].index);
-              }}>
-              {count > 0 ? (
-                <ContentContainer gap={0}>
+      <ContentContainer gap={0} flex={1}>
+        <MediumTitle>{tag?.label ?? ''}</MediumTitle>
+        <ContentContainer paddingHorizontal={8} paddingVertical={8} flex={1}>
+          <ContentContainer
+            borderRadius={16}
+            withBorder
+            gap={0}
+            paddingVertical={0}>
+            {count > 0 ? (
+              <TouchableOpacity
+                activeOpacity={count > 0 ? 0.8 : 0}
+                style={{backgroundColor: 'blue'}}
+                onPress={() => {
+                  if (count > 0) onClick(data[0].index);
+                }}>
+                <ContentContainer gap={1} height={'100%'}>
                   <ContentContainer
-                    gap={0}
+                    gap={1}
                     useHorizontalLayout
-                    width={topContainer.width}
-                    height={topContainer.height}>
+                    flex={topContainer.flex}>
                     {count >= 1 && (
-                      <ContentContainer
-                        gap={0}
-                        borderRadius={8}
-                        width={container1.width}
-                        height={container1.height}>
-                        <Photo
-                          source={
-                            data[0].url
-                              ? {uri: data[0].url}
-                              : require('../../assets/images/hero-default-profile.jpeg')
-                          }
-                        />
+                      <ContentContainer gap={0} flex={container1.flex}>
+                        <Media item={data[0]} />
                       </ContentContainer>
                     )}
                     {count >= 3 && (
-                      <ContentContainer
-                        gap={0}
-                        borderRadius={8}
-                        width={container2.width}
-                        height={container2.height}>
-                        <Photo
-                          source={
-                            data[2].url
-                              ? {uri: data[2].url}
-                              : require('../../assets/images/hero-default-profile.jpeg')
-                          }
-                        />
+                      <ContentContainer gap={0} flex={container2.flex}>
+                        <Media item={data[2]} />
                       </ContentContainer>
                     )}
                   </ContentContainer>
                   <ContentContainer
-                    gap={0}
+                    gap={1}
                     useHorizontalLayout
-                    width={bottomContainer.width}
-                    height={bottomContainer.height}>
+                    flex={bottomContainer.flex}>
                     {count >= 2 && (
-                      <ContentContainer
-                        gap={0}
-                        borderRadius={8}
-                        width={container3.width}
-                        height={container3.height}>
-                        <Photo
-                          source={
-                            data[1].url
-                              ? {uri: data[1].url}
-                              : require('../../assets/images/hero-default-profile.jpeg')
-                          }
-                        />
+                      <ContentContainer gap={0} flex={container3.flex}>
+                        <Media item={data[1]} />
                       </ContentContainer>
                     )}
                     {count >= 4 && (
-                      <ContentContainer
-                        gap={0}
-                        borderRadius={8}
-                        width={container4.width}
-                        height={container4.height}>
-                        <Photo
-                          source={
-                            data[3].url
-                              ? {uri: data[3].url}
-                              : require('../../assets/images/hero-default-profile.jpeg')
-                          }
-                        />
+                      <ContentContainer gap={0} flex={container4.flex}>
+                        <Media item={data[3]} />
                       </ContentContainer>
                     )}
                   </ContentContainer>
@@ -174,17 +155,17 @@ const GalleryCard = ({tag, data, onClick}: Props): JSX.Element => {
                     </ContentContainer>
                   )}
                 </ContentContainer>
-              ) : (
-                <ContentContainer borderRadius={16} alignCenter height="100%">
-                  <Photo
-                    width={128}
-                    height={128}
-                    source={require('../../assets/images/no-image-photo.png')}
-                  />
-                  <MediumTitle fontWeight={'bold'}>No Image/Video</MediumTitle>
-                </ContentContainer>
-              )}
-            </TouchableOpacity>
+              </TouchableOpacity>
+            ) : (
+              <ContentContainer borderRadius={16} alignCenter height="100%">
+                <Photo
+                  width={128}
+                  height={128}
+                  source={require('../../assets/images/no-image-photo.png')}
+                />
+                <MediumTitle fontWeight={'bold'}>No Image/Video</MediumTitle>
+              </ContentContainer>
+            )}
           </ContentContainer>
         </ContentContainer>
       </ContentContainer>
