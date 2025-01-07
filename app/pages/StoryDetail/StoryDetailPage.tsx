@@ -1,11 +1,20 @@
 import {useCallback, useMemo, useRef, useState} from 'react';
 import {Dimensions, Keyboard, Pressable} from 'react-native';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {MediaCarousel} from '../../components/story/MediaCarousel.tsx';
 import {StoryItemContents} from '../../components/story-list/StoryItemContents';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 import {
   ContentContainer,
@@ -36,6 +45,11 @@ const StoryDetailPage = (): JSX.Element => {
   const gallery = useRecoilValue(getGallery);
   const [isStory, setIsStory] = useState<boolean>(gallery[galleryIndex].story);
 
+  const resetWritingStory = useResetRecoilState(writingStoryState);
+  useFocusEffect(() => {
+    resetWritingStory();
+  });
+
   const setWritingStory = useSetRecoilState(writingStoryState);
   const isFocused = useIsFocused();
 
@@ -58,6 +72,7 @@ const StoryDetailPage = (): JSX.Element => {
         {
           id: currentGalleryItem.id,
           uri: currentGalleryItem.url,
+          tagKey: currentGalleryItem.tag.key,
         },
       ],
     });

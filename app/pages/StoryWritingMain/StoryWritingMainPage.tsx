@@ -5,7 +5,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import StoryDateInput from './StoryDateInput';
@@ -19,11 +19,24 @@ import {StoryWritingMenu} from '../../components/story/StoryWritingMenu';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Color} from '../../constants/color.constant';
 import {MediumImage} from '../../components/styled/components/Image.tsx';
+import {ageGroupsState} from '../../recoils/photos.recoil.ts';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   const isKeyboardVisible = useKeyboardVisible();
   const isStoryUploading = useIsStoryUploading();
+  const ageGroups = useRecoilValue(ageGroupsState);
+
+  if (!writingStory.gallery || writingStory.gallery.length === 0) {
+    return <></>;
+  }
+
+  const galleryItem = writingStory.gallery[0];
+  const currentAgeGroup = ageGroups[galleryItem.tagKey];
+  const ageGroupStartDate =
+    currentAgeGroup && new Date(Date.UTC(currentAgeGroup.startYear, 0, 1));
+  const ageGroupEndDate =
+    currentAgeGroup && new Date(Date.UTC(currentAgeGroup.endYear, 11, 31));
 
   return (
     <LoadingContainer isLoading={isStoryUploading}>
@@ -44,35 +57,21 @@ const StoryWritingMainPage = (): JSX.Element => {
                   flex={1}
                   maxHeight={'40%'}
                   backgroundColor={Color.BLACK}>
-                  {writingStory.gallery && writingStory.gallery[0] ? (
-                    <MediumImage
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                      }}
-                      source={{uri: writingStory.gallery[0].uri}}
-                    />
-                  ) : (
-                    // TODO(border-line): 화면 레이아웃을 위해 테스트로 추가된 것으로 홈 V2 API 연결 후 삭제
-                    <MediumImage
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                      }}
-                      source={{
-                        // short height photo
-                        // uri: 'https://cdn.pixabay.com/photo/2022/09/29/03/17/baby-7486419_1280.jpg',
-                        // long height photo
-                        uri: 'https://cdn.pixabay.com/photo/2023/12/14/20/24/christmas-balls-8449615_1280.jpg',
-                      }}
-                      resizeMode={'contain'}
-                    />
-                  )}
+                  <MediumImage
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                    }}
+                    source={{uri: galleryItem.uri}}
+                    resizeMode={'contain'}
+                  />
                 </ContentContainer>
                 <ContentContainer expandToEnd withScreenPadding>
                   <ContentContainer>
                     <StoryDateInput
-                      value={writingStory.date}
+                      startDate={ageGroupStartDate}
+                      endDate={ageGroupEndDate}
+                      value={writingStory.date || ageGroupEndDate}
                       onChange={(date: Date) => {
                         setWritingStory({date});
                       }}

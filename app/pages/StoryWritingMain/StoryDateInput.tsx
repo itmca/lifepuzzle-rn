@@ -16,7 +16,7 @@ function StoryDateInput({...props}) {
   };
   const formatDate = (date: Date) => {
     if (date) {
-      const year = date.getFullYear().toString().substring(2);
+      const year = date.getFullYear();
       const month =
         date.getMonth() + 1 < 10
           ? '0' + (date.getMonth() + 1)
@@ -49,7 +49,7 @@ function StoryDateInput({...props}) {
           paddingVertical: 4,
           paddingHorizontal: 8,
           borderRadius: 5,
-          width: 88,
+          width: 97,
         }}>
         <ContentContainer
           gap={4}
@@ -68,6 +68,8 @@ function StoryDateInput({...props}) {
       <DateTimePicker
         isVisible={visible}
         date={date}
+        minimumDate={props.startDate}
+        maximumDate={props.endDate}
         mode={'date'}
         display={'spinner'}
         onConfirm={onConfirm}
