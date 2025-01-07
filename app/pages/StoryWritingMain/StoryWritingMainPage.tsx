@@ -44,13 +44,13 @@ const StoryWritingMainPage = (): JSX.Element => {
                   flex={1}
                   maxHeight={'40%'}
                   backgroundColor={Color.BLACK}>
-                  {writingStory.photos && writingStory.photos[0] ? (
+                  {writingStory.gallery && writingStory.gallery[0] ? (
                     <MediumImage
                       style={{
                         width: '100%',
                         height: '100%',
                       }}
-                      source={{uri: writingStory.photos[0].node.image.uri}}
+                      source={{uri: writingStory.gallery[0].uri}}
                     />
                   ) : (
                     // TODO(border-line): 화면 레이아웃을 위해 테스트로 추가된 것으로 홈 V2 API 연결 후 삭제

@@ -23,10 +23,9 @@ import {
   XSmallTitle,
 } from '../../components/styled/components/Title.tsx';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
-import {toPhotoIdentifier} from '../../service/story-display.service.ts';
 import {
-  selectedGalleryIndexState,
   getGallery,
+  selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
 
 const StoryDetailPage = (): JSX.Element => {
@@ -53,10 +52,14 @@ const StoryDetailPage = (): JSX.Element => {
   }, []);
 
   const onClickWrite = () => {
-    //TODO 이야기 작성 확인
+    const currentGalleryItem = gallery[galleryIndex];
     setWritingStory({
-      galleryIds: [gallery[galleryIndex].id] ?? [],
-      videos: [toPhotoIdentifier(gallery[galleryIndex].url)],
+      gallery: [
+        {
+          id: currentGalleryItem.id,
+          uri: currentGalleryItem.url,
+        },
+      ],
     });
 
     navigation.push('NoTab', {

@@ -40,7 +40,7 @@ const addJsonBodyToFormData = function (
     title: writingStory?.title,
     content: writingStory?.content,
     date: writingStory?.date || new Date(),
-    galleryIds: writingStory?.galleryIds,
+    galleryIds: writingStory?.gallery?.map(item => item.id),
   };
 
   formData.append('story', {

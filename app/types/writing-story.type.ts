@@ -4,10 +4,15 @@ export type WritingStoryType = {
   title?: string;
   content?: string;
   date?: Date;
-  galleryIds?: number[];
-  videos?: MediaInfo[];
+  gallery?: GalleryItem[];
   voice?: string;
 };
+
+export type GalleryItem = {
+  id: number;
+  uri: string;
+};
+
 export type PlayInfo = {
   isOpen?: boolean;
   isPlay?: boolean;
@@ -16,6 +21,7 @@ export type PlayInfo = {
   playTime?: string;
   duration?: string;
 };
+
 export type MediaInfo = {
   key?: number;
   node: Pick<PhotoIdentifier['node'], 'image' | 'type'>;
