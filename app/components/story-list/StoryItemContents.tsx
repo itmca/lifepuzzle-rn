@@ -17,20 +17,24 @@ export const StoryItemContents = ({story, onPress}: props): JSX.Element => {
     <ContentContainer gap={16}>
       <ContentContainer useHorizontalLayout>
         <StoryDateInput disabled value={story.date} />
-        <AudioBtn audioUrl={story.audio} />
+        {story.audio && <AudioBtn audioUrl={story.audio} />}
       </ContentContainer>
       <ContentContainer gap={6}>
-        <MediumText color={Color.LIGHT_BLACK} bold>
-          {story.title}
-        </MediumText>
-        <ContentContainer flex={1}>
-          <MediumText
-            lineHeight={24}
-            color={Color.FONT_DARK}
-            ellipsizeMode="tail">
-            {story.content}
+        {story.title && (
+          <MediumText color={Color.LIGHT_BLACK} bold>
+            {story.title}
           </MediumText>
-        </ContentContainer>
+        )}
+        {story.content && (
+          <ContentContainer flex={1}>
+            <MediumText
+              lineHeight={24}
+              color={Color.FONT_DARK}
+              ellipsizeMode="tail">
+              {story.content}
+            </MediumText>
+          </ContentContainer>
+        )}
       </ContentContainer>
     </ContentContainer>
   );

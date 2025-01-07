@@ -49,13 +49,7 @@ export const MediaCarousel = ({
     const height = item.height ?? 0;
     const index = item.index ?? -1;
     return (
-      <ContentContainer
-        flex={1}
-        backgroundColor={Color.GRAY}
-        style={{
-          borderBottomWidth: 0.8,
-          borderBottomColor: Color.GRAY,
-        }}>
+      <ContentContainer flex={1} backgroundColor={Color.BLACK}>
         {type === 'VIDEO' && (
           <VideoPlayer
             videoUrl={mediaUrl}
@@ -110,8 +104,6 @@ export const MediaCarousel = ({
               Image.getSize(
                 item.url,
                 (width, height) => {
-                  const scaledHeight = (height / width) * DeviceWidth; // 비율 조정
-
                   let carousel =
                     height < carouselMaxHeight
                       ? {width, height}
@@ -119,14 +111,10 @@ export const MediaCarousel = ({
                           width: (width * carouselMaxHeight) / height,
                           height: carouselMaxHeight,
                         };
-                  const carouselWidth =
-                    height < carouselMaxHeight
-                      ? width
-                      : (width * carouselMaxHeight) / height;
                   if (carousel.width > DeviceWidth) {
                     carousel = {
                       width: DeviceWidth,
-                      height: (carouselWidth * height) / width,
+                      height: (DeviceWidth * height) / width,
                     };
                   }
                   resolve({...item, height: carousel.height, index});

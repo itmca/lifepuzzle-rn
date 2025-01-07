@@ -20,6 +20,7 @@ import {
   DUMMY_AGE_GROUPS,
   DUMMY_TAGS,
 } from '../../constants/dummy-age-group.constant';
+import {AxiosRequestConfig} from 'axios';
 export type AgeGroupKeysWithoutTotalPhotos = keyof AgeGroupsType;
 type PhotoQueryResponse = {
   hero: PhotoHeroType;
@@ -34,6 +35,7 @@ type Response = {
   tags: TagType[];
 
   isLoading: boolean;
+  refetch: (newRequestOption: Partial<AxiosRequestConfig>) => void;
 };
 const tmpResponse: PhotoQueryResponse = {
   hero: {
@@ -65,21 +67,23 @@ export const useHeroPhotos = (): Response => {
     },
     onResponseSuccess: res => {
       setPhotoHero(res.hero);
-      setAgeGroups(tmpResponse.ageGroups);
+      setAgeGroups(res.ageGroups);
       setTags([
-        ...tmpResponse.tags.map(item => ({
+        ...res.tags.map(item => ({
           key: item.key,
           label: item.label,
           count:
-            item.key in ageGroups
-              ? ageGroups[item.key as AgeType]?.galleryCount
+            item.key in res.ageGroups
+              ? res.ageGroups[item.key as AgeType]?.galleryCount
               : 0,
         })),
       ]);
       if (res.totalGallery == 0) {
-        setSelectedTag(tags[(photoHero?.age ?? 0) / 10]);
+        const index = Math.trunc((photoHero?.age ?? 0) / 10);
+        setSelectedTag({...tags[index ?? 0]});
       } else {
-        setSelectedTag(tags[tags.findIndex(item => (item.count ?? 0) > 0)]);
+        const index = tags.findIndex(item => (item.count ?? 0) > 0);
+        setSelectedTag({...tags[index ?? 0]});
       }
     },
     onError: err => {
@@ -105,5 +109,6 @@ export const useHeroPhotos = (): Response => {
     ageGroups,
     tags,
     isLoading,
+    refetch: fetchHeroStories,
   };
 };

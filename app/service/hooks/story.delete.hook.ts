@@ -22,7 +22,7 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
       method: 'DELETE',
-      url: `/story/${storyKey}`,
+      url: `/v2/stories/${storyKey}`,
     },
     onResponseSuccess: () => {
       publishStoryListUpdate();

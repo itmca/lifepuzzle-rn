@@ -128,41 +128,37 @@ export const DUMMY_TAGS: TagType[] = [
   {
     key: 'UNDER_TEENAGER',
     label: '10대 미만',
-    count: 0,
   },
   {
     key: 'TEENAGER',
     label: '10대',
-    count: 10,
   },
   {
     key: 'TWENTIES',
     label: '20대',
-    count: 9,
   },
   {
     key: 'THIRTY',
     label: '30대',
-    count: 8,
   },
   {
     key: 'FORTY',
     label: '40대',
-    count: 7,
   },
   {
     key: 'FIFTY',
     label: '50대',
-    count: 6,
   },
   {
     key: 'SIXTY',
     label: '60대',
-    count: 5,
   },
   {
     key: 'SEVENTY',
     label: '70대',
-    count: 4,
+  },
+  {
+    key: 'EIGHTY',
+    label: '80대',
   },
 ];

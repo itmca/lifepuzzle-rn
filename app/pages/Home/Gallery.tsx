@@ -44,7 +44,6 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
     useRecoilState<TagType>(selectedTagState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [isScrolling, setIsScrolling] = useState(false);
-
   const moveToStoryDetailPage = (index: GalleryType['index']) => {
     if (!isScrolling) {
       setSelectedGalleryIndex(index - 1);
@@ -72,72 +71,63 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
           나이대별 {hero?.nickname}의 사진/동영상을 추가해보세요
         </SmallTitle>
         <ScrollContentContainer useHorizontalLayout gap={6} ref={scrollRef}>
-          {tags.length > 0 &&
-            tags.map((item, index) => {
-              if (selectedTag && selectedTag.key == item.key) {
-                return (
-                  <Tag
-                    key={index}
-                    backgroundColor={Color.FONT_DARK}
-                    fontWeight={'bold'}
-                    fontColor={Color.WHITE}
-                    text={
-                      (item.key === 'UNDER_TEENAGER' ? '~10' : item.label) +
-                      '(' +
-                      (item.count ?? 0) +
-                      ')'
-                    }></Tag>
-                );
-              } else {
-                return (
-                  <Tag
-                    key={index}
-                    backgroundColor={Color.LIGHT_GRAY}
-                    onPress={() => {
-                      carouselRef.current?.scrollTo({index});
-                      setSelectedTag(item);
-                    }}
-                    text={
-                      (item.key === 'UNDER_TEENAGER' ? '~10' : item.label) +
-                      '(' +
-                      (item.count ?? 0) +
-                      ')'
-                    }></Tag>
-                );
-              }
-            })}
+          {tags.map((item: TagType, index) => {
+            if (selectedTag && selectedTag.key === item.key) {
+              return (
+                <Tag
+                  key={index}
+                  backgroundColor={Color.FONT_DARK}
+                  fontWeight={'bold'}
+                  fontColor={Color.WHITE}
+                  text={`${item.label} (${item.count ?? 0})`}></Tag>
+              );
+            } else {
+              return (
+                <Tag
+                  key={index}
+                  backgroundColor={Color.LIGHT_GRAY}
+                  onPress={() => {
+                    carouselRef.current?.scrollTo({index});
+                    setSelectedTag({...item});
+                  }}
+                  text={`${item.label} (${item.count ?? 0})`}></Tag>
+              );
+            }
+          })}
         </ScrollContentContainer>
       </ContentContainer>
       <ContentContainer flex={1}>
-        {tags && (
-          <Carousel
-            ref={carouselRef}
-            data={tags}
-            mode={'parallax'}
-            defaultIndex={tags.findIndex(item => item.key === selectedTag.key)}
-            modeConfig={{
-              parallaxScrollingScale: 0.9,
-              parallaxAdjacentItemScale: 0.8,
-              parallaxScrollingOffset: 60,
-            }}
-            width={windowWidth}
-            onSnapToItem={index => {
-              setSelectedTag(tags[index]);
-            }}
-            onProgressChange={(_: number, absoluteProgress: number) => {
-              setIsScrolling(absoluteProgress % 1 !== 0);
-            }}
-            renderItem={({item}: any) => {
-              return (
-                <GalleryCard
-                  tag={item}
-                  data={ageGroups[item.key as AgeType]?.gallery ?? []}
-                  onClick={moveToStoryDetailPage}
-                />
-              );
-            }}
-          />
-        )}
+        <Carousel
+          ref={carouselRef}
+          data={tags}
+          mode={'parallax'}
+          defaultIndex={
+            tags.findIndex(item => item.key === selectedTag.key) < 0
+              ? 0
+              : tags.findIndex(item => item.key === selectedTag.key)
+          }
+          modeConfig={{
+            parallaxScrollingScale: 0.9,
+            parallaxAdjacentItemScale: 0.8,
+            parallaxScrollingOffset: 60,
+          }}
+          width={windowWidth}
+          onSnapToItem={index => {
+            setSelectedTag({...tags[index]});
+          }}
+          onProgressChange={(_: number, absoluteProgress: number) => {
+            setIsScrolling(absoluteProgress % 1 !== 0);
+          }}
+          renderItem={({item}: any) => {
+            return (
+              <GalleryCard
+                tag={item}
+                data={ageGroups[item.key as AgeType]?.gallery ?? []}
+                onClick={moveToStoryDetailPage}
+              />
+            );
+          }}
+        />
       </ContentContainer>
     </ContentContainer>
   );

@@ -7,7 +7,7 @@ import {
 
 export const selectedGalleryIndexState = atom<number>({
   key: 'selectedGalleryIndexState',
-  default: undefined,
+  default: 0,
 });
 export const selectedTagState = atom<TagType>({
   key: 'selectedTagState',
@@ -18,7 +18,7 @@ export const selectedTagState = atom<TagType>({
 });
 const ageGroupsInternalState = atom<AgeGroupsType>({
   key: 'ageGroupsInternalState',
-  default: DUMMY_AGE_GROUPS,
+  default: {},
 });
 export const ageGroupsState = selector<AgeGroupsType>({
   key: 'ageGroupsState',
@@ -27,9 +27,7 @@ export const ageGroupsState = selector<AgeGroupsType>({
     if (newValue instanceof DefaultValue) {
       reset(ageGroupsInternalState);
     } else {
-      const currentAgeGroups = get(ageGroupsInternalState);
       set(ageGroupsInternalState, {
-        ...currentAgeGroups,
         ...newValue,
       });
     }
@@ -54,7 +52,7 @@ export const getGallery = selector({
 });
 const tagInternalState = atom<TagType[]>({
   key: 'tagInternalState',
-  default: [...DUMMY_TAGS],
+  default: DUMMY_TAGS,
 });
 export const tagState = selector<TagType[]>({
   key: 'tagState',

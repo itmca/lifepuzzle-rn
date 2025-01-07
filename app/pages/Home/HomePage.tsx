@@ -51,15 +51,11 @@ const HomePage = (): JSX.Element => {
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
   const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
-  //const {stories, isLoading} = useStories();
   const loginAlert = useLoginAlert();
 
   const [selectedTag, setSelectedTag] =
     useRecoilState<TagType>(selectedTagState);
-  const [ageGroups, setAgeGroups] =
-    useRecoilState<AgeGroupsType>(ageGroupsState);
-  const [tags, setTags] = useRecoilState<TagType[]>(tagState);
-  const {photoHero, isLoading} = useHeroPhotos();
+  const {photoHero, ageGroups, tags, isLoading, refetch} = useHeroPhotos();
   const displayAgeGroups = isLoggedIn ? ageGroups : DUMMY_AGE_GROUPS;
   const displayTags = isLoggedIn ? tags : DUMMY_TAGS;
 
@@ -70,7 +66,18 @@ const HomePage = (): JSX.Element => {
     const positionY = event.nativeEvent.contentOffset.y;
     setScrollPositionY(positionY);
   };
-
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (refetch) {
+        refetch({
+          params: {
+            heroNo: hero.heroNo,
+          },
+        });
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
   return (
     <LoadingContainer isLoading={isLoading}>
       <ScreenContainer gap={0}>
