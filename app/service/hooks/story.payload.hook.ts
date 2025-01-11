@@ -7,13 +7,13 @@ export const useStoryHttpPayLoad = () => {
   const formData = new FormData();
   const writingStory = useRecoilValue(writingStoryState);
 
-  addAudioToFormData(formData, writingStory);
+  addVoiceToFormData(formData, writingStory);
   addJsonBodyToFormData(formData, writingStory);
 
   return formData;
 };
 
-const addAudioToFormData = function (
+const addVoiceToFormData = function (
   formData: FormData,
   writingStory: WritingStoryType | undefined,
 ) {
@@ -24,7 +24,7 @@ const addAudioToFormData = function (
     const fileParts = recordPath?.split('/') || [];
     const recordName = fileParts[fileParts?.length - 1];
     const type = AUDIO_TYPE;
-    formData.append('audio', {
+    formData.append('voice', {
       uri: recordPath,
       type: type,
       name: recordName,

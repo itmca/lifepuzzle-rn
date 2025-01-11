@@ -58,10 +58,7 @@ export const useSaveStory = (): [() => void] => {
       resetAllWritingStory();
       publishStoryListUpdate();
 
-      if (editStoryKey) {
-        console.log('글 수정 완료');
-        navigation.goBack();
-      }
+      navigation.goBack();
     },
     onError: err => {
       console.log(err);

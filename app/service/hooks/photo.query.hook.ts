@@ -5,10 +5,10 @@ import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
 import {useEffect, useState} from 'react';
 import {useAuthAxios} from './network.hook';
 import {
-  PhotoHeroType,
   AgeGroupsType,
-  TagType,
   AgeType,
+  PhotoHeroType,
+  TagType,
 } from '../../types/photo.type';
 import {HeroType} from '../../types/hero.type';
 import {
@@ -21,6 +21,7 @@ import {
   DUMMY_TAGS,
 } from '../../constants/dummy-age-group.constant';
 import {AxiosRequestConfig} from 'axios';
+
 export type AgeGroupKeysWithoutTotalPhotos = keyof AgeGroupsType;
 type PhotoQueryResponse = {
   hero: PhotoHeroType;
@@ -68,7 +69,7 @@ export const useHeroPhotos = (): Response => {
     onResponseSuccess: res => {
       setPhotoHero(res.hero);
       setAgeGroups(res.ageGroups);
-      setTags([
+      const newTags = [
         ...res.tags.map(item => ({
           key: item.key,
           label: item.label,
@@ -77,13 +78,14 @@ export const useHeroPhotos = (): Response => {
               ? res.ageGroups[item.key as AgeType]?.galleryCount
               : 0,
         })),
-      ]);
-      if (res.totalGallery == 0) {
-        const index = Math.trunc((photoHero?.age ?? 0) / 10);
-        setSelectedTag({...tags[index ?? 0]});
+      ];
+      setTags(newTags);
+      if (res.totalGallery === 0) {
+        const index = Math.trunc((res.hero.age ?? 0) / 10);
+        setSelectedTag({...res.tags[index ?? 0]});
       } else {
-        const index = tags.findIndex(item => (item.count ?? 0) > 0);
-        setSelectedTag({...tags[index ?? 0]});
+        const index = newTags.findIndex(item => (item.count ?? 0) > 0);
+        setSelectedTag({...newTags[index ?? 0]});
       }
     },
     onError: err => {
