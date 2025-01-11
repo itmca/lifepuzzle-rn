@@ -17,19 +17,18 @@ const addVoiceToFormData = function (
   formData: FormData,
   writingStory: WritingStoryType | undefined,
 ) {
-  const recordPath = writingStory?.voice;
-  const isRecordFile = recordPath !== undefined;
-
-  if (isRecordFile) {
-    const fileParts = recordPath?.split('/') || [];
-    const recordName = fileParts[fileParts?.length - 1];
-    const type = AUDIO_TYPE;
-    formData.append('voice', {
-      uri: recordPath,
-      type: type,
-      name: recordName,
-    });
+  if (writingStory?.voice === undefined) {
+    return;
   }
+  const voiceUrl = writingStory?.voice;
+
+  const fileParts = voiceUrl.split('/');
+  const recordName = fileParts[fileParts.length - 1];
+  formData.append('voice', {
+    uri: voiceUrl,
+    type: AUDIO_TYPE,
+    name: recordName,
+  });
 };
 
 const addJsonBodyToFormData = function (

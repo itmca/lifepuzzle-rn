@@ -23,10 +23,10 @@ export type GalleryType = {
   type: 'IMAGE' | 'VIDEO';
   url: string;
   story?: StoryType;
-  tag?: TagType;
+  tag: TagType;
 };
 export type TagType = {
-  key: string;
+  key: AgeType;
   label: string;
   count?: number;
 };
@@ -43,6 +43,6 @@ export type StoryType = {
   id: number;
   title: string;
   content: string;
-  audio?: string;
+  audios?: string[];
   date: string;
 };

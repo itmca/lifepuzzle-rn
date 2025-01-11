@@ -49,7 +49,6 @@ export const useHeroPhotos = (): Response => {
       url: `/v1/heroes/${hero.heroNo}/gallery`,
     },
     onResponseSuccess: res => {
-      console.log('res', res);
       setPhotoHero(res.hero);
       setAgeGroups(res.ageGroups);
       const newTags = [
@@ -80,6 +79,15 @@ export const useHeroPhotos = (): Response => {
 
   useEffect(() => {
     if (hero.heroNo < 0) {
+      // TODO(border-line): hero 정보가 없을 때 처리 개선
+      setPhotoHero({
+        id: hero.heroNo,
+        name: hero.heroName,
+        nickname: hero.heroNickName,
+        birthdate: '',
+        age: -1,
+        image: '',
+      });
       return;
     }
 

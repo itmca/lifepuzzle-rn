@@ -3,12 +3,8 @@ import {Color} from '../../constants/color.constant';
 import MediumText from '../styled/components/Text';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useSetRecoilState} from 'recoil';
 import {BasicNavigationProps} from '../../navigation/types';
-import {
-  SelectedStoryKeyState,
-  SelectedStoryState,
-} from '../../recoils/story-view.recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 import {
   useDeleteGallery,
@@ -16,7 +12,6 @@ import {
 } from '../../service/hooks/story.delete.hook';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Divider} from 'react-native-paper';
-import {toPhotoIdentifier} from '../../service/story-display.service';
 import {GalleryType} from '../../types/photo.type';
 
 type Props = {
@@ -31,26 +26,23 @@ export const StoryDetailMenu = ({
   const navigation = useNavigation<BasicNavigationProps>();
 
   const setWritingStory = useSetRecoilState(writingStoryState);
-  const storyKey = useRecoilValue(SelectedStoryKeyState);
   const isStory = type === 'story';
-  const [selectedStory, setSelectedStory] = useRecoilState(SelectedStoryState);
   const [deleteStory] = useDeleteStory({
     storyKey: gallery.story ? gallery.story.id : -1,
   });
   const [deleteGallery] = useDeleteGallery({galleryId: gallery.id});
 
+  console.log(gallery);
   const onEditStory = () => {
-    //TODO 이야기 수정 확인
-    const currentPhotos = selectedStory?.photos.map(toPhotoIdentifier);
-    const currentVideos = selectedStory?.videos.map(toPhotoIdentifier);
-
     setWritingStory({
       title: gallery.story?.title ?? '',
       content: gallery.story?.content ?? '',
       date: gallery.story?.date ? new Date(gallery.story?.date) : new Date(),
-      galleryIds: [gallery.id],
-      videos: [...(currentVideos ?? [])],
-      voice: gallery.story?.audio ?? '',
+      gallery: [{id: gallery.id, uri: gallery.url, tagKey: gallery.tag.key}],
+      voice:
+        gallery.story?.audios && gallery.story?.audios.length > 0
+          ? gallery.story?.audios[0]
+          : '',
     });
 
     navigation.push('NoTab', {
@@ -115,9 +107,7 @@ export const StoryDetailMenu = ({
               </ContentContainer>
             </ContentContainer>
           </TouchableOpacity>
-          <Divider
-            theme={{colors: {outlineVariant: Color.WHITE}}}
-            bold></Divider>
+          <Divider theme={{colors: {outlineVariant: Color.WHITE}}} bold />
           <TouchableOpacity onPress={onDeleteStory}>
             <ContentContainer
               height={'56px'}
