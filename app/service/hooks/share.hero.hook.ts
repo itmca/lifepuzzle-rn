@@ -1,7 +1,6 @@
 import {useAuthAxios} from './network.hook.ts';
 import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
 import {useEffect} from 'react';
-import {AxiosError} from 'axios';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil.ts';
 import {shareKeyState} from '../../recoils/share.recoil.ts';
@@ -9,10 +8,12 @@ import {shareKeyState} from '../../recoils/share.recoil.ts';
 type Params = {
   shareKey?: string;
   onRegisterSuccess?: () => void;
-  onError?: (error: AxiosError) => void;
 };
 
-export const useRegisterSharedHero = ({shareKey}: Params) => {
+export const useRegisterSharedHero = ({
+  shareKey,
+  onRegisterSuccess,
+}: Params) => {
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
   const setShareKey = useSetRecoilState(shareKeyState);
 
@@ -21,7 +22,11 @@ export const useRegisterSharedHero = ({shareKey}: Params) => {
       url: '/heroes/auth',
       method: 'post',
     },
-    onResponseSuccess: () => {},
+    onResponseSuccess: res => {
+      if (onRegisterSuccess) {
+        onRegisterSuccess();
+      }
+    },
     onError: error => {
       if (error.response?.status === 409) {
         CustomAlert.simpleAlert('이미 등록되어 있는 주인공입니다');

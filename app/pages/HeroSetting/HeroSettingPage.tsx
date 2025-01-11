@@ -77,6 +77,7 @@ const HeroSettingPage = (): JSX.Element => {
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,
     onRegisterSuccess: () => {
+      fetchHeroes({});
       setModalState({
         isOpen: true,
         message: '주인공을 추가하였습니다',
