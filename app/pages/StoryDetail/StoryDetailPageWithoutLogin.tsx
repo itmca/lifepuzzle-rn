@@ -15,8 +15,8 @@ import {Color} from '../../constants/color.constant.ts';
 import {MediumTitle} from '../../components/styled/components/Title.tsx';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {
-  selectedGalleryIndexState,
   getGallery,
+  selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
@@ -27,6 +27,7 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
   );
 
   const gallery = useRecoilValue(getGallery);
+  console.log('gallery', gallery);
   const [isStory, setIsStory] = useState<boolean>(gallery[galleryIndex].story);
 
   const setWritingStory = useSetRecoilState(writingStoryState);

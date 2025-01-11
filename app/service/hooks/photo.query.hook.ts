@@ -1,4 +1,4 @@
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useUpdateObserver} from './update.hooks';
 import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
@@ -16,10 +16,6 @@ import {
   selectedTagState,
   tagState,
 } from '../../recoils/photos.recoil';
-import {
-  DUMMY_AGE_GROUPS,
-  DUMMY_TAGS,
-} from '../../constants/dummy-age-group.constant';
 import {AxiosRequestConfig} from 'axios';
 
 export type AgeGroupKeysWithoutTotalPhotos = keyof AgeGroupsType;
@@ -38,20 +34,7 @@ type Response = {
   isLoading: boolean;
   refetch: (newRequestOption: Partial<AxiosRequestConfig>) => void;
 };
-const tmpResponse: PhotoQueryResponse = {
-  hero: {
-    id: 20,
-    name: '신사임당',
-    nickname: '할머니',
-    birthdate: '1941-01-23',
-    age: 72,
-    image:
-      'https://pixabay.com/ko/photos/%EC%BF%A0%ED%82%A4-%EC%9A%B0%EC%9C%A0-%EC%B4%88%EC%BD%9C%EB%A0%9B-%EC%BF%A0%ED%82%A4-8394894/',
-  },
-  ageGroups: DUMMY_AGE_GROUPS,
-  tags: DUMMY_TAGS,
-  totalGallery: 12,
-};
+
 export const useHeroPhotos = (): Response => {
   const hero = useRecoilValue<HeroType>(heroState);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
@@ -60,13 +43,13 @@ export const useHeroPhotos = (): Response => {
   const [ageGroups, setAgeGroups] =
     useRecoilState<AgeGroupsType>(ageGroupsState);
   const [tags, setTags] = useRecoilState<TagType[]>(tagState);
-  const [selectedTag, setSelectedTag] =
-    useRecoilState<TagType>(selectedTagState);
+  const setSelectedTag = useSetRecoilState<TagType>(selectedTagState);
   const [isLoading, fetchHeroStories] = useAuthAxios<PhotoQueryResponse>({
     requestOption: {
       url: `/v1/heroes/${hero.heroNo}/gallery`,
     },
     onResponseSuccess: res => {
+      console.log('res', res);
       setPhotoHero(res.hero);
       setAgeGroups(res.ageGroups);
       const newTags = [
@@ -80,6 +63,7 @@ export const useHeroPhotos = (): Response => {
         })),
       ];
       setTags(newTags);
+
       if (res.totalGallery === 0) {
         const index = Math.trunc((res.hero.age ?? 0) / 10);
         setSelectedTag({...res.tags[index ?? 0]});
@@ -99,11 +83,7 @@ export const useHeroPhotos = (): Response => {
       return;
     }
 
-    fetchHeroStories({
-      params: {
-        heroNo: hero.heroNo,
-      },
-    });
+    fetchHeroStories({});
   }, [hero.heroNo, heroUpdateObserver, storyListUpdateObserver]);
 
   return {

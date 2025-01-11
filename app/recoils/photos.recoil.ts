@@ -18,7 +18,7 @@ export const selectedTagState = atom<TagType>({
 });
 const ageGroupsInternalState = atom<AgeGroupsType>({
   key: 'ageGroupsInternalState',
-  default: {},
+  default: DUMMY_AGE_GROUPS,
 });
 export const ageGroupsState = selector<AgeGroupsType>({
   key: 'ageGroupsState',
