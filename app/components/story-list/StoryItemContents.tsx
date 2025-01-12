@@ -5,7 +5,6 @@ import {Color} from '../../constants/color.constant';
 import {StoryType} from '../../types/photo.type';
 import StoryDateInput from '../../pages/StoryWritingMain/StoryDateInput';
 import {AudioBtn} from '../story/AudioBtn';
-import {useEffect} from 'react';
 
 type props = {
   story: StoryType | undefined;

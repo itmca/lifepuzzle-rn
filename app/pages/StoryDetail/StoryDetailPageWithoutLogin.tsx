@@ -1,11 +1,9 @@
-import {useState} from 'react';
 import {Dimensions} from 'react-native';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {MediaCarousel} from '../../components/story/MediaCarousel.tsx';
 import {StoryItemContents} from '../../components/story-list/StoryItemContents';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {writingStoryState} from '../../recoils/story-write.recoil';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -13,24 +11,17 @@ import {
 
 import {Color} from '../../constants/color.constant.ts';
 import {MediumTitle} from '../../components/styled/components/Title.tsx';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {
   getGallery,
   selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
-
   const [galleryIndex, setGalleryIndex] = useRecoilState(
     selectedGalleryIndexState,
   );
 
   const gallery = useRecoilValue(getGallery);
-  console.log('gallery', gallery);
-  const [isStory, setIsStory] = useState<boolean>(gallery[galleryIndex].story);
-
-  const setWritingStory = useSetRecoilState(writingStoryState);
   const isFocused = useIsFocused();
 
   return (
@@ -55,7 +46,6 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
             carouselWidth={Dimensions.get('window').width}
             onScroll={index => {
               setGalleryIndex(index % gallery.length);
-              setIsStory(gallery[index % gallery.length].story);
             }}
           />
         </ContentContainer>
