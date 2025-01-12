@@ -6,6 +6,7 @@ import {heroState} from '../../recoils/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
+import {ageGroupsState, tagState} from '../../recoils/photos.recoil';
 
 type Option = {
   customGoBackAction?: () => void;
@@ -19,6 +20,8 @@ export const useLogout = (option?: Option) => {
   const resetHero = useResetRecoilState(heroState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
   const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
+  const resetAgeGroups = useResetRecoilState(ageGroupsState);
+  const resetTag = useResetRecoilState(tagState);
 
   const resetAllRecoil = () => {
     resetAuth();
@@ -26,6 +29,8 @@ export const useLogout = (option?: Option) => {
     resetHero();
     resetWritingStory();
     resetSelectedStory();
+    resetAgeGroups();
+    resetTag();
   };
 
   const removeLocalStorage = () => {

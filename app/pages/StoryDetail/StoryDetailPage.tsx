@@ -20,7 +20,12 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer.tsx';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
 
 import BottomSheet from '../../components/styled/components/BottomSheet';
 
@@ -48,6 +53,7 @@ const StoryDetailPage = (): JSX.Element => {
   const resetWritingStory = useResetRecoilState(writingStoryState);
   useFocusEffect(() => {
     resetWritingStory();
+    setIsStory(gallery[galleryIndex].story);
   });
 
   const setWritingStory = useSetRecoilState(writingStoryState);
@@ -76,7 +82,7 @@ const StoryDetailPage = (): JSX.Element => {
         },
       ],
     });
-
+    handleClosePress();
     navigation.push('NoTab', {
       screen: 'StoryWritingNavigator',
       params: {
@@ -84,6 +90,16 @@ const StoryDetailPage = (): JSX.Element => {
       },
     });
   };
+  const renderBackdrop = useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior="none"
+        disappearsOnIndex={-1}
+      />
+    ),
+    [],
+  );
 
   return (
     <LoadingContainer isLoading={false}>
@@ -162,11 +178,13 @@ const StoryDetailPage = (): JSX.Element => {
             </ContentContainer>
           </ScrollContentContainer>
         </ScreenContainer>
+
         <BottomSheet
           ref={bottomSheetModalRef}
           index={1}
           onDismiss={handleClosePress}
-          snapPoints={snapPoints}>
+          snapPoints={snapPoints}
+          backdropComponent={renderBackdrop}>
           <StoryDetailMenu
             type={isStory ? 'story' : 'photo'}
             gallery={gallery[galleryIndex]}

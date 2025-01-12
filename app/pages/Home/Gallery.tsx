@@ -111,6 +111,7 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
             parallaxAdjacentItemScale: 0.8,
             parallaxScrollingOffset: 60,
           }}
+          loop={tags.length <= 2 ? false : true}
           width={windowWidth}
           onSnapToItem={index => {
             setSelectedTag({...tags[index]});

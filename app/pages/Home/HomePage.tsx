@@ -1,4 +1,9 @@
-import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
@@ -19,11 +24,16 @@ import {
   DUMMY_AGE_GROUPS,
   DUMMY_TAGS,
 } from '../../constants/dummy-age-group.constant.ts';
-import {selectedTagState} from '../../recoils/photos.recoil.ts';
-import {TagType} from '../../types/photo.type.ts';
+import {
+  ageGroupsState,
+  selectedTagState,
+  tagState,
+} from '../../recoils/photos.recoil.ts';
+import {AgeGroupsType, PhotoHeroType, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
 import {useLoginAlert} from '../../service/hooks/login.hook.ts';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
+import {useState} from 'react';
 
 const HomePage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -36,9 +46,10 @@ const HomePage = (): JSX.Element => {
   const loginAlert = useLoginAlert();
 
   const selectedTag = useRecoilValue<TagType>(selectedTagState);
-  const {photoHero, ageGroups, tags, isLoading, refetch} = useHeroPhotos();
-  const displayAgeGroups = isLoggedIn ? ageGroups : DUMMY_AGE_GROUPS;
-  const displayTags = isLoggedIn ? tags : DUMMY_TAGS;
+  const {photoHero, isLoading, refetch} = useHeroPhotos();
+  const [ageGroups, setAgeGroups] =
+    useRecoilState<AgeGroupsType>(ageGroupsState);
+  const [tags, setTags] = useRecoilState<TagType[]>(tagState);
 
   useFocusAction(() => {
     if (!refetch) {
@@ -59,11 +70,7 @@ const HomePage = (): JSX.Element => {
           <HeroOverview hero={photoHero} />
         </ContentContainer>
         <ContentContainer flex={1}>
-          <Gallery
-            hero={photoHero}
-            ageGroups={displayAgeGroups}
-            tags={displayTags}
-          />
+          <Gallery hero={photoHero} ageGroups={ageGroups} tags={tags} />
         </ContentContainer>
         {hero.auth !== 'VIEWER' && (
           <ContentContainer withScreenPadding backgroundColor="transparent">

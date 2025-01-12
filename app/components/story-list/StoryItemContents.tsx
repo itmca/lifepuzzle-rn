@@ -5,6 +5,7 @@ import {Color} from '../../constants/color.constant';
 import {StoryType} from '../../types/photo.type';
 import StoryDateInput from '../../pages/StoryWritingMain/StoryDateInput';
 import {AudioBtn} from '../story/AudioBtn';
+import {useEffect} from 'react';
 
 type props = {
   story: StoryType | undefined;
@@ -17,7 +18,9 @@ export const StoryItemContents = ({story, onPress}: props): JSX.Element => {
     <ContentContainer gap={16}>
       <ContentContainer useHorizontalLayout>
         <StoryDateInput disabled value={story.date} />
-        {story.audio && <AudioBtn audioUrl={story.audio} />}
+        {story.audios && story.audios.length > 0 && (
+          <AudioBtn audioUrl={story.audios[0]} />
+        )}
       </ContentContainer>
       <ContentContainer gap={6}>
         {story.title && (

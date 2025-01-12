@@ -11,12 +11,18 @@ const BottomSheet = forwardRef<BottomSheetModal, BottomSheetModalProps>(
     const snapPoints = props.snapPoints ?? useMemo(() => ['60%'], []);
 
     const handleSheetChanges = useCallback(() => {}, []);
-    const renderBackdrop = useCallback(
-      (props: BottomSheetBackdropProps) => (
-        <BottomSheetBackdrop {...props} pressBehavior="close" />
-      ),
-      [],
-    );
+    const renderBackdrop =
+      props.backdropComponent ??
+      useCallback(
+        (props: BottomSheetBackdropProps) => (
+          <BottomSheetBackdrop
+            {...props}
+            pressBehavior="close"
+            disappearsOnIndex={-1}
+          />
+        ),
+        [],
+      );
 
     return (
       <BottomSheetModal
