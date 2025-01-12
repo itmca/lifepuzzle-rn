@@ -1,9 +1,7 @@
 import {useEffect} from 'react';
-import Permissions, {
-  check,
+import {
   checkMultiple,
   PERMISSIONS,
-  request,
   requestMultiple,
   RESULTS,
 } from 'react-native-permissions';
@@ -81,18 +79,53 @@ export const usePhotoPermission = ({
   };
 
   useEffect(() => {
-    void checkAndRequestAndroidPermission();
+    checkAndRequestAndroidPermission();
   }, []);
 };
 
 export async function hasAndroidPermission() {
-  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+  const getCheckPermissionPromise = () => {
+    if (Number(Platform.Version) >= 33) {
+      return Promise.all([
+        PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+        ),
+        PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
+        ),
+      ]).then(
+        ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
+          hasReadMediaImagesPermission && hasReadMediaVideoPermission,
+      );
+    } else {
+      return PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      );
+    }
+  };
 
-  const hasPermission = await PermissionsAndroid.check(permission);
+  const hasPermission = await getCheckPermissionPromise();
   if (hasPermission) {
     return true;
   }
+  const getRequestPermissionPromise = () => {
+    if (Number(Platform.Version) >= 33) {
+      return PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
+      ]).then(
+        statuses =>
+          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
+            PermissionsAndroid.RESULTS.GRANTED,
+      );
+    } else {
+      return PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      ).then(status => status === PermissionsAndroid.RESULTS.GRANTED);
+    }
+  };
 
-  const status = await PermissionsAndroid.request(permission);
-  return status === 'granted';
+  return await getRequestPermissionPromise();
 }

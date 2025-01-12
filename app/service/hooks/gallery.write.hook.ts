@@ -69,7 +69,7 @@ export const useUploadGallery = (): [() => void, boolean] => {
     selectedGalleryItems.forEach(image => {
       const uri = image.node.image.uri;
       const fileType = image.node.type;
-      const fileName = image.node.image.filename;
+      const fileName = image.node.image.filename || image.node.id || 'image';
 
       galleyHttpPayLoad.append('gallery', {
         uri,
