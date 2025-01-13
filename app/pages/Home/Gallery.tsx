@@ -24,9 +24,7 @@ import {
 import {Color} from '../../constants/color.constant.ts';
 import Tag from '../../components/styled/components/Tag.tsx';
 import GalleryCard from './GalleryCard.tsx';
-import {AgeGroupKeysWithoutTotalPhotos} from '../../service/hooks/photo.query.hook.ts';
 import {SmallTitle} from '../../components/styled/components/Title.tsx';
-import {useAnimatedScrollHandler} from 'react-native-reanimated';
 
 type props = {
   hero: PhotoHeroType;
@@ -96,7 +94,10 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
           })}
         </ScrollContentContainer>
       </ContentContainer>
-      <ContentContainer flex={1}>
+      <ContentContainer
+        flex={1}
+        alignItems={'center'}
+        justifyContent={'center'}>
         <Carousel
           ref={carouselRef}
           data={tags}
@@ -108,11 +109,12 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
           }
           modeConfig={{
             parallaxScrollingScale: 0.9,
-            parallaxAdjacentItemScale: 0.8,
-            parallaxScrollingOffset: 60,
+            parallaxAdjacentItemScale: 0.7,
+            parallaxScrollingOffset: 125,
           }}
           loop={tags.length <= 2 ? false : true}
           width={windowWidth}
+          height={windowWidth}
           onSnapToItem={index => {
             setSelectedTag({...tags[index]});
           }}

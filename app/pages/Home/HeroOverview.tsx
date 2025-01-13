@@ -16,7 +16,7 @@ const HeroOverview = ({hero}: Props): JSX.Element => {
     return (
       <ContentContainer gap={20} paddingVertical={8}>
         <ContentContainer useHorizontalLayout>
-          <HeroAvatar imageURL={hero.image} size={80} />
+          <HeroAvatar imageURL={hero.image} size={64} />
           <ContentContainer gap={8}>
             <ContentContainer
               useHorizontalLayout
