@@ -37,9 +37,7 @@ const HeroOverview = ({hero}: Props): JSX.Element => {
               <SmallText>
                 {hero.birthdate
                   ? format(new Date(hero.birthdate), 'yyyy.MM.dd') +
-                    ' (' +
-                    hero.age +
-                    '세)'
+                    ` (만 ${hero.age}세)`
                   : '-'}
               </SmallText>
             </ContentContainer>
