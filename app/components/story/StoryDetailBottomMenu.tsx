@@ -13,6 +13,7 @@ import {
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Divider} from 'react-native-paper';
 import {GalleryType} from '../../types/photo.type';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil.ts';
 
 type Props = {
   type: 'story' | 'photo';
@@ -26,9 +27,10 @@ export const StoryDetailMenu = ({
   const navigation = useNavigation<BasicNavigationProps>();
 
   const setWritingStory = useSetRecoilState(writingStoryState);
+  const setEditStoryKey = useSetRecoilState(SelectedStoryKeyState);
   const isStory = type === 'story';
   const [deleteStory] = useDeleteStory({
-    storyKey: gallery.story ? gallery.story.id : -1,
+    storyKey: gallery.story ? gallery.story.id : '',
   });
   const [deleteGallery] = useDeleteGallery({galleryId: gallery.id});
 
@@ -44,6 +46,8 @@ export const StoryDetailMenu = ({
           ? gallery.story?.audios[0]
           : '',
     });
+
+    setEditStoryKey(gallery.story?.id ?? '');
 
     navigation.push('NoTab', {
       screen: 'StoryWritingNavigator',

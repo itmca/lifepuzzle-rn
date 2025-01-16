@@ -140,7 +140,7 @@ export const StoryWritingMenu = ({
           </ContentContainer>
         </BottomSheetModal>
       )}
-      {keyboardVisible && iconCnt > 1 ? (
+      {!playInfo.isOpen && keyboardVisible && iconCnt > 1 && (
         <BottomSheetModal
           ref={menuModalRef}
           index={0}
@@ -162,7 +162,8 @@ export const StoryWritingMenu = ({
             <StoryWritingMenuItem type="bar" />
           </BottomSheetView>
         </BottomSheetModal>
-      ) : (
+      )}
+      {!playInfo.isOpen && !keyboardVisible && iconCnt <= 1 && (
         <Pressable
           onPressIn={() => {
             if (keyboardVisible) {

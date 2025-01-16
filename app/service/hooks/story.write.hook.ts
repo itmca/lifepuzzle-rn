@@ -58,7 +58,7 @@ export const useSaveStory = (): [() => void] => {
       resetAllWritingStory();
       publishStoryListUpdate();
 
-      navigation.goBack();
+      navigation.navigate('HomeTab', {screen: 'Home'});
     },
     onError: err => {
       console.log(err);

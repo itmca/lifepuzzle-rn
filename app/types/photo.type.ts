@@ -40,7 +40,7 @@ export type PhotoHeroType = {
   image: string;
 };
 export type StoryType = {
-  id: number;
+  id: string;
   title: string;
   content: string;
   audios?: string[];

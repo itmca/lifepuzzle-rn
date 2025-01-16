@@ -9,7 +9,7 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
 
 type Props = {
-  storyKey: number;
+  storyKey: string;
 };
 type GalleryProps = {
   galleryId: number;
