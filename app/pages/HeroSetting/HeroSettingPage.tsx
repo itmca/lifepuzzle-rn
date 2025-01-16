@@ -175,8 +175,8 @@ const HeroSettingPage = (): JSX.Element => {
               }}
               width={windowWidth}
               loop={false}
-              onSnapToItem={index => {
-                setFocusedHero(heroes[index]);
+              onProgressChange={(_: number, absoluteProgress: number) => {
+                setFocusedHero(heroes[Math.floor(absoluteProgress)]);
               }}
               renderItem={({item}: any) => {
                 return <HeroCard hero={item} />;

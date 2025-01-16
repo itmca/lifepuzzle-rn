@@ -1,12 +1,11 @@
-import {useEffect, useState} from 'react';
-import {Animated, Dimensions, Image, StyleProp, ViewStyle} from 'react-native';
+import {useState} from 'react';
+import {Dimensions, StyleProp, ViewStyle} from 'react-native';
 import {Photo} from '../styled/components/Image';
 import {VideoPlayer} from './StoryVideoPlayer';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import Carousel from 'react-native-reanimated-carousel';
 import MediaCarouselPagination from './MediaCarouselPagination';
-import {Container} from '../photo/styles';
 
 type Props = {
   data: MediaItem[];
@@ -41,8 +40,8 @@ export const MediaCarousel = ({
   const renderItem = ({item}: {item: MediaItem}) => {
     const type = item.type;
     const mediaUrl = item.url;
-    const height = item.height ?? 0;
     const index = item.index ?? -1;
+
     return (
       <ContentContainer flex={1} backgroundColor={Color.BLACK}>
         {type === 'VIDEO' && (
@@ -61,6 +60,11 @@ export const MediaCarousel = ({
             }}
           />
         )}
+        <MediaCarouselPagination
+          visible={isPaginationShown}
+          activeMediaIndexNo={index}
+          mediaCount={data.length}
+        />
       </ContentContainer>
     );
   };
@@ -75,15 +79,9 @@ export const MediaCarousel = ({
         data={data}
         defaultIndex={activeMediaIndexNo}
         renderItem={renderItem}
-        onSnapToItem={index => {
-          setActiveMediaIndexNo(index);
-          onScroll && onScroll(index);
+        onProgressChange={(_: number, absoluteProgress: number) => {
+          onScroll && onScroll(Math.floor(absoluteProgress));
         }}
-      />
-      <MediaCarouselPagination
-        visible={isPaginationShown}
-        activeMediaIndexNo={activeMediaIndexNo}
-        mediaCount={data.length}
       />
     </>
   );

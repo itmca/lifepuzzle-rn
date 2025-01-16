@@ -77,6 +77,7 @@ const HeroModificationPage = (): JSX.Element => {
     if (!hero) {
       return;
     }
+
     const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
     setWritingHero({
       heroNo: heroNo,

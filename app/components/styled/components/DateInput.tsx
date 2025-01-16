@@ -1,5 +1,5 @@
 import {TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CustomTextInput} from './CustomTextInput.tsx';
 import {TextInput as ReactInput} from 'react-native-paper';
 import RNDateTimePicker from 'react-native-modal-datetime-picker';
@@ -25,9 +25,7 @@ function DateInput({
   onIsLunarChange,
 }: Props) {
   const [visible, setVisible] = useState(false);
-  const [date, onChangeDate] = useState<Date>(
-    propDate ? new Date(propDate) : new Date(),
-  );
+  const [date, onChangeDate] = useState<Date>(propDate || new Date());
   const showPicker = () => {
     setVisible(true);
   };
@@ -44,7 +42,7 @@ function DateInput({
   const onDatePick = (selectedValue: Date) => {
     setVisible(false);
     if (selectedValue) {
-      const currentDate = selectedValue || new Date();
+      const currentDate = selectedValue;
       onDateChange(currentDate);
       onChangeDate(currentDate);
     }
@@ -52,6 +50,14 @@ function DateInput({
   const onCancel = () => {
     setVisible(false);
   };
+
+  useEffect(() => {
+    if (!propDate) {
+      return;
+    }
+
+    onChangeDate(propDate);
+  }, [propDate]);
 
   return (
     <ContentContainer useHorizontalLayout>

@@ -1,5 +1,5 @@
 import {TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {XSmallText} from '../../components/styled/components/Text';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -36,6 +36,14 @@ function StoryDateInput({...props}) {
   const onCancel = () => {
     setVisible(false);
   };
+
+  useEffect(() => {
+    if (!props.value) {
+      return;
+    }
+
+    onChangeDate(props.value);
+  }, [props.value]);
 
   return (
     <>
