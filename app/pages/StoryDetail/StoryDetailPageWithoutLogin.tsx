@@ -40,6 +40,7 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
             data={gallery.map(item => ({
               type: item.type,
               url: item.url,
+              index: item.index,
             }))}
             activeIndex={galleryIndex}
             isFocused={isFocused}

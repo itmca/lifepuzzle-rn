@@ -42,7 +42,7 @@ function StoryDateInput({...props}) {
       return;
     }
 
-    onChangeDate(props.value);
+    onChangeDate(new Date(props.value));
   }, [props.value]);
 
   return (
