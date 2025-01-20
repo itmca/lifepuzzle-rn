@@ -1,16 +1,9 @@
 import {
   CameraRoll,
-  cameraRollEventEmitter,
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Dimensions,
-  EmitterSubscription,
-  FlatList,
-  Platform,
-} from 'react-native';
+import {Alert, Dimensions, FlatList, Platform} from 'react-native';
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
 import {
   hasAndroidPermission,
@@ -91,24 +84,6 @@ const StoryGallerySelector = (): JSX.Element => {
     setNextCursor(page_info.end_cursor);
     setHasNextPage(page_info.has_next_page);
   };
-
-  useEffect(() => {
-    let subscription: EmitterSubscription;
-    if (isAboveIOS14) {
-      subscription = cameraRollEventEmitter.addListener(
-        'onLibrarySelectionChange',
-        () => {
-          void initPhotos();
-        },
-      );
-    }
-
-    return () => {
-      if (isAboveIOS14 && subscription) {
-        subscription.remove();
-      }
-    };
-  }, []);
 
   return (
     <LoadingContainer isLoading={isGalleryUploading}>
