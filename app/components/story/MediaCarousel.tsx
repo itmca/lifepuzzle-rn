@@ -62,7 +62,7 @@ export const MediaCarousel = ({
         )}
         <MediaCarouselPagination
           visible={isPaginationShown}
-          activeMediaIndexNo={index}
+          activeMediaIndexNo={index - 1}
           mediaCount={data.length}
         />
       </ContentContainer>
