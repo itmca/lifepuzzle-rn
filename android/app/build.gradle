@@ -80,7 +80,7 @@ android {
         applicationId "io.itmca.lifepuzzle"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 14
+        versionCode 16
         versionName "1.1.5"
     }
 
