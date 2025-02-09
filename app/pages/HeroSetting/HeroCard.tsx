@@ -5,7 +5,7 @@ import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import {XSmallText} from '../../components/styled/components/LegacyText.tsx';
 import {MediumButton} from '../../components/styled/components/Button';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {Photo} from '../../components/styled/components/Image';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
@@ -54,7 +54,7 @@ const HeroCard = ({hero}: Props): JSX.Element => {
               alignCenter
               height={'100%'}
               paddingBottom={48}
-              backgroundColor={Color.SECONDARY_LIGHT}>
+              backgroundColor={LegacyColor.SECONDARY_LIGHT}>
               <HeroAvatar
                 color="#32C5FF"
                 style={{backgroundColor: 'transparent'}}
@@ -76,7 +76,9 @@ const HeroCard = ({hero}: Props): JSX.Element => {
             width="80px"
             borderRadius={16}
             backgroundColor={
-              isSelected ? Color.PRIMARY_LIGHT : Color.SECONDARY_MEDIUM
+              isSelected
+                ? LegacyColor.PRIMARY_LIGHT
+                : LegacyColor.SECONDARY_MEDIUM
             }
             onPress={() => {
               setCurrentHero(hero);
@@ -89,11 +91,11 @@ const HeroCard = ({hero}: Props): JSX.Element => {
               navigation.navigate('HomeTab', {screen: 'Home'});
             }}>
             {isSelected ? (
-              <XSmallText color={Color.WHITE} bold>
+              <XSmallText color={LegacyColor.WHITE} bold>
                 작성중
               </XSmallText>
             ) : (
-              <XSmallText color={Color.PRIMARY_DARK} bold>
+              <XSmallText color={LegacyColor.PRIMARY_DARK} bold>
                 작성하기
               </XSmallText>
             )}

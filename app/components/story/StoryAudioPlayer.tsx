@@ -2,8 +2,10 @@ import {TouchableWithoutFeedback} from 'react-native';
 import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
 import React, {useEffect, useState} from 'react';
 import Sound from 'react-native-sound';
+
+import {LegacyColor} from '../../constants/color.constant';
 import {XSmallText} from '../styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
+
 import {ContentContainer} from '../styled/container/ContentContainer';
 import Image from '../styled/components/Image';
 import {useNavigation} from '@react-navigation/native';
@@ -133,7 +135,7 @@ export const StoryAudioPlayer = ({
     <ContentContainer
       alignCenter
       height="100%"
-      backgroundColor={Color.DARK_BLUE}>
+      backgroundColor={LegacyColor.DARK_BLUE}>
       <ContentContainer alignCenter withNoBackground gap={8}>
         <TouchableWithoutFeedback onPressIn={onPress}>
           <Image
@@ -145,7 +147,7 @@ export const StoryAudioPlayer = ({
             style={{width: 45, height: 45}}
           />
         </TouchableWithoutFeedback>
-        <XSmallText color={Color.WHITE} fontWeight={500}>
+        <XSmallText color={LegacyColor.WHITE} fontWeight={500}>
           {audioDisplayTimeText}
         </XSmallText>
         <TouchableWithoutFeedback

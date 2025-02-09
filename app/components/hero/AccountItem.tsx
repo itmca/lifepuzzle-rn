@@ -1,6 +1,6 @@
 import React from 'react';
 import {MediumImage} from '../../components/styled/components/Image';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {HeroAuthTypeByCode} from '../../constants/auth.constant';
 import {ImageButton} from '../styled/components/Button';
 import {MediumText, SmallText} from '../styled/components/LegacyText.tsx';
@@ -30,7 +30,7 @@ export const AccountItem = ({
       </ContentContainer>
       <ContentContainer flex={1} gap={4}>
         <MediumText>{user.nickName}</MediumText>
-        <SmallText color={Color.FONT_GRAY}>
+        <SmallText color={LegacyColor.FONT_GRAY}>
           {HeroAuthTypeByCode[user.auth].name}
         </SmallText>
       </ContentContainer>

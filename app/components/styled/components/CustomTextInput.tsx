@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {TextInput} from 'react-native-paper';
 import React, {useState} from 'react';
-import {Color} from '../../../constants/color.constant';
+import {LegacyColor} from '../../../constants/color.constant';
 import {StyleProp} from 'react-native/Libraries/StyleSheet/StyleSheet';
 import {TextStyle} from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import {StyleSheet, ViewStyle} from 'react-native';
@@ -75,10 +75,12 @@ export const CustomTextInput = ({
   const theme = {
     roundness: 4,
     colors: {
-      primary: Color.PRIMARY_LIGHT,
-      secondary: Color.PRIMARY_LIGHT,
-      outline: isFocused ? 'transparent' : borderColor ?? Color.LIGHT_GRAY,
-      onSurface: Color.BLACK, //underline, textColor
+      primary: LegacyColor.PRIMARY_LIGHT,
+      secondary: LegacyColor.PRIMARY_LIGHT,
+      outline: isFocused
+        ? 'transparent'
+        : borderColor ?? LegacyColor.LIGHT_GRAY,
+      onSurface: LegacyColor.BLACK, //underline, textColor
       surfaceVariant: 'transparent', //underlineBackground
       background: isFocused
         ? focusedBackgroundColor

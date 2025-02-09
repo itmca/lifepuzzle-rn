@@ -21,7 +21,7 @@ import {
   PhotoHeroType,
   TagType,
 } from '../../types/photo.type.ts';
-import {Color} from '../../constants/color.constant.ts';
+import {LegacyColor} from '../../constants/color.constant.ts';
 import Tag from '../../components/styled/components/Tag.tsx';
 import GalleryCard from './GalleryCard.tsx';
 import {SmallTitle} from '../../components/styled/components/Title.tsx';
@@ -74,16 +74,16 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
               return (
                 <Tag
                   key={index}
-                  backgroundColor={Color.FONT_DARK}
+                  backgroundColor={LegacyColor.FONT_DARK}
                   fontWeight={'bold'}
-                  fontColor={Color.WHITE}
+                  fontColor={LegacyColor.WHITE}
                   text={`${item.label} (${item.count ?? 0})`}></Tag>
               );
             } else {
               return (
                 <Tag
                   key={index}
-                  backgroundColor={Color.LIGHT_GRAY}
+                  backgroundColor={LegacyColor.LIGHT_GRAY}
                   onPress={() => {
                     carouselRef.current?.scrollTo({index});
                     setSelectedTag({...item});

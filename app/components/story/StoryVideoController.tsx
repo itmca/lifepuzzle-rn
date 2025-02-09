@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import {Bar} from 'react-native-progress';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
 import {XXSmallText} from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
@@ -80,10 +80,12 @@ export const VideoController = ({
                     useHorizontalLayout
                     withNoBackground
                     paddingHorizontal={4}>
-                    <XXSmallText color={Color.WHITE}>
+                    <XXSmallText color={LegacyColor.WHITE}>
                       {toMinuteSeconds(currentProgress * duration)}
                     </XXSmallText>
-                    <XXSmallText color={Color.WHITE}>{playingTime}</XXSmallText>
+                    <XXSmallText color={LegacyColor.WHITE}>
+                      {playingTime}
+                    </XXSmallText>
                   </ContentContainer>
                 )}
                 <TouchableWithoutFeedback onPress={handleProgress}>
@@ -91,9 +93,9 @@ export const VideoController = ({
                     progress={currentProgress}
                     width={width}
                     height={4}
-                    color={Color.PRIMARY_LIGHT}
-                    unfilledColor={Color.WHITE}
-                    borderColor={Color.GRAY}
+                    color={LegacyColor.PRIMARY_LIGHT}
+                    unfilledColor={LegacyColor.WHITE}
+                    borderColor={LegacyColor.GRAY}
                     borderRadius={50}
                     borderWidth={0}
                   />

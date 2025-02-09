@@ -21,8 +21,9 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
+import {LegacyColor} from '../../constants/color.constant';
 import {MediumText} from '../../components/styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
+
 import {Divider} from '../../components/styled/components/Divider';
 import {XSmallTitle} from '../../components/styled/components/Title';
 import {Pressable, TouchableOpacity} from 'react-native';
@@ -32,6 +33,7 @@ import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import CtaButton from '../../components/button/CtaButton';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 type AccountQueryResponse = {
   userNo: number;
   userId: string;
@@ -169,7 +171,7 @@ const AccountModificationPage = ({
     navigation.setOptions({
       headerRight: () => (
         <Pressable onPress={onSubmit}>
-          <MediumText color={Color.FONT_BLUE} fontWeight={600}>
+          <MediumText color={LegacyColor.FONT_BLUE} fontWeight={600}>
             등록
           </MediumText>
         </Pressable>
@@ -204,8 +206,8 @@ const AccountModificationPage = ({
                       position: 'absolute',
                       top: 5,
                       right: 0,
-                      backgroundColor: Color.WHITE,
-                      borderColor: Color.GRAY,
+                      backgroundColor: LegacyColor.WHITE,
+                      borderColor: LegacyColor.GRAY,
                       borderWidth: 0.5,
                       width: 24,
                       height: 24,
@@ -219,7 +221,7 @@ const AccountModificationPage = ({
                         isProfileImageUpdate: true,
                       });
                     }}>
-                    <Icon size={18} color={Color.BLACK} name={'close'} />
+                    <Icon size={18} color={LegacyColor.BLACK} name={'close'} />
                   </Pressable>
                 )}
               </TouchableOpacity>
@@ -230,7 +232,7 @@ const AccountModificationPage = ({
                   <XSmallTitle
                     left={5}
                     fontWeight={600}
-                    color={Color.LIGHT_BLACK}>
+                    color={LegacyColor.LIGHT_BLACK}>
                     아이디
                   </XSmallTitle>
                   <BasicTextInput label="" text={id} disabled={true} />
@@ -240,7 +242,7 @@ const AccountModificationPage = ({
                 <XSmallTitle
                   left={5}
                   fontWeight={600}
-                  color={Color.LIGHT_BLACK}>
+                  color={LegacyColor.LIGHT_BLACK}>
                   닉네임
                 </XSmallTitle>
                 <ValidatedTextInput

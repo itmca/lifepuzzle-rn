@@ -8,8 +8,8 @@ import {
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
 import {ImageButton, MediumButton} from '../../styled/components/Button';
+import {LegacyColor} from '../../../constants/color.constant';
 import MediumText from '../../styled/components/LegacyText.tsx';
-import {Color} from '../../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
 
@@ -72,7 +72,7 @@ const KaKaoSocialLoginButton = ({
           source={require('../../../assets/images/kakao-logo.png')}
           style={styles.socialLoginIcon}
         />
-        <MediumText color={Color.LIGHT_BLACK} fontWeight={600}>
+        <MediumText color={LegacyColor.LIGHT_BLACK} fontWeight={600}>
           카카오톡으로 계속하기
         </MediumText>
       </MediumButton>

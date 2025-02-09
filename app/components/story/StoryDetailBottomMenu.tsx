@@ -1,6 +1,7 @@
 import {Alert, TouchableOpacity} from 'react-native';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import MediumText from '../styled/components/LegacyText.tsx';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {useSetRecoilState} from 'recoil';
@@ -98,33 +99,33 @@ export const StoryDetailMenu = ({
               height={'56px'}
               useHorizontalLayout
               gap={0}
-              backgroundColor={Color.LIGHT_GRAY}
+              backgroundColor={LegacyColor.LIGHT_GRAY}
               justifyContent={'left'}
               paddingVertical={12}
               paddingHorizontal={16}
               borderTopRadius={8}>
-              <Icon size={18} name={'edit'} color={Color.LIGHT_BLACK} />
+              <Icon size={18} name={'edit'} color={LegacyColor.LIGHT_BLACK} />
               <ContentContainer paddingHorizontal={16} withNoBackground>
-                <MediumText color={Color.LIGHT_BLACK} bold>
+                <MediumText color={LegacyColor.LIGHT_BLACK} bold>
                   이야기 수정하기
                 </MediumText>
               </ContentContainer>
             </ContentContainer>
           </TouchableOpacity>
-          <Divider theme={{colors: {outlineVariant: Color.WHITE}}} bold />
+          <Divider theme={{colors: {outlineVariant: LegacyColor.WHITE}}} bold />
           <TouchableOpacity onPress={onDeleteStory}>
             <ContentContainer
               height={'56px'}
               useHorizontalLayout
               gap={0}
-              backgroundColor={Color.LIGHT_GRAY}
+              backgroundColor={LegacyColor.LIGHT_GRAY}
               justifyContent={'left'}
               paddingVertical={12}
               paddingHorizontal={16}
               borderBottomRadius={8}>
-              <Icon size={18} name={'delete'} color={Color.LIGHT_BLACK} />
+              <Icon size={18} name={'delete'} color={LegacyColor.LIGHT_BLACK} />
               <ContentContainer paddingHorizontal={16} withNoBackground>
-                <MediumText color={Color.LIGHT_BLACK} bold>
+                <MediumText color={LegacyColor.LIGHT_BLACK} bold>
                   이야기 삭제하기
                 </MediumText>
               </ContentContainer>
@@ -137,15 +138,15 @@ export const StoryDetailMenu = ({
           height={'56px'}
           useHorizontalLayout
           gap={0}
-          backgroundColor={Color.LIGHT_GRAY}
+          backgroundColor={LegacyColor.LIGHT_GRAY}
           justifyContent={'left'}
           paddingVertical={12}
           paddingHorizontal={16}
           borderRadius={8}
           borderBottomRadius={8}>
-          <Icon size={18} name={'delete'} color={Color.LIGHT_BLACK} />
+          <Icon size={18} name={'delete'} color={LegacyColor.LIGHT_BLACK} />
           <ContentContainer paddingHorizontal={16} withNoBackground>
-            <MediumText color={Color.LIGHT_BLACK} bold>
+            <MediumText color={LegacyColor.LIGHT_BLACK} bold>
               사진 삭제하기
             </MediumText>
           </ContentContainer>

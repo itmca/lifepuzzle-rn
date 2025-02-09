@@ -7,7 +7,7 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {MediumText} from '../../components/styled/components/LegacyText.tsx';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {ProfileMenuListItem} from './ProfileMenuListItem';
 import {Divider} from '../../components/styled/components/Divider.tsx';
 import {LargeTitle} from '../../components/styled/components/Title.tsx';
@@ -45,9 +45,11 @@ const ProfilePage = (): JSX.Element | null => {
           size={80}
         />
         <ContentContainer gap={8}>
-          <LargeTitle color={Color.LIGHT_BLACK}>{user.userNickName}</LargeTitle>
+          <LargeTitle color={LegacyColor.LIGHT_BLACK}>
+            {user.userNickName}
+          </LargeTitle>
           {user.userId && (
-            <MediumText color={Color.FONT_DARK}>{user.userId}</MediumText>
+            <MediumText color={LegacyColor.FONT_DARK}>{user.userId}</MediumText>
           )}
         </ContentContainer>
       </ContentContainer>
@@ -67,7 +69,7 @@ const ProfilePage = (): JSX.Element | null => {
           }}
         />
         <ProfileMenuListItem
-          backgroundColor={Color.WHITE_GRAY}
+          backgroundColor={LegacyColor.WHITE_GRAY}
           listItemTitle={'주인공 관리'}
           onPress={() => {
             navigation.push('NoTab', {

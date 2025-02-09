@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   photo: {
@@ -54,13 +54,13 @@ export const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   viewBar: {
-    backgroundColor: Color.FONT_GRAY,
+    backgroundColor: LegacyColor.FONT_GRAY,
     height: 4,
     alignSelf: 'stretch',
     borderRadius: 2,
   },
   viewBarPlay: {
-    backgroundColor: Color.PRIMARY_LIGHT,
+    backgroundColor: LegacyColor.PRIMARY_LIGHT,
     height: 4,
     width: 0,
   },

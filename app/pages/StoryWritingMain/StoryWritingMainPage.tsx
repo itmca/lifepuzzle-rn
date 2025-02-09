@@ -17,7 +17,7 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {StoryWritingMenu} from '../../components/story/StoryWritingMenu';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {MediumImage} from '../../components/styled/components/Image.tsx';
 import {ageGroupsState} from '../../recoils/photos.recoil.ts';
 
@@ -47,7 +47,7 @@ const StoryWritingMainPage = (): JSX.Element => {
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
               style={{
                 borderTopWidth: 1,
-                borderTopColor: Color.LIGHT_GRAY,
+                borderTopColor: LegacyColor.LIGHT_GRAY,
                 backgroundColor: 'transparent',
                 width: '100%',
                 height: '100%',
@@ -56,7 +56,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                 <ContentContainer
                   flex={1}
                   maxHeight={'40%'}
-                  backgroundColor={Color.BLACK}>
+                  backgroundColor={LegacyColor.BLACK}>
                   <MediumImage
                     style={{
                       width: '100%',

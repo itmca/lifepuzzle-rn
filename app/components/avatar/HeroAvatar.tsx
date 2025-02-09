@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar} from 'react-native-paper';
 import {StyleProp} from 'react-native';
-import {Color} from '../../constants/color.constant.ts';
+import {LegacyColor} from '../../constants/color.constant.ts';
 
 type Props = {
   imageURL: string | undefined;
@@ -19,7 +19,7 @@ export const HeroAvatar = ({
   if (!imageURL) {
     return (
       <Avatar.Icon
-        style={{backgroundColor: Color.LIGHT_GRAY, ...style}}
+        style={{backgroundColor: LegacyColor.LIGHT_GRAY, ...style}}
         size={size}
         color={color}
         icon="account"
@@ -29,7 +29,7 @@ export const HeroAvatar = ({
 
   return (
     <Avatar.Image
-      style={{backgroundColor: Color.LIGHT_GRAY, ...style}}
+      style={{backgroundColor: LegacyColor.LIGHT_GRAY, ...style}}
       size={size}
       source={{uri: imageURL}}
     />

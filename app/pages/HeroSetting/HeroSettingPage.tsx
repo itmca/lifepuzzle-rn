@@ -28,7 +28,7 @@ import {
 } from '../../components/styled/components/LegacyText.tsx';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userState} from '../../recoils/user.recoil.ts';
-import {Color} from '../../constants/color.constant.ts';
+import {LegacyColor} from '../../constants/color.constant.ts';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {writingHeroKeyState} from '../../recoils/hero-write.recoil.ts';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
@@ -135,7 +135,7 @@ const HeroSettingPage = (): JSX.Element => {
                 ? focusedHero.heroName.substring(0, 8) + '...'
                 : focusedHero.heroName}
             </XXLargeText>
-            <MediumText color={Color.FONT_GRAY}>
+            <MediumText color={LegacyColor.FONT_GRAY}>
               {focusedHero.heroNickName.length > 8
                 ? focusedHero.heroNickName.substring(0, 12) + '...'
                 : focusedHero.heroNickName}
@@ -210,8 +210,8 @@ const HeroSettingPage = (): JSX.Element => {
                         numberOfLines={2}
                         color={
                           user.userNo === currentUser.userNo
-                            ? Color.PRIMARY_LIGHT
-                            : Color.FONT_GRAY
+                            ? LegacyColor.PRIMARY_LIGHT
+                            : LegacyColor.FONT_GRAY
                         }
                         bold>
                         {user.nickName}

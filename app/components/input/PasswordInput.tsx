@@ -2,7 +2,7 @@ import {CustomTextInput} from '../styled/components/CustomTextInput.tsx';
 import React, {useState} from 'react';
 import {StyleProp, TextStyle} from 'react-native';
 import {TextInput as ReactInput} from 'react-native-paper';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 type Props = {
   disabled?: boolean;
@@ -35,7 +35,7 @@ export const PasswordInput = ({
       right={
         <ReactInput.Icon
           icon={isPasswordSecure ? 'eye' : 'eye-off'}
-          color={Color.DARK_GRAY}
+          color={LegacyColor.DARK_GRAY}
           onPress={() => {
             isPasswordSecure
               ? setIsPasswordSecure(false)

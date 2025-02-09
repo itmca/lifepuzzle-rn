@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {XSmallText} from '../../components/styled/components/LegacyText.tsx';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {XSmallImage} from '../../components/styled/components/Image';
 
 function StoryDateInput({...props}) {
@@ -53,7 +53,7 @@ function StoryDateInput({...props}) {
         }}
         disabled={props.disabled}
         style={{
-          backgroundColor: Color.SECONDARY_LIGHT,
+          backgroundColor: LegacyColor.SECONDARY_LIGHT,
           paddingVertical: 4,
           paddingHorizontal: 8,
           borderRadius: 5,
@@ -65,10 +65,10 @@ function StoryDateInput({...props}) {
           useHorizontalLayout
           withNoBackground>
           <XSmallImage
-            tintColor={Color.PRIMARY_MEDIUM}
+            tintColor={LegacyColor.PRIMARY_MEDIUM}
             source={require('../../assets/images/calendar_month.png')}
           />
-          <XSmallText color={Color.PRIMARY_MEDIUM}>
+          <XSmallText color={LegacyColor.PRIMARY_MEDIUM}>
             {formatDate(date)}
           </XSmallText>
         </ContentContainer>

@@ -1,6 +1,7 @@
 import {MediumButton} from '../../styled/components/Button';
+import {LegacyColor} from '../../../constants/color.constant';
 import MediumText from '../../styled/components/LegacyText.tsx';
-import {Color} from '../../../constants/color.constant';
+
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
 import {ContentContainer} from '../../styled/container/ContentContainer.tsx';
@@ -10,7 +11,7 @@ const RegisterButton = (): JSX.Element => {
   return (
     <ContentContainer paddingHorizontal={8}>
       <MediumButton
-        backgroundColor={Color.WHITE}
+        backgroundColor={LegacyColor.WHITE}
         justifyContent="flex-start"
         alignSelf="flex-start"
         height={'40px'}

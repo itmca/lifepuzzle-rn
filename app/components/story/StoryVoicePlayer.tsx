@@ -1,4 +1,4 @@
-import {Color} from '../../constants/color.constant.ts';
+import {LegacyColor} from '../../constants/color.constant.ts';
 import React, {useEffect} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 
@@ -76,7 +76,8 @@ export const VoicePlayer = ({
     <>
       <ContentContainer gap={3}>
         <ContentContainer useHorizontalLayout>
-          <XXSmallText color={disable ? Color.FONT_GRAY : Color.DARK_GRAY}>
+          <XXSmallText
+            color={disable ? LegacyColor.FONT_GRAY : LegacyColor.DARK_GRAY}>
             {playInfo.playTime
               ? playInfo.playTime.substring(
                   0,
@@ -84,7 +85,8 @@ export const VoicePlayer = ({
                 )
               : '00:00'}
           </XXSmallText>
-          <XXSmallText color={disable ? Color.FONT_GRAY : Color.DARK_GRAY}>
+          <XXSmallText
+            color={disable ? LegacyColor.FONT_GRAY : LegacyColor.DARK_GRAY}>
             {playInfo.duration
               ? playInfo.duration.substring(
                   0,
@@ -113,7 +115,7 @@ export const VoicePlayer = ({
         <Pressable disabled={disable} onPress={onReplay}>
           <MaterialIcons
             size={40}
-            color={disable ? Color.FONT_GRAY : Color.BLACK}
+            color={disable ? LegacyColor.FONT_GRAY : LegacyColor.BLACK}
             name={'replay-10'}
           />
         </Pressable>
@@ -124,14 +126,14 @@ export const VoicePlayer = ({
           }}>
           <FontAwesome6
             size={32}
-            color={disable ? Color.FONT_GRAY : Color.PRIMARY_LIGHT}
+            color={disable ? LegacyColor.FONT_GRAY : LegacyColor.PRIMARY_LIGHT}
             name={playInfo.isPlay ? 'pause' : 'play'}
           />
         </Pressable>
         <Pressable disabled={disable} onPress={onForward}>
           <MaterialIcons
             size={40}
-            color={disable ? Color.FONT_GRAY : Color.BLACK}
+            color={disable ? LegacyColor.FONT_GRAY : LegacyColor.BLACK}
             name={'forward-10'}
           />
         </Pressable>
@@ -144,7 +146,7 @@ export const VoicePlayer = ({
             }}>
             <MaterialIcons
               size={40}
-              color={disable ? Color.FONT_GRAY : Color.BLACK}
+              color={disable ? LegacyColor.FONT_GRAY : LegacyColor.BLACK}
               name={'close'}
             />
           </Pressable>
@@ -152,7 +154,7 @@ export const VoicePlayer = ({
           <Pressable disabled={disable} onPress={onRemove}>
             <MaterialIcons
               size={40}
-              color={disable ? Color.FONT_GRAY : Color.BLACK}
+              color={disable ? LegacyColor.FONT_GRAY : LegacyColor.BLACK}
               name={'delete'}
             />
           </Pressable>

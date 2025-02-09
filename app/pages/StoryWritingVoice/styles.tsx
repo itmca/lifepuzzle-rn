@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 export default StyleSheet.create({
   container: {
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 50,
-    borderColor: Color.FONT_GRAY,
+    borderColor: LegacyColor.FONT_GRAY,
     borderWidth: 4,
     margin: 10,
   },
@@ -39,9 +39,9 @@ export default StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     borderWidth: 1,
-    borderColor: Color.GRAY,
+    borderColor: LegacyColor.GRAY,
     borderRadius: 4,
-    backgroundColor: Color.WHITE,
+    backgroundColor: LegacyColor.WHITE,
   },
   viewBarWrapper: {
     marginHorizontal: 10,
@@ -53,7 +53,7 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
   },
   viewBarPlay: {
-    backgroundColor: Color.PRIMARY_LIGHT,
+    backgroundColor: LegacyColor.PRIMARY_LIGHT,
     height: 4,
     width: 0,
   },

@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, StyleProp, View, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 type Props = {
   iconType?: 'x' | 'chevron-left';
@@ -36,7 +36,7 @@ const GoBackHeaderLeft = ({
       }}
       style={containerStyle}>
       <View style={{marginLeft: -10}}>
-        <Icon name={iconType} size={iconSize} color={Color.FONT_GRAY} />
+        <Icon name={iconType} size={iconSize} color={LegacyColor.FONT_GRAY} />
       </View>
     </Pressable>
   );

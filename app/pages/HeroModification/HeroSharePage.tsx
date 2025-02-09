@@ -10,7 +10,7 @@ import {
 import {XSmallText} from '../../components/styled/components/LegacyText.tsx';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {SortedHeroAuthTypes} from '../../constants/auth.constant';
 import {HeroSettingRouteProps} from '../../navigation/types';
 import {useAuthAxios} from '../../service/hooks/network.hook';
@@ -96,7 +96,7 @@ const HeroSharePage = (): JSX.Element => {
               ? hero.heroNickName.substring(0, 12) + '...'
               : hero.heroNickName}
           </LargeTitle>
-          <XSmallTitle fontWeight={'600'} color={Color.FONT_GRAY}>
+          <XSmallTitle fontWeight={'600'} color={LegacyColor.FONT_GRAY}>
             {hero.heroName.length > 8
               ? hero.heroName.substring(0, 8) + '...'
               : hero.heroName}
@@ -118,7 +118,7 @@ const HeroSharePage = (): JSX.Element => {
                       {(selectedItem && selectedItem.label) || '권한 선택'}
                     </XSmallTitle>
                     {selectedItem && (
-                      <XSmallText color={Color.DARK_GRAY}>
+                      <XSmallText color={LegacyColor.DARK_GRAY}>
                         {selectedItem.description}
                       </XSmallText>
                     )}
@@ -141,7 +141,7 @@ const HeroSharePage = (): JSX.Element => {
                 <ContentContainer useHorizontalLayout>
                   <ContentContainer flex={1} withContentPadding gap={8}>
                     <XSmallTitle>{item.label}</XSmallTitle>
-                    <XSmallText color={Color.DARK_GRAY}>
+                    <XSmallText color={LegacyColor.DARK_GRAY}>
                       {item.description}
                     </XSmallText>
                   </ContentContainer>

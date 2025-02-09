@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {FloatingMenu} from '../story/StoryDetailFloatingMenu';
 import Icon from 'react-native-vector-icons/Feather';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
   SelectedStoryKeyState,
@@ -121,7 +121,11 @@ const DetailViewHeader = ({
             navigation.goBack();
           }}>
           <View style={{marginLeft: -10}}>
-            <Icon name={'chevron-left'} size={26} color={Color.FONT_GRAY} />
+            <Icon
+              name={'chevron-left'}
+              size={26}
+              color={LegacyColor.FONT_GRAY}
+            />
           </View>
         </Pressable>
         {displayRight && (
@@ -133,7 +137,7 @@ const DetailViewHeader = ({
             <Icon
               name="more-vertical"
               size={23}
-              color={Color.FONT_GRAY}
+              color={LegacyColor.FONT_GRAY}
               style={{marginRight: -5}}
             />
           </Pressable>

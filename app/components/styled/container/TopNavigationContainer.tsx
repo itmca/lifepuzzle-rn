@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {Color} from '../../../constants/color.constant';
+import {LegacyColor} from '../../../constants/color.constant';
 
 export const TopNavigationContainer = styled.SafeAreaView`
   width: 100%;
@@ -8,6 +8,6 @@ export const TopNavigationContainer = styled.SafeAreaView`
   align-items: center;
   min-height: 56px;
   border-bottom-width: 1px;
-  border-bottom-color: ${Color.GRAY};
-  background-color: ${Color.WHITE};
+  border-bottom-color: ${LegacyColor.GRAY};
+  background-color: ${LegacyColor.WHITE};
 `;

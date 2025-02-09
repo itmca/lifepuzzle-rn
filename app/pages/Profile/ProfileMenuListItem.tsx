@@ -1,6 +1,7 @@
 import {TouchableOpacity} from 'react-native';
+
+import {LegacyColor} from '../../constants/color.constant';
 import MediumText from '../../components/styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
@@ -11,7 +12,7 @@ type Props = {
 };
 
 export const ProfileMenuListItem = ({
-  backgroundColor = Color.WHITE,
+  backgroundColor = LegacyColor.WHITE,
   listItemTitle,
   onPress,
 }: Props): JSX.Element => {
@@ -19,7 +20,7 @@ export const ProfileMenuListItem = ({
     <TouchableOpacity
       style={{
         borderRadius: 50,
-        backgroundColor: Color.LIGHT_GRAY,
+        backgroundColor: LegacyColor.LIGHT_GRAY,
         marginLeft: 'auto',
       }}
       onPress={onPress}>
@@ -28,7 +29,7 @@ export const ProfileMenuListItem = ({
         withScreenPadding
         alignItems="center"
         backgroundColor={backgroundColor}>
-        <MediumText color={Color.FONT_DARK} fontWeight={500}>
+        <MediumText color={LegacyColor.FONT_DARK} fontWeight={500}>
           {listItemTitle}
         </MediumText>
 
@@ -36,7 +37,7 @@ export const ProfileMenuListItem = ({
           disabled
           name={'chevron-right'}
           size={24}
-          color={Color.FONT_GRAY}
+          color={LegacyColor.FONT_GRAY}
         />
       </ContentContainer>
     </TouchableOpacity>

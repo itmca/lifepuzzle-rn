@@ -3,7 +3,7 @@ import Modal from 'react-native-modal';
 import {Image, View} from 'react-native';
 import {SmallText} from '../styled/components/LegacyText.tsx';
 import styles from './styles';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {ModalButton} from '../button/ModalButton';
 
 type Props = {
@@ -33,7 +33,7 @@ const ImageModal = ({
       <View style={styles.modalContainer}>
         <View style={styles.modalContentContainer}>
           <Image source={imageSource} style={{marginBottom: 20}} />
-          <SmallText color={Color.FONT_DARK} fontWeight={600}>
+          <SmallText color={LegacyColor.FONT_DARK} fontWeight={600}>
             {message}
           </SmallText>
         </View>

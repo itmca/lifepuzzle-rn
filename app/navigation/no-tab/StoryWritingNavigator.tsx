@@ -7,7 +7,7 @@ import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title, {SmallTitle} from '../../components/styled/components/Title';
 import StoryWritingQuestionPage from '../../pages/StoryWritingQuestion/StoryWritingQuestionPage';
 import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {PostStoryKeyState} from '../../recoils/story-write.recoil';
@@ -54,7 +54,7 @@ const StoryWritingNavigator = (): JSX.Element => {
         options={{
           headerLeft: () => <WritingHeaderLeft type="before" />,
           headerTitle: () => (
-            <SmallTitle color={Color.LIGHT_BLACK}>
+            <SmallTitle color={LegacyColor.LIGHT_BLACK}>
               {selectedStoryKey ? '글수정' : postStoryKey ? '글작성' : '글작성'}
             </SmallTitle>
           ),

@@ -11,7 +11,7 @@ import {
 import {SmallTitle} from '../../components/styled/components/Title';
 import dayjs from 'dayjs';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {RecommendQuestionButton} from './RecommendQuestionButton';
 import {Question} from '../../types/question.type';
 
@@ -47,8 +47,10 @@ const StoryWritingQuestionPage = (): JSX.Element => {
           <SmallTitle>{thisMonth}월의 추천질문</SmallTitle>
         </ContentContainer>
         <ContentContainer gap={4}>
-          <SmallText color={Color.DARK_GRAY}>이번달 추천질문입니다.</SmallText>
-          <SmallText color={Color.DARK_GRAY}>
+          <SmallText color={LegacyColor.DARK_GRAY}>
+            이번달 추천질문입니다.
+          </SmallText>
+          <SmallText color={LegacyColor.DARK_GRAY}>
             이번달도 아름다운 퍼즐을 맞춰보아요!
           </SmallText>
         </ContentContainer>

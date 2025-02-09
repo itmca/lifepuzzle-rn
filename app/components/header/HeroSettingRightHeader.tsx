@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
-import {Color} from '../../constants/color.constant.ts';
+import {LegacyColor} from '../../constants/color.constant.ts';
 
 const HeroSettingRightHeader = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -19,7 +19,7 @@ const HeroSettingRightHeader = (): JSX.Element => {
             },
           });
         }}>
-        <Icon size={32} name={'add-circle'} color={Color.PRIMARY_LIGHT} />
+        <Icon size={32} name={'add-circle'} color={LegacyColor.PRIMARY_LIGHT} />
       </TouchableOpacity>
     </ContentContainer>
   );

@@ -1,6 +1,8 @@
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
-import {Color} from '../../constants/color.constant';
+
+import {LegacyColor} from '../../constants/color.constant';
 import {XXSmallText} from '../styled/components/LegacyText.tsx';
+
 import {ContentContainer} from '../styled/container/ContentContainer';
 
 type Props = {
@@ -35,9 +37,9 @@ const MediaCarouselPagination = ({
         paddingHorizontal={10}
         borderRadius={4}
         opacity={0.5}
-        backgroundColor={Color.BLACK}
+        backgroundColor={LegacyColor.BLACK}
         zIndex={100}>
-        <XXSmallText bold lineHeight={20} color={Color.LIGHT_GRAY}>{`${
+        <XXSmallText bold lineHeight={20} color={LegacyColor.LIGHT_GRAY}>{`${
           activeMediaIndexNo + 1
         }/${mediaCount}`}</XXSmallText>
       </ContentContainer>

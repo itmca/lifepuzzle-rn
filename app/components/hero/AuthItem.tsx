@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {CodeType} from '../../types/code.type';
 import {ImageButton} from '../styled/components/Button';
@@ -41,7 +41,7 @@ export const AuthItem = ({auth, selected, onSelect}: props): JSX.Element => {
         <ContentContainer flex={1}>
           <MediumText fontWeight={'600'}>{auth.name}</MediumText>
           {auth.description ? (
-            <XSmallText fontWeight={'600'} color={Color.DARK_GRAY}>
+            <XSmallText fontWeight={'600'} color={LegacyColor.DARK_GRAY}>
               {auth.description}
             </XSmallText>
           ) : (

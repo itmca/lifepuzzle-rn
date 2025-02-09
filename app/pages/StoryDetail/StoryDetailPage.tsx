@@ -30,7 +30,7 @@ import {
 import BottomSheet from '../../components/styled/components/BottomSheet';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Color} from '../../constants/color.constant.ts';
+import {LegacyColor} from '../../constants/color.constant.ts';
 import {StoryDetailMenu} from '../../components/story/StoryDetailBottomMenu.tsx';
 import {
   MediumTitle,
@@ -120,13 +120,13 @@ const StoryDetailPage = (): JSX.Element => {
                 <Icon
                   name="more-horiz"
                   size={23}
-                  color={Color.FONT_GRAY}
+                  color={LegacyColor.FONT_GRAY}
                   style={{marginRight: -5}}
                 />
               </Pressable>
             </ContentContainer>
 
-            <ContentContainer backgroundColor={Color.BLACK}>
+            <ContentContainer backgroundColor={LegacyColor.BLACK}>
               <MediaCarousel
                 data={gallery.map(item => ({
                   type: item.type,
@@ -162,15 +162,15 @@ const StoryDetailPage = (): JSX.Element => {
                     width={'165px'}
                     height={'48px'}
                     borderRadius={32}
-                    backgroundColor={Color.PRIMARY_LIGHT}
+                    backgroundColor={LegacyColor.PRIMARY_LIGHT}
                     withUpperShadow>
                     <Icon
                       size={20}
                       name={'add-circle'}
-                      color={Color.WHITE}
+                      color={LegacyColor.WHITE}
                       style={{margin: 2}}
                     />
-                    <XSmallTitle color={Color.WHITE}>
+                    <XSmallTitle color={LegacyColor.WHITE}>
                       이야기 작성하기
                     </XSmallTitle>
                   </ContentContainer>

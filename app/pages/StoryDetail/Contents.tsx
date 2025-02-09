@@ -2,7 +2,7 @@ import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import MediumText, {SmallText, XSmallText} from '../styled/components/Text';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import React from 'react';
 import {getStoryDisplayDotDate} from '../../service/story-display.service';
 import {StoryType} from '../../types/story.type';
@@ -23,7 +23,7 @@ export const StoryItemContents = ({
       <ContentContainer direction="horizontal">
         {story.question && (
           <SmallText
-            color={Color.DARK_GRAY}
+            color={LegacyColor.DARK_GRAY}
             style={styles.questionText}
             fontWeight={700}
             letterSpacing={-0.1}
@@ -32,14 +32,14 @@ export const StoryItemContents = ({
             Q.{story.question}
           </SmallText>
         )}
-        <SmallText color={Color.FONT_GRAY} letterSpacing={-0.3}>
+        <SmallText color={LegacyColor.FONT_GRAY} letterSpacing={-0.3}>
           {getStoryDisplayDotDate(story.date)}
         </SmallText>
       </ContentContainer>
       <ContentContainer alignItems="flex-start">
         <MediumText
           style={styles.itemTitle}
-          color={Color.LIGHT_BLACK}
+          color={LegacyColor.LIGHT_BLACK}
           fontWeight={600}
           numberOfLines={inDetail ? 2 : 1}
           ellipsizeMode="tail">
@@ -49,7 +49,7 @@ export const StoryItemContents = ({
           <ContentContainer width="100%">
             <MediumText
               style={{lineHeight: 24}}
-              color={Color.FONT_DARK}
+              color={LegacyColor.FONT_DARK}
               ellipsizeMode="tail">
               {story.content}
             </MediumText>
@@ -60,7 +60,7 @@ export const StoryItemContents = ({
               <SmallText
                 style={{lineHeight: 19}}
                 letterSpacing={-0.1}
-                color={Color.FONT_GRAY}
+                color={LegacyColor.FONT_GRAY}
                 numberOfLines={2}
                 ellipsizeMode="tail">
                 {story.content}
@@ -69,7 +69,7 @@ export const StoryItemContents = ({
             <ContentContainer width="20%" alignItems="flex-end">
               <TouchableOpacity style={styles.readMoreButton} onPress={onPress}>
                 <XSmallText
-                  color={Color.WHITE}
+                  color={LegacyColor.WHITE}
                   letterSpacing={-0.5}
                   fontWeight={600}>
                   더보기

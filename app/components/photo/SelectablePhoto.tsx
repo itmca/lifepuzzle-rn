@@ -5,7 +5,7 @@ import {CheckCover, Container} from './styles';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import Image from '../styled/components/Image';
 import Title, {XLargeTitle} from '../styled/components/Title';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 type SelectablePhotoProps = {
   onSelected: Function;
@@ -38,7 +38,7 @@ const SelectablePhoto = ({
         {selected ? (
           <CheckCover style={{height: '100%', width: '100%'}}>
             {order ? (
-              <XLargeTitle color={Color.WHITE}>{order}</XLargeTitle>
+              <XLargeTitle color={LegacyColor.WHITE}>{order}</XLargeTitle>
             ) : (
               <Icon name="checkmark" size={70} color={'white'} />
             )}

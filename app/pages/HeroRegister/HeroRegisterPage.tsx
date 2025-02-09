@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
@@ -62,7 +62,7 @@ const HeroRegisterPage = (): JSX.Element => {
             )}
             <Camera
               style={{
-                backgroundColor: Color.WHITE,
+                backgroundColor: LegacyColor.WHITE,
                 position: 'absolute',
                 right: 15,
                 bottom: 15,

@@ -1,13 +1,9 @@
 import React from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {Text, TouchableOpacity, ViewStyle} from 'react-native';
+import {TouchableOpacity, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import MediumText, {
-  SmallText,
-  LargeText,
-} from '../../components/styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
-import {SmallImage} from '../../components/styled/components/Image';
+import MediumText from '../../components/styled/components/LegacyText.tsx';
+import {LegacyColor} from '../../constants/color.constant';
 
 type Props = {
   style?: ViewStyle;
@@ -54,7 +50,9 @@ export const PolicyAgreeSwitch = ({
       <BouncyCheckbox
         size={16}
         innerIconStyle={{
-          borderColor: checked ? Color.PRIMARY_LIGHT : Color.FONT_GRAY,
+          borderColor: checked
+            ? LegacyColor.PRIMARY_LIGHT
+            : LegacyColor.FONT_GRAY,
           borderRadius: 1,
         }}
         checkIconImageSource={require('../../assets/images/check.png')}
@@ -66,7 +64,7 @@ export const PolicyAgreeSwitch = ({
       <MediumText
         style={{
           marginLeft: -8,
-          color: checked ? Color.BLACK : Color.FONT_GRAY,
+          color: checked ? LegacyColor.BLACK : LegacyColor.FONT_GRAY,
         }}>
         {policyName} 동의합니다.
       </MediumText>

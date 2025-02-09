@@ -8,8 +8,10 @@ import {
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
 import {ImageButton, MediumButton} from '../../styled/components/Button';
-import {Color} from '../../../constants/color.constant';
+
+import {LegacyColor} from '../../../constants/color.constant';
 import MediumText from '../../styled/components/LegacyText.tsx';
+
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
 
@@ -74,7 +76,7 @@ const AppleSocialLoginButton = ({
           source={require('../../../assets/images/apple-logo.png')}
           style={styles.appleLogo}
         />
-        <MediumText color={Color.WHITE} fontWeight={600}>
+        <MediumText color={LegacyColor.WHITE} fontWeight={600}>
           애플 아이디로 계속하기
         </MediumText>
       </MediumButton>

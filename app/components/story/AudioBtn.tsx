@@ -1,13 +1,16 @@
 import {TouchableOpacity} from 'react-native';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+
+import {LegacyColor} from '../../constants/color.constant';
 import {XSmallText} from '../styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
+
 import {BasicNavigationProps} from '../../navigation/types';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import Sound from 'react-native-sound';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {toMinuteSeconds} from '../../service/date-time-display.service';
+
 type AudioBtnProps = {
   audioUrl?: string;
   disabled?: boolean;
@@ -109,12 +112,15 @@ export const AudioBtn = ({audioUrl, disabled}: AudioBtnProps): JSX.Element => {
         useHorizontalLayout
         gap={4}
         backgroundColor={'transparent'}>
-        <Icon size={16} color={Color.WHITE} name={'mic'} />
+        <Icon size={16} color={LegacyColor.WHITE} name={'mic'} />
         <ContentContainer
           width={'auto'}
           backgroundColor={'transparent'}
           paddingRight={2}>
-          <XSmallText lineHeight={20} letterSpacing={-3} color={Color.WHITE}>
+          <XSmallText
+            lineHeight={20}
+            letterSpacing={-3}
+            color={LegacyColor.WHITE}>
             {isPlaying
               ? toMinuteSeconds(currTime ?? 0)
               : toMinuteSeconds(durationTime ?? 0)}

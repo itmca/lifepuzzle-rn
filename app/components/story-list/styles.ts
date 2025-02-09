@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   container: {
@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
   },
   readMoreButton: {
     textAlign: 'center',
-    backgroundColor: Color.PRIMARY_LIGHT,
+    backgroundColor: LegacyColor.PRIMARY_LIGHT,
     justifyContent: 'center',
     alignItems: 'center',
     width: 40,

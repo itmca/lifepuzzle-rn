@@ -1,7 +1,7 @@
 import {GestureResponderEvent} from 'react-native';
 import MediumText from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {StoryType} from '../../types/photo.type';
 import StoryDateInput from '../../pages/StoryWritingMain/StoryDateInput';
 import {AudioBtn} from '../story/AudioBtn';
@@ -24,7 +24,7 @@ export const StoryItemContents = ({story, onPress}: props): JSX.Element => {
       </ContentContainer>
       <ContentContainer gap={6}>
         {story.title && (
-          <MediumText color={Color.LIGHT_BLACK} bold>
+          <MediumText color={LegacyColor.LIGHT_BLACK} bold>
             {story.title}
           </MediumText>
         )}
@@ -32,7 +32,7 @@ export const StoryItemContents = ({story, onPress}: props): JSX.Element => {
           <ContentContainer flex={1}>
             <MediumText
               lineHeight={24}
-              color={Color.FONT_DARK}
+              color={LegacyColor.FONT_DARK}
               ellipsizeMode="tail">
               {story.content}
             </MediumText>

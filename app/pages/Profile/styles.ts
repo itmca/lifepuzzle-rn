@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   customDivider: {
     width: '100%',
     height: 8,
-    backgroundColor: Color.LIGHT_GRAY,
+    backgroundColor: LegacyColor.LIGHT_GRAY,
   },
   listContainer: {
     justifyContent: 'center',

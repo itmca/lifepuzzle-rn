@@ -1,6 +1,6 @@
 import React from 'react';
 import {Photo} from '../styled/components/Image';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {IconButton} from 'react-native-paper';
 import {LockableTextInput} from '../input/LockableTextInput';
@@ -34,7 +34,7 @@ export const HeroPhotoCard = ({
     <ContentContainer width={width} height={'395px'}>
       <ContentContainer
         borderRadius={32}
-        backgroundColor={Color.SECONDARY_LIGHT}
+        backgroundColor={LegacyColor.SECONDARY_LIGHT}
         alignCenter
         height="395px"
         width="320px"
@@ -65,7 +65,7 @@ export const HeroPhotoCard = ({
             <IconButton
               icon="camera"
               size={24}
-              containerColor={Color.WHITE}
+              containerColor={LegacyColor.WHITE}
               onPress={onCameraClick}
             />
           </ContentContainer>
@@ -77,8 +77,8 @@ export const HeroPhotoCard = ({
             position: 'absolute',
             top: 0,
             right: 0,
-            backgroundColor: Color.WHITE,
-            borderColor: Color.GRAY,
+            backgroundColor: LegacyColor.WHITE,
+            borderColor: LegacyColor.GRAY,
             borderWidth: 0.5,
             width: 24,
             height: 24,
@@ -89,7 +89,7 @@ export const HeroPhotoCard = ({
           onPress={() => {
             setWritingHero({imageURL: undefined, isProfileImageUpdate: true});
           }}>
-          <Icon size={18} color={Color.BLACK} name={'close'} />
+          <Icon size={18} color={LegacyColor.BLACK} name={'close'} />
         </Pressable>
       )}
     </ContentContainer>

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
+
+import {LegacyColor} from '../../constants/color.constant';
 import {LargeText} from '../styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
 
 type Props = {
   onPress: () => void;
@@ -15,7 +16,9 @@ export const BottomButton = (props: Props): JSX.Element => {
     button: {
       width: '100%',
       height: 80,
-      backgroundColor: props.disabled ? Color.LIGHT_GRAY : Color.PRIMARY_LIGHT,
+      backgroundColor: props.disabled
+        ? LegacyColor.LIGHT_GRAY
+        : LegacyColor.PRIMARY_LIGHT,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 0,
@@ -41,7 +44,7 @@ export const BottomButton = (props: Props): JSX.Element => {
       disabled={props.disabled}>
       <LargeText
         fontWeight={600}
-        color={props.disabled ? Color.MEDIUM_GRAY : Color.WHITE}>
+        color={props.disabled ? LegacyColor.MEDIUM_GRAY : LegacyColor.WHITE}>
         {props.title}
       </LargeText>
     </TouchableOpacity>

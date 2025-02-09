@@ -2,7 +2,7 @@ import React from 'react';
 import {Keyboard, Pressable, TouchableOpacity} from 'react-native';
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome5';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import MediumText from '../styled/components/LegacyText.tsx';
 import {RecordedVoice} from './StoryKeyboardVoiceRecord';
@@ -64,7 +64,11 @@ const PlayVoice = ({showText = false}: Props): JSX.Element => {
           paddingHorizontal={20}
           paddingVertical={12}>
           <ContentContainer width={'32px'} alignCenter>
-            <FontAwesome6 size={30} color={Color.PRIMARY_LIGHT} name={'play'} />
+            <FontAwesome6
+              size={30}
+              color={LegacyColor.PRIMARY_LIGHT}
+              name={'play'}
+            />
           </ContentContainer>
           <ContentContainer flex={1}>
             <MediumText>음성 재생</MediumText>
@@ -86,7 +90,11 @@ const PlayVoice = ({showText = false}: Props): JSX.Element => {
           </TouchableOpacity>
         </ContentContainer>
       ) : (
-        <FontAwesome6 size={30} color={Color.PRIMARY_LIGHT} name={'play'} />
+        <FontAwesome6
+          size={30}
+          color={LegacyColor.PRIMARY_LIGHT}
+          name={'play'}
+        />
       )}
     </Pressable>
   );
@@ -125,7 +133,11 @@ const RecordVoice = ({showText = false}: Props): JSX.Element => {
           </ContentContainer>
         </ContentContainer>
       ) : (
-        <FontAwesome6 size={30} color={Color.PRIMARY_LIGHT} name={'play'} />
+        <FontAwesome6
+          size={30}
+          color={LegacyColor.PRIMARY_LIGHT}
+          name={'play'}
+        />
       )}
     </Pressable>
   );

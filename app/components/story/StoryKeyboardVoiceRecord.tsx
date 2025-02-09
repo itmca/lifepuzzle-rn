@@ -12,7 +12,7 @@ import {
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import TouchableRipple from 'react-native-paper/src/components/TouchableRipple/TouchableRipple';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import Icon from '../styled/components/Icon';
@@ -34,7 +34,7 @@ export const RecordedVoice = ({
       style={{
         width: 70,
         height: 32,
-        backgroundColor: Color.PRIMARY_LIGHT,
+        backgroundColor: LegacyColor.PRIMARY_LIGHT,
         borderRadius: 5,
         padding: 8,
       }}>
@@ -47,20 +47,24 @@ export const RecordedVoice = ({
           height={'16px'}
           alignItems="center"
           justifyContent="center"
-          backgroundColor={Color.WHITE}
+          backgroundColor={LegacyColor.WHITE}
           borderRadius={16}>
           <Ionicons
             size={13}
-            color={Color.PRIMARY_LIGHT}
+            color={LegacyColor.PRIMARY_LIGHT}
             name={'mic-outline'}
           />
         </ContentContainer>
         <ContentContainer backgroundColor={'transparent'}>
-          <XSmallText color={Color.WHITE}>
+          <XSmallText color={LegacyColor.WHITE}>
             {recordTime.substring(0, recordTime.lastIndexOf(':'))}
           </XSmallText>
           {onDelete ? (
-            <Icon name={'cancel'} size={16} style={{color: Color.WHITE}} />
+            <Icon
+              name={'cancel'}
+              size={16}
+              style={{color: LegacyColor.WHITE}}
+            />
           ) : (
             <></>
           )}
@@ -119,7 +123,8 @@ export const StoryKeyboardVoiceRecord = (): JSX.Element => {
             alignItems: 'center',
           }}>
           <MediumText style={{paddingLeft: 16}}>
-            녹음본 업로드 <SmallText color={Color.DARK_GRAY}>(선택)</SmallText>
+            녹음본 업로드{' '}
+            <SmallText color={LegacyColor.DARK_GRAY}>(선택)</SmallText>
           </MediumText>
           <View
             style={{

@@ -10,7 +10,7 @@ import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {PasswordInput} from '../../components/input/PasswordInput';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import MediumText, {
   XSmallText,
   XXXLargeText,
@@ -27,7 +27,7 @@ const LoginOthersPage = (): JSX.Element => {
       <LoadingContainer isLoading={loading}>
         <ContentContainer
           withScreenPadding
-          backgroundColor={Color.PRIMARY_LIGHT}>
+          backgroundColor={LegacyColor.PRIMARY_LIGHT}>
           <XXXLargeText color="#D2F2FF" fontWeight={700} lineHeight={40}>
             사랑하는 사람의 이야기가 {'\n'}함께 계속 될 수 있도록
           </XXXLargeText>
@@ -36,7 +36,7 @@ const LoginOthersPage = (): JSX.Element => {
             withNoBackground
             justifyContent={'flex-start'}
             gap={12}>
-            <MediumText color={Color.WHITE} fontWeight={600}>
+            <MediumText color={LegacyColor.WHITE} fontWeight={600}>
               간편 로그인
             </MediumText>
             <KaKaoSocialLoginButton type="icon" onChangeLoading={setLoading} />
@@ -57,11 +57,11 @@ const LoginOthersPage = (): JSX.Element => {
 
         <ContentContainer withScreenPadding gap={20}>
           <ContentContainer>
-            <MediumText color={Color.PRIMARY_LIGHT}>아이디</MediumText>
+            <MediumText color={LegacyColor.PRIMARY_LIGHT}>아이디</MediumText>
             <BasicTextInput text={id} onChangeText={setId} />
           </ContentContainer>
           <ContentContainer>
-            <MediumText color={Color.PRIMARY_LIGHT}>비밀번호</MediumText>
+            <MediumText color={LegacyColor.PRIMARY_LIGHT}>비밀번호</MediumText>
             <PasswordInput password={password} onChangePassword={setPassword} />
           </ContentContainer>
           <ContentContainer justifyContent="center" alignItems="center">

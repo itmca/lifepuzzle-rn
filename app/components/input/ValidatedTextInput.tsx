@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {HelperText} from 'react-native-paper';
 import {CustomTextInput} from '../styled/components/CustomTextInput.tsx';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import Icon from '../styled/components/Icon';
 import {ContentContainer} from '../styled/container/ContentContainer';
 
@@ -35,18 +35,20 @@ const ValidatedTextInput = ({
   const violated = validations.find(v => !v.condition(value));
   const isError = changed && !!violated;
   const isSuccess = value && !isError;
-  const borderColor = isError ? Color.ALERT_DARK : Color.PRIMARY_LIGHT;
+  const borderColor = isError
+    ? LegacyColor.ALERT_DARK
+    : LegacyColor.PRIMARY_LIGHT;
   const [visible, setVisible] = useState(secureTextEntry);
 
   const theme = {
     roundness: 6,
     colors: {
       primary: borderColor,
-      secondary: Color.PRIMARY_LIGHT,
-      outline: isError || value ? borderColor : Color.LIGHT_GRAY,
-      onSurface: Color.FONT_DARK, //underline, textColor
+      secondary: LegacyColor.PRIMARY_LIGHT,
+      outline: isError || value ? borderColor : LegacyColor.LIGHT_GRAY,
+      onSurface: LegacyColor.FONT_DARK, //underline, textColor
       surfaceVariant: 'transparent', //underlineBackground
-      background: focused || isSuccess ? Color.WHITE : '#FDFDFD',
+      background: focused || isSuccess ? LegacyColor.WHITE : '#FDFDFD',
     },
     fonts: {
       fontFamily: 'Pretendard Regular',
@@ -87,7 +89,7 @@ const ValidatedTextInput = ({
             <Icon
               name={visible ? 'visibility' : 'visibility-off'}
               size={24}
-              color={Color.DARK_GRAY}
+              color={LegacyColor.DARK_GRAY}
               onPress={() => {
                 visible ? setVisible(false) : setVisible(true);
               }}
@@ -97,7 +99,7 @@ const ValidatedTextInput = ({
             <Icon
               name={'close'}
               size={24}
-              color={Color.DARK_GRAY}
+              color={LegacyColor.DARK_GRAY}
               onPress={() => {
                 onChangeText('');
               }}

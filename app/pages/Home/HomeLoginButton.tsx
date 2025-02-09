@@ -3,14 +3,14 @@ import {MediumText} from '../../components/styled/components/LegacyText.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {LargeButton} from '../../components/styled/components/Button';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 export const HomeLoginButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   return (
     <LargeButton
-      backgroundColor={Color.LIGHT_GRAY}
+      backgroundColor={LegacyColor.LIGHT_GRAY}
       onPress={() => {
         navigation.push('NoTab', {
           screen: 'LoginRegisterNavigator',
@@ -19,7 +19,7 @@ export const HomeLoginButton = (): JSX.Element => {
           },
         });
       }}>
-      <MediumText fontWeight={600} color={Color.LIGHT_BLACK}>
+      <MediumText fontWeight={600} color={LegacyColor.LIGHT_BLACK}>
         로그인 하러가기
       </MediumText>
     </LargeButton>

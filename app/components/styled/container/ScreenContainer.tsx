@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {Color} from '../../../constants/color.constant';
+import {LegacyColor} from '../../../constants/color.constant';
 
 type ScreenContainerProps = {
   flexDirections?: string;
@@ -18,7 +18,7 @@ export const ScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
   width: 100%;
   height: 100%;
   display: flex;
-  background-color: ${Color.WHITE};
+  background-color: ${LegacyColor.WHITE};
   gap: ${props => props.gap ?? 16}px;
   flex-direction: ${'column'};
   justify-content: ${'stretch'};
@@ -27,7 +27,7 @@ export const ScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
 
   /* Border & Shadow */
   ${props => props.withUpperShadow && 'box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);'}
-  ${props => props.withBorder && `border: 1px solid ${Color.GRAY};`}
+  ${props => props.withBorder && `border: 1px solid ${LegacyColor.GRAY};`}
   ${props => props.withDebugBorder && 'border: 1px solid red;'}
   border-radius: ${props => props.borderRadius ?? 0}px;
 `;

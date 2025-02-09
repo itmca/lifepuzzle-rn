@@ -2,7 +2,7 @@ import {CustomTextInput} from '../styled/components/CustomTextInput.tsx';
 import {TextInput as ReactInput} from 'react-native-paper';
 import React from 'react';
 import {StyleProp, TextStyle, ViewStyle} from 'react-native';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 type Props = {
   label?: string;
@@ -66,7 +66,7 @@ export const BasicTextInput = ({
         clearButton && onChangeText && text !== '' ? (
           <ReactInput.Icon
             icon={'close'}
-            color={Color.DARK_GRAY}
+            color={LegacyColor.DARK_GRAY}
             onPress={() => {
               onChangeText('');
             }}

@@ -4,8 +4,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Color} from '../../constants/color.constant';
+
+import {LegacyColor} from '../../constants/color.constant';
 import MediumText from '../styled/components/LegacyText.tsx';
+
 import Icon from 'react-native-vector-icons/Feather';
 
 type Props = {
@@ -23,10 +25,10 @@ const styles = StyleSheet.create({
     right: 20,
     top: 100,
     borderRadius: 6,
-    backgroundColor: Color.WHITE,
+    backgroundColor: LegacyColor.WHITE,
     borderWidth: 1,
-    borderColor: Color.LIGHT_GRAY,
-    shadowColor: Color.BLACK,
+    borderColor: LegacyColor.LIGHT_GRAY,
+    shadowColor: LegacyColor.BLACK,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   divider: {
     width: '100%',
     height: 1,
-    backgroundColor: Color.LIGHT_GRAY,
+    backgroundColor: LegacyColor.LIGHT_GRAY,
   },
 });
 
@@ -70,8 +72,8 @@ export const FloatingMenu = ({
       {/*</TouchableOpacity>*/}
       <View style={styles.divider} />
       <TouchableOpacity style={styles.eachMenuButton} onPress={onClickDelete}>
-        <Icon size={20} name="trash-2" color={Color.LIGHT_BLACK} />
-        <MediumText color={Color.LIGHT_BLACK} fontWeight={600}>
+        <Icon size={20} name="trash-2" color={LegacyColor.LIGHT_BLACK} />
+        <MediumText color={LegacyColor.LIGHT_BLACK} fontWeight={600}>
           삭제
         </MediumText>
       </TouchableOpacity>

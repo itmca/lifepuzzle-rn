@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {MediumImage} from '../styled/components/Image';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {Pressable, TouchableOpacity} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {createThumbnail} from 'react-native-create-thumbnail';
@@ -69,7 +69,7 @@ const SelectedPhoto = ({
             position: 'absolute',
             top: 7,
             right: 8,
-            backgroundColor: Color.BLACK,
+            backgroundColor: LegacyColor.BLACK,
             opacity: 0.5,
             width: 24,
             height: 24,
@@ -86,7 +86,7 @@ const SelectedPhoto = ({
               ),
             });
           }}>
-          <MaterialIcons size={20} color={Color.WHITE} name={'close'} />
+          <MaterialIcons size={20} color={LegacyColor.WHITE} name={'close'} />
         </Pressable>
       ) : (
         <></>

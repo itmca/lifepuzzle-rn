@@ -3,8 +3,9 @@ import React from 'react';
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
+import {LegacyColor} from '../../constants/color.constant';
 import {XLargeText} from '../../components/styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 64,
     borderRadius: 16,
-    backgroundColor: Color.PRIMARY_LIGHT,
+    backgroundColor: LegacyColor.PRIMARY_LIGHT,
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
@@ -47,8 +48,8 @@ export const WritingButton = ({onPress, tagLabel}: Props): JSX.Element => {
         backgroundColor="transparent"
         alignCenter
         gap={8}>
-        <Icon size={30} color={Color.WHITE} name={'camera'} />
-        <XLargeText color={Color.WHITE} fontWeight={700}>
+        <Icon size={30} color={LegacyColor.WHITE} name={'camera'} />
+        <XLargeText color={LegacyColor.WHITE} fontWeight={700}>
           {`${tagLabel} 사진/동영상 추가하기`}
         </XLargeText>
       </ContentContainer>

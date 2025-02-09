@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, StyleProp, View, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {PostStoryKeyState} from '../../recoils/story-write.recoil';
 import {useRecoilValue} from 'recoil';
 
@@ -37,7 +37,7 @@ const DetailViewHeaderLeft = ({
         <Icon
           name={type === 'cancel' ? 'x' : 'chevron-left'}
           size={iconSize}
-          color={Color.FONT_GRAY}
+          color={LegacyColor.FONT_GRAY}
         />
       </View>
     </Pressable>

@@ -11,7 +11,7 @@ import {
   XSmallText,
   XXXLargeText,
 } from '../../components/styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import RegisterButton from '../../components/button/login/RegisterButton';
 
 const LoginMainPage = (): JSX.Element => {
@@ -27,7 +27,7 @@ const LoginMainPage = (): JSX.Element => {
               <XXXLargeText
                 fontWeight={700}
                 lineHeight={40}
-                color={Color.PRIMARY_LIGHT}>
+                color={LegacyColor.PRIMARY_LIGHT}>
                 함께 할 기억
               </XXXLargeText>
               을 더해가요

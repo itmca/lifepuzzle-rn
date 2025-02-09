@@ -5,8 +5,9 @@ import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../service/hooks/login.hook';
+import {LegacyColor} from '../../constants/color.constant';
 import {LargeText} from '../../components/styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
+
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../recoils/share.recoil.ts';
 
@@ -47,13 +48,17 @@ const GeneralLoginButton = ({
         alignItems: 'center',
         paddingVertical: 30,
         paddingHorizontal: 133,
-        backgroundColor: disabled ? Color.LIGHT_GRAY : Color.PRIMARY_LIGHT,
+        backgroundColor: disabled
+          ? LegacyColor.LIGHT_GRAY
+          : LegacyColor.PRIMARY_LIGHT,
       }}
       onPress={() => {
         login({data: {username: userId, password, shareKey}});
       }}
       disabled={disabled}>
-      <LargeText color={disabled ? '#C2C2C2' : Color.WHITE} fontWeight={700}>
+      <LargeText
+        color={disabled ? '#C2C2C2' : LegacyColor.WHITE}
+        fontWeight={700}>
         로그인
       </LargeText>
     </TouchableOpacity>

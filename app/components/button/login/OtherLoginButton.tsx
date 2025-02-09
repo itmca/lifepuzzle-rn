@@ -1,7 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
 import {MediumButton} from '../../styled/components/Button';
-import {Color} from '../../../constants/color.constant';
+
+import {LegacyColor} from '../../../constants/color.constant';
 import MediumText from '../../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../../styled/container/ContentContainer.tsx';
 
@@ -10,7 +11,7 @@ const OtherLoginButton = (): JSX.Element => {
   return (
     <ContentContainer paddingHorizontal={8}>
       <MediumButton
-        backgroundColor={Color.WHITE}
+        backgroundColor={LegacyColor.WHITE}
         justifyContent="flex-start"
         alignSelf="flex-start"
         width="auto"

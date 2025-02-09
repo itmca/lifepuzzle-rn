@@ -3,7 +3,8 @@ import React from 'react';
 import {Dimensions} from 'react-native';
 import SelectedPhotoList from '../photo/SelectedPhotoList';
 import {SmallImage} from '../styled/components/Image';
-import {Color} from '../../constants/color.constant';
+
+import {LegacyColor} from '../../constants/color.constant';
 import MediumText, {SmallText} from '../styled/components/LegacyText.tsx';
 
 const DeviceWidth = Dimensions.get('window').width;
@@ -12,15 +13,20 @@ export const StoryKeyboardVideoRecord = (): JSX.Element => {
     <List.Accordion
       title={
         <MediumText>
-          동영상 업로드 <SmallText color={Color.DARK_GRAY}>(선택)</SmallText>
+          동영상 업로드{' '}
+          <SmallText color={LegacyColor.DARK_GRAY}>(선택)</SmallText>
         </MediumText>
       }
       right={props => (
         <SmallImage
           borderRadius={30}
-          tintColor={props.isExpanded ? Color.LIGHT_GRAY : Color.DARK_GRAY}
+          tintColor={
+            props.isExpanded ? LegacyColor.LIGHT_GRAY : LegacyColor.DARK_GRAY
+          }
           backgroundColor={
-            props.isExpanded ? Color.PRIMARY_LIGHT : Color.LIGHT_GRAY
+            props.isExpanded
+              ? LegacyColor.PRIMARY_LIGHT
+              : LegacyColor.LIGHT_GRAY
           }
           source={
             props.isExpanded

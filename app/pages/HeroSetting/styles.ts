@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   characterNickName: {
-    color: Color.BLACK,
+    color: LegacyColor.BLACK,
     zIndex: 100,
   },
   heroInfoContainer: {
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     position: 'absolute',
     bottom: 0,
-    backgroundColor: Color.BLACK,
+    backgroundColor: LegacyColor.BLACK,
     paddingVertical: 18,
     paddingHorizontal: 24,
     borderBottomLeftRadius: 12,
@@ -64,10 +64,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 12,
     marginTop: 60,
-    backgroundColor: Color.SECONDARY_LIGHT,
+    backgroundColor: LegacyColor.SECONDARY_LIGHT,
   },
   addButtonText: {
-    color: Color.LIGHT_BLACK,
+    color: LegacyColor.LIGHT_BLACK,
     marginTop: 11,
   },
 });

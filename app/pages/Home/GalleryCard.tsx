@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Color} from '../../constants/color.constant.ts';
+import {LegacyColor} from '../../constants/color.constant.ts';
 import {Photo} from '../../components/styled/components/Image.tsx';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 import {GalleryType, TagType} from '../../types/photo.type.ts';
@@ -155,8 +155,8 @@ const GalleryCard = ({tag, data, onClick}: Props): JSX.Element => {
                           paddingHorizontal={10}
                           paddingVertical={10}
                           alignCenter
-                          backgroundColor={Color.PRIMARY_LIGHT}>
-                          <SmallTitle color={Color.WHITE}>
+                          backgroundColor={LegacyColor.PRIMARY_LIGHT}>
+                          <SmallTitle color={LegacyColor.WHITE}>
                             +{count - 4}
                           </SmallTitle>
                         </ContentContainer>

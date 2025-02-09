@@ -1,5 +1,5 @@
 import React from 'react';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 import {MediumButton} from '../styled/components/Button';
 import MediumText from '../styled/components/LegacyText.tsx';
 
@@ -17,36 +17,36 @@ function theme(mode: string) {
   switch (mode) {
     case 'lightblue':
       return {
-        backgroundColor: Color.PRIMARY_LIGHT,
-        color: Color.WHITE,
+        backgroundColor: LegacyColor.PRIMARY_LIGHT,
+        color: LegacyColor.WHITE,
         borderRadius: 16,
       };
     case 'black':
       return {
-        backgroundColor: Color.LIGHT_BLACK,
-        color: Color.WHITE,
+        backgroundColor: LegacyColor.LIGHT_BLACK,
+        color: LegacyColor.WHITE,
         borderRadius: 16,
       };
     case 'white':
       return {
-        backgroundColor: Color.WHITE,
-        color: Color.BLACK,
+        backgroundColor: LegacyColor.WHITE,
+        color: LegacyColor.BLACK,
         borderRadius: 16,
-        borderColor: Color.MEDIUM_GRAY,
+        borderColor: LegacyColor.MEDIUM_GRAY,
         borderWidth: 1,
       };
     case 'gray':
       return {
-        backgroundColor: Color.LIGHT_GRAY,
-        color: Color.FONT_DARK,
+        backgroundColor: LegacyColor.LIGHT_GRAY,
+        color: LegacyColor.FONT_DARK,
         borderRadius: 16,
-        borderColor: Color.LIGHT_GRAY,
+        borderColor: LegacyColor.LIGHT_GRAY,
         borderWidth: 1,
       };
     default:
       return {
-        backgroundColor: Color.SECONDARY_LIGHT,
-        color: Color.PRIMARY_LIGHT,
+        backgroundColor: LegacyColor.SECONDARY_LIGHT,
+        color: LegacyColor.PRIMARY_LIGHT,
         borderRadius: 16,
       };
   }
@@ -82,7 +82,9 @@ const CtaButton = ({
       borderColor={borderColor}
       borderWidth={borderWidth}
       borderRadius={borderRadius}>
-      <MediumText fontWeight={600} color={disabled ? Color.FONT_DARK : color}>
+      <MediumText
+        fontWeight={600}
+        color={disabled ? LegacyColor.FONT_DARK : color}>
         {text}
       </MediumText>
     </MediumButton>

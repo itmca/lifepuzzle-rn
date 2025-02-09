@@ -2,7 +2,7 @@ import {TextInput} from 'react-native-paper';
 import React from 'react';
 import {StyleProp, StyleSheet, TextStyle} from 'react-native';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 type Props = {
   label?: string;
@@ -32,13 +32,13 @@ export const LockableTextInput = ({
 }: Props): JSX.Element => {
   const theme = {
     colors: {
-      primary: Color.WHITE /*active 밑줄*/,
-      secondary: Color.WHITE,
+      primary: LegacyColor.WHITE /*active 밑줄*/,
+      secondary: LegacyColor.WHITE,
       outline: '',
-      onSurface: Color.WHITE /*글자색*/,
+      onSurface: LegacyColor.WHITE /*글자색*/,
       surfaceVariant: '#00000011' /*배경색*/,
-      onSurfaceDisabled: Color.BLACK,
-      onSurfaceVariant: Color.FONT_DARK /*placeholder 색상*/,
+      onSurfaceDisabled: LegacyColor.BLACK,
+      onSurfaceVariant: LegacyColor.FONT_DARK /*placeholder 색상*/,
     },
   };
   return (
@@ -57,7 +57,7 @@ export const LockableTextInput = ({
           onChangeText={onChangeText}
           autoFocus={autoFocus}
           multiline={multiline}
-          underlineColor={Color.WHITE}
+          underlineColor={LegacyColor.WHITE}
         />
       </ContentContainer>
     </ContentContainer>

@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import MediumText from '../styled/components/LegacyText.tsx';
 import {BasicNavigationProps} from '../../navigation/types';
 import {StoryWritingParamList} from '../../navigation/no-tab/StoryWritingNavigator';
-import {Color} from '../../constants/color.constant';
+import {LegacyColor} from '../../constants/color.constant';
 
 type Props = {
   text: string;
@@ -32,7 +32,7 @@ const WritingHeaderRight = ({
           });
         }
       }}>
-      <MediumText fontWeight={600} color={Color.PRIMARY_LIGHT}>
+      <MediumText fontWeight={600} color={LegacyColor.PRIMARY_LIGHT}>
         {text}
       </MediumText>
     </Pressable>
