@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import {Image, View} from 'react-native';
-import {SmallText} from '../styled/components/Text';
+import {SmallText} from '../styled/components/LegacyText.tsx';
 import styles from './styles';
 import {Color} from '../../constants/color.constant';
 import {ModalButton} from '../button/ModalButton';

@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
 import {MediumButton} from '../../styled/components/Button';
 import {Color} from '../../../constants/color.constant';
-import MediumText from '../../styled/components/Text';
+import MediumText from '../../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../../styled/container/ContentContainer.tsx';
 
 const OtherLoginButton = (): JSX.Element => {

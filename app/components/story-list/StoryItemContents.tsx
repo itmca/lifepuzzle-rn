@@ -1,5 +1,5 @@
 import {GestureResponderEvent} from 'react-native';
-import MediumText from '../styled/components/Text';
+import MediumText from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import {StoryType} from '../../types/photo.type';

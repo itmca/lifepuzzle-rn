@@ -8,7 +8,7 @@ import {
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
 import {ImageButton, MediumButton} from '../../styled/components/Button';
-import MediumText from '../../styled/components/Text';
+import MediumText from '../../styled/components/LegacyText.tsx';
 import {Color} from '../../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';

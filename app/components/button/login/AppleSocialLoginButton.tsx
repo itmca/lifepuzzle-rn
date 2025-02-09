@@ -9,7 +9,7 @@ import {
 } from '../../../service/hooks/login.hook';
 import {ImageButton, MediumButton} from '../../styled/components/Button';
 import {Color} from '../../../constants/color.constant';
-import MediumText from '../../styled/components/Text';
+import MediumText from '../../styled/components/LegacyText.tsx';
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
 

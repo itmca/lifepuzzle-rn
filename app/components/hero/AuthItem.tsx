@@ -5,7 +5,7 @@ import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {CodeType} from '../../types/code.type';
 import {ImageButton} from '../styled/components/Button';
 import {MediumImage} from '../styled/components/Image';
-import {MediumText, XSmallText} from '../styled/components/Text';
+import {MediumText, XSmallText} from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
 
 type props = {

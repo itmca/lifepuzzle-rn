@@ -1,7 +1,11 @@
 import {TouchableOpacity, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {MediumText, SmallText, XSmallText} from '../styled/components/Text';
+import {
+  MediumText,
+  SmallText,
+  XSmallText,
+} from '../styled/components/LegacyText.tsx';
 import {useRecoilState} from 'recoil';
 import {
   writingRecordTimeState,

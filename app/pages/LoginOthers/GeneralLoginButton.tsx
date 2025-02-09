@@ -5,7 +5,7 @@ import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../service/hooks/login.hook';
-import {LargeText} from '../../components/styled/components/Text';
+import {LargeText} from '../../components/styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../recoils/share.recoil.ts';

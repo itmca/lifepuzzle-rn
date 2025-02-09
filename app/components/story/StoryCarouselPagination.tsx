@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleProp, StyleSheet, Text, View, ViewStyle} from 'react-native';
-import { XSmallText } from "../styled/components/Text";
+import {XSmallText} from '../styled/components/LegacyText.tsx';
 type Props = {
   photoCount: number;
   activePhotoIndexNo: number;
@@ -33,9 +33,7 @@ const StoryCarouselPagination = ({
           },
           textContainerStyle,
         )}>
-        <XSmallText>{`${
-          activePhotoIndexNo + 1
-        } / ${photoCount}`}</XSmallText>
+        <XSmallText>{`${activePhotoIndexNo + 1} / ${photoCount}`}</XSmallText>
       </View>
     </View>
   );

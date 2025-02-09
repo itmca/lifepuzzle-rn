@@ -6,7 +6,7 @@ import {useAuthAxios} from '../../service/hooks/network.hook';
 import {HeroUserType} from '../../types/hero.type';
 import {CustomAlert} from '../alert/CustomAlert';
 import CtaButton from '../button/CtaButton';
-import MediumText from '../styled/components/Text';
+import MediumText from '../styled/components/LegacyText.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,

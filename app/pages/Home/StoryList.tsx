@@ -1,7 +1,7 @@
 import React from 'react';
 import StoryItem from './StoryItem';
 import {StoryType} from '../../types/story.type';
-import {MediumText} from '../../components/styled/components/Text';
+import {MediumText} from '../../components/styled/components/LegacyText.tsx';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 
 type Props = {

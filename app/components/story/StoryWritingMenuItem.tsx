@@ -4,7 +4,7 @@ import {Keyboard, Pressable, TouchableOpacity} from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome5';
 import {Color} from '../../constants/color.constant';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import MediumText from '../styled/components/Text';
+import MediumText from '../styled/components/LegacyText.tsx';
 import {RecordedVoice} from './StoryKeyboardVoiceRecord';
 import {
   useRecoilState,

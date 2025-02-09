@@ -3,7 +3,7 @@ import {useRecommendedQuestion} from '../../service/hooks/question.hook';
 import {useSetRecoilState} from 'recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {SmallText} from '../../components/styled/components/Text';
+import {SmallText} from '../../components/styled/components/LegacyText.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,

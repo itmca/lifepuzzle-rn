@@ -25,7 +25,7 @@ import {
   SmallText,
   XSmallText,
   XXLargeText,
-} from '../../components/styled/components/Text.tsx';
+} from '../../components/styled/components/LegacyText.tsx';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userState} from '../../recoils/user.recoil.ts';
 import {Color} from '../../constants/color.constant.ts';

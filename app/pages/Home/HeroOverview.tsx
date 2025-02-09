@@ -3,7 +3,7 @@ import {HomeLoginButton} from './HomeLoginButton';
 import {LargeTitle, SmallTitle} from '../../components/styled/components/Title';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
-import {SmallText} from '../../components/styled/components/Text.tsx';
+import {SmallText} from '../../components/styled/components/LegacyText.tsx';
 import {Platform} from 'react-native';
 import {PhotoHeroType} from '../../types/photo.type.ts';
 

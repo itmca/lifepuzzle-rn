@@ -1,6 +1,6 @@
 import {TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {XSmallText} from '../../components/styled/components/Text';
+import {XSmallText} from '../../components/styled/components/LegacyText.tsx';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {Color} from '../../constants/color.constant';

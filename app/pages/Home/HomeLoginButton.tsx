@@ -1,5 +1,5 @@
 import React from 'react';
-import {MediumText} from '../../components/styled/components/Text';
+import {MediumText} from '../../components/styled/components/LegacyText.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {LargeButton} from '../../components/styled/components/Button';

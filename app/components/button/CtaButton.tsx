@@ -1,7 +1,7 @@
 import React from 'react';
 import {Color} from '../../constants/color.constant';
 import {MediumButton} from '../styled/components/Button';
-import MediumText from '../styled/components/Text';
+import MediumText from '../styled/components/LegacyText.tsx';
 
 type Props = {
   onPress: () => void;

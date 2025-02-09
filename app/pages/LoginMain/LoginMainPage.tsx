@@ -10,7 +10,7 @@ import {ScreenContainer} from '../../components/styled/container/ScreenContainer
 import {
   XSmallText,
   XXXLargeText,
-} from '../../components/styled/components/Text';
+} from '../../components/styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 import RegisterButton from '../../components/button/login/RegisterButton';
 

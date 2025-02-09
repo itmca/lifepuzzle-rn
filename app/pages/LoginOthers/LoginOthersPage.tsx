@@ -14,7 +14,7 @@ import {Color} from '../../constants/color.constant';
 import MediumText, {
   XSmallText,
   XXXLargeText,
-} from '../../components/styled/components/Text';
+} from '../../components/styled/components/LegacyText.tsx';
 import {Photo} from '../../components/styled/components/Image';
 
 const LoginOthersPage = (): JSX.Element => {

@@ -6,7 +6,7 @@ import {
   StyleProp,
   TouchableOpacity,
 } from 'react-native';
-import {XXSmallText} from './Text';
+import {XXSmallText} from './LegacyText.tsx';
 import {ContentContainer} from '../container/ContentContainer.tsx';
 import {XXSmallImage} from './Image.tsx';
 

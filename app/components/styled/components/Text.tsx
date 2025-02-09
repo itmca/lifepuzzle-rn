@@ -1,68 +1,88 @@
-import styled, {css} from 'styled-components/native';
-import {Color} from '../../../constants/color.constant';
+import styled from 'styled-components/native';
 import {TextProps} from 'react-native';
 
-type PartialTextProps = Pick<
+type TextBaseProps = Pick<
   TextProps,
   'ellipsizeMode' | 'numberOfLines' | 'children'
 > & {
+  fontFamily:
+    | 'SUIT-Bold'
+    | 'SUIT-ExtraBold'
+    | 'SUIT-ExtraLight'
+    | 'SUIT-Heavy'
+    | 'SUIT-Light'
+    | 'SUIT-Medium'
+    | 'SUIT-Regular'
+    | 'SUIT-SemiBold'
+    | 'SUIT-Thin';
+  fontSize: number;
+  lineHeightPercent: number;
   letterSpacing?: number;
-  fontWeight?: string | number;
-  lineHeight?: string | number;
   color?: string;
-  fontSize?: number;
+
   alignCenter?: boolean;
   bold?: boolean;
 };
 
-const TextBase = styled.Text<PartialTextProps>`
-  font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : Color.BLACK)};
-  font-weight: ${props => {
-    if (props.bold) {
-      return 'bold';
-    }
+type CustomTextProps = Pick<
+  TextProps,
+  'ellipsizeMode' | 'numberOfLines' | 'children'
+>;
 
-    return props.fontWeight || 'normal';
-  }};
-  ${props =>
-    props.fontSize &&
-    css`
-      font-size: ${props.fontSize}px;
-      line-height: ${props.lineHeight ?? props.fontSize * 1.2}px;
-    `};
-  ${props => props.alignCenter && 'text-align: center;'};
+const TextBase = styled.Text<TextBaseProps>`
+  font-family: ${props => props.fontFamily};
+  font-size: ${props => props.fontSize}px;
+  line-height: ${props => (props.fontSize * props.lineHeightPercent) / 100}px;
+  letter-spacing: ${props => props.letterSpacing};
+  color: ${props => (props.color ? props.color : 'black')};
 `;
 
-export const XXXLargeText = (props: PartialTextProps) => (
-  <TextBase fontSize={26} {...props} />
+export const Head = (props: CustomTextProps) => (
+  <TextBase
+    fontSize={22}
+    fontFamily={'SUIT-ExtraBold'}
+    lineHeightPercent={140}
+    letterSpacing={-1}
+    {...props}
+  />
 );
 
-export const XXLargeText = (props: PartialTextProps) => (
-  <TextBase fontSize={24} {...props} />
+export const Title = (props: CustomTextProps) => (
+  <TextBase
+    fontSize={16}
+    fontFamily={'SUIT-SemiBold'}
+    lineHeightPercent={140}
+    letterSpacing={-1}
+    {...props}
+  />
 );
 
-export const XLargeText = (props: PartialTextProps) => (
-  <TextBase fontSize={20} {...props} />
+export const BodyTextB = (props: CustomTextProps) => (
+  <TextBase
+    fontSize={14}
+    fontFamily={'SUIT-Bold'}
+    lineHeightPercent={140}
+    letterSpacing={-1}
+    {...props}
+  />
 );
 
-export const LargeText = (props: PartialTextProps) => (
-  <TextBase fontSize={18} {...props} />
+export const BodyTextM = (props: CustomTextProps) => (
+  <TextBase
+    fontSize={14}
+    fontFamily={'SUIT-Medium'}
+    lineHeightPercent={140}
+    letterSpacing={-1}
+    {...props}
+  />
 );
 
-export const MediumText = (props: PartialTextProps) => (
-  <TextBase fontSize={16} {...props} />
+export const Caption = (props: CustomTextProps) => (
+  <TextBase
+    fontSize={12}
+    fontFamily={'SUIT-Bold'}
+    lineHeightPercent={140}
+    letterSpacing={-1}
+    {...props}
+  />
 );
-
-export const SmallText = (props: PartialTextProps) => (
-  <TextBase fontSize={14} {...props} />
-);
-
-export const XSmallText = (props: PartialTextProps) => (
-  <TextBase fontSize={12} {...props} />
-);
-export const XXSmallText = (props: PartialTextProps) => (
-  <TextBase fontSize={10} {...props} />
-);
-
-export default MediumText;

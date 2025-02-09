@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SmallText} from '../styled/components/Text';
+import {SmallText} from '../styled/components/LegacyText.tsx';
 import {MediumButton} from '../styled/components/Button';
 
 type Props = {

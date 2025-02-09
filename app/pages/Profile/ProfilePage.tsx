@@ -5,7 +5,7 @@ import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {MediumText} from '../../components/styled/components/Text';
+import {MediumText} from '../../components/styled/components/LegacyText.tsx';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';
 import {ProfileMenuListItem} from './ProfileMenuListItem';

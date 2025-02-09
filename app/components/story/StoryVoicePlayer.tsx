@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {Dimensions, Pressable, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {XXSmallText} from '../styled/components/Text.tsx';
+import {XXSmallText} from '../styled/components/LegacyText.tsx';
 import {styles} from './styles.ts';
 import {useRecoilState, useResetRecoilState} from 'recoil';
 import {

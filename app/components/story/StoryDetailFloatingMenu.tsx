@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 import {Color} from '../../constants/color.constant';
-import MediumText from '../styled/components/Text';
+import MediumText from '../styled/components/LegacyText.tsx';
 import Icon from 'react-native-vector-icons/Feather';
 
 type Props = {

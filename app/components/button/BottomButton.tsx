@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
-import {LargeText} from '../styled/components/Text';
+import {LargeText} from '../styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 
 type Props = {

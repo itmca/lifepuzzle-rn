@@ -4,7 +4,7 @@ import {Dimensions} from 'react-native';
 import SelectedPhotoList from '../photo/SelectedPhotoList';
 import {SmallImage} from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
-import MediumText, {SmallText} from '../styled/components/Text';
+import MediumText, {SmallText} from '../styled/components/LegacyText.tsx';
 
 const DeviceWidth = Dimensions.get('window').width;
 export const StoryKeyboardVideoRecord = (): JSX.Element => {

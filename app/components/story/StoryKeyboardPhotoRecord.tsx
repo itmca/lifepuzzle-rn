@@ -3,7 +3,7 @@ import React from 'react';
 import {Dimensions} from 'react-native';
 import SelectedPhotoList from '../photo/SelectedPhotoList';
 import {SmallImage} from '../styled/components/Image';
-import {MediumText, SmallText} from '../styled/components/Text';
+import {MediumText, SmallText} from '../styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 
 const DeviceWidth = Dimensions.get('window').width;

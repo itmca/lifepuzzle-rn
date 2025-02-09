@@ -1,7 +1,7 @@
 import {TouchableOpacity} from 'react-native';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {XSmallText} from '../styled/components/Text';
+import {XSmallText} from '../styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
 import {ContentContainer} from '../styled/container/ContentContainer';

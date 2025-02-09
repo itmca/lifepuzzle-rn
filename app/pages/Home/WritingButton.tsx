@@ -3,7 +3,7 @@ import React from 'react';
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {isLoggedInState} from '../../recoils/auth.recoil';
-import {XLargeText} from '../../components/styled/components/Text';
+import {XLargeText} from '../../components/styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';

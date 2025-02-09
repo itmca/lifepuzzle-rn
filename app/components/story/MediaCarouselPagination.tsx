@@ -1,6 +1,6 @@
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {Color} from '../../constants/color.constant';
-import {XXSmallText} from '../styled/components/Text';
+import {XXSmallText} from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
 
 type Props = {

@@ -1,5 +1,5 @@
 import {TouchableOpacity} from 'react-native';
-import MediumText from '../../components/styled/components/Text';
+import MediumText from '../../components/styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';

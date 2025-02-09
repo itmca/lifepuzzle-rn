@@ -3,7 +3,7 @@ import {MediumImage} from '../../components/styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import {HeroAuthTypeByCode} from '../../constants/auth.constant';
 import {ImageButton} from '../styled/components/Button';
-import {MediumText, SmallText} from '../styled/components/Text';
+import {MediumText, SmallText} from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {HeroUserType} from '../../types/hero.type';
 import {AccountAvatar} from '../avatar/AccountAvatar.tsx';

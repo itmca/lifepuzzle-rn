@@ -21,7 +21,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
-import {MediumText} from '../../components/styled/components/Text';
+import {MediumText} from '../../components/styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 import {Divider} from '../../components/styled/components/Divider';
 import {XSmallTitle} from '../../components/styled/components/Title';

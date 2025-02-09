@@ -7,7 +7,7 @@ import {
   LargeTitle,
   XSmallTitle,
 } from '../../components/styled/components/Title';
-import {XSmallText} from '../../components/styled/components/Text';
+import {XSmallText} from '../../components/styled/components/LegacyText.tsx';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {Color} from '../../constants/color.constant';

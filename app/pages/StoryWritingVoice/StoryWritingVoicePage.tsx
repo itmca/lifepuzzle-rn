@@ -13,7 +13,7 @@ import {useVoiceRecorder} from '../../service/hooks/voice-record.hook';
 
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {XXXLargeText} from '../../components/styled/components/Text';
+import {XXXLargeText} from '../../components/styled/components/LegacyText.tsx';
 import CtaButton from '../../components/button/CtaButton';
 import {VoicePlayer} from '../../components/story/StoryVoicePlayer';
 

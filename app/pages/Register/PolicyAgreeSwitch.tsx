@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import MediumText, {
   SmallText,
   LargeText,
-} from '../../components/styled/components/Text';
+} from '../../components/styled/components/LegacyText.tsx';
 import {Color} from '../../constants/color.constant';
 import {SmallImage} from '../../components/styled/components/Image';
 

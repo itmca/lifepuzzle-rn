@@ -3,7 +3,7 @@ import {HeroType, HeroWithPuzzleCntType} from '../../types/hero.type';
 import {useRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {useAuthAxios} from '../../service/hooks/network.hook';
-import {XSmallText} from '../../components/styled/components/Text';
+import {XSmallText} from '../../components/styled/components/LegacyText.tsx';
 import {MediumButton} from '../../components/styled/components/Button';
 import {Color} from '../../constants/color.constant';
 import {Photo} from '../../components/styled/components/Image';
