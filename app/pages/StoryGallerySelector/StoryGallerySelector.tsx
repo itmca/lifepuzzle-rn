@@ -60,7 +60,7 @@ const StoryGallerySelector = (): JSX.Element => {
       first: !gallery || gallery.length < 20 ? 20 : gallery.length,
       assetType: 'All',
     });
-    console.log(edges, page_info);
+
     setGallery(edges);
 
     setNextCursor(page_info.end_cursor);

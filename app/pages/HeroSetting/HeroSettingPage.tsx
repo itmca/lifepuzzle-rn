@@ -65,7 +65,7 @@ const HeroSettingPage = (): JSX.Element => {
       setFocusedHero(resHeroes[0]);
     },
     onError: error => {
-      console.log('error', error);
+      // TODO: 에러 처리
     },
     disableInitialRequest: false,
   });

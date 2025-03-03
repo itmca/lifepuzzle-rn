@@ -39,8 +39,7 @@ export const useCreateHero = (): [() => void] => {
         action: goBack,
       });
     },
-    onError: err => {
-      console.log('err', err);
+    onError: () => {
       CustomAlert.retryAlert('주인공 생성 실패하였습니다.', submit, goBack);
     },
     disableInitialRequest: true,
@@ -59,8 +58,6 @@ export const useCreateHero = (): [() => void] => {
   }, [isLoading]);
 
   const submit = () => {
-    console.log('writingHero', writingHero);
-    console.log('heroHttpPayLoad', heroHttpPayLoad);
     registerHero({
       data: heroHttpPayLoad,
     });

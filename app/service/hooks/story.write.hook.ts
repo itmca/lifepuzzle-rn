@@ -60,8 +60,7 @@ export const useSaveStory = (): [() => void] => {
 
       navigation.navigate('HomeTab', {screen: 'Home'});
     },
-    onError: err => {
-      console.log(err);
+    onError: () => {
       editStoryKey
         ? Alert.alert('퍼즐 수정에 실패했습니다. 재시도 부탁드립니다.')
         : Alert.alert('퍼즐 등록에 실패했습니다. 재시도 부탁드립니다.');

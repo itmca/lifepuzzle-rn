@@ -16,7 +16,6 @@ export const AccountAvatar = ({
   size,
   style,
 }: Props): JSX.Element => {
-  console.log(imageURL, nickName);
   if (!imageURL) {
     return (
       <Avatar.Text

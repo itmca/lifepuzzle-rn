@@ -5,7 +5,6 @@ import type {LinkingOptions} from '@react-navigation/native/lib/typescript/src/t
 export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
   useEffect(() => {
     const handleDeepLink = ({url}: {url: string}) => {
-      console.log('Handling deep link:', url);
       // 여기에 필요한 처리 로직 추가
     };
 

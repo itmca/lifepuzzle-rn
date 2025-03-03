@@ -38,9 +38,6 @@ const HeroSharePage = (): JSX.Element => {
   });
   const [dropDownItem, setDropDownItem] = useState(dropDownList);
 
-  console.log(`heroNo: ${hero.heroNo}, type: ${typeof hero.heroNo}`);
-  console.log(`auth: ${auth}, type: ${typeof auth}`);
-  console.log(`/user/hero/link?heroNo=${hero.heroNo}&auth=${auth}`);
   const [updateLoading, refetch] = useAuthAxios<any>({
     requestOption: {
       url: `/user/hero/link?heroNo=${hero.heroNo.toString()}&auth=${auth}`,
@@ -53,10 +50,6 @@ const HeroSharePage = (): JSX.Element => {
       onCopy(link);
     },
     onError: error => {
-      console.log('에러');
-      console.log(typeof hero.heroNo);
-      console.log(typeof auth);
-      console.log(error.message);
       CustomAlert.retryAlert('권한 공유 실패했습니다.', onSubmit, () => {});
     },
     disableInitialRequest: true,
@@ -64,14 +57,12 @@ const HeroSharePage = (): JSX.Element => {
 
   const onCopy = async (text: string) => {
     try {
-      console.log('복사할 텍스트:', text);
       if (typeof text !== 'string') {
         throw new Error('텍스트가 문자열이 아닙니다.');
       }
       await Clipboard.setString(text);
       setCopied(true);
     } catch (e) {
-      console.error('Clipboard.setString 실패', e);
       CustomAlert.simpleAlert('복사에 실패하였습니다');
     }
   };

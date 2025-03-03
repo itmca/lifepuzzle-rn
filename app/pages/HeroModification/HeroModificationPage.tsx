@@ -149,7 +149,6 @@ const HeroModificationPage = (): JSX.Element => {
       });
     },
     onError: error => {
-      console.log('error', error);
       CustomAlert.simpleAlert(
         `${hero.heroName} 삭제를 실패했습니다.\n잠시 후 다시 시도 부탁드립니다.`,
       );

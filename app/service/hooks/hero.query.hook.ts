@@ -26,13 +26,6 @@ export const useHero = (heroNo: number) => {
       setHero(hero);
       setPuzzleCnt(puzzleCnt);
       setUsers(users);
-      console.log(
-        '/heroes/heroNo에서 잘 가져와지나?',
-        hero,
-        puzzleCnt,
-        'user',
-        users,
-      );
     },
     disableInitialRequest: false,
   });

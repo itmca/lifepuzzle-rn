@@ -65,7 +65,6 @@ export const StoryAudioPlayer = ({
       Sound.setCategory('Playback');
       const audioSound = new Sound(audioURL, undefined, error => {
         if (error) {
-          console.log('failed to load the sound', error);
           return;
         }
 
@@ -76,7 +75,7 @@ export const StoryAudioPlayer = ({
         );
       });
     } catch (e) {
-      console.log('cannot play the sound file', e);
+      // TODO: 예외 처리
     }
   }, [audioURL]);
 
@@ -123,7 +122,7 @@ export const StoryAudioPlayer = ({
         setAudioPlaying(true);
       }
     } catch (e) {
-      console.log('cannot play the sound file', e);
+      // TODO: 예외 처리
     }
   };
 

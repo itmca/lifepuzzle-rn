@@ -71,8 +71,8 @@ export const useHeroPhotos = (): Response => {
         setSelectedTag({...newTags[index ?? 0]});
       }
     },
-    onError: err => {
-      console.log('err', err);
+    onError: () => {
+      // TODO: 예외 처리
     },
     disableInitialRequest: true,
   });

@@ -73,8 +73,8 @@ const RegisterPage = (): JSX.Element => {
         },
       );
     },
-    onError: error => {
-      console.log('회원가입 실패:', error.response?.data || error.message);
+    onError: () => {
+      // TODO: 예외 처리
     },
     disableInitialRequest: true,
   });

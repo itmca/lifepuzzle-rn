@@ -45,7 +45,6 @@ export const useUploadGallery = (): [() => void, boolean] => {
       }
     },
     onError: err => {
-      console.log(err);
       Alert.alert('업로드에 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,

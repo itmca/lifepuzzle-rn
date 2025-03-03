@@ -35,7 +35,6 @@ export const StoryDetailMenu = ({
   });
   const [deleteGallery] = useDeleteGallery({galleryId: gallery.id});
 
-  console.log(gallery);
   const onEditStory = () => {
     setWritingStory({
       title: gallery.story?.title ?? '',

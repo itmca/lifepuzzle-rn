@@ -13,7 +13,6 @@ type props = {
 
 export const StoryItemContents = ({story, onPress}: props): JSX.Element => {
   if (!story) return <></>;
-  console.log(story);
   return (
     <ContentContainer gap={16}>
       <ContentContainer useHorizontalLayout>

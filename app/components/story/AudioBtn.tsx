@@ -41,7 +41,7 @@ export const AudioBtn = ({audioUrl, disabled}: AudioBtnProps): JSX.Element => {
       Sound.setCategory('Playback');
       const audioSound = new Sound(audioUrl, undefined, error => {
         if (error) {
-          console.log('failed to load the sound', error);
+          // TODO: 예외 처리
           return;
         }
 
@@ -50,7 +50,7 @@ export const AudioBtn = ({audioUrl, disabled}: AudioBtnProps): JSX.Element => {
         setDurationTime(audioSound.getDuration());
       });
     } catch (e) {
-      console.log('cannot play the sound file', e);
+      // TODO: 예외 처리
     }
   }, [audioUrl]);
 
@@ -90,7 +90,7 @@ export const AudioBtn = ({audioUrl, disabled}: AudioBtnProps): JSX.Element => {
         setPlaying(true);
       }
     } catch (e) {
-      console.log('cannot play the sound file', e);
+      // TODO: 예외 처리
     }
   };
 
