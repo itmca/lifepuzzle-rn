@@ -5,7 +5,6 @@ import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoicePage';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import Title, {SmallTitle} from '../../components/styled/components/Title';
-import StoryWritingQuestionPage from '../../pages/StoryWritingQuestion/StoryWritingQuestionPage';
 import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
 import {LegacyColor} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
@@ -33,21 +32,6 @@ const StoryWritingNavigator = (): JSX.Element => {
   return (
     <Stack.Navigator
       screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}>
-      <Stack.Screen
-        name="StoryWritingQuestion"
-        component={StoryWritingQuestionPage}
-        options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>월별추천질문</Title>,
-          headerBackVisible: false,
-          headerRight: () => (
-            <WritingHeaderRight
-              text="다음"
-              nextScreenName="StoryWritingVoice"
-            />
-          ),
-        }}
-      />
       <Stack.Screen
         name="StoryWritingMain"
         component={StoryWritingMainPage}
