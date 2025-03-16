@@ -1,20 +1,18 @@
 import {MediumButton} from '../../styled/components/Button';
-import {LegacyColor} from '../../../constants/color.constant';
-import MediumText from '../../styled/components/LegacyText.tsx';
+
+import {Color} from '../../../constants/color.constant';
+import {SmallText} from '../../styled/components/LegacyText.tsx';
 
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
-import {ContentContainer} from '../../styled/container/ContentContainer.tsx';
 
 const RegisterButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
-    <ContentContainer paddingHorizontal={8}>
+    <>
       <MediumButton
-        backgroundColor={LegacyColor.WHITE}
-        justifyContent="flex-start"
-        alignSelf="flex-start"
-        height={'40px'}
+        backgroundColor={Color.WHITE}
+        height={'auto'}
         width="auto"
         onPress={() => {
           navigation.push('NoTab', {
@@ -24,9 +22,9 @@ const RegisterButton = (): JSX.Element => {
             },
           });
         }}>
-        <MediumText color="#C4C4C4">회원가입</MediumText>
+        <SmallText color={Color.GREY_800}>회원가입</SmallText>
       </MediumButton>
-    </ContentContainer>
+    </>
   );
 };
 

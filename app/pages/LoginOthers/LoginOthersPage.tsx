@@ -1,21 +1,18 @@
 import React, {useState} from 'react';
 
-import {Platform} from 'react-native';
-import KaKaoSocialLoginButton from '../../components/button/login/KaKaoSocialLoginButton';
-import AppleSocialLoginButton from '../../components/button/login/AppleSocialLoginButton';
-
 import GeneralLoginButton from './GeneralLoginButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {BasicTextInput} from '../../components/input/BasicTextInput';
 import {PasswordInput} from '../../components/input/PasswordInput';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {LegacyColor} from '../../constants/color.constant';
-import MediumText, {
+import {Color} from '../../constants/color.constant';
+import {
+  SmallText,
   XSmallText,
-  XXXLargeText,
 } from '../../components/styled/components/LegacyText.tsx';
 import {Photo} from '../../components/styled/components/Image';
+import RegisterButton from '../../components/button/login/RegisterButton';
 
 const LoginOthersPage = (): JSX.Element => {
   const [id, setId] = useState('');
@@ -27,55 +24,57 @@ const LoginOthersPage = (): JSX.Element => {
       <LoadingContainer isLoading={loading}>
         <ContentContainer
           withScreenPadding
-          backgroundColor={LegacyColor.PRIMARY_LIGHT}>
-          <XXXLargeText color="#D2F2FF" fontWeight={700} lineHeight={40}>
-            사랑하는 사람의 이야기가 {'\n'}함께 계속 될 수 있도록
-          </XXXLargeText>
-          <ContentContainer
-            useHorizontalLayout
-            withNoBackground
-            justifyContent={'flex-start'}
-            gap={12}>
-            <MediumText color={LegacyColor.WHITE} fontWeight={600}>
-              간편 로그인
-            </MediumText>
-            <KaKaoSocialLoginButton type="icon" onChangeLoading={setLoading} />
-            {Platform.OS === 'ios' && (
-              <AppleSocialLoginButton
-                type="icon"
+          paddingVertical={0}
+          justifyContent={'space-between'}
+          flex={1}>
+          <ContentContainer flex={1}>
+            <ContentContainer alignCenter paddingTop={20} flex={1}>
+              <Photo
+                width={150}
+                height={51}
+                source={require('../../assets/images/puzzle-characters.png')}
+              />
+            </ContentContainer>
+            <ContentContainer gap={24} flex={3}>
+              <ContentContainer gap={12}>
+                <ContentContainer gap={6}>
+                  <SmallText color={Color.GREY_700}>아이디</SmallText>
+                  <BasicTextInput
+                    clearButton
+                    text={id}
+                    onChangeText={setId}
+                    placeholder={'아이디를 입력해 주세요'}
+                  />
+                </ContentContainer>
+                <ContentContainer gap={6}>
+                  <SmallText color={Color.GREY_700}>비밀번호</SmallText>
+                  <PasswordInput
+                    password={password}
+                    onChangePassword={setPassword}
+                    placeholder={'8~16자, 영문+숫자+특수문자'}
+                  />
+                </ContentContainer>
+              </ContentContainer>
+              <GeneralLoginButton
+                userId={id}
+                password={password}
+                disabled={!id || !password}
                 onChangeLoading={setLoading}
               />
-            )}
+              <ContentContainer gap={6} useHorizontalLayout alignCenter>
+                <SmallText color={Color.GREY_500}>
+                  아직 회원이 아니신가요?
+                </SmallText>
+                <RegisterButton />
+              </ContentContainer>
+            </ContentContainer>
           </ContentContainer>
-          <Photo
-            width={75}
-            height={40}
-            source={require('../../assets/images/login-page-puzzle.png')}
-            style={{position: 'absolute', bottom: 0, right: 20}}
-          />
-        </ContentContainer>
-
-        <ContentContainer withScreenPadding gap={20}>
-          <ContentContainer>
-            <MediumText color={LegacyColor.PRIMARY_LIGHT}>아이디</MediumText>
-            <BasicTextInput text={id} onChangeText={setId} />
-          </ContentContainer>
-          <ContentContainer>
-            <MediumText color={LegacyColor.PRIMARY_LIGHT}>비밀번호</MediumText>
-            <PasswordInput password={password} onChangePassword={setPassword} />
-          </ContentContainer>
-          <ContentContainer justifyContent="center" alignItems="center">
-            <XSmallText color="#B0B0B0">
-              로그인 관련 문제가 생길 시, itmca.harmony@gmail.com으로 문의
+          <ContentContainer alignItems="center" paddingBottom={40}>
+            <XSmallText color={Color.GREY_400}>
+              문의: lord1229@gmail.com
             </XSmallText>
           </ContentContainer>
         </ContentContainer>
-        <GeneralLoginButton
-          userId={id}
-          password={password}
-          disabled={!id || !password}
-          onChangeLoading={setLoading}
-        />
       </LoadingContainer>
     </ScreenContainer>
   );

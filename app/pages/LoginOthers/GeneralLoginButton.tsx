@@ -1,15 +1,17 @@
 import React from 'react';
-import {Alert, TouchableOpacity} from 'react-native';
+import {Alert} from 'react-native';
 import {useAxios} from '../../service/hooks/network.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../service/hooks/login.hook';
-import {LegacyColor} from '../../constants/color.constant';
-import {LargeText} from '../../components/styled/components/LegacyText.tsx';
+
+import {MediumText} from '../../components/styled/components/LegacyText.tsx';
+import {Color} from '../../constants/color.constant';
 
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../recoils/share.recoil.ts';
+import {MediumButton} from '../../components/styled/components/Button.tsx';
 
 type Props = {
   userId: string;
@@ -41,27 +43,19 @@ const GeneralLoginButton = ({
   });
 
   return (
-    <TouchableOpacity
-      style={{
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 30,
-        paddingHorizontal: 133,
-        backgroundColor: disabled
-          ? LegacyColor.LIGHT_GRAY
-          : LegacyColor.PRIMARY_LIGHT,
-      }}
+    <MediumButton
+      backgroundColor={Color.MAIN_DARK}
+      borderRadius={6}
       onPress={() => {
         login({data: {username: userId, password, shareKey}});
       }}
       disabled={disabled}>
-      <LargeText
-        color={disabled ? '#C2C2C2' : LegacyColor.WHITE}
+      <MediumText
+        color={disabled ? Color.GREY_500 : Color.WHITE}
         fontWeight={700}>
         로그인
-      </LargeText>
-    </TouchableOpacity>
+      </MediumText>
+    </MediumButton>
   );
 };
 

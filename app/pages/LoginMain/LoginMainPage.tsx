@@ -58,9 +58,7 @@ const LoginMainPage = (): JSX.Element => {
           withScreenPadding
           justifyContent={'flex-end'}
           flex={1}>
-          <XSmallText color="#B0B0B0">
-            로그인 관련 문제가 생길 시, itmca.harmony@gmail.com으로 문의
-          </XSmallText>
+          <XSmallText color="#B0B0B0">문의: lord1229@gmail.com</XSmallText>
         </ContentContainer>
       </ScreenContainer>
     </LoadingContainer>

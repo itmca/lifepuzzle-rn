@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components/native';
-import {LegacyColor} from '../../../constants/color.constant';
+import {Color} from '../../../constants/color.constant';
 
 type Props = {
   mode?: string;
@@ -53,7 +53,7 @@ export const MediumButton = styled.TouchableOpacity<Props>`
   ${props =>
     props.disabled &&
     css`
-      background-color: ${LegacyColor.GRAY};
+      background-color: ${Color.GREY_200};
     `};
   ${props =>
     props.borderRadius &&

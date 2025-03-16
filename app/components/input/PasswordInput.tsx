@@ -34,7 +34,7 @@ export const PasswordInput = ({
       autoFocus={autoFocus}
       right={
         <ReactInput.Icon
-          icon={isPasswordSecure ? 'eye' : 'eye-off'}
+          icon={isPasswordSecure ? 'eye' : 'eye-off-outline'}
           color={LegacyColor.DARK_GRAY}
           onPress={() => {
             isPasswordSecure
