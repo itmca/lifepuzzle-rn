@@ -19,7 +19,7 @@ export const useHero = (heroNo: number) => {
 
   const [isLoading, fetchHero] = useAuthAxios<HeroQueryResponse>({
     requestOption: {
-      url: `/heroes/${heroNo}`,
+      url: `/v1/heroes/${heroNo}`,
       method: 'get',
     },
     onResponseSuccess: ({hero, puzzleCnt, users}) => {

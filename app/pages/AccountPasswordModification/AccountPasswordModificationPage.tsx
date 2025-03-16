@@ -26,7 +26,7 @@ const AccountPasswordModificationPage = (): JSX.Element => {
     useState<boolean>(true);
   const [_, changePassword] = useAuthAxios<void>({
     requestOption: {
-      url: `/users/${String(user?.userNo)}/password`,
+      url: `/v1/users/${String(user?.userNo)}/password`,
       method: 'PUT',
     },
     onResponseSuccess: () => {

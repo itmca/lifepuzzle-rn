@@ -58,7 +58,7 @@ const AccountModificationPage = ({
 
   const [queryLoading] = useAuthAxios<AccountQueryResponse>({
     requestOption: {
-      url: `/users/${String(user?.userNo)}`,
+      url: `/v1/users/${String(user?.userNo)}`,
       method: 'GET',
     },
     onResponseSuccess: responseUser => {
@@ -72,7 +72,7 @@ const AccountModificationPage = ({
   const [updateLoading, refetch] = useAuthAxios<void>({
     requestOption: {
       method: 'PUT',
-      url: `/users/${String(user?.userNo)}`,
+      url: `/v1/users/${String(user?.userNo)}`,
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {
@@ -92,7 +92,7 @@ const AccountModificationPage = ({
 
   const [withdrawLoading, withdraw] = useAuthAxios<void>({
     requestOption: {
-      url: `/users/${String(user?.userNo)}`,
+      url: `/v1/users/${String(user?.userNo)}`,
       method: 'DELETE',
     },
     onResponseSuccess: () => {

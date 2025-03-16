@@ -27,7 +27,7 @@ export const useCreateHero = (): [() => void] => {
   const writingHero = useRecoilValue(writingHeroState);
   const [isLoading, registerHero] = useAuthAxios({
     requestOption: {
-      url: '/heroes',
+      url: '/v1/heroes',
       method: 'post',
       headers: {'Content-Type': 'multipart/form-data'},
     },

@@ -35,7 +35,7 @@ const KaKaoSocialLoginButton = ({
   const [_, kakaoLogin] = useAxios<LoginResponse>({
     requestOption: {
       method: 'post',
-      url: '/auth/social/kakao',
+      url: '/auth/login/kakao',
       headers: {
         'kakao-access-token': kakaoAccessToken,
       },

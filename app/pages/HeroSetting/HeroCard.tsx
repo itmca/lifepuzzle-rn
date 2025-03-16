@@ -20,7 +20,7 @@ const HeroCard = ({hero}: Props): JSX.Element => {
   const [_, refetch] = useAuthAxios<void>({
     requestOption: {
       method: 'POST',
-      url: '/user/hero/recent',
+      url: '/v1/users/hero/recent',
     },
     onResponseSuccess: () => {},
     disableInitialRequest: true,

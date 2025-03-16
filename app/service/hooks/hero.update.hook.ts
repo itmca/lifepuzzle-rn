@@ -49,7 +49,7 @@ export const useUpdateHero = (): [() => void] => {
   const [isLoading, saveHero] = useAuthAxios<any>({
     requestOption: {
       method: 'put',
-      url: `/heroes/${writingHeroKey}`,
+      url: `/v1/heroes/${writingHeroKey}`,
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {

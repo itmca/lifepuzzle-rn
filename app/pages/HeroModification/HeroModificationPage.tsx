@@ -135,7 +135,7 @@ const HeroModificationPage = (): JSX.Element => {
 
   const [isLoading, deleteHero] = useAuthAxios<any>({
     requestOption: {
-      url: `/heroes/${heroNo}`,
+      url: `/v1/heroes/${heroNo}`,
       method: 'delete',
     },
     onResponseSuccess: () => {

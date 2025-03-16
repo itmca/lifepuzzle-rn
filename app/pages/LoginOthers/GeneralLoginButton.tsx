@@ -29,7 +29,7 @@ const GeneralLoginButton = ({
   const [_, login] = useAxios<LoginResponse>({
     requestOption: {
       method: 'post',
-      url: '/auth/login',
+      url: '/auth/login/email',
     },
     onResponseSuccess: loginResponseHandler,
     onError: error => {

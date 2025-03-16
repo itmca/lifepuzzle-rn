@@ -19,7 +19,7 @@ export const useRegisterSharedHero = ({
 
   const [_, registerHero] = useAuthAxios<any>({
     requestOption: {
-      url: '/heroes/auth',
+      url: '/v1/heroes/auth',
       method: 'post',
     },
     onResponseSuccess: res => {

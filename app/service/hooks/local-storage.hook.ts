@@ -27,7 +27,7 @@ export const useFetchLocalStorageUserHero = (): void => {
     onResponseSuccess: user => {
       const heroNo = user.recentHeroNo;
       setUser(user);
-      fetchHero({url: `/heroes/${heroNo.toString()}`});
+      fetchHero({url: `/v1/heroes/${heroNo.toString()}`});
     },
     disableInitialRequest: true,
   });
@@ -47,7 +47,7 @@ export const useFetchLocalStorageUserHero = (): void => {
     }
 
     const userNo: number = LocalStorage.get('userNo', 'number');
-    fetchUser({url: `/users/${userNo}`});
+    fetchUser({url: `/v1/users/${userNo}`});
   }, [tokens, currentUserUpdateObserver]);
 
   useEffect(() => {
@@ -55,6 +55,6 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
-    fetchHero({url: `/heroes/${currentHero.heroNo.toString()}`});
+    fetchHero({url: `/v1/heroes/${currentHero.heroNo.toString()}`});
   }, [currentHero.heroNo, currentHeroUpdateObserver]);
 };

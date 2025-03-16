@@ -25,7 +25,7 @@ export const useStories = (): Response => {
 
   const [isLoading, fetchStories] = useAuthAxios<StoryQueryResponse>({
     requestOption: {
-      url: '/stories',
+      url: '/v1/stories',
       params: {
         heroNo: hero.heroNo,
       },

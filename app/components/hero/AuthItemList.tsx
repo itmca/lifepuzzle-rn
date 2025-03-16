@@ -28,7 +28,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
   };
   const [updateLoading, refetch] = useAuthAxios<void>({
     requestOption: {
-      url: '/heroes/auth',
+      url: '/v1/heroes/auth',
       method: 'put',
     },
     onResponseSuccess: () => {

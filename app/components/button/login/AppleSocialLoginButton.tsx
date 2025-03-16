@@ -30,7 +30,7 @@ const AppleSocialLoginButton = ({
   const [_, appleLogin] = useAxios<LoginResponse>({
     requestOption: {
       method: 'post',
-      url: '/auth/social/apple',
+      url: '/auth/login/apple',
     },
     onResponseSuccess: loginResponseHandler,
     onLoadingStatusChange: onChangeLoading,

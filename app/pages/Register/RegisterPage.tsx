@@ -46,7 +46,7 @@ const RegisterPage = (): JSX.Element => {
 
   const [registerLoading, register] = useAxios({
     requestOption: {
-      url: '/user',
+      url: '/v1/users',
       method: 'post',
     },
     onResponseSuccess: () => {
@@ -81,7 +81,7 @@ const RegisterPage = (): JSX.Element => {
 
   const [_, idDupcheck] = useAxios<{isDuplicated: boolean}>({
     requestOption: {
-      url: '/user/dupcheck/id',
+      url: '/v1/users/dupcheck/id',
       method: 'get',
     },
     onResponseSuccess: ({isDuplicated}) => {
