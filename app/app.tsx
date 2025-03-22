@@ -16,7 +16,7 @@ import {MutableSnapshot, RecoilRoot} from 'recoil';
 import {LocalStorage} from './service/local-storage.service';
 import {authState} from './recoils/auth.recoil';
 import {NavigationContainer} from '@react-navigation/native';
-import SplashScreen from 'react-native-splash-screen';
+import {hideSplash, showSplash} from 'react-native-splash-view';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
@@ -59,7 +59,7 @@ const InternalApp = (): React.JSX.Element => {
 
 const App = (): React.JSX.Element => {
   useEffect(() => {
-    SplashScreen.hide();
+    hideSplash();
   }, []);
 
   const linking = useLinking();
