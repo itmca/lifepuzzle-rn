@@ -18,6 +18,7 @@ export const ScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
   width: 100%;
   height: 100%;
   display: flex;
+  flex: 1;
   background-color: ${LegacyColor.WHITE};
   gap: ${props => props.gap ?? 16}px;
   flex-direction: ${'column'};

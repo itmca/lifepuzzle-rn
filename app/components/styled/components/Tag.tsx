@@ -1,76 +1,31 @@
 import React from 'react';
-import styled, {css} from 'styled-components/native';
-import {
-  ImageSourcePropType,
-  ImageStyle,
-  StyleProp,
-  TouchableOpacity,
-} from 'react-native';
-import {XXSmallText} from './LegacyText.tsx';
-import {ContentContainer} from '../container/ContentContainer.tsx';
-import {XXSmallImage} from './Image.tsx';
+import styled from 'styled-components/native';
+import {TouchableOpacity} from 'react-native';
+import {Color} from '../../../constants/color.constant.ts';
+import {Caption} from './Text.tsx';
 
 type Props = {
-  iconSource?: ImageSourcePropType;
-  iconStyle?: StyleProp<ImageStyle>;
   text?: string;
-  width?: string;
-  height?: string;
-  fontWeight?: string | number;
-  fontColor?: string;
-  backgroundColor?: string;
-  borderRadius?: number;
-  padding?: string;
-  alignItems?: string;
-  alignSelf?: string;
-  justifyContent?: string;
-  marginRight?: number;
+  color: string; //TODO ColorType으로 변경 예정
   onPress?: () => void;
 };
-type TextProps = {
-  color?: string;
-  fontWeight?: string;
-};
+function getTxColor(color: string) {
+  return color === Color.GREY ? Color.GREY_400 : Color.WHITE;
+}
 export const StyledTag = styled(TouchableOpacity)<Props>`
-  width: ${({width}) => (width ? `${width}` : 'auto')};
-  height: ${({height}) => (height ? `${height}` : 'auto')};
-  background-color: ${({backgroundColor}) =>
-    backgroundColor ? `${backgroundColor}` : 'transparent'};
-  padding: ${({padding}) => (padding ? `${padding}` : '2px 8px')};
-  align-self: ${({alignSelf}) => (alignSelf ? alignSelf : 'flex-start')};
-  ${props =>
-    props.borderRadius &&
-    css`
-      border-top-left-radius: ${props.borderRadius}px;
-      border-top-right-radius: ${props.borderRadius}px;
-      border-bottom-left-radius: ${props.borderRadius}px;
-      border-bottom-right-radius: ${props.borderRadius}px;
-    `};
+  width: 'auto';
+  height: 'auto';
+  background-color: ${props => props.color};
+  border-radius: 16px;
+  border-width: ${props => (props.color === Color.GREY ? 1 : 0)};
+  border-color: ${props =>
+    props.color === Color.GREY ? Color.GREY_200 : 'transparent'};
+  padding: 5.5px 10px;
 `;
-function Tag({
-  iconSource,
-  iconStyle,
-  text = '',
-  fontWeight = 600,
-  fontColor,
-  ...props
-}: Props) {
+function Tag({text, color = 'grey', onPress}: Props) {
   return (
-    <StyledTag borderRadius={16} {...props}>
-      <ContentContainer
-        useHorizontalLayout
-        gap={0}
-        width={'auto'}
-        backgroundColor="transparent">
-        {iconSource ? (
-          <XXSmallImage style={iconStyle} source={iconSource} />
-        ) : (
-          <></>
-        )}
-        <XXSmallText fontWeight={fontWeight} color={fontColor} lineHeight={20}>
-          {text}
-        </XXSmallText>
-      </ContentContainer>
+    <StyledTag onPress={onPress} color={color}>
+      <Caption color={getTxColor(color)}>{text ?? ''}</Caption>
     </StyledTag>
   );
 }
