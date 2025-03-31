@@ -1,3 +1,5 @@
+import Logo from '../assets/icons/logo.svg';
+
 import Book from '../assets/icons/book.svg';
 import Calendar from '../assets/icons/calendar.svg';
 
@@ -49,6 +51,7 @@ import Success from '../assets/icons/success.svg';
 import Trash from '../assets/icons/trash.svg';
 
 export const Svgs = {
+  logo: Logo,
   book: Book,
   calendar: Calendar,
   cameraAdd: CameraAdd,

@@ -6,7 +6,7 @@ export const TopNavigationContainer = styled.SafeAreaView`
   display: flex;
   flex-direction: row;
   align-items: center;
-  min-height: 56px;
+  min-height: 50px;
   border-bottom-width: 1px;
   border-bottom-color: ${LegacyColor.GRAY};
   background-color: ${LegacyColor.WHITE};

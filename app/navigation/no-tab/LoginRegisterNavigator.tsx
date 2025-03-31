@@ -5,8 +5,7 @@ import LoginHeaderLeft from '../../components/header/LoginHeaderLeft';
 import LoginOthersPage from '../../pages/LoginOthers/LoginOthersPage';
 import RegisterPage from '../../pages/Register/RegisterPage';
 import {LegacyColor} from '../../constants/color.constant';
-import {LargeTitle} from '../../components/styled/components/Title';
-import {View} from 'react-native';
+import {TopBar} from '../../components/styled/components/TopBar';
 
 export type LoginRegisterParamList = {
   LoginMain: undefined;
@@ -49,12 +48,7 @@ const LoginRegisterNavigator = (): JSX.Element => {
         name="Register"
         component={RegisterPage}
         options={{
-          headerLeft: () => <LoginHeaderLeft type={'sub'} />,
-          headerTitle: () => <LargeTitle>회원가입</LargeTitle>,
-          headerShown: true,
-          title: '',
-          headerShadowVisible: false,
-          headerBackVisible: false,
+          header: () => <TopBar title={'회원가입'} />,
         }}
       />
     </Stack.Navigator>

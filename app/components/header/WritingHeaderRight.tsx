@@ -4,16 +4,19 @@ import {useNavigation} from '@react-navigation/native';
 import MediumText from '../styled/components/LegacyText.tsx';
 import {BasicNavigationProps} from '../../navigation/types';
 import {StoryWritingParamList} from '../../navigation/no-tab/StoryWritingNavigator';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color, LegacyColor} from '../../constants/color.constant';
+import {BodyTextB} from '../styled/components/Text.tsx';
 
 type Props = {
   text: string;
+  disable?: boolean;
   nextScreenName?: keyof StoryWritingParamList;
   customAction?: Function;
 };
 
 const WritingHeaderRight = ({
   text,
+  disable = false,
   nextScreenName,
   customAction,
 }: Props): JSX.Element => {
@@ -21,6 +24,7 @@ const WritingHeaderRight = ({
   return (
     <Pressable
       onPress={() => {
+        if (disable) return;
         if (typeof customAction === 'function') {
           customAction();
         } else {
@@ -32,9 +36,9 @@ const WritingHeaderRight = ({
           });
         }
       }}>
-      <MediumText fontWeight={600} color={LegacyColor.PRIMARY_LIGHT}>
+      <BodyTextB color={disable ? Color.GREY_400 : Color.MAIN_DARK}>
         {text}
-      </MediumText>
+      </BodyTextB>
     </Pressable>
   );
 };

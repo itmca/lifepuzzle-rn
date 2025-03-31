@@ -17,6 +17,7 @@ import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
 import {useCreateHero} from '../../service/hooks/hero.create.hook';
 import HeroSettingRightHeader from '../../components/header/HeroSettingRightHeader.tsx';
+import {TopBar} from '../../components/styled/components/TopBar.tsx';
 
 export type HeroSettingParamList = {
   HeroSetting: {shareKey?: string};
@@ -47,85 +48,73 @@ const HeroSettingNavigator = (): JSX.Element => {
         name="HeroSetting"
         component={HeroSettingPage}
         options={{
-          headerLeft: () => <GoBackHeaderLeft />,
-          headerTitle: () => <Title>주인공 관리</Title>,
-          headerRight: () => <HeroSettingRightHeader />,
-          headerBackVisible: false,
+          header: () => (
+            <TopBar title={'주인공 관리'} right={<HeroSettingRightHeader />} />
+          ),
         }}
       />
       <Stack.Screen
         name="HeroRegister"
         component={HeroRegisterPage}
         options={{
-          headerLeft: () => (
-            <GoBackHeaderLeft
-              customAction={() => {
-                resetWritingHero();
-              }}
+          header: () => (
+            <TopBar
+              onBack={resetWritingHero}
+              title={'주인공 추가'}
+              right={
+                <WritingHeaderRight
+                  text={'등록'}
+                  customAction={() => {
+                    createHero();
+                  }}
+                />
+              }
             />
           ),
-          headerTitle: () => <Title>주인공 생성</Title>,
-          headerRight: () => (
-            <WritingHeaderRight
-              text={'생성'}
-              customAction={() => {
-                createHero();
-              }}
-            />
-          ),
-          headerBackVisible: false,
         }}
       />
       <Stack.Screen
         name="HeroModification"
         component={HeroModificationPage}
         options={{
-          headerLeft: () => (
-            <GoBackHeaderLeft
-              customAction={() => {
-                resetWritingHero();
-              }}
+          header: () => (
+            <TopBar
+              onBack={resetWritingHero}
+              title={'주인공 정보 수정'}
+              right={
+                <WritingHeaderRight
+                  text={'저장'}
+                  customAction={() => {
+                    saveHero();
+                  }}
+                />
+              }
             />
           ),
-          headerTitle: () => <Title>주인공 정보 수정</Title>,
-          headerRight: () => (
-            <WritingHeaderRight
-              text={'저장'}
-              customAction={() => {
-                saveHero();
-              }}
-            />
-          ),
-          headerBackVisible: false,
         }}
       />
       <Stack.Screen
         name="HeroSelectingPhoto"
         component={HeroSelectingPhotoPage}
         options={{
-          headerLeft: () => (
-            <GoBackHeaderLeft
-              iconType="chevron-left"
-              customAction={() => {
-                resetSelectedHeroPhoto();
-              }}
-            />
-          ),
-          headerTitle: () => <Title>주인공 사진 선택</Title>,
-          headerBackVisible: false,
-          headerRight: () => (
-            <WritingHeaderRight
-              text="확인"
-              customAction={() => {
-                setWritingHero({
-                  ...writingHero,
-                  imageURL: seletedHeroPhoto,
-                  isProfileImageUpdate: true,
-                });
-                resetSelectedHeroPhoto();
-
-                navigation.goBack();
-              }}
+          header: () => (
+            <TopBar
+              onBack={resetSelectedHeroPhoto}
+              title={'주인공 사진 선택'}
+              right={
+                <WritingHeaderRight
+                  text="확인"
+                  customAction={() => {
+                    setWritingHero({
+                      ...writingHero,
+                      imageURL: seletedHeroPhoto,
+                      isProfileImageUpdate: true,
+                    });
+                    resetSelectedHeroPhoto();
+                    navigation.goBack();
+                  }}
+                />
+              }
             />
           ),
         }}

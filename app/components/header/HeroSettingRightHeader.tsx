@@ -1,10 +1,9 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
-import {LegacyColor} from '../../constants/color.constant.ts';
+import {SvgIcon} from '../styled/components/SvgIcon.tsx';
 
 const HeroSettingRightHeader = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -19,7 +18,7 @@ const HeroSettingRightHeader = (): JSX.Element => {
             },
           });
         }}>
-        <Icon size={32} name={'add-circle'} color={LegacyColor.PRIMARY_LIGHT} />
+        <SvgIcon name={'heroAdd'} />
       </TouchableOpacity>
     </ContentContainer>
   );
