@@ -13,6 +13,7 @@ import {
 } from '../styled/container/ContentContainer';
 import {AuthItem} from './AuthItem';
 import {AccountAvatar} from '../avatar/AccountAvatar.tsx';
+import {showToast} from '../styled/components/Toast.tsx';
 
 type props = {
   user: HeroUserType;
@@ -32,7 +33,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
       method: 'put',
     },
     onResponseSuccess: () => {
-      CustomAlert.simpleAlert('변경 완료되었습니다.');
+      showToast('성공적으로 저장되었습니다.');
       onSelect(selectAuth);
       onClose();
     },

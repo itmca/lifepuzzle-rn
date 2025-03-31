@@ -21,6 +21,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
 import {useLinking} from './service/hooks/linking.hook.ts';
+import {ToastComponent} from './components/styled/components/Toast.tsx';
 
 Sentry.init({
   dsn: Config.SENTRY_DSN,
@@ -69,6 +70,7 @@ const App = (): React.JSX.Element => {
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer linking={linking}>
           <InternalApp />
+          <ToastComponent />
         </NavigationContainer>
       </GestureHandlerRootView>
     </RecoilRoot>
