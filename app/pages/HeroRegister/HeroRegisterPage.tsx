@@ -2,7 +2,7 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 import {LegacyColor} from '../../constants/color.constant';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
-import {BasicTextInput} from '../../components/input/BasicTextInput';
+import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
@@ -76,7 +76,7 @@ const HeroRegisterPage = (): JSX.Element => {
               <XSmallTitle fontWeight={'600'} left={5}>
                 이름
               </XSmallTitle>
-              <BasicTextInput
+              <LegacyBasicTextInput
                 text={writingHero.heroName}
                 onChangeText={heroName => setWritingHero({heroName})}
                 placeholder="홍길동"
@@ -86,7 +86,7 @@ const HeroRegisterPage = (): JSX.Element => {
               <XSmallTitle fontWeight={'600'} left={5}>
                 닉네임
               </XSmallTitle>
-              <BasicTextInput
+              <LegacyBasicTextInput
                 text={writingHero.heroNickName}
                 onChangeText={heroNickName => setWritingHero({heroNickName})}
                 placeholder="할아버지"

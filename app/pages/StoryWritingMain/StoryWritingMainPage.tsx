@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
-import {BasicTextInput} from '../../components/input/BasicTextInput';
+import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
 import StoryDateInput from './StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
@@ -78,7 +78,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                     />
                   </ContentContainer>
                   <ContentContainer>
-                    <BasicTextInput
+                    <LegacyBasicTextInput
                       customStyle={{
                         paddingHorizontal: 0,
                         height: 40,
@@ -103,7 +103,7 @@ const StoryWritingMainPage = (): JSX.Element => {
                     contentContainerStyle={{flexGrow: 1}}
                     keyboardShouldPersistTaps={'always'}>
                     <ContentContainer expandToEnd>
-                      <BasicTextInput
+                      <LegacyBasicTextInput
                         noPadding
                         customStyle={{
                           flex: 1,

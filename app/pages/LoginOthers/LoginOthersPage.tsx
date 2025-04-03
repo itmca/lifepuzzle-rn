@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 
 import GeneralLoginButton from './GeneralLoginButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {BasicTextInput} from '../../components/input/BasicTextInput';
-import {PasswordInput} from '../../components/input/PasswordInput';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
@@ -13,6 +11,7 @@ import {
 } from '../../components/styled/components/LegacyText.tsx';
 import {Photo} from '../../components/styled/components/Image';
 import RegisterButton from '../../components/button/login/RegisterButton';
+import BasicTextInput from '../../components/input/NewTextInput.tsx';
 
 const LoginOthersPage = (): JSX.Element => {
   const [id, setId] = useState('');
@@ -38,20 +37,26 @@ const LoginOthersPage = (): JSX.Element => {
             <ContentContainer gap={24} flex={3}>
               <ContentContainer gap={12}>
                 <ContentContainer gap={6}>
-                  <SmallText color={Color.GREY_700}>아이디</SmallText>
                   <BasicTextInput
-                    clearButton
+                    label={'아이디'}
                     text={id}
                     onChangeText={setId}
                     placeholder={'아이디를 입력해 주세요'}
+                    validations={[
+                      {
+                        condition: (text: string) => !!text,
+                        errorText: '아이디를 입력해 주세요',
+                      },
+                    ]}
                   />
                 </ContentContainer>
                 <ContentContainer gap={6}>
-                  <SmallText color={Color.GREY_700}>비밀번호</SmallText>
-                  <PasswordInput
-                    password={password}
-                    onChangePassword={setPassword}
+                  <BasicTextInput
+                    label={'비밀번호'}
+                    text={password}
+                    onChangeText={setPassword}
                     placeholder={'8~16자, 영문+숫자+특수문자'}
+                    secureTextEntry
                   />
                 </ContentContainer>
               </ContentContainer>

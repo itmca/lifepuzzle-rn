@@ -13,7 +13,7 @@ import {useLogout} from '../../service/hooks/logout.hook';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {authState} from '../../recoils/auth.recoil';
 import ValidatedTextInput from '../../components/input/ValidatedTextInput';
-import {BasicTextInput} from '../../components/input/BasicTextInput';
+import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/RootNavigator';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
@@ -235,7 +235,7 @@ const AccountModificationPage = ({
                     color={LegacyColor.LIGHT_BLACK}>
                     아이디
                   </XSmallTitle>
-                  <BasicTextInput label="" text={id} disabled={true} />
+                  <LegacyBasicTextInput label="" text={id} disabled={true} />
                 </ContentContainer>
               )}
               <ContentContainer gap={6}>

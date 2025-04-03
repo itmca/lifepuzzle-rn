@@ -25,7 +25,7 @@ type Props = {
   useFocusedStyle?: boolean;
 };
 
-export const BasicTextInput = ({
+export const LegacyBasicTextInput = ({
   label,
   disabled,
   customStyle,

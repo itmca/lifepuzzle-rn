@@ -6,7 +6,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import CtaButton from '../../components/button/CtaButton';
 import {AccountItem} from '../../components/hero/AccountItem';
 import {AuthItemList} from '../../components/hero/AuthItemList';
-import {BasicTextInput} from '../../components/input/BasicTextInput';
+import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import BottomSheet from '../../components/styled/components/BottomSheet';
@@ -192,7 +192,7 @@ const HeroModificationPage = (): JSX.Element => {
                   <XSmallTitle fontWeight={'600'} left={5}>
                     이름
                   </XSmallTitle>
-                  <BasicTextInput
+                  <LegacyBasicTextInput
                     label=""
                     text={name}
                     onChangeText={setName}
@@ -203,7 +203,7 @@ const HeroModificationPage = (): JSX.Element => {
                   <XSmallTitle fontWeight={'600'} left={5}>
                     닉네임
                   </XSmallTitle>
-                  <BasicTextInput
+                  <LegacyBasicTextInput
                     label=""
                     text={nickName}
                     onChangeText={setNickName}

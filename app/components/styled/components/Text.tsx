@@ -39,12 +39,20 @@ const TextBase = styled.Text<TextBaseProps>`
   color: ${props => (props.color ? props.color : 'black')};
 `;
 
+type CustomTextProps = Pick<
+  TextProps,
+  'ellipsizeMode' | 'numberOfLines' | 'children'
+> & {
+  // TODO(border-line): change to color type
+  color?: string;
+};
+
 export const Head = (props: CustomTextProps) => (
   <TextBase
     fontSize={22}
     fontFamily={'SUIT-ExtraBold'}
     lineHeightPercent={140}
-    letterSpacing={-1}
+    letterSpacing={-0.25}
     {...props}
   />
 );
@@ -54,7 +62,7 @@ export const Title = (props: CustomTextProps) => (
     fontSize={16}
     fontFamily={'SUIT-SemiBold'}
     lineHeightPercent={140}
-    letterSpacing={-1}
+    letterSpacing={-0.25}
     {...props}
   />
 );
@@ -64,7 +72,7 @@ export const BodyTextB = (props: CustomTextProps) => (
     fontSize={14}
     fontFamily={'SUIT-Bold'}
     lineHeightPercent={140}
-    letterSpacing={-1}
+    letterSpacing={-0.25}
     {...props}
   />
 );
@@ -74,7 +82,7 @@ export const BodyTextM = (props: CustomTextProps) => (
     fontSize={14}
     fontFamily={'SUIT-Medium'}
     lineHeightPercent={140}
-    letterSpacing={-1}
+    letterSpacing={-0.25}
     {...props}
   />
 );
@@ -84,7 +92,7 @@ export const Caption = (props: CustomTextProps) => (
     fontSize={12}
     fontFamily={'SUIT-Bold'}
     lineHeightPercent={140}
-    letterSpacing={-1}
+    letterSpacing={-0.25}
     {...props}
   />
 );

@@ -41,6 +41,7 @@ type ContentContainerProps = {
   withUpperShadow?: boolean;
   withBorder?: boolean;
   withDebugBorder?: boolean;
+  borderColor?: string;
   borderRadius?: number;
   borderTopRadius?: number;
   borderBottomRadius?: number;
@@ -130,6 +131,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
     })} 
   ${props => props.withBorder && `border: 1px solid ${LegacyColor.GRAY};`}
   ${props => props.withDebugBorder && 'border: 1px solid red;'}
+  ${props => props.borderColor && `border-color: ${props.borderColor};`}
   border-radius: ${props => props.borderRadius ?? 0}px;
 
   ${props =>
