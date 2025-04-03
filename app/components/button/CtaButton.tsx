@@ -51,6 +51,8 @@ function theme(mode: string) {
       };
   }
 }
+
+// TODO(jung.jooon): 2025년 3월 다지안 개편 이후 삭제 예정
 const CtaButton = ({
   onPress,
   text,

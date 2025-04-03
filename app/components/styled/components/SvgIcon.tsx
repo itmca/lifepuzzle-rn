@@ -2,7 +2,7 @@ import React from 'react';
 import {Svgs} from '../../../constants/icon.constant';
 import {TouchableOpacity} from 'react-native';
 
-type IconName = keyof typeof Svgs;
+export type IconName = keyof typeof Svgs;
 
 interface IconProps {
   name: IconName;

@@ -37,10 +37,13 @@ import Manager from '../assets/icons/manager.svg';
 import My from '../assets/icons/my.svg';
 import Owner from '../assets/icons/owner.svg';
 
-import Pencil from '../assets/icons/pencil_circle.svg';
+import Pencil from '../assets/icons/pencil.svg';
 
 import PictureNone from '../assets/icons/picture_none.svg';
 import Picture from '../assets/icons/picture.svg';
+
+import Play from '../assets/icons/play.svg';
+import Plus from '../assets/icons/plus.svg';
 
 import RadioOff from '../assets/icons/radio_off.svg';
 import RadioOn from '../assets/icons/radio_on.svg';
@@ -90,6 +93,8 @@ export const Svgs = {
   pencil: Pencil,
   pictureNone: PictureNone,
   picture: Picture,
+  play: Play,
+  plus: Plus,
 
   radioOff: RadioOff,
   radioOn: RadioOn,

@@ -32,7 +32,11 @@ export const Color = {
   // Black / White
   BLACK: '#111111',
   WHITE: '#FFFFFF',
-};
+
+  TRANSPARENT: 'transparent',
+} as const;
+
+export type ColorType = (typeof Color)[keyof typeof Color];
 
 export const LegacyColor = {
   WHITE: '#ffffff',

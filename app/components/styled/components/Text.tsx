@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {TextProps} from 'react-native';
+import {ColorType} from '../../../constants/color.constant.ts';
 
 type TextBaseProps = Pick<
   TextProps,
@@ -18,7 +19,7 @@ type TextBaseProps = Pick<
   fontSize: number;
   lineHeightPercent: number;
   letterSpacing?: number;
-  color?: string;
+  color?: ColorType;
 
   alignCenter?: boolean;
   bold?: boolean;
@@ -27,9 +28,7 @@ type TextBaseProps = Pick<
 type CustomTextProps = Pick<
   TextProps,
   'ellipsizeMode' | 'numberOfLines' | 'children'
-> & {
-  color?: string; //TODO ColorType으로 변경 예정
-};
+> & {color: ColorType};
 
 const TextBase = styled.Text<TextBaseProps>`
   font-family: ${props => props.fontFamily};

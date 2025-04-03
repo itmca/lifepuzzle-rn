@@ -6,12 +6,9 @@ import {
   useLoginResponseHandler,
 } from '../../service/hooks/login.hook';
 
-import {MediumText} from '../../components/styled/components/LegacyText.tsx';
-import {Color} from '../../constants/color.constant';
-
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../recoils/share.recoil.ts';
-import {MediumButton} from '../../components/styled/components/Button.tsx';
+import {BasicButton} from '../../components/button/BasicButton.tsx';
 
 type Props = {
   userId: string;
@@ -43,19 +40,13 @@ const GeneralLoginButton = ({
   });
 
   return (
-    <MediumButton
-      backgroundColor={Color.MAIN_DARK}
-      borderRadius={6}
+    <BasicButton
       onPress={() => {
         login({data: {username: userId, password, shareKey}});
       }}
-      disabled={disabled}>
-      <MediumText
-        color={disabled ? Color.GREY_500 : Color.WHITE}
-        fontWeight={700}>
-        로그인
-      </MediumText>
-    </MediumButton>
+      disabled={disabled}
+      text={'로그인'}
+    />
   );
 };
 
