@@ -38,14 +38,6 @@ const TextBase = styled.Text<TextBaseProps>`
   color: ${props => (props.color ? props.color : 'black')};
 `;
 
-type CustomTextProps = Pick<
-  TextProps,
-  'ellipsizeMode' | 'numberOfLines' | 'children'
-> & {
-  // TODO(border-line): change to color type
-  color?: string;
-};
-
 export const Head = (props: CustomTextProps) => (
   <TextBase
     fontSize={22}
