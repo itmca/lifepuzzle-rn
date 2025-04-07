@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ant-design/react-native": "^5.3.2",
+    "@expo/react-native-action-sheet": "^4.1.1",
     "@gorhom/bottom-sheet": "^4.6.0",
     "@invertase/react-native-apple-authentication": "^2.2.2",
     "@react-native-camera-roll/camera-roll": "^7.9.0",

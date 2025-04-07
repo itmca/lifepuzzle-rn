@@ -32,7 +32,7 @@ import {UserType} from '../../types/user.type';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import CtaButton from '../../components/button/CtaButton';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useCommonActionSheet} from '../../components/styled/components/ActionSheet.tsx';
 
 type AccountQueryResponse = {
   userNo: number;
@@ -166,7 +166,30 @@ const AccountModificationPage = ({
     resetWritingUser();
     navigation.goBack();
   };
-
+  const openAlbum = () => {
+    navigation.push('NoTab', {
+      screen: 'AccountSettingNavigator',
+      params: {
+        screen: 'AccountSelectingPhoto',
+      },
+    });
+  };
+  const {showActionSheet} = useCommonActionSheet({
+    options: [
+      {label: '앨범에서 선택', value: 'gallery', onSelect: () => openAlbum()},
+      {
+        label: '프로필 사진 삭제',
+        value: 'delete',
+        onSelect: () =>
+          setModifyingUser({
+            ...modifyingUser,
+            imageURL: undefined,
+            modifiedImage: undefined,
+            isProfileImageUpdate: true,
+          }),
+      },
+    ],
+  });
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -187,43 +210,12 @@ const AccountModificationPage = ({
           <ContentContainer gap={0}>
             <ContentContainer paddingVertical={32} alignCenter>
               <TouchableOpacity
-                onPress={() => {
-                  navigation.push('NoTab', {
-                    screen: 'AccountSettingNavigator',
-                    params: {
-                      screen: 'AccountSelectingPhoto',
-                    },
-                  });
-                }}>
+                onPress={currentUserPhotoUri ? showActionSheet : openAlbum}>
                 <AccountAvatar
                   nickName={nickName}
                   imageURL={currentUserPhotoUri}
                   size={120}
                 />
-                {currentUserPhotoUri && (
-                  <Pressable
-                    style={{
-                      position: 'absolute',
-                      top: 5,
-                      right: 0,
-                      backgroundColor: LegacyColor.WHITE,
-                      borderColor: LegacyColor.GRAY,
-                      borderWidth: 0.5,
-                      width: 24,
-                      height: 24,
-                      borderRadius: 12,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                    onPress={() => {
-                      setModifyingUser({
-                        modifiedImage: undefined,
-                        isProfileImageUpdate: true,
-                      });
-                    }}>
-                    <Icon size={18} color={LegacyColor.BLACK} name={'close'} />
-                  </Pressable>
-                )}
               </TouchableOpacity>
             </ContentContainer>
             <ContentContainer gap={16} paddingHorizontal={20}>

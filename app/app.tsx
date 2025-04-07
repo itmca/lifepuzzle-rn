@@ -22,6 +22,7 @@ import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
 import {useLinking} from './service/hooks/linking.hook.ts';
 import {ToastComponent} from './components/styled/components/Toast.tsx';
+import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 
 Sentry.init({
   dsn: Config.SENTRY_DSN,
@@ -53,7 +54,9 @@ const InternalApp = (): React.JSX.Element => {
 
   return (
     <PaperProvider theme={theme}>
-      <RootNavigator />
+      <ActionSheetProvider>
+        <RootNavigator />
+      </ActionSheetProvider>
     </PaperProvider>
   );
 };
