@@ -1,6 +1,6 @@
 import {MMKV} from 'react-native-mmkv';
 
-export type LocalStorageKey = 'authToken' | 'userNo';
+export type LocalStorageKey = 'authToken' | 'userNo' | 'onboarding';
 
 export type ValueType = 'string' | 'number' | 'boolean' | 'json';
 

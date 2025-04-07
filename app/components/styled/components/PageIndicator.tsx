@@ -40,7 +40,9 @@ function PageIndicator({page = 1, size, onChange}: Props) {
       );
     }
   }
-
+  useEffect(() => {
+    setCurPage(page);
+  }, [page]);
   return (
     <ContentContainer width={'auto'} useHorizontalLayout gap={8}>
       {pages}

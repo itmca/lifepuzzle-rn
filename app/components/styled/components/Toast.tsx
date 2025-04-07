@@ -75,5 +75,5 @@ const toastConfig = {
   ),
 };
 export const ToastComponent = () => {
-  return <Toast ref={ref => Toast.setRef(ref)} config={toastConfig} />;
+  return <Toast config={toastConfig} />;
 };
