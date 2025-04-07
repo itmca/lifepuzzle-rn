@@ -59,10 +59,10 @@ const HeroModificationPage = (): JSX.Element => {
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
 
   //bottom sheet
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const handlePresentModalPress = useCallback((selectUser: HeroUserType) => {
     Keyboard.dismiss();
-    bottomSheetModalRef.current?.present();
+    setOpenModal(true);
     setSelectUser(selectUser);
   }, []);
   const updateAuth = (auth: string) => {
@@ -114,7 +114,7 @@ const HeroModificationPage = (): JSX.Element => {
   }, [name, nickName, birthday, title, isLunar]);
 
   const handleClosePress = useCallback(() => {
-    bottomSheetModalRef.current?.close();
+    setOpenModal(false);
   }, [loading]);
 
   const openHeroSharePage = () => {
@@ -257,9 +257,11 @@ const HeroModificationPage = (): JSX.Element => {
         </LoadingContainer>
       </ScrollContentContainer>
       <BottomSheet
-        ref={bottomSheetModalRef}
-        index={1}
-        onDismiss={handleClosePress}>
+        opened={openModal}
+        title={'권한 설정'}
+        onClose={() => {
+          setOpenModal(false);
+        }}>
         <AuthItemList
           user={selectUser}
           onSelect={updateAuth}

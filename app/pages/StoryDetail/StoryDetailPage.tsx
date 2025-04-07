@@ -60,15 +60,14 @@ const StoryDetailPage = (): JSX.Element => {
   const isFocused = useIsFocused();
 
   //bottom sheet
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const snapPoints = useMemo(() => [isStory ? '40%' : '20%'], [isStory]);
-
   const handlePresentModalPress = useCallback(() => {
     Keyboard.dismiss();
-    bottomSheetModalRef.current?.present();
+    setOpenModal(true);
   }, []);
   const handleClosePress = useCallback(() => {
-    bottomSheetModalRef.current?.close();
+    setOpenModal(false);
   }, []);
 
   const onClickWrite = () => {
@@ -90,17 +89,6 @@ const StoryDetailPage = (): JSX.Element => {
       },
     });
   };
-  const renderBackdrop = useCallback(
-    (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop
-        {...props}
-        pressBehavior="none"
-        disappearsOnIndex={-1}
-      />
-    ),
-    [],
-  );
-
   return (
     <LoadingContainer isLoading={false}>
       <BottomSheetModalProvider>
@@ -139,8 +127,8 @@ const StoryDetailPage = (): JSX.Element => {
                 onScroll={index => {
                   setGalleryIndex(index % gallery.length);
                   setIsStory(gallery[index % gallery.length].story);
-                  if (bottomSheetModalRef.current) {
-                    bottomSheetModalRef.current.close();
+                  if (openModal) {
+                    setOpenModal(false);
                   }
                 }}
               />
@@ -179,13 +167,13 @@ const StoryDetailPage = (): JSX.Element => {
             </ContentContainer>
           </ScrollContentContainer>
         </ScreenContainer>
-
         <BottomSheet
-          ref={bottomSheetModalRef}
-          index={1}
-          onDismiss={handleClosePress}
+          opened={openModal}
           snapPoints={snapPoints}
-          backdropComponent={renderBackdrop}>
+          title={'권한 설정'}
+          onClose={() => {
+            setOpenModal(false);
+          }}>
           <StoryDetailMenu
             type={isStory ? 'story' : 'photo'}
             gallery={gallery[galleryIndex]}

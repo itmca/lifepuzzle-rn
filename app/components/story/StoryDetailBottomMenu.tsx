@@ -90,7 +90,7 @@ export const StoryDetailMenu = ({
     ]);
   };
   return (
-    <ContentContainer withScreenPadding gap={16}>
+    <ContentContainer gap={16}>
       {isStory && (
         <ContentContainer gap={0}>
           <TouchableOpacity onPress={onEditStory}>

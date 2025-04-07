@@ -59,7 +59,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
   };
   return (
     <ContentContainer>
-      <ContentContainer withScreenPadding>
+      <ContentContainer>
         {user ? (
           <ContentContainer height={'62px'} useHorizontalLayout gap={8}>
             <ContentContainer width={'60px'}>
