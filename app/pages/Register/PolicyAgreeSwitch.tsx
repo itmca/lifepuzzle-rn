@@ -1,9 +1,9 @@
 import React from 'react';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {TouchableOpacity, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import MediumText from '../../components/styled/components/LegacyText.tsx';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
+import {CheckBox} from '../../components/styled/components/CheckBox.tsx';
+import {BodyTextM} from '../../components/styled/components/Text.tsx';
 
 type Props = {
   style?: ViewStyle;
@@ -47,27 +47,16 @@ export const PolicyAgreeSwitch = ({
         ...style,
       }}
       onPress={onPress}>
-      <BouncyCheckbox
-        size={16}
-        innerIconStyle={{
-          borderColor: checked
-            ? LegacyColor.PRIMARY_LIGHT
-            : LegacyColor.FONT_GRAY,
-          borderRadius: 1,
-        }}
-        checkIconImageSource={require('../../assets/images/check.png')}
-        fillColor={'transparent'}
-        disableBuiltInState={true}
-        isChecked={checked}
-        onPress={onPress}
-      />
-      <MediumText
-        style={{
-          marginLeft: -8,
-          color: checked ? LegacyColor.BLACK : LegacyColor.FONT_GRAY,
-        }}>
-        {policyName} 동의합니다.
-      </MediumText>
+      <CheckBox
+        label={
+          <>
+            <BodyTextM color={Color.MAIN}>(필수)</BodyTextM>
+            <BodyTextM>{policyName} 동의합니다.</BodyTextM>
+          </>
+        }
+        checked={checked}
+        onChange={onPress}
+        disableBuiltInState></CheckBox>
     </TouchableOpacity>
   );
 };

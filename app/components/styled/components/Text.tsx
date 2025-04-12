@@ -28,7 +28,7 @@ type TextBaseProps = Pick<
 type CustomTextProps = Pick<
   TextProps,
   'ellipsizeMode' | 'numberOfLines' | 'children'
-> & {color: ColorType};
+> & {color?: ColorType};
 
 const TextBase = styled.Text<TextBaseProps>`
   font-family: ${props => props.fontFamily};

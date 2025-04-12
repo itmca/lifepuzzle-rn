@@ -14,6 +14,7 @@ import {
 import {AuthItem} from './AuthItem';
 import {AccountAvatar} from '../avatar/AccountAvatar.tsx';
 import {showToast} from '../styled/components/Toast.tsx';
+import {Radio} from '../styled/components/Radio.tsx';
 
 type props = {
   user: HeroUserType;
@@ -79,12 +80,15 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
         <ScrollContentContainer>
           {SortedHeroAuthTypes.filter(auth => auth.code !== 'OWNER').map(
             (auth, index) => (
-              <AuthItem
-                key={index}
-                auth={auth}
-                selected={selectAuth === auth.code}
-                onSelect={onSelectAuth}
-              />
+              <ContentContainer height={'48px'}>
+                <Radio
+                  key={index}
+                  selected={selectAuth === auth.code}
+                  label={auth.name}
+                  value={auth.code}
+                  subLabel={auth.description}
+                  onSelect={onSelectAuth}></Radio>
+              </ContentContainer>
             ),
           )}
         </ScrollContentContainer>
