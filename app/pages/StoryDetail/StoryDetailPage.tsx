@@ -1,5 +1,5 @@
-import {useCallback, useMemo, useRef, useState} from 'react';
-import {Dimensions, Keyboard, Pressable} from 'react-native';
+import {useCallback, useMemo, useState} from 'react';
+import {Dimensions} from 'react-native';
 import {
   useRecoilState,
   useRecoilValue,
@@ -20,27 +20,20 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer.tsx';
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import BottomSheet from '../../components/styled/components/BottomSheet';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {LegacyColor} from '../../constants/color.constant.ts';
+import {Color} from '../../constants/color.constant.ts';
 import {StoryDetailMenu} from '../../components/story/StoryDetailBottomMenu.tsx';
-import {
-  MediumTitle,
-  XSmallTitle,
-} from '../../components/styled/components/Title.tsx';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {
   getGallery,
   selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
+import {OpenDetailBottomSheet} from '../../recoils/story-view.recoil.ts';
+import {Title} from '../../components/styled/components/Text.tsx';
+import {StoryWritingButton} from '../../components/button/StoryWritingButton.tsx';
 
 const StoryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -60,12 +53,8 @@ const StoryDetailPage = (): JSX.Element => {
   const isFocused = useIsFocused();
 
   //bottom sheet
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useRecoilState(OpenDetailBottomSheet);
   const snapPoints = useMemo(() => [isStory ? '40%' : '20%'], [isStory]);
-  const handlePresentModalPress = useCallback(() => {
-    Keyboard.dismiss();
-    setOpenModal(true);
-  }, []);
   const handleClosePress = useCallback(() => {
     setOpenModal(false);
   }, []);
@@ -93,28 +82,16 @@ const StoryDetailPage = (): JSX.Element => {
     <LoadingContainer isLoading={false}>
       <BottomSheetModalProvider>
         <ScreenContainer>
-          <ScrollContentContainer gap={16}>
-            <ContentContainer
-              useHorizontalLayout
-              paddingHorizontal={16}
-              alignItems="flex-end"
-              height={Dimensions.get('window').height * 0.1 + 'px' ?? '10%'}>
-              <MediumTitle>
-                {gallery[galleryIndex].tag?.label ?? ''}
-              </MediumTitle>
-              <Pressable
-                style={{marginLeft: 'auto'}}
-                onPress={handlePresentModalPress}>
-                <Icon
-                  name="more-horiz"
-                  size={23}
-                  color={LegacyColor.FONT_GRAY}
-                  style={{marginRight: -5}}
-                />
-              </Pressable>
+          <ScrollContentContainer gap={0}>
+            <ContentContainer paddingHorizontal={20} paddingTop={20}>
+              <Title color={Color.GREY_700}>
+                {gallery[galleryIndex].tag?.label +
+                  '(' +
+                  gallery[galleryIndex].tag?.count +
+                  ')' ?? ''}
+              </Title>
             </ContentContainer>
-
-            <ContentContainer backgroundColor={LegacyColor.BLACK}>
+            <ContentContainer>
               <MediaCarousel
                 data={gallery.map(item => ({
                   type: item.type,
@@ -133,36 +110,19 @@ const StoryDetailPage = (): JSX.Element => {
                 }}
               />
             </ContentContainer>
-            <ContentContainer
-              paddingHorizontal={16}
-              paddingBottom={10}
-              flex={1}
-              expandToEnd>
+            <ContentContainer paddingHorizontal={20} flex={1} expandToEnd>
               {gallery[galleryIndex]?.story ? (
                 <StoryItemContents story={gallery[galleryIndex].story} />
               ) : (
-                <Pressable onPress={onClickWrite}>
-                  <ContentContainer
-                    useHorizontalLayout
-                    justifyContent={'flex-start'}
-                    paddingHorizontal={16}
-                    gap={2.5}
-                    width={'165px'}
-                    height={'48px'}
-                    borderRadius={32}
-                    backgroundColor={LegacyColor.PRIMARY_LIGHT}
-                    withUpperShadow>
-                    <Icon
-                      size={20}
-                      name={'add-circle'}
-                      color={LegacyColor.WHITE}
-                      style={{margin: 2}}
-                    />
-                    <XSmallTitle color={LegacyColor.WHITE}>
-                      이야기 작성하기
-                    </XSmallTitle>
+                <>
+                  <Title color={Color.GREY_400}>
+                    사진에 담겨있는 당신의 이야기를 작성해 주세요
+                  </Title>
+                  <ContentContainer alignCenter paddingTop={36}>
+                    <StoryWritingButton
+                      onPress={onClickWrite}></StoryWritingButton>
                   </ContentContainer>
-                </Pressable>
+                </>
               )}
             </ContentContainer>
           </ScrollContentContainer>
@@ -170,7 +130,6 @@ const StoryDetailPage = (): JSX.Element => {
         <BottomSheet
           opened={openModal}
           snapPoints={snapPoints}
-          title={'권한 설정'}
           onClose={() => {
             setOpenModal(false);
           }}>

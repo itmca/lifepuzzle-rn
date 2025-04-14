@@ -52,6 +52,7 @@ import Setting from '../assets/icons/setting.svg';
 import Success from '../assets/icons/success.svg';
 
 import Trash from '../assets/icons/trash.svg';
+import Kebab from '../assets/icons/kebab.svg';
 
 import AppleLogo from '../assets/icons/apple_logo.svg';
 import KakaoLogo from '../assets/icons/kakao_logo.svg';
@@ -105,6 +106,7 @@ export const Svgs = {
   setting: Setting,
   success: Success,
   trash: Trash,
+  kebab: Kebab,
 
   appleLogo: AppleLogo,
   kakaoLogo: KakaoLogo,

@@ -1,6 +1,9 @@
 import {atom} from 'recoil';
 import {StoryType} from '../types/story.type';
-
+export const OpenDetailBottomSheet = atom<boolean>({
+  key: 'OpenDetailBottomSheet',
+  default: false,
+});
 export const SelectedStoryKeyState = atom<string>({
   key: 'SelectedStoryKeyState',
   default: '',

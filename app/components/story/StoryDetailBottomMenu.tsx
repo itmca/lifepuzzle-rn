@@ -1,8 +1,6 @@
 import {Alert, TouchableOpacity} from 'react-native';
-import {LegacyColor} from '../../constants/color.constant';
-import MediumText from '../styled/components/LegacyText.tsx';
+import {Color} from '../../constants/color.constant';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {useSetRecoilState} from 'recoil';
 import {BasicNavigationProps} from '../../navigation/types';
@@ -12,9 +10,11 @@ import {
   useDeleteStory,
 } from '../../service/hooks/story.delete.hook';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {Divider} from 'react-native-paper';
 import {GalleryType} from '../../types/photo.type';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil.ts';
+import {SvgIcon} from '../styled/components/SvgIcon.tsx';
+import {Title} from '../styled/components/Text.tsx';
+import {Divider} from '../styled/components/Divider.tsx';
 
 type Props = {
   type: 'story' | 'photo';
@@ -90,65 +90,42 @@ export const StoryDetailMenu = ({
     ]);
   };
   return (
-    <ContentContainer gap={16}>
+    <ContentContainer gap={0}>
       {isStory && (
-        <ContentContainer gap={0}>
+        <>
           <TouchableOpacity onPress={onEditStory}>
             <ContentContainer
-              height={'56px'}
+              gap={6}
+              height={'48px'}
               useHorizontalLayout
-              gap={0}
-              backgroundColor={LegacyColor.LIGHT_GRAY}
-              justifyContent={'left'}
-              paddingVertical={12}
-              paddingHorizontal={16}
-              borderTopRadius={8}>
-              <Icon size={18} name={'edit'} color={LegacyColor.LIGHT_BLACK} />
-              <ContentContainer paddingHorizontal={16} withNoBackground>
-                <MediumText color={LegacyColor.LIGHT_BLACK} bold>
-                  이야기 수정하기
-                </MediumText>
-              </ContentContainer>
+              justifyContent="flex-start">
+              <SvgIcon name={'pencil'} />
+              <Title color={Color.GREY_800}>이야기 수정하기</Title>
             </ContentContainer>
           </TouchableOpacity>
-          <Divider theme={{colors: {outlineVariant: LegacyColor.WHITE}}} bold />
           <TouchableOpacity onPress={onDeleteStory}>
             <ContentContainer
-              height={'56px'}
+              gap={6}
+              height={'48px'}
               useHorizontalLayout
-              gap={0}
-              backgroundColor={LegacyColor.LIGHT_GRAY}
-              justifyContent={'left'}
-              paddingVertical={12}
-              paddingHorizontal={16}
-              borderBottomRadius={8}>
-              <Icon size={18} name={'delete'} color={LegacyColor.LIGHT_BLACK} />
-              <ContentContainer paddingHorizontal={16} withNoBackground>
-                <MediumText color={LegacyColor.LIGHT_BLACK} bold>
-                  이야기 삭제하기
-                </MediumText>
-              </ContentContainer>
+              justifyContent="flex-start">
+              <SvgIcon name={'trash'} />
+              <Title color={Color.GREY_800}>이야기 삭제하기</Title>
             </ContentContainer>
           </TouchableOpacity>
-        </ContentContainer>
+          <ContentContainer height={'20px'} alignCenter>
+            <Divider />
+          </ContentContainer>
+        </>
       )}
       <TouchableOpacity onPress={onDeleteGallery}>
         <ContentContainer
-          height={'56px'}
+          gap={6}
+          height={'48px'}
           useHorizontalLayout
-          gap={0}
-          backgroundColor={LegacyColor.LIGHT_GRAY}
-          justifyContent={'left'}
-          paddingVertical={12}
-          paddingHorizontal={16}
-          borderRadius={8}
-          borderBottomRadius={8}>
-          <Icon size={18} name={'delete'} color={LegacyColor.LIGHT_BLACK} />
-          <ContentContainer paddingHorizontal={16} withNoBackground>
-            <MediumText color={LegacyColor.LIGHT_BLACK} bold>
-              사진 삭제하기
-            </MediumText>
-          </ContentContainer>
+          justifyContent="flex-start">
+          <SvgIcon name={'trash'} />
+          <Title color={Color.GREY_800}>사진 삭제하기</Title>
         </ContentContainer>
       </TouchableOpacity>
     </ContentContainer>

@@ -3,8 +3,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import StoryDetailPage from '../../pages/StoryDetail/StoryDetailPage';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import StoryDetailPageWithoutLogin from '../../pages/StoryDetail/StoryDetailPageWithoutLogin';
-import DetailViewHeader from '../../components/header/DetailViewHeader';
-import DetailViewHeaderLeft from '../../components/header/DetailViewHeaderLeft';
+import {TopBar} from '../../components/styled/components/TopBar';
+import DetailViewHeaderRight from '../../components/header/DetailViewHeaderRight';
 
 export type StoryViewParamList = {
   Story: undefined;
@@ -25,8 +25,9 @@ const StoryViewNavigator = (): JSX.Element => {
         name="Story"
         component={StoryDetailPage}
         options={{
-          title: '사진 상세',
-          headerLeft: () => <DetailViewHeaderLeft />,
+          header: () => (
+            <TopBar title={'자세히 보기'} right={<DetailViewHeaderRight />} />
+          ),
         }}
       />
       <Stack.Screen

@@ -10,6 +10,7 @@ import {ContentContainer} from '../styled/container/ContentContainer';
 import Sound from 'react-native-sound';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {toMinuteSeconds} from '../../service/date-time-display.service';
+import {VoicePlayButton} from '../button/VoicePlayButton.tsx';
 
 type AudioBtnProps = {
   audioUrl?: string;
@@ -99,34 +100,12 @@ export const AudioBtn = ({audioUrl, disabled}: AudioBtnProps): JSX.Element => {
   }
 
   return (
-    <TouchableOpacity
-      style={{
-        backgroundColor: isPlaying ? '#03ACEE' : '#9BE3FF',
-        borderRadius: 16,
-        paddingHorizontal: 8,
-        paddingVertical: 2,
-      }}
-      onPress={onPress}>
-      <ContentContainer
-        width={'auto'}
-        useHorizontalLayout
-        gap={4}
-        backgroundColor={'transparent'}>
-        <Icon size={16} color={LegacyColor.WHITE} name={'mic'} />
-        <ContentContainer
-          width={'auto'}
-          backgroundColor={'transparent'}
-          paddingRight={2}>
-          <XSmallText
-            lineHeight={20}
-            letterSpacing={-3}
-            color={LegacyColor.WHITE}>
-            {isPlaying
-              ? toMinuteSeconds(currTime ?? 0)
-              : toMinuteSeconds(durationTime ?? 0)}
-          </XSmallText>
-        </ContentContainer>
-      </ContentContainer>
-    </TouchableOpacity>
+    <VoicePlayButton
+      onPress={onPress}
+      playDurationText={
+        isPlaying
+          ? toMinuteSeconds(currTime ?? 0)
+          : toMinuteSeconds(durationTime ?? 0)
+      }></VoicePlayButton>
   );
 };

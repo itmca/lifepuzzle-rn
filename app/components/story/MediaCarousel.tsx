@@ -3,7 +3,7 @@ import {Dimensions, StyleProp, ViewStyle} from 'react-native';
 import {Photo} from '../styled/components/Image';
 import {VideoPlayer} from './StoryVideoPlayer';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 import Carousel from 'react-native-reanimated-carousel';
 import MediaCarouselPagination from './MediaCarouselPagination';
 
@@ -43,7 +43,10 @@ export const MediaCarousel = ({
     const index = item.index ?? -1;
 
     return (
-      <ContentContainer flex={1} backgroundColor={LegacyColor.BLACK}>
+      <ContentContainer
+        flex={1}
+        backgroundColor={Color.GREY_700}
+        borderRadius={6}>
         {type === 'VIDEO' && (
           <VideoPlayer
             videoUrl={mediaUrl}
@@ -75,8 +78,15 @@ export const MediaCarousel = ({
         style={{alignSelf: 'center'}}
         loop={false}
         width={carouselWidth}
-        height={300}
+        height={376}
         data={data}
+        mode="parallax"
+        windowSize={2}
+        modeConfig={{
+          parallaxScrollingScale: 0.91,
+          parallaxAdjacentItemScale: 0.91,
+          parallaxScrollingOffset: 25,
+        }}
         defaultIndex={activeMediaIndexNo}
         renderItem={renderItem}
         onProgressChange={(_: number, absoluteProgress: number) => {

@@ -1,10 +1,10 @@
 import {GestureResponderEvent} from 'react-native';
-import MediumText from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 import {StoryType} from '../../types/photo.type';
 import StoryDateInput from '../../pages/StoryWritingMain/StoryDateInput';
 import {AudioBtn} from '../story/AudioBtn';
+import {BodyTextM, Title} from '../styled/components/Text.tsx';
 
 type props = {
   story: StoryType | undefined;
@@ -15,29 +15,18 @@ export const StoryItemContents = ({story, onPress}: props): JSX.Element => {
   if (!story) return <></>;
   return (
     <ContentContainer gap={16}>
-      <ContentContainer useHorizontalLayout>
-        <StoryDateInput disabled value={story.date} />
-        {story.audios && story.audios.length > 0 && (
-          <AudioBtn audioUrl={story.audios[0]} />
-        )}
-      </ContentContainer>
-      <ContentContainer gap={6}>
-        {story.title && (
-          <MediumText color={LegacyColor.LIGHT_BLACK} bold>
-            {story.title}
-          </MediumText>
-        )}
+      <ContentContainer gap={12}>
+        {story.title && <Title>{story.title}</Title>}
         {story.content && (
           <ContentContainer flex={1}>
-            <MediumText
-              lineHeight={24}
-              color={LegacyColor.FONT_DARK}
-              ellipsizeMode="tail">
-              {story.content}
-            </MediumText>
+            <BodyTextM color={Color.GREY_500}>{story.content}</BodyTextM>
           </ContentContainer>
         )}
       </ContentContainer>
+      {story.audios && story.audios.length > 0 && (
+        <AudioBtn audioUrl={story.audios[0]} />
+      )}
+      <StoryDateInput disabled value={story.date} />
     </ContentContainer>
   );
 };

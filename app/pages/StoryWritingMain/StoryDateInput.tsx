@@ -1,10 +1,9 @@
-import {TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {XSmallText} from '../../components/styled/components/LegacyText.tsx';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {LegacyColor} from '../../constants/color.constant';
-import {XSmallImage} from '../../components/styled/components/Image';
+import {Color} from '../../constants/color.constant';
+import {Caption} from '../../components/styled/components/Text.tsx';
+import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
+import {ButtonBase} from '../../components/styled/components/Button.tsx';
 
 function StoryDateInput({...props}) {
   const [visible, setVisible] = useState(false);
@@ -47,32 +46,18 @@ function StoryDateInput({...props}) {
 
   return (
     <>
-      <TouchableOpacity
+      <ButtonBase
+        height={'24px'}
+        width={'auto'}
+        backgroundColor={Color.TRANSPARENT}
+        disabled={props.disabled}
         onPress={() => {
           void showPicker();
         }}
-        disabled={props.disabled}
-        style={{
-          backgroundColor: LegacyColor.SECONDARY_LIGHT,
-          paddingVertical: 4,
-          paddingHorizontal: 8,
-          borderRadius: 5,
-          width: 97,
-        }}>
-        <ContentContainer
-          gap={4}
-          alignItems={'center'}
-          useHorizontalLayout
-          withNoBackground>
-          <XSmallImage
-            tintColor={LegacyColor.PRIMARY_MEDIUM}
-            source={require('../../assets/images/calendar_month.png')}
-          />
-          <XSmallText color={LegacyColor.PRIMARY_MEDIUM}>
-            {formatDate(date)}
-          </XSmallText>
-        </ContentContainer>
-      </TouchableOpacity>
+        borderInside>
+        <SvgIcon name={'calendar'} size={24} />
+        <Caption color={Color.GREY_600}>{formatDate(date)}</Caption>
+      </ButtonBase>
       <DateTimePicker
         isVisible={visible}
         date={date}

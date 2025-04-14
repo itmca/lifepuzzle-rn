@@ -14,6 +14,7 @@ export const StoryWritingButton = ({onPress}: Props): JSX.Element => {
     <ButtonBase
       height={'44px'}
       width={'auto'}
+      style={{alignSelf: 'center'}}
       backgroundColor={Color.TRANSPARENT}
       borderColor={Color.MAIN_DARK}
       paddingVertical={10}
