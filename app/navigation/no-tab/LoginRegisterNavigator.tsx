@@ -4,7 +4,7 @@ import LoginMainPage from '../../pages/LoginMain/LoginMainPage';
 import LoginHeaderLeft from '../../components/header/LoginHeaderLeft';
 import LoginOthersPage from '../../pages/LoginOthers/LoginOthersPage';
 import RegisterPage from '../../pages/Register/RegisterPage';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 import {TopBar} from '../../components/styled/components/TopBar';
 
 export type LoginRegisterParamList = {
@@ -34,14 +34,11 @@ const LoginRegisterNavigator = (): JSX.Element => {
         component={LoginOthersPage}
         options={{
           headerLeft: () => (
-            <LoginHeaderLeft type={'sub'} iconColor={LegacyColor.LIGHT_GRAY} />
+            <LoginHeaderLeft type={'sub'} iconColor={Color.GREY_900} />
           ),
           headerShown: true,
           title: '',
           headerShadowVisible: false,
-          headerStyle: {
-            backgroundColor: LegacyColor.PRIMARY_LIGHT,
-          },
         }}
       />
       <Stack.Screen

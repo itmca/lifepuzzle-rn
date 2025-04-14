@@ -1,29 +1,22 @@
 import React from 'react';
-import {Image} from 'react-native';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
-import styles from './styles';
 import {useAxios} from '../../../service/hooks/network.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
-import {ImageButton, MediumButton} from '../../styled/components/Button';
 
-import {LegacyColor} from '../../../constants/color.constant';
-import MediumText from '../../styled/components/LegacyText.tsx';
+import {Color} from '../../../constants/color.constant';
 
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
+import {BasicButton} from '../BasicButton.tsx';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
-  type: 'button' | 'icon';
 };
 
-const AppleSocialLoginButton = ({
-  onChangeLoading,
-  type = 'button',
-}: Props): JSX.Element => {
+const AppleSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
   const shareKey = useRecoilValue(shareKeyState);
   const loginResponseHandler = useLoginResponseHandler();
 
@@ -64,36 +57,17 @@ const AppleSocialLoginButton = ({
       });
     }
   }
-  if (type === 'button') {
-    return (
-      <MediumButton
-        backgroundColor="#000000"
-        borderRadius={16}
-        onPress={() => onAppleButtonPress()}
-        justifyContent="flex-start"
-        padding="12px 9px">
-        <Image
-          source={require('../../../assets/images/apple-logo.png')}
-          style={styles.appleLogo}
-        />
-        <MediumText color={LegacyColor.WHITE} fontWeight={600}>
-          애플 아이디로 계속하기
-        </MediumText>
-      </MediumButton>
-    );
-  } else if (type === 'icon') {
-    return (
-      <ImageButton
-        onPress={() => onAppleButtonPress()}
-        marginBottom="0px"
-        width="auto">
-        <Image
-          source={require('../../../assets/images/login-apple-logo.png')}
-          style={styles.roundLoginButtonImage}
-        />
-      </ImageButton>
-    );
-  }
+
+  return (
+    <BasicButton
+      height={'44px'}
+      iconName={'appleLogo'}
+      backgroundColor={Color.BLACK}
+      textColor={Color.WHITE}
+      text={'Apple로 로그인'}
+      onPress={() => onAppleButtonPress()}
+    />
+  );
 };
 
 export default AppleSocialLoginButton;

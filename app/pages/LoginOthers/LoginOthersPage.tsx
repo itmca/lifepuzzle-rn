@@ -9,9 +9,9 @@ import {
   SmallText,
   XSmallText,
 } from '../../components/styled/components/LegacyText.tsx';
-import {Photo} from '../../components/styled/components/Image';
 import RegisterButton from '../../components/button/login/RegisterButton';
 import BasicTextInput from '../../components/input/NewTextInput.tsx';
+import LoginMainIcon from '../../assets/images/login_main_icon.svg';
 
 const LoginOthersPage = (): JSX.Element => {
   const [id, setId] = useState('');
@@ -27,12 +27,8 @@ const LoginOthersPage = (): JSX.Element => {
           justifyContent={'space-between'}
           flex={1}>
           <ContentContainer flex={1}>
-            <ContentContainer alignCenter paddingTop={20} flex={1}>
-              <Photo
-                width={150}
-                height={51}
-                source={require('../../assets/images/puzzle-characters.png')}
-              />
+            <ContentContainer alignCenter paddingTop={40} flex={1}>
+              <LoginMainIcon width={167} />
             </ContentContainer>
             <ContentContainer gap={24} flex={3}>
               <ContentContainer gap={12}>

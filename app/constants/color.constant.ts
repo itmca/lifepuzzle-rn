@@ -33,6 +33,8 @@ export const Color = {
   BLACK: '#111111',
   WHITE: '#FFFFFF',
 
+  // Others
+  YELLOW: '#FEE500',
   TRANSPARENT: 'transparent',
 } as const;
 

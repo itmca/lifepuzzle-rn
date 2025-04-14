@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import LoginMainText from '../../assets/images/login_main_text.svg';
+import LoginMainIcon from '../../assets/images/login_main_icon.svg';
 
 import {Platform} from 'react-native';
 import KaKaoSocialLoginButton from '../../components/button/login/KaKaoSocialLoginButton';
@@ -7,12 +9,8 @@ import OtherLoginButton from '../../components/button/login/OtherLoginButton';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {
-  XSmallText,
-  XXXLargeText,
-} from '../../components/styled/components/LegacyText.tsx';
-import {LegacyColor} from '../../constants/color.constant';
-import RegisterButton from '../../components/button/login/RegisterButton';
+import {BodyTextM} from '../../components/styled/components/Text.tsx';
+import {Color} from '../../constants/color.constant.ts';
 
 const LoginMainPage = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -20,45 +18,47 @@ const LoginMainPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={loading}>
       <ScreenContainer gap={0}>
-        <ContentContainer withScreenPadding justifyContent={'flex-end'}>
-          <ContentContainer paddingHorizontal={4} gap={0}>
-            <XXXLargeText fontWeight={700}>기록을 공유하고</XXXLargeText>
-            <XXXLargeText fontWeight={700}>
-              <XXXLargeText
-                fontWeight={700}
-                lineHeight={40}
-                color={LegacyColor.PRIMARY_LIGHT}>
-                함께 할 기억
-              </XXXLargeText>
-              을 더해가요
-            </XXXLargeText>
-          </ContentContainer>
-          <ContentContainer gap={8} alignCenter>
-            <KaKaoSocialLoginButton
-              type="button"
-              onChangeLoading={setLoading}
-            />
-            {Platform.OS === 'ios' && (
-              <AppleSocialLoginButton
-                type="button"
-                onChangeLoading={setLoading}
-              />
-            )}
-          </ContentContainer>
-        </ContentContainer>
-        <ContentContainer
-          withScreenPadding
-          paddingVertical={0}
-          gap={0}
-          flex={3}>
-          <OtherLoginButton />
-          <RegisterButton />
-        </ContentContainer>
         <ContentContainer
           withScreenPadding
           justifyContent={'flex-end'}
-          flex={1}>
-          <XSmallText color="#B0B0B0">문의: lord1229@gmail.com</XSmallText>
+          height={'100%'}
+          gap={0}>
+          {/* Top Part */}
+          <ContentContainer
+            paddingTop={40}
+            expandToEnd
+            gap={80}
+            justifyContent={'flex-start'}>
+            <ContentContainer>
+              <LoginMainText />
+            </ContentContainer>
+            <ContentContainer alignCenter>
+              <LoginMainIcon />
+            </ContentContainer>
+          </ContentContainer>
+          {/* Login Button & Contact Part */}
+          <ContentContainer
+            gap={40}
+            alignCenter
+            showOverflow
+            justifyContent={'flex-end'}>
+            <ContentContainer>
+              <ContentContainer gap={12} alignCenter>
+                <KaKaoSocialLoginButton onChangeLoading={setLoading} />
+                {Platform.OS === 'ios' && (
+                  <AppleSocialLoginButton onChangeLoading={setLoading} />
+                )}
+                <ContentContainer paddingTop={8}>
+                  <OtherLoginButton />
+                </ContentContainer>
+              </ContentContainer>
+            </ContentContainer>
+            <ContentContainer alignCenter>
+              <BodyTextM color={Color.GREY_400}>
+                문의: lord1229@gmail.com
+              </BodyTextM>
+            </ContentContainer>
+          </ContentContainer>
         </ContentContainer>
       </ScreenContainer>
     </LoadingContainer>

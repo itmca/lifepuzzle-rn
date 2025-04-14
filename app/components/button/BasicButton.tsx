@@ -1,31 +1,49 @@
 import React from 'react';
 
-import {Color} from '../../constants/color.constant';
+import {Color, ColorType} from '../../constants/color.constant';
 import {ButtonBase} from '../styled/components/Button.tsx';
 import {Title} from '../styled/components/Text.tsx';
 import {IconName, SvgIcon} from '../styled/components/SvgIcon.tsx';
+import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 
 type Props = {
-  onPress: () => void;
   disabled?: boolean;
   text?: string;
   iconName?: IconName;
+  iconSize?: number;
+  backgroundColor?: ColorType;
+  textColor?: ColorType;
+  height?: string;
+  onPress: () => void;
 };
 
 export const BasicButton = ({
-  onPress,
   disabled = false,
   text = '',
   iconName,
+  backgroundColor = Color.MAIN_DARK,
+  textColor = Color.WHITE,
+  height = '56px',
+  iconSize = 24,
+  onPress,
 }: Props): JSX.Element => {
   return (
     <ButtonBase
-      height={'56px'}
+      height={height}
       width={'100%'}
-      backgroundColor={disabled ? Color.GREY_200 : Color.MAIN_DARK}
+      backgroundColor={disabled ? Color.GREY_200 : backgroundColor}
       onPress={onPress}>
-      {iconName && <SvgIcon name={iconName} />}
-      <Title color={disabled ? Color.GREY_500 : Color.WHITE}>{text}</Title>
+      {iconName && (
+        <ContentContainer
+          absoluteLeftPosition
+          withNoBackground
+          paddingLeft={16}>
+          <SvgIcon name={iconName} size={iconSize} />
+        </ContentContainer>
+      )}
+      <ContentContainer expandToEnd withNoBackground alignCenter>
+        <Title color={disabled ? Color.GREY_500 : textColor}>{text}</Title>
+      </ContentContainer>
     </ButtonBase>
   );
 };

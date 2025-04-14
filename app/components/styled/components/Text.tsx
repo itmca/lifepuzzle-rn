@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 import {TextProps} from 'react-native';
 import {ColorType} from '../../../constants/color.constant.ts';
 
@@ -23,12 +23,13 @@ type TextBaseProps = Pick<
 
   alignCenter?: boolean;
   bold?: boolean;
+  underline?: boolean;
 };
 
 type CustomTextProps = Pick<
   TextProps,
   'ellipsizeMode' | 'numberOfLines' | 'children'
-> & {color?: ColorType};
+> & {color?: ColorType; underline?: boolean};
 
 const TextBase = styled.Text<TextBaseProps>`
   font-family: ${props => props.fontFamily};
@@ -36,6 +37,14 @@ const TextBase = styled.Text<TextBaseProps>`
   line-height: ${props => (props.fontSize * props.lineHeightPercent) / 100}px;
   letter-spacing: ${props => props.letterSpacing};
   color: ${props => (props.color ? props.color : 'black')};
+  ${props =>
+    props.underline
+      ? css`
+          border-bottom-width: 1px;
+          border-bottom-color: ${props.color ? props.color : 'black'};
+          padding-bottom: 1px;
+        `
+      : ''};
 `;
 
 export const Head = (props: CustomTextProps) => (

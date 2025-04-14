@@ -1,27 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Image} from 'react-native';
-import styles from './styles';
 import {KakaoOAuthToken, login} from '@react-native-seoul/kakao-login';
 import {useAxios} from '../../../service/hooks/network.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/hooks/login.hook';
-import {ImageButton, MediumButton} from '../../styled/components/Button';
-import {LegacyColor} from '../../../constants/color.constant';
-import MediumText from '../../styled/components/LegacyText.tsx';
+import {Color} from '../../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
+import {BasicButton} from '../BasicButton.tsx';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
-  type: 'button' | 'icon';
 };
 
-const KaKaoSocialLoginButton = ({
-  onChangeLoading,
-  type,
-}: Props): JSX.Element => {
+const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
   const shareKey = useRecoilValue(shareKeyState);
   const [kakaoAccessToken, setKakaoAccessToken] = useState('');
 
@@ -60,33 +53,17 @@ const KaKaoSocialLoginButton = ({
     });
   }, [kakaoAccessToken]);
 
-  if (type === 'button') {
-    return (
-      <MediumButton
-        onPress={signInWithKakao}
-        backgroundColor="#FFE812"
-        justifyContent="flex-start"
-        borderRadius={16}
-        padding="12px 9px">
-        <Image
-          source={require('../../../assets/images/kakao-logo.png')}
-          style={styles.socialLoginIcon}
-        />
-        <MediumText color={LegacyColor.LIGHT_BLACK} fontWeight={600}>
-          카카오톡으로 계속하기
-        </MediumText>
-      </MediumButton>
-    );
-  } else if (type === 'icon') {
-    return (
-      <ImageButton onPress={signInWithKakao} marginBottom="0px" width="auto">
-        <Image
-          source={require('../../../assets/images/login-kakao-logo.png')}
-          style={styles.roundLoginButtonImage}
-        />
-      </ImageButton>
-    );
-  }
+  return (
+    <BasicButton
+      height={'44px'}
+      iconName={'kakaoLogo'}
+      iconSize={18}
+      backgroundColor={Color.YELLOW}
+      textColor={Color.BLACK}
+      text={'카카오 로그인'}
+      onPress={signInWithKakao}
+    />
+  );
 };
 
 export default KaKaoSocialLoginButton;
