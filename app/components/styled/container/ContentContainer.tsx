@@ -7,8 +7,8 @@ import {LegacyColor} from '../../../constants/color.constant.ts';
 
 type ContentContainerProps = {
   // Size
-  width?: string;
-  height?: string;
+  width?: number | 'auto' | `${number}%`;
+  height?: number | 'auto' | `${number}%`;
   minHeight?: string;
   maxHeight?: string;
 

@@ -21,10 +21,10 @@ import {
   PhotoHeroType,
   TagType,
 } from '../../types/photo.type.ts';
-import {Color, LegacyColor} from '../../constants/color.constant.ts';
+import {Color} from '../../constants/color.constant.ts';
 import Tag from '../../components/styled/components/Tag.tsx';
-import GalleryCard from './GalleryCard.tsx';
 import {SmallTitle} from '../../components/styled/components/Title.tsx';
+import {BasicCard} from '../../components/card/Card.tsx';
 
 type props = {
   hero: PhotoHeroType;
@@ -75,7 +75,8 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
                 <Tag
                   key={index}
                   color={Color.MAIN_DARK}
-                  text={`${item.label} (${item.count ?? 0})`}></Tag>
+                  text={`${item.label} (${item.count ?? 0})`}
+                />
               );
             } else {
               return (
@@ -86,7 +87,8 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
                     carouselRef.current?.scrollTo({index});
                     setSelectedTag({...item});
                   }}
-                  text={`${item.label} (${item.count ?? 0})`}></Tag>
+                  text={`${item.label} (${item.count ?? 0})`}
+                />
               );
             }
           })}
@@ -106,8 +108,8 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
               : tags.findIndex(item => item.key === selectedTag.key)
           }
           modeConfig={{
-            parallaxScrollingScale: 0.9,
-            parallaxAdjacentItemScale: 0.7,
+            parallaxScrollingScale: 0.65,
+            parallaxAdjacentItemScale: 0.55,
             parallaxScrollingOffset: 125,
           }}
           loop={tags.length <= 2 ? false : true}
@@ -119,12 +121,24 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
           onProgressChange={(_: number, absoluteProgress: number) => {
             setIsScrolling(absoluteProgress % 1 !== 0);
           }}
-          renderItem={({item}: any) => {
+          renderItem={({item: tag}: any) => {
             return (
-              <GalleryCard
-                tag={item}
-                data={ageGroups[item.key as AgeType]?.gallery ?? []}
-                onClick={moveToStoryDetailPage}
+              <BasicCard
+                photoUrls={
+                  ageGroups[tag.key as AgeType]?.gallery.map(g => g.url) ?? []
+                }
+                fallbackBackgroundColor={Color.WHITE}
+                fallbackBorderColor={Color.GREY_100}
+                fallbackIconName={'pictureNone'}
+                fallbackText={'사진이 없습니다'}
+                height={windowWidth}
+                width={windowWidth}
+                onPress={() => {
+                  const index = ageGroups[tag.key as AgeType]?.gallery[0].index;
+                  if (index) {
+                    moveToStoryDetailPage(index);
+                  }
+                }}
               />
             );
           }}
