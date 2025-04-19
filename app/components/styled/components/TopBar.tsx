@@ -5,10 +5,10 @@ import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {ContentContainer} from '../container/ContentContainer';
 import {TopNavigationContainer} from '../container/TopNavigationContainer';
 import {SvgIcon} from './SvgIcon.tsx';
-Title;
 import {Title} from './Text.tsx';
 import {useRecoilValue} from 'recoil';
 import {isLoggedInState} from '../../../recoils/auth.recoil.ts';
+
 type Props = {
   logo?: boolean;
   onBack?: Function;

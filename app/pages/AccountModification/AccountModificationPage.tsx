@@ -12,27 +12,24 @@ import {useUpdatePublisher} from '../../service/hooks/update.hooks';
 import {useLogout} from '../../service/hooks/logout.hook';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {authState} from '../../recoils/auth.recoil';
-import ValidatedTextInput from '../../components/input/ValidatedTextInput';
-import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/RootNavigator';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {
-  ContentContainer,
-  ScrollContentContainer,
-} from '../../components/styled/container/ContentContainer';
-import {LegacyColor} from '../../constants/color.constant';
+import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {Color, LegacyColor} from '../../constants/color.constant';
 import {MediumText} from '../../components/styled/components/LegacyText.tsx';
-
-import {Divider} from '../../components/styled/components/Divider';
-import {XSmallTitle} from '../../components/styled/components/Title';
 import {Pressable, TouchableOpacity} from 'react-native';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {UserType} from '../../types/user.type';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
-import CtaButton from '../../components/button/CtaButton';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
 import {useCommonActionSheet} from '../../components/styled/components/ActionSheet.tsx';
+import {
+  BodyTextM,
+  Head,
+  Title,
+} from '../../components/styled/components/Text.tsx';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
+import {BasicButton} from '../../components/button/BasicButton.tsx';
 
 type AccountQueryResponse = {
   userNo: number;
@@ -206,88 +203,37 @@ const AccountModificationPage = ({
     <LoadingContainer
       isLoading={queryLoading || updateLoading || withdrawLoading}>
       <ScreenContainer>
-        <ScrollContentContainer height={'100%'}>
-          <ContentContainer gap={0}>
-            <ContentContainer paddingVertical={32} alignCenter>
-              <TouchableOpacity
-                onPress={currentUserPhotoUri ? showActionSheet : openAlbum}>
-                <AccountAvatar
-                  nickName={nickName}
-                  imageURL={currentUserPhotoUri}
-                  size={120}
-                />
-              </TouchableOpacity>
-            </ContentContainer>
-            <ContentContainer gap={16} paddingHorizontal={20}>
-              {user?.userType === 'general' && (
-                <ContentContainer gap={6}>
-                  <XSmallTitle
-                    left={5}
-                    fontWeight={600}
-                    color={LegacyColor.LIGHT_BLACK}>
-                    아이디
-                  </XSmallTitle>
-                  <LegacyBasicTextInput label="" text={id} disabled={true} />
-                </ContentContainer>
-              )}
-              <ContentContainer gap={6}>
-                <XSmallTitle
-                  left={5}
-                  fontWeight={600}
-                  color={LegacyColor.LIGHT_BLACK}>
-                  닉네임
-                </XSmallTitle>
-                <ValidatedTextInput
-                  label=""
-                  value={nickName}
-                  onChangeText={setNickName}
-                  placeholder=""
-                  validations={[
-                    {
-                      condition: nickName => !!nickName,
-                      errorText: '닉네임을 입력해주세요.',
-                    },
-                    {
-                      condition: nickName => nickName.length <= 8,
-                      errorText: '8자 이하로 입력해주세요.',
-                    },
-                  ]}
-                  onIsErrorChanged={setNickNameError}
-                />
-              </ContentContainer>
-            </ContentContainer>
+        <ContentContainer gap={8} alignCenter expandToEnd>
+          <AccountAvatar
+            nickName={nickName}
+            imageURL={currentUserPhotoUri}
+            size={100}
+          />
+          <ContentContainer gap={0} alignCenter>
+            <Head>{nickName}</Head>
+            {user?.userType === 'general' && (
+              <Title color={Color.GREY_500}>{id}</Title>
+            )}
           </ContentContainer>
-          <ContentContainer withScreenPadding>
-            <ContentContainer>
-              {user?.userType === 'general' && (
-                <CtaButton
-                  outlined
-                  text="비밀번호 변경"
-                  onPress={() => {
-                    navigation.push('NoTab', {
-                      screen: 'AccountSettingNavigator',
-                      params: {
-                        screen: 'AccountPasswordModification',
-                      },
-                    });
-                  }}
-                />
-              )}
-              <CtaButton
-                filled
-                text="로그아웃"
+        </ContentContainer>
+        <ContentContainer withScreenPadding paddingBottom={65}>
+          <BasicButton text={'프로필 수정'} onPress={() => {}} />
+          <ContentContainer>
+            {user?.userType === 'general' && (
+              <BasicButton
+                text="비밀번호 변경"
                 onPress={() => {
-                  logout();
+                  navigation.push('NoTab', {
+                    screen: 'AccountSettingNavigator',
+                    params: {
+                      screen: 'AccountPasswordModification',
+                    },
+                  });
                 }}
               />
-            </ContentContainer>
-            <ContentContainer paddingVertical={0}>
-              <Divider />
-            </ContentContainer>
-            <ContentContainer>
-              <CtaButton
-                outlined
-                text="회원탈퇴"
+            )}
+            <ContentContainer alignCenter>
+              <TouchableOpacity
                 onPress={() => {
                   CustomAlert.actionAlert({
                     title: '회원탈퇴',
@@ -301,11 +247,14 @@ const AccountModificationPage = ({
                       });
                     },
                   });
-                }}
-              />
+                }}>
+                <BodyTextM color={Color.GREY_800} underline>
+                  회원 탈퇴
+                </BodyTextM>
+              </TouchableOpacity>
             </ContentContainer>
           </ContentContainer>
-        </ScrollContentContainer>
+        </ContentContainer>
       </ScreenContainer>
     </LoadingContainer>
   );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import AccountPasswordModificationPage from '../../pages/AccountPasswordModification/AccountPasswordModificationPage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Title, {SmallTitle} from '../../components/styled/components/Title';
+import Title from '../../components/styled/components/Title';
 import AccountSelectingPhotoPage from '../../pages/AccountSelectingPhoto/AccountSelectingPhotoPage';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
@@ -13,6 +13,7 @@ import {
 } from '../../recoils/user.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountModification/AccountModificationPage';
+import {TopBar} from '../../components/styled/components/TopBar.tsx';
 
 export type AccountSettingParamList = {
   AccountModification: undefined;
@@ -42,16 +43,8 @@ const AccountSettingNavigator = (): JSX.Element => {
         name="AccountModification"
         component={AccountModificationPage}
         options={{
-          headerLeft: () => (
-            <GoBackHeaderLeft
-              iconType={'chevron-left'}
-              customAction={() => {
-                resetWritingUser();
-              }}
-            />
-          ),
-          headerTitle: () => <SmallTitle>계정 정보 수정</SmallTitle>,
-          headerRight: () => <></>,
+          // TODO(jung.jooon): 시은님 PR(#207) 머지 완료 후 right에 로그아웃 버튼 추가
+          header: () => <TopBar title={'회원 정보'} />,
           headerBackVisible: false,
         }}
       />
