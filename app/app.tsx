@@ -16,7 +16,7 @@ import {MutableSnapshot, RecoilRoot} from 'recoil';
 import {LocalStorage} from './service/local-storage.service';
 import {authState} from './recoils/auth.recoil';
 import {NavigationContainer} from '@react-navigation/native';
-import {hideSplash, showSplash} from 'react-native-splash-view';
+import {hideSplash} from 'react-native-splash-view';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
