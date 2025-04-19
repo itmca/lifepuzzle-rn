@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
-import {styles} from './styles';
-import ValidatedTextInput from '../../components/input/ValidatedTextInput';
 import {useAxios} from '../../service/hooks/network.hook';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {PolicyAgreeSwitch} from './PolicyAgreeSwitch';
@@ -13,14 +11,16 @@ import {
 import {debounce} from 'lodash';
 import {BasicNavigationProps} from '../../navigation/types';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {XSmallTitle} from '../../components/styled/components/Title';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
-import {BottomButton} from '../../components/button/BottomButton';
 import {shareKeyState} from '../../recoils/share.recoil.ts';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
+import BasicTextInput from '../../components/input/NewTextInput.tsx';
+import {BasicButton} from '../../components/button/BasicButton.tsx';
+import {Color} from '../../constants/color.constant.ts';
+import {Divider} from '../../components/styled/components/Divider.tsx';
 
 const RegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -73,8 +73,9 @@ const RegisterPage = (): JSX.Element => {
         },
       );
     },
-    onError: () => {
-      // TODO: 예외 처리
+    onError: err => {
+      console.log(err);
+      Alert.alert('회원가입에 실패했습니다.');
     },
     disableInitialRequest: true,
   });
@@ -85,7 +86,14 @@ const RegisterPage = (): JSX.Element => {
       method: 'get',
     },
     onResponseSuccess: ({isDuplicated}) => {
+      if (isDuplicated) {
+        Alert.alert('이미 존재하는 아이디입니다.');
+      }
       setIdDuplicated(isDuplicated);
+    },
+    onError: err => {
+      console.log(err);
+      Alert.alert('아이디 중복 확인에 실패했습니다.');
     },
     disableInitialRequest: true,
   });
@@ -133,30 +141,13 @@ const RegisterPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={registerLoading}>
       <ScreenContainer>
-        <ScrollContentContainer withScreenPadding gap={0}>
+        <ScrollContentContainer withScreenPadding>
           <ContentContainer>
-            <XSmallTitle style={styles.title}>닉네임</XSmallTitle>
-            <ValidatedTextInput
-              label=""
-              value={nickname}
-              onChangeText={setNickname}
-              placeholder="공백 시 랜덤으로 설정"
-              validations={[
-                {
-                  condition: nickname => nickname.length <= 8,
-                  errorText: '닉네임은 8자 이하로 입력해주세요.',
-                },
-              ]}
-              onIsErrorChanged={setNickNameError}
-            />
-          </ContentContainer>
-          <ContentContainer>
-            <XSmallTitle style={styles.title}>아이디</XSmallTitle>
-            <ValidatedTextInput
-              label=""
-              value={id}
+            <BasicTextInput
+              label={'아이디'}
+              text={id}
               onChangeText={setId}
-              placeholder={''}
+              placeholder={'아이디를 입력해주세요'}
               validations={[
                 {
                   condition: id => id.length > 0,
@@ -167,25 +158,22 @@ const RegisterPage = (): JSX.Element => {
                   errorText: '3자 이상 31자 미만으로 입력해주세요.',
                 },
                 {
-                  condition: id => !idDuplicated,
+                  condition: () => !idDuplicated,
                   errorText: '이미 존재하는 아이디입니다',
                 },
               ]}
               onIsErrorChanged={setIdError}
             />
-          </ContentContainer>
-          <ContentContainer>
-            <XSmallTitle style={styles.title}>비밀번호</XSmallTitle>
-            <ValidatedTextInput
-              secureTextEntry={true}
-              label=""
-              value={password}
+            <BasicTextInput
+              label={'비밀번호'}
+              text={password}
               onChangeText={setPassword}
               placeholder="8~16자 영문+숫자+특수문자"
+              secureTextEntry
               validations={[
                 {
                   condition: password => password.length > 0,
-                  errorText: '*8글자, 영문+숫자+특수문자',
+                  errorText: '8글자, 영문+숫자+특수문자를 입력해주세요.',
                 },
                 {
                   condition: password => PASSWORD_REGEXP.test(password),
@@ -194,15 +182,12 @@ const RegisterPage = (): JSX.Element => {
               ]}
               onIsErrorChanged={setPasswordError}
             />
-          </ContentContainer>
-          <ContentContainer>
-            <XSmallTitle style={styles.title}>비밀번호 확인</XSmallTitle>
-            <ValidatedTextInput
-              secureTextEntry={true}
-              label=""
-              value={passwordConfirm}
+            <BasicTextInput
+              label={'비밀번호 확인'}
+              text={passwordConfirm}
               onChangeText={setPasswordConfirm}
               placeholder="8~16자 영문+숫자+특수문자"
+              secureTextEntry
               validations={[
                 {
                   condition: passwordConfirm => password === passwordConfirm,
@@ -211,32 +196,48 @@ const RegisterPage = (): JSX.Element => {
               ]}
               onIsErrorChanged={setPasswordConfirmError}
             />
+            <BasicTextInput
+              label={'닉네임(선택)'}
+              text={nickname}
+              onChangeText={setNickname}
+              placeholder="미입력 시 랜덤으로 설정"
+              validations={[
+                {
+                  condition: nickname => !nickname || nickname.length <= 8,
+                  errorText: '닉네임은 8자 이하로 입력해주세요.',
+                },
+              ]}
+              onIsErrorChanged={setNickNameError}
+            />
           </ContentContainer>
-          <PolicyAgreeSwitch
-            type={'service'}
-            checked={isServicePolicyChecked}
-            onCheckedChange={setServicePolicyChecked}
-            style={{marginTop: 20}}
-          />
-          <PolicyAgreeSwitch
-            type={'privacy'}
-            checked={isPrivacyPolicyChecked}
-            onCheckedChange={setPrivacyPolicyChecked}
-            style={{marginTop: 15}}
-          />
+          <Divider color={Color.GREY} marginVertical={4} />
+          <ContentContainer gap={4}>
+            <PolicyAgreeSwitch
+              type={'service'}
+              checked={isServicePolicyChecked}
+              onCheckedChange={setServicePolicyChecked}
+            />
+            <PolicyAgreeSwitch
+              type={'privacy'}
+              checked={isPrivacyPolicyChecked}
+              onCheckedChange={setPrivacyPolicyChecked}
+            />
+          </ContentContainer>
+          <ContentContainer paddingTop={8}>
+            <BasicButton
+              onPress={onSubmit}
+              disabled={
+                idError ||
+                nickNameError ||
+                passwordError ||
+                passwordConfirmError ||
+                !isServicePolicyChecked ||
+                !isPrivacyPolicyChecked
+              }
+              text="회원가입"
+            />
+          </ContentContainer>
         </ScrollContentContainer>
-        <BottomButton
-          onPress={onSubmit}
-          disabled={
-            idError ||
-            nickNameError ||
-            passwordError ||
-            passwordConfirmError ||
-            !isServicePolicyChecked ||
-            !isPrivacyPolicyChecked
-          }
-          title="회원가입"
-        />
       </ScreenContainer>
     </LoadingContainer>
   );

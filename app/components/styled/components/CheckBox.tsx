@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {SvgIcon} from './SvgIcon.tsx';
 import {BodyTextM} from './Text.tsx';
 
@@ -16,12 +15,16 @@ export const CheckBox = ({
   onChange,
   disableBuiltInState = false,
 }: Props) => {
-  const navigation = useNavigation();
   const [_checked, setChecked] = useState<boolean>(checked ?? false);
   const onPress = () => {
-    if (onChange) onChange(_checked);
+    const newChecked = !_checked;
+
+    if (onChange) {
+      onChange(newChecked);
+    }
+
     if (!disableBuiltInState) {
-      setChecked(!_checked);
+      setChecked(newChecked);
     }
   };
   useEffect(() => {
@@ -36,9 +39,9 @@ export const CheckBox = ({
       }}
       onPress={onPress}>
       {_checked ? (
-        <SvgIcon name="checkRoundOn"></SvgIcon>
+        <SvgIcon name="checkRoundOn" />
       ) : (
-        <SvgIcon name="checkRoundOff"></SvgIcon>
+        <SvgIcon name="checkRoundOff" />
       )}
       {typeof label === 'string' ? <BodyTextM>{label}</BodyTextM> : label}
     </TouchableOpacity>

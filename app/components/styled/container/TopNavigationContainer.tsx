@@ -7,7 +7,5 @@ export const TopNavigationContainer = styled.SafeAreaView`
   flex-direction: row;
   align-items: center;
   min-height: 50px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${LegacyColor.GRAY};
   background-color: ${LegacyColor.WHITE};
 `;

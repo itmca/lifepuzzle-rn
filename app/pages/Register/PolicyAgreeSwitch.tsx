@@ -56,7 +56,8 @@ export const PolicyAgreeSwitch = ({
         }
         checked={checked}
         onChange={onPress}
-        disableBuiltInState></CheckBox>
+        disableBuiltInState
+      />
     </TouchableOpacity>
   );
 };
