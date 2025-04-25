@@ -2,7 +2,8 @@ name: PR Stale Notifier
 
 on:
   schedule:
-    - cron: '15 0 * * *'  # ✅ 매일 UTC 00:00 = KST 오전 9시
+    - cron: '0 0 * * *'  # ✅ 매일 UTC 00:00 = KST 오전 9시
+  workflow_dispatch:
 
 jobs:
   stale:
@@ -23,11 +24,11 @@ jobs:
 
       # 2. Slack 알림 보내기 (stale 처리된 경우에만)
       - name: Notify Slack
-        if: steps.stale.outputs.stale-prs != ''
+        if: steps.stale.outputs.staled-issues-prs != ''
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' \
           --data '{
-            "text": ":warning: *다음 PR이 3일간 비활성 상태입니다!*\n${{ steps.stale.outputs.stale-prs }}"
+            "text": ":warning: *다음 PR이 2일간 비활성 상태입니다!*\n${{ steps.stale.outputs.stale-prs }}"
           }' $SLACK_WEBHOOK_URL
