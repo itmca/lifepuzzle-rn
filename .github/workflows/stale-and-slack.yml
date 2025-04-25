@@ -24,7 +24,7 @@ jobs:
 
       # 2. Slack 알림 보내기 (stale 처리된 경우에만)
       - name: Notify Slack
-        if: steps.stale.outputs.staled-issues-prs != ''
+        if: steps.stale.outputs.staled-issues-prs != '[]'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
