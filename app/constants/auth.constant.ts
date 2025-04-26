@@ -8,13 +8,13 @@ const HeroAuthTypes = [
   {
     code: 'ADMIN',
     name: '관리자',
-    description: '글 작성자 + 계정 초대 및 계정 권한 변경',
+    description: '권한 관리 가능',
     priority: 1,
   },
   {
     code: 'WRITER',
     name: '글 작성자',
-    description: '댓글 작성자 + 새로운 글 작성',
+    description: '새로운 게시물 및 댓글 작성 가능',
     priority: 2,
   },
   // 2024.09에는 댓글 기능이 없어 COMMENTER는 사용되지 않음
@@ -26,7 +26,7 @@ const HeroAuthTypes = [
   {
     code: 'VIEWER',
     name: '뷰어',
-    description: '작성된 글 열람',
+    description: '콘텐츠 조회만 가능, 작성 및 수정 불가',
     priority: 3,
   },
 ] as const;

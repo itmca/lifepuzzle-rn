@@ -43,9 +43,9 @@ export const Radio = ({
       }}
       onPress={onPress}>
       {_selected ? (
-        <SvgIcon name="radioOn"></SvgIcon>
+        <SvgIcon name="radioOn" size={16}></SvgIcon>
       ) : (
-        <SvgIcon name="radioOff"></SvgIcon>
+        <SvgIcon name="radioOff" size={16}></SvgIcon>
       )}
       <ContentContainer
         useHorizontalLayout

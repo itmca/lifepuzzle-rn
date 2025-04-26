@@ -23,7 +23,8 @@ import {
 } from '../../types/photo.type.ts';
 import {Color} from '../../constants/color.constant.ts';
 import Tag from '../../components/styled/components/Tag.tsx';
-import {SmallTitle} from '../../components/styled/components/Title.tsx';
+import {Title} from '../../components/styled/components/Text.tsx';
+import {NotificationBar} from '../../components/styled/components/NotificationBar.tsx';
 import {BasicCard} from '../../components/card/Card.tsx';
 
 type props = {
@@ -32,7 +33,7 @@ type props = {
   tags: TagType[];
 };
 
-const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
+const Gallery = ({ageGroups, tags}: props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const carouselRef = useRef<ICarouselInstance>(null);
   const {width: windowWidth} = useWindowDimensions();
@@ -54,6 +55,10 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
     }
   };
   const scrollRef = useRef<ScrollView>(null);
+  const hasGallery =
+    ageGroups &&
+    Object.values(ageGroups).reduce((sum, item) => sum + item.galleryCount, 0) >
+      0;
   useEffect(() => {
     const index = tags.findIndex(item => item.key === selectedTag.key);
     if (index < tags.length / 3) {
@@ -63,12 +68,16 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
     }
   }, [selectedTag]);
   return (
-    <ContentContainer flex={1} gap={0}>
-      <ContentContainer paddingHorizontal={20} gap={8}>
-        <SmallTitle>
-          나이대별 {hero?.nickname}의 사진/동영상을 추가해보세요
-        </SmallTitle>
-        <ScrollContentContainer useHorizontalLayout gap={6} ref={scrollRef}>
+    <ContentContainer flex={1}>
+      <ContentContainer paddingHorizontal={20}>
+        <NotificationBar text="나이대별 주인공의 사진/동영상을 추가해보세요"></NotificationBar>
+      </ContentContainer>
+      <ContentContainer paddingLeft={20}>
+        <ScrollContentContainer
+          useHorizontalLayout
+          gap={6}
+          ref={scrollRef}
+          paddingRight={20}>
           {tags.map((item: TagType, index) => {
             if (selectedTag && selectedTag.key === item.key) {
               return (
@@ -96,8 +105,14 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
       </ContentContainer>
       <ContentContainer
         flex={1}
+        gap={0}
         alignItems={'center'}
-        justifyContent={'center'}>
+        justifyContent={'flex-start'}>
+        {hasGallery && (
+          <ContentContainer paddingLeft={27}>
+            <Title>{selectedTag.label}</Title>
+          </ContentContainer>
+        )}
         <Carousel
           ref={carouselRef}
           data={tags}
@@ -108,13 +123,13 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
               : tags.findIndex(item => item.key === selectedTag.key)
           }
           modeConfig={{
-            parallaxScrollingScale: 0.65,
-            parallaxAdjacentItemScale: 0.55,
-            parallaxScrollingOffset: 125,
+            parallaxScrollingScale: 0.88,
+            parallaxScrollingOffset: 70,
+            parallaxAdjacentItemScale: 0.75,
           }}
           loop={tags.length <= 2 ? false : true}
           width={windowWidth}
-          height={windowWidth}
+          height={'100%'}
           onSnapToItem={index => {
             setSelectedTag({...tags[index]});
           }}
@@ -123,23 +138,29 @@ const Gallery = ({hero, ageGroups, tags}: props): JSX.Element => {
           }}
           renderItem={({item: tag}: any) => {
             return (
-              <BasicCard
-                photoUrls={
-                  ageGroups[tag.key as AgeType]?.gallery.map(g => g.url) ?? []
-                }
-                fallbackBackgroundColor={Color.WHITE}
-                fallbackBorderColor={Color.GREY_100}
-                fallbackIconName={'pictureNone'}
-                fallbackText={'사진이 없습니다'}
-                height={windowWidth}
-                width={windowWidth}
-                onPress={() => {
-                  const index = ageGroups[tag.key as AgeType]?.gallery[0].index;
-                  if (index) {
-                    moveToStoryDetailPage(index);
+              <ContentContainer
+                style={{
+                  transform: [{translateY: -20}],
+                }}>
+                <BasicCard
+                  photoUrls={
+                    ageGroups[tag.key as AgeType]?.gallery.map(g => g.url) ?? []
                   }
-                }}
-              />
+                  fallbackBackgroundColor={Color.WHITE}
+                  fallbackBorderColor={Color.GREY_100}
+                  fallbackIconName={'pictureNone'}
+                  fallbackText={'사진이 없습니다'}
+                  height={'100%'}
+                  width={windowWidth}
+                  onPress={() => {
+                    const index =
+                      ageGroups[tag.key as AgeType]?.gallery[0].index;
+                    if (index) {
+                      moveToStoryDetailPage(index);
+                    }
+                  }}
+                />
+              </ContentContainer>
             );
           }}
         />

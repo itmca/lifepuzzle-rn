@@ -20,20 +20,17 @@ import {
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 import HeroOverview from './HeroOverview.tsx';
 import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
-import {
-  DUMMY_AGE_GROUPS,
-  DUMMY_TAGS,
-} from '../../constants/dummy-age-group.constant.ts';
-import {
-  ageGroupsState,
-  selectedTagState,
-  tagState,
-} from '../../recoils/photos.recoil.ts';
-import {AgeGroupsType, PhotoHeroType, TagType} from '../../types/photo.type.ts';
+import {ageGroupsState, tagState} from '../../recoils/photos.recoil.ts';
+import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
 import {useLoginAlert} from '../../service/hooks/login.hook.ts';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
-import {useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
+import {ShareButton} from '../../components/button/ShareButton.tsx';
+import {Keyboard} from 'react-native';
+import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
+import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 const HomePage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -45,17 +42,19 @@ const HomePage = (): JSX.Element => {
   const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
   const loginAlert = useLoginAlert();
 
-  const selectedTag = useRecoilValue<TagType>(selectedTagState);
   const {photoHero, isLoading, refetch} = useHeroPhotos();
-  const [ageGroups, setAgeGroups] =
-    useRecoilState<AgeGroupsType>(ageGroupsState);
-  const [tags, setTags] = useRecoilState<TagType[]>(tagState);
-
+  const [ageGroups] = useRecoilState<AgeGroupsType>(ageGroupsState);
+  const [tags] = useRecoilState<TagType[]>(tagState);
+  //bottom sheet
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const handlePresentModalPress = useCallback(() => {
+    Keyboard.dismiss();
+    setOpenModal(true);
+  }, []);
   useFocusAction(() => {
     if (!refetch) {
       return;
     }
-
     refetch({
       params: {
         heroNo: hero.heroNo,
@@ -65,41 +64,59 @@ const HomePage = (): JSX.Element => {
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <ScreenContainer gap={0}>
-        <ContentContainer withScreenPadding>
-          <HeroOverview hero={photoHero} />
-        </ContentContainer>
-        <ContentContainer flex={1}>
-          <Gallery hero={photoHero} ageGroups={ageGroups} tags={tags} />
-        </ContentContainer>
-        {hero.auth !== 'VIEWER' && (
-          <ContentContainer withScreenPadding backgroundColor="transparent">
-            <WritingButton
-              tagLabel={selectedTag?.label ?? ''}
-              onPress={() => {
-                if (!isLoggedIn) {
-                  loginAlert({
-                    title:
-                      '로그인 후 사랑하는 사람의 사진/동영상을 업로드해보세요',
-                  });
-                  return;
-                }
-
-                setSelectedStoryKey('');
-                setPostStoryKey('');
-                resetWritingStory();
-
-                navigation.push('NoTab', {
-                  screen: 'StoryWritingNavigator',
-                  params: {
-                    screen: 'StoryGallerySelector',
-                  },
-                });
-              }}
-            />
+      <BottomSheetModalProvider>
+        <ScreenContainer gap={0}>
+          <ContentContainer withScreenPadding useHorizontalLayout>
+            <HeroOverview hero={photoHero} />
+            {hero.auth === 'OWNER' && (
+              <ContentContainer width={'auto'}>
+                <ShareButton onPress={handlePresentModalPress}></ShareButton>
+              </ContentContainer>
+            )}
           </ContentContainer>
-        )}
-      </ScreenContainer>
+          <ContentContainer flex={1}>
+            <Gallery hero={photoHero} ageGroups={ageGroups} tags={tags} />
+          </ContentContainer>
+          {hero.auth !== 'VIEWER' && (
+            <ContentContainer
+              paddingHorizontal={20}
+              paddingBottom={37}
+              backgroundColor="transparent">
+              <WritingButton
+                onPress={() => {
+                  if (!isLoggedIn) {
+                    loginAlert({
+                      title:
+                        '로그인 후 사랑하는 사람의 사진/동영상을 업로드해보세요',
+                    });
+                    return;
+                  }
+
+                  setSelectedStoryKey('');
+                  setPostStoryKey('');
+                  resetWritingStory();
+
+                  navigation.push('NoTab', {
+                    screen: 'StoryWritingNavigator',
+                    params: {
+                      screen: 'StoryGallerySelector',
+                    },
+                  });
+                }}
+              />
+            </ContentContainer>
+          )}
+        </ScreenContainer>
+        <BottomSheet
+          opened={openModal}
+          title={'공유하기'}
+          snapPoints={useMemo(() => ['44%'], [])}
+          onClose={() => {
+            setOpenModal(false);
+          }}>
+          <ShareAuthList />
+        </BottomSheet>
+      </BottomSheetModalProvider>
     </LoadingContainer>
   );
 };

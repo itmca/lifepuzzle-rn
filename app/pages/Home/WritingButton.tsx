@@ -1,58 +1,31 @@
 import React from 'react';
 
-import {Platform, StyleSheet, TouchableOpacity} from 'react-native';
-import {useRecoilValue} from 'recoil';
-import {isLoggedInState} from '../../recoils/auth.recoil';
-import {LegacyColor} from '../../constants/color.constant';
-import {XLargeText} from '../../components/styled/components/LegacyText.tsx';
+import {Color} from '../../constants/color.constant';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import {ButtonBase} from '../../components/styled/components/Button.tsx';
+import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
+import {Title} from '../../components/styled/components/Text.tsx';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 
 type Props = {
-  tagLabel: string;
   onPress: () => void;
 };
-
-const styles = StyleSheet.create({
-  writingButton: {
-    width: '100%',
-    height: 64,
-    borderRadius: 16,
-    backgroundColor: LegacyColor.PRIMARY_LIGHT,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 1,
-      },
-    }),
-  },
-});
-
-export const WritingButton = ({onPress, tagLabel}: Props): JSX.Element => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-
+export const WritingButton = ({onPress}: Props): JSX.Element => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.writingButton}>
+    <ButtonBase
+      height={'56px'}
+      width={'100%'}
+      backgroundColor={Color.MAIN_DARK}
+      borderRadius={6}
+      onPress={onPress}>
       <ContentContainer
+        gap={8}
         useHorizontalLayout
         backgroundColor="transparent"
-        alignCenter
-        gap={8}>
-        <Icon size={30} color={LegacyColor.WHITE} name={'camera'} />
-        <XLargeText color={LegacyColor.WHITE} fontWeight={700}>
-          {`${tagLabel} 사진/동영상 추가하기`}
-        </XLargeText>
+        alignCenter>
+        <SvgIcon name={'camera'} size={24} />
+        <Title color={Color.WHITE}>사진/동영상 추가하기</Title>
       </ContentContainer>
-    </TouchableOpacity>
+    </ButtonBase>
   );
 };

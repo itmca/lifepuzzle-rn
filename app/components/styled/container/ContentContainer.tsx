@@ -162,8 +162,6 @@ type ScrollContentContainerProps = ContentContainerProps &
       | undefined;
     children?: ReactNode;
   };
-r;
-
 export const ScrollContentContainer = forwardRef(
   (props: ScrollContentContainerProps, ref: React.LegacyRef<ScrollView>) => (
     <ScrollView
