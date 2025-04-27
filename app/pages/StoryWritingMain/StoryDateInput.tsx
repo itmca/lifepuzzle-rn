@@ -4,11 +4,11 @@ import {Color} from '../../constants/color.constant';
 import {Caption} from '../../components/styled/components/Text.tsx';
 import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
 import {ButtonBase} from '../../components/styled/components/Button.tsx';
-
+const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
 function StoryDateInput({...props}) {
   const [visible, setVisible] = useState(false);
-  const [date, onChangeDate] = useState<Date>(
-    props.value ? new Date(props.value) : new Date(),
+  const [date, onChangeDate] = useState<Date | undefined>(
+    props.value ? new Date(props.value) : undefined,
   );
   const showPicker = () => {
     setVisible(true);
@@ -20,8 +20,9 @@ function StoryDateInput({...props}) {
         date.getMonth() + 1 < 10
           ? '0' + (date.getMonth() + 1)
           : date.getMonth() + 1;
-      const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      return `${year}.${month}.${day}`;
+      const dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+      const day = daysKor[date.getDay()];
+      return `${year}.${month}.${dd} (${day})`;
     }
   };
   const onConfirm = (selectedValue: Date) => {
@@ -56,7 +57,11 @@ function StoryDateInput({...props}) {
         }}
         borderInside>
         <SvgIcon name={'calendar'} size={24} />
-        <Caption color={Color.GREY_600}>{formatDate(date)}</Caption>
+        {date ? (
+          <Caption color={Color.GREY_600}>{formatDate(date)}</Caption>
+        ) : (
+          <Caption color={Color.GREY_400}>날짜를 선택해 주세요</Caption>
+        )}
       </ButtonBase>
       <DateTimePicker
         isVisible={visible}

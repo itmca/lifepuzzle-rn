@@ -4,14 +4,13 @@ import WritingHeaderLeft from '../../components/header/WritingHeaderLeft';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoicePage';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
-import Title, {SmallTitle} from '../../components/styled/components/Title';
+import Title from '../../components/styled/components/Title';
 import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
-import {LegacyColor} from '../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import {PostStoryKeyState} from '../../recoils/story-write.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
 import {useUploadGallery} from '../../service/hooks/gallery.write.hook.ts';
+import {TopBar} from '../../components/styled/components/TopBar.tsx';
 
 // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {
@@ -27,7 +26,6 @@ const StoryWritingNavigator = (): JSX.Element => {
   const [saveStory] = useSaveStory();
   const [uploadGallery] = useUploadGallery();
   const selectedStoryKey = useRecoilValue(SelectedStoryKeyState);
-  const postStoryKey = useRecoilValue(PostStoryKeyState);
 
   return (
     <Stack.Navigator
@@ -36,38 +34,36 @@ const StoryWritingNavigator = (): JSX.Element => {
         name="StoryWritingMain"
         component={StoryWritingMainPage}
         options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => (
-            <SmallTitle color={LegacyColor.LIGHT_BLACK}>
-              {selectedStoryKey ? '글수정' : postStoryKey ? '글작성' : '글작성'}
-            </SmallTitle>
-          ),
-          headerRight: () => (
-            <WritingHeaderRight
-              text={selectedStoryKey ? '수정' : postStoryKey ? '등록' : '등록'}
-              customAction={() => {
-                saveStory();
-              }}
+          header: () => (
+            <TopBar
+              title={selectedStoryKey ? '수정하기' : '작성하기'}
+              right={
+                <WritingHeaderRight
+                  text={selectedStoryKey ? '완료' : '등록'}
+                  customAction={saveStory}
+                />
+              }
             />
           ),
-          headerBackVisible: false,
         }}
       />
       <Stack.Screen
         name="StoryGallerySelector"
         component={StorySelectingGallery}
         options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>사진/비디오</Title>,
-          headerRight: () => (
-            <WritingHeaderRight
-              text={'업로드'}
-              customAction={() => {
-                uploadGallery();
-              }}
+          header: () => (
+            <TopBar
+              title={'사진/비디오'}
+              right={
+                <WritingHeaderRight
+                  text={'업로드'}
+                  customAction={() => {
+                    uploadGallery();
+                  }}
+                />
+              }
             />
           ),
-          headerBackVisible: false,
         }}
       />
       <Stack.Screen

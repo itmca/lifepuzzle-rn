@@ -31,7 +31,10 @@ import {
   getGallery,
   selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
-import {OpenDetailBottomSheet} from '../../recoils/story-view.recoil.ts';
+import {
+  OpenDetailBottomSheet,
+  SelectedStoryKeyState,
+} from '../../recoils/story-view.recoil.ts';
 import {Title} from '../../components/styled/components/Text.tsx';
 import {StoryWritingButton} from '../../components/button/StoryWritingButton.tsx';
 
@@ -50,6 +53,8 @@ const StoryDetailPage = (): JSX.Element => {
   });
 
   const setWritingStory = useSetRecoilState(writingStoryState);
+
+  const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
   const isFocused = useIsFocused();
 
   //bottom sheet
@@ -61,6 +66,7 @@ const StoryDetailPage = (): JSX.Element => {
 
   const onClickWrite = () => {
     const currentGalleryItem = gallery[galleryIndex];
+    resetSelectedStory();
     setWritingStory({
       gallery: [
         {

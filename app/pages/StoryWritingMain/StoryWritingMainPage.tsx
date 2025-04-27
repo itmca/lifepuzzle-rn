@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
+  Dimensions,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -7,7 +8,6 @@ import {
 } from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
-import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
 import StoryDateInput from './StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
@@ -15,17 +15,25 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
-import {StoryWritingMenu} from '../../components/story/StoryWritingMenu';
-import {ScrollView} from 'react-native-gesture-handler';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 import {MediumImage} from '../../components/styled/components/Image.tsx';
-import {ageGroupsState} from '../../recoils/photos.recoil.ts';
+import {ageGroupsState, tagState} from '../../recoils/photos.recoil.ts';
+import SelectDropdown from 'react-native-select-dropdown';
+import {GalleryItem} from '../../types/writing-story.type.ts';
+import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
+import {Title} from '../../components/styled/components/Text.tsx';
+import {PlainTextInput} from '../../components/input/NewTextInput.tsx';
+import {VoiceAddButton} from '../../components/button/VoiceAddButton.tsx';
+import TextAreaInput from '../../components/input/TextAreaInput.tsx';
+import {ScrollView} from 'react-native-gesture-handler';
+import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 
 const StoryWritingMainPage = (): JSX.Element => {
+  const carouselRef = useRef<ICarouselInstance>(null);
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const isKeyboardVisible = useKeyboardVisible();
   const isStoryUploading = useIsStoryUploading();
   const ageGroups = useRecoilValue(ageGroupsState);
+  const tags = useRecoilValue(tagState);
 
   if (!writingStory.gallery || writingStory.gallery.length === 0) {
     return <></>;
@@ -41,93 +49,150 @@ const StoryWritingMainPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={isStoryUploading}>
       <BottomSheetModalProvider>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ContentContainer>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-              style={{
-                borderTopWidth: 1,
-                borderTopColor: LegacyColor.LIGHT_GRAY,
-                backgroundColor: 'transparent',
-                width: '100%',
-                height: '100%',
-              }}>
-              <ContentContainer height={'100%'} gap={0}>
-                <ContentContainer
-                  flex={1}
-                  maxHeight={'40%'}
-                  backgroundColor={LegacyColor.BLACK}>
-                  <MediumImage
-                    style={{
-                      width: '100%',
-                      height: '100%',
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={{
+            backgroundColor: 'transparent',
+            flex: 1,
+          }}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ContentContainer height={'100%'} paddingBottom={15}>
+              <ScrollView
+                contentContainerStyle={{
+                  flexGrow: 1,
+                  paddingTop: 15,
+                }}
+                keyboardShouldPersistTaps={'handled'}>
+                <ContentContainer paddingHorizontal={20}>
+                  <SelectDropdown
+                    data={tags}
+                    onSelect={(selectedItem, index) => {
+                      const gallery: GalleryItem[] =
+                        writingStory.gallery?.map(i => ({
+                          ...i,
+                          tagKey: selectedItem.key,
+                        })) ?? [];
+                      setWritingStory({gallery});
                     }}
-                    source={{uri: galleryItem.uri}}
-                    resizeMode={'contain'}
+                    renderButton={(selectedItem, isOpened) => {
+                      return (
+                        <ContentContainer
+                          gap={8}
+                          style={{
+                            height: 24,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            alignSelf: 'flex-start',
+                          }}>
+                          <Title
+                            color={
+                              selectedItem && selectedItem.label
+                                ? Color.GREY_700
+                                : Color.GREY_400
+                            }>
+                            {(selectedItem && selectedItem.label) || '나이대'}
+                          </Title>
+                          <SvgIcon
+                            name={isOpened ? 'chevronUp' : 'chevronDown'}
+                          />
+                        </ContentContainer>
+                      );
+                    }}
+                    dropdownStyle={{
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: 2,
+                      width: 70,
+                    }}
+                    dropdownOverlayColor={'transparent'}
+                    renderItem={(item, index, isSelected) => {
+                      return (
+                        <ContentContainer withContentPadding gap={8}>
+                          <Title color={Color.GREY_700}>{item.label}</Title>
+                        </ContentContainer>
+                      );
+                    }}
+                    showsVerticalScrollIndicator={false}
                   />
                 </ContentContainer>
-                <ContentContainer expandToEnd withScreenPadding>
-                  <ContentContainer>
-                    <StoryDateInput
-                      startDate={ageGroupStartDate}
-                      endDate={ageGroupEndDate}
-                      value={writingStory.date || ageGroupEndDate}
-                      onChange={(date: Date) => {
-                        setWritingStory({date});
-                      }}
-                    />
-                  </ContentContainer>
-                  <ContentContainer>
-                    <LegacyBasicTextInput
-                      customStyle={{
-                        paddingHorizontal: 0,
-                        height: 40,
-                        lineHeight: 20,
-                      }}
-                      outlineStyle={{borderWidth: 0}}
-                      placeholder="제목을 입력해주세요"
-                      text={writingStory.title ?? ''}
+
+                <Carousel
+                  ref={carouselRef}
+                  data={[galleryItem]}
+                  mode={'parallax'}
+                  loop={false}
+                  defaultIndex={0}
+                  modeConfig={{
+                    parallaxScrollingScale: 0.91,
+                    parallaxAdjacentItemScale: 0.91,
+                    parallaxScrollingOffset: 25,
+                  }}
+                  width={Dimensions.get('window').width}
+                  height={Dimensions.get('window').height * 0.52}
+                  renderItem={({item: data}: any) => {
+                    return (
+                      <ContentContainer
+                        borderRadius={6}
+                        alignCenter
+                        backgroundColor={Color.GREY_700}>
+                        <MediumImage
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                          }}
+                          source={{uri: data.uri}}
+                          resizeMode={'contain'}
+                        />
+                      </ContentContainer>
+                    );
+                  }}
+                />
+
+                <ContentContainer flex={1} paddingHorizontal={20}>
+                  <PlainTextInput
+                    text={writingStory.title ?? ''}
+                    onChangeText={text => {
+                      setWritingStory({title: text});
+                    }}
+                    placeholder={'제목을 입력해주세요'}
+                    validations={[
+                      {
+                        condition: (text: string) => !!text,
+                        errorText: '제목을 입력해주세요',
+                      },
+                    ]}
+                  />
+                  <ContentContainer
+                    flex={1}
+                    minHeight={100}
+                    backgroundColor={Color.GREY}>
+                    <TextAreaInput
+                      text={writingStory.content ?? ''}
                       onChangeText={text => {
-                        setWritingStory({title: text});
+                        setWritingStory({content: text});
                       }}
-                      mode={'outlined'}
-                      underlineColor={'transparent'}
-                      activeUnderlineColor={'transparent'}
-                      borderColor={'transparent'}
-                      backgroundColor={'transparent'}
-                      focusedBackgroundColor={'transparent'}
+                      placeholder={'내용을 입력해주세요'}
+                      validations={[
+                        {
+                          condition: (text: string) => !!text,
+                          errorText: '내용을 입력해주세요',
+                        },
+                      ]}
                     />
                   </ContentContainer>
-                  <ScrollView
-                    style={{flex: 1}}
-                    contentContainerStyle={{flexGrow: 1}}
-                    keyboardShouldPersistTaps={'always'}>
-                    <ContentContainer expandToEnd>
-                      <LegacyBasicTextInput
-                        noPadding
-                        customStyle={{
-                          flex: 1,
-                        }}
-                        outlineStyle={{borderWidth: 0}}
-                        placeholder="사진과 관련된 이야기를 기록해보세요"
-                        text={writingStory.content ?? ''}
-                        onChangeText={text => {
-                          setWritingStory({content: text});
-                        }}
-                        multiline={true}
-                        mode={'outlined'}
-                        borderColor={'transparent'}
-                        backgroundColor={'transparent'}
-                        focusedBackgroundColor={'transparent'}
-                      />
-                    </ContentContainer>
-                  </ScrollView>
+                  <VoiceAddButton onPress={() => {}}></VoiceAddButton>
+                  <StoryDateInput
+                    startDate={ageGroupStartDate}
+                    endDate={ageGroupEndDate}
+                    value={''}
+                    onChange={(date: Date) => {
+                      setWritingStory({date});
+                    }}
+                  />
                 </ContentContainer>
-                <StoryWritingMenu keyboardVisible={isKeyboardVisible} />
-              </ContentContainer>
-            </KeyboardAvoidingView>
-          </ContentContainer>
-        </TouchableWithoutFeedback>
+              </ScrollView>
+            </ContentContainer>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </BottomSheetModalProvider>
     </LoadingContainer>
   );
