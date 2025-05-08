@@ -18,7 +18,7 @@ import {playInfoState} from '../../recoils/story-write.recoil';
 type Props = {
   audioUrl?: string;
   onStartRecord?: () => void;
-  onStopRecord?: () => void;
+  onStopRecord?: (uri: string) => void;
 };
 
 type Response = {
@@ -89,7 +89,7 @@ export const useVoiceRecorder = ({
 
     setIsRecording(false);
     setPlayInfo({isPlay: false});
-    onStopRecord?.();
+    onStopRecord?.(file);
   };
   const startPlay = async () => {
     setPlayInfo({isPlay: true});

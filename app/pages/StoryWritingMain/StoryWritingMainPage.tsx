@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Dimensions,
   Keyboard,
@@ -7,7 +7,10 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {writingStoryState} from '../../recoils/story-write.recoil';
+import {
+  playInfoState,
+  writingStoryState,
+} from '../../recoils/story-write.recoil';
 import StoryDateInput from './StoryDateInput';
 import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
@@ -27,6 +30,8 @@ import {VoiceAddButton} from '../../components/button/VoiceAddButton.tsx';
 import TextAreaInput from '../../components/input/TextAreaInput.tsx';
 import {ScrollView} from 'react-native-gesture-handler';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
+import {VoiceBottomSheet} from '../../components/story/VoiceBottomSheet.tsx';
+import {AudioBtn} from '../../components/story/AudioBtn.tsx';
 
 const StoryWritingMainPage = (): JSX.Element => {
   const carouselRef = useRef<ICarouselInstance>(null);
@@ -34,7 +39,9 @@ const StoryWritingMainPage = (): JSX.Element => {
   const isStoryUploading = useIsStoryUploading();
   const ageGroups = useRecoilValue(ageGroupsState);
   const tags = useRecoilValue(tagState);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
+  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
   if (!writingStory.gallery || writingStory.gallery.length === 0) {
     return <></>;
   }
@@ -179,7 +186,19 @@ const StoryWritingMainPage = (): JSX.Element => {
                       ]}
                     />
                   </ContentContainer>
-                  <VoiceAddButton onPress={() => {}}></VoiceAddButton>
+                  {writingStory.voice ? (
+                    <AudioBtn
+                      audioUrl={writingStory.voice}
+                      onPlay={() => {
+                        setOpenModal(true);
+                      }}
+                    />
+                  ) : (
+                    <VoiceAddButton
+                      onPress={() => {
+                        setOpenModal(true);
+                      }}></VoiceAddButton>
+                  )}
                   <StoryDateInput
                     startDate={ageGroupStartDate}
                     endDate={ageGroupEndDate}
@@ -193,6 +212,12 @@ const StoryWritingMainPage = (): JSX.Element => {
             </ContentContainer>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
+        <VoiceBottomSheet
+          opened={openModal}
+          editable
+          onClose={() => {
+            setOpenModal(false);
+          }}></VoiceBottomSheet>
       </BottomSheetModalProvider>
     </LoadingContainer>
   );

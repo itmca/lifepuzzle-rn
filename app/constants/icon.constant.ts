@@ -57,6 +57,13 @@ import Kebab from '../assets/icons/kebab.svg';
 import AppleLogo from '../assets/icons/apple_logo.svg';
 import KakaoLogo from '../assets/icons/kakao_logo.svg';
 
+import PlayRound from '../assets/icons/play_round.svg';
+import PauseRound from '../assets/icons/pause_round.svg';
+
+import StopRound from '../assets/icons/stop_round.svg';
+import RecordRound from '../assets/icons/record_round.svg';
+import CheckRound from '../assets/icons/check_round.svg';
+import DeleteRound from '../assets/icons/delete_round.svg';
 export const Svgs = {
   logo: Logo,
   book: Book,
@@ -110,4 +117,11 @@ export const Svgs = {
 
   appleLogo: AppleLogo,
   kakaoLogo: KakaoLogo,
+
+  recordRound: RecordRound,
+  pauseRound: PauseRound,
+  playRound: PlayRound,
+  stopRound: StopRound,
+  checkRound: CheckRound,
+  deleteRound: DeleteRound,
 } as const;
