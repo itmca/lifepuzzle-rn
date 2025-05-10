@@ -21,6 +21,7 @@ import ChevronUp from '../assets/icons/chevron_up.svg';
 
 import CloseSmall from '../assets/icons/close_20.svg';
 import Close from '../assets/icons/close.svg';
+import CloseWhite from '../assets/icons/close_white.svg';
 
 import CloseFilled from '../assets/icons/close_filled.svg';
 import Error from '../assets/icons/error.svg';
@@ -86,6 +87,7 @@ export const Svgs = {
 
   closeSmall: CloseSmall,
   close: Close,
+  closeWhite: CloseWhite,
   closeFilled: CloseFilled,
   error: Error,
 

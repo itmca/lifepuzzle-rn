@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Dimensions, StyleProp, ViewStyle} from 'react-native';
+import {Dimensions, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 import {Photo} from '../styled/components/Image';
 import {VideoPlayer} from './StoryVideoPlayer';
 import {ContentContainer} from '../styled/container/ContentContainer';
@@ -15,6 +15,7 @@ type Props = {
   carouselWidth: number;
   isFocused?: boolean;
   onScroll?: (index: number) => void;
+  onPress?: (image: string) => void;
 };
 
 type MediaItem = {
@@ -31,6 +32,7 @@ export const MediaCarousel = ({
   carouselMaxHeight = Dimensions.get('window').height * 0.55,
   isFocused,
   onScroll,
+  onPress,
 }: Props): JSX.Element => {
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(
     activeIndex ?? 0,
@@ -56,12 +58,17 @@ export const MediaCarousel = ({
           />
         )}
         {type === 'IMAGE' && (
-          <Photo
-            resizeMode={'contain'}
-            source={{
-              uri: mediaUrl,
-            }}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              onPress && onPress(mediaUrl);
+            }}>
+            <Photo
+              resizeMode={'contain'}
+              source={{
+                uri: mediaUrl,
+              }}
+            />
+          </TouchableOpacity>
         )}
         <MediaCarouselPagination
           visible={isPaginationShown}

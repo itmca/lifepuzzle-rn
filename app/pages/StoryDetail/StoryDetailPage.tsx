@@ -37,6 +37,7 @@ import {
 } from '../../recoils/story-view.recoil.ts';
 import {Title} from '../../components/styled/components/Text.tsx';
 import {StoryWritingButton} from '../../components/button/StoryWritingButton.tsx';
+import PinchZoomModal from '../../components/styled/components/PinchZoomModal.tsx';
 
 const StoryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -45,6 +46,8 @@ const StoryDetailPage = (): JSX.Element => {
   );
   const gallery = useRecoilValue(getGallery);
   const [isStory, setIsStory] = useState<boolean>(gallery[galleryIndex].story);
+  const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
+  const [pinchZoomImage, setPinchZoomImage] = useState<string>();
 
   const resetWritingStory = useResetRecoilState(writingStoryState);
   useFocusEffect(() => {
@@ -84,6 +87,10 @@ const StoryDetailPage = (): JSX.Element => {
       },
     });
   };
+  const openPinchZoomModal = (img: string) => {
+    setPinchZoomImage(img);
+    setPinchZoomModalOpen(true);
+  };
   return (
     <LoadingContainer isLoading={false}>
       <BottomSheetModalProvider>
@@ -114,6 +121,7 @@ const StoryDetailPage = (): JSX.Element => {
                     setOpenModal(false);
                   }
                 }}
+                onPress={openPinchZoomModal}
               />
             </ContentContainer>
             <ContentContainer paddingHorizontal={20} flex={1} expandToEnd>
@@ -133,6 +141,7 @@ const StoryDetailPage = (): JSX.Element => {
             </ContentContainer>
           </ScrollContentContainer>
         </ScreenContainer>
+
         <BottomSheet
           opened={openModal}
           snapPoints={snapPoints}
@@ -144,6 +153,11 @@ const StoryDetailPage = (): JSX.Element => {
             gallery={gallery[galleryIndex]}
           />
         </BottomSheet>
+        <PinchZoomModal
+          opened={pinchZoomModalOpen}
+          imageUri={pinchZoomImage}
+          onClose={() => setPinchZoomModalOpen(false)}
+        />
       </BottomSheetModalProvider>
     </LoadingContainer>
   );
