@@ -14,6 +14,10 @@ import {
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountModification/AccountModificationPage';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
+import {TouchableOpacity} from 'react-native';
+import {BodyTextM} from '../../components/styled/components/Text.tsx';
+import {Color} from '../../constants/color.constant.ts';
+import {useLogout} from '../../service/hooks/logout.hook.ts';
 
 export type AccountSettingParamList = {
   AccountModification: undefined;
@@ -31,6 +35,8 @@ const AccountSettingNavigator = (): JSX.Element => {
   const seletedUserPhoto: PhotoIdentifier | undefined = useRecoilValue(
     selectedUserPhotoState,
   );
+  const logout = useLogout();
+
   return (
     <Stack.Navigator
       initialRouteName="AccountModification"
@@ -43,8 +49,16 @@ const AccountSettingNavigator = (): JSX.Element => {
         name="AccountModification"
         component={AccountModificationPage}
         options={{
-          // TODO(jung.jooon): 시은님 PR(#207) 머지 완료 후 right에 로그아웃 버튼 추가
-          header: () => <TopBar title={'회원 정보'} />,
+          header: () => (
+            <TopBar
+              title={'회원 정보'}
+              right={
+                <TouchableOpacity onPress={() => logout()}>
+                  <BodyTextM color={Color.GREY_400}>로그아웃</BodyTextM>
+                </TouchableOpacity>
+              }
+            />
+          ),
           headerBackVisible: false,
         }}
       />

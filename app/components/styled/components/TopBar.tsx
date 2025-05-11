@@ -24,7 +24,7 @@ export const TopBar = ({title = '', right, onBack}: Props): JSX.Element => {
         useHorizontalLayout
         paddingVertical={13}
         paddingHorizontal={13}
-        height="50">
+        height={50}>
         <Pressable
           onPress={() => {
             onBack && onBack();
