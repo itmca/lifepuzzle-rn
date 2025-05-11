@@ -54,7 +54,7 @@ const BasicTextInput = ({
       <ContentContainer
         useHorizontalLayout
         paddingHorizontal={16}
-        paddingVertical={18}
+        height={48}
         withBorder
         borderColor={
           isError ? Color.ERROR_300 : focused ? Color.GREY_600 : Color.GREY_200
