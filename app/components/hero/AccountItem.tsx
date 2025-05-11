@@ -23,7 +23,7 @@ export const AccountItem = ({
     <ContentContainer height={'50px'} useHorizontalLayout>
       <ContentContainer width={'58px'}>
         <AccountAvatar
-          nickName={user.nickName}
+          nickname={user.nickName}
           size={48}
           imageURL={user.imageURL}
         />

@@ -40,7 +40,7 @@ const ProfilePage = (): JSX.Element | null => {
         withScreenPadding
         paddingVertical={32}>
         <AccountAvatar
-          nickName={user.userNickName}
+          nickname={user.userNickName}
           imageURL={user.imageURL}
           size={80}
         />

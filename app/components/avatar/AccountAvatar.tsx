@@ -1,36 +1,68 @@
 import React from 'react';
 import {Avatar} from 'react-native-paper';
 import {StyleProp} from 'react-native';
-import {LegacyColor} from '../../constants/color.constant.ts';
+import {Color, LegacyColor} from '../../constants/color.constant.ts';
+import {ContentContainer} from '../styled/container/ContentContainer.tsx';
+import {SvgIcon} from '../styled/components/SvgIcon.tsx';
 
 type Props = {
   imageURL: string | undefined;
   size: number;
   style?: StyleProp<any> | undefined;
-  nickName: string;
+  nickname: string;
+  editable?: boolean;
 };
 
 export const AccountAvatar = ({
-  nickName,
+  nickname,
   imageURL,
   size,
   style,
+  editable = false,
 }: Props): JSX.Element => {
   if (!imageURL) {
     return (
-      <Avatar.Text
-        style={{backgroundColor: LegacyColor.LIGHT_GRAY, ...style}}
-        size={size}
-        label={nickName[0]}
-      />
+      <ContentContainer width={'auto'} alignCenter>
+        <Avatar.Text
+          style={{backgroundColor: Color.GREY, ...style}}
+          size={size}
+          label={nickname[0]}
+        />
+        {editable && (
+          <ContentContainer
+            width={'auto'}
+            absoluteBottomPosition
+            absoluteRightPosition
+            paddingBottom={2}
+            paddingRight={2}
+            withNoBackground
+            alignCenter>
+            <SvgIcon name="cameraCircleSmall" size={24} />
+          </ContentContainer>
+        )}
+      </ContentContainer>
     );
   }
 
   return (
-    <Avatar.Image
-      style={{backgroundColor: LegacyColor.LIGHT_GRAY, ...style}}
-      size={size}
-      source={{uri: imageURL}}
-    />
+    <ContentContainer width={'auto'} alignCenter>
+      <Avatar.Image
+        style={{backgroundColor: Color.GREY, ...style}}
+        size={size}
+        source={{uri: imageURL}}
+      />
+      {editable && (
+        <ContentContainer
+          width={'auto'}
+          absoluteBottomPosition
+          absoluteRightPosition
+          paddingBottom={2}
+          paddingRight={2}
+          withNoBackground
+          alignCenter>
+          <SvgIcon name="cameraCircleSmall" size={24} />
+        </ContentContainer>
+      )}
+    </ContentContainer>
   );
 };

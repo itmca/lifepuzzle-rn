@@ -65,7 +65,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
           <ContentContainer height={'62px'} useHorizontalLayout gap={8}>
             <ContentContainer width={'60px'}>
               <AccountAvatar
-                nickName={user.nickName}
+                nickname={user.nickName}
                 size={48}
                 imageURL={user.imageURL}
               />

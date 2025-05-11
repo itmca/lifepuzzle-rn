@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {
   getCurrentUserPhotoUri,
@@ -30,6 +30,14 @@ import {
 } from '../../components/styled/components/Text.tsx';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
 import {BasicButton} from '../../components/button/BasicButton.tsx';
+import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
+import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
+import {IconButton} from 'react-native-paper';
+import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
+import BasicTextInput from '../../components/input/NewTextInput.tsx';
+import {showToast} from '../../components/styled/components/Toast.tsx';
 
 type AccountQueryResponse = {
   userNo: number;
@@ -46,10 +54,13 @@ const AccountModificationPage = ({
   const user = useRecoilValue(userState);
   const tokens = useRecoilValue(authState);
   const currentUserPhotoUri = useRecoilValue(getCurrentUserPhotoUri);
+
+  const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
-  const [nickName, setNickName] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [newNickname, setNewNickname] = useState<string>('');
   const [modifyingUser, setModifyingUser] = useRecoilState(writingUserState);
-  const [nicknameError, setNickNameError] = useState<boolean>(false);
+  const [newNicknameError, setNewNicknameError] = useState<boolean>(false);
   const resetWritingUser = useResetRecoilState(writingUserState);
   const publishUserUpdate = useUpdatePublisher(currentUserUpdate);
 
@@ -61,7 +72,8 @@ const AccountModificationPage = ({
     onResponseSuccess: responseUser => {
       setModifyingUser({...responseUser, isProfileImageUpdate: false});
       setId(responseUser.userId);
-      setNickName(responseUser.userNickName);
+      setNickname(responseUser.userNickName);
+      setNewNickname(responseUser.userNickName);
     },
     disableInitialRequest: false,
   });
@@ -73,9 +85,9 @@ const AccountModificationPage = ({
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {
-      CustomAlert.simpleAlert('회원 정보가 수정되었습니다.');
+      showToast('성공적으로 저장되었습니다.');
       publishUserUpdate();
-      navigation.goBack();
+      setProfileModalOpen(false);
     },
     onError: () => {
       CustomAlert.retryAlert(
@@ -113,7 +125,7 @@ const AccountModificationPage = ({
     const savedUser: UserType = {
       ...modifyingUser,
       userNo: user.userNo,
-      userNickName: nickName,
+      userNickName: newNickname,
       imageURL: imgPath,
     };
 
@@ -143,11 +155,11 @@ const AccountModificationPage = ({
   };
 
   const onSubmit = () => {
-    if (nicknameError && !nickName) {
+    if (newNicknameError && !nickname) {
       CustomAlert.simpleAlert('닉네임을 입력해 주세요.');
       return;
     }
-    if (nicknameError && nickName.length > 8) {
+    if (newNicknameError && nickname.length > 8) {
       CustomAlert.simpleAlert('닉네임은 8자 이하로 입력해주세요.');
       return;
     }
@@ -171,6 +183,7 @@ const AccountModificationPage = ({
       },
     });
   };
+
   const {showActionSheet} = useCommonActionSheet({
     options: [
       {label: '앨범에서 선택', value: 'gallery', onSelect: () => openAlbum()},
@@ -205,19 +218,22 @@ const AccountModificationPage = ({
       <ScreenContainer>
         <ContentContainer gap={8} alignCenter expandToEnd>
           <AccountAvatar
-            nickName={nickName}
-            imageURL={currentUserPhotoUri}
+            nickname={nickname}
+            imageURL={user.imageURL}
             size={100}
           />
           <ContentContainer gap={0} alignCenter>
-            <Head>{nickName}</Head>
+            <Head>{nickname}</Head>
             {user?.userType === 'general' && (
               <Title color={Color.GREY_500}>{id}</Title>
             )}
           </ContentContainer>
         </ContentContainer>
         <ContentContainer withScreenPadding paddingBottom={65}>
-          <BasicButton text={'프로필 수정'} onPress={() => {}} />
+          <BasicButton
+            text={'프로필 수정'}
+            onPress={() => setProfileModalOpen(true)}
+          />
           <ContentContainer>
             {user?.userType === 'general' && (
               <BasicButton
@@ -255,6 +271,53 @@ const AccountModificationPage = ({
             </ContentContainer>
           </ContentContainer>
         </ContentContainer>
+        <BottomSheetModalProvider>
+          <BottomSheet
+            opened={profileModalOpen}
+            title={'프로필 수정'}
+            snapPoints={useMemo(() => ['55%'], [])}
+            onClose={() => {
+              setProfileModalOpen(false);
+              setNewNickname(nickname);
+              setModifyingUser({...modifyingUser, modifiedImage: undefined});
+            }}>
+            <TouchableOpacity onPress={() => showActionSheet()}>
+              <ContentContainer alignCenter paddingVertical={16}>
+                <AccountAvatar
+                  nickname={nickname}
+                  size={100}
+                  imageURL={currentUserPhotoUri}
+                  editable
+                />
+                <BasicTextInput
+                  label={'닉네임'}
+                  text={newNickname}
+                  onChangeText={setNewNickname}
+                  placeholder="변경하실 닉네임을 입력해 주세요"
+                  validations={[
+                    {
+                      condition: text => text.length > 0,
+                      errorText: '아이디를 입력해주세요.',
+                    },
+                    {
+                      condition: text => !text || text.length <= 8,
+                      errorText: '닉네임은 8자 이하로 입력해주세요.',
+                    },
+                  ]}
+                  onIsErrorChanged={setNewNicknameError}
+                />
+                <BasicButton
+                  onPress={onSubmit}
+                  disabled={
+                    (nickname === newNickname || newNicknameError) &&
+                    !modifyingUser?.isProfileImageUpdate
+                  }
+                  text="저장하기"
+                />
+              </ContentContainer>
+            </TouchableOpacity>
+          </BottomSheet>
+        </BottomSheetModalProvider>
       </ScreenContainer>
     </LoadingContainer>
   );

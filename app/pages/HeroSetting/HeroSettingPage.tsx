@@ -201,7 +201,7 @@ const HeroSettingPage = (): JSX.Element => {
                     paddingBottom={8}
                     gap={4}>
                     <AccountAvatar
-                      nickName={user.nickName || ''}
+                      nickname={user.nickName || ''}
                       imageURL={user.imageURL}
                       size={40}
                     />
