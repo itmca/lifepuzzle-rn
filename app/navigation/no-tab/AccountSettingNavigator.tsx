@@ -1,6 +1,5 @@
 import * as React from 'react';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
-import AccountPasswordModificationPage from '../../pages/AccountPasswordModification/AccountPasswordModificationPage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Title from '../../components/styled/components/Title';
 import AccountSelectingPhotoPage from '../../pages/AccountSelectingPhoto/AccountSelectingPhotoPage';
@@ -30,7 +29,6 @@ const Stack = createNativeStackNavigator<AccountSettingParamList>();
 const AccountSettingNavigator = (): JSX.Element => {
   const navigation = useNavigation();
   const resetSelectedUserPhoto = useResetRecoilState(selectedUserPhotoState);
-  const resetWritingUser = useResetRecoilState(writingUserState);
   const [modifyingUser, setModifyingUser] = useRecoilState(writingUserState);
   const seletedUserPhoto: PhotoIdentifier | undefined = useRecoilValue(
     selectedUserPhotoState,
@@ -43,7 +41,6 @@ const AccountSettingNavigator = (): JSX.Element => {
       screenOptions={{
         headerShadowVisible: false,
         headerTitleAlign: 'center',
-        headerBackTitleVisible: false,
       }}>
       <Stack.Screen
         name="AccountModification"
@@ -59,22 +56,6 @@ const AccountSettingNavigator = (): JSX.Element => {
               }
             />
           ),
-          headerBackVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="AccountPasswordModification"
-        component={AccountPasswordModificationPage}
-        options={{
-          headerLeft: () => (
-            <GoBackHeaderLeft
-              iconType={'chevron-left'}
-              customAction={() => {
-                resetWritingUser();
-              }}
-            />
-          ),
-          headerTitle: () => <Title>비밀번호 수정</Title>,
           headerBackVisible: false,
         }}
       />

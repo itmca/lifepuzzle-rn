@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar} from 'react-native-paper';
-import {StyleProp} from 'react-native';
+import {StyleProp, TouchableOpacity} from 'react-native';
 import {Color, LegacyColor} from '../../constants/color.constant.ts';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 import {SvgIcon} from '../styled/components/SvgIcon.tsx';
@@ -11,6 +11,7 @@ type Props = {
   style?: StyleProp<any> | undefined;
   nickname: string;
   editable?: boolean;
+  onEditPress?: () => void;
 };
 
 export const AccountAvatar = ({
@@ -19,27 +20,36 @@ export const AccountAvatar = ({
   size,
   style,
   editable = false,
+  onEditPress,
 }: Props): JSX.Element => {
   if (!imageURL) {
     return (
       <ContentContainer width={'auto'} alignCenter>
-        <Avatar.Text
-          style={{backgroundColor: Color.GREY, ...style}}
-          size={size}
-          label={nickname[0]}
-        />
-        {editable && (
-          <ContentContainer
-            width={'auto'}
-            absoluteBottomPosition
-            absoluteRightPosition
-            paddingBottom={2}
-            paddingRight={2}
-            withNoBackground
-            alignCenter>
-            <SvgIcon name="cameraCircleSmall" size={24} />
-          </ContentContainer>
-        )}
+        <TouchableOpacity
+          disabled={!editable}
+          onPress={() => {
+            if (editable) {
+              onEditPress?.();
+            }
+          }}>
+          <Avatar.Text
+            style={{backgroundColor: Color.GREY, ...style}}
+            size={size}
+            label={nickname[0]}
+          />
+          {editable && (
+            <ContentContainer
+              width={'auto'}
+              absoluteBottomPosition
+              absoluteRightPosition
+              paddingBottom={2}
+              paddingRight={2}
+              withNoBackground
+              alignCenter>
+              <SvgIcon name="cameraCircleSmall" size={24} />
+            </ContentContainer>
+          )}
+        </TouchableOpacity>
       </ContentContainer>
     );
   }
