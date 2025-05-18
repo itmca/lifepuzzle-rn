@@ -21,6 +21,7 @@ type ContentContainerProps = {
   absoluteLeftPosition?: boolean;
   absoluteRightPosition?: boolean;
   expandToEnd?: boolean;
+  aspectRatio?: number;
 
   // Align
   alignCenter?: boolean;
@@ -82,11 +83,12 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   ${props => props.absoluteBottomPosition && 'bottom: 0;'}
   ${props => props.absoluteLeftPosition && 'left: 0;'}
   ${props => props.absoluteRightPosition && 'right: 0;'}
+  ${props => props.aspectRatio && `aspect-ratio: ${props.aspectRatio}`};
 
   /* Align */
   ${props =>
     props.alignCenter && 'align-items: center; justify-content: center;'}
-    ${props =>
+  ${props =>
     props.justifyContent && `justify-content: ${props.justifyContent};`}
     ${props => props.alignItems && `align-items: ${props.alignItems};`}
 

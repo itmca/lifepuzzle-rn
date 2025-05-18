@@ -12,10 +12,8 @@ import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 import Title from '../../components/styled/components/Title';
-import {useUpdateHero} from '../../service/hooks/hero.update.hook.ts';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
-import {useCreateHero} from '../../service/hooks/hero.create.hook';
 import HeroSettingRightHeader from '../../components/header/HeroSettingRightHeader.tsx';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
 
@@ -37,9 +35,7 @@ const HeroSettingNavigator = (): JSX.Element => {
   const seletedHeroPhoto: PhotoIdentifier | undefined = useRecoilValue(
     selectedHeroPhotoState,
   );
-  const [saveHero] = useUpdateHero();
-  const [createHero] = useCreateHero();
-  // const [registerHero] = useCreateHero();
+
   return (
     <Stack.Navigator
       initialRouteName="HeroSetting"
@@ -58,18 +54,7 @@ const HeroSettingNavigator = (): JSX.Element => {
         component={HeroRegisterPage}
         options={{
           header: () => (
-            <TopBar
-              onBack={resetWritingHero}
-              title={'주인공 추가'}
-              right={
-                <WritingHeaderRight
-                  text={'등록'}
-                  customAction={() => {
-                    createHero();
-                  }}
-                />
-              }
-            />
+            <TopBar onBack={resetWritingHero} title={'주인공 추가'} />
           ),
         }}
       />
@@ -78,18 +63,7 @@ const HeroSettingNavigator = (): JSX.Element => {
         component={HeroModificationPage}
         options={{
           header: () => (
-            <TopBar
-              onBack={resetWritingHero}
-              title={'주인공 정보 수정'}
-              right={
-                <WritingHeaderRight
-                  text={'저장'}
-                  customAction={() => {
-                    saveHero();
-                  }}
-                />
-              }
-            />
+            <TopBar onBack={resetWritingHero} title={'주인공 수정'} />
           ),
         }}
       />

@@ -25,7 +25,6 @@ export const Dropdown = ({
   onSelect,
   width = 60,
 }: DropdownProps) => {
-  /*TODO(border-line): 동시 진행된 input 관련 PR 머지 후 Text의 color, Color.Transparent 등 적용*/
   return (
     <SelectDropdown
       data={options}
@@ -42,9 +41,11 @@ export const Dropdown = ({
           <ContentContainer>
             <ContentContainer
               useHorizontalLayout
-              width={typeof width === 'number' ? `${width}px` : width}
+              width={width}
               gap={0}
-              backgroundColor={mode === 'white' ? Color.WHITE : 'transparent'}>
+              backgroundColor={
+                mode === 'white' ? Color.WHITE : Color.TRANSPARENT
+              }>
               <ContentContainer flex={1} alignCenter expandToEnd>
                 <BodyTextM>{selectedItem && selectedItem.label}</BodyTextM>
               </ContentContainer>
@@ -68,15 +69,17 @@ export const Dropdown = ({
         shadowOpacity: 0.04,
         width: width,
       }}
-      dropdownOverlayColor={'transparent'}
+      dropdownOverlayColor={Color.TRANSPARENT}
       renderItem={item => {
         return (
           <ContentContainer>
             <ContentContainer
-              width={typeof width === 'number' ? `${width}px` : width}
+              width={width}
               paddingHorizontal={10}
               paddingVertical={10}
-              backgroundColor={mode === 'white' ? Color.WHITE : 'transparent'}>
+              backgroundColor={
+                mode === 'white' ? Color.WHITE : Color.TRANSPARENT
+              }>
               <BodyTextM>{item.label}</BodyTextM>
             </ContentContainer>
           </ContentContainer>

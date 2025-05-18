@@ -15,16 +15,15 @@ import {CustomAlert} from '../../components/alert/CustomAlert';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useHeroHttpPayLoad} from './hero.payload.hook.ts';
 
-export const useCreateHero = (): [() => void] => {
+export const useCreateHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const publishHeroUpdate = useUpdatePublisher(heroUpdate);
 
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
-  const writingHeroKey = useRecoilValue<number>(writingHeroKeyState);
-
   const resetWritingHero = useResetRecoilState(writingHeroState);
   const setHeroUploading = useSetRecoilState(isHeroUploading);
   const writingHero = useRecoilValue(writingHeroState);
+
   const [isLoading, registerHero] = useAuthAxios({
     requestOption: {
       url: '/v1/heroes',
@@ -111,5 +110,6 @@ export const useCreateHero = (): [() => void] => {
 
       submit();
     },
+    isLoading,
   ];
 };

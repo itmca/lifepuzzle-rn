@@ -29,13 +29,12 @@ export const useResetAllWritingHero = () => {
   };
 };
 
-export const useUpdateHero = (): [() => void] => {
+export const useUpdateHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const [writingHeroKey, setWritingHeroKey] = useRecoilState<
     number | undefined
   >(writingHeroKeyState);
   const writingHero = useRecoilValue(writingHeroState);
-  const setHeroUploading = useSetRecoilState(isHeroUploading);
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
 
   const publishHeroUpdate = useUpdatePublisher(heroUpdate);
@@ -71,10 +70,6 @@ export const useUpdateHero = (): [() => void] => {
     },
     disableInitialRequest: true,
   });
-
-  useEffect(() => {
-    setHeroUploading(isLoading);
-  }, [isLoading]);
 
   const submit = function () {
     if (writingHeroKey === undefined) {
@@ -131,11 +126,6 @@ export const useUpdateHero = (): [() => void] => {
 
       submit();
     },
+    isLoading,
   ];
-};
-
-export const useIsHeroUploading = (): boolean => {
-  const heroUploadingStatus = useRecoilValue(isHeroUploading);
-
-  return heroUploadingStatus;
 };

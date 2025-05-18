@@ -21,7 +21,7 @@ export type HeroUserType = {
   auth: HeroAuthTypeCode;
 };
 
-export const toPhotoIdentifier = (uri: string) => ({
+export const toPhotoIdentifier = (uri: string): PhotoIdentifier => ({
   node: {
     type: '',
     subTypes: undefined,

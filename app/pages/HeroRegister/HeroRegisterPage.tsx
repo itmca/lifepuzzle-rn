@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color, LegacyColor} from '../../constants/color.constant';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar';
 import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
@@ -16,10 +16,16 @@ import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {Camera} from '../../assets/icons/camera';
 import {Photo} from '../../components/styled/components/Image.tsx';
 import {XSmallTitle} from '../../components/styled/components/Title.tsx';
+import {BasicCard} from '../../components/card/Card.tsx';
+import BasicTextInput from '../../components/input/NewTextInput.tsx';
+import {BasicButton} from '../../components/button/BasicButton.tsx';
+import {useCreateHero} from '../../service/hooks/hero.create.hook.ts';
+import {LoadingContainer} from '../../components/loadding/LoadingContainer.tsx';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
+  const [createHero, isLoading] = useCreateHero();
 
   const navigateToSelectingPhoto = () => {
     navigation.push('NoTab', {
@@ -29,81 +35,58 @@ const HeroRegisterPage = (): JSX.Element => {
       },
     });
   };
-
-  var photoUri = writingHero?.imageURL?.node.image.uri;
+  const heroProfileImage = writingHero?.imageURL?.node.image.uri;
 
   return (
     <ScreenContainer>
-      {/* <LoadingContainer isLoading={loading}> */}
-      <ScrollContentContainer alignCenter withScreenPadding>
-        <ContentContainer alignCenter>
-          <ImageButton
-            backgroundColor="#D6F3FF"
-            height="395px"
-            width="320px"
-            borderRadius={32}
-            onPress={navigateToSelectingPhoto}>
-            {photoUri ? (
-              <Photo
-                source={
-                  photoUri
-                    ? {uri: photoUri}
-                    : require('../../assets/images/profile_icon.png')
-                }
-                borderRadius={32}
-              />
-            ) : (
-              <HeroAvatar
-                color="#32C5FF"
-                style={{backgroundColor: 'transparent'}}
-                size={156}
-                imageURL={photoUri}
-              />
-            )}
-            <Camera
-              style={{
-                backgroundColor: LegacyColor.WHITE,
-                position: 'absolute',
-                right: 15,
-                bottom: 15,
-              }}
-              size={34}
-              color="#323232"
+      <LoadingContainer isLoading={isLoading}>
+        <ScrollContentContainer alignCenter withScreenPadding gap={32}>
+          <ContentContainer
+            aspectRatio={0.8701} //0.8701 =  335 / 385
+          >
+            <BasicCard
+              photoUrls={heroProfileImage ? [heroProfileImage] : []}
+              editable={true}
+              fallbackIconName={'cameraAdd'}
+              fallbackText={'클릭하여 프로필 이미지 추가'}
+              fallbackBackgroundColor={Color.GREY_100}
+              onPress={navigateToSelectingPhoto}
             />
-          </ImageButton>
-          <ContentContainer>
+          </ContentContainer>
+          <ContentContainer alignCenter>
             <ContentContainer>
-              <XSmallTitle fontWeight={'600'} left={5}>
-                이름
-              </XSmallTitle>
-              <LegacyBasicTextInput
+              <BasicTextInput
+                label={'이름'}
                 text={writingHero.heroName}
                 onChangeText={heroName => setWritingHero({heroName})}
-                placeholder="홍길동"
+                placeholder="이름을 입력해 주세요"
               />
-            </ContentContainer>
-            <ContentContainer>
-              <XSmallTitle fontWeight={'600'} left={5}>
-                닉네임
-              </XSmallTitle>
-              <LegacyBasicTextInput
+              <BasicTextInput
+                label={'닉네임'}
                 text={writingHero.heroNickName}
                 onChangeText={heroNickName => setWritingHero({heroNickName})}
-                placeholder="할아버지"
+                placeholder="닉네임을 입력해 주세요"
               />
-            </ContentContainer>
-            <ContentContainer>
-              <XSmallTitle fontWeight={'600'} left={5}>
-                태어난 날
-              </XSmallTitle>
               <CustomDateInput
+                label={'태어난 날'}
                 date={writingHero.birthday}
                 onDateChange={birthday => setWritingHero({birthday})}
               />
             </ContentContainer>
           </ContentContainer>
-        </ContentContainer>
-      </ScrollContentContainer>
+          <ContentContainer alignCenter>
+            <BasicButton
+              text={'추가하기'}
+              onPress={() => createHero()}
+              disabled={
+                !writingHero?.heroName ||
+                !writingHero?.heroNickName ||
+                !writingHero?.birthday
+              }
+            />
+          </ContentContainer>
+        </ScrollContentContainer>
+      </LoadingContainer>
     </ScreenContainer>
   );
 };

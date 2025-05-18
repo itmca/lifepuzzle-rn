@@ -16,6 +16,7 @@ type CardProps = {
   height?: number | 'auto' | `${number}%`;
   borderRadius?: number;
   onPress?: () => void;
+  editable?: boolean;
 };
 
 export const BasicCard = ({
@@ -27,22 +28,25 @@ export const BasicCard = ({
   width = '100%',
   height = '100%',
   onPress = () => {},
+  editable = false,
 }: CardProps) => {
   if (!photoUrls || photoUrls.length === 0) {
     return (
-      <ContentContainer
-        alignCenter
-        backgroundColor={fallbackBackgroundColor}
-        borderColor={fallbackBorderColor}
-        borderRadius={20}
-        withBorder
-        width={width}
-        height={height}>
-        {fallbackIconName && <SvgIcon name={fallbackIconName} size={48} />}
-        {fallbackText && (
-          <BodyTextB color={Color.GREY_700}>{fallbackText}</BodyTextB>
-        )}
-      </ContentContainer>
+      <TouchableOpacity onPress={onPress}>
+        <ContentContainer
+          alignCenter
+          backgroundColor={fallbackBackgroundColor}
+          borderColor={fallbackBorderColor}
+          borderRadius={20}
+          withBorder
+          width={width}
+          height={height}>
+          {fallbackIconName && <SvgIcon name={fallbackIconName} size={48} />}
+          {fallbackText && (
+            <BodyTextB color={Color.GREY_700}>{fallbackText}</BodyTextB>
+          )}
+        </ContentContainer>
+      </TouchableOpacity>
     );
   }
 
@@ -109,6 +113,17 @@ export const BasicCard = ({
               opacity={0.8}>
               <Caption color={Color.WHITE}>+{count - 4}</Caption>
             </ContentContainer>
+          </ContentContainer>
+        )}
+        {editable && (
+          <ContentContainer
+            width={'auto'}
+            withNoBackground
+            absoluteBottomPosition
+            absoluteRightPosition
+            paddingBottom={16}
+            paddingRight={16}>
+            <SvgIcon name={'cameraCircle'} size={40} />
           </ContentContainer>
         )}
       </TouchableOpacity>

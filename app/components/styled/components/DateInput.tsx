@@ -1,13 +1,10 @@
 import {TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {CustomTextInput} from './CustomTextInput.tsx';
-import {TextInput as ReactInput} from 'react-native-paper';
 import RNDateTimePicker from 'react-native-modal-datetime-picker';
-import {MediumImage, SmallImage} from './Image';
 import {ContentContainer} from '../container/ContentContainer.tsx';
-import {styles} from '../../../pages/HeroModification/styles.ts';
-import {XSmallTitle} from './Title.tsx';
-import SelectDropdown from 'react-native-select-dropdown';
+import {BodyTextM} from './Text.tsx';
+import {Dropdown} from '../../dropdown/Dropdown.tsx';
+import {SvgIcon} from './SvgIcon.tsx';
 
 type Props = {
   label?: string;
@@ -36,7 +33,7 @@ function DateInput({
           ? '0' + (date.getMonth() + 1)
           : date.getMonth() + 1;
       const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      return `${date.getFullYear()}.${month}.${day}`;
+      return `${date.getFullYear()} / ${month} / ${day}`;
     }
   };
   const onDatePick = (selectedValue: Date) => {
@@ -60,111 +57,55 @@ function DateInput({
   }, [propDate]);
 
   return (
-    <ContentContainer useHorizontalLayout>
+    <ContentContainer gap={6}>
+      {label && (
+        <ContentContainer>
+          <BodyTextM>{label}</BodyTextM>
+        </ContentContainer>
+      )}
       <ContentContainer
-        width={'80px'}
-        height={'56px'}
-        borderRadius={4}
-        alignCenter>
-        <SelectDropdown
-          data={[
-            {label: '양력', value: 'SOLAR'},
-            {label: '음력', value: 'LUNAR'},
-          ]}
-          defaultValue={
-            isLunar
-              ? {label: '음력', value: 'LUNAR'}
-              : {label: '양력', value: 'SOLAR'}
-          }
-          onSelect={selectedItem => {
-            if (onIsLunarChange === undefined) {
-              return;
-            }
+        useHorizontalLayout
+        paddingHorizontal={16}
+        height={48}
+        withBorder
+        borderRadius={6}>
+        <ContentContainer
+          gap={0}
+          useHorizontalLayout
+          width={'auto'}
+          alignCenter>
+          <SvgIcon name={'calendar'} size={24} />
+          <Dropdown
+            mode={'transparent'}
+            options={[
+              {label: '양력', value: 'SOLAR'},
+              {label: '음력', value: 'LUNAR'},
+            ]}
+            defaultValue={isLunar ? 'LUNAR' : 'SOLAR'}
+            onSelect={selectedItem => {
+              if (onIsLunarChange === undefined) {
+                return;
+              }
 
-            onIsLunarChange(selectedItem.value === 'LUNAR');
-          }}
-          renderButton={(selectedItem, isOpened) => {
-            return (
-              <ContentContainer>
-                <ContentContainer
-                  useHorizontalLayout
-                  alignCenter
-                  gap={0}
-                  width={'80px'}>
-                  <ContentContainer
-                    width={'60px'}
-                    flex={1}
-                    alignCenter
-                    expandToEnd>
-                    <XSmallTitle>
-                      {(selectedItem && selectedItem.label) || '양/음력'}
-                    </XSmallTitle>
-                  </ContentContainer>
-                  <ContentContainer width={'20px'}>
-                    <SmallImage
-                      borderRadius={30}
-                      source={
-                        isOpened
-                          ? require('../../../assets/images/expand_less.png')
-                          : require('../../../assets/images/expand_more.png')
-                      }
-                    />
-                  </ContentContainer>
-                </ContentContainer>
-              </ContentContainer>
-            );
-          }}
-          dropdownStyle={styles.dropdownList}
-          dropdownOverlayColor={'transparent'}
-          renderItem={(item, index, isSelected) => {
-            return (
-              <ContentContainer>
-                <ContentContainer
-                  flex={1}
-                  withContentPadding
-                  gap={8}
-                  alignCenter>
-                  <XSmallTitle>{item.label}</XSmallTitle>
-                </ContentContainer>
-              </ContentContainer>
-            );
-          }}
-          showsVerticalScrollIndicator={false}
-        />
-      </ContentContainer>
-      <ContentContainer flex={1} expandToEnd>
-        <TouchableOpacity onPress={showPicker}>
-          <CustomTextInput
-            label={label}
-            value={formatDate(date)}
-            mode={'outlined'}
-            disabled={true}
-            onPress={showPicker}
-            left={
-              <ReactInput.Icon
-                icon={() => (
-                  <MediumImage
-                    width={23}
-                    height={23}
-                    resizeMode={'contain'}
-                    source={require('../../../assets/images/calendar.png')}
-                  />
-                )}
-                onPress={showPicker}
-              />
-            }
+              onIsLunarChange(selectedItem.value === 'LUNAR');
+            }}
           />
-          <RNDateTimePicker
-            isVisible={visible}
-            date={date}
-            mode={'date'}
-            display={'spinner'}
-            onConfirm={onDatePick}
-            onCancel={onCancel}
-            locale="ko"
-            timeZoneName={'Asia/Seoul'}
-          />
-        </TouchableOpacity>
+        </ContentContainer>
+        <ContentContainer flex={1} expandToEnd>
+          <TouchableOpacity onPress={showPicker}>
+            <BodyTextM>{formatDate(date)}</BodyTextM>
+            <RNDateTimePicker
+              isVisible={visible}
+              date={date}
+              mode={'date'}
+              display={'spinner'}
+              onConfirm={onDatePick}
+              onCancel={onCancel}
+              locale="ko"
+              timeZoneName={'Asia/Seoul'}
+            />
+          </TouchableOpacity>
+        </ContentContainer>
       </ContentContainer>
     </ContentContainer>
   );
