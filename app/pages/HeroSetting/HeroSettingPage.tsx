@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import {TouchableOpacity, useWindowDimensions} from 'react-native';
-import HeroCard from './HeroCard';
 import {useAuthAxios} from '../../service/hooks/network.hook';
-import {HeroWithPuzzleCntType} from '../../types/hero.type';
+import {HeroType, HeroWithPuzzleCntType} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useUpdateObserver} from '../../service/hooks/update.hooks';
 import {heroUpdate} from '../../recoils/update.recoil';
@@ -13,27 +12,34 @@ import {
   HeroSettingRouteProps,
 } from '../../navigation/types';
 import {HeroesQueryResponse} from '../../service/hooks/hero.query.hook';
-import ImageModal from '../../components/alert/ImageModal';
 import Carousel from 'react-native-reanimated-carousel';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer.tsx';
-import {
-  MediumText,
-  SmallText,
-  XSmallText,
-  XXLargeText,
-} from '../../components/styled/components/LegacyText.tsx';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {userState} from '../../recoils/user.recoil.ts';
-import {LegacyColor} from '../../constants/color.constant.ts';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {Color} from '../../constants/color.constant.ts';
 import {writingHeroKeyState} from '../../recoils/hero-write.recoil.ts';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
 import {useRegisterSharedHero} from '../../service/hooks/share.hero.hook.ts';
 import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';
+import {BasicCard} from '../../components/card/Card.tsx';
+import {
+  BodyTextB,
+  BodyTextM,
+  Caption,
+  Head,
+  Title,
+} from '../../components/styled/components/Text.tsx';
+import {toInternationalAge} from '../../service/date-time-display.service.ts';
+import {format} from 'date-fns';
+import {BasicButton} from '../../components/button/BasicButton.tsx';
+import {Divider} from '../../components/styled/components/Divider.tsx';
+import {heroState} from '../../recoils/hero.recoil.ts';
+import {HeroAuthTypeByCode} from '../../constants/auth.constant.ts';
+import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
+import {showToast} from '../../components/styled/components/Toast.tsx';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -44,12 +50,22 @@ const HeroSettingPage = (): JSX.Element => {
 
   const [heroes, setHeroes] = useState<HeroWithPuzzleCntType[]>([]);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
-  const currentUser = useRecoilValue(userState);
   const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
     heroes[0],
   );
 
   const setWritingHeroNo = useSetRecoilState(writingHeroKeyState);
+
+  const [currentHero, setCurrentHero] = useRecoilState<HeroType>(heroState);
+
+  const [_, updateRecentHero] = useAuthAxios<void>({
+    requestOption: {
+      method: 'POST',
+      url: '/v1/users/hero/recent',
+    },
+    onResponseSuccess: () => {},
+    disableInitialRequest: true,
+  });
 
   const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
     requestOption: {
@@ -78,41 +94,13 @@ const HeroSettingPage = (): JSX.Element => {
     shareKey: route.params?.shareKey,
     onRegisterSuccess: () => {
       fetchHeroes({});
-      setModalState({
-        isOpen: true,
-        message: '주인공을 추가하였습니다',
-        imageSource: require('../../assets/images/celebration-character.png'),
-        leftBtnText: '확인',
-        rightBtnText: '',
-        onLeftBtnPress: () => {
-          setModalState(prev => ({...prev, isOpen: false}));
-        },
-        onRightBtnPress: () => {},
-      });
+      showToast('주인공을 추가하였습니다.');
 
       if (carouselRef && carouselRef.current) {
         setFocusedHero(heroes[heroes.length - 1]);
         carouselRef.current.scrollTo({index: heroes.length - 1});
       }
     },
-  });
-
-  const [modalState, setModalState] = useState<{
-    isOpen: boolean;
-    message: string;
-    imageSource: any;
-    leftBtnText: string;
-    rightBtnText: string;
-    onLeftBtnPress: () => void;
-    onRightBtnPress: () => void;
-  }>({
-    isOpen: false,
-    message: '',
-    imageSource: require('../../assets/images/celebration-character.png'),
-    leftBtnText: '',
-    rightBtnText: '',
-    onLeftBtnPress: () => {},
-    onRightBtnPress: () => {},
   });
 
   if (focusedHero === undefined) {
@@ -122,116 +110,163 @@ const HeroSettingPage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={isLoading}>
       <ScreenContainer>
-        <ContentContainer alignCenter gap={0} flex={1}>
-          <ContentContainer
-            withContentPadding
-            paddingVertical={0}
-            gap={4}
-            useHorizontalLayout
-            alignItems={'flex-end'}
-            height={'40px'}>
-            <XXLargeText bold>
-              {focusedHero.heroName.length > 8
-                ? focusedHero.heroName.substring(0, 8) + '...'
-                : focusedHero.heroName}
-            </XXLargeText>
-            <MediumText color={LegacyColor.FONT_GRAY}>
-              {focusedHero.heroNickName.length > 8
-                ? focusedHero.heroNickName.substring(0, 12) + '...'
-                : focusedHero.heroNickName}
-            </MediumText>
-            <ContentContainer
-              alignItems={'flex-end'}
-              expandToEnd
-              width={'auto'}>
-              {focusedHero.auth !== 'VIEWER' && (
-                <TouchableOpacity
+        <ScrollContentContainer>
+          <ContentContainer gap={0}>
+            {/* 상단 사진 영역 */}
+            <ContentContainer alignCenter height={windowWidth * 1.14}>
+              <Carousel
+                ref={carouselRef}
+                data={[...heroes]}
+                mode={'parallax'}
+                modeConfig={{
+                  parallaxScrollingScale: 0.9,
+                  parallaxAdjacentItemScale: 0.75,
+                  parallaxScrollingOffset: 60,
+                }}
+                width={windowWidth}
+                loop={false}
+                onProgressChange={(_: number, absoluteProgress: number) => {
+                  setFocusedHero(heroes[Math.floor(absoluteProgress)]);
+                }}
+                renderItem={({item}: any) => {
+                  return (
+                    <BasicCard
+                      photoUrls={[item.imageURL]}
+                      height={windowWidth * 1.14}
+                      width={windowWidth}
+                      onPress={() => {}}
+                    />
+                  );
+                }}
+              />
+            </ContentContainer>
+            {/* 중간 주인공 정보 영역 */}
+            <ContentContainer withScreenPadding paddingVertical={0}>
+              <ContentContainer useHorizontalLayout paddingVertical={6}>
+                <ContentContainer gap={4} flex={1} expandToEnd>
+                  <ContentContainer
+                    useHorizontalLayout
+                    width={'auto'}
+                    justifyContent={'flex-start'}
+                    gap={4}>
+                    <Head>
+                      {focusedHero.heroName.length > 8
+                        ? focusedHero.heroName.substring(0, 8) + '...'
+                        : focusedHero.heroName}
+                    </Head>
+                    <BodyTextB color={Color.GREY_400}>
+                      {focusedHero.heroNickName.length > 8
+                        ? focusedHero.heroNickName.substring(0, 12) + '...'
+                        : focusedHero.heroNickName}
+                    </BodyTextB>
+                  </ContentContainer>
+                  <ContentContainer
+                    useHorizontalLayout
+                    width={'auto'}
+                    justifyContent={'flex-start'}
+                    alignItems={'flex-start'}
+                    gap={4}>
+                    <Caption color={Color.GREY_600}>
+                      {focusedHero.isLunar ? '음력' : '양력'}
+                    </Caption>
+                    <Caption color={Color.GREY_700}>
+                      {format(new Date(focusedHero.birthday), 'yyyy.MM.dd')}
+                    </Caption>
+                    <Caption color={Color.GREY_600}>
+                      (만 {toInternationalAge(focusedHero.birthday)}세)
+                    </Caption>
+                  </ContentContainer>
+                </ContentContainer>
+                <ContentContainer width={'auto'}>
+                  {focusedHero.auth !== 'VIEWER' && (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setWritingHeroNo(focusedHero?.heroNo);
+                        navigation.push('NoTab', {
+                          screen: 'HeroSettingNavigator',
+                          params: {
+                            screen: 'HeroModification',
+                            params: {
+                              heroNo: focusedHero?.heroNo,
+                            },
+                          },
+                        });
+                      }}>
+                      <BodyTextB color={Color.MAIN_DARK}>수정하기</BodyTextB>
+                    </TouchableOpacity>
+                  )}
+                </ContentContainer>
+              </ContentContainer>
+              <ContentContainer>
+                <BasicButton
+                  disabled={currentHero?.heroNo === focusedHero?.heroNo}
                   onPress={() => {
-                    setWritingHeroNo(focusedHero?.heroNo);
-                    navigation.push('NoTab', {
-                      screen: 'HeroSettingNavigator',
-                      params: {
-                        screen: 'HeroModification',
-                        params: {
-                          heroNo: focusedHero?.heroNo,
-                        },
+                    setCurrentHero(focusedHero);
+                    updateRecentHero({
+                      data: {
+                        heroNo: focusedHero.heroNo,
                       },
                     });
-                  }}>
-                  <Icon name={'cog'} size={24} color="#D0D0D0" />
-                </TouchableOpacity>
-              )}
+
+                    navigation.navigate('HomeTab', {screen: 'Home'});
+                  }}
+                  text={
+                    currentHero?.heroNo === focusedHero?.heroNo
+                      ? '지금 보고 있어요'
+                      : '보기'
+                  }
+                />
+              </ContentContainer>
             </ContentContainer>
           </ContentContainer>
-          <ContentContainer alignCenter flex={1} expandToEnd>
-            <Carousel
-              ref={carouselRef}
-              data={[...heroes]}
-              mode={'parallax'}
-              modeConfig={{
-                parallaxScrollingScale: 0.9,
-                parallaxAdjacentItemScale: 0.8,
-                parallaxScrollingOffset: 60,
-              }}
-              width={windowWidth}
-              loop={false}
-              onProgressChange={(_: number, absoluteProgress: number) => {
-                setFocusedHero(heroes[Math.floor(absoluteProgress)]);
-              }}
-              renderItem={({item}: any) => {
-                return <HeroCard hero={item} />;
-              }}
-            />
-          </ContentContainer>
+          <Divider />
+          {/* 하단 연결 계정 영역 */}
           <ContentContainer withScreenPadding paddingTop={0} paddingBottom={4}>
-            <SmallText>{focusedHero ? '연결 계정' : ''}</SmallText>
-            <ScrollContentContainer
-              useHorizontalLayout
-              gap={4}
-              alignItems={'flex-start'}
-              justifyContent={'flex-start'}>
-              {focusedHero?.users?.map((user, index) => {
-                return (
-                  <ContentContainer
-                    key={index}
-                    alignItems={'center'}
-                    justifyContent={'flex-start'}
-                    width={'56px'}
-                    height={'88px'}
-                    paddingBottom={8}
-                    gap={4}>
+            <Title>{focusedHero ? '연결된 계정' : ''}</Title>
+
+            {focusedHero?.users?.map((user, index) => {
+              return (
+                <ContentContainer
+                  key={index}
+                  alignItems={'center'}
+                  justifyContent={'flex-start'}
+                  height={52}
+                  useHorizontalLayout
+                  gap={12}>
+                  <ContentContainer useHorizontalLayout flex={1} expandToEnd>
                     <AccountAvatar
-                      nickname={user.nickName || ''}
                       imageURL={user.imageURL}
-                      size={40}
+                      size={52}
+                      auth={user.auth}
+                      iconSize={20}
+                      iconPadding={0}
                     />
-                    {
-                      <XSmallText
-                        numberOfLines={2}
-                        color={
-                          user.userNo === currentUser.userNo
-                            ? LegacyColor.PRIMARY_LIGHT
-                            : LegacyColor.FONT_GRAY
-                        }
-                        bold>
+                    <ContentContainer gap={2}>
+                      <BodyTextB color={Color.GREY_800}>
                         {user.nickName}
-                      </XSmallText>
-                    }
+                      </BodyTextB>
+                      <BodyTextM
+                        color={
+                          user.auth === 'OWNER'
+                            ? Color.SUB_CORAL
+                            : user.auth === 'ADMIN'
+                            ? Color.SUB_TEAL
+                            : Color.MAIN_DARK
+                        }>
+                        {HeroAuthTypeByCode[user.auth].name}
+                      </BodyTextM>
+                    </ContentContainer>
                   </ContentContainer>
-                );
-              })}
-            </ScrollContentContainer>
+                  <ContentContainer width={'auto'}>
+                    {user.auth !== 'OWNER' && (
+                      <SvgIcon name={'setting'} size={24} />
+                    )}
+                  </ContentContainer>
+                </ContentContainer>
+              );
+            })}
           </ContentContainer>
-        </ContentContainer>
-        <ImageModal
-          message={modalState.message}
-          leftBtnText={modalState.leftBtnText}
-          rightBtnText={modalState.rightBtnText}
-          onLeftBtnPress={modalState.onLeftBtnPress}
-          onRightBtnPress={modalState.onRightBtnPress}
-          imageSource={modalState.imageSource}
-          isModalOpen={modalState.isOpen}
-        />
+        </ScrollContentContainer>
       </ScreenContainer>
     </LoadingContainer>
   );

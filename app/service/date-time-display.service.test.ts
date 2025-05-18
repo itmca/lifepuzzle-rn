@@ -1,4 +1,7 @@
-import {toMinuteSeconds} from './date-time-display.service.ts';
+import {
+  toInternationalAge,
+  toMinuteSeconds,
+} from './date-time-display.service.ts';
 
 test.each([1, 11, 21, 31, 41, 59])(
   '60초 미만의 숫자가 주어지는 경우에도 00:으로 시작한다.',
@@ -31,4 +34,38 @@ test.each([
   const minuteSeconds = toMinuteSeconds(seconds);
 
   expect(minuteSeconds).toBe(expected);
+});
+
+describe('toInternationalAge', () => {
+  const mockCurrentDate = (year: number, month: number, day: number) => {
+    jest.useFakeTimers().setSystemTime(new Date(year, month - 1, day));
+  };
+
+  afterEach(() => {
+    jest.useRealTimers(); // 테스트마다 원래 시간으로 복원
+  });
+
+  it('생일이 이미 지난 경우 정확한 나이를 반환한다', () => {
+    mockCurrentDate(2025, 5, 17); // 현재 날짜: 2025-05-17
+    const birthDate = new Date(2000, 4, 16); // 생일: 2000-05-16
+    expect(toInternationalAge(birthDate)).toBe(25);
+  });
+
+  it('생일이 오늘인 경우 정확한 나이를 반환한다', () => {
+    mockCurrentDate(2025, 5, 17);
+    const birthDate = new Date(2000, 4, 17); // 생일: 2000-05-17
+    expect(toInternationalAge(birthDate)).toBe(25);
+  });
+
+  it('생일이 아직 안 지난 경우 나이에서 1을 뺀 값을 반환한다', () => {
+    mockCurrentDate(2025, 5, 17);
+    const birthDate = new Date(2000, 4, 18); // 생일: 2000-05-18
+    expect(toInternationalAge(birthDate)).toBe(24);
+  });
+
+  it('태어난 해가 올해인 경우 0세를 반환한다', () => {
+    mockCurrentDate(2025, 5, 17);
+    const birthDate = new Date(2025, 0, 1);
+    expect(toInternationalAge(birthDate)).toBe(0);
+  });
 });

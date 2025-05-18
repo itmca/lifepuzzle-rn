@@ -39,11 +39,7 @@ const ProfilePage = (): JSX.Element | null => {
         useHorizontalLayout
         withScreenPadding
         paddingVertical={32}>
-        <AccountAvatar
-          nickname={user.userNickName}
-          imageURL={user.imageURL}
-          size={80}
-        />
+        <AccountAvatar imageURL={user.imageURL} size={80} />
         <ContentContainer gap={8}>
           <LargeTitle color={LegacyColor.LIGHT_BLACK}>
             {user.userNickName}

@@ -53,11 +53,7 @@ const AccountModificationPage = (): JSX.Element => {
     <LoadingContainer isLoading={isUserLoading || isWithdrawing}>
       <ScreenContainer>
         <ContentContainer gap={8} alignCenter expandToEnd>
-          <AccountAvatar
-            nickname={user.userNickName}
-            imageURL={user.imageURL}
-            size={100}
-          />
+          <AccountAvatar imageURL={user.imageURL} size={100} />
           <ContentContainer gap={0} alignCenter>
             <Head>{user.userNickName}</Head>
             {user?.userType === 'general' && (

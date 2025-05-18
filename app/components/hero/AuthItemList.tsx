@@ -11,7 +11,6 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../styled/container/ContentContainer';
-import {AuthItem} from './AuthItem';
 import {AccountAvatar} from '../avatar/AccountAvatar.tsx';
 import {showToast} from '../styled/components/Toast.tsx';
 import {Radio} from '../styled/components/Radio.tsx';
@@ -64,11 +63,7 @@ export const AuthItemList = ({user, onSelect, onClose}: props): JSX.Element => {
         {user ? (
           <ContentContainer height={'62px'} useHorizontalLayout gap={8}>
             <ContentContainer width={'60px'}>
-              <AccountAvatar
-                nickname={user.nickName}
-                size={48}
-                imageURL={user.imageURL}
-              />
+              <AccountAvatar size={48} imageURL={user.imageURL} />
             </ContentContainer>
             <ContentContainer flex={1}>
               <MediumText fontWeight={'600'}>{user?.nickName}</MediumText>

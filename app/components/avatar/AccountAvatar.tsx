@@ -1,78 +1,78 @@
 import React from 'react';
 import {Avatar} from 'react-native-paper';
 import {StyleProp, TouchableOpacity} from 'react-native';
-import {Color, LegacyColor} from '../../constants/color.constant.ts';
+import {Color} from '../../constants/color.constant.ts';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 import {SvgIcon} from '../styled/components/SvgIcon.tsx';
+import {HeroAuthTypeCode} from '../../constants/auth.constant.ts';
 
 type Props = {
   imageURL: string | undefined;
   size: number;
   style?: StyleProp<any> | undefined;
-  nickname: string;
   editable?: boolean;
   onEditPress?: () => void;
+  auth?: HeroAuthTypeCode;
+  iconSize?: number;
+  iconPadding?: number;
 };
 
 export const AccountAvatar = ({
-  nickname,
   imageURL,
   size,
   style,
   editable = false,
   onEditPress,
+  auth,
+  iconSize = 24,
+  iconPadding = 0,
 }: Props): JSX.Element => {
-  if (!imageURL) {
-    return (
+  return (
+    <TouchableOpacity
+      disabled={!editable}
+      onPress={() => {
+        if (editable) {
+          onEditPress?.();
+        }
+      }}>
       <ContentContainer width={'auto'} alignCenter>
-        <TouchableOpacity
-          disabled={!editable}
-          onPress={() => {
-            if (editable) {
-              onEditPress?.();
-            }
-          }}>
-          <Avatar.Text
+        {imageURL ? (
+          <Avatar.Image
             style={{backgroundColor: Color.GREY, ...style}}
             size={size}
-            label={nickname[0]}
+            source={{uri: imageURL}}
           />
-          {editable && (
-            <ContentContainer
-              width={'auto'}
-              absoluteBottomPosition
-              absoluteRightPosition
-              paddingBottom={2}
-              paddingRight={2}
-              withNoBackground
-              alignCenter>
-              <SvgIcon name="cameraCircleSmall" size={24} />
-            </ContentContainer>
-          )}
-        </TouchableOpacity>
+        ) : (
+          <SvgIcon name="profile" size={size} />
+        )}
+        {editable && (
+          <ContentContainer
+            width={'auto'}
+            absoluteBottomPosition
+            absoluteRightPosition
+            paddingBottom={iconPadding}
+            paddingRight={iconPadding}
+            withNoBackground
+            alignCenter>
+            <SvgIcon name="cameraCircleSmall" size={iconSize} />
+          </ContentContainer>
+        )}
+        {(auth === 'OWNER' || auth === 'ADMIN') && (
+          <ContentContainer
+            width={'auto'}
+            absoluteTopPosition
+            absoluteRightPosition
+            paddingTop={iconPadding}
+            paddingRight={iconPadding}
+            withNoBackground
+            alignCenter>
+            <SvgIcon
+              name={auth === 'OWNER' ? 'owner' : 'manager'}
+              size={iconSize}
+            />
+          </ContentContainer>
+        )}
       </ContentContainer>
-    );
-  }
-
-  return (
-    <ContentContainer width={'auto'} alignCenter>
-      <Avatar.Image
-        style={{backgroundColor: Color.GREY, ...style}}
-        size={size}
-        source={{uri: imageURL}}
-      />
-      {editable && (
-        <ContentContainer
-          width={'auto'}
-          absoluteBottomPosition
-          absoluteRightPosition
-          paddingBottom={2}
-          paddingRight={2}
-          withNoBackground
-          alignCenter>
-          <SvgIcon name="cameraCircleSmall" size={24} />
-        </ContentContainer>
-      )}
-    </ContentContainer>
+    </TouchableOpacity>
   );
 };

@@ -1,5 +1,3 @@
-import {differenceInYears, format} from 'date-fns';
-
 export const toMinuteSeconds = (seconds: number): string => {
   const intSeconds = Math.floor(seconds);
   const minutes = String(Math.floor(intSeconds / 60)).padStart(2, '0');
@@ -8,9 +6,25 @@ export const toMinuteSeconds = (seconds: number): string => {
   return `${minutes}:${remainSeconds}`;
 };
 
-export const toHeroBirthdayAge = (date: Date): string => {
-  const birthday = format(date, 'yyyy.MM.dd');
-  const age = differenceInYears(new Date(), date);
+export const toInternationalAge = (birthDate: Date): number => {
+  const birthYear = birthDate.getFullYear();
+  const birthMonth = birthDate.getMonth();
+  const birthDay = birthDate.getDate();
 
-  return `${birthday} (${age}살)`;
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  const currentDay = now.getDate();
+
+  let age = currentYear - birthYear;
+
+  // 생일이 아직 안 지났으면 나이 -1
+  if (
+    currentMonth < birthMonth ||
+    (currentMonth === birthMonth && currentDay < birthDay)
+  ) {
+    age--;
+  }
+
+  return age;
 };

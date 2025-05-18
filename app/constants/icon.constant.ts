@@ -46,6 +46,8 @@ import Picture from '../assets/icons/picture.svg';
 import Play from '../assets/icons/play.svg';
 import Plus from '../assets/icons/plus.svg';
 
+import Profile from '../assets/icons/profile.svg';
+
 import RadioOff from '../assets/icons/radio_off.svg';
 import RadioOn from '../assets/icons/radio_on.svg';
 
@@ -65,6 +67,7 @@ import StopRound from '../assets/icons/stop_round.svg';
 import RecordRound from '../assets/icons/record_round.svg';
 import CheckRound from '../assets/icons/check_round.svg';
 import DeleteRound from '../assets/icons/delete_round.svg';
+
 export const Svgs = {
   logo: Logo,
   book: Book,
@@ -108,6 +111,7 @@ export const Svgs = {
   picture: Picture,
   play: Play,
   plus: Plus,
+  profile: Profile,
 
   radioOff: RadioOff,
   radioOn: RadioOn,

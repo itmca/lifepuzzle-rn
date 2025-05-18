@@ -32,7 +32,8 @@ export const BasicButton = ({
       height={height}
       width={'100%'}
       backgroundColor={disabled ? Color.GREY_200 : backgroundColor}
-      onPress={onPress}>
+      onPress={onPress}
+      disabled={disabled}>
       {iconName && (
         <ContentContainer
           absoluteLeftPosition
