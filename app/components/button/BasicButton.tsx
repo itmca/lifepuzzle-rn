@@ -12,6 +12,7 @@ type Props = {
   iconName?: IconName;
   iconSize?: number;
   backgroundColor?: ColorType;
+  borderColor?: ColorType;
   textColor?: ColorType;
   height?: string;
   onPress: () => void;
@@ -22,6 +23,7 @@ export const BasicButton = ({
   text = '',
   iconName,
   backgroundColor = Color.MAIN_DARK,
+  borderColor = Color.TRANSPARENT,
   textColor = Color.WHITE,
   height = '56px',
   iconSize = 24,
@@ -32,6 +34,8 @@ export const BasicButton = ({
       height={height}
       width={'100%'}
       backgroundColor={disabled ? Color.GREY_200 : backgroundColor}
+      borderColor={borderColor}
+      borderWidth={borderColor !== Color.TRANSPARENT ? 1 : 0}
       onPress={onPress}
       disabled={disabled}>
       {iconName && (
