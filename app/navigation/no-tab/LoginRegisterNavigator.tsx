@@ -18,12 +18,12 @@ const Stack = createNativeStackNavigator<LoginRegisterParamList>();
 const LoginRegisterNavigator = (): JSX.Element => {
   return (
     <Stack.Navigator
-      screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}>
+      screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}
+      initialRouteName={'LoginMain'}>
       <Stack.Screen
         name="LoginMain"
         component={LoginMainPage}
         options={{
-          headerLeft: () => <LoginHeaderLeft type={'main'} />,
           headerShown: true,
           title: '',
           headerShadowVisible: false,

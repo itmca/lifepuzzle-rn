@@ -11,7 +11,6 @@ import {ScreenContainer} from '../../components/styled/container/ScreenContainer
 import {WritingButton} from './WritingButton';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {isLoggedInState} from '../../recoils/auth.recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import {
   PostStoryKeyState,
@@ -23,7 +22,6 @@ import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
 import {ageGroupsState, tagState} from '../../recoils/photos.recoil.ts';
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
-import {useLoginAlert} from '../../service/hooks/login.hook.ts';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
 import {useCallback, useMemo, useState} from 'react';
 import {ShareButton} from '../../components/button/ShareButton.tsx';
@@ -36,11 +34,9 @@ const HomePage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   const hero = useRecoilValue<HeroType>(heroState);
-  const isLoggedIn = useRecoilValue(isLoggedInState);
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
   const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
-  const loginAlert = useLoginAlert();
 
   const {photoHero, isLoading, refetch} = useHeroPhotos();
   const [ageGroups] = useRecoilState<AgeGroupsType>(ageGroupsState);
@@ -51,10 +47,12 @@ const HomePage = (): JSX.Element => {
     Keyboard.dismiss();
     setOpenModal(true);
   }, []);
+
   useFocusAction(() => {
     if (!refetch) {
       return;
     }
+
     refetch({
       params: {
         heroNo: hero.heroNo,
@@ -70,7 +68,7 @@ const HomePage = (): JSX.Element => {
             <HeroOverview hero={photoHero} />
             {hero.auth === 'OWNER' && (
               <ContentContainer width={'auto'}>
-                <ShareButton onPress={handlePresentModalPress}></ShareButton>
+                <ShareButton onPress={handlePresentModalPress} />
               </ContentContainer>
             )}
           </ContentContainer>
@@ -84,14 +82,6 @@ const HomePage = (): JSX.Element => {
               backgroundColor="transparent">
               <WritingButton
                 onPress={() => {
-                  if (!isLoggedIn) {
-                    loginAlert({
-                      title:
-                        '로그인 후 사랑하는 사람의 사진/동영상을 업로드해보세요',
-                    });
-                    return;
-                  }
-
                   setSelectedStoryKey('');
                   setPostStoryKey('');
                   resetWritingStory();

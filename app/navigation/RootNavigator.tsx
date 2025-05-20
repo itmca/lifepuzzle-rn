@@ -1,12 +1,13 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeTabParamList} from './home-tab/HomeRootNavigator';
+import HomeTabNavigator, {HomeTabParamList} from './home-tab/HomeRootNavigator';
 import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
-import HomeTabNavigator from './home-tab/HomeRootNavigator';
-import {LocalStorage} from '../service/local-storage.service';
-import {useEffect, useState} from 'react';
 import OnboardingScreen from '../pages/Home/OnboardingScreen';
+import {LocalStorage} from '../service/local-storage.service.ts';
+import {isLoggedInState} from '../recoils/auth.recoil.ts';
+import {useRecoilValue} from 'recoil';
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -21,28 +22,34 @@ const RootNavigator = (): JSX.Element => {
     keyof RootStackParamList | null
   >(null);
 
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   useEffect(() => {
     const checkOnboarding = async () => {
-      const isOnboardingCompleted = await LocalStorage.get(
-        'onboarding',
-        'boolean',
-      );
-      setInitialRoute(
-        isOnboardingCompleted === true ? 'HomeTab' : 'Onboarding',
-      );
+      const isOnboardingNotCompleted =
+        LocalStorage.get('onboarding', 'boolean') !== true;
+
+      if (isOnboardingNotCompleted) {
+        setInitialRoute('Onboarding');
+        return;
+      }
+
+      // 미로그인 시에는 홈화면이 아니라 로그인 화면이 노출되도록 NoTab을 초기화면으로 설정한다.
+      setInitialRoute(isLoggedIn ? 'HomeTab' : 'NoTab');
     };
+
     checkOnboarding();
   }, []);
-  if (!initialRoute) return null;
+
+  if (!initialRoute) {
+    return <></>;
+  }
 
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      {initialRoute === 'Onboarding' && (
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-      )}
+      screenOptions={{headerShown: false}}
+      initialRouteName={initialRoute}>
+      <Stack.Screen name="Onboarding" component={OnboardingScreen} />
       <Stack.Screen name="HomeTab" component={HomeTabNavigator} />
       <Stack.Screen name="NoTab" component={NoTabRootNavigator} />
     </Stack.Navigator>

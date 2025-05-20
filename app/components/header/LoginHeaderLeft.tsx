@@ -9,6 +9,7 @@ type Props = {
 
 const LoginHeaderLeft = ({type}: Props): JSX.Element => {
   const navigation = useNavigation();
+
   if (type === 'main') {
     return (
       <Pressable

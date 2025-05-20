@@ -45,8 +45,11 @@ export const useLogout = (option?: Option) => {
     if (typeof option?.customGoBackAction === 'function') {
       option?.customGoBackAction();
     } else {
-      navigation.navigate('HomeTab', {
-        screen: 'Home',
+      navigation.navigate('NoTab', {
+        screen: 'LoginRegisterNavigator',
+        params: {
+          screen: 'LoginMain',
+        },
       });
     }
   };
