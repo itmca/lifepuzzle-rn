@@ -10,6 +10,7 @@ import {TouchableOpacity} from 'react-native';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
 import {
   BodyTextM,
+  Caption,
   Head,
   Title,
 } from '../../components/styled/components/Text.tsx';
@@ -61,7 +62,7 @@ const AccountModificationPage = (): JSX.Element => {
             )}
           </ContentContainer>
         </ContentContainer>
-        <ContentContainer withScreenPadding paddingBottom={65}>
+        <ContentContainer withScreenPadding alignCenter paddingBottom={65}>
           <BasicButton
             text={'프로필 수정'}
             onPress={() => setProfileModalOpen(true)}
@@ -90,6 +91,16 @@ const AccountModificationPage = (): JSX.Element => {
                 </BodyTextM>
               </TouchableOpacity>
             </ContentContainer>
+          </ContentContainer>
+          <ContentContainer
+            gap={0}
+            alignCenter
+            absoluteBottomPosition
+            paddingVertical={16}>
+            <Caption color={Color.GREY_300}>designed by 박유나</Caption>
+            <Caption color={Color.GREY_300}>
+              developed by 오솔미 이시은 정주온 정지현
+            </Caption>
           </ContentContainer>
         </ContentContainer>
         <BottomSheetModalProvider>

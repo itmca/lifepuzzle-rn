@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,11 +16,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="gtW-fb-bVy">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="SplashMain" translatesAutoresizingMaskIntoConstraints="NO" id="gtW-fb-bVy">
                                 <rect key="frame" x="94" y="109.5" width="187" height="328"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="187" id="XP1-Lv-4Uk"/>
                                 </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Makers" translatesAutoresizingMaskIntoConstraints="NO" id="5rn-TG-r1Z">
+                                <rect key="frame" x="84" y="605.5" width="207.5" height="29.5"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
@@ -28,6 +31,8 @@
                         <constraints>
                             <constraint firstItem="gtW-fb-bVy" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="WQg-0s-gMN"/>
                             <constraint firstItem="gtW-fb-bVy" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-60" id="ZO5-0E-jBa"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="5rn-TG-r1Z" secondAttribute="bottom" constant="32" id="bUb-8B-8UE"/>
+                            <constraint firstItem="5rn-TG-r1Z" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="kDv-aa-osC"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,6 +42,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="374" height="328"/>
+        <image name="Makers" width="207.5" height="29.5"/>
+        <image name="SplashMain" width="374" height="328"/>
     </resources>
 </document>
