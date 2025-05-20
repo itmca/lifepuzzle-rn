@@ -37,7 +37,6 @@ import {BasicButton} from '../../components/button/BasicButton.tsx';
 import {Divider} from '../../components/styled/components/Divider.tsx';
 import {heroState} from '../../recoils/hero.recoil.ts';
 import {HeroAuthTypeByCode} from '../../constants/auth.constant.ts';
-import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
 import {showToast} from '../../components/styled/components/Toast.tsx';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
 
@@ -270,9 +269,10 @@ const HeroSettingPage = (): JSX.Element => {
                     </ContentContainer>
                   </ContentContainer>
                   <ContentContainer width={'auto'}>
-                    {user.auth !== 'OWNER' && (
-                      <SvgIcon name={'setting'} size={24} />
-                    )}
+                    {/* TODO(border-line): 디자인 개편 1차 앱 배포 이후 권한 수정 기능 구현 필요 */}
+                    {/*{user.auth !== 'OWNER' && (*/}
+                    {/*  <SvgIcon name={'setting'} size={24} />*/}
+                    {/*)}*/}
                   </ContentContainer>
                 </ContentContainer>
               );
