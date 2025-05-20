@@ -49,6 +49,9 @@ const HeroSettingPage = (): JSX.Element => {
   const {width: windowWidth} = useWindowDimensions();
 
   const [heroes, setHeroes] = useState<HeroWithPuzzleCntType[]>([]);
+  const [displayHeroes, setDisplayHeroes] = useState<HeroWithPuzzleCntType[]>(
+    [],
+  );
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
   const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
     heroes[0],
@@ -78,6 +81,7 @@ const HeroSettingPage = (): JSX.Element => {
         users: item.users,
       }));
       setHeroes(resHeroes);
+      setDisplayHeroes(resHeroes);
       setFocusedHero(resHeroes[0]);
     },
     onError: error => {
@@ -89,6 +93,14 @@ const HeroSettingPage = (): JSX.Element => {
   useEffect(() => {
     fetchHeroes({});
   }, [heroUpdateObserver]);
+
+  useEffect(() => {
+    const currentViewingHero = heroes.filter(
+      hero => hero.heroNo === currentHero.heroNo,
+    );
+    const others = heroes.filter(hero => hero.heroNo !== currentHero.heroNo);
+    setDisplayHeroes([...currentViewingHero, ...others]);
+  }, [heroes, currentHero]);
 
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,
@@ -126,7 +138,7 @@ const HeroSettingPage = (): JSX.Element => {
                 width={windowWidth}
                 loop={false}
                 onProgressChange={(_: number, absoluteProgress: number) => {
-                  setFocusedHero(heroes[Math.floor(absoluteProgress)]);
+                  setFocusedHero(displayHeroes[Math.floor(absoluteProgress)]);
                 }}
                 renderItem={({item}: any) => {
                   return (
@@ -199,7 +211,6 @@ const HeroSettingPage = (): JSX.Element => {
               </ContentContainer>
               <ContentContainer>
                 <BasicButton
-                  disabled={currentHero?.heroNo === focusedHero?.heroNo}
                   onPress={() => {
                     setCurrentHero(focusedHero);
                     updateRecentHero({
@@ -210,6 +221,7 @@ const HeroSettingPage = (): JSX.Element => {
 
                     navigation.navigate('HomeTab', {screen: 'Home'});
                   }}
+                  disabled={currentHero?.heroNo === focusedHero.heroNo}
                   text={
                     currentHero?.heroNo === focusedHero?.heroNo
                       ? '지금 보고 있어요'

@@ -18,7 +18,7 @@ import HeroSettingRightHeader from '../../components/header/HeroSettingRightHead
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
 
 export type HeroSettingParamList = {
-  HeroSetting: {shareKey?: string};
+  HeroSetting: {shareKey?: string} | undefined;
   HeroRegister: undefined;
   HeroModification: {heroNo: number};
   HeroSelectingPhoto: undefined;
@@ -54,7 +54,15 @@ const HeroSettingNavigator = (): JSX.Element => {
         component={HeroRegisterPage}
         options={{
           header: () => (
-            <TopBar onBack={resetWritingHero} title={'주인공 추가'} />
+            <TopBar
+              customGoBackAction={() => {
+                resetWritingHero();
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                }
+              }}
+              title={'주인공 추가'}
+            />
           ),
         }}
       />
@@ -63,7 +71,15 @@ const HeroSettingNavigator = (): JSX.Element => {
         component={HeroModificationPage}
         options={{
           header: () => (
-            <TopBar onBack={resetWritingHero} title={'주인공 수정'} />
+            <TopBar
+              customGoBackAction={() => {
+                resetWritingHero();
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                }
+              }}
+              title={'주인공 수정'}
+            />
           ),
         }}
       />
@@ -73,7 +89,12 @@ const HeroSettingNavigator = (): JSX.Element => {
         options={{
           header: () => (
             <TopBar
-              onBack={resetSelectedHeroPhoto}
+              customGoBackAction={() => {
+                resetSelectedHeroPhoto();
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                }
+              }}
               title={'주인공 사진 선택'}
               right={
                 <WritingHeaderRight

@@ -11,12 +11,16 @@ import {isLoggedInState} from '../../../recoils/auth.recoil.ts';
 
 type Props = {
   logo?: boolean;
-  onBack?: Function;
+  customGoBackAction?: () => void;
   title?: string;
   right?: JSX.Element;
 };
 
-export const TopBar = ({title = '', right, onBack}: Props): JSX.Element => {
+export const TopBar = ({
+  title = '',
+  right,
+  customGoBackAction,
+}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <TopNavigationContainer>
@@ -27,20 +31,24 @@ export const TopBar = ({title = '', right, onBack}: Props): JSX.Element => {
         height={50}>
         <Pressable
           onPress={() => {
-            onBack && onBack();
-            if (navigation.canGoBack()) {
-              navigation.goBack();
+            if (typeof customGoBackAction === 'function') {
+              customGoBackAction();
+            } else {
+              if (navigation.canGoBack()) {
+                navigation.goBack();
+              }
             }
           }}>
-          <SvgIcon name={'chevronLeft'}></SvgIcon>
+          <SvgIcon name={'chevronLeft'} />
         </Pressable>
         <Title>{title}</Title>
-        {right ? right : <ContentContainer width={'24px'} />}
+        {right ? right : <ContentContainer width={24} />}
       </ContentContainer>
     </TopNavigationContainer>
   );
 };
-export const MainTopBar = ({onBack, right}: Props): JSX.Element => {
+
+export const MainTopBar = ({customGoBackAction, right}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const isLoggedIn = useRecoilValue(isLoggedInState);
   return (
@@ -49,13 +57,16 @@ export const MainTopBar = ({onBack, right}: Props): JSX.Element => {
         useHorizontalLayout
         paddingVertical={13}
         paddingHorizontal={16}
-        height="50">
+        height={50}>
         <Pressable
           onPress={() => {
-            onBack && onBack();
-            navigation.navigate('HomeTab', {screen: 'Home'});
+            if (typeof customGoBackAction === 'function') {
+              customGoBackAction();
+            } else {
+              navigation.navigate('HomeTab', {screen: 'Home'});
+            }
           }}>
-          <SvgIcon size={99} name={'logo'}></SvgIcon>
+          <SvgIcon size={99} name={'logo'} />
         </Pressable>
         {right ? (
           right
@@ -71,7 +82,7 @@ export const MainTopBar = ({onBack, right}: Props): JSX.Element => {
                     },
                   });
                 }}>
-                <SvgIcon name={'book'}></SvgIcon>
+                <SvgIcon name={'book'} />
               </Pressable>
             )}
             <Pressable
@@ -87,7 +98,7 @@ export const MainTopBar = ({onBack, right}: Props): JSX.Element => {
                   navigation.navigate('HomeTab', {screen: 'Profile'});
                 }
               }}>
-              <SvgIcon name={'my'}></SvgIcon>
+              <SvgIcon name={'my'} />
             </Pressable>
           </ContentContainer>
         )}
