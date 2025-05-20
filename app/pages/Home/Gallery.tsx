@@ -43,13 +43,12 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
     useRecoilState<TagType>(selectedTagState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [isScrolling, setIsScrolling] = useState(false);
-  const moveToStoryDetailPage = (index: GalleryType['index']) => {
+  const moveToStoryListPage = (index: GalleryType['index']) => {
     if (!isScrolling) {
-      setSelectedGalleryIndex(index - 1);
       navigation.push('NoTab', {
         screen: 'StoryViewNavigator',
         params: {
-          screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+          screen: 'StoryList',
         },
       });
     }
@@ -156,7 +155,7 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
                     const index =
                       ageGroups[tag.key as AgeType]?.gallery[0].index;
                     if (index) {
-                      moveToStoryDetailPage(index);
+                      moveToStoryListPage(index);
                     }
                   }}
                 />

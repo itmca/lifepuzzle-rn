@@ -5,8 +5,10 @@ import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import StoryDetailPageWithoutLogin from '../../pages/StoryDetail/StoryDetailPageWithoutLogin';
 import {TopBar} from '../../components/styled/components/TopBar';
 import DetailViewHeaderRight from '../../components/header/DetailViewHeaderRight';
+import StoryListPage from '../../pages/StoryList/StoryListPage';
 
 export type StoryViewParamList = {
+  StoryList: undefined;
   Story: undefined;
   StoryDetailWithoutLogin: undefined;
 };
@@ -21,6 +23,13 @@ const StoryViewNavigator = (): JSX.Element => {
         headerShadowVisible: true,
         headerTitleAlign: 'center',
       }}>
+      <Stack.Screen
+        name="StoryList"
+        component={StoryListPage}
+        options={{
+          header: () => <TopBar title={'사진 목록'} />,
+        }}
+      />
       <Stack.Screen
         name="Story"
         component={StoryDetailPage}
