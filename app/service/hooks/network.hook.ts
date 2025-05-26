@@ -9,7 +9,7 @@ import {useRefreshAuthTokens} from './refresh.hook';
 import {useLogout} from './logout.hook';
 import {AuthTokens} from '../../types/auth.type';
 import logger from '../../utils/logger';
-import * as Sentry from '@sentry/react-native';
+// import * as Sentry from '@sentry/react-native';
 
 type Param<R> = {
   requestOption: AxiosRequestConfig;
@@ -107,7 +107,7 @@ export const useAxios = <R>({
       .then(r => r.data)
       .then(onResponseSuccess)
       .catch(error => {
-        Sentry.captureException(error);
+        // Sentry.captureException(error);
         if (onError) {
           onError(error);
         }
