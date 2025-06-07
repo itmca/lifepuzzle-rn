@@ -13,8 +13,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		1EA5432CFEFCDF180E3E37C2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		27CC7E9492494704A4494201 /* SUIT-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14D3F721478F4779AACBD0DA /* SUIT-SemiBold.ttf */; };
+		569D3683D54A97A55AF6DF7C /* libPods-lifepuzzle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */; };
 		6AC4628DA23E41A19AE88A77 /* SUIT-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8D5CEF5362C4676B7741A3E /* SUIT-ExtraBold.ttf */; };
-		7544CB53BE155CC8AA7CB076 /* libPods-lifepuzzle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7049655D276C0E0C9790FC8D /* libPods-lifepuzzle.a */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		82B999686E2147F19ED308F8 /* SUIT-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31F15B8503DC4C19B2B3ECFA /* SUIT-ExtraLight.ttf */; };
@@ -40,12 +40,12 @@
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = lifepuzzle/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		14D3F721478F4779AACBD0DA /* SUIT-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-SemiBold.ttf"; path = "../app/assets/fonts/SUIT-SemiBold.ttf"; sourceTree = "<group>"; };
 		31F15B8503DC4C19B2B3ECFA /* SUIT-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraLight.ttf"; path = "../app/assets/fonts/SUIT-ExtraLight.ttf"; sourceTree = "<group>"; };
+		3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58505C388EFE46FD85535548 /* SUIT-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Thin.ttf"; path = "../app/assets/fonts/SUIT-Thin.ttf"; sourceTree = "<group>"; };
-		7049655D276C0E0C9790FC8D /* libPods-lifepuzzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		73864A7DB076546AD16D1C6C /* Pods-lifepuzzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.release.xcconfig"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = lifepuzzle/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lifepuzzle/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9384F3C9ABBE41D2A57E5D4F /* SUIT-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Bold.ttf"; path = "../app/assets/fonts/SUIT-Bold.ttf"; sourceTree = "<group>"; };
+		9A18979948DEE1B8DCE0A9AD /* Pods-lifepuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.debug.xcconfig"; sourceTree = "<group>"; };
 		A001DC8F4F25472D91623359 /* SUIT-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Medium.ttf"; path = "../app/assets/fonts/SUIT-Medium.ttf"; sourceTree = "<group>"; };
 		A695A5F429FE5244009456FE /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		A695A5F529FE5244009456FE /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
@@ -81,9 +81,9 @@
 		A695A64629FE62E7009456FE /* Pretendard-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-Thin.ttf"; path = "../app/assets/fonts/Pretendard-Thin.ttf"; sourceTree = "<group>"; };
 		A695A64729FE62E7009456FE /* Pretendard-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-Light.ttf"; path = "../app/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
 		A695A64829FE62E7009456FE /* Pretendard-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-ExtraLight.ttf"; path = "../app/assets/fonts/Pretendard-ExtraLight.ttf"; sourceTree = "<group>"; };
-		AD46A9463B9ED67EA8036D88 /* Pods-lifepuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.debug.xcconfig"; sourceTree = "<group>"; };
 		B3693CC5121040FD86D1C352 /* SUIT-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Light.ttf"; path = "../app/assets/fonts/SUIT-Light.ttf"; sourceTree = "<group>"; };
 		B5520C1E157A4CFDB0F7A658 /* SUIT-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Heavy.ttf"; path = "../app/assets/fonts/SUIT-Heavy.ttf"; sourceTree = "<group>"; };
+		C7285ADB087F6F1AE65195F6 /* Pods-lifepuzzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.release.xcconfig"; sourceTree = "<group>"; };
 		D8D5CEF5362C4676B7741A3E /* SUIT-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraBold.ttf"; path = "../app/assets/fonts/SUIT-ExtraBold.ttf"; sourceTree = "<group>"; };
 		DAECE7F814594C479AF08E4F /* SUIT-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Regular.ttf"; path = "../app/assets/fonts/SUIT-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7544CB53BE155CC8AA7CB076 /* libPods-lifepuzzle.a in Frameworks */,
+				569D3683D54A97A55AF6DF7C /* libPods-lifepuzzle.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,7 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				7049655D276C0E0C9790FC8D /* libPods-lifepuzzle.a */,
+				3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,8 +198,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AD46A9463B9ED67EA8036D88 /* Pods-lifepuzzle.debug.xcconfig */,
-				73864A7DB076546AD16D1C6C /* Pods-lifepuzzle.release.xcconfig */,
+				9A18979948DEE1B8DCE0A9AD /* Pods-lifepuzzle.debug.xcconfig */,
+				C7285ADB087F6F1AE65195F6 /* Pods-lifepuzzle.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -227,14 +227,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lifepuzzle" */;
 			buildPhases = (
-				20388DEF96DB4C1F2016C58A /* [CP] Check Pods Manifest.lock */,
+				E62B756B0FDF6DFDAB7646AC /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				7EB148686B8ACD46B7BACFAA /* [CP] Embed Pods Frameworks */,
-				ED30A45EFC5B7F94BE30621B /* [CP] Copy Pods Resources */,
+				B462A1A3B1C332E056588599 /* [CP] Embed Pods Frameworks */,
+				78180CE70D4E8585374516C5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -322,31 +322,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport PATH=/opt/homebrew/bin:$PATH\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n";
+			shellScript = "set -e\n\nexport PATH=/opt/homebrew/bin:$PATH\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		20388DEF96DB4C1F2016C58A /* [CP] Check Pods Manifest.lock */ = {
+		78180CE70D4E8585374516C5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-lifepuzzle-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7EB148686B8ACD46B7BACFAA /* [CP] Embed Pods Frameworks */ = {
+		B462A1A3B1C332E056588599 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -367,25 +366,26 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ED30A45EFC5B7F94BE30621B /* [CP] Copy Pods Resources */ = {
+		E62B756B0FDF6DFDAB7646AC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lifepuzzle-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -423,14 +423,14 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD46A9463B9ED67EA8036D88 /* Pods-lifepuzzle.debug.xcconfig */;
+			baseConfigurationReference = 9A18979948DEE1B8DCE0A9AD /* Pods-lifepuzzle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = lifepuzzle/lifepuzzle.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = N58TUAY7X8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = lifepuzzle/Info.plist;
@@ -461,7 +461,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73864A7DB076546AD16D1C6C /* Pods-lifepuzzle.release.xcconfig */;
+			baseConfigurationReference = C7285ADB087F6F1AE65195F6 /* Pods-lifepuzzle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -469,7 +469,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = N58TUAY7X8;
 				INFOPLIST_FILE = lifepuzzle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -527,6 +528,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
@@ -604,7 +606,8 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;

@@ -18,16 +18,9 @@ import {authState} from './recoils/auth.recoil';
 import {NavigationContainer} from '@react-navigation/native';
 import {hideSplash} from 'react-native-splash-view';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-// import * as Sentry from '@sentry/react-native';
-import Config from 'react-native-config';
 import {useLinking} from './service/hooks/linking.hook.ts';
 import {ToastComponent} from './components/styled/components/Toast.tsx';
 import {ActionSheetProvider} from '@expo/react-native-action-sheet';
-
-// Sentry.init({
-//   dsn: Config.SENTRY_DSN,
-//   enableNative: false, // Native 끄기
-// });
 
 const theme = {
   ...DefaultTheme,

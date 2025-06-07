@@ -40,7 +40,7 @@ const HeroSharePage = (): JSX.Element => {
 
   const [updateLoading, refetch] = useAuthAxios<any>({
     requestOption: {
-      url: `/v1/user/hero/link?heroNo=${hero.heroNo.toString()}&auth=${auth}`,
+      url: `/v1/users/hero/link?heroNo=${hero.heroNo.toString()}&auth=${auth}`,
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

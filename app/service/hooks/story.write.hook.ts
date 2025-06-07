@@ -44,8 +44,8 @@ export const useSaveStory = (): [() => void] => {
     requestOption: {
       method: editStoryKey ? 'put' : 'post',
       url: editStoryKey
-        ? `/v1/heroes/${hero.heroNo}/stories/${editStoryKey}`
-        : `/v1/heroes/${hero.heroNo}/stories`,
+        ? `/v2/heroes/${hero.heroNo}/stories/${editStoryKey}`
+        : `/v2/heroes/${hero.heroNo}/stories`,
       headers: {'Content-Type': 'multipart/form-data'},
       timeout: 30_000, // speech to text 시 10~20초가 걸려 30초로 하며 관련 처리 시간 단축 시 timeout 조정 필요
     },

@@ -49,10 +49,9 @@ const HomePage = (): JSX.Element => {
   }, []);
 
   useFocusAction(() => {
-    if (!refetch) {
+    if (!refetch || hero.heroNo < 0) {
       return;
     }
-
     refetch({
       params: {
         heroNo: hero.heroNo,

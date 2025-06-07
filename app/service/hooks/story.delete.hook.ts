@@ -60,7 +60,7 @@ export const useDeleteGallery = ({galleryId}: GalleryProps): [() => void] => {
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
       method: 'DELETE',
-      url: `/v1/heroes/gallery/${galleryId}`,
+      url: `/v2/heroes/gallery/${galleryId}`,
     },
     onResponseSuccess: () => {
       navigation.navigate('HomeTab', {screen: 'Home'});
