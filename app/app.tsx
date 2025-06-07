@@ -16,7 +16,7 @@ import {MutableSnapshot, RecoilRoot} from 'recoil';
 import {LocalStorage} from './service/local-storage.service';
 import {authState} from './recoils/auth.recoil';
 import {NavigationContainer} from '@react-navigation/native';
-import {hideSplash} from 'react-native-splash-view';
+import {hideSplash, showSplash} from 'react-native-splash-view';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useLinking} from './service/hooks/linking.hook.ts';
 import {ToastComponent} from './components/styled/components/Toast.tsx';
@@ -56,8 +56,12 @@ const InternalApp = (): React.JSX.Element => {
 };
 
 const App = (): React.JSX.Element => {
+  showSplash();
+
   useEffect(() => {
-    hideSplash();
+    setTimeout(() => {
+      hideSplash(); // Hide after some time
+    }, 2000);
   }, []);
 
   const linking = useLinking();
