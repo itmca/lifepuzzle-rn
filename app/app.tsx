@@ -56,9 +56,9 @@ const InternalApp = (): React.JSX.Element => {
 };
 
 const App = (): React.JSX.Element => {
-  showSplash();
-
   useEffect(() => {
+    showSplash();
+
     setTimeout(() => {
       hideSplash(); // Hide after some time
     }, 2000);

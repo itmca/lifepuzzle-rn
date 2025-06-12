@@ -9,6 +9,7 @@ import {Color} from '../../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
 import {BasicButton} from '../BasicButton.tsx';
+import {showErrorToast} from '../../styled/components/Toast.tsx';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
@@ -34,6 +35,10 @@ const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
       },
     },
     onResponseSuccess: loginResponseHandler,
+    onError: () => {
+      onChangeLoading(false);
+      showErrorToast('카카오 로그인에 실패했습니다');
+    },
     onLoadingStatusChange: onChangeLoading,
     disableInitialRequest: true,
   });

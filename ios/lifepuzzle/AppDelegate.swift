@@ -2,6 +2,7 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import kakao_login
 
 @main
 class AppDelegate: RCTAppDelegate {
@@ -14,6 +15,15 @@ class AppDelegate: RCTAppDelegate {
     self.initialProps = [:]
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+  
+  override func application(_ app: UIApplication,
+                   open url: URL,
+                   options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+      if kakao_login.RNKakaoLogins.isKakaoTalkLoginUrl(url) {
+        return kakao_login.RNKakaoLogins.handleOpen(url)
+      }
+      return false
   }
 
   override func sourceURL(for bridge: RCTBridge) -> URL? {
