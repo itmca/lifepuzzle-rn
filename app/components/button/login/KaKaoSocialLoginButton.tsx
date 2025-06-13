@@ -62,7 +62,6 @@ const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
     <BasicButton
       height={'44px'}
       iconName={'kakaoLogo'}
-      iconSize={18}
       backgroundColor={Color.YELLOW}
       textColor={Color.BLACK}
       text={'카카오 로그인'}
