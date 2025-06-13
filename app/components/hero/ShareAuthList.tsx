@@ -17,6 +17,7 @@ import {ButtonBase} from '../styled/components/Button';
 import {SvgIcon} from '../styled/components/SvgIcon';
 import {Divider} from '../styled/components/Divider';
 
+import {showToast} from '../styled/components/Toast.tsx';
 type props = {};
 
 export const ShareAuthList = ({}: props): JSX.Element => {
@@ -58,6 +59,7 @@ export const ShareAuthList = ({}: props): JSX.Element => {
     try {
       await Clipboard.setString(text);
       setCopied(true);
+      showToast('링크가 복사되었습니다.');
     } catch (e) {
       CustomAlert.simpleAlert('복사에 실패하였습니다');
     }
@@ -70,12 +72,13 @@ export const ShareAuthList = ({}: props): JSX.Element => {
     refetch({});
   };
   return (
-    <ContentContainer paddingTop={20} gap={20}>
+    <ContentContainer gap={20}>
       <ScrollContentContainer gap={0}>
         {authList
           .filter(i => i.value !== 'OWNER')
           .map((i, index) => (
             <>
+              {index !== 0 && <Divider marginVertical={0} />}
               <ContentContainer
                 key={'share-auth-' + index}
                 paddingVertical={14}
@@ -88,7 +91,6 @@ export const ShareAuthList = ({}: props): JSX.Element => {
                   subLabel={i.description}
                   onSelect={onSelectAuth}></Radio>
               </ContentContainer>
-              <Divider />
             </>
           ))}
       </ScrollContentContainer>
