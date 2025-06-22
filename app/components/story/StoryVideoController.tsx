@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import {Bar} from 'react-native-progress';
 import {LegacyColor} from '../../constants/color.constant';
-import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
+import {toMmSs} from '../../service/date-time-display.service.ts';
 import {XXSmallText} from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
 
@@ -81,7 +81,7 @@ export const VideoController = ({
                     withNoBackground
                     paddingHorizontal={4}>
                     <XXSmallText color={LegacyColor.WHITE}>
-                      {toMinuteSeconds(currentProgress * duration)}
+                      {toMmSs(currentProgress * duration)}
                     </XXSmallText>
                     <XXSmallText color={LegacyColor.WHITE}>
                       {playingTime}

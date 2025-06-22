@@ -99,7 +99,6 @@ const HomePage = (): JSX.Element => {
         <BottomSheet
           opened={openModal}
           title={'공유하기'}
-          snapPoints={useMemo(() => ['44%'], [])}
           onClose={() => {
             setOpenModal(false);
           }}>

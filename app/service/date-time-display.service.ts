@@ -1,11 +1,21 @@
-export const toMinuteSeconds = (seconds: number): string => {
+export const toMmSs = (seconds: number): string => {
   const intSeconds = Math.floor(seconds);
   const minutes = String(Math.floor(intSeconds / 60)).padStart(2, '0');
   const remainSeconds = String(intSeconds % 60).padStart(2, '0');
 
   return `${minutes}:${remainSeconds}`;
 };
+export const toMmSsSS = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  const millis = Math.floor((seconds % 1) * 100); // 소수점 이하 2자리
 
+  return (
+    `${String(mins).padStart(2, '0')}:` +
+    `${String(secs).padStart(2, '0')}:` +
+    `${String(millis).padStart(2, '0')}`
+  );
+};
 export const toInternationalAge = (birthDate: Date): number => {
   const birthYear = birthDate.getFullYear();
   const birthMonth = birthDate.getMonth();

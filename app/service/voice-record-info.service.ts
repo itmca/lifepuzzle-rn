@@ -9,7 +9,7 @@ export const getRecordFileName = function () {
   const hour = Math.floor(tempHour / 12) + (tempHour % 13);
   const hourUnit = tempHour < 12 ? 'AM' : 'PM';
 
-  const fileName = `${year}.${month}.${day} ${hour}:${minute}${hourUnit}`;
+  const fileName = `${year}${month}${day}_${hour}${minute}${hourUnit}`;
   return fileName;
 };
 

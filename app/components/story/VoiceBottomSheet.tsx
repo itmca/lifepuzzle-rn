@@ -1,15 +1,15 @@
 import {useBottomSheetTimingConfigs} from '@gorhom/bottom-sheet';
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 import {Easing} from 'react-native-reanimated';
 
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {
   playInfoState,
   writingStoryState,
 } from '../../recoils/story-write.recoil.ts';
-import {VoicePlayer} from './StoryVoicePlayer.tsx';
+import {VoicePlayer, VoicePlayerRef} from './StoryVoicePlayer.tsx';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import BottomSheet from '../styled/components/BottomSheet.tsx';
 
@@ -20,42 +20,31 @@ type Props = {
 };
 
 export const VoiceBottomSheet = (props: Props): JSX.Element => {
+  const voicePlayerRef = useRef<VoicePlayerRef>(null);
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
-  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
-
+  const navigation = useNavigation<BasicNavigationProps>();
   const mSnapPoints = useMemo(() => ['30%'], []);
 
-  const navigation = useNavigation<BasicNavigationProps>();
+  const handleClose = () => {
+    voicePlayerRef.current?.stopAllAudio?.();
+    props.onClose && props.onClose();
+  };
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
       if (props.opened) {
-        setPlayInfo({
-          isPlay: false,
-          playTime: '00:00:00',
-          currentPositionSec: 0,
-        });
+        voicePlayerRef.current?.stopAllAudio?.();
       }
     });
 
     return () => {
       unsubscribe();
     };
-  }, [navigation]);
+  }, [navigation, props.opened]);
 
   //음성 재생
   useEffect(() => {
-    if (props.opened) {
-    } else {
-      // if (!keyboardVisible) {
-      //   menuModalRef.current?.present();
-      //   menuModalRef.current?.snapToIndex(0);
-      // }
-      // setPlayInfo({
-      //   isOpen: false,
-      //   isPlay: false,
-      //   playTime: '00:00:00',
-      //   currentPositionSec: 0,
-      // });
+    if (!props.opened) {
+      handleClose();
     }
   }, [props.opened]);
 
@@ -64,10 +53,11 @@ export const VoiceBottomSheet = (props: Props): JSX.Element => {
       <BottomSheet
         opened={props.opened}
         title={'음성메모'}
-        onClose={props.onClose}
+        onClose={handleClose}
         snapPoints={mSnapPoints}>
         <ContentContainer>
           <VoicePlayer
+            ref={voicePlayerRef}
             source={writingStory.voice}
             editable={props.editable}
             onSave={uri => {
@@ -76,7 +66,7 @@ export const VoiceBottomSheet = (props: Props): JSX.Element => {
             onDelete={() => {
               setWritingStory({voice: undefined});
             }}
-            onClose={props.onClose}
+            onClose={handleClose}
           />
         </ContentContainer>
       </BottomSheet>

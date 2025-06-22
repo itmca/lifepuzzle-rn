@@ -25,7 +25,7 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import BottomSheet from '../../components/styled/components/BottomSheet';
 
 import {Color} from '../../constants/color.constant.ts';
-import {StoryDetailMenu} from '../../components/story/StoryDetailBottomMenu.tsx';
+import {StoryDetailMenuBottomSheet} from '../../components/story/StoryDetailMenuBottomSheet.tsx';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {
   getGallery,
@@ -61,11 +61,8 @@ const StoryDetailPage = (): JSX.Element => {
   const isFocused = useIsFocused();
 
   //bottom sheet
-  const [openModal, setOpenModal] = useRecoilState(OpenDetailBottomSheet);
+
   const snapPoints = useMemo(() => [isStory ? '40%' : '20%'], [isStory]);
-  const handleClosePress = useCallback(() => {
-    setOpenModal(false);
-  }, []);
 
   const onClickWrite = () => {
     const currentGalleryItem = gallery[galleryIndex];
@@ -79,7 +76,6 @@ const StoryDetailPage = (): JSX.Element => {
         },
       ],
     });
-    handleClosePress();
     navigation.push('NoTab', {
       screen: 'StoryWritingNavigator',
       params: {
@@ -117,9 +113,6 @@ const StoryDetailPage = (): JSX.Element => {
                 onScroll={index => {
                   setGalleryIndex(index % gallery.length);
                   setIsStory(gallery[index % gallery.length].story);
-                  if (openModal) {
-                    setOpenModal(false);
-                  }
                 }}
                 onPress={openPinchZoomModal}
               />
@@ -142,17 +135,10 @@ const StoryDetailPage = (): JSX.Element => {
           </ScrollContentContainer>
         </ScreenContainer>
 
-        <BottomSheet
-          opened={openModal}
-          snapPoints={snapPoints}
-          onClose={() => {
-            setOpenModal(false);
-          }}>
-          <StoryDetailMenu
-            type={isStory ? 'story' : 'photo'}
-            gallery={gallery[galleryIndex]}
-          />
-        </BottomSheet>
+        <StoryDetailMenuBottomSheet
+          type={isStory ? 'story' : 'photo'}
+          gallery={gallery[galleryIndex]}
+        />
         <PinchZoomModal
           opened={pinchZoomModalOpen}
           imageUri={pinchZoomImage}

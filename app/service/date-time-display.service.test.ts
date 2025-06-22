@@ -1,12 +1,9 @@
-import {
-  toInternationalAge,
-  toMinuteSeconds,
-} from './date-time-display.service.ts';
+import {toInternationalAge, toMmSs} from './date-time-display.service.ts';
 
 test.each([1, 11, 21, 31, 41, 59])(
   '60초 미만의 숫자가 주어지는 경우에도 00:으로 시작한다.',
   seconds => {
-    const minuteSeconds = toMinuteSeconds(seconds);
+    const minuteSeconds = toMmSs(seconds);
 
     expect(minuteSeconds).toMatch(/^00:\d+/);
   },
@@ -15,7 +12,7 @@ test.each([1, 11, 21, 31, 41, 59])(
 test.each([60, 120, 180, 600, 1200, 6000])(
   '60의 배수가 주어지면 초는 00으로 표시된다.',
   seconds => {
-    const minuteSeconds = toMinuteSeconds(seconds);
+    const minuteSeconds = toMmSs(seconds);
 
     expect(minuteSeconds).toMatch(/^\d+:00$/);
   },
@@ -31,7 +28,7 @@ test.each([
   [3943, '65:43'],
   [5999, '99:59'],
 ])('최소 99분 까지는 분초로 정상 변환한다.', (seconds, expected) => {
-  const minuteSeconds = toMinuteSeconds(seconds);
+  const minuteSeconds = toMmSs(seconds);
 
   expect(minuteSeconds).toBe(expected);
 });

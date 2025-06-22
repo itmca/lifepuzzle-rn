@@ -11,12 +11,13 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import {BottomSheetHandleProps} from '@gorhom/bottom-sheet';
 import Title from './Title';
 import {ContentContainer} from '../container/ContentContainer';
 import {SvgIcon} from './SvgIcon';
-import {TouchableOpacity} from 'react-native';
+import {Dimensions, TouchableOpacity} from 'react-native';
 
 interface HandleProps extends BottomSheetHandleProps {
   title: string;
@@ -47,7 +48,10 @@ const HeaderHandleComponent: React.FC<HandleProps> = memo(
 const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
   ({title, opened, snapPoints, backdropComponent, ...props}, ref) => {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const _snapPoints = snapPoints ?? useMemo(() => ['60%'], []);
+    const [contentHeight, setContentHeight] = useState(0);
+
+    const _snapPoints =
+      snapPoints ?? useMemo(() => [`${contentHeight || 60}%`], [contentHeight]);
     const renderBackdrop =
       backdropComponent ??
       useCallback(
@@ -89,9 +93,15 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
         snapPoints={_snapPoints}
         handleComponent={renderCustomHandle}
         backdropComponent={renderBackdrop}
-        enablePanDownToClose={false}
         onDismiss={handleClose}>
-        <ContentContainer paddingHorizontal={20} paddingBottom={38}>
+        <ContentContainer
+          onLayout={e => {
+            const screenHeight = Dimensions.get('window').height;
+            const contentHeight = e.nativeEvent.layout.height;
+            setContentHeight(((contentHeight + 60) / screenHeight) * 100); // padding 고려
+          }}
+          paddingHorizontal={20}
+          paddingBottom={38}>
           {props.children}
         </ContentContainer>
       </BottomSheetModal>

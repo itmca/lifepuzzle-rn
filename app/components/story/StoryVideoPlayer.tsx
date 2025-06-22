@@ -4,7 +4,7 @@ import Video, {
   OnProgressData,
 } from 'react-native-video';
 import {LegacyColor} from '../../constants/color.constant';
-import {toMinuteSeconds} from '../../service/date-time-display.service.ts';
+import {toMmSs} from '../../service/date-time-display.service.ts';
 import React, {useEffect, useRef, useState} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {VideoController} from './StoryVideoController';
@@ -53,7 +53,7 @@ export const VideoPlayer = ({
   const _onLoad = (data: OnLoadData) => {
     const videoDuration = data.duration;
     setDuration(videoDuration);
-    setPlayingTime(toMinuteSeconds(videoDuration));
+    setPlayingTime(toMmSs(videoDuration));
     onLoad && onLoad(data);
   };
 
