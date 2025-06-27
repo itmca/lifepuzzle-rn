@@ -2,12 +2,16 @@ import {useUserHttpPayLoad} from './user.payload.hook.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {useAuthAxios} from './network.hook.ts';
-import {showToast} from '../../components/styled/components/Toast.tsx';
+import {
+  showErrorToast,
+  showToast,
+} from '../../components/styled/components/Toast.tsx';
 import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
 import {useUpdatePublisher} from './update.hooks.ts';
 import {currentUserUpdate} from '../../recoils/update.recoil.ts';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {writingUserState} from '../../recoils/user.recoil.ts';
+import {HeroAuthTypeCode} from '../../constants/auth.constant.ts';
 
 type Props = {
   onSuccess: () => void;
@@ -70,6 +74,39 @@ export const useUserProfileUpdate = ({
       }
 
       update({data: httpPayload});
+    },
+    isUpdating,
+  ];
+};
+
+type UserAuthRequestBody = {
+  heroNo: number;
+  userNo: number;
+  heroAuthStatus: HeroAuthTypeCode;
+};
+
+export const useUserAuthUpdate = ({
+  onSuccess,
+}: Props): [(body: UserAuthRequestBody) => void, boolean] => {
+  const [isUpdating, update] = useAuthAxios<void>({
+    requestOption: {
+      method: 'PUT',
+      url: '/v1/heroes/auth',
+      headers: {'Content-Type': 'application/json'},
+    },
+    onResponseSuccess: () => {
+      showToast('권한 수정되었습니다.');
+      onSuccess && onSuccess();
+    },
+    onError: () => {
+      showErrorToast('권한 수정에 실패했습니다');
+    },
+    disableInitialRequest: true,
+  });
+
+  return [
+    (body: UserAuthRequestBody) => {
+      update({data: body});
     },
     isUpdating,
   ];

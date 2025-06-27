@@ -2,7 +2,11 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import {TouchableOpacity, useWindowDimensions} from 'react-native';
 import {useAuthAxios} from '../../service/hooks/network.hook';
-import {HeroType, HeroWithPuzzleCntType} from '../../types/hero.type';
+import {
+  HeroType,
+  HeroUserType,
+  HeroWithPuzzleCntType,
+} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useUpdateObserver} from '../../service/hooks/update.hooks';
 import {heroUpdate} from '../../recoils/update.recoil';
@@ -17,7 +21,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer.tsx';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {Color} from '../../constants/color.constant.ts';
 import {writingHeroKeyState} from '../../recoils/hero-write.recoil.ts';
 import {AccountAvatar} from '../../components/avatar/AccountAvatar.tsx';
@@ -39,6 +43,10 @@ import {heroState} from '../../recoils/hero.recoil.ts';
 import {HeroAuthTypeByCode} from '../../constants/auth.constant.ts';
 import {showToast} from '../../components/styled/components/Toast.tsx';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
+import {SvgIcon} from '../../components/styled/components/SvgIcon.tsx';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {HeroAuthUpdateBottomSheet} from './HeroAuthUpdateBottomSheet.tsx';
+import {userState} from '../../recoils/user.recoil.ts';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -46,6 +54,11 @@ const HeroSettingPage = (): JSX.Element => {
   const carouselRef = useRef<ICarouselInstance>(null);
 
   const {width: windowWidth} = useWindowDimensions();
+  const [authSettingModalOpen, setAuthSettingModalOpen] =
+    useState<boolean>(false);
+  const [authSettingUser, setAuthSettingUser] = useState<
+    HeroUserType | undefined
+  >(undefined);
 
   const [heroes, setHeroes] = useState<HeroWithPuzzleCntType[]>([]);
   const [displayHeroes, setDisplayHeroes] = useState<HeroWithPuzzleCntType[]>(
@@ -55,6 +68,7 @@ const HeroSettingPage = (): JSX.Element => {
   const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
     heroes[0],
   );
+  const user = useRecoilValue(userState);
 
   const setWritingHeroNo = useSetRecoilState(writingHeroKeyState);
 
@@ -117,6 +131,10 @@ const HeroSettingPage = (): JSX.Element => {
   if (focusedHero === undefined) {
     return <></>;
   }
+
+  var currentUserAuth = focusedHero.users.find(
+    linkedUser => linkedUser.userNo === user.userNo,
+  )?.auth;
 
   return (
     <LoadingContainer isLoading={isLoading}>
@@ -235,7 +253,7 @@ const HeroSettingPage = (): JSX.Element => {
           <ContentContainer withScreenPadding paddingTop={0} paddingBottom={4}>
             <Title>{focusedHero ? '연결된 계정' : ''}</Title>
 
-            {focusedHero?.users?.map((user, index) => {
+            {focusedHero?.users?.map((linkedUser, index) => {
               return (
                 <ContentContainer
                   key={index}
@@ -246,39 +264,59 @@ const HeroSettingPage = (): JSX.Element => {
                   gap={12}>
                   <ContentContainer useHorizontalLayout flex={1} expandToEnd>
                     <AccountAvatar
-                      imageURL={user.imageURL}
+                      imageURL={linkedUser.imageURL}
                       size={52}
-                      auth={user.auth}
+                      auth={linkedUser.auth}
                       iconSize={20}
                       iconPadding={0}
                     />
                     <ContentContainer gap={2}>
                       <BodyTextB color={Color.GREY_800}>
-                        {user.nickName}
+                        {linkedUser.nickName}
                       </BodyTextB>
                       <BodyTextM
                         color={
-                          user.auth === 'OWNER'
+                          linkedUser.auth === 'OWNER'
                             ? Color.SUB_CORAL
-                            : user.auth === 'ADMIN'
+                            : linkedUser.auth === 'ADMIN'
                             ? Color.SUB_TEAL
                             : Color.MAIN_DARK
                         }>
-                        {HeroAuthTypeByCode[user.auth].name}
+                        {HeroAuthTypeByCode[linkedUser.auth].name}
                       </BodyTextM>
                     </ContentContainer>
                   </ContentContainer>
                   <ContentContainer width={'auto'}>
-                    {/* TODO(border-line): 디자인 개편 1차 앱 배포 이후 권한 수정 기능 구현 필요 */}
-                    {/*{user.auth !== 'OWNER' && (*/}
-                    {/*  <SvgIcon name={'setting'} size={24} />*/}
-                    {/*)}*/}
+                    {(currentUserAuth === 'OWNER' ||
+                      currentUserAuth === 'ADMIN') &&
+                      linkedUser.auth !== 'OWNER' &&
+                      linkedUser.userNo !== user.userNo && (
+                        <SvgIcon
+                          name={'setting'}
+                          size={24}
+                          onPress={() => {
+                            setAuthSettingModalOpen(true);
+                            setAuthSettingUser(linkedUser);
+                          }}
+                        />
+                      )}
                   </ContentContainer>
                 </ContentContainer>
               );
             })}
           </ContentContainer>
         </ScrollContentContainer>
+        <BottomSheetModalProvider>
+          <HeroAuthUpdateBottomSheet
+            opened={authSettingModalOpen}
+            user={authSettingUser}
+            hero={focusedHero}
+            onSuccess={() => {
+              setAuthSettingModalOpen(false);
+            }}
+            onClose={() => setAuthSettingModalOpen(false)}
+          />
+        </BottomSheetModalProvider>
       </ScreenContainer>
     </LoadingContainer>
   );
