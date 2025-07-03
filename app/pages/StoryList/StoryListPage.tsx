@@ -1,89 +1,74 @@
-import React from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import React, {useEffect, useRef} from 'react';
+import {findNodeHandle, FlatList, UIManager, View} from 'react-native';
 import MasonryList from 'react-native-masonry-list';
-import LinearGradient from 'react-native-linear-gradient';
-
-import {useNavigation} from '@react-navigation/native';
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
-
-import {Color} from '../../constants/color.constant.ts';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
+import {useRecoilState} from 'recoil';
 import {
   ageGroupsState,
-  selectedGalleryIndexState,
   selectedTagState,
-} from '../../recoils/photos.recoil.ts';
-import {Head} from '../../components/styled/components/Text.tsx';
+  tagState,
+} from '../../recoils/photos.recoil';
+import {AgeType, GalleryType} from '../../types/photo.type';
+import {Head} from '../../components/styled/components/Text';
 import {
-  AgeGroupsType,
-  AgeType,
-  GalleryType,
-  TagType,
-} from '../../types/photo.type.ts';
-import {isLoggedInState} from '../../recoils/auth.recoil.ts';
+  ContentContainer,
+  ScrollContentContainer,
+} from '../../components/styled/container/ContentContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
 
-const StoryListPage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+const StoryListPage = () => {
+  const [tags] = useRecoilState(tagState);
+  const [ageGroups] = useRecoilState(ageGroupsState);
+  const [selectedTag] = useRecoilState(selectedTagState);
 
-  const [ageGroups] = useRecoilState<AgeGroupsType>(ageGroupsState);
-  const [selectedTag, setSelectedTag] =
-    useRecoilState<TagType>(selectedTagState);
-  const [selectedGalleryIndex, setSelectedGalleryIndex] =
-    useRecoilState<number>(selectedGalleryIndexState);
-  const moveToStoryDetailPage = (gallery: GalleryType) => {
-    const index =
-      ageGroups[selectedTag.key as AgeType]?.gallery.find(
-        elem => elem.id === gallery.id,
-      )?.index ?? 1;
-    setSelectedGalleryIndex(index - 1);
-    navigation.push('NoTab', {
-      screen: 'StoryViewNavigator',
-      params: {
-        screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
-      },
-    });
-  };
+  const flatListRef = useRef<FlatList>(null);
+  const itemRefs = useRef<{[key in AgeType]?: View | null}>({});
+
+  // 스크롤 이동 (선택된 태그로)
+  useEffect(() => {
+    const targetRef = itemRefs.current[selectedTag.key as AgeType];
+    const listRef = flatListRef.current;
+
+    if (targetRef && listRef) {
+      const nodeHandle = findNodeHandle(targetRef);
+      if (nodeHandle) {
+        UIManager.measureLayout(
+          nodeHandle,
+          findNodeHandle(listRef),
+          () => console.warn(),
+          (_x, y) => {
+            flatListRef.current?.scrollToOffset({offset: y, animated: true});
+          },
+        );
+      }
+    }
+  }, [selectedTag]);
+
   return (
     <ScreenContainer>
-      <ContentContainer flex={1} gap={0}>
-        <ContentContainer paddingTop={16} paddingHorizontal={20}>
-          <Head>
-            {selectedTag.label}(
-            {ageGroups[selectedTag.key as AgeType]?.galleryCount})
-          </Head>
-        </ContentContainer>
-        <MasonryList
-          images={ageGroups[selectedTag.key as AgeType]?.gallery.map(
-            (e: GalleryType) => {
-              return {
-                id: e.id,
-                url: e.url,
-              };
-            },
-          )}
-          columns={2}
-          spacing={4}
-          imageContainerStyle={{borderRadius: 12}}
-          onPressImage={(gallery: GalleryType) => {
-            moveToStoryDetailPage(gallery);
-          }}
-        />
-      </ContentContainer>
-      <LinearGradient
-        colors={[Color.TRANSPARENT, Color.WHITE]} // 원하는 색으로 조절 가능
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 60,
-        }}
-        pointerEvents="none"
-      />
+      <ScrollContentContainer paddingVertical={16}>
+        {Object.entries(ageGroups).map(([ageKey, ageGroup]) => {
+          return (
+            <ContentContainer gap={0}>
+              <ContentContainer paddingHorizontal={20}>
+                <Head>
+                  {tags.filter(item => item.key === ageKey)[0].label}(
+                  {ageGroups[ageKey as AgeType]?.galleryCount})
+                </Head>
+              </ContentContainer>
+              <MasonryList
+                images={ageGroup.gallery.map((e: GalleryType) => ({
+                  uri: e.url,
+                  id: e.id,
+                }))}
+                spacing={4}
+                imageContainerStyle={{borderRadius: 12}}
+              />
+            </ContentContainer>
+          );
+        })}
+      </ScrollContentContainer>
     </ScreenContainer>
   );
 };
+
 export default StoryListPage;
