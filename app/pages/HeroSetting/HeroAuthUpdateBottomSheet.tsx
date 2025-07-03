@@ -9,6 +9,7 @@ import {HeroType, HeroUserType} from '../../types/hero.type.ts';
 import {Divider} from '../../components/styled/components/Divider.tsx';
 import {Radio} from '../../components/styled/components/Radio.tsx';
 import {
+  HeroAuthTypeByCode,
   HeroAuthTypeCode,
   SortedHeroAuthTypes,
 } from '../../constants/auth.constant.ts';
@@ -83,7 +84,7 @@ export const HeroAuthUpdateBottomSheet = ({
           </ContentContainer>
           <ContentContainer gap={2}>
             <BodyTextB>{user.nickName}</BodyTextB>
-            <BodyTextB>{user.auth}</BodyTextB>
+            <BodyTextB>{HeroAuthTypeByCode[user.auth].name}</BodyTextB>
           </ContentContainer>
         </ContentContainer>
         <ContentContainer gap={0}>

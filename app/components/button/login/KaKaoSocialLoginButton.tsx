@@ -35,7 +35,8 @@ const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
       },
     },
     onResponseSuccess: loginResponseHandler,
-    onError: () => {
+    onError: err => {
+      console.log(err);
       onChangeLoading(false);
       showErrorToast('카카오 로그인에 실패했습니다');
     },
