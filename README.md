@@ -28,10 +28,10 @@ npm run ios:prod # iOS 실행
   - ...
 - types : 전역 Typescript 타입
 
-### Naming Convention
+### Development Guide
 
-- TSX -> PascalCase.tsx
-- TS -> kebab-case.category.ts
+- [Code Style Guide](./docs/CODE_STYLE.md)
+- [Naming Guide](./docs/NAMING.md)
 
 ### Versioning
 
