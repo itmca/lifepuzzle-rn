@@ -13,6 +13,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		1EA5432CFEFCDF180E3E37C2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		27CC7E9492494704A4494201 /* SUIT-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14D3F721478F4779AACBD0DA /* SUIT-SemiBold.ttf */; };
+		41DCB6832E182D6A005521B7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 41DCB6822E182D6A005521B7 /* Config.xcconfig */; };
 		569D3683D54A97A55AF6DF7C /* libPods-lifepuzzle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */; };
 		6AC4628DA23E41A19AE88A77 /* SUIT-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8D5CEF5362C4676B7741A3E /* SUIT-ExtraBold.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 		14D3F721478F4779AACBD0DA /* SUIT-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-SemiBold.ttf"; path = "../app/assets/fonts/SUIT-SemiBold.ttf"; sourceTree = "<group>"; };
 		31F15B8503DC4C19B2B3ECFA /* SUIT-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraLight.ttf"; path = "../app/assets/fonts/SUIT-ExtraLight.ttf"; sourceTree = "<group>"; };
 		3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		41DCB6822E182D6A005521B7 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		58505C388EFE46FD85535548 /* SUIT-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Thin.ttf"; path = "../app/assets/fonts/SUIT-Thin.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = lifepuzzle/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lifepuzzle/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				41DCB6822E182D6A005521B7 /* Config.xcconfig */,
 				A695A64329FE62E7009456FE /* Pretendard-Black.ttf */,
 				A695A64229FE62E7009456FE /* Pretendard-Bold.ttf */,
 				A695A64429FE62E7009456FE /* Pretendard-ExtraBold.ttf */,
@@ -295,6 +298,7 @@
 				F47CA7BAF5164478B893B2B6 /* SUIT-Bold.ttf in Resources */,
 				6AC4628DA23E41A19AE88A77 /* SUIT-ExtraBold.ttf in Resources */,
 				82B999686E2147F19ED308F8 /* SUIT-ExtraLight.ttf in Resources */,
+				41DCB6832E182D6A005521B7 /* Config.xcconfig in Resources */,
 				9D89C350E15B4CDBB6CA8CD4 /* SUIT-Heavy.ttf in Resources */,
 				036F6A401DA344A3ADB8EF59 /* SUIT-Light.ttf in Resources */,
 				A94B95A6373D42E68FF19EC2 /* SUIT-Medium.ttf in Resources */,
@@ -499,6 +503,7 @@
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41DCB6822E182D6A005521B7 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -578,6 +583,7 @@
 		};
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41DCB6822E182D6A005521B7 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
