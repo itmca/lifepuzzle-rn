@@ -1,9 +1,9 @@
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 
-import {LegacyColor} from '../../constants/color.constant';
-import {XXSmallText} from '../styled/components/LegacyText.tsx';
+import {Color} from '../../constants/color.constant';
 
 import {ContentContainer} from '../styled/container/ContentContainer';
+import {Caption} from '../styled/components/Text.tsx';
 
 type Props = {
   visible: boolean;
@@ -27,21 +27,21 @@ const MediaCarouselPagination = ({
       style={StyleSheet.compose({
         alignItems: 'flex-end',
         position: 'absolute',
-        bottom: 12,
-        right: 12,
+        bottom: 10,
+        right: 10,
       })}>
       <ContentContainer
         alignCenter
         gap={0}
         width="auto"
-        paddingHorizontal={10}
+        paddingHorizontal={8}
         borderRadius={4}
         opacity={0.5}
-        backgroundColor={LegacyColor.BLACK}
+        backgroundColor={Color.BLACK}
         zIndex={100}>
-        <XXSmallText bold lineHeight={20} color={LegacyColor.LIGHT_GRAY}>{`${
+        <Caption fontSize={10} color={Color.GREY}>{`${
           activeMediaIndexNo + 1
-        }/${mediaCount}`}</XXSmallText>
+        } / ${mediaCount}`}</Caption>
       </ContentContainer>
     </View>
   );

@@ -36,10 +36,10 @@ const HeaderHandleComponent: React.FC<HandleProps> = memo(
         useHorizontalLayout
         paddingHorizontal={20}
         paddingVertical={20}>
-        <ContentContainer width="20"></ContentContainer>
+        <ContentContainer width="20" />
         <Title alignCenter>{title}</Title>
         <TouchableOpacity onPress={onClose}>
-          <SvgIcon name={'close'}></SvgIcon>
+          <SvgIcon name={'close'} />
         </TouchableOpacity>
       </ContentContainer>
     );
@@ -66,7 +66,9 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
       );
     const handleClose = useCallback(() => {
       bottomSheetModalRef?.current?.close();
-      if (props.onClose) props.onClose();
+      if (props.onClose) {
+        props.onClose();
+      }
     }, [props.onClose, bottomSheetModalRef]);
 
     const renderCustomHandle = useCallback(

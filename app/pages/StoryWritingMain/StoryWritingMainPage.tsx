@@ -12,7 +12,6 @@ import {
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import StoryDateInput from './StoryDateInput';
-import {useKeyboardVisible} from '../../service/hooks/keyboard';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {useIsStoryUploading} from '../../service/hooks/story.write.hook';
@@ -197,7 +196,8 @@ const StoryWritingMainPage = (): JSX.Element => {
                     <VoiceAddButton
                       onPress={() => {
                         setOpenModal(true);
-                      }}></VoiceAddButton>
+                      }}
+                    />
                   )}
                   <StoryDateInput
                     startDate={ageGroupStartDate}
@@ -217,7 +217,8 @@ const StoryWritingMainPage = (): JSX.Element => {
           editable
           onClose={() => {
             setOpenModal(false);
-          }}></VoiceBottomSheet>
+          }}
+        />
       </BottomSheetModalProvider>
     </LoadingContainer>
   );

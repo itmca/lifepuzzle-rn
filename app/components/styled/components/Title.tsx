@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components/native';
-import {LegacyColor} from '../../../constants/color.constant';
+import {Color} from '../../../constants/color.constant';
 import {TextProps} from 'react-native';
 
 type PartialTextProps = Pick<
@@ -16,7 +16,7 @@ type PartialTextProps = Pick<
 
 const TitleBase = styled.Text<PartialTextProps>`
   font-family: 'Pretendard';
-  color: ${props => (props.color ? props.color : LegacyColor.BLACK)};
+  color: ${props => (props.color ? props.color : Color.BLACK)};
   font-weight: ${props => props.fontWeight || '700'};
   ${props =>
     props.fontSize &&

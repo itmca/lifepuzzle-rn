@@ -1,6 +1,5 @@
 import React from 'react';
 import {Pressable} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
 import {OpenDetailBottomSheet} from '../../recoils/story-view.recoil';
 import {SvgIcon} from '../styled/components/SvgIcon';

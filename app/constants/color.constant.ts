@@ -39,28 +39,3 @@ export const Color = {
 } as const;
 
 export type ColorType = (typeof Color)[keyof typeof Color];
-
-export const LegacyColor = {
-  WHITE: '#ffffff',
-  BLACK: '#000000',
-  GRAY: '#EBEBEB',
-  YELLOW: '#FFC657',
-  DARK_BLUE: '#03ACEE',
-  LIGHT_BLACK: '#333333',
-  FONT_BLUE: '#00B7FF',
-  FONT_DARK: '#555555',
-  FONT_GRAY: '#B4B3B3',
-  WHITE_GRAY: '#FCFCFC',
-  LIGHT_GRAY: '#F6F6F6',
-  MEDIUM_GRAY: '#C4C4C4',
-  DARK_GRAY: '#999999',
-  PRIMARY_DARK: '#02384E',
-  PRIMARY_MEDIUM: '#0085FF',
-  PRIMARY_LIGHT: '#32C5FF',
-  SECONDARY_DARK: '#32C5FF',
-  SECONDARY_MEDIUM: '#89DEFF',
-  SECONDARY_LIGHT: '#D6F3FF',
-  ALERT_DARK: '#FF3D00',
-  ALERT_MEDIUM: '#FF6200',
-  ALERT_LIGHT: '#FFE5D4',
-};

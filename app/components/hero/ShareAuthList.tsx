@@ -8,7 +8,7 @@ import {SortedHeroAuthTypes} from '../../constants/auth.constant';
 import {useAuthAxios} from '../../service/hooks/network.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Radio} from '../styled/components/Radio';
-import {errorSelector, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType} from '../../types/hero.type';
 import {Title} from '../styled/components/Text';
@@ -89,7 +89,8 @@ export const ShareAuthList = ({}: props): JSX.Element => {
                   label={i.label}
                   value={i.value}
                   subLabel={i.description}
-                  onSelect={onSelectAuth}></Radio>
+                  onSelect={onSelectAuth}
+                />
               </ContentContainer>
             </>
           ))}

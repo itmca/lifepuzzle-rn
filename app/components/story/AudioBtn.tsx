@@ -77,7 +77,9 @@ export const AudioBtn = ({
   }, [isPlaying]);
 
   const onPress = () => {
-    if (disabled) return;
+    if (disabled) {
+      return;
+    }
     try {
       setPlayInfo({
         currentDurationSec: durationTime,
@@ -98,6 +100,7 @@ export const AudioBtn = ({
       onPress={onPress}
       playDurationText={
         isPlaying ? toMmSs(currTime ?? 0) : toMmSs(durationTime ?? 0)
-      }></VoicePlayButton>
+      }
+    />
   );
 };

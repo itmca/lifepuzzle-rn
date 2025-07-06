@@ -12,7 +12,9 @@ type props = {
 };
 
 export const StoryItemContents = ({story, onPress}: props): JSX.Element => {
-  if (!story) return <></>;
+  if (!story) {
+    return <></>;
+  }
   return (
     <ContentContainer gap={16}>
       <ContentContainer gap={12}>

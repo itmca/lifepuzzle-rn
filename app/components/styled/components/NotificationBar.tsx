@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {ContentContainer} from '../container/ContentContainer.tsx';
-import {BodyTextB, Title} from './Text.tsx';
+import {BodyTextB} from './Text.tsx';
 import {Color} from '../../../constants/color.constant.ts';
 type Props = {
   text?: string;

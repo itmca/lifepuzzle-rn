@@ -1,17 +1,14 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HeroSettingPage from '../../pages/HeroSetting/HeroSettingPage';
-import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import HeroRegisterPage from '../../pages/HeroRegister/HeroRegisterPage';
 import HeroModificationPage from '../../pages/HeroModification/HeroModificationPage';
-import HeroSharePage from '../../pages/HeroModification/HeroSharePage';
 import HeroSelectingPhotoPage from '../../pages/HeroSelectingPhoto/HeroSelectingPhotoPage';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
-import Title from '../../components/styled/components/Title';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
 import HeroSettingRightHeader from '../../components/header/HeroSettingRightHeader.tsx';
@@ -112,15 +109,6 @@ const HeroSettingNavigator = (): JSX.Element => {
               }
             />
           ),
-        }}
-      />
-      <Stack.Screen
-        name="HeroShare"
-        component={HeroSharePage}
-        options={{
-          headerLeft: () => <GoBackHeaderLeft customAction={() => {}} />,
-          headerTitle: () => <Title>주인공 공유</Title>,
-          headerBackVisible: false,
         }}
       />
     </Stack.Navigator>

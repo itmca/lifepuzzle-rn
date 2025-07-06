@@ -6,7 +6,6 @@ import {useEffect} from 'react';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
   isHeroUploading,
-  writingHeroKeyState,
   writingHeroState,
 } from '../../recoils/hero-write.recoil';
 import {useAuthAxios} from './network.hook';

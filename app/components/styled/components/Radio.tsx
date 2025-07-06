@@ -25,7 +25,9 @@ export const Radio = ({
   const navigation = useNavigation();
   const [_selected, setselected] = useState<boolean>(selected ?? false);
   const onPress = () => {
-    if (onSelect) onSelect(value);
+    if (onSelect) {
+      onSelect(value);
+    }
     if (!disableBuiltInState) {
       setselected(!_selected);
     }
@@ -43,9 +45,9 @@ export const Radio = ({
       }}
       onPress={onPress}>
       {_selected ? (
-        <SvgIcon name="radioOn" size={16}></SvgIcon>
+        <SvgIcon name="radioOn" size={16} />
       ) : (
-        <SvgIcon name="radioOff" size={16}></SvgIcon>
+        <SvgIcon name="radioOff" size={16} />
       )}
       <ContentContainer
         useHorizontalLayout

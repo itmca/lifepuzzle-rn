@@ -17,7 +17,7 @@ export const Profile = ({size = 52}: Props): JSX.Element => {
       width={size + 'px'}
       height={size + 'px'}
       alignCenter>
-      <SvgIcon name={'my'} color={Color.GREY_400}></SvgIcon>
+      <SvgIcon name={'my'} color={Color.GREY_400} />
     </ContentContainer>
   );
 };

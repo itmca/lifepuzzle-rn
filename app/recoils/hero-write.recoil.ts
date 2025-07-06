@@ -32,16 +32,6 @@ export const writingHeroState = selector<WritingHeroType>({
     }
   },
 });
-export const getCurrentHeroPhotoUri = selector({
-  key: 'currentHeroPhotoUriState',
-  get: ({get}) => {
-    const hero = get(writingHeroState);
-
-    if (!hero) return;
-    const currentHeroPhotoUri = hero.imageURL?.node.image.uri;
-    return currentHeroPhotoUri;
-  },
-});
 
 export const isHeroUploading = atom<boolean>({
   key: 'isHeroUploading',

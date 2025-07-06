@@ -1,9 +1,4 @@
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hooks';
@@ -11,11 +6,9 @@ import {currentHeroUpdate, heroUpdate} from '../../recoils/update.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {BasicNavigationProps} from '../../navigation/types';
-import {useEffect} from 'react';
 import {heroState} from '../../recoils/hero.recoil';
 import {useHeroHttpPayLoad} from './hero.payload.hook';
 import {
-  isHeroUploading,
   writingHeroKeyState,
   writingHeroState,
 } from '../../recoils/hero-write.recoil';

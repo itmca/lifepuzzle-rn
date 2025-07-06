@@ -1,6 +1,6 @@
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
-import {LegacyColor} from '../../constants/color.constant.ts';
+import {Color} from '../../constants/color.constant.ts';
 
 type Props = {
   isLoading: boolean;
@@ -8,17 +8,19 @@ type Props = {
 };
 
 export const LoadingContainer = ({isLoading, children}: Props): JSX.Element => {
-  if (!isLoading) return <>{children}</>;
+  if (!isLoading) {
+    return <>{children}</>;
+  }
 
   return (
     <ActivityIndicator
       animating={true}
-      color={LegacyColor.PRIMARY_LIGHT}
+      color={Color.MAIN_LIGHT}
       size={40}
       style={{
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: LegacyColor.WHITE,
+        backgroundColor: Color.WHITE,
       }}
     />
   );

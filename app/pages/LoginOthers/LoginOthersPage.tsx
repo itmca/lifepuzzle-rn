@@ -5,13 +5,10 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
-import {
-  SmallText,
-  XSmallText,
-} from '../../components/styled/components/LegacyText.tsx';
 import RegisterButton from '../../components/button/login/RegisterButton';
 import BasicTextInput from '../../components/input/NewTextInput.tsx';
 import LoginMainIcon from '../../assets/images/login_main_icon.svg';
+import {BodyTextM} from '../../components/styled/components/Text.tsx';
 
 const LoginOthersPage = (): JSX.Element => {
   const [id, setId] = useState('');
@@ -63,17 +60,17 @@ const LoginOthersPage = (): JSX.Element => {
                 onChangeLoading={setLoading}
               />
               <ContentContainer gap={6} useHorizontalLayout alignCenter>
-                <SmallText color={Color.GREY_500}>
+                <BodyTextM color={Color.GREY_500}>
                   아직 회원이 아니신가요?
-                </SmallText>
+                </BodyTextM>
                 <RegisterButton />
               </ContentContainer>
             </ContentContainer>
           </ContentContainer>
           <ContentContainer alignItems="center" paddingBottom={40}>
-            <XSmallText color={Color.GREY_400}>
+            <BodyTextM color={Color.GREY_400}>
               문의: lord1229@gmail.com
-            </XSmallText>
+            </BodyTextM>
           </ContentContainer>
         </ContentContainer>
       </LoadingContainer>

@@ -1,8 +1,6 @@
 import React from 'react';
-import ProfilePage from '../../pages/Profile/ProfilePage';
 import HomePage from '../../pages/Home/HomePage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import NavigationBar from '../../components/navigation/NavigationBar';
 import {MainTopBar} from '../../components/styled/components/TopBar';
 
 export type HomeTabParamList = {
@@ -20,13 +18,6 @@ const HomeTabNavigator = (): JSX.Element => {
         component={HomePage}
         options={{
           header: () => <MainTopBar />,
-        }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={ProfilePage}
-        options={{
-          header: () => <NavigationBar displayRight={false} />,
         }}
       />
     </Stack.Navigator>

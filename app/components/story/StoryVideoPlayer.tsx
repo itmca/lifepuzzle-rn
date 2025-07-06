@@ -3,7 +3,7 @@ import Video, {
   OnPlaybackRateData,
   OnProgressData,
 } from 'react-native-video';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 import {toMmSs} from '../../service/date-time-display.service.ts';
 import React, {useEffect, useRef, useState} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer';
@@ -84,7 +84,7 @@ export const VideoPlayer = ({
         style={{
           width: '100%',
           height: '100%',
-          backgroundColor: LegacyColor.BLACK,
+          backgroundColor: Color.BLACK,
         }}
         source={{uri: videoUrl}}
         paused={isPaused}

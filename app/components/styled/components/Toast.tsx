@@ -38,7 +38,7 @@ const toastConfig = {
         height="44"
         justifyContent="flex-start"
         gap={4}>
-        <SvgIcon name={'success'}></SvgIcon>
+        <SvgIcon name={'success'} />
         <BodyTextB color={Color.WHITE}>{text2}</BodyTextB>
       </ContentContainer>
     </ContentContainer>
@@ -54,7 +54,7 @@ const toastConfig = {
         height="44"
         justifyContent="flex-start"
         gap={4}>
-        <SvgIcon name={'error'}></SvgIcon>
+        <SvgIcon name={'error'} />
         <BodyTextB color={Color.WHITE}>{props.text2}</BodyTextB>
       </ContentContainer>
     </ContentContainer>

@@ -1,11 +1,6 @@
 import {atom, DefaultValue, selector} from 'recoil';
 import {PlayInfo, WritingStoryType} from '../types/writing-story.type';
 
-export const writingRecordTimeState = atom<string>({
-  key: 'recentRecordedDurationState',
-  default: '',
-});
-
 const writingStoryInternalState = atom<WritingStoryType>({
   key: 'writingStoryInternalState',
   default: {},
@@ -47,11 +42,6 @@ export const playInfoState = selector<PlayInfo>({
 });
 export const isStoryUploading = atom<boolean>({
   key: 'isStoryUploading',
-  default: false,
-});
-
-export const isVoiceToTextProcessing = atom<boolean>({
-  key: 'isVoiceToTextProcessing',
   default: false,
 });
 

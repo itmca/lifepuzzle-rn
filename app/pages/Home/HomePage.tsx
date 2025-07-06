@@ -23,7 +23,7 @@ import {ageGroupsState, tagState} from '../../recoils/photos.recoil.ts';
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {ShareButton} from '../../components/button/ShareButton.tsx';
 import {Keyboard} from 'react-native';
 import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
@@ -64,11 +64,15 @@ const HomePage = (): JSX.Element => {
       <BottomSheetModalProvider>
         <ScreenContainer gap={0}>
           <ContentContainer withScreenPadding useHorizontalLayout>
-            <HeroOverview hero={photoHero} />
-            {hero.auth === 'OWNER' && (
-              <ContentContainer width={'auto'}>
-                <ShareButton onPress={handlePresentModalPress} />
-              </ContentContainer>
+            {photoHero && (
+              <>
+                <HeroOverview hero={photoHero} />
+                {hero.auth === 'OWNER' && (
+                  <ContentContainer width={'auto'}>
+                    <ShareButton onPress={handlePresentModalPress} />
+                  </ContentContainer>
+                )}
+              </>
             )}
           </ContentContainer>
           <ContentContainer flex={1}>

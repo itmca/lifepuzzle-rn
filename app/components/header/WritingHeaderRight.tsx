@@ -1,10 +1,9 @@
 import React from 'react';
 import {Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import MediumText from '../styled/components/LegacyText.tsx';
 import {BasicNavigationProps} from '../../navigation/types';
 import {StoryWritingParamList} from '../../navigation/no-tab/StoryWritingNavigator';
-import {Color, LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 import {BodyTextB} from '../styled/components/Text.tsx';
 
 type Props = {
@@ -24,7 +23,9 @@ const WritingHeaderRight = ({
   return (
     <Pressable
       onPress={() => {
-        if (disable) return;
+        if (disable) {
+          return;
+        }
         if (typeof customAction === 'function') {
           customAction();
         } else {

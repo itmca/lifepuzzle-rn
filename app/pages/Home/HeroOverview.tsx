@@ -1,18 +1,16 @@
 import {format} from 'date-fns';
 import {HomeLoginButton} from './HomeLoginButton';
-import {LargeTitle, SmallTitle} from '../../components/styled/components/Title';
+import {LargeTitle} from '../../components/styled/components/Title';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
-import {SmallText} from '../../components/styled/components/LegacyText.tsx';
 import {Platform} from 'react-native';
-import {PhotoHeroType} from '../../types/photo.type.ts';
 import {
   BodyTextM,
   Caption,
   Head,
 } from '../../components/styled/components/Text.tsx';
 import {Color} from '../../constants/color.constant.ts';
-
+import {PhotoHeroType} from '../../types/photo.type.ts';
 type Props = {
   hero: PhotoHeroType;
 };

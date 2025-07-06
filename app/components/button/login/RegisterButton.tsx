@@ -1,19 +1,14 @@
-import {MediumButton} from '../../styled/components/Button';
-
 import {Color} from '../../../constants/color.constant';
-import {SmallText} from '../../styled/components/LegacyText.tsx';
-
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
+import {BodyTextB} from '../../styled/components/Text.tsx';
+import {TouchableOpacity} from 'react-native';
 
 const RegisterButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <>
-      <MediumButton
-        backgroundColor={Color.WHITE}
-        height={'auto'}
-        width="auto"
+      <TouchableOpacity
         onPress={() => {
           navigation.push('NoTab', {
             screen: 'LoginRegisterNavigator',
@@ -22,8 +17,10 @@ const RegisterButton = (): JSX.Element => {
             },
           });
         }}>
-        <SmallText color={Color.GREY_800}>회원가입</SmallText>
-      </MediumButton>
+        <BodyTextB color={Color.GREY_800} underline>
+          회원가입
+        </BodyTextB>
+      </TouchableOpacity>
     </>
   );
 };

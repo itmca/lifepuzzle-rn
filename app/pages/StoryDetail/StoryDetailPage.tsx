@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from 'react';
+import {useMemo, useState} from 'react';
 import {Dimensions} from 'react-native';
 import {
   useRecoilState,
@@ -22,8 +22,6 @@ import {
 } from '../../components/styled/container/ContentContainer.tsx';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
-import BottomSheet from '../../components/styled/components/BottomSheet';
-
 import {Color} from '../../constants/color.constant.ts';
 import {StoryDetailMenuBottomSheet} from '../../components/story/StoryDetailMenuBottomSheet.tsx';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
@@ -31,10 +29,7 @@ import {
   getGallery,
   selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
-import {
-  OpenDetailBottomSheet,
-  SelectedStoryKeyState,
-} from '../../recoils/story-view.recoil.ts';
+import {SelectedStoryKeyState} from '../../recoils/story-view.recoil.ts';
 import {Title} from '../../components/styled/components/Text.tsx';
 import {StoryWritingButton} from '../../components/button/StoryWritingButton.tsx';
 import PinchZoomModal from '../../components/styled/components/PinchZoomModal.tsx';
@@ -126,8 +121,7 @@ const StoryDetailPage = (): JSX.Element => {
                     사진에 담겨있는 당신의 이야기를 작성해 주세요
                   </Title>
                   <ContentContainer alignCenter paddingTop={36}>
-                    <StoryWritingButton
-                      onPress={onClickWrite}></StoryWritingButton>
+                    <StoryWritingButton onPress={onClickWrite} />
                   </ContentContainer>
                 </>
               )}

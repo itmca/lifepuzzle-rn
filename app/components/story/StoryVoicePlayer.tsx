@@ -7,8 +7,6 @@ import React, {
 } from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {Dimensions, View} from 'react-native';
 import {styles} from './styles.ts';
 import {useRecoilState, useResetRecoilState} from 'recoil';
@@ -144,14 +142,12 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
           height={'64px'}
           alignCenter
           gap={28}>
-          <DeleteButton
-            visiable={audioUri && editable}
-            onPress={onRemove}></DeleteButton>
+          <DeleteButton visiable={audioUri && editable} onPress={onRemove} />
           {audioUri ? (
             playInfo.isPlay ? (
-              <PauseButton onPress={pausePlay}></PauseButton>
+              <PauseButton onPress={pausePlay} />
             ) : (
-              <PlayButton onPress={startPlay}></PlayButton>
+              <PlayButton onPress={startPlay} />
             )
           ) : isRecording ? (
             <StopButton
@@ -160,9 +156,10 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
                 setWaveData(initWaveData);
 
                 stopRecord();
-              }}></StopButton>
+              }}
+            />
           ) : (
-            <RecordButton onPress={startRecord}></RecordButton>
+            <RecordButton onPress={startRecord} />
           )}
           <CheckButton
             visiable={!!audioUri && editable && source !== audioUri}
@@ -170,7 +167,8 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
               stopPlay();
               onSave(audioUri ?? '');
               onClose && onClose();
-            }}></CheckButton>
+            }}
+          />
         </ContentContainer>
       </>
     );

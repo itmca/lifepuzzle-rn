@@ -1,4 +1,3 @@
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {AgeType} from './photo.type.ts';
 
 export type WritingStoryType = {
@@ -22,9 +21,4 @@ export type PlayInfo = {
   currentDurationSec?: number;
   playTime?: string;
   duration?: string;
-};
-
-export type MediaInfo = {
-  key?: number;
-  node: Pick<PhotoIdentifier['node'], 'image' | 'type'>;
 };

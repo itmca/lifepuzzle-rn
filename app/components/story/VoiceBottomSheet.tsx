@@ -1,14 +1,9 @@
-import {useBottomSheetTimingConfigs} from '@gorhom/bottom-sheet';
 import React, {useEffect, useMemo, useRef} from 'react';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
-import {Easing} from 'react-native-reanimated';
 
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {
-  playInfoState,
-  writingStoryState,
-} from '../../recoils/story-write.recoil.ts';
+import {useRecoilState} from 'recoil';
+import {writingStoryState} from '../../recoils/story-write.recoil.ts';
 import {VoicePlayer, VoicePlayerRef} from './StoryVoicePlayer.tsx';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import BottomSheet from '../styled/components/BottomSheet.tsx';

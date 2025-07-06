@@ -3,7 +3,7 @@ import {Platform, ScrollView} from 'react-native';
 import React, {forwardRef, ReactNode, RefAttributes} from 'react';
 import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
-import {LegacyColor} from '../../../constants/color.constant.ts';
+import {Color} from '../../../constants/color.constant.ts';
 
 type ContentContainerProps = {
   // Size
@@ -131,7 +131,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
         elevation: 4; /* Android shadow effect */
       `,
     })} 
-  ${props => props.withBorder && `border: 1px solid ${LegacyColor.GRAY};`}
+  ${props => props.withBorder && `border: 1px solid ${Color.GREY};`}
   ${props => props.withDebugBorder && 'border: 1px solid red;'}
   ${props => props.borderColor && `border-color: ${props.borderColor};`}
   border-radius: ${props => props.borderRadius ?? 0}px;
@@ -150,7 +150,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
     `border-bottom-right-radius: ${props.borderBottomRadius}px;`};
 
   /* ETC */
-  background-color: ${props => props.backgroundColor ?? LegacyColor.WHITE};
+  background-color: ${props => props.backgroundColor ?? Color.WHITE};
   ${props => props.withNoBackground && 'background-color: transparent;'}
   opacity: ${props => props.opacity ?? 100};
   z-index: ${props => props.zIndex ?? 0};

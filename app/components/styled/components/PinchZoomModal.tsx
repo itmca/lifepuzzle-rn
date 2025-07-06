@@ -114,7 +114,9 @@ export default function PinchZoomModal({opened, imageUri, onClose}: Props) {
     onClose && onClose();
   };
 
-  if (!opened || !imageUri) return null;
+  if (!opened || !imageUri) {
+    return null;
+  }
 
   return (
     <Modal visible={opened} transparent={true}>
@@ -124,7 +126,7 @@ export default function PinchZoomModal({opened, imageUri, onClose}: Props) {
           alignItems="flex-end"
           paddingRight={12}
           withNoBackground>
-          <SvgIcon name={'closeWhite'} onPress={handleClose}></SvgIcon>
+          <SvgIcon name={'closeWhite'} onPress={handleClose} />
         </ContentContainer>
         <GestureDetector gesture={composed}>
           <Animated.Image

@@ -12,13 +12,18 @@ export class LocalStorage {
   }
 
   static get(key: LocalStorageKey, valueType: ValueType) {
-    if (valueType === 'string') return this.storage.getString(key);
-    else if (valueType === 'number') return this.storage.getNumber(key);
-    else if (valueType === 'boolean') return this.storage.getBoolean(key);
-    else if (valueType === 'json') {
+    if (valueType === 'string') {
+      return this.storage.getString(key);
+    } else if (valueType === 'number') {
+      return this.storage.getNumber(key);
+    } else if (valueType === 'boolean') {
+      return this.storage.getBoolean(key);
+    } else if (valueType === 'json') {
       const jsonString = this.storage.getString(key);
       return jsonString != undefined ? JSON.parse(jsonString) : jsonString;
-    } else throw Error('Undefined Value Type');
+    } else {
+      throw Error('Undefined Value Type');
+    }
   }
 
   static delete(key: LocalStorageKey) {

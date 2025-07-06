@@ -1,9 +1,10 @@
 import React, {useEffect, useRef} from 'react';
 import {findNodeHandle, FlatList, UIManager, View} from 'react-native';
 import MasonryList from 'react-native-masonry-list';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   ageGroupsState,
+  selectedGalleryIndexState,
   selectedTagState,
   tagState,
 } from '../../recoils/photos.recoil';
@@ -14,8 +15,16 @@ import {
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types.tsx';
+import {isLoggedInState} from '../../recoils/auth.recoil.ts';
 
 const StoryListPage = () => {
+  const navigation = useNavigation<BasicNavigationProps>();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [selectedGalleryIndex, setSelectedGalleryIndex] =
+    useRecoilState<number>(selectedGalleryIndexState);
+
   const [tags] = useRecoilState(tagState);
   const [ageGroups] = useRecoilState(ageGroupsState);
   const [selectedTag] = useRecoilState(selectedTagState);
@@ -42,7 +51,19 @@ const StoryListPage = () => {
       }
     }
   }, [selectedTag]);
-
+  const moveToStoryDetailPage = (gallery: GalleryType) => {
+    const index =
+      ageGroups[selectedTag.key as AgeType]?.gallery.find(
+        elem => elem.id === gallery.id,
+      )?.index ?? 1;
+    setSelectedGalleryIndex(index - 1);
+    navigation.push('NoTab', {
+      screen: 'StoryViewNavigator',
+      params: {
+        screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+      },
+    });
+  };
   return (
     <ScreenContainer>
       <ScrollContentContainer paddingVertical={16}>
@@ -62,6 +83,9 @@ const StoryListPage = () => {
                 }))}
                 spacing={4}
                 imageContainerStyle={{borderRadius: 12}}
+                onPressImage={(gallery: GalleryType) => {
+                  moveToStoryDetailPage(gallery);
+                }}
               />
             </ContentContainer>
           );

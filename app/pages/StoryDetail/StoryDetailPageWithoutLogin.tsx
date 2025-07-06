@@ -9,7 +9,7 @@ import {
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer.tsx';
 
-import {LegacyColor} from '../../constants/color.constant.ts';
+import {Color} from '../../constants/color.constant.ts';
 import {MediumTitle} from '../../components/styled/components/Title.tsx';
 import {
   getGallery,
@@ -35,7 +35,7 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
           <MediumTitle>{gallery[galleryIndex].tag?.label ?? ''}</MediumTitle>
         </ContentContainer>
 
-        <ContentContainer backgroundColor={LegacyColor.BLACK}>
+        <ContentContainer backgroundColor={Color.BLACK}>
           <MediaCarousel
             data={gallery.map(item => ({
               type: item.type,

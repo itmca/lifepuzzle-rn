@@ -69,7 +69,7 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
   return (
     <ContentContainer flex={1}>
       <ContentContainer paddingHorizontal={20}>
-        <NotificationBar text="나이대별 주인공의 사진/동영상을 추가해보세요"></NotificationBar>
+        <NotificationBar text="나이대별 주인공의 사진/동영상을 추가해보세요" />
       </ContentContainer>
       <ContentContainer paddingLeft={20}>
         <ScrollContentContainer

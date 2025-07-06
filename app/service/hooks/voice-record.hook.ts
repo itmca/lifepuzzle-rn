@@ -7,7 +7,7 @@ import AudioRecorderPlayer, {
   AVEncodingOption,
   AVModeIOSOption,
 } from 'react-native-audio-recorder-player';
-import {useRecoilState, useResetRecoilState} from 'recoil';
+import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import {useState} from 'react';
 import {
   getDisplayRecordTime,
@@ -41,7 +41,7 @@ export const useVoiceRecorder = ({
 }: Props): Response => {
   const resetPlayInfo = useResetRecoilState(playInfoState);
 
-  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
+  const setPlayInfo = useSetRecoilState(playInfoState);
   const [isRecording, setIsRecording] = useState(false);
 
   const [file, setFile] = useState<string>(audioUrl ?? '');

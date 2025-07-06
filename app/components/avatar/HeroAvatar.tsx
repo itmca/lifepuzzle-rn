@@ -1,9 +1,7 @@
 import React from 'react';
 import {Avatar} from 'react-native-paper';
 import {StyleProp} from 'react-native';
-import {Color, LegacyColor} from '../../constants/color.constant.ts';
-import {SvgIcon} from '../styled/components/SvgIcon.tsx';
-import {ContentContainer} from '../styled/container/ContentContainer.tsx';
+import {Color} from '../../constants/color.constant.ts';
 import {Profile} from '../styled/components/Profile.tsx';
 
 type Props = {
@@ -25,7 +23,7 @@ export const HeroAvatar = ({
 
   return (
     <Avatar.Image
-      style={{backgroundColor: LegacyColor.LIGHT_GRAY, ...style}}
+      style={{backgroundColor: Color.GRAY, ...style}}
       size={size}
       source={{uri: imageURL}}
     />

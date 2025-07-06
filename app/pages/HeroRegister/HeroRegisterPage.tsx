@@ -1,8 +1,6 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
-import {Color, LegacyColor} from '../../constants/color.constant';
-import {HeroAvatar} from '../../components/avatar/HeroAvatar';
-import {LegacyBasicTextInput} from '../../components/input/LegacyBasicTextInput.tsx';
+import {Color} from '../../constants/color.constant';
 import {CustomDateInput} from '../../components/input/CustomDateInput';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
@@ -11,11 +9,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer';
-import {ImageButton} from '../../components/styled/components/Button';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
-import {Camera} from '../../assets/icons/camera';
-import {Photo} from '../../components/styled/components/Image.tsx';
-import {XSmallTitle} from '../../components/styled/components/Title.tsx';
 import {BasicCard} from '../../components/card/Card.tsx';
 import BasicTextInput from '../../components/input/NewTextInput.tsx';
 import {BasicButton} from '../../components/button/BasicButton.tsx';

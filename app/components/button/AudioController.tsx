@@ -2,7 +2,6 @@ import React from 'react';
 
 import {Color} from '../../constants/color.constant.ts';
 import {ButtonBase} from '../styled/components/Button.tsx';
-import {Caption} from '../styled/components/Text.tsx';
 import {SvgIcon} from '../styled/components/SvgIcon.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer.tsx';
 
@@ -71,7 +70,7 @@ export const PlayButton = ({onPress}: Props): JSX.Element => {
 
 export const CheckButton = ({onPress, visiable}: Props): JSX.Element => {
   if (!visiable) {
-    return <ContentContainer width={'40px'}></ContentContainer>;
+    return <ContentContainer width={'40px'} />;
   }
   return (
     <ButtonBase
@@ -89,7 +88,7 @@ export const CheckButton = ({onPress, visiable}: Props): JSX.Element => {
 
 export const DeleteButton = ({onPress, visiable}: Props): JSX.Element => {
   if (!visiable) {
-    return <ContentContainer width={'40px'}></ContentContainer>;
+    return <ContentContainer width={'40px'} />;
   }
   return (
     <ButtonBase

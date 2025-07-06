@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import {Bar} from 'react-native-progress';
-import {LegacyColor} from '../../constants/color.constant';
+import {Color} from '../../constants/color.constant';
 import {toMmSs} from '../../service/date-time-display.service.ts';
-import {XXSmallText} from '../styled/components/LegacyText.tsx';
 import {ContentContainer} from '../styled/container/ContentContainer';
+import {Caption} from '../styled/components/Text.tsx';
 
 type Props = {
   width: number;
@@ -66,8 +66,8 @@ export const VideoController = ({
                 <Image
                   source={
                     isPaused
-                      ? require('../../assets/images/control_play_icon.png')
-                      : require('../../assets/images/control_pause_icon.png')
+                      ? require('../../assets/icons/play_round.svg')
+                      : require('../../assets/icons/pause_round.svg')
                   }
                   style={{width: 45, height: 45, zIndex: 1}}
                 />
@@ -80,12 +80,12 @@ export const VideoController = ({
                     useHorizontalLayout
                     withNoBackground
                     paddingHorizontal={4}>
-                    <XXSmallText color={LegacyColor.WHITE}>
+                    <Caption fontSize={10} color={Color.WHITE}>
                       {toMmSs(currentProgress * duration)}
-                    </XXSmallText>
-                    <XXSmallText color={LegacyColor.WHITE}>
+                    </Caption>
+                    <Caption fontSize={10} color={Color.WHITE}>
                       {playingTime}
-                    </XXSmallText>
+                    </Caption>
                   </ContentContainer>
                 )}
                 <TouchableWithoutFeedback onPress={handleProgress}>
@@ -93,9 +93,9 @@ export const VideoController = ({
                     progress={currentProgress}
                     width={width}
                     height={4}
-                    color={LegacyColor.PRIMARY_LIGHT}
-                    unfilledColor={LegacyColor.WHITE}
-                    borderColor={LegacyColor.GRAY}
+                    color={Color.MAIN_DARK}
+                    unfilledColor={Color.WHITE}
+                    borderColor={Color.GREY_100}
                     borderRadius={50}
                     borderWidth={0}
                   />

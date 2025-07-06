@@ -1,10 +1,7 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import WritingHeaderLeft from '../../components/header/WritingHeaderLeft';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
-import StoryWritingVoicePage from '../../pages/StoryWritingVoice/StoryWritingVoicePage';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
-import Title from '../../components/styled/components/Title';
 import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
 import {useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
@@ -64,15 +61,6 @@ const StoryWritingNavigator = (): JSX.Element => {
               }
             />
           ),
-        }}
-      />
-      <Stack.Screen
-        name="StoryWritingVoice"
-        component={StoryWritingVoicePage}
-        options={{
-          headerLeft: () => <WritingHeaderLeft type="before" />,
-          headerTitle: () => <Title>음성 녹음</Title>,
-          headerBackVisible: false,
         }}
       />
     </Stack.Navigator>

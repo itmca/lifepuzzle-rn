@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {LegacyColor} from '../../../constants/color.constant';
+import {Color} from '../../../constants/color.constant';
 
 type Props = {
   marginBottom?: string;
@@ -22,9 +22,8 @@ export const WideSelectable = styled.TouchableOpacity<Props>`
   width: 100%;
   border-radius: 16px;
   background-color: ${props =>
-    props.backgroundColor ? props.backgroundColor : LegacyColor.WHITE};
-  border-color: ${props =>
-    props.selected ? LegacyColor.PRIMARY_LIGHT : '#555555'};
+    props.backgroundColor ? props.backgroundColor : Color.WHITE};
+  border-color: ${props => (props.selected ? Color.MAIN_LIGHT : '#555555')};
   border-width: ${props => (props.selected ? '5px' : '1px')};
   gap: ${props => (props.gap ? props.gap : '0px')};
   margin-top: ${props => (props.marginTop ? props.marginTop : '0px')};

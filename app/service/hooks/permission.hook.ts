@@ -15,19 +15,6 @@ export type Permission = {
   onDeny?: () => void;
 };
 
-type PermissionProps = {
-  permissions: Permission[];
-};
-export const usePermission = ({permissions}: PermissionProps) => {
-  permissions.forEach(permission => {
-    if (permission.target === 'voice') {
-      useVoicePermission(permission);
-    } else if (permission.target === 'photo') {
-      usePhotoPermission(permission);
-    }
-  });
-};
-
 export const useVoicePermission = ({
   onAgree,
   onDeny,
