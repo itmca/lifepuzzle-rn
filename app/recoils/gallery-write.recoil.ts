@@ -5,6 +5,10 @@ export const selectedGalleryItemsState = atom<PhotoIdentifier[]>({
   key: 'selectedGalleryState',
   default: [],
 });
+export const editedGalleryItemsState = atom<PhotoIdentifier[]>({
+  key: 'editedGalleryState',
+  default: [],
+});
 
 export const isGalleryUploadingState = atom<boolean>({
   key: 'isGalleryUploadingState',

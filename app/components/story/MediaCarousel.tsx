@@ -29,7 +29,7 @@ export const MediaCarousel = ({
   data,
   activeIndex,
   carouselWidth,
-  carouselMaxHeight = Dimensions.get('window').height * 0.55,
+  carouselMaxHeight = 376,
   isFocused,
   onScroll,
   onPress,
@@ -85,7 +85,7 @@ export const MediaCarousel = ({
         style={{alignSelf: 'center'}}
         loop={false}
         width={carouselWidth}
-        height={376}
+        height={carouselMaxHeight}
         data={data}
         mode="parallax"
         windowSize={2}

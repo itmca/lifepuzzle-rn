@@ -3,17 +3,25 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
 import {useUploadGallery} from '../../service/hooks/gallery.write.hook.ts';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
+import GalleryDetail from '../../pages/StoryGallerySelector/GalleryDetailPage.tsx';
+import GalleryDetailFilter from '../../pages/StoryGallerySelector/GalleryDetailFilterPage.tsx';
+import {
+  editedGalleryItemsState,
+  selectedGalleryItemsState,
+} from '../../recoils/gallery-write.recoil.ts';
 
 // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
   StoryGallerySelector: undefined;
+  GalleryDetail: undefined;
+  GalleryDetailFilter: undefined;
   StoryWritingVoice: undefined;
 };
 
@@ -23,7 +31,12 @@ const StoryWritingNavigator = (): JSX.Element => {
   const [saveStory] = useSaveStory();
   const [uploadGallery] = useUploadGallery();
   const selectedStoryKey = useRecoilValue(SelectedStoryKeyState);
-
+  const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
+    selectedGalleryItemsState,
+  );
+  const [editGalleryItems, setEditGalleryItems] = useRecoilState(
+    editedGalleryItemsState,
+  );
   return (
     <Stack.Navigator
       screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}>
@@ -61,6 +74,33 @@ const StoryWritingNavigator = (): JSX.Element => {
               }
             />
           ),
+        }}
+      />
+      <Stack.Screen
+        name="GalleryDetail"
+        component={GalleryDetail}
+        options={{
+          header: () => (
+            <TopBar
+              title={'사진 편집'}
+              right={
+                <WritingHeaderRight
+                  text={'업로드'}
+                  customAction={() => {
+                    setSelectedGalleryItems([...editGalleryItems]);
+                    uploadGallery();
+                  }}
+                />
+              }
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="GalleryDetailFilter"
+        component={GalleryDetailFilter}
+        options={{
+          header: () => <TopBar title={'사진 편집'} />,
         }}
       />
     </Stack.Navigator>

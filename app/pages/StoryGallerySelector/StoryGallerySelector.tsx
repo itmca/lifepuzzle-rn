@@ -3,7 +3,13 @@ import {
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import React, {useEffect, useState} from 'react';
-import {Alert, Dimensions, FlatList, Platform} from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import SelectablePhoto from '../../components/photo/SelectablePhoto';
 import {
   hasAndroidPermission,
@@ -12,10 +18,17 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
+  editedGalleryItemsState,
   isGalleryUploadingState,
   selectedGalleryItemsState,
 } from '../../recoils/gallery-write.recoil.ts';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer.tsx';
+
+import Icon from 'react-native-vector-icons/FontAwesome.js';
+import ImagePicker from 'react-native-image-crop-picker';
+import {selectedGalleryIndexState} from '../../recoils/photos.recoil.ts';
+import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
+import {Color} from '../../constants/color.constant.ts';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -24,11 +37,15 @@ const StoryGallerySelector = (): JSX.Element => {
   const [, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
   const [gallery, setGallery] = useState<PhotoIdentifier[]>([]);
-
+  const [galleryIndex, setGalleryIndex] = useRecoilState(
+    selectedGalleryIndexState,
+  );
   const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
     selectedGalleryItemsState,
   );
-
+  const [editGalleryItems, setEditGalleryItems] = useRecoilState(
+    editedGalleryItemsState,
+  );
   const isGalleryUploading = useRecoilValue(isGalleryUploadingState);
 
   const isAboveIOS14 =
@@ -84,7 +101,23 @@ const StoryGallerySelector = (): JSX.Element => {
     setNextCursor(page_info.end_cursor);
     setHasNextPage(page_info.has_next_page);
   };
-
+  const onEdit = async () => {
+    const croppedImages = [];
+    for (const image of selectedGalleryItems) {
+      try {
+        const croppedImage = await ImagePicker.openCropper({
+          mediaType: 'photo',
+          path: image.node.image.uri,
+          cropping: true,
+          freeStyleCropEnabled: true,
+          cropperToolbarTitle: '사진 자르기',
+        });
+        croppedImages.push(croppedImage);
+      } catch (cropError) {
+        console.log(`이미지 ${image.node.image.uri} 크롭 오류:`, cropError);
+      }
+    }
+  };
   return (
     <LoadingContainer isLoading={isGalleryUploading}>
       <FlatList
@@ -129,6 +162,33 @@ const StoryGallerySelector = (): JSX.Element => {
           );
         }}
       />
+      {selectedGalleryItems.length > 0 && (
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderColor: Color.MAIN_DARK,
+            borderRadius: 50,
+            width: 50,
+            height: 50,
+            position: 'absolute',
+            bottom: 25,
+            right: 25,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onPress={() => {
+            setGalleryIndex(0);
+            setEditGalleryItems([...selectedGalleryItems]);
+            navigation.push('NoTab', {
+              screen: 'StoryWritingNavigator',
+              params: {
+                screen: 'GalleryDetail',
+              },
+            });
+          }}>
+          <Icon name="magic" size={25} color={Color.MAIN_DARK} />
+        </TouchableOpacity>
+      )}
     </LoadingContainer>
   );
 };
