@@ -45,6 +45,7 @@ import {
 const {width: screenWidth} = Dimensions.get('window');
 const displaySize = screenWidth;
 
+//TODO: 리팩터링 필요
 const getImageSizeAsync = (
   uri: string,
 ): Promise<{width: number; height: number}> =>
