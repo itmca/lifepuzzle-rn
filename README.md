@@ -1,4 +1,4 @@
-# ***REMOVED***
+# lifepuzzle-rn
 
 ### Get Started
 
@@ -10,23 +10,25 @@ npm run ios:prod # iOS 실행
 
 ### Structure of `app` Folder
 
-- assets : 이미지, 폰트 등 에셋
-  - fonts
-  - images
-- components : 화면(Page)에서 사용되는 컴포넌트
-- constants : B/E API URL 등 전역 상수
-- navigation : navigation(화면간 이동) 설정
-- pages : 화면들
-  - Foo
-    - FooPage.tsx
-    - style.tsx
-  - ...
-- recoils : recoil(전역 상태 관리 툴) 설정
-- service : 비지니스 로직(화면 표현을 위한 디자인, 레이아웃 외 로직) 담당 레이어
-  - hooks : 커스텀 훅
-  - foo.service.ts
-  - ...
-- types : 전역 Typescript 타입
+```
+app/
+├── app.tsx                   # 앱 엔트리 포인트
+├── assets/                   # 정적 자산 (이미지, 폰트, 아이콘)
+│   ├── fonts/               # 폰트 파일
+│   ├── icons/               # SVG 아이콘들
+│   └── images/              # 이미지 파일
+├── components/              # 재사용 가능한 UI 컴포넌트들
+├── constants/               # 전역 상수 (API URL, 색상 등)
+├── navigation/              # 화면 간 이동을 위한 네비게이션 설정
+│   ├── home-tab/           # 탭 네비게이션
+│   └── no-tab/             # 스택 네비게이션
+├── pages/                   # 각 화면을 담당하는 페이지 컴포넌트
+├── recoils/                # Recoil을 이용한 전역 상태 관리
+├── service/                # 비즈니스 로직 및 API 호출 로직
+│   └── hooks/              # 커스텀 훅
+├── types/                  # TypeScript 타입 정의
+└── utils/                  # 공통 유틸리티 함수
+```
 
 ### Development Guide
 
