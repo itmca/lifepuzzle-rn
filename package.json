@@ -41,7 +41,7 @@
     "react-dom": "^18.3.1",
     "react-native": "0.77.0",
     "react-native-audio-recorder-player": "^3.6.7",
-    "react-native-bouncy-checkbox": "^3.0.7",
+    "react-native-bouncy-checkbox": "^4.1.2",
     "react-native-config": "^1.5.5",
     "react-native-create-thumbnail": "^2.1.1",
     "react-native-dropdown-picker": "^5.4.6",
