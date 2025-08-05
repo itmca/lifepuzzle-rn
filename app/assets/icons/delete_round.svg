@@ -1,7 +1,7 @@
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_1965_5755)">
 <circle cx="20" cy="20" r="20" fill="#F5F5F5"/>
-<rect width="16" height="0" transform="matrix(1 0 0 -1 12 15.002)" stroke="#B3B3B3" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M12 15H28" stroke="#B3B3B3" stroke-width="1.6" stroke-linecap="round"/>
 <path d="M12.9922 15.002V26.002C12.9922 27.1065 13.8876 28.002 14.9922 28.002H24.9922C26.0968 28.002 26.9922 27.1065 26.9922 26.002V15.002" stroke="#B3B3B3" stroke-width="1.6" stroke-linecap="round"/>
 <path d="M17.9922 18.002V25.002" stroke="#B3B3B3" stroke-width="1.6" stroke-linecap="round"/>
 <path d="M21.9844 18.002V25.002" stroke="#B3B3B3" stroke-width="1.6" stroke-linecap="round"/>

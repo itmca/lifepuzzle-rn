@@ -10,14 +10,5 @@ type Props = {
 
 export const Profile = ({size = 52}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  return (
-    <ContentContainer
-      backgroundColor={Color.GREY_100}
-      borderRadius={size}
-      width={size + 'px'}
-      height={size + 'px'}
-      alignCenter>
-      <SvgIcon name={'my'} color={Color.GREY_400} />
-    </ContentContainer>
-  );
+  return <SvgIcon name={'profile'} size={size} />;
 };
