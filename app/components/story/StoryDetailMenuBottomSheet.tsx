@@ -1,4 +1,4 @@
-import {Alert, TouchableOpacity} from 'react-native';
+import {Alert, Share, TouchableOpacity} from 'react-native';
 import {Color} from '../../constants/color.constant.ts';
 
 import {useNavigation} from '@react-navigation/native';
@@ -19,6 +19,7 @@ import {SvgIcon} from '../styled/components/SvgIcon.tsx';
 import {Title} from '../styled/components/Text.tsx';
 import {Divider} from '../styled/components/Divider.tsx';
 import BottomSheet from '../styled/components/BottomSheet.tsx';
+import {showToast} from '../styled/components/Toast.tsx';
 
 type Props = {
   type: 'story' | 'photo';
@@ -94,6 +95,21 @@ export const StoryDetailMenuBottomSheet = ({
       },
     ]);
   };
+  const onShareGallery = async () => {
+    try {
+      const result = await Share.share({
+        title: gallery.story?.title ?? '',
+        message: gallery.story?.content ?? '',
+        url: gallery.url,
+      });
+      if (result.action === Share.sharedAction) {
+        showToast('공유가 완료되었습니다.');
+        setOpenModal(false);
+      }
+    } catch (error: any) {
+      Alert.alert(error.message);
+    }
+  };
   return (
     <BottomSheet
       opened={openModal}
@@ -136,6 +152,16 @@ export const StoryDetailMenuBottomSheet = ({
             justifyContent="flex-start">
             <SvgIcon name={'trash'} />
             <Title color={Color.GREY_800}>사진 삭제하기</Title>
+          </ContentContainer>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onShareGallery}>
+          <ContentContainer
+            gap={2}
+            height={'48px'}
+            useHorizontalLayout
+            justifyContent="flex-start">
+            <SvgIcon name={'link'} size={28} />
+            <Title color={Color.GREY_800}>사진 공유하기</Title>
           </ContentContainer>
         </TouchableOpacity>
       </ContentContainer>
