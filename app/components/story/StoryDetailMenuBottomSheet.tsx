@@ -1,4 +1,4 @@
-import {Alert, Share, TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import {Color} from '../../constants/color.constant.ts';
 
 import {useNavigation} from '@react-navigation/native';
@@ -20,6 +20,9 @@ import {Title} from '../styled/components/Text.tsx';
 import {Divider} from '../styled/components/Divider.tsx';
 import BottomSheet from '../styled/components/BottomSheet.tsx';
 import {showToast} from '../styled/components/Toast.tsx';
+import RNFetchBlob from 'rn-fetch-blob';
+import {getFormattedDateTime} from '../../service/date-time-display.service.ts';
+import Share from 'react-native-share';
 
 type Props = {
   type: 'story' | 'photo';
@@ -96,19 +99,30 @@ export const StoryDetailMenuBottomSheet = ({
     ]);
   };
   const onShareGallery = async () => {
-    try {
-      const result = await Share.share({
-        title: gallery.story?.title ?? '',
-        message: gallery.story?.content ?? '',
-        url: gallery.url,
-      });
-      if (result.action === Share.sharedAction) {
+    const {config, fs} = RNFetchBlob;
+    let picturePath = `${fs.dirs.CacheDir}/lp_${getFormattedDateTime()}.jpg`;
+    await config({
+      fileCache: true,
+      appendExt: 'jpg',
+      path: picturePath,
+    }).fetch('GET', gallery.url);
+
+    const shareOptions = {
+      title: gallery.story?.title ?? '',
+      message: gallery.story?.content ?? '',
+      url: 'file://' + picturePath,
+      type: `image/jpg`,
+      subject: gallery.story?.title ?? '',
+    };
+
+    Share.open(shareOptions)
+      .then(res => {
         showToast('공유가 완료되었습니다.');
         setOpenModal(false);
-      }
-    } catch (error: any) {
-      Alert.alert(error.message);
-    }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   return (
     <BottomSheet
