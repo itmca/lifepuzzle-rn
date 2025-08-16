@@ -19,6 +19,10 @@ import {SvgIcon} from '../styled/components/SvgIcon.tsx';
 import {Title} from '../styled/components/Text.tsx';
 import {Divider} from '../styled/components/Divider.tsx';
 import BottomSheet from '../styled/components/BottomSheet.tsx';
+import {showToast} from '../styled/components/Toast.tsx';
+import RNFetchBlob from 'rn-fetch-blob';
+import {getFormattedDateTime} from '../../service/date-time-display.service.ts';
+import Share from 'react-native-share';
 
 type Props = {
   type: 'story' | 'photo';
@@ -94,6 +98,32 @@ export const StoryDetailMenuBottomSheet = ({
       },
     ]);
   };
+  const onShareGallery = async () => {
+    const {config, fs} = RNFetchBlob;
+    let picturePath = `${fs.dirs.CacheDir}/lp_${getFormattedDateTime()}.jpg`;
+    await config({
+      fileCache: true,
+      appendExt: 'jpg',
+      path: picturePath,
+    }).fetch('GET', gallery.url);
+
+    const shareOptions = {
+      title: gallery.story?.title ?? '',
+      message: gallery.story?.content ?? '',
+      url: 'file://' + picturePath,
+      type: `image/jpg`,
+      subject: gallery.story?.title ?? '',
+    };
+
+    Share.open(shareOptions)
+      .then(res => {
+        showToast('공유가 완료되었습니다.');
+        setOpenModal(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     <BottomSheet
       opened={openModal}
@@ -136,6 +166,16 @@ export const StoryDetailMenuBottomSheet = ({
             justifyContent="flex-start">
             <SvgIcon name={'trash'} />
             <Title color={Color.GREY_800}>사진 삭제하기</Title>
+          </ContentContainer>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onShareGallery}>
+          <ContentContainer
+            gap={2}
+            height={'48px'}
+            useHorizontalLayout
+            justifyContent="flex-start">
+            <SvgIcon name={'link'} size={28} />
+            <Title color={Color.GREY_800}>사진 공유하기</Title>
           </ContentContainer>
         </TouchableOpacity>
       </ContentContainer>
