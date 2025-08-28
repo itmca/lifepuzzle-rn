@@ -46,3 +46,8 @@ export type StoryType = {
   audios?: string[];
   date: string;
 };
+export type SharePhoto = {
+  type: string;
+  uri: string;
+  uriList: string[];
+};
