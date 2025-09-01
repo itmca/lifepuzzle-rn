@@ -5,7 +5,7 @@ import {
   useSetRecoilState,
 } from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
-import {HeroType} from '../../types/hero.type';
+import {HeroType, toPhotoIdentifier} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {WritingButton} from './WritingButton';
@@ -93,8 +93,8 @@ const HomePage = (): JSX.Element => {
     (uris: string | string[]) => {
       try {
         const photoIdentifiers = Array.isArray(uris)
-          ? uris.map((uri, index) => createPhotoIdentifier(uri, index))
-          : [createPhotoIdentifier(uris, 0)];
+          ? uris.map((uri, index) => toPhotoIdentifier(uri))
+          : [toPhotoIdentifier(uris)];
 
         setSelectedGalleryItems(photoIdentifiers);
         submitGallery();
@@ -108,20 +108,6 @@ const HomePage = (): JSX.Element => {
     },
     [setSelectedGalleryItems, submitGallery],
   );
-
-  const createPhotoIdentifier = (uri: string, index: number) => ({
-    node: {
-      id: `shared_image_${Date.now()}_${index}`,
-      image: {
-        uri: uri,
-        filename: `shared_image_${Date.now()}_${index}.jpg`,
-        width: 0,
-        height: 0,
-      },
-      type: 'image',
-      timestamp: Date.now() / 1000,
-    },
-  });
 
   return (
     <LoadingContainer isLoading={isLoading}>
