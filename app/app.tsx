@@ -40,11 +40,7 @@ const theme = {
 function initializeRecoilState({set}: MutableSnapshot): void {
   const authToken = LocalStorage.get('authToken', 'json');
   if (authToken) {
-    set(authState, {
-      ...authToken,
-      accessTokenExpireAt: new Date(authToken.accessTokenExpireAt),
-      refreshTokenExpireAt: new Date(authToken.refreshTokenExpireAt),
-    });
+    set(authState, authToken);
   }
 }
 
