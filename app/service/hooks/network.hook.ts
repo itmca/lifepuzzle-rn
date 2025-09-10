@@ -54,7 +54,6 @@ export const useAxios = <R>({
     if (disableInitialRequest) {
       return;
     }
-    console.log(requestOption.data);
     fetchData(requestOption);
   }, []);
 
