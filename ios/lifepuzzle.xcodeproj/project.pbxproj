@@ -10,16 +10,21 @@
 		036F6A401DA344A3ADB8EF59 /* SUIT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3693CC5121040FD86D1C352 /* SUIT-Light.ttf */; };
 		0731F20CFE6340A895CE668D /* SUIT-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58505C388EFE46FD85535548 /* SUIT-Thin.ttf */; };
 		0CEDD04E2527443580D22880 /* SUIT-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAECE7F814594C479AF08E4F /* SUIT-Regular.ttf */; };
+		103159265E4AAF0613FBF039 /* libPods-lifepuzzle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F61953CFE10D39AC504798D /* libPods-lifepuzzle.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		1EA5432CFEFCDF180E3E37C2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		27CC7E9492494704A4494201 /* SUIT-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14D3F721478F4779AACBD0DA /* SUIT-SemiBold.ttf */; };
 		41DCB6832E182D6A005521B7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 41DCB6822E182D6A005521B7 /* Config.xcconfig */; };
-		569D3683D54A97A55AF6DF7C /* libPods-lifepuzzle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */; };
 		6AC4628DA23E41A19AE88A77 /* SUIT-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8D5CEF5362C4676B7741A3E /* SUIT-ExtraBold.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		82B999686E2147F19ED308F8 /* SUIT-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31F15B8503DC4C19B2B3ECFA /* SUIT-ExtraLight.ttf */; };
 		9D89C350E15B4CDBB6CA8CD4 /* SUIT-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5520C1E157A4CFDB0F7A658 /* SUIT-Heavy.ttf */; };
+		A66B61C02E71BDF700273F94 /* LifePuzzleShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A66B61B62E71BDF600273F94 /* LifePuzzleShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A66D7DF72E72D1E200A9EFC3 /* LPShareModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A66D7DF62E72D1E100A9EFC3 /* LPShareModule.mm */; };
+		A66D7E722E73042900A9EFC3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66D7E712E73042900A9EFC3 /* Social.framework */; };
+		A66D7E742E73044500A9EFC3 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66D7E732E73044500A9EFC3 /* UniformTypeIdentifiers.framework */; };
+		A66D7E762E73045500A9EFC3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66D7E752E73045500A9EFC3 /* MobileCoreServices.framework */; };
 		A695A64929FE62E7009456FE /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A64029FE62E7009456FE /* Pretendard-Regular.ttf */; };
 		A695A64A29FE62E7009456FE /* Pretendard-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A64129FE62E7009456FE /* Pretendard-SemiBold.ttf */; };
 		A695A64B29FE62E7009456FE /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A695A64229FE62E7009456FE /* Pretendard-Bold.ttf */; };
@@ -33,22 +38,53 @@
 		F47CA7BAF5164478B893B2B6 /* SUIT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9384F3C9ABBE41D2A57E5D4F /* SUIT-Bold.ttf */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A66B61BE2E71BDF700273F94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A66B61B52E71BDF600273F94;
+			remoteInfo = LifePuzzleShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A66B61C12E71BDF700273F94 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A66B61C02E71BDF700273F94 /* LifePuzzleShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		01833A6C43563762B50973EB /* Pods-lifepuzzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.release.xcconfig"; sourceTree = "<group>"; };
 		03C394502C7A0A5E00CD2BEB /* lifepuzzle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lifepuzzle.entitlements; path = lifepuzzle/lifepuzzle.entitlements; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* lifepuzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lifepuzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = lifepuzzle/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lifepuzzle/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = lifepuzzle/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		14D3F721478F4779AACBD0DA /* SUIT-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-SemiBold.ttf"; path = "../app/assets/fonts/SUIT-SemiBold.ttf"; sourceTree = "<group>"; };
+		19409F5AE09993ABC20E598A /* Pods-lifepuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.debug.xcconfig"; sourceTree = "<group>"; };
 		31F15B8503DC4C19B2B3ECFA /* SUIT-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraLight.ttf"; path = "../app/assets/fonts/SUIT-ExtraLight.ttf"; sourceTree = "<group>"; };
-		3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41DCB6822E182D6A005521B7 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		58505C388EFE46FD85535548 /* SUIT-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Thin.ttf"; path = "../app/assets/fonts/SUIT-Thin.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = lifepuzzle/AppDelegate.swift; sourceTree = "<group>"; };
+		7F61953CFE10D39AC504798D /* libPods-lifepuzzle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lifepuzzle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lifepuzzle/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9384F3C9ABBE41D2A57E5D4F /* SUIT-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Bold.ttf"; path = "../app/assets/fonts/SUIT-Bold.ttf"; sourceTree = "<group>"; };
-		9A18979948DEE1B8DCE0A9AD /* Pods-lifepuzzle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.debug.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.debug.xcconfig"; sourceTree = "<group>"; };
 		A001DC8F4F25472D91623359 /* SUIT-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Medium.ttf"; path = "../app/assets/fonts/SUIT-Medium.ttf"; sourceTree = "<group>"; };
+		A66B61B62E71BDF600273F94 /* LifePuzzleShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LifePuzzleShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A66B61C72E71BE2600273F94 /* lifepuzzleRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = lifepuzzleRelease.entitlements; path = lifepuzzle/lifepuzzleRelease.entitlements; sourceTree = "<group>"; };
+		A66D7DF62E72D1E100A9EFC3 /* LPShareModule.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LPShareModule.mm; sourceTree = "<group>"; };
+		A66D7E712E73042900A9EFC3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		A66D7E732E73044500A9EFC3 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
+		A66D7E752E73045500A9EFC3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		A695A5F429FE5244009456FE /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		A695A5F529FE5244009456FE /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
 		A695A5F629FE5244009456FE /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
@@ -85,18 +121,41 @@
 		A695A64829FE62E7009456FE /* Pretendard-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-ExtraLight.ttf"; path = "../app/assets/fonts/Pretendard-ExtraLight.ttf"; sourceTree = "<group>"; };
 		B3693CC5121040FD86D1C352 /* SUIT-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Light.ttf"; path = "../app/assets/fonts/SUIT-Light.ttf"; sourceTree = "<group>"; };
 		B5520C1E157A4CFDB0F7A658 /* SUIT-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Heavy.ttf"; path = "../app/assets/fonts/SUIT-Heavy.ttf"; sourceTree = "<group>"; };
-		C7285ADB087F6F1AE65195F6 /* Pods-lifepuzzle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lifepuzzle.release.xcconfig"; path = "Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle.release.xcconfig"; sourceTree = "<group>"; };
 		D8D5CEF5362C4676B7741A3E /* SUIT-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraBold.ttf"; path = "../app/assets/fonts/SUIT-ExtraBold.ttf"; sourceTree = "<group>"; };
 		DAECE7F814594C479AF08E4F /* SUIT-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Regular.ttf"; path = "../app/assets/fonts/SUIT-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A66B61C42E71BDF700273F94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A66B61B52E71BDF600273F94 /* LifePuzzleShare */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A66B61B72E71BDF700273F94 /* LifePuzzleShare */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A66B61C42E71BDF700273F94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LifePuzzleShare; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				569D3683D54A97A55AF6DF7C /* libPods-lifepuzzle.a in Frameworks */,
+				103159265E4AAF0613FBF039 /* libPods-lifepuzzle.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A66B61B32E71BDF600273F94 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A66D7E762E73045500A9EFC3 /* MobileCoreServices.framework in Frameworks */,
+				A66D7E742E73044500A9EFC3 /* UniformTypeIdentifiers.framework in Frameworks */,
+				A66D7E722E73042900A9EFC3 /* Social.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,12 +165,14 @@
 		13B07FAE1A68108700A75B9A /* lifepuzzle */ = {
 			isa = PBXGroup;
 			children = (
+				A66B61C72E71BE2600273F94 /* lifepuzzleRelease.entitlements */,
 				03C394502C7A0A5E00CD2BEB /* lifepuzzle.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				A66D7DF62E72D1E100A9EFC3 /* LPShareModule.mm */,
 			);
 			name = lifepuzzle;
 			sourceTree = "<group>";
@@ -119,8 +180,11 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A66D7E752E73045500A9EFC3 /* MobileCoreServices.framework */,
+				A66D7E732E73044500A9EFC3 /* UniformTypeIdentifiers.framework */,
+				A66D7E712E73042900A9EFC3 /* Social.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				3A147919AED2E80F27B53926 /* libPods-lifepuzzle.a */,
+				7F61953CFE10D39AC504798D /* libPods-lifepuzzle.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -148,6 +212,7 @@
 				A695A5F329FE5171009456FE /* Fonts */,
 				13B07FAE1A68108700A75B9A /* lifepuzzle */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
+				A66B61B72E71BDF700273F94 /* LifePuzzleShare */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -162,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* lifepuzzle.app */,
+				A66B61B62E71BDF600273F94 /* LifePuzzleShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,8 +267,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9A18979948DEE1B8DCE0A9AD /* Pods-lifepuzzle.debug.xcconfig */,
-				C7285ADB087F6F1AE65195F6 /* Pods-lifepuzzle.release.xcconfig */,
+				19409F5AE09993ABC20E598A /* Pods-lifepuzzle.debug.xcconfig */,
+				01833A6C43563762B50973EB /* Pods-lifepuzzle.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -230,23 +296,45 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lifepuzzle" */;
 			buildPhases = (
-				E62B756B0FDF6DFDAB7646AC /* [CP] Check Pods Manifest.lock */,
+				D20E3579863644ADEBFB209C /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				B462A1A3B1C332E056588599 /* [CP] Embed Pods Frameworks */,
-				78180CE70D4E8585374516C5 /* [CP] Copy Pods Resources */,
+				A66B61C12E71BDF700273F94 /* Embed Foundation Extensions */,
+				CF90FCFE792B63103B816B51 /* [CP] Embed Pods Frameworks */,
+				7382D174875A9B83E120AEBA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A66B61BF2E71BDF700273F94 /* PBXTargetDependency */,
 			);
 			name = lifepuzzle;
 			productName = lifepuzzle;
 			productReference = 13B07F961A680F5B00A75B9A /* lifepuzzle.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A66B61B52E71BDF600273F94 /* LifePuzzleShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A66B61C52E71BDF700273F94 /* Build configuration list for PBXNativeTarget "LifePuzzleShare" */;
+			buildPhases = (
+				A66B61B22E71BDF600273F94 /* Sources */,
+				A66B61B32E71BDF600273F94 /* Frameworks */,
+				A66B61B42E71BDF600273F94 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A66B61B72E71BDF700273F94 /* LifePuzzleShare */,
+			);
+			name = LifePuzzleShare;
+			productName = LifePuzzleShare;
+			productReference = A66B61B62E71BDF600273F94 /* LifePuzzleShare.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -254,10 +342,14 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1640;
+					};
+					A66B61B52E71BDF600273F94 = {
+						CreatedOnToolsVersion = 16.3;
 					};
 				};
 			};
@@ -275,6 +367,7 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* lifepuzzle */,
+				A66B61B52E71BDF600273F94 /* LifePuzzleShare */,
 			);
 		};
 /* End PBXProject section */
@@ -309,6 +402,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A66B61B42E71BDF600273F94 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -328,7 +428,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport PATH=/opt/homebrew/bin:$PATH\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		78180CE70D4E8585374516C5 /* [CP] Copy Pods Resources */ = {
+		7382D174875A9B83E120AEBA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -336,16 +436,20 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B462A1A3B1C332E056588599 /* [CP] Embed Pods Frameworks */ = {
+		CF90FCFE792B63103B816B51 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -353,16 +457,20 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E62B756B0FDF6DFDAB7646AC /* [CP] Check Pods Manifest.lock */ = {
+		D20E3579863644ADEBFB209C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -411,15 +519,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				A66D7DF72E72D1E200A9EFC3 /* LPShareModule.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A66B61B22E71BDF600273F94 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A66B61BF2E71BDF700273F94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A66B61B52E71BDF600273F94 /* LifePuzzleShare */;
+			targetProxy = A66B61BE2E71BDF700273F94 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A18979948DEE1B8DCE0A9AD /* Pods-lifepuzzle.debug.xcconfig */;
+			baseConfigurationReference = 19409F5AE09993ABC20E598A /* Pods-lifepuzzle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -457,11 +581,11 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7285ADB087F6F1AE65195F6 /* Pods-lifepuzzle.release.xcconfig */;
+			baseConfigurationReference = 01833A6C43563762B50973EB /* Pods-lifepuzzle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = lifepuzzle/lifepuzzle.entitlements;
+				CODE_SIGN_ENTITLEMENTS = lifepuzzle/lifepuzzleRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -565,10 +689,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -643,14 +764,100 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A66B61C22E71BDF700273F94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = LifePuzzleShare/LifePuzzleShareDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N58TUAY7X8;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LifePuzzleShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LifePuzzleShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.itmca.lifepuzzle.LifePuzzleShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A66B61C32E71BDF700273F94 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = LifePuzzleShare/LifePuzzleShareRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N58TUAY7X8;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LifePuzzleShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LifePuzzleShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.itmca.lifepuzzle.LifePuzzleShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -671,6 +878,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A66B61C52E71BDF700273F94 /* Build configuration list for PBXNativeTarget "LifePuzzleShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A66B61C22E71BDF700273F94 /* Debug */,
+				A66B61C32E71BDF700273F94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
