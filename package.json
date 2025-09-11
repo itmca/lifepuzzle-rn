@@ -110,6 +110,14 @@
     "reactotron-react-native": "^5.1.13",
     "typescript": "5.0.4"
   },
+  "codegenConfig": {
+    "name": "LPShareModuleSpec",
+    "type": "modules",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.lifepuzzle.sharemodule"
+    }
+  },
   "engines": {
     "node": ">=18"
   }
