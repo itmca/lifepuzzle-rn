@@ -2,6 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import {Dimensions, findNodeHandle, UIManager, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import MasonryList from 'react-native-masonry-list';
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -39,13 +40,28 @@ const StoryListPage = () => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [selectedGalleryIndex, setSelectedGalleryIndex] =
-    useRecoilState<number>(selectedGalleryIndexState);
+  const [, setSelectedGalleryIndex] = useRecoilState<number>(
+    selectedGalleryIndexState,
+  );
   const [tags] = useRecoilState(tagState);
   const [ageGroups] = useRecoilState(ageGroupsState);
   const [selectedTag] = useRecoilState(selectedTagState);
 
   const ageGroupsArray = Object.entries(ageGroups);
+  const totalImagesCount = ageGroupsArray.reduce(
+    (sum, [, ageGroup]) => sum + ageGroup.gallery.length,
+    0,
+  );
+
+  useEffect(() => {
+    if (totalImagesCount > 0) {
+      const imageUrls = ageGroupsArray.flatMap(([, ageGroup]) =>
+        ageGroup.gallery.map((photo: GalleryType) => ({uri: photo.url})),
+      );
+
+      FastImage.preload(imageUrls);
+    }
+  }, [totalImagesCount, ageGroupsArray]);
 
   const handleScrollViewLayout = (event: any) => {
     const {height} = event.nativeEvent.layout;
@@ -118,13 +134,16 @@ const StoryListPage = () => {
                   images={ageGroup.gallery.map((e: GalleryType) => ({
                     uri: e.url,
                     id: e.id,
-                    width: e.width,
-                    height: e.height,
                   }))}
                   numColumns={2}
                   spacing={4}
                   containerWidth={screenWidth}
                   imageContainerStyle={{borderRadius: 12}}
+                  customImageComponent={FastImage}
+                  customImageProps={{
+                    cacheControl: FastImage.cacheControl.immutable,
+                    resizeMode: FastImage.resizeMode.cover,
+                  }}
                   onPressImage={(gallery: GalleryType) => {
                     moveToStoryDetailPage(gallery);
                   }}
