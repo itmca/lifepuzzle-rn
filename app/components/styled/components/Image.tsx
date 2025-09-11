@@ -1,6 +1,8 @@
 import {ImageSourcePropType} from 'react-native/Libraries/Image/Image';
+import React from 'react';
 
 import styled, {css} from 'styled-components/native';
+import FastImage from 'react-native-fast-image';
 
 type Props = {
   width?: number;
@@ -12,7 +14,7 @@ type Props = {
   resizeMode?: string;
 };
 
-export const MediumImage = styled.Image<Props>`
+export const MediumImage = styled(FastImage)<Props>`
   width: ${({width}) => (width ? `${width}px` : '33.94px')};
   height: ${({height}) => (height ? `${height}` : '100')};
   justify-content: center;
@@ -21,7 +23,7 @@ export const MediumImage = styled.Image<Props>`
     borderRadius ? `${borderRadius}px` : '0px'};
   resize-mode: ${({resizeMode}) => (resizeMode ? `${resizeMode}` : 'cover')};
 `;
-export const SmallImage = styled.Image<Props>`
+export const SmallImage = styled(FastImage)<Props>`
   width: ${({width}) => (width ? `${width}px` : '20px')};
   height: ${({height}) => (height ? `${height}px` : '20px')};
   background-color: ${({backgroundColor}) =>
@@ -34,7 +36,7 @@ export const SmallImage = styled.Image<Props>`
       tint-color: ${props.tintColor};
     `};
 `;
-export const XSmallImage = styled.Image<Props>`
+export const XSmallImage = styled(FastImage)<Props>`
   width: ${({width}) => (width ? `${width}px` : '16px')};
   height: ${({height}) => (height ? `${height}px` : '16px')};
   background-color: ${({backgroundColor}) =>
@@ -48,7 +50,7 @@ export const XSmallImage = styled.Image<Props>`
     `};
 `;
 
-export const XXSmallImage = styled.Image<Props>`
+export const XXSmallImage = styled(FastImage)<Props>`
   width: ${({width}) => (width ? `${width}px` : '14px')};
   height: ${({height}) => (height ? `${height}px` : '14px')};
   background-color: ${({backgroundColor}) =>
@@ -61,12 +63,12 @@ export const XXSmallImage = styled.Image<Props>`
       tint-color: ${props.tintColor};
     `};
 `;
-export const LargeImage = styled.Image<Props>`
+export const LargeImage = styled(FastImage)<Props>`
   width: ${({width}) => (width ? `${width}px` : '94px')};
   height: ${({height}) => (height ? `${height}px` : '94px')};
   border-radius: 10px;
 `;
-export const Photo = styled.Image<Props>`
+export const Photo = styled(FastImage)<Props>`
   width: ${({width}) => (width ? `${width}px` : '100%')};
   height: ${({height}) => (height ? `${height}px` : '100%')};
   border-radius: ${({borderRadius}) =>
@@ -74,7 +76,7 @@ export const Photo = styled.Image<Props>`
   resize-mode: ${({resizeMode}) => (resizeMode ? `${resizeMode}` : 'cover')};
 `;
 
-function Image({...props}) {
+function Image(props: Props) {
   return <MediumImage {...props} />;
 }
 

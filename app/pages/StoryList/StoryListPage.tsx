@@ -48,20 +48,6 @@ const StoryListPage = () => {
   const [selectedTag] = useRecoilState(selectedTagState);
 
   const ageGroupsArray = Object.entries(ageGroups);
-  const totalImagesCount = ageGroupsArray.reduce(
-    (sum, [, ageGroup]) => sum + ageGroup.gallery.length,
-    0,
-  );
-
-  useEffect(() => {
-    if (totalImagesCount > 0) {
-      const imageUrls = ageGroupsArray.flatMap(([, ageGroup]) =>
-        ageGroup.gallery.map((photo: GalleryType) => ({uri: photo.url})),
-      );
-
-      FastImage.preload(imageUrls);
-    }
-  }, [totalImagesCount, ageGroupsArray]);
 
   const handleScrollViewLayout = (event: any) => {
     const {height} = event.nativeEvent.layout;

@@ -23,8 +23,9 @@ import {ageGroupsState, tagState} from '../../recoils/photos.recoil.ts';
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
-import {useCallback, useState} from 'react';
+import {useCallback, useState, useEffect} from 'react';
 import {ShareButton} from '../../components/button/ShareButton.tsx';
+import FastImage from 'react-native-fast-image';
 import {Keyboard} from 'react-native';
 import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
 import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
@@ -47,6 +48,19 @@ const HomePage = (): JSX.Element => {
     Keyboard.dismiss();
     setOpenModal(true);
   }, []);
+
+  // 이미지 프리로드
+  useEffect(() => {
+    if (ageGroups && Object.keys(ageGroups).length > 0) {
+      const imageUrls = Object.values(ageGroups).flatMap(ageGroup =>
+        ageGroup.gallery.map(photo => ({uri: photo.url})),
+      );
+
+      if (imageUrls.length > 0) {
+        FastImage.preload(imageUrls);
+      }
+    }
+  }, [ageGroups]);
 
   useFocusAction(() => {
     if (!refetch || hero.heroNo < 0) {
