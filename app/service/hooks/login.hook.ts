@@ -30,11 +30,7 @@ export const useLoginResponseHandler = (option?: Option) => {
     const {user, tokens, hero} = loginResponse;
 
     setUser(user);
-    setAuthTokens({
-      ...tokens,
-      accessTokenExpireAt: new Date(tokens.accessTokenExpireAt),
-      refreshTokenExpireAt: new Date(tokens.refreshTokenExpireAt),
-    });
+    setAuthTokens(tokens);
     setHero(hero);
     resetShareKey();
 
