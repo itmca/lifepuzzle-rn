@@ -8,6 +8,17 @@ npm run android:prod # 안드로이드 실행
 npm run ios:prod # iOS 실행
 ```
 
+### Known Issues
+
+#### Xcode objectVersion 자동 변경 이슈
+
+Xcode에서 프로젝트를 열 때 `project.pbxproj` 파일의 `objectVersion`이 자동으로 54에서 70으로 변경되는 경우가 있습니다. 이는 최신 버전의 CocoaPods를 사용하더라도 빌드 실패를 일으킬 수 있습니다.
+
+**해결 방법:**
+
+1. Xcode에서 직접 실행하기
+2. 또는 `ios/lifepuzzle.xcodeproj/project.pbxproj` 파일에서 `objectVersion`을 54로 수정 후 실행
+
 ### Structure of `app` Folder
 
 ```

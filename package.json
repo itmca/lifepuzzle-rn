@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "postinstall": "patch-package",
+    "prebuild": "npm install && npx react-native clean",
+    "preios": "npm run prebuild && npx react-native codegen && cd ios && pod install",
+    "preandroid": "npm run prebuild && cd android && ./gradlew clean && ./gradlew generateCodegenArtifactsFromSchema",
     "android:dev": "ENVFILE=.env.develop npx react-native run-android --mode=developdebug",
     "android:dev-release": "ENVFILE=.env.develop npx react-native run-android --mode=developrelease",
     "android:prod": "ENVFILE=.env.production npx react-native run-android --mode=productiondebug",
