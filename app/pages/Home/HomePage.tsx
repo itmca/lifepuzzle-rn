@@ -1,6 +1,7 @@
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
-import {HeroType, toPhotoIdentifier} from '../../types/hero.type';
+import {HeroType} from '../../types/hero.type';
+import {toPhotoIdentifier} from '../../service/photo-identifier.service';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {WritingButton} from './WritingButton';
@@ -22,7 +23,10 @@ import {Keyboard} from 'react-native';
 import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
 import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil.ts';
+import {
+  isGalleryUploadingState,
+  selectedGalleryItemsState,
+} from '../../recoils/gallery-write.recoil.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
 import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
 import {sharedImageDataState} from '../../recoils/share.recoil';
@@ -85,9 +89,16 @@ const HomePage = (): JSX.Element => {
   }, [sharedImageData, hero, selectedTag]);
 
   const selectedTag = useRecoilValue<TagType>(selectedTagState);
-  const [submitGallery, isGalleryUploading, uploadProgress] =
-    useUploadGalleryV2();
+  const isGalleryUploading = useRecoilValue<boolean>(isGalleryUploadingState);
+  const [submitGallery] = useUploadGalleryV2();
   const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
+
+  useEffect(() => {
+    console.log(
+      '🏠 [HomePage] isGalleryUploading changed:',
+      isGalleryUploading,
+    );
+  }, [isGalleryUploading]);
 
   const uploadSharedImages = React.useCallback(
     (uris: string | string[]) => {
@@ -109,8 +120,15 @@ const HomePage = (): JSX.Element => {
     [setSelectedGalleryItems, submitGallery],
   );
 
+  console.log(
+    '🏠 [HomePage] render - isGalleryUploading:',
+    isGalleryUploading,
+    'isLoading:',
+    isLoading,
+  );
+
   return (
-    <LoadingContainer isLoading={isLoading}>
+    <LoadingContainer isLoading={isLoading || isGalleryUploading}>
       <BottomSheetModalProvider>
         <ScreenContainer gap={0}>
           <ContentContainer withScreenPadding useHorizontalLayout>
@@ -192,6 +210,8 @@ const HomePage = (): JSX.Element => {
         <MediaPickerBottomSheet
           visible={mediaPickerBottomSheetOpen}
           onClose={() => setMediaPickerBottomSheetOpen(false)}
+          onSubmitGallery={submitGallery}
+          isGalleryUploading={isGalleryUploading}
         />
       </BottomSheetModalProvider>
     </LoadingContainer>

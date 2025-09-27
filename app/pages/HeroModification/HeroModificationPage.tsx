@@ -13,7 +13,7 @@ import {
 } from '../../navigation/types';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {useHero} from '../../service/hooks/hero.query.hook';
-import {toPhotoIdentifier} from '../../types/hero.type';
+import {toPhotoIdentifier} from '../../service/photo-identifier.service';
 import {useUpdateHero} from '../../service/hooks/hero.update.hook.ts';
 import {Divider} from '../../components/styled/components/Divider';
 import {BasicCard} from '../../components/card/Card.tsx';
