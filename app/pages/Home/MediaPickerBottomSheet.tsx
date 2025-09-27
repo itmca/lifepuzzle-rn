@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Alert, Platform, TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import BottomSheet from '../../components/styled/components/BottomSheet';
@@ -18,10 +18,10 @@ import {
   writingStoryState,
 } from '../../recoils/story-write.recoil';
 import {Divider} from '../../components/styled/components/Divider.tsx';
-import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
-import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import ImagePicker from 'react-native-image-crop-picker';
 import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import {toPhotoIdentifierFromImage} from '../../service/photo-identifier.service';
+import {ensureCameraPermission} from '../../service/hooks/permission.hook';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;
@@ -59,79 +59,6 @@ const MediaOption: React.FC<MediaOptionProps> = ({
     </ContentContainer>
   </TouchableOpacity>
 );
-
-const ensureCameraPermission = async (): Promise<boolean> => {
-  const permission = Platform.select({
-    ios: PERMISSIONS.IOS.CAMERA,
-    android: PERMISSIONS.ANDROID.CAMERA,
-  });
-
-  if (!permission) {
-    return true;
-  }
-
-  const status = await check(permission);
-
-  if (status === RESULTS.GRANTED || status === RESULTS.LIMITED) {
-    return true;
-  }
-
-  if (status === RESULTS.BLOCKED) {
-    Alert.alert('카메라 권한이 필요합니다', '설정에서 권한을 허용해주세요.');
-    return false;
-  }
-
-  const requestResult = await request(permission);
-
-  if (requestResult === RESULTS.GRANTED || requestResult === RESULTS.LIMITED) {
-    return true;
-  }
-
-  Alert.alert('카메라 권한이 필요합니다', '설정에서 권한을 허용해주세요.');
-  return false;
-};
-
-const createPhotoIdentifierFromImage = (
-  image: ImageOrVideo,
-): PhotoIdentifier => {
-  const timestamp = Math.floor(Date.now() / 1000);
-  const rawPath = image.path ?? image.sourceURL ?? '';
-  const normalizedUri = rawPath.startsWith('file://')
-    ? rawPath
-    : `file://${rawPath}`;
-
-  const fallbackExtension = image.mime?.split('/')?.[1] ?? 'jpg';
-  const fallbackName = `camera_${timestamp}.${fallbackExtension}`;
-  const filename =
-    image.filename ?? normalizedUri.split('/').pop() ?? fallbackName;
-
-  return {
-    node: {
-      type: 'image',
-      subTypes: undefined,
-      group_name: 'Camera',
-      image: {
-        filename,
-        filepath: null,
-        extension: null,
-        uri: normalizedUri,
-        height: image.height ?? 0,
-        width: image.width ?? 0,
-        fileSize:
-          typeof image.size === 'number'
-            ? image.size
-            : image.size
-              ? Number(image.size)
-              : null,
-        playableDuration: 0,
-        orientation: null,
-      },
-      timestamp,
-      modificationTimestamp: timestamp,
-      location: null,
-    },
-  };
-};
 
 const isPickerCancelledError = (error: unknown): boolean => {
   if (!error || typeof error !== 'object') {
@@ -207,7 +134,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
         return;
       }
 
-      const photoIdentifier = createPhotoIdentifierFromImage(capturedImage);
+      const photoIdentifier = toPhotoIdentifierFromImage(capturedImage);
 
       setSelectedStoryKey('');
       setPostStoryKey('');

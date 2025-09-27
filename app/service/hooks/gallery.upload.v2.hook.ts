@@ -87,10 +87,10 @@ export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
   const resetSelectedGalleryItems = useResetRecoilState(
     selectedGalleryItemsState,
   );
-  const setIsGalleryUploading = useSetRecoilState(isGalleryUploadingState);
+  const isUploading = useRecoilValue(isGalleryUploadingState);
+  const setIsUploading = useSetRecoilState(isGalleryUploadingState);
 
   const [uploadItems, setUploadItems] = useState<UploadItem[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState<UploadProgress>({
     total: 0,
     completed: 0,
@@ -133,10 +133,6 @@ export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
     },
     disableInitialRequest: true,
   });
-
-  useEffect(() => {
-    setIsGalleryUploading(isUploading);
-  }, [isUploading, setIsGalleryUploading]);
 
   const resetUpload = () => {
     setIsUploading(false);

@@ -1,6 +1,7 @@
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
-import {HeroType, toPhotoIdentifier} from '../../types/hero.type';
+import {HeroType} from '../../types/hero.type';
+import {toPhotoIdentifier} from '../../service/photo-identifier.service';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {WritingButton} from './WritingButton';
@@ -92,6 +93,13 @@ const HomePage = (): JSX.Element => {
   const [submitGallery] = useUploadGalleryV2();
   const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
 
+  useEffect(() => {
+    console.log(
+      '🏠 [HomePage] isGalleryUploading changed:',
+      isGalleryUploading,
+    );
+  }, [isGalleryUploading]);
+
   const uploadSharedImages = React.useCallback(
     (uris: string | string[]) => {
       try {
@@ -110,6 +118,13 @@ const HomePage = (): JSX.Element => {
       }
     },
     [setSelectedGalleryItems, submitGallery],
+  );
+
+  console.log(
+    '🏠 [HomePage] render - isGalleryUploading:',
+    isGalleryUploading,
+    'isLoading:',
+    isLoading,
   );
 
   return (
