@@ -110,7 +110,7 @@ const HomePage = (): JSX.Element => {
   );
 
   return (
-    <LoadingContainer isLoading={isLoading}>
+    <LoadingContainer isLoading={isLoading || isGalleryUploading}>
       <BottomSheetModalProvider>
         <ScreenContainer gap={0}>
           <ContentContainer withScreenPadding useHorizontalLayout>

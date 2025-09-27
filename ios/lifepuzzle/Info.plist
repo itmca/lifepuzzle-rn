@@ -76,6 +76,8 @@
 	<string>글 작성 시 음성 녹음 기능을 사용하려면, 음석 녹음 권한을 허용해 주세요.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>앱 사용을 위해 권한을 허용해 주세요.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>카메라로 사진을 촬영하려면 권한을 허용해 주세요.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>프로필이나 글 작성 시 사진을 첨부하려면, 사진 접근 권한을 허용해 주세요.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
