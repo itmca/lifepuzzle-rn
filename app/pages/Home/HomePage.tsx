@@ -1,21 +1,9 @@
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/hero.recoil';
 import {HeroType, toPhotoIdentifier} from '../../types/hero.type';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {WritingButton} from './WritingButton';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
-import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import {
-  PostStoryKeyState,
-  writingStoryState,
-} from '../../recoils/story-write.recoil';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 import HeroOverview from './HeroOverview.tsx';
 import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
@@ -27,28 +15,23 @@ import {
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
-import {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ShareButton} from '../../components/button/ShareButton.tsx';
 import FastImage from 'react-native-fast-image';
 import {Keyboard} from 'react-native';
 import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
 import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import React from 'react';
 import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
 import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
 import {sharedImageDataState} from '../../recoils/share.recoil';
 import {BasicButton} from '../../components/button/BasicButton.tsx';
 import {LargeImage} from '../../components/styled/components/Image.tsx';
+import {MediaPickerBottomSheet} from './MediaPickerBottomSheet.tsx';
 
 const HomePage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
-
   const hero = useRecoilValue<HeroType>(heroState);
-  const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
-  const resetWritingStory = useResetRecoilState(writingStoryState);
-  const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
 
   const {photoHero, isLoading, refetch} = useHeroPhotos();
   const [ageGroups] = useRecoilState<AgeGroupsType>(ageGroupsState);
@@ -56,6 +39,8 @@ const HomePage = (): JSX.Element => {
   //bottom sheet
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [shareBottomSheetOpen, setShareBottomSheetOpen] =
+    useState<boolean>(false);
+  const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
     useState<boolean>(false);
   const [sharedImageData, setSharedImageData] =
     useRecoilState(sharedImageDataState);
@@ -149,18 +134,7 @@ const HomePage = (): JSX.Element => {
               paddingBottom={37}
               backgroundColor="transparent">
               <WritingButton
-                onPress={() => {
-                  setSelectedStoryKey('');
-                  setPostStoryKey('');
-                  resetWritingStory();
-
-                  navigation.push('NoTab', {
-                    screen: 'StoryWritingNavigator',
-                    params: {
-                      screen: 'StoryGallerySelector',
-                    },
-                  });
-                }}
+                onPress={() => setMediaPickerBottomSheetOpen(true)}
               />
             </ContentContainer>
           )}
@@ -214,6 +188,11 @@ const HomePage = (): JSX.Element => {
             </ContentContainer>
           )}
         </BottomSheet>
+
+        <MediaPickerBottomSheet
+          visible={mediaPickerBottomSheetOpen}
+          onClose={() => setMediaPickerBottomSheetOpen(false)}
+        />
       </BottomSheetModalProvider>
     </LoadingContainer>
   );

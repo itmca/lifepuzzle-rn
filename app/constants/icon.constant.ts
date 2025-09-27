@@ -68,6 +68,10 @@ import RecordRound from '../assets/icons/record_round.svg';
 import CheckRound from '../assets/icons/check_round.svg';
 import DeleteRound from '../assets/icons/delete_round.svg';
 
+import Folder32 from '../assets/icons/folder_32.svg';
+import Camera32 from '../assets/icons/camera_32.svg';
+import FacebookIcon from '../assets/icons/facebook_icon.svg';
+
 export const Svgs = {
   logo: Logo,
   book: Book,
@@ -130,4 +134,8 @@ export const Svgs = {
   stopRound: StopRound,
   checkRound: CheckRound,
   deleteRound: DeleteRound,
+
+  folder32: Folder32,
+  camera32: Camera32,
+  facebookIcon: FacebookIcon,
 } as const;
