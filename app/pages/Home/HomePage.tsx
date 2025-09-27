@@ -22,7 +22,10 @@ import {Keyboard} from 'react-native';
 import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
 import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil.ts';
+import {
+  isGalleryUploadingState,
+  selectedGalleryItemsState,
+} from '../../recoils/gallery-write.recoil.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
 import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
 import {sharedImageDataState} from '../../recoils/share.recoil';
@@ -85,8 +88,8 @@ const HomePage = (): JSX.Element => {
   }, [sharedImageData, hero, selectedTag]);
 
   const selectedTag = useRecoilValue<TagType>(selectedTagState);
-  const [submitGallery, isGalleryUploading, uploadProgress] =
-    useUploadGalleryV2();
+  const isGalleryUploading = useRecoilValue<boolean>(isGalleryUploadingState);
+  const [submitGallery] = useUploadGalleryV2();
   const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
 
   const uploadSharedImages = React.useCallback(
@@ -192,6 +195,8 @@ const HomePage = (): JSX.Element => {
         <MediaPickerBottomSheet
           visible={mediaPickerBottomSheetOpen}
           onClose={() => setMediaPickerBottomSheetOpen(false)}
+          onSubmitGallery={submitGallery}
+          isGalleryUploading={isGalleryUploading}
         />
       </BottomSheetModalProvider>
     </LoadingContainer>

@@ -22,11 +22,12 @@ import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;
   onClose: () => void;
+  onSubmitGallery?: () => void;
+  isGalleryUploading?: boolean;
 }
 
 interface MediaOptionProps {
@@ -148,6 +149,8 @@ const isPickerCancelledError = (error: unknown): boolean => {
 export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   visible,
   onClose,
+  onSubmitGallery,
+  isGalleryUploading = false,
 }) => {
   const navigation = useNavigation<BasicNavigationProps>();
   const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
@@ -155,7 +158,6 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
   const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
   const selectedGalleryItems = useRecoilValue(selectedGalleryItemsState);
-  const [submitGallery, isGalleryUploading] = useUploadGalleryV2();
   const shouldSubmitAfterCameraCapture = useRef(false);
 
   // 카메라 촬영 후 상태가 업데이트되면 업로드 실행
@@ -165,9 +167,9 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
       selectedGalleryItems.length > 0
     ) {
       shouldSubmitAfterCameraCapture.current = false;
-      submitGallery();
+      onSubmitGallery?.();
     }
-  }, [selectedGalleryItems, submitGallery]);
+  }, [selectedGalleryItems, onSubmitGallery]);
 
   const handleGalleryPress = () => {
     onClose();
