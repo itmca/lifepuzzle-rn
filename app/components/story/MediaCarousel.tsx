@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Dimensions, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 import {Photo} from '../styled/components/Image';
 import {VideoPlayer} from './StoryVideoPlayer';
@@ -6,6 +6,9 @@ import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import Carousel from 'react-native-reanimated-carousel';
 import MediaCarouselPagination from './MediaCarouselPagination';
+import {AiPhotoButton} from '../button/AiPhotoButton';
+import {BasicNavigationProps} from '../../navigation/types';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {
   data: MediaItem[];
@@ -34,6 +37,7 @@ export const MediaCarousel = ({
   onScroll,
   onPress,
 }: Props): JSX.Element => {
+  const navigation = useNavigation<BasicNavigationProps>();
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(
     activeIndex ?? 0,
   );
@@ -74,6 +78,16 @@ export const MediaCarousel = ({
           visible={isPaginationShown}
           activeMediaIndexNo={index - 1}
           mediaCount={data.length}
+        />
+        <AiPhotoButton
+          onPress={() => {
+            navigation.push('NoTab', {
+              screen: 'AiPhotoNavigator',
+              params: {
+                screen: 'AiPhoto',
+              },
+            });
+          }}
         />
       </ContentContainer>
     );

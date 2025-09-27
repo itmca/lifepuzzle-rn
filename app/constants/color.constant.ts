@@ -36,6 +36,8 @@ export const Color = {
   // Others
   YELLOW: '#FEE500',
   TRANSPARENT: 'transparent',
+
+  AI_500: '#9A53F7',
 } as const;
 
 export type ColorType = (typeof Color)[keyof typeof Color];

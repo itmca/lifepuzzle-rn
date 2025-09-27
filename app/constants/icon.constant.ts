@@ -68,6 +68,10 @@ import RecordRound from '../assets/icons/record_round.svg';
 import CheckRound from '../assets/icons/check_round.svg';
 import DeleteRound from '../assets/icons/delete_round.svg';
 
+import AiSmall from '../assets/icons/ai_16.svg';
+import AiWhite from '../assets/icons/ai_white.svg';
+
+import PreviewPlay from '../assets/icons/preview_play.svg';
 export const Svgs = {
   logo: Logo,
   book: Book,
@@ -130,4 +134,8 @@ export const Svgs = {
   stopRound: StopRound,
   checkRound: CheckRound,
   deleteRound: DeleteRound,
+
+  aiSmall: AiSmall,
+  aiWhite: AiWhite,
+  previewPlay: PreviewPlay,
 } as const;

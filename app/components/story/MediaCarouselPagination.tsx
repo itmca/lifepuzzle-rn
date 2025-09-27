@@ -27,8 +27,8 @@ const MediaCarouselPagination = ({
       style={StyleSheet.compose({
         alignItems: 'flex-end',
         position: 'absolute',
-        bottom: 10,
-        right: 10,
+        top: 10,
+        left: 10,
       })}>
       <ContentContainer
         alignCenter
