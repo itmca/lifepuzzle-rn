@@ -1,13 +1,15 @@
 import {useEffect} from 'react';
 import {
+  check,
   checkMultiple,
   PERMISSIONS,
+  request,
   requestMultiple,
   RESULTS,
 } from 'react-native-permissions';
-import {PermissionsAndroid, Platform} from 'react-native';
+import {Alert, PermissionsAndroid, Platform} from 'react-native';
 
-type PermissionTarget = 'voice' | 'photo';
+type PermissionTarget = 'voice' | 'photo' | 'camera';
 
 export type Permission = {
   target: PermissionTarget;
@@ -116,3 +118,38 @@ export async function hasAndroidPermission() {
 
   return await getRequestPermissionPromise();
 }
+
+/**
+ * 카메라 권한 확인 및 요청
+ * @returns Promise<boolean> 권한이 허용되었는지 여부
+ */
+export const ensureCameraPermission = async (): Promise<boolean> => {
+  const permission = Platform.select({
+    ios: PERMISSIONS.IOS.CAMERA,
+    android: PERMISSIONS.ANDROID.CAMERA,
+  });
+
+  if (!permission) {
+    return true;
+  }
+
+  const status = await check(permission);
+
+  if (status === RESULTS.GRANTED || status === RESULTS.LIMITED) {
+    return true;
+  }
+
+  if (status === RESULTS.BLOCKED) {
+    Alert.alert('카메라 권한이 필요합니다', '설정에서 권한을 허용해주세요.');
+    return false;
+  }
+
+  const requestResult = await request(permission);
+
+  if (requestResult === RESULTS.GRANTED || requestResult === RESULTS.LIMITED) {
+    return true;
+  }
+
+  Alert.alert('카메라 권한이 필요합니다', '설정에서 권한을 허용해주세요.');
+  return false;
+};
