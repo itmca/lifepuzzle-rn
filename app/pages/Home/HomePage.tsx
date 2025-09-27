@@ -36,7 +36,7 @@ import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import React from 'react';
 import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil.ts';
-import {useUploadGallery} from '../../service/hooks/gallery.write.hook.ts';
+import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
 import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
 import {sharedImageDataState} from '../../recoils/share.recoil';
 import {BasicButton} from '../../components/button/BasicButton.tsx';
@@ -100,7 +100,8 @@ const HomePage = (): JSX.Element => {
   }, [sharedImageData, hero, selectedTag]);
 
   const selectedTag = useRecoilValue<TagType>(selectedTagState);
-  const [submitGallery, isGalleryUploading] = useUploadGallery();
+  const [submitGallery, isGalleryUploading, uploadProgress] =
+    useUploadGalleryV2();
   const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
 
   const uploadSharedImages = React.useCallback(

@@ -6,7 +6,7 @@ import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallery
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
-import {useUploadGallery} from '../../service/hooks/gallery.write.hook.ts';
+import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
 import GalleryDetail from '../../pages/StoryGallerySelector/GalleryDetailPage.tsx';
 import GalleryDetailFilter from '../../pages/StoryGallerySelector/GalleryDetailFilterPage.tsx';
@@ -29,7 +29,7 @@ const Stack = createNativeStackNavigator<StoryWritingParamList>();
 
 const StoryWritingNavigator = (): JSX.Element => {
   const [saveStory] = useSaveStory();
-  const [uploadGallery] = useUploadGallery();
+  const [uploadGallery] = useUploadGalleryV2();
   const selectedStoryKey = useRecoilValue(SelectedStoryKeyState);
   const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
     selectedGalleryItemsState,

@@ -76,6 +76,7 @@ const StoryGallerySelector = (): JSX.Element => {
     const {edges, page_info} = await CameraRoll.getPhotos({
       first: !gallery || gallery.length < 20 ? 20 : gallery.length,
       assetType: 'All',
+      include: ['filename', 'fileSize', 'location', 'imageSize'],
     });
 
     setGallery(edges);

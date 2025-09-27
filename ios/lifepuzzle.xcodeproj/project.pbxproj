@@ -127,7 +127,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A66B61C42E71BDF700273F94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		A66B61C42E71BDF700273F94 /* Exceptions for "LifePuzzleShare" folder in "LifePuzzleShare" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -137,7 +137,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A66B61B72E71BDF700273F94 /* LifePuzzleShare */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A66B61C42E71BDF700273F94 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LifePuzzleShare; sourceTree = "<group>"; };
+		A66B61B72E71BDF700273F94 /* LifePuzzleShare */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A66B61C42E71BDF700273F94 /* Exceptions for "LifePuzzleShare" folder in "LifePuzzleShare" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = LifePuzzleShare;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -436,13 +447,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -457,13 +464,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-lifepuzzle/Pods-lifepuzzle-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -689,7 +692,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -764,7 +770,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
