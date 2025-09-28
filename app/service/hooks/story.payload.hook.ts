@@ -2,13 +2,16 @@ import {useRecoilValue} from 'recoil';
 import {writingStoryState} from '../../recoils/story-write.recoil';
 import {AUDIO_TYPE} from '../../constants/upload-file-type.constant';
 import {WritingStoryType} from '../../types/writing-story.type';
+import {HeroType} from '../../types/hero.type.ts';
+import {heroState} from '../../recoils/hero.recoil.ts';
 
 export const useStoryHttpPayLoad = () => {
   const formData = new FormData();
   const writingStory = useRecoilValue(writingStoryState);
+  const currentHero = useRecoilValue<HeroType>(heroState);
 
   addVoiceToFormData(formData, writingStory);
-  addJsonBodyToFormData(formData, writingStory);
+  addJsonBodyToFormData(formData, writingStory, currentHero);
 
   return formData;
 };
@@ -34,8 +37,10 @@ const addVoiceToFormData = function (
 const addJsonBodyToFormData = function (
   formData: FormData,
   writingStory: WritingStoryType | undefined,
+  hero: HeroType,
 ) {
   const story = {
+    heroId: hero.heroNo,
     title: writingStory?.title,
     content: writingStory?.content,
     date: writingStory?.date || new Date(),

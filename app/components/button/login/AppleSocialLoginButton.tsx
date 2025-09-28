@@ -23,7 +23,7 @@ const AppleSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
   const [_, appleLogin] = useAxios<LoginResponse>({
     requestOption: {
       method: 'post',
-      url: '/auth/login/apple',
+      url: '/v1/auth/login/apple',
     },
     onResponseSuccess: loginResponseHandler,
     onLoadingStatusChange: onChangeLoading,
