@@ -54,7 +54,7 @@ export const useRefreshAuthTokens = () => {
       .request<AuthTokens>({
         timeout: 5000,
         method: 'post',
-        url: `${SERVER_HOST}/auth/refresh`,
+        url: `${SERVER_HOST}/v1/auth/refresh`,
         headers: {
           Authorization: tokens.refreshToken && `Bearer ${tokens.refreshToken}`,
         },

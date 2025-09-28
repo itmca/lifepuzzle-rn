@@ -1,5 +1,7 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
+import {FacebookPhotoItem} from '../types/facebook.type';
+import {AgeType} from '../types/photo.type';
 
 /**
  * URI 문자열을 PhotoIdentifier로 변환합니다.
@@ -63,6 +65,40 @@ export const toPhotoIdentifierFromImage = (
             : image.size
               ? Number(image.size)
               : null,
+        playableDuration: 0,
+        orientation: null,
+      },
+      timestamp,
+      modificationTimestamp: timestamp,
+      location: null,
+    },
+  };
+};
+
+/**
+ * Facebook 사진을 PhotoIdentifier로 변환합니다.
+ * Facebook에서 가져온 사진을 앱 내 표준 형식으로 변환할 때 사용됩니다.
+ */
+export const toPhotoIdentifierFromFacebookPhoto = (
+  facebookPhoto: FacebookPhotoItem,
+  ageGroup: AgeType,
+): PhotoIdentifier => {
+  const timestamp = Math.floor(Date.now() / 1000);
+  const filename = `facebook_${facebookPhoto.id}_${timestamp}.jpg`;
+
+  return {
+    node: {
+      type: 'image',
+      subTypes: undefined,
+      group_name: `Facebook_${ageGroup}`,
+      image: {
+        filename,
+        filepath: null,
+        extension: null,
+        uri: facebookPhoto.imageUrl,
+        height: 0,
+        width: 0,
+        fileSize: null,
         playableDuration: 0,
         orientation: null,
       },

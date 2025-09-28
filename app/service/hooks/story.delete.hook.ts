@@ -22,7 +22,7 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
       method: 'DELETE',
-      url: `/v1/stories/${storyKey}`,
+      url: `/v1/galleries/stories/${storyKey}`,
     },
     onResponseSuccess: () => {
       publishStoryListUpdate();
@@ -55,12 +55,11 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
 export const useDeleteGallery = ({galleryId}: GalleryProps): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const setStoryloading = useSetRecoilState(isStoryUploading);
-  const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
       method: 'DELETE',
-      url: `/v2/heroes/gallery/${galleryId}`,
+      url: `/v1/galleries/${galleryId}`,
     },
     onResponseSuccess: () => {
       navigation.navigate('HomeTab', {screen: 'Home'});

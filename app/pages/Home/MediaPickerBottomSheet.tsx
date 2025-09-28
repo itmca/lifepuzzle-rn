@@ -155,8 +155,15 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
 
   const handleFacebookPress = () => {
     onClose();
-    // TODO: 페이스북 연동 기능 구현
-    console.log('Facebook press - 구현 필요');
+    setSelectedStoryKey('');
+    setPostStoryKey('');
+    resetWritingStory();
+    navigation.push('NoTab', {
+      screen: 'StoryWritingNavigator',
+      params: {
+        screen: 'FacebookPhotoSelector',
+      },
+    });
   };
 
   return (

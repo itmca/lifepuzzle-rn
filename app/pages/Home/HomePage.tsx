@@ -27,7 +27,7 @@ import {
   isGalleryUploadingState,
   selectedGalleryItemsState,
 } from '../../recoils/gallery-write.recoil.ts';
-import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
+import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
 import {sharedImageDataState} from '../../recoils/share.recoil';
 import {BasicButton} from '../../components/button/BasicButton.tsx';

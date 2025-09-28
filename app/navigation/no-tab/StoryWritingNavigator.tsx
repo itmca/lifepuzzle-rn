@@ -3,10 +3,11 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
+import FacebookPhotoSelector from '../../pages/FacebookPhotoSelector/FacebookPhotoSelector.tsx';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
-import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
+import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
 import GalleryDetail from '../../pages/StoryGallerySelector/GalleryDetailPage.tsx';
 import GalleryDetailFilter from '../../pages/StoryGallerySelector/GalleryDetailFilterPage.tsx';
@@ -20,6 +21,7 @@ export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
   StoryGallerySelector: undefined;
+  FacebookPhotoSelector: undefined;
   GalleryDetail: undefined;
   GalleryDetailFilter: undefined;
   StoryWritingVoice: undefined;
@@ -74,6 +76,13 @@ const StoryWritingNavigator = (): JSX.Element => {
               }
             />
           ),
+        }}
+      />
+      <Stack.Screen
+        name="FacebookPhotoSelector"
+        component={FacebookPhotoSelector}
+        options={{
+          header: () => <TopBar title={'페이스북 사진'} />,
         }}
       />
       <Stack.Screen
