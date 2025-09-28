@@ -135,7 +135,7 @@ const HomePage = (): JSX.Element => {
             {photoHero && (
               <>
                 <HeroOverview hero={photoHero} />
-                {hero.auth === 'OWNER' && (
+                {(hero.auth === 'OWNER' || hero.auth === 'ADMIN') && (
                   <ContentContainer width={'auto'}>
                     <ShareButton onPress={handlePresentModalPress} />
                   </ContentContainer>
