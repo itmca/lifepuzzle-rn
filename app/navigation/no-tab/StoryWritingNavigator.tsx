@@ -6,7 +6,7 @@ import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallery
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
-import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.v2.hook.ts';
+import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
 import GalleryDetail from '../../pages/StoryGallerySelector/GalleryDetailPage.tsx';
 import GalleryDetailFilter from '../../pages/StoryGallerySelector/GalleryDetailFilterPage.tsx';

@@ -29,7 +29,7 @@ const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
   const [_, kakaoLogin] = useAxios<LoginResponse>({
     requestOption: {
       method: 'post',
-      url: '/auth/login/kakao',
+      url: '/v1/auth/login/kakao',
       headers: {
         'kakao-access-token': kakaoAccessToken,
       },
