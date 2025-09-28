@@ -22,6 +22,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil';
 import {toPhotoIdentifierFromImage} from '../../service/photo-identifier.service';
 import {ensureCameraPermission} from '../../service/hooks/permission.hook';
+import {showInfoToast} from '../../components/styled/components/Toast.tsx';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;
@@ -154,16 +155,26 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   };
 
   const handleFacebookPress = () => {
+    showInfoToast('페이스북 연동 기능 추가 예정입니다');
     onClose();
-    setSelectedStoryKey('');
-    setPostStoryKey('');
-    resetWritingStory();
-    navigation.push('NoTab', {
-      screen: 'StoryWritingNavigator',
-      params: {
-        screen: 'FacebookPhotoSelector',
-      },
-    });
+
+    // TODO: 페이스북 OAuth 인증 및 사진 가져오기 기능 구현 예정
+    // 구현될 기능:
+    // 1. Facebook SDK 연동
+    // 2. OAuth 인증 플로우
+    // 3. 사용자 앨범 목록 가져오기
+    // 4. 선택된 사진들 다운로드 및 로컬 저장
+    // 5. FacebookPhotoSelector 화면으로 네비게이션
+
+    // setSelectedStoryKey('');
+    // setPostStoryKey('');
+    // resetWritingStory();
+    // navigation.push('NoTab', {
+    //   screen: 'StoryWritingNavigator',
+    //   params: {
+    //     screen: 'FacebookPhotoSelector',
+    //   },
+    // });
   };
 
   return (
