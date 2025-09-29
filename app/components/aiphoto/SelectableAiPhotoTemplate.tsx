@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Photo} from '../styled/components/Image';
-import {Color} from '../../constants/color.constant';
+import Video from 'react-native-video';
+import {useNavigation} from '@react-navigation/native';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {AiPhotoTemplate} from '../../types/ai-photo.type';
-import {VideoPlayer} from '../story/StoryVideoPlayer';
 import {SvgIcon} from '../styled/components/SvgIcon';
-import {useVideoThumbnail} from '../../service/hooks/ai-photo.query.hook';
+import {Color} from '../../constants/color.constant';
+import {BasicNavigationProps} from '../../navigation/types';
+import {AiPhotoTemplate} from '../../types/ai-photo.type';
 
 type SelectableAiPhotoTemplateProps = {
   onSelected: Function;
   onDeselected: Function;
   size: number;
   data: AiPhotoTemplate;
-  selected?: boolean;
+  selected: boolean;
 };
 
 const SelectableAiPhotoTemplate = ({
@@ -21,26 +21,40 @@ const SelectableAiPhotoTemplate = ({
   onDeselected,
   size,
   data,
-  selected = false,
+  selected,
 }: SelectableAiPhotoTemplateProps): JSX.Element => {
-  const [thumbnailUri, setThumbnailUri] = useState<string | null>(null);
-  const {generateThumbnail, isLoading} = useVideoThumbnail();
-
-  useEffect(() => {
-    const loadThumbnail = async () => {
-      const thumbnail = await generateThumbnail(data.uri);
-      setThumbnailUri(thumbnail);
-    };
-
-    if (data.uri) {
-      loadThumbnail();
-    }
-  }, [data.uri, generateThumbnail]);
+  const player = useRef<any>(null);
+  const [paused, setPaused] = useState<boolean>(true);
 
   const _onPress = () => {
     selected === true ? onDeselected(data) : onSelected(data);
   };
 
+  useEffect(() => {
+    if (selected) {
+      // 선택될 때 처음부터 재생
+      setTimeout(() => {
+        if (player.current) {
+          player.current.seek(0);
+        }
+        setPaused(false);
+      }, 100);
+    } else {
+      setPaused(true);
+    }
+  }, [selected]);
+
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', e => {
+      setPaused(true);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
   return (
     <TouchableOpacity onPress={_onPress}>
       <ContentContainer
@@ -51,35 +65,44 @@ const SelectableAiPhotoTemplate = ({
         borderRadius={6}
         borderColor={Color.AI_500}
         style={{borderWidth: selected ? 4 : 0}}>
-        {selected ? (
-          <VideoPlayer
-            videoUrl={data.uri}
-            width={size}
-            activeMediaIndexNo={selected ? 1 : 0}
-            setPaginationShown={() => {}}
-          />
-        ) : (
-          <>
-            {thumbnailUri ? (
-              <Photo
-                width={size}
-                resizeMode={'contain'}
-                source={{uri: thumbnailUri}}
-              />
-            ) : (
-              <ContentContainer width={size} />
-            )}
-            <ContentContainer
-              width={'auto'}
-              absoluteBottomPosition
-              absoluteRightPosition
-              paddingBottom={8}
-              paddingRight={8}
-              withNoBackground>
-              <SvgIcon name={'previewPlay'} size={24} />
-            </ContentContainer>
-          </>
-        )}
+        <Video
+          key={`${data.id}-${data.uri}`}
+          ref={player}
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: Color.BLACK,
+          }}
+          source={{uri: data.uri}}
+          paused={paused}
+          resizeMode={'contain'}
+          fullscreen={false}
+          controls={false}
+          muted={false}
+          repeat={true}
+          playInBackground={false}
+          playWhenInactive={false}
+          ignoreSilentSwitch="ignore"
+          mixWithOthers="mix"
+          onError={error => {
+            setPaused(true);
+          }}
+        />
+        <ContentContainer
+          absoluteTopPosition
+          width="100%"
+          height="100%"
+          withNoBackground
+        />
+        <ContentContainer
+          width={'auto'}
+          absoluteBottomPosition
+          absoluteRightPosition
+          paddingBottom={8}
+          paddingRight={8}
+          withNoBackground>
+          {paused && <SvgIcon name={'previewPlay'} size={24} />}
+        </ContentContainer>
       </ContentContainer>
     </TouchableOpacity>
   );
