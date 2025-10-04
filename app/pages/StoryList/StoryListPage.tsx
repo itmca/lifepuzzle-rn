@@ -1,12 +1,19 @@
 // 1. React
 import React, {useEffect, useRef, useState} from 'react';
 
-import {Dimensions, findNodeHandle, UIManager, View} from 'react-native';
+import {
+  Dimensions,
+  findNodeHandle,
+  UIManager,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import MasonryList from 'react-native-masonry-list';
+import VMasonryList from '@react-native-seoul/masonry-list';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {AgeType, GalleryType} from '../../types/photo.type';
+import {TagKey, GalleryType} from '../../types/photo.type';
 
 import {Head} from '../../components/styled/components/Text';
 
@@ -20,6 +27,7 @@ import {SCREEN_HEIGHT} from '@gorhom/bottom-sheet';
 
 import {
   ageGroupsState,
+  getGallery,
   selectedGalleryIndexState,
   selectedTagState,
   tagState,
@@ -27,16 +35,16 @@ import {
 import {isLoggedInState} from '../../recoils/auth.recoil.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
+import Video from 'react-native-video';
 
 const StoryListPage = () => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
 
   const scrollContainerRef = useRef<any>(null);
-  const itemRefs = useRef<{[key in AgeType]?: View | null}>({});
+  const itemRefs = useRef<{[key in TagKey]?: View | null}>({});
 
   const [scrollViewHeight, setScrollViewHeight] = useState(0);
-
   const navigation = useNavigation<BasicNavigationProps>();
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -45,6 +53,7 @@ const StoryListPage = () => {
   );
   const [tags] = useRecoilState(tagState);
   const [ageGroups] = useRecoilState(ageGroupsState);
+  const allGallery = useRecoilValue(getGallery);
   const [selectedTag] = useRecoilState(selectedTagState);
 
   const ageGroupsArray = Object.entries(ageGroups);
@@ -57,12 +66,16 @@ const StoryListPage = () => {
   };
 
   const moveToStoryDetailPage = (gallery: GalleryType) => {
-    const index =
-      ageGroups[selectedTag.key as AgeType]?.gallery.find(
-        elem => elem.id === gallery.id,
-      )?.index ?? 1;
+    // 전체 갤러리에서 해당 아이템의 인덱스 찾기
+    const allGalleryIndex = allGallery.findIndex(
+      item => item.id === gallery.id,
+    );
 
-    setSelectedGalleryIndex(index - 1);
+    if (allGalleryIndex !== -1) {
+      setSelectedGalleryIndex(allGalleryIndex);
+    } else {
+      setSelectedGalleryIndex(0);
+    }
 
     navigation.push('NoTab', {
       screen: 'StoryViewNavigator',
@@ -72,7 +85,7 @@ const StoryListPage = () => {
     });
   };
   useEffect(() => {
-    const targetRef = itemRefs.current[selectedTag.key as AgeType];
+    const targetRef = itemRefs.current[selectedTag.key as TagKey];
     const scrollRef = scrollContainerRef.current?.getScrollResponder();
 
     if (targetRef && scrollRef) {
@@ -104,7 +117,7 @@ const StoryListPage = () => {
 
           return (
             <ContentContainer
-              ref={ref => (itemRefs.current[ageKey as AgeType] = ref)}
+              ref={ref => (itemRefs.current[ageKey as TagKey] = ref)}
               collapsable={false}
               key={ageKey}
               minHeight={isLastAgeGroup ? screenHeight : screenHeight / 3}>
@@ -116,24 +129,62 @@ const StoryListPage = () => {
                     ({ageGroup.galleryCount || 0})
                   </Head>
                 </ContentContainer>
-                <MasonryList
-                  images={ageGroup.gallery.map((e: GalleryType) => ({
-                    uri: e.url,
-                    id: e.id,
-                  }))}
-                  numColumns={2}
-                  spacing={4}
-                  containerWidth={screenWidth}
-                  imageContainerStyle={{borderRadius: 12}}
-                  customImageComponent={FastImage}
-                  customImageProps={{
-                    cacheControl: FastImage.cacheControl.immutable,
-                    resizeMode: FastImage.resizeMode.cover,
-                  }}
-                  onPressImage={(gallery: GalleryType) => {
-                    moveToStoryDetailPage(gallery);
-                  }}
-                />
+                {ageKey === 'AI_PHOTO' ? (
+                  <VMasonryList
+                    data={ageGroup.gallery}
+                    numColumns={2}
+                    contentContainerStyle={{
+                      padding: 20,
+                    }}
+                    renderItem={({item, i}: {item: GalleryType; i: number}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => moveToStoryDetailPage(item)}
+                          style={{
+                            borderRadius: 12,
+                            overflow: 'hidden',
+                            marginBottom: 4,
+                            flex: 1,
+                          }}>
+                          <Video
+                            source={{uri: item.url}}
+                            style={{
+                              width: '100%',
+                              aspectRatio: 0.75,
+                              backgroundColor: 'black',
+                            }}
+                            paused={false}
+                            resizeMode="cover"
+                            muted={true}
+                            controls={false}
+                            onError={error => {
+                              console.log('Video thumbnail error:', error);
+                            }}
+                          />
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />
+                ) : (
+                  <MasonryList
+                    images={ageGroup.gallery.map((e: GalleryType) => ({
+                      uri: e.url,
+                      id: e.id,
+                    }))}
+                    numColumns={2}
+                    spacing={4}
+                    containerWidth={screenWidth}
+                    imageContainerStyle={{borderRadius: 12}}
+                    customImageComponent={FastImage}
+                    customImageProps={{
+                      cacheControl: FastImage.cacheControl.immutable,
+                      resizeMode: FastImage.resizeMode.cover,
+                    }}
+                    onPressImage={(gallery: GalleryType) => {
+                      moveToStoryDetailPage(gallery);
+                    }}
+                  />
+                )}
               </ContentContainer>
             </ContentContainer>
           );

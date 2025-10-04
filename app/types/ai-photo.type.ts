@@ -4,3 +4,4 @@ export type AiPhotoTemplate = {
   thumbnail: string;
   uri: string;
 };
+export type AiType = 'AI_PHOTO';

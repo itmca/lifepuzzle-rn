@@ -12,15 +12,18 @@ import {ScrollView, useWindowDimensions} from 'react-native';
 import {selectedTagState} from '../../recoils/photos.recoil.ts';
 import {
   AgeGroupsType,
-  AgeType,
+  TagKey,
   GalleryType,
   PhotoHeroType,
   TagType,
 } from '../../types/photo.type.ts';
 import {Color} from '../../constants/color.constant.ts';
+import {Title} from '../../components/styled/components/Text.tsx';
 import Tag from '../../components/styled/components/Tag.tsx';
+
 import {NotificationBar} from '../../components/styled/components/NotificationBar.tsx';
 import {BasicCard} from '../../components/card/Card.tsx';
+import GalleryTag from './GalleryTag.tsx';
 
 type props = {
   hero: PhotoHeroType;
@@ -70,27 +73,9 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
           ref={scrollRef}
           paddingRight={20}>
           {tags.map((item: TagType, index) => {
-            if (selectedTag && selectedTag.key === item.key) {
-              return (
-                <Tag
-                  key={index}
-                  color={Color.MAIN_DARK}
-                  text={`${item.label} (${item.count ?? 0})`}
-                />
-              );
-            } else {
-              return (
-                <Tag
-                  key={index}
-                  color={Color.GREY}
-                  onPress={() => {
-                    carouselRef.current?.scrollTo({index});
-                    setSelectedTag({...item});
-                  }}
-                  text={`${item.label} (${item.count ?? 0})`}
-                />
-              );
-            }
+            return (
+              <GalleryTag carouselRef={carouselRef} item={item} index={index} />
+            );
           })}
         </ScrollContentContainer>
       </ContentContainer>
@@ -130,7 +115,7 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
                 }}>
                 <BasicCard
                   photoUrls={
-                    ageGroups[tag.key as AgeType]?.gallery.map(g => g.url) ?? []
+                    ageGroups[tag.key as TagKey]?.gallery.map(g => g.url) ?? []
                   }
                   fallbackBackgroundColor={Color.WHITE}
                   fallbackBorderColor={Color.GREY_100}
@@ -140,7 +125,7 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
                   width={windowWidth}
                   onPress={() => {
                     const index =
-                      ageGroups[tag.key as AgeType]?.gallery[0].index;
+                      ageGroups[tag.key as TagKey]?.gallery[0].index;
                     if (index) {
                       moveToStoryListPage(index);
                     }

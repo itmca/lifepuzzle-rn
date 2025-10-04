@@ -1,3 +1,5 @@
+import {AiType} from './ai-photo.type';
+
 export type AgeType =
   | 'UNDER_TEENAGER'
   | 'TEENAGER'
@@ -10,7 +12,7 @@ export type AgeType =
   | 'EIGHTY'
   | 'NINETY'
   | 'UPPER_NINETY';
-export type AgeGroupsType = Partial<Record<AgeType, AgeGroupType>>;
+export type AgeGroupsType = Partial<Record<TagKey, AgeGroupType>>;
 export type AgeGroupType = {
   startYear: number;
   endYear: number;
@@ -25,8 +27,9 @@ export type GalleryType = {
   story?: StoryType;
   tag: TagType;
 };
+export type TagKey = AgeType | AiType;
 export type TagType = {
-  key: AgeType;
+  key: TagKey;
   label: string;
   count?: number;
 };
