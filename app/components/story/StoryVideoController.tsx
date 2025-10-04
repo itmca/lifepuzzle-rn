@@ -5,6 +5,7 @@ import {Color} from '../../constants/color.constant';
 import {toMmSs} from '../../service/date-time-display.service.ts';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Caption} from '../styled/components/Text.tsx';
+import {SCREEN_WIDTH} from '@gorhom/bottom-sheet';
 
 type Props = {
   width: number;
@@ -42,10 +43,7 @@ export const VideoController = ({
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        if (isControlPadShown === undefined || isPaused) {
-          return;
-        }
-        setControlPadShown(!isControlPadShown);
+        setPaused(!isPaused);
       }}>
       <ContentContainer
         absoluteTopPosition
@@ -58,50 +56,32 @@ export const VideoController = ({
         }>
         {isControlPadShown && (
           <>
-            <ContentContainer alignCenter height={'100%'} withNoBackground>
-              <TouchableWithoutFeedback
-                onPressIn={() => {
-                  setPaused(!isPaused);
-                }}>
-                <Image
-                  source={
-                    isPaused
-                      ? require('../../assets/icons/play_round.svg')
-                      : require('../../assets/icons/pause_round.svg')
-                  }
-                  style={{width: 45, height: 45, zIndex: 1}}
+            <ContentContainer absoluteBottomPosition gap={6} withNoBackground>
+              <ContentContainer
+                useHorizontalLayout
+                withNoBackground
+                paddingHorizontal={4}>
+                <Caption fontSize={10} color={Color.WHITE}>
+                  {toMmSs(currentProgress * duration)}
+                </Caption>
+                <Caption fontSize={10} color={Color.WHITE}>
+                  {playingTime}
+                </Caption>
+              </ContentContainer>
+
+              <TouchableWithoutFeedback onPress={handleProgress}>
+                <Bar
+                  progress={currentProgress}
+                  width={SCREEN_WIDTH}
+                  height={4}
+                  color={Color.MAIN_DARK}
+                  unfilledColor={Color.WHITE}
+                  borderColor={Color.GREY_100}
+                  borderRadius={50}
+                  borderWidth={0}
                 />
               </TouchableWithoutFeedback>
             </ContentContainer>
-            {currentProgress > 0.01 && (
-              <ContentContainer absoluteBottomPosition gap={6} withNoBackground>
-                {!isPaused && (
-                  <ContentContainer
-                    useHorizontalLayout
-                    withNoBackground
-                    paddingHorizontal={4}>
-                    <Caption fontSize={10} color={Color.WHITE}>
-                      {toMmSs(currentProgress * duration)}
-                    </Caption>
-                    <Caption fontSize={10} color={Color.WHITE}>
-                      {playingTime}
-                    </Caption>
-                  </ContentContainer>
-                )}
-                <TouchableWithoutFeedback onPress={handleProgress}>
-                  <Bar
-                    progress={currentProgress}
-                    width={width}
-                    height={4}
-                    color={Color.MAIN_DARK}
-                    unfilledColor={Color.WHITE}
-                    borderColor={Color.GREY_100}
-                    borderRadius={50}
-                    borderWidth={0}
-                  />
-                </TouchableWithoutFeedback>
-              </ContentContainer>
-            )}
           </>
         )}
       </ContentContainer>
