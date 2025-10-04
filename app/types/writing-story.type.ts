@@ -1,4 +1,4 @@
-import {AgeType} from './photo.type.ts';
+import {TagKey} from './photo.type.ts';
 
 export type WritingStoryType = {
   title?: string;
@@ -11,7 +11,7 @@ export type WritingStoryType = {
 export type GalleryItem = {
   id: number;
   uri: string;
-  tagKey: AgeType;
+  tagKey: TagKey;
 };
 
 export type PlayInfo = {

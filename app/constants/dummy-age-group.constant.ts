@@ -1,7 +1,6 @@
 import {AgeGroupsType, TagType} from '../types/photo.type';
-
 export const DUMMY_AGE_GROUPS: AgeGroupsType = {
-  UNDER_TEENAGER: {
+  AI_PHOTO: {
     startYear: 1957,
     endYear: 1966,
     galleryCount: 1,
@@ -9,6 +8,23 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
       {
         id: 1,
         index: 1,
+        type: 'VIDEO',
+        url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/family.mp4',
+        tag: {
+          key: 'AI_PHOTO',
+          label: 'AI포토',
+        },
+      },
+    ],
+  },
+  UNDER_TEENAGER: {
+    startYear: 1957,
+    endYear: 1966,
+    galleryCount: 1,
+    gallery: [
+      {
+        id: 2,
+        index: 2,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/0-1.jpg',
         tag: {
@@ -24,8 +40,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
     galleryCount: 2,
     gallery: [
       {
-        id: 2,
-        index: 2,
+        id: 3,
+        index: 3,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/10-1.jpg',
         story: {
@@ -44,8 +60,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
         },
       },
       {
-        id: 3,
-        index: 3,
+        id: 4,
+        index: 4,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/10-2.jpg',
         story: {
@@ -67,10 +83,10 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
     galleryCount: 1,
     gallery: [
       {
-        id: 4,
-        index: 4,
-        type: 'VIDEO',
-        url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/20-1.mp4',
+        id: 5,
+        index: 5,
+        type: 'IMAGE',
+        url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/30-1.jpg',
         story: {
           id: 2,
           title: '땅을 파보니 보석이 있었지',
@@ -95,8 +111,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
     galleryCount: 2,
     gallery: [
       {
-        id: 5,
-        index: 5,
+        id: 6,
+        index: 6,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/30-1.jpg',
         story: {
@@ -111,8 +127,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
         },
       },
       {
-        id: 6,
-        index: 6,
+        id: 7,
+        index: 7,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/30-2.jpg',
         story: {
@@ -135,8 +151,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
     galleryCount: 1,
     gallery: [
       {
-        id: 7,
-        index: 7,
+        id: 8,
+        index: 8,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/40-1.jpg',
         story: {
@@ -159,8 +175,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
     galleryCount: 1,
     gallery: [
       {
-        id: 8,
-        index: 8,
+        id: 9,
+        index: 9,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/50-1.jpg',
         story: {
@@ -182,8 +198,8 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
     galleryCount: 1,
     gallery: [
       {
-        id: 9,
-        index: 9,
+        id: 10,
+        index: 10,
         type: 'IMAGE',
         url: 'https://lp-public.s3.ap-northeast-2.amazonaws.com/not-login-stories/gallery/60-1.jpg',
         story: {
@@ -202,6 +218,11 @@ export const DUMMY_AGE_GROUPS: AgeGroupsType = {
 };
 export const DUMMY_TAGS: TagType[] = [
   {
+    key: 'AI_PHOTO',
+    label: 'AI포토',
+    count: 1,
+  },
+  {
     key: 'UNDER_TEENAGER',
     label: '10대 미만',
     count: 1,
@@ -219,7 +240,7 @@ export const DUMMY_TAGS: TagType[] = [
   {
     key: 'THIRTY',
     label: '30대',
-    count: 1,
+    count: 2,
   },
   {
     key: 'FORTY',

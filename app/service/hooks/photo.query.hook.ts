@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 import {useAuthAxios} from './network.hook';
 import {
   AgeGroupsType,
-  AgeType,
+  TagKey,
   PhotoHeroType,
   TagType,
 } from '../../types/photo.type';
@@ -65,14 +65,16 @@ export const useHeroPhotos = (): Response => {
             label: item.label,
             count:
               item.key in res.ageGroups
-                ? res.ageGroups[item.key as AgeType]?.galleryCount
+                ? res.ageGroups[item.key as TagKey]?.galleryCount
                 : 0,
           })),
         ];
         setTags(newTags);
 
         if (res.totalGallery === 0) {
-          const index = Math.trunc((res.hero.age ?? 0) / 10);
+          const index =
+            Math.trunc((res.hero.age ?? 0) / 10) +
+            newTags.filter(item => item.key === 'AI_PHOTO').length;
           setSelectedTag({...res.tags[index ?? 0]});
         } else {
           const index = newTags.findIndex(item => (item.count ?? 0) > 0);
