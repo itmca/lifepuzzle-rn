@@ -36,6 +36,7 @@ import {isLoggedInState} from '../../recoils/auth.recoil.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import Video from 'react-native-video';
+import VideoModal from '../../components/styled/components/VideoModal.tsx';
 
 const StoryListPage = () => {
   const screenWidth = Dimensions.get('window').width;
@@ -48,9 +49,10 @@ const StoryListPage = () => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [, setSelectedGalleryIndex] = useRecoilState<number>(
-    selectedGalleryIndexState,
-  );
+  const [selectedGalleryIndex, setSelectedGalleryIndex] =
+    useRecoilState<number>(selectedGalleryIndexState);
+  const [videoModalOpen, setVideoModalOpen] = useState<boolean>(false);
+
   const [tags] = useRecoilState(tagState);
   const [ageGroups] = useRecoilState(ageGroupsState);
   const allGallery = useRecoilValue(getGallery);
@@ -139,7 +141,7 @@ const StoryListPage = () => {
                     renderItem={({item, i}: {item: GalleryType; i: number}) => {
                       return (
                         <TouchableOpacity
-                          onPress={() => moveToStoryDetailPage(item)}
+                          onPress={() => setVideoModalOpen(true)}
                           style={{
                             borderRadius: 12,
                             overflow: 'hidden',
@@ -190,6 +192,13 @@ const StoryListPage = () => {
           );
         })}
       </ScrollContentContainer>
+      {videoModalOpen && (
+        <VideoModal
+          opened={videoModalOpen}
+          videoUri={allGallery[selectedGalleryIndex].url}
+          onClose={() => setVideoModalOpen(false)}
+        />
+      )}
     </ScreenContainer>
   );
 };
