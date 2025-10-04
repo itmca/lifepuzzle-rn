@@ -32,6 +32,7 @@ import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
 import {sharedImageDataState} from '../../recoils/share.recoil';
 import {BasicButton} from '../../components/button/BasicButton.tsx';
 import {LargeImage} from '../../components/styled/components/Image.tsx';
+import GalleryBottomButton from './GalleryBottomButton.tsx';
 import {MediaPickerBottomSheet} from './MediaPickerBottomSheet.tsx';
 
 const HomePage = (): JSX.Element => {
@@ -147,14 +148,15 @@ const HomePage = (): JSX.Element => {
             <Gallery hero={photoHero} ageGroups={ageGroups} tags={tags} />
           </ContentContainer>
           {hero.auth !== 'VIEWER' && (
-            <ContentContainer
-              paddingHorizontal={20}
-              paddingBottom={37}
-              backgroundColor="transparent">
-              <WritingButton
-                onPress={() => setMediaPickerBottomSheetOpen(true)}
-              />
-            </ContentContainer>
+            <GalleryBottomButton
+              onPress={() => {
+                if (selectedTag.key === 'AI_PHOTO') {
+                  //추후 개발 예정
+                } else {
+                  setMediaPickerBottomSheetOpen(true);
+                }
+              }}
+            />
           )}
         </ScreenContainer>
         <BottomSheet
