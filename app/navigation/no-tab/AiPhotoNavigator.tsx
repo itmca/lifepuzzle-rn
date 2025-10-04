@@ -2,11 +2,11 @@ import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {TopBar} from '../../components/styled/components/TopBar';
 import DetailViewHeaderRight from '../../components/header/DetailViewHeaderRight';
-// import AiPhotoListPage from '../../pages/AiPhotoList/AiPhotoListPage';
+import AiPhotoWorkHistoryPage from '../../pages/AiPhoto/AiPhotoWorkHistoryPage';
 import AiPhotoMakerPage from '../../pages/AiPhotoMaker/AiPhotoMakerPage';
 
 export type AiPhotoParamList = {
-  AiPhotoList: undefined;
+  AiPhotoWorkHistory: undefined;
   AiPhoto: undefined;
 };
 
@@ -27,15 +27,13 @@ const AiPhotoNavigator = (): JSX.Element => {
           header: () => <TopBar title={'AI포토 만들기'} />,
         }}
       />
-      {/* 
       <Stack.Screen
-        name="AiPhotoList"
-        component={AiPhotoListPage}
+        name="AiPhotoWorkHistory"
+        component={AiPhotoWorkHistoryPage}
         options={{
-          header: () => <TopBar title={'AI포토 작업내역'} />,
+          header: () => <TopBar title={'AI포토 작업 내역'} />,
         }}
       />
-      */}
     </Stack.Navigator>
   );
 };

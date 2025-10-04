@@ -34,8 +34,11 @@ import {BasicButton} from '../../components/button/BasicButton.tsx';
 import {LargeImage} from '../../components/styled/components/Image.tsx';
 import GalleryBottomButton from './GalleryBottomButton.tsx';
 import {MediaPickerBottomSheet} from './MediaPickerBottomSheet.tsx';
+import {useNavigation} from '@react-navigation/native';
+import {BasicNavigationProps} from '../../navigation/types.tsx';
 
 const HomePage = (): JSX.Element => {
+  const navigation = useNavigation<BasicNavigationProps>();
   const hero = useRecoilValue<HeroType>(heroState);
 
   const {photoHero, isLoading, refetch} = useHeroPhotos();
@@ -94,13 +97,6 @@ const HomePage = (): JSX.Element => {
   const [submitGallery] = useUploadGalleryV2();
   const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
 
-  useEffect(() => {
-    console.log(
-      '🏠 [HomePage] isGalleryUploading changed:',
-      isGalleryUploading,
-    );
-  }, [isGalleryUploading]);
-
   const uploadSharedImages = React.useCallback(
     (uris: string | string[]) => {
       try {
@@ -119,13 +115,6 @@ const HomePage = (): JSX.Element => {
       }
     },
     [setSelectedGalleryItems, submitGallery],
-  );
-
-  console.log(
-    '🏠 [HomePage] render - isGalleryUploading:',
-    isGalleryUploading,
-    'isLoading:',
-    isLoading,
   );
 
   return (
@@ -151,7 +140,12 @@ const HomePage = (): JSX.Element => {
             <GalleryBottomButton
               onPress={() => {
                 if (selectedTag.key === 'AI_PHOTO') {
-                  //추후 개발 예정
+                  navigation.push('NoTab', {
+                    screen: 'AiPhotoNavigator',
+                    params: {
+                      screen: 'AiPhotoWorkHistory',
+                    },
+                  });
                 } else {
                   setMediaPickerBottomSheetOpen(true);
                 }

@@ -66,14 +66,14 @@ const SelectableAiPhotoTemplate = ({
         borderColor={Color.AI_500}
         style={{borderWidth: selected ? 4 : 0}}>
         <Video
-          key={`${data.id}-${data.uri}`}
+          key={`${data.id}-${data.url}`}
           ref={player}
           style={{
             width: '100%',
             height: '100%',
             backgroundColor: Color.BLACK,
           }}
-          source={{uri: data.uri}}
+          source={{uri: data.url}}
           paused={paused}
           resizeMode={'contain'}
           fullscreen={false}

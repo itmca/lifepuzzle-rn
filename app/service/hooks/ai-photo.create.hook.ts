@@ -5,8 +5,8 @@ import {BasicNavigationProps} from '../../navigation/types';
 import {userState} from '../../recoils/user.recoil';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 interface AiPhotoCreateRequest {
-  galleryId: number;
-  templateId: number;
+  photoId: number;
+  drivingVideoId: number;
 }
 interface UseCreateAiPhotoReturn {
   submit: () => void;
@@ -21,7 +21,8 @@ export const useCreateAiPhoto = (
   const [isLoading, createAiPhoto] = useAuthAxios<any>({
     requestOption: {
       method: 'post',
-      url: `/v1/ai-photo/${String(user?.userNo)}/${request.galleryId}`,
+      url: `/v1/ai/videos`,
+      data: {photoId: request.photoId, drivingVideoId: request.drivingVideoId},
     },
     onResponseSuccess: res => {
       //TODO: 추후 AI포토 작업 내역 화면으로 변경 예정
@@ -39,13 +40,13 @@ export const useCreateAiPhoto = (
     if (validate()) {
       createAiPhoto({
         data: {
-          templateId: request.templateId,
+          templateId: request.drivingVideoId,
         },
       });
     }
   };
   function validate(): boolean {
-    if (!request.templateId) {
+    if (!request.drivingVideoId) {
       CustomAlert.simpleAlert('움직임을 선택해 주세요.');
       return false;
     }
