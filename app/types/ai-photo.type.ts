@@ -15,3 +15,4 @@ export type AiGallery = {
   thumbnailUrl?: string;
   videoUrl?: string;
 };
+export type AiType = 'AI_PHOTO';
