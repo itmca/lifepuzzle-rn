@@ -76,7 +76,7 @@ export const MediaCarousel = ({
         )}
         <MediaCarouselPagination
           visible={isPaginationShown}
-          activeMediaIndexNo={index - 1}
+          activeMediaIndexNo={index}
           mediaCount={data.length}
         />
         <AiPhotoButton

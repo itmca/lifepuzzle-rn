@@ -36,31 +36,55 @@ import PinchZoomModal from '../../components/styled/components/PinchZoomModal.ts
 
 const StoryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [galleryIndex, setGalleryIndex] = useRecoilState(
+  const [allGalleryIndex, setAllGalleryIndex] = useRecoilState(
     selectedGalleryIndexState,
   );
-  const gallery = useRecoilValue(getGallery);
-  const [isStory, setIsStory] = useState<boolean>(gallery[galleryIndex].story);
+  const allGallery = useRecoilValue(getGallery);
+  const filteredGallery = useMemo(
+    () => allGallery.filter(item => item.tag?.key !== 'AI_PHOTO'),
+    [allGallery],
+  );
+
+  // 전체 갤러리 인덱스를 필터링된 갤러리 인덱스로 변환
+  const filteredIndex = useMemo(() => {
+    const currentItem = allGallery[allGalleryIndex];
+    if (!currentItem || currentItem.tag?.key === 'AI_PHOTO') {
+      return 0;
+    }
+    return filteredGallery.findIndex(item => item.id === currentItem.id);
+  }, [allGallery, filteredGallery, allGalleryIndex]);
+
+  const currentGalleryItem = filteredGallery[filteredIndex];
+  const [isStory, setIsStory] = useState<boolean>(
+    currentGalleryItem?.story || false,
+  );
   const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
 
   const resetWritingStory = useResetRecoilState(writingStoryState);
-  useFocusEffect(() => {
-    resetWritingStory();
-    setIsStory(gallery[galleryIndex].story);
-  });
-
   const setWritingStory = useSetRecoilState(writingStoryState);
-
   const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
   const isFocused = useIsFocused();
 
-  //bottom sheet
-
   const snapPoints = useMemo(() => [isStory ? '40%' : '20%'], [isStory]);
 
+  useFocusEffect(() => {
+    resetWritingStory();
+    setIsStory(currentGalleryItem?.story || false);
+  });
+
+  const handleIndexChange = (filteredIdx: number) => {
+    const selectedItem = filteredGallery[filteredIdx % filteredGallery.length];
+    const originalIndex = allGallery.findIndex(
+      item => item.id === selectedItem.id,
+    );
+    setAllGalleryIndex(originalIndex);
+    setIsStory(selectedItem.story);
+  };
+
   const onClickWrite = () => {
-    const currentGalleryItem = gallery[galleryIndex];
+    if (!currentGalleryItem) return;
+
     resetSelectedStory();
     setWritingStory({
       gallery: [
@@ -78,6 +102,7 @@ const StoryDetailPage = (): JSX.Element => {
       },
     });
   };
+
   const openPinchZoomModal = (img: string) => {
     setPinchZoomImage(img);
     setPinchZoomModalOpen(true);
@@ -89,32 +114,29 @@ const StoryDetailPage = (): JSX.Element => {
           <ScrollContentContainer gap={0}>
             <ContentContainer paddingHorizontal={20} paddingTop={20}>
               <Title color={Color.GREY_700}>
-                {gallery[galleryIndex].tag?.label +
+                {currentGalleryItem?.tag?.label +
                   '(' +
-                  gallery[galleryIndex].tag?.count +
-                  ')' ?? ''}
+                  currentGalleryItem?.tag?.count +
+                  ')'}
               </Title>
             </ContentContainer>
             <ContentContainer>
               <MediaCarousel
-                data={gallery.map(item => ({
+                data={filteredGallery.map((item, index) => ({
                   type: item.type,
                   url: item.url,
-                  index: item.index,
+                  index: index,
                 }))}
-                activeIndex={galleryIndex}
+                activeIndex={filteredIndex}
                 isFocused={isFocused}
                 carouselWidth={Dimensions.get('window').width}
-                onScroll={index => {
-                  setGalleryIndex(index % gallery.length);
-                  setIsStory(gallery[index % gallery.length].story);
-                }}
+                onScroll={handleIndexChange}
                 onPress={openPinchZoomModal}
               />
             </ContentContainer>
             <ContentContainer paddingHorizontal={20} flex={1} expandToEnd>
-              {gallery[galleryIndex]?.story ? (
-                <StoryItemContents story={gallery[galleryIndex].story} />
+              {currentGalleryItem?.story ? (
+                <StoryItemContents story={currentGalleryItem.story} />
               ) : (
                 <>
                   <Title color={Color.GREY_400}>
@@ -131,7 +153,7 @@ const StoryDetailPage = (): JSX.Element => {
 
         <StoryDetailMenuBottomSheet
           type={isStory ? 'story' : 'photo'}
-          gallery={gallery[galleryIndex]}
+          gallery={currentGalleryItem}
         />
         <PinchZoomModal
           opened={pinchZoomModalOpen}
