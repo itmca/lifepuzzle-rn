@@ -27,7 +27,11 @@ const AiPhotoMakerPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const scrollRef = useRef<ScrollView>(null);
 
-  const {aiPhotoTemplate, isLoading, refetch} = useAiPhotoTemplate();
+  const {
+    drivingVideos: aiPhotoTemplate,
+    isLoading,
+    refetch,
+  } = useAiPhotoTemplate();
   const gallery = useRecoilValue(getGallery);
   const [galleryIndex] = useRecoilState(selectedGalleryIndexState);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(-1);
@@ -42,8 +46,8 @@ const AiPhotoMakerPage = (): JSX.Element => {
       return false;
     }
     useCreateAiPhoto({
-      galleryId: gallery[galleryIndex].id,
-      templateId: selectedTemplateId,
+      photoId: gallery[galleryIndex].id,
+      drivingVideoId: selectedTemplateId,
     });
   };
   return (

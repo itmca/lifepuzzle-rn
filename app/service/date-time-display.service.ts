@@ -48,3 +48,27 @@ export const getFormattedDateTime = () => {
   const ss = String(now.getSeconds()).padStart(2, '0');
   return `${yyyy}${MM}${dd}${hh}${mm}${ss}`;
 };
+
+export const formatDateToTodayOrYYMMDD = (date: Date | string): string => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const now = new Date();
+
+  // 오늘 날짜인지 확인
+  const isToday =
+    dateObj.getFullYear() === now.getFullYear() &&
+    dateObj.getMonth() === now.getMonth() &&
+    dateObj.getDate() === now.getDate();
+
+  if (isToday) {
+    const hh = String(dateObj.getHours()).padStart(2, '0');
+    const mm = String(dateObj.getMinutes()).padStart(2, '0');
+    return `오늘 ${hh}:${mm}`;
+  } else {
+    const yy = String(dateObj.getFullYear()).slice(-2);
+    const MM = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(dateObj.getDate()).padStart(2, '0');
+    const hh = String(dateObj.getHours()).padStart(2, '0');
+    const mm = String(dateObj.getMinutes()).padStart(2, '0');
+    return `${yy}/${MM}/${dd} ${hh}:${mm}`;
+  }
+};

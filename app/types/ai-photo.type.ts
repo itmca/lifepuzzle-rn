@@ -1,7 +1,18 @@
 export type AiPhotoTemplate = {
   id: number;
-  title: string;
-  thumbnail: string;
-  uri: string;
+  name: string;
+  url: string;
+  thumbnailUrl: string;
+  description?: string;
+};
+export type AiType = 'AI_PHOTO';
+export type AiGallery = {
+  id: number;
+  status: 'IN_PROGRESS' | 'COMPLETED';
+  createdBy?: string;
+  requestedAt: string;
+  completedAt: string;
+  thumbnailUrl?: string;
+  videoUrl?: string;
 };
 export type AiType = 'AI_PHOTO';
