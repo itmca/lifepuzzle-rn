@@ -6,6 +6,7 @@ import {toMmSs} from '../../service/date-time-display.service.ts';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Caption} from '../styled/components/Text.tsx';
 import {SCREEN_WIDTH} from '@gorhom/bottom-sheet';
+import {SvgIcon} from '../styled/components/SvgIcon.tsx';
 
 type Props = {
   width: number;
@@ -56,6 +57,18 @@ export const VideoController = ({
         }>
         {isControlPadShown && (
           <>
+            <ContentContainer alignCenter height={'100%'} withNoBackground>
+              <TouchableWithoutFeedback
+                onPressIn={() => {
+                  setPaused(!isPaused);
+                }}>
+                {isPaused ? (
+                  <SvgIcon name={'playRound'} style={{zIndex: 1}}></SvgIcon>
+                ) : (
+                  <SvgIcon name={'pauseRound'} style={{zIndex: 1}}></SvgIcon>
+                )}
+              </TouchableWithoutFeedback>
+            </ContentContainer>
             <ContentContainer absoluteBottomPosition gap={6} withNoBackground>
               <ContentContainer
                 useHorizontalLayout
