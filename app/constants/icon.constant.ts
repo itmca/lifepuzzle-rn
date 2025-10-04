@@ -68,6 +68,10 @@ import RecordRound from '../assets/icons/record_round.svg';
 import CheckRound from '../assets/icons/check_round.svg';
 import DeleteRound from '../assets/icons/delete_round.svg';
 
+import AiSmall from '../assets/icons/ai_16.svg';
+import AiWhite from '../assets/icons/ai_white.svg';
+
+import PreviewPlay from '../assets/icons/preview_play.svg';
 import Folder32 from '../assets/icons/folder_32.svg';
 import Camera32 from '../assets/icons/camera_32.svg';
 import FacebookIcon from '../assets/icons/facebook_icon.svg';
@@ -135,6 +139,9 @@ export const Svgs = {
   checkRound: CheckRound,
   deleteRound: DeleteRound,
 
+  aiSmall: AiSmall,
+  aiWhite: AiWhite,
+  previewPlay: PreviewPlay,
   folder32: Folder32,
   camera32: Camera32,
   facebookIcon: FacebookIcon,

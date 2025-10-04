@@ -15,9 +15,11 @@ import AccountSettingNavigator, {
 import StoryViewNavigator, {StoryViewParamList} from './StoryViewNavigator';
 import PolicyNavigator, {PolicyParamList} from './PolicyNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
+import AiPhotoNavigator, {AiPhotoParamList} from './AiPhotoNavigator';
 
 export type NoTabParamList = {
   StoryViewNavigator: NavigatorScreenParams<StoryViewParamList>;
+  AiPhotoNavigator: NavigatorScreenParams<AiPhotoParamList>;
   StoryWritingNavigator: NavigatorScreenParams<StoryWritingParamList>;
   LoginRegisterNavigator: NavigatorScreenParams<LoginRegisterParamList>;
   HeroSettingNavigator: NavigatorScreenParams<HeroSettingParamList>;
@@ -40,6 +42,7 @@ const NoTabRootNavigator = (): JSX.Element => {
         component={LoginRegisterNavigator}
       />
       <Stack.Screen name="StoryViewNavigator" component={StoryViewNavigator} />
+      <Stack.Screen name="AiPhotoNavigator" component={AiPhotoNavigator} />
       <Stack.Screen
         name="StoryWritingNavigator"
         component={StoryWritingNavigator}
