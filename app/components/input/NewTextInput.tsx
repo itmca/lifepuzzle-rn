@@ -34,9 +34,8 @@ const BasicTextInput = ({
 
   const violated = validations.find(v => !v.condition(text));
   const isError = changed && !!violated;
-  const isSuccess = text && !isError;
 
-  const [visible, setVisible] = useState(secureTextEntry);
+  const [visible, setVisible] = useState(!secureTextEntry);
 
   useEffect(() => {
     if (onIsErrorChanged && changed) {
@@ -69,7 +68,8 @@ const BasicTextInput = ({
           onBlur={() => setFocused(false)}
           onFocus={() => setFocused(true)}
           placeholder={placeholder}
-          secureTextEntry={visible}
+          placeholderTextColor={Color.GREY_400}
+          secureTextEntry={!visible}
           // BodyTextM Style
           style={{
             fontSize: 14,
@@ -138,7 +138,6 @@ export const PlainTextInput = ({
 
   const violated = validations.find(v => !v.condition(text));
   const isError = changed && !!violated;
-  const isSuccess = text && !isError;
 
   useEffect(() => {
     if (onIsErrorChanged && changed) {
@@ -170,6 +169,7 @@ export const PlainTextInput = ({
           onBlur={() => setFocused(false)}
           onFocus={() => setFocused(true)}
           placeholder={placeholder}
+          placeholderTextColor={Color.GREY_400}
           style={{
             fontSize: 16,
             fontFamily: 'SUIT-SemiBold',

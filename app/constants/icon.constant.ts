@@ -72,6 +72,10 @@ import AiSmall from '../assets/icons/ai_16.svg';
 import AiWhite from '../assets/icons/ai_white.svg';
 
 import PreviewPlay from '../assets/icons/preview_play.svg';
+import Folder32 from '../assets/icons/folder_32.svg';
+import Camera32 from '../assets/icons/camera_32.svg';
+import FacebookIcon from '../assets/icons/facebook_icon.svg';
+
 export const Svgs = {
   logo: Logo,
   book: Book,
@@ -138,4 +142,7 @@ export const Svgs = {
   aiSmall: AiSmall,
   aiWhite: AiWhite,
   previewPlay: PreviewPlay,
+  folder32: Folder32,
+  camera32: Camera32,
+  facebookIcon: FacebookIcon,
 } as const;

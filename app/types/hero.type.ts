@@ -21,28 +21,6 @@ export type HeroUserType = {
   auth: HeroAuthTypeCode;
 };
 
-export const toPhotoIdentifier = (uri: string): PhotoIdentifier => ({
-  node: {
-    type: '',
-    subTypes: undefined,
-    group_name: '',
-    image: {
-      filename: uri ? uri.split('/').pop() : '',
-      filepath: null,
-      extension: null,
-      uri: uri,
-      height: 0,
-      width: 0,
-      fileSize: null,
-      playableDuration: 0,
-      orientation: null,
-    },
-    timestamp: 0,
-    modificationTimestamp: 0,
-    location: null,
-  },
-});
-
 export type HeroWithPuzzleCntType = HeroType & {
   puzzleCount: number;
   users: HeroUserType[];

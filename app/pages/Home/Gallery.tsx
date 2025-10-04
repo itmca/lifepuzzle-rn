@@ -2,18 +2,14 @@ import {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
-import {isLoggedInState} from '../../recoils/auth.recoil.ts';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../components/styled/container/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
-import {
-  selectedGalleryIndexState,
-  selectedTagState,
-} from '../../recoils/photos.recoil.ts';
+import {selectedTagState} from '../../recoils/photos.recoil.ts';
 import {
   AgeGroupsType,
   AgeType,
@@ -23,7 +19,6 @@ import {
 } from '../../types/photo.type.ts';
 import {Color} from '../../constants/color.constant.ts';
 import Tag from '../../components/styled/components/Tag.tsx';
-import {Title} from '../../components/styled/components/Text.tsx';
 import {NotificationBar} from '../../components/styled/components/NotificationBar.tsx';
 import {BasicCard} from '../../components/card/Card.tsx';
 
@@ -37,11 +32,8 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
   const carouselRef = useRef<ICarouselInstance>(null);
   const {width: windowWidth} = useWindowDimensions();
-  const [selectedGalleryIndex, setSelectedGalleryIndex] =
-    useRecoilState<number>(selectedGalleryIndexState);
   const [selectedTag, setSelectedTag] =
     useRecoilState<TagType>(selectedTagState);
-  const isLoggedIn = useRecoilValue(isLoggedInState);
   const [isScrolling, setIsScrolling] = useState(false);
   const moveToStoryListPage = (index: GalleryType['index']) => {
     if (!isScrolling) {
@@ -107,11 +99,6 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
         gap={0}
         alignItems={'center'}
         justifyContent={'flex-start'}>
-        {hasGallery && (
-          <ContentContainer paddingLeft={27}>
-            <Title>{selectedTag.label}</Title>
-          </ContentContainer>
-        )}
         <Carousel
           ref={carouselRef}
           data={tags}
@@ -124,7 +111,7 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
           modeConfig={{
             parallaxScrollingScale: 0.88,
             parallaxScrollingOffset: 70,
-            parallaxAdjacentItemScale: 0.75,
+            parallaxAdjacentItemScale: 0.72,
           }}
           loop={tags.length <= 2 ? false : true}
           width={windowWidth}

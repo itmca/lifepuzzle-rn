@@ -1,29 +1,29 @@
 import React from 'react';
-import {Image as RNImage, Platform, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CheckCover, Container} from './styles';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import Image from '../styled/components/Image';
 import {XLargeTitle} from '../styled/components/Title';
 import {Color} from '../../constants/color.constant';
+import {FacebookPhotoItem} from '../../types/facebook.type';
 
-type SelectablePhotoProps = {
-  onSelected: Function;
-  onDeselected: Function;
+type SelectableFacebookPhotoProps = {
+  onSelected: (photo: FacebookPhotoItem) => void;
+  onDeselected: (photo: FacebookPhotoItem) => void;
   size: number;
-  photo: PhotoIdentifier;
+  photo: FacebookPhotoItem;
   selected?: boolean;
   order?: number;
 };
 
-const SelectablePhoto = ({
+const SelectableFacebookPhoto = ({
   onSelected,
   onDeselected,
   size,
   photo,
   selected = false,
   order,
-}: SelectablePhotoProps): JSX.Element => {
+}: SelectableFacebookPhotoProps): JSX.Element => {
   const _onPress = () => {
     selected === true ? onDeselected(photo) : onSelected(photo);
   };
@@ -31,18 +31,11 @@ const SelectablePhoto = ({
   return (
     <TouchableOpacity onPress={_onPress}>
       <Container style={{width: size, height: size}}>
-        {Platform.OS === 'ios' ? (
-          <RNImage
-            style={{width: size, height: size}}
-            source={{uri: photo.node.image.uri}}
-            resizeMode="cover"
-          />
-        ) : (
-          <Image
-            style={{width: size, height: size}}
-            source={{uri: photo.node.image.uri}}
-          />
-        )}
+        <Image
+          style={{width: size, height: size}}
+          source={{uri: photo.imageUrl}}
+          resizeMode="cover"
+        />
         {selected ? (
           <CheckCover style={{height: '100%', width: '100%'}}>
             {order ? (
@@ -57,4 +50,4 @@ const SelectablePhoto = ({
   );
 };
 
-export default SelectablePhoto;
+export default SelectableFacebookPhoto;
