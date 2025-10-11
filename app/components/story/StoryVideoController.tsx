@@ -30,7 +30,6 @@ export const VideoController = ({
   handleProgress,
 }: Props) => {
   const [isControlPadShown, setControlPadShown] = useState<boolean>(true);
-  const DeviceWidth = Dimensions.get('window').width;
   useEffect(() => {
     if (isPaused === undefined) {
       return;
@@ -39,6 +38,8 @@ export const VideoController = ({
     setControlPadShown(isPaused);
     onVisibleChanged(isPaused);
   }, [isPaused]);
+
+  if (!playingTime) return null;
 
   return (
     <TouchableWithoutFeedback
@@ -84,7 +85,7 @@ export const VideoController = ({
               <TouchableWithoutFeedback onPress={handleProgress}>
                 <Bar
                   progress={currentProgress}
-                  width={DeviceWidth}
+                  width={width}
                   height={4}
                   color={Color.MAIN_DARK}
                   unfilledColor={Color.WHITE}
