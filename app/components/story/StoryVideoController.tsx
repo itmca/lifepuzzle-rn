@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Image, TouchableWithoutFeedback} from 'react-native';
+import {Dimensions, TouchableWithoutFeedback} from 'react-native';
 import {Bar} from 'react-native-progress';
 import {Color} from '../../constants/color.constant';
 import {toMmSs} from '../../service/date-time-display.service.ts';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Caption} from '../styled/components/Text.tsx';
-import {SCREEN_WIDTH} from '@gorhom/bottom-sheet';
 import {SvgIcon} from '../styled/components/SvgIcon.tsx';
 
 type Props = {
@@ -31,7 +30,7 @@ export const VideoController = ({
   handleProgress,
 }: Props) => {
   const [isControlPadShown, setControlPadShown] = useState<boolean>(true);
-
+  const DeviceWidth = Dimensions.get('window').width;
   useEffect(() => {
     if (isPaused === undefined) {
       return;
@@ -85,7 +84,7 @@ export const VideoController = ({
               <TouchableWithoutFeedback onPress={handleProgress}>
                 <Bar
                   progress={currentProgress}
-                  width={SCREEN_WIDTH}
+                  width={DeviceWidth}
                   height={4}
                   color={Color.MAIN_DARK}
                   unfilledColor={Color.WHITE}
