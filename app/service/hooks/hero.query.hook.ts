@@ -34,3 +34,28 @@ export const useHero = (heroNo: number) => {
     fetchHero,
   };
 };
+
+export const useUploadHeroes = () => {
+  const [heroes, setHeroes] = useState<HeroType[]>([]);
+  const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
+    requestOption: {
+      url: '/v1/heroes',
+    },
+    onResponseSuccess: res => {
+      if (res && res.heroes) {
+        let resHeroes = res.heroes
+          .map(item => item.hero)
+          .filter(item => item.auth != 'VIEWER');
+        setHeroes(resHeroes);
+      }
+    },
+    onError: error => {
+      console.error(error);
+    },
+    disableInitialRequest: false,
+  });
+  return {
+    res: {heroes: heroes, loading: isLoading},
+    fetchHeroes,
+  };
+};
