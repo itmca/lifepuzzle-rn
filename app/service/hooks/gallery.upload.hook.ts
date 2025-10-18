@@ -31,7 +31,6 @@ interface UploadItem {
   uploadStatus: 'pending' | 'converting' | 'uploading' | 'completed' | 'failed';
   error?: string;
 }
-
 interface UploadProgress {
   total: number;
   completed: number;
@@ -77,18 +76,42 @@ const getReadyForUploadItems = (items: UploadItem[]): UploadItem[] =>
       item.uploadHeaders &&
       item.fileKey,
   );
+export type UploadRequest = {
+  heroNo?: number;
+  selectedTag?: TagType;
+  selectedGalleryItems?: PhotoIdentifier[];
+};
 
-export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
+interface UseUploadGalleryV2Options {
+  request?: UploadRequest;
+  onClose?: () => {};
+}
+
+export const useUploadGalleryV2 = (
+  options?: UseUploadGalleryV2Options,
+): [() => void, boolean, UploadProgress] => {
   const navigation = useNavigation<BasicNavigationProps>();
 
-  const hero = useRecoilValue(heroState);
-  const selectedTag = useRecoilValue<TagType>(selectedTagState);
-  const selectedGalleryItems = useRecoilValue(selectedGalleryItemsState);
+  const recoilHero = useRecoilValue(heroState);
+  const recoilSelectedTag = useRecoilValue<TagType>(selectedTagState);
+  const recoilSelectedGalleryItems = useRecoilValue(selectedGalleryItemsState);
   const resetSelectedGalleryItems = useResetRecoilState(
     selectedGalleryItemsState,
   );
   const isUploading = useRecoilValue(isGalleryUploadingState);
   const setIsUploading = useSetRecoilState(isGalleryUploadingState);
+
+  const {heroNo, selectedTag, selectedGalleryItems} = options?.request
+    ? {
+        heroNo: options?.request.heroNo,
+        selectedTag: options?.request.selectedTag,
+        selectedGalleryItems: options?.request?.selectedGalleryItems,
+      }
+    : {
+        heroNo: recoilHero.heroNo,
+        selectedTag: recoilSelectedTag,
+        selectedGalleryItems: recoilSelectedGalleryItems,
+      };
 
   const [uploadItems, setUploadItems] = useState<UploadItem[]>([]);
   const [progress, setProgress] = useState<UploadProgress>({
@@ -120,10 +143,15 @@ export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
       url: '/v1/galleries/upload-complete',
     },
     onResponseSuccess: () => {
-      resetSelectedGalleryItems();
-      CustomAlert.simpleAlert('업로드 되었습니다.');
-      if (navigation.canGoBack()) {
-        navigation.goBack();
+      if (!options?.request) {
+        resetSelectedGalleryItems();
+        CustomAlert.simpleAlert('업로드 되었습니다.');
+        if (navigation.canGoBack()) {
+          navigation.goBack();
+        }
+      } else {
+        CustomAlert.simpleAlert('추가 되었습니다.');
+        options.onClose && options.onClose();
       }
       resetUpload();
     },
@@ -177,7 +205,6 @@ export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
       return updatedItems;
     });
   };
-
   const startImageConversionFirst = async (items: UploadItem[]) => {
     const semaphore = new Array(CONCURRENT_UPLOADS).fill(null);
     let currentIndex = 0;
@@ -380,7 +407,7 @@ export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
 
     requestPresignedUrls({
       data: {
-        heroId: hero.heroNo,
+        heroId: heroNo,
         ageGroup: selectedTag.key,
         files,
       },
@@ -407,7 +434,7 @@ export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
   };
 
   const submit = () => {
-    if (selectedGalleryItems.length === 0) {
+    if (!selectedGalleryItems || selectedGalleryItems.length === 0) {
       Alert.alert('이미지를 선택해주세요.');
       return;
     }
@@ -416,8 +443,9 @@ export const useUploadGalleryV2 = (): [() => void, boolean, UploadProgress] => {
       Alert.alert('최대 30개까지 선택할 수 있습니다.');
       return;
     }
-
-    setIsUploading(true);
+    if (!options?.request) {
+      setIsUploading(true);
+    }
     const initialItems = createInitialUploadItems(selectedGalleryItems);
     setUploadItems(initialItems);
     startImageConversionFirst(initialItems);
