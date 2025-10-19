@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -44,16 +44,12 @@ const ageGroupOptions = [
 
 const FacebookPhotoSelector = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const route = useRoute();
   const [facebookPhotos, setFacebookPhotos] = useState<FacebookPhotoItem[]>([]);
   const [selectedPhotos, setSelectedPhotos] = useState<FacebookPhotoItem[]>([]);
   const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
     selectedGalleryItemsState,
   );
   const isGalleryUploading = useRecoilValue(isGalleryUploadingState);
-
-  // 딥링크로 전달받은 code 파라미터
-  const code = route.params?.code;
 
   // Age group dropdown state
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<AgeType | null>(
@@ -77,14 +73,9 @@ const FacebookPhotoSelector = (): JSX.Element => {
   });
 
   useEffect(() => {
-    if (code) {
-      // 딥링크로 전달받은 code가 있으면 바로 API 호출
-      getFacebookPhotos(code);
-    } else {
-      // code가 없으면 Facebook SDK 로그인 실행
-      handleFacebookLogin();
-    }
-  }, [code]);
+    // Facebook SDK 로그인 실행
+    handleFacebookLogin();
+  }, []);
 
   const handleFacebookLogin = async () => {
     try {

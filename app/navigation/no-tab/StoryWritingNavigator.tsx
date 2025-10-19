@@ -21,7 +21,7 @@ export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
   StoryGallerySelector: undefined;
-  FacebookPhotoSelector: {code?: string};
+  FacebookPhotoSelector: undefined;
   GalleryDetail: undefined;
   GalleryDetailFilter: undefined;
   StoryWritingVoice: undefined;

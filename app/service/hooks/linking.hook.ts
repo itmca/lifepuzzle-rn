@@ -34,16 +34,6 @@ export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
                 },
               },
             },
-            StoryWritingNavigator: {
-              screens: {
-                FacebookPhotoSelector: {
-                  path: 'facebook/photos',
-                  parse: {
-                    code: code => `${code}`,
-                  },
-                },
-              },
-            },
           },
         },
       },

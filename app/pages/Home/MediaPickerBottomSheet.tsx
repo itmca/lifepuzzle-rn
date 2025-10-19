@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Alert, TouchableOpacity, Linking} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import BottomSheet from '../../components/styled/components/BottomSheet';
@@ -22,7 +22,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {selectedGalleryItemsState} from '../../recoils/gallery-write.recoil';
 import {toPhotoIdentifierFromImage} from '../../service/photo-identifier.service';
 import {ensureCameraPermission} from '../../service/hooks/permission.hook';
-import Config from 'react-native-config';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;
@@ -161,16 +160,13 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
     setPostStoryKey('');
     resetWritingStory();
 
-    // Facebook OAuth 로그인 시작 - 딥링크 URL을 redirect_uri로 사용
-    const facebookOAuthUrl =
-      'https://www.facebook.com/v18.0/dialog/oauth?' +
-      `client_id=${Config.FACEBOOK_APP_ID}&` +
-      'redirect_uri=lifepuzzle://facebook/photos&' +
-      'scope=user_photos&' +
-      'response_type=code';
-
-    // 브라우저에서 Facebook OAuth 페이지 열기
-    Linking.openURL(facebookOAuthUrl);
+    // Facebook SDK를 통해 직접 로그인 후 FacebookPhotoSelector로 이동
+    navigation.push('NoTab', {
+      screen: 'StoryWritingNavigator',
+      params: {
+        screen: 'FacebookPhotoSelector',
+      },
+    });
   };
 
   return (
