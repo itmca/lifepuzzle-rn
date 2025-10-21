@@ -6,8 +6,8 @@ import {useEffect, useState} from 'react';
 import {useAuthAxios} from './network.hook';
 import {
   AgeGroupsType,
-  TagKey,
   PhotoHeroType,
+  TagKey,
   TagType,
 } from '../../types/photo.type';
 import {HeroType} from '../../types/hero.type';
@@ -53,7 +53,10 @@ export const useHeroPhotos = (): Response => {
   const setSelectedTag = useSetRecoilState<TagType>(selectedTagState);
   const [isLoading, fetchHeroStories] = useAuthAxios<PhotoQueryResponse>({
     requestOption: {
-      url: `/v1/heroes/${hero.heroNo}/gallery`,
+      url: '/v1/galleries',
+      params: {
+        heroNo: hero.heroNo,
+      },
     },
     onResponseSuccess: res => {
       if (res && res.hero) {
