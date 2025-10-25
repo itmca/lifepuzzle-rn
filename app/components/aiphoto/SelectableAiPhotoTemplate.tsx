@@ -7,10 +7,10 @@ import {SvgIcon} from '../styled/components/SvgIcon';
 import {Color} from '../../constants/color.constant';
 import {BasicNavigationProps} from '../../navigation/types';
 import {AiPhotoTemplate} from '../../types/ai-photo.type';
+import {Photo} from '../styled/components/Image.tsx';
 
 type SelectableAiPhotoTemplateProps = {
-  onSelected: Function;
-  onDeselected: Function;
+  onSelected: (item: AiPhotoTemplate) => void;
   size: number;
   data: AiPhotoTemplate;
   selected: boolean;
@@ -18,33 +18,34 @@ type SelectableAiPhotoTemplateProps = {
 
 const SelectableAiPhotoTemplate = ({
   onSelected,
-  onDeselected,
   size,
   data,
   selected,
 }: SelectableAiPhotoTemplateProps): JSX.Element => {
+  const navigation = useNavigation<BasicNavigationProps>();
   const player = useRef<any>(null);
   const [paused, setPaused] = useState<boolean>(true);
 
   const _onPress = () => {
-    selected === true ? onDeselected(data) : onSelected(data);
-  };
+    if (!selected) {
+      onSelected(data);
+    }
 
-  useEffect(() => {
-    if (selected) {
-      // 선택될 때 처음부터 재생
+    if (paused) {
       setTimeout(() => {
         if (player.current) {
           player.current.seek(0);
         }
         setPaused(false);
       }, 100);
-    } else {
+    }
+  };
+
+  useEffect(() => {
+    if (!selected) {
       setPaused(true);
     }
   }, [selected]);
-
-  const navigation = useNavigation<BasicNavigationProps>();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
@@ -55,6 +56,7 @@ const SelectableAiPhotoTemplate = ({
       unsubscribe();
     };
   }, [navigation]);
+
   return (
     <TouchableOpacity onPress={_onPress}>
       <ContentContainer
@@ -65,6 +67,11 @@ const SelectableAiPhotoTemplate = ({
         borderRadius={6}
         borderColor={Color.AI_500}
         style={{borderWidth: selected ? 4 : 0}}>
+        {selected || (
+          <ContentContainer absoluteTopPosition height={'100%'} zIndex={1}>
+            <Photo source={{uri: data.thumbnailUrl}} />
+          </ContentContainer>
+        )}
         <Video
           key={`${data.id}-${data.url}`}
           ref={player}
@@ -79,14 +86,13 @@ const SelectableAiPhotoTemplate = ({
           fullscreen={false}
           controls={false}
           muted={false}
-          repeat={true}
+          repeat={false}
           playInBackground={false}
           playWhenInactive={false}
           ignoreSilentSwitch="ignore"
           mixWithOthers="mix"
-          onError={error => {
-            setPaused(true);
-          }}
+          onEnd={() => setPaused(true)}
+          onError={() => setPaused(true)}
         />
         <ContentContainer
           absoluteTopPosition
