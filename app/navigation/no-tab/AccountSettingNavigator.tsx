@@ -1,7 +1,6 @@
 import * as React from 'react';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Title from '../../components/styled/components/Title';
 import AccountSelectingPhotoPage from '../../pages/AccountSelectingPhoto/AccountSelectingPhotoPage';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
@@ -14,7 +13,7 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountModification/AccountModificationPage';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
 import {TouchableOpacity} from 'react-native';
-import {BodyTextM} from '../../components/styled/components/Text.tsx';
+import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
 import {Color} from '../../constants/color.constant.ts';
 import {useLogout} from '../../service/hooks/logout.hook.ts';
 

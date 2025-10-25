@@ -47,6 +47,17 @@ const TextBase = styled.Text<TextBaseProps>`
       : ''};
 `;
 
+// TODO: 앨범에서 선택된 순서를 나타내는 사진 인덱스를 위한 것으로 디자이너분께 확인 후 디자인 시스템에 편입 필요
+export const PhotoIndex = (props: CustomTextProps) => (
+  <TextBase
+    fontSize={32}
+    fontFamily={'SUIT-ExtraBold'}
+    lineHeightPercent={140}
+    letterSpacing={-0.25}
+    {...props}
+  />
+);
+
 export const Head = (props: CustomTextProps) => (
   <TextBase
     fontSize={22}
