@@ -145,7 +145,7 @@ const HeroSettingPage = (): JSX.Element => {
             <ContentContainer alignCenter height={windowWidth * 1.14}>
               <Carousel
                 ref={carouselRef}
-                data={[...heroes]}
+                data={[...displayHeroes]}
                 mode={'parallax'}
                 modeConfig={{
                   parallaxScrollingScale: 0.9,
@@ -279,8 +279,8 @@ const HeroSettingPage = (): JSX.Element => {
                           linkedUser.auth === 'OWNER'
                             ? Color.SUB_CORAL
                             : linkedUser.auth === 'ADMIN'
-                            ? Color.SUB_TEAL
-                            : Color.MAIN_DARK
+                              ? Color.SUB_TEAL
+                              : Color.MAIN_DARK
                         }>
                         {HeroAuthTypeByCode[linkedUser.auth].name}
                       </BodyTextM>
