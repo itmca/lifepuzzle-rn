@@ -1,7 +1,6 @@
 import {useRef, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {useNavigation} from '@react-navigation/native';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer.tsx';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
 import {
@@ -14,7 +13,6 @@ import {AiPhotoMakerButton} from '../../components/button/AiPhotoMakerButton.tsx
 import SelectableAiPhotoTemplate from '../../components/aiphoto/SelectableAiPhotoTemplate.tsx';
 import {CustomAlert} from '../../components/alert/CustomAlert';
 import {Color} from '../../constants/color.constant.ts';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {
   getGallery,
   selectedGalleryIndexState,
@@ -24,14 +22,9 @@ import {useAiPhotoTemplate} from '../../service/hooks/ai-photo.query.hook.ts';
 import {useCreateAiPhoto} from '../../service/hooks/ai-photo.create.hook.ts';
 
 const AiPhotoMakerPage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
   const scrollRef = useRef<ScrollView>(null);
 
-  const {
-    drivingVideos: aiPhotoTemplate,
-    isLoading,
-    refetch,
-  } = useAiPhotoTemplate();
+  const {drivingVideos: aiPhotoTemplate} = useAiPhotoTemplate();
   const gallery = useRecoilValue(getGallery);
   const [galleryIndex] = useRecoilState(selectedGalleryIndexState);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(-1);
@@ -68,36 +61,31 @@ const AiPhotoMakerPage = (): JSX.Element => {
               />
             </ContentContainer>
             <ContentContainer flex={1} expandToEnd>
-              <>
-                <Title color={Color.GREY_900}>움직임을 선택해 주세요</Title>
-                <ScrollContentContainer
-                  useHorizontalLayout
-                  gap={6}
-                  ref={scrollRef}>
-                  {aiPhotoTemplate.map((item: AiPhotoTemplate, index) => {
-                    return (
-                      <SelectableAiPhotoTemplate
-                        key={item.id}
-                        onSelected={(item: AiPhotoTemplate) => {
-                          setSelectedTemplateId(item.id);
-                        }}
-                        onDeselected={(item: AiPhotoTemplate) => {
-                          setSelectedTemplateId(-1);
-                        }}
-                        size={90}
-                        data={item}
-                        selected={
-                          selectedTemplateId !== -1 &&
-                          item.id === selectedTemplateId
-                        }
-                      />
-                    );
-                  })}
-                </ScrollContentContainer>
-                <ContentContainer alignCenter paddingTop={20}>
-                  <AiPhotoMakerButton onPress={onClickMake} />
-                </ContentContainer>
-              </>
+              <Title color={Color.GREY_900}>움직임을 선택해 주세요</Title>
+              <ScrollContentContainer
+                useHorizontalLayout
+                gap={6}
+                ref={scrollRef}>
+                {aiPhotoTemplate.map((item: AiPhotoTemplate) => {
+                  return (
+                    <SelectableAiPhotoTemplate
+                      key={item.id}
+                      onSelected={(item: AiPhotoTemplate) => {
+                        setSelectedTemplateId(item.id);
+                      }}
+                      size={90}
+                      data={item}
+                      selected={
+                        selectedTemplateId !== -1 &&
+                        item.id === selectedTemplateId
+                      }
+                    />
+                  );
+                })}
+              </ScrollContentContainer>
+              <ContentContainer alignCenter paddingTop={20}>
+                <AiPhotoMakerButton onPress={onClickMake} />
+              </ContentContainer>
             </ContentContainer>
           </ContentContainer>
         </ScrollContentContainer>
