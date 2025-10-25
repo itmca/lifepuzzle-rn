@@ -1,6 +1,7 @@
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
+  BottomSheetHandleProps,
   BottomSheetModal,
   BottomSheetModalProps,
 } from '@gorhom/bottom-sheet';
@@ -13,8 +14,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {BottomSheetHandleProps} from '@gorhom/bottom-sheet';
-import Title from './Title';
+import {Title} from './Text';
 import {ContentContainer} from '../container/ContentContainer';
 import {SvgIcon} from './SvgIcon';
 import {Dimensions, TouchableOpacity} from 'react-native';

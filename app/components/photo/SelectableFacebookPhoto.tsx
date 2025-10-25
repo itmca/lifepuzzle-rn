@@ -3,9 +3,9 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CheckCover, Container} from './styles';
 import Image from '../styled/components/Image';
-import {XLargeTitle} from '../styled/components/Title';
 import {Color} from '../../constants/color.constant';
 import {FacebookPhotoItem} from '../../types/facebook.type';
+import {PhotoIndex} from '../styled/components/Text.tsx';
 
 type SelectableFacebookPhotoProps = {
   onSelected: (photo: FacebookPhotoItem) => void;
@@ -39,7 +39,7 @@ const SelectableFacebookPhoto = ({
         {selected ? (
           <CheckCover style={{height: '100%', width: '100%'}}>
             {order ? (
-              <XLargeTitle color={Color.WHITE}>{order}</XLargeTitle>
+              <PhotoIndex color={Color.WHITE}>{order}</PhotoIndex>
             ) : (
               <Icon name="checkmark" size={70} color={'white'} />
             )}

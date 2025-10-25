@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {CheckCover, Container} from './styles';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import Image from '../styled/components/Image';
-import {XLargeTitle} from '../styled/components/Title';
 import {Color} from '../../constants/color.constant';
+import {PhotoIndex} from '../styled/components/Text.tsx';
 
 type SelectablePhotoProps = {
   onSelected: Function;
@@ -46,7 +46,7 @@ const SelectablePhoto = ({
         {selected ? (
           <CheckCover style={{height: '100%', width: '100%'}}>
             {order ? (
-              <XLargeTitle color={Color.WHITE}>{order}</XLargeTitle>
+              <PhotoIndex color={Color.WHITE}>{order}</PhotoIndex>
             ) : (
               <Icon name="checkmark" size={70} color={'white'} />
             )}

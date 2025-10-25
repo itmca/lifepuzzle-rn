@@ -10,11 +10,11 @@ import {
 } from '../../components/styled/container/ContentContainer.tsx';
 
 import {Color} from '../../constants/color.constant.ts';
-import {MediumTitle} from '../../components/styled/components/Title.tsx';
 import {
   getGallery,
   selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
+import {Title} from '../../components/styled/components/Text.tsx';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
   const [galleryIndex, setGalleryIndex] = useRecoilState(
@@ -32,7 +32,7 @@ const StoryDetailPageWithoutLogin = (): JSX.Element => {
           paddingHorizontal={16}
           alignItems="flex-end"
           height={Dimensions.get('window').height * 0.1 + 'px' ?? '10%'}>
-          <MediumTitle>{gallery[galleryIndex].tag?.label ?? ''}</MediumTitle>
+          <Title>{gallery[galleryIndex].tag?.label ?? ''}</Title>
         </ContentContainer>
 
         <ContentContainer backgroundColor={Color.BLACK}>
