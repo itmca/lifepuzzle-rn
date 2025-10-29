@@ -1,21 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Dimensions,
-  FlatList,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, Dimensions, FlatList, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
 import SelectableFacebookPhoto from '../../components/photo/SelectableFacebookPhoto';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer';
 import {
-  selectedGalleryItemsState,
   isGalleryUploadingState,
+  selectedGalleryItemsState,
 } from '../../recoils/gallery-write.recoil';
 import {useFacebookPhotos} from '../../service/hooks/facebook.photos.hook';
 import {FacebookPhotoItem} from '../../types/facebook.type';
@@ -78,26 +72,54 @@ const FacebookPhotoSelector = (): JSX.Element => {
 
   const handleFacebookLogin = async () => {
     try {
-      // Facebook 로그인 실행
-      const result = await LoginManager.logInWithPermissions(['user_photos']);
+      const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+      const API_URL = process.env.API_URL;
+      const redirectUri = `${API_URL}/v1/facebook/callback`;
 
-      if (result.isCancelled) {
+      const facebookAuthUrl =
+        `https://www.facebook.com/v18.0/dialog/oauth?` +
+        `client_id=${FACEBOOK_APP_ID}&` +
+        `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+        `scope=user_photos&` +
+        `response_type=code&` +
+        `state=facebook_auth`;
+
+      // InAppBrowser로 Facebook OAuth 시작
+      const result = await InAppBrowser.openAuth(facebookAuthUrl, redirectUri, {
+        showTitle: false,
+        toolbarColor: '#4267B2',
+        secondaryToolbarColor: 'white',
+        navigationBarColor: 'white',
+        navigationBarDividerColor: 'white',
+        enableUrlBarHiding: true,
+        enableDefaultShare: false,
+        forceCloseOnRedirection: true,
+      });
+
+      if (result.type === 'success' && result.url) {
+        // 백엔드 API URL에서 code 추출
+        const url = new URL(result.url);
+        const code = url.searchParams.get('code');
+        const state = url.searchParams.get('state');
+
+        if (!code) {
+          Alert.alert('오류', '페이스북 인증에 실패했습니다.');
+          navigation.goBack();
+          return;
+        }
+
+        if (state !== 'facebook_auth') {
+          Alert.alert('오류', '보안 검증에 실패했습니다.');
+          navigation.goBack();
+          return;
+        }
+
+        // 받은 code로 /v1/facebook/photos API 호출
+        getFacebookPhotos(code);
+      } else {
         Alert.alert('로그인 취소', '페이스북 로그인이 취소되었습니다.');
         navigation.goBack();
-        return;
       }
-
-      // AccessToken 가져오기
-      const accessToken = await AccessToken.getCurrentAccessToken();
-
-      if (!accessToken) {
-        Alert.alert('오류', '페이스북 인증에 실패했습니다.');
-        navigation.goBack();
-        return;
-      }
-
-      // 백엔드에 code 전달하여 사진 목록 가져오기
-      getFacebookPhotos(accessToken.accessToken);
     } catch (error) {
       console.error('Facebook login error:', error);
       Alert.alert('오류', '페이스북 로그인에 실패했습니다.');
