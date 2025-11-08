@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import StoryDetailPage from '../../pages/Story/StoryDetail/StoryDetailPage';
+import StoryDetailPage from '../../pages/StoryPages/StoryDetail/StoryDetailPage';
 import {TopBar} from '../../components/styled/components/TopBar';
 import DetailViewHeaderRight from '../../components/header/DetailViewHeaderRight';
-import StoryListPage from '../../pages/Story/StoryList/StoryListPage';
+import StoryListPage from '../../pages/StoryPages/StoryList/StoryListPage';
 
 export type StoryViewParamList = {
   StoryList: undefined;

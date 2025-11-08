@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HeroSettingPage from '../../pages/Hero/HeroSetting/HeroSettingPage';
-import HeroRegisterPage from '../../pages/Hero/HeroRegister/HeroRegisterPage';
-import HeroModificationPage from '../../pages/Hero/HeroModification/HeroModificationPage';
-import HeroSelectingPhotoPage from '../../pages/Hero/HeroSelectingPhoto/HeroSelectingPhotoPage';
+import HeroSettingPage from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
+import HeroRegisterPage from '../../pages/HeroPages/HeroRegister/HeroRegisterPage';
+import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroModificationPage';
+import HeroSelectingPhotoPage from '../../pages/HeroPages/HeroSelectingPhoto/HeroSelectingPhotoPage';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
