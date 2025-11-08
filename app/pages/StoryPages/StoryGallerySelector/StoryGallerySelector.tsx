@@ -10,11 +10,11 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import SelectablePhoto from '../../../components/photo/SelectablePhoto';
+import SelectablePhoto from '../../../components/photo/SelectablePhoto.tsx';
 import {
   hasAndroidPermission,
   usePhotoPermission,
-} from '../../../service/hooks/permission.hook';
+} from '../../../service/hooks/permission.hook.ts';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {

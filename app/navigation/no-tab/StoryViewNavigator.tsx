@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import StoryDetailPage from '../../pages/StoryPages/StoryDetail/StoryDetailPage';
+import StoryDetailPage from '../../pages/StoryPages/Story/StoryDetailPage';
 import {TopBar} from '../../components/styled/components/TopBar';
 import DetailViewHeaderRight from '../../components/header/DetailViewHeaderRight';
-import StoryListPage from '../../pages/StoryPages/StoryList/StoryListPage';
+import GalleryListPage from '../../pages/GalleryPages/GalleryList/GalleryListPage.tsx';
 
 export type StoryViewParamList = {
   StoryList: undefined;
@@ -23,7 +23,7 @@ const StoryViewNavigator = (): JSX.Element => {
       }}>
       <Stack.Screen
         name="StoryList"
-        component={StoryListPage}
+        component={GalleryListPage}
         options={{
           header: () => <TopBar title={'사진 목록'} />,
         }}

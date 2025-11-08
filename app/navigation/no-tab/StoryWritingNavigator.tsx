@@ -3,14 +3,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
 import StorySelectingGallery from '../../pages/StoryPages/StoryGallerySelector/StoryGallerySelector.tsx';
-import FacebookPhotoSelector from '../../pages/FacebookPhotoSelector/FacebookPhotoSelector.tsx';
+import FacebookPhotoSelector from '../../pages/GalleryPages/FacebookPhotoSelector/FacebookPhotoSelector.tsx';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import StoryWritingMainPage from '../../pages/StoryPages/StoryWritingMain/StoryWritingMainPage.tsx';
+import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
-import GalleryDetail from '../../pages/StoryPages/GalleryDetail/GalleryDetailPage.tsx';
-import GalleryDetailFilter from '../../pages/StoryPages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
+import GalleryDetail from '../../pages/GalleryPages/GalleryDetail/GalleryDetailPage.tsx';
+import GalleryDetailFilter from '../../pages/GalleryPages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
 import {
   editedGalleryItemsState,
   selectedGalleryItemsState,
@@ -44,7 +44,7 @@ const StoryWritingNavigator = (): JSX.Element => {
       screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}>
       <Stack.Screen
         name="StoryWritingMain"
-        component={StoryWritingMainPage}
+        component={StoryWritingPage}
         options={{
           header: () => (
             <TopBar

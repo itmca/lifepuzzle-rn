@@ -4,21 +4,21 @@ import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
-import SelectableFacebookPhoto from '../../components/photo/SelectableFacebookPhoto';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
+import SelectableFacebookPhoto from '../../../components/photo/SelectableFacebookPhoto.tsx';
+import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
 import {
   isGalleryUploadingState,
   selectedGalleryItemsState,
-} from '../../recoils/gallery-write.recoil';
-import {useFacebookPhotos} from '../../service/hooks/facebook.photos.hook';
-import {FacebookPhotoItem} from '../../types/facebook.type';
-import {AgeType} from '../../types/photo.type';
-import {Color} from '../../constants/color.constant';
-import {BodyTextB} from '../../components/styled/components/Text';
+} from '../../../recoils/gallery-write.recoil.ts';
+import {useFacebookPhotos} from '../../../service/hooks/facebook.photos.hook.ts';
+import {FacebookPhotoItem} from '../../../types/facebook.type.ts';
+import {AgeType} from '../../../types/photo.type.ts';
+import {Color} from '../../../constants/color.constant.ts';
+import {BodyTextB} from '../../../components/styled/components/Text.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {toPhotoIdentifierFromFacebookPhoto} from '../../service/photo-identifier.service';
-import {BasicNavigationProps} from '../../navigation/types';
+import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/photo-identifier.service.ts';
+import {BasicNavigationProps} from '../../../navigation/types.tsx';
 
 const DeviceWidth = Dimensions.get('window').width;
 

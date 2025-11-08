@@ -75,7 +75,6 @@ export const ProfileUpdateBottomSheet = ({
       }}>
       <ContentContainer alignCenter paddingVertical={16}>
         <AccountAvatar
-          nickname={writingUser.userNickName}
           size={100}
           imageURL={currentUserPhotoUri}
           editable
