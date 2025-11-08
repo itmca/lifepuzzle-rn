@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import WebView from 'react-native-webview';
 import {SafeAreaView, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -10,6 +10,7 @@ export const ServicePolicyPage = (): JSX.Element => {
   const {
     params: {settingAgree},
   } = useRoute<PolicyRouteProps<'ServicePolicy'>>();
+  const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
 
   return (
     <>
@@ -33,9 +34,10 @@ export const ServicePolicyPage = (): JSX.Element => {
             비동의
           </Button>
           <Button
+            disabled={!isWebViewLoaded}
             labelStyle={{
               fontSize: 16,
-              color: '#343666',
+              color: isWebViewLoaded ? '#343666' : '#CCCCCC',
             }}
             onPress={() => {
               settingAgree(true);
@@ -48,6 +50,8 @@ export const ServicePolicyPage = (): JSX.Element => {
       <WebView
         style={{paddingLeft: 8, paddingRight: 8}}
         source={{uri: 'https://itmca.io/terms/service'}}
+        onLoadEnd={() => setIsWebViewLoaded(true)}
+        onLoadStart={() => setIsWebViewLoaded(false)}
       />
     </>
   );
