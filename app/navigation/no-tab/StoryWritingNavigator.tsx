@@ -9,8 +9,8 @@ import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
-import GalleryDetail from '../../pages/StoryGallerySelector/GalleryDetailPage.tsx';
-import GalleryDetailFilter from '../../pages/StoryGallerySelector/GalleryDetailFilterPage.tsx';
+import GalleryDetail from '../../pages/GalleryDetail/GalleryDetailPage.tsx';
+import GalleryDetailFilter from '../../pages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
 import {
   editedGalleryItemsState,
   selectedGalleryItemsState,
