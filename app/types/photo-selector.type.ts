@@ -2,13 +2,12 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {FacebookPhotoItem} from './facebook.type';
 import {AgeType} from './photo.type';
 
-export type PhotoSource = 'device' | 'facebook';
+export type PhotoSource = 'device' | 'custom';
 export type SelectionMode = 'single' | 'multiple';
 
 export interface PhotoSelectorConfig {
   mode: SelectionMode;
   source: PhotoSource;
-  showAgeSelector?: boolean;
   showCropButton?: boolean;
   showOrderNumbers?: boolean;
   showConfirmButton?: boolean;
@@ -16,6 +15,10 @@ export interface PhotoSelectorConfig {
   initialPhotos?: number;
   loadMoreCount?: number;
   assetType?: 'Photos' | 'Videos' | 'All';
+  // For custom source
+  customPhotos?: (PhotoIdentifier | FacebookPhotoItem)[];
+  onLoadMore?: () => void;
+  hasMorePhotos?: boolean;
 }
 
 export interface PhotoSelectorCallbacks {
