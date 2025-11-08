@@ -1,7 +1,7 @@
 import * as React from 'react';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import AccountSelectingPhotoPage from '../../pages/AccountSelectingPhoto/AccountSelectingPhotoPage';
+import AccountSelectingPhotoPage from '../../pages/Account/AccountSelectingPhoto/AccountSelectingPhotoPage';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
@@ -10,7 +10,7 @@ import {
   writingUserState,
 } from '../../recoils/user.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import AccountModificationPage from '../../pages/AccountModification/AccountModificationPage';
+import AccountModificationPage from '../../pages/Account/AccountModification/AccountModificationPage';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
 import {TouchableOpacity} from 'react-native';
 import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';

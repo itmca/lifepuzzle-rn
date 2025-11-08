@@ -2,15 +2,15 @@ import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
-import StorySelectingGallery from '../../pages/StoryGallerySelector/StoryGallerySelector.tsx';
+import StorySelectingGallery from '../../pages/Story/StoryGallerySelector/StoryGallerySelector.tsx';
 import FacebookPhotoSelector from '../../pages/FacebookPhotoSelector/FacebookPhotoSelector.tsx';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import StoryWritingMainPage from '../../pages/StoryWritingMain/StoryWritingMainPage.tsx';
+import StoryWritingMainPage from '../../pages/Story/StoryWritingMain/StoryWritingMainPage.tsx';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {TopBar} from '../../components/styled/components/TopBar.tsx';
-import GalleryDetail from '../../pages/GalleryDetail/GalleryDetailPage.tsx';
-import GalleryDetailFilter from '../../pages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
+import GalleryDetail from '../../pages/Story/GalleryDetail/GalleryDetailPage.tsx';
+import GalleryDetailFilter from '../../pages/Story/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
 import {
   editedGalleryItemsState,
   selectedGalleryItemsState,
