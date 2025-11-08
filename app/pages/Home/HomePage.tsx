@@ -11,7 +11,7 @@ import {
   selectedTagState,
   tagState,
 } from '../../recoils/photos.recoil.ts';
-import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
+import {AgeGroupsType, SharePhoto, TagType} from '../../types/photo.type.ts';
 import Gallery from './Gallery.tsx';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -31,26 +31,36 @@ import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {MediaPickerBottomSheet} from './MediaPickerBottomSheet.tsx';
 
 const HomePage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
-  const hero = useRecoilValue<HeroType>(heroState);
-
-  const {photoHero, isLoading, refetch} = useHeroPhotos();
-  const [ageGroups] = useRecoilState<AgeGroupsType>(ageGroupsState);
-  const [tags] = useRecoilState<TagType[]>(tagState);
-  //bottom sheet
+  // React hooks
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [shareBottomSheetOpen, setShareBottomSheetOpen] =
     useState<boolean>(false);
   const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
     useState<boolean>(false);
+
+  // 글로벌 상태 관리 (Recoil)
+  const hero = useRecoilValue<HeroType>(heroState);
+  const [ageGroups] = useRecoilState<AgeGroupsType>(ageGroupsState);
+  const [tags] = useRecoilState<TagType[]>(tagState);
+  const selectedTag = useRecoilValue<TagType>(selectedTagState);
+  const isGalleryUploading = useRecoilValue<boolean>(isGalleryUploadingState);
   const [sharedImageData, setSharedImageData] =
     useRecoilState(sharedImageDataState);
 
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Custom hooks
+  const {photoHero, isLoading, refetch} = useHeroPhotos();
+  const [submitGallery] = useUploadGalleryV2();
+
+  // Custom functions (핸들러, 로직 함수 등)
   const handlePresentModalPress = useCallback(() => {
     Keyboard.dismiss();
     setOpenModal(true);
   }, []);
 
+  // Side effects (useEffect 등)
   useEffect(() => {
     if (ageGroups && Object.keys(ageGroups).length > 0) {
       const imageUrls = Object.values(ageGroups).flatMap(ageGroup =>
@@ -83,14 +93,11 @@ const HomePage = (): JSX.Element => {
     }
   }, [sharedImageData, hero, selectedTag]);
 
-  const selectedTag = useRecoilValue<TagType>(selectedTagState);
-  const isGalleryUploading = useRecoilValue<boolean>(isGalleryUploadingState);
-  const [submitGallery] = useUploadGalleryV2();
-
   return (
     <LoadingContainer isLoading={isLoading || isGalleryUploading}>
       <BottomSheetModalProvider>
         <ScreenContainer gap={0}>
+          {/* 상단 프로필 영역 */}
           <ContentContainer withScreenPadding useHorizontalLayout>
             {photoHero && (
               <>
@@ -103,9 +110,11 @@ const HomePage = (): JSX.Element => {
               </>
             )}
           </ContentContainer>
+          {/* 중간 사진 영역 */}
           <ContentContainer flex={1}>
             <Gallery hero={photoHero} ageGroups={ageGroups} tags={tags} />
           </ContentContainer>
+          {/* 하단 버튼 영역 */}
           {hero.auth !== 'VIEWER' && (
             <GalleryBottomButton
               onPress={() => {
@@ -123,6 +132,7 @@ const HomePage = (): JSX.Element => {
             />
           )}
         </ScreenContainer>
+        {/* 바텀 시트 영역 */}
         <BottomSheet
           opened={openModal}
           title={'공유하기'}
@@ -137,7 +147,7 @@ const HomePage = (): JSX.Element => {
           sharedImageData={sharedImageData}
           onClose={() => {
             setShareBottomSheetOpen(false);
-            setSharedImageData(null);
+            setSharedImageData({} as SharePhoto);
             refetch({
               params: {
                 heroNo: hero.heroNo,
