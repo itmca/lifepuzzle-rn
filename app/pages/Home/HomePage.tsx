@@ -27,8 +27,8 @@ import BottomSheetSection from './BottomSheetSection.tsx';
 
 const HomePage = (): JSX.Element => {
   // React hooks
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [shareBottomSheetOpen, setShareBottomSheetOpen] =
+  const [heroShareModalOpen, setHeroShareModalOpen] = useState<boolean>(false);
+  const [receivedImageBottomSheetOpen, setReceivedImageBottomSheetOpen] =
     useState<boolean>(false);
   const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
     useState<boolean>(false);
@@ -49,16 +49,16 @@ const HomePage = (): JSX.Element => {
   const [submitGallery] = useUploadGalleryV2();
 
   // Custom functions (핸들러, 로직 함수 등)
-  const handleSharePress = useCallback(() => {
-    setOpenModal(true);
+  const handleHeroSharePress = useCallback(() => {
+    setHeroShareModalOpen(true);
   }, []);
 
-  const handleCloseModal = useCallback(() => {
-    setOpenModal(false);
+  const handleCloseHeroShareModal = useCallback(() => {
+    setHeroShareModalOpen(false);
   }, []);
 
-  const handleCloseShareBottomSheet = useCallback(() => {
-    setShareBottomSheetOpen(false);
+  const handleCloseReceivedImageBottomSheet = useCallback(() => {
+    setReceivedImageBottomSheetOpen(false);
   }, []);
 
   const handleCloseMediaPicker = useCallback(() => {
@@ -108,7 +108,7 @@ const HomePage = (): JSX.Element => {
       if (!hero || !hero.heroName || !selectedTag) {
         return;
       }
-      setShareBottomSheetOpen(true);
+      setReceivedImageBottomSheetOpen(true);
     }
   }, [sharedImageData, hero, selectedTag]);
 
@@ -117,7 +117,10 @@ const HomePage = (): JSX.Element => {
       <BottomSheetModalProvider>
         <ScreenContainer gap={0}>
           {/* 상단 프로필 영역 */}
-          <HeroSection photoHero={photoHero} onSharePress={handleSharePress} />
+          <HeroSection
+            photoHero={photoHero}
+            onSharePress={handleHeroSharePress}
+          />
 
           {/* 중간 사진 영역 */}
           <ContentContainer flex={1}>
@@ -132,10 +135,10 @@ const HomePage = (): JSX.Element => {
 
         {/* 바텀 시트 영역 */}
         <BottomSheetSection
-          openModal={openModal}
-          onCloseModal={handleCloseModal}
-          shareBottomSheetOpen={shareBottomSheetOpen}
-          onCloseShareBottomSheet={handleCloseShareBottomSheet}
+          heroShareModalOpen={heroShareModalOpen}
+          onCloseHeroShareModal={handleCloseHeroShareModal}
+          receivedImageBottomSheetOpen={receivedImageBottomSheetOpen}
+          onCloseReceivedImageBottomSheet={handleCloseReceivedImageBottomSheet}
           mediaPickerBottomSheetOpen={mediaPickerBottomSheetOpen}
           onCloseMediaPicker={handleCloseMediaPicker}
           isGalleryUploading={isGalleryUploading}
