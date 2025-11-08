@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useRecoilState} from 'recoil';
 import {sharedImageDataState} from '../../recoils/share.recoil';
 import {SharePhoto} from '../../types/photo.type';
@@ -42,11 +42,11 @@ const BottomSheetSection = ({
     useRecoilState(sharedImageDataState);
 
   // Custom functions (핸들러, 로직 함수 등)
-  const handleCloseReceivedImageBottomSheet = () => {
+  const handleCloseReceivedImageBottomSheet = useCallback(() => {
     onCloseReceivedImageBottomSheet();
     setSharedImageData({} as SharePhoto);
     onRefetch();
-  };
+  }, [onCloseReceivedImageBottomSheet, setSharedImageData, onRefetch]);
 
   return (
     <>

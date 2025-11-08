@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
@@ -66,17 +66,17 @@ const HomePage = (): JSX.Element => {
   }, []);
 
   const handleRefetch = useCallback(() => {
-    if (refetch && hero.heroNo >= 0) {
+    if (refetch && hero?.heroNo && hero.heroNo >= 0) {
       refetch({
         params: {
           heroNo: hero.heroNo,
         },
       });
     }
-  }, [refetch, hero.heroNo]);
+  }, [refetch, hero?.heroNo]);
 
   const handleGalleryButtonPress = useCallback(() => {
-    if (selectedTag.key === 'AI_PHOTO') {
+    if (selectedTag?.key === 'AI_PHOTO') {
       navigation.push('NoTab', {
         screen: 'AiPhotoNavigator',
         params: {
@@ -86,31 +86,43 @@ const HomePage = (): JSX.Element => {
     } else {
       setMediaPickerBottomSheetOpen(true);
     }
-  }, [selectedTag.key, navigation]);
+  }, [selectedTag?.key, navigation]);
 
-  // Side effects (useEffect 등)
+  // TEMPORARY: 무한 리렌더링 디버깅을 위해 비활성화
+  // const imageUrls = useMemo(() => {
+  //   if (!ageGroups || Object.keys(ageGroups).length === 0) {
+  //     return [];
+  //   }
+  //   return Object.values(ageGroups).flatMap(ageGroup =>
+  //     ageGroup.gallery.map(photo => ({uri: photo.url})),
+  //   );
+  // }, [ageGroups]);
+
+  // // Side effects (useEffect 등)
+  // useEffect(() => {
+  //   if (imageUrls.length > 0) {
+  //     FastImage.preload(imageUrls);
+  //   }
+  // }, [imageUrls]);
+
+  // TEMPORARY: 무한 리렌더링 디버깅을 위해 비활성화
+  // useFocusAction(handleRefetch);
+
   useEffect(() => {
-    if (ageGroups && Object.keys(ageGroups).length > 0) {
-      const imageUrls = Object.values(ageGroups).flatMap(ageGroup =>
-        ageGroup.gallery.map(photo => ({uri: photo.url})),
-      );
-
-      if (imageUrls.length > 0) {
-        FastImage.preload(imageUrls);
-      }
-    }
-  }, [ageGroups]);
-
-  useFocusAction(handleRefetch);
-
-  useEffect(() => {
-    if (sharedImageData && sharedImageData.type) {
-      if (!hero || !hero.heroName || !selectedTag) {
-        return;
-      }
+    if (
+      sharedImageData?.type &&
+      hero?.heroName &&
+      selectedTag?.key &&
+      !receivedImageBottomSheetOpen
+    ) {
       setReceivedImageBottomSheetOpen(true);
     }
-  }, [sharedImageData, hero, selectedTag]);
+  }, [
+    sharedImageData?.type,
+    hero?.heroName,
+    selectedTag?.key,
+    receivedImageBottomSheetOpen,
+  ]);
 
   return (
     <LoadingContainer isLoading={isLoading || isGalleryUploading}>

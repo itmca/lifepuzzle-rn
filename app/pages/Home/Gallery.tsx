@@ -61,13 +61,17 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
 
   // Side effects (useEffect 등)
   useEffect(() => {
+    if (!selectedTag?.key || !tags?.length) return;
+
     const index = tags.findIndex(item => item.key === selectedTag.key);
+    if (index === -1) return;
+
     if (index < tags.length / 3) {
       scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
     } else if ((tags.length / 3) * 2 < index) {
       scrollRef.current?.scrollToEnd();
     }
-  }, [selectedTag]);
+  }, [selectedTag?.key, tags?.length]);
 
   return (
     <ContentContainer flex={1}>
@@ -82,7 +86,12 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
           paddingRight={20}>
           {tags.map((item: TagType, index) => {
             return (
-              <GalleryTag carouselRef={carouselRef} item={item} index={index} />
+              <GalleryTag
+                key={item.key || index}
+                carouselRef={carouselRef}
+                item={item}
+                index={index}
+              />
             );
           })}
         </ScrollContentContainer>
@@ -118,6 +127,7 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
           renderItem={({item: tag}: any) => {
             return (
               <ContentContainer
+                key={tag.key}
                 style={{
                   transform: [{translateY: -20}],
                 }}>
