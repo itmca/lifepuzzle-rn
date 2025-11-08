@@ -1,247 +1,63 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Dimensions, FlatList, TouchableOpacity} from 'react-native';
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import InAppBrowser from 'react-native-inappbrowser-reborn';
-import DropDownPicker from 'react-native-dropdown-picker';
-import SelectableFacebookPhoto from '../../../components/photo/SelectableFacebookPhoto.tsx';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
+
+import CommonPhotoSelector from '../../../components/photo/CommonPhotoSelector';
 import {
   isGalleryUploadingState,
   selectedGalleryItemsState,
-} from '../../../recoils/gallery-write.recoil.ts';
-import {useFacebookPhotos} from '../../../service/hooks/facebook.photos.hook.ts';
-import {FacebookPhotoItem} from '../../../types/facebook.type.ts';
-import {AgeType} from '../../../types/photo.type.ts';
-import {Color} from '../../../constants/color.constant.ts';
-import {BodyTextB} from '../../../components/styled/components/Text.tsx';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/photo-identifier.service.ts';
-import {BasicNavigationProps} from '../../../navigation/types.tsx';
-
-const DeviceWidth = Dimensions.get('window').width;
-
-const ageGroupOptions = [
-  {label: '10세 미만', value: 'UNDER_TEENAGER' as AgeType},
-  {label: '10대', value: 'TEENAGER' as AgeType},
-  {label: '20대', value: 'TWENTIES' as AgeType},
-  {label: '30대', value: 'THIRTY' as AgeType},
-  {label: '40대', value: 'FORTY' as AgeType},
-  {label: '50대', value: 'FIFTY' as AgeType},
-  {label: '60대', value: 'SIXTY' as AgeType},
-  {label: '70대', value: 'SEVENTY' as AgeType},
-  {label: '80대', value: 'EIGHTY' as AgeType},
-  {label: '90대', value: 'NINETY' as AgeType},
-  {label: '100세 이상', value: 'UPPER_NINETY' as AgeType},
-];
+} from '../../../recoils/gallery-write.recoil';
+import {FacebookPhotoItem} from '../../../types/facebook.type';
+import {AgeType} from '../../../types/photo.type';
+import {
+  PhotoSelectorConfig,
+  PhotoSelectorCallbacks,
+} from '../../../types/photo-selector.type';
+import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/photo-identifier.service';
 
 const FacebookPhotoSelector = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
-  const [facebookPhotos, setFacebookPhotos] = useState<FacebookPhotoItem[]>([]);
-  const [selectedPhotos, setSelectedPhotos] = useState<FacebookPhotoItem[]>([]);
+  const navigation = useNavigation();
   const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
     selectedGalleryItemsState,
   );
   const isGalleryUploading = useRecoilValue(isGalleryUploadingState);
 
-  // Age group dropdown state
-  const [selectedAgeGroup, setSelectedAgeGroup] = useState<AgeType | null>(
-    null,
-  );
-  const [ageDropdownOpen, setAgeDropdownOpen] = useState(false);
+  const config: PhotoSelectorConfig = {
+    mode: 'multiple',
+    source: 'facebook',
+    showAgeSelector: true,
+    showOrderNumbers: true,
+    showConfirmButton: true,
+  };
 
-  const {isLoading, getFacebookPhotos} = useFacebookPhotos({
-    onSuccess: response => {
-      const photoItems = response.photos.map((photo, index) => ({
-        id: `facebook_${index}`,
-        imageUrl: photo.imageUrl,
-        selected: false,
-      }));
-      setFacebookPhotos(photoItems);
-    },
-    onError: error => {
-      Alert.alert('오류', '페이스북 사진을 불러오는데 실패했습니다.');
-      navigation.goBack();
-    },
-  });
-
-  useEffect(() => {
-    handleFacebookLogin();
-  }, []);
-
-  const handleFacebookLogin = async () => {
-    try {
-      const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
-      const API_URL = process.env.API_URL;
-      const redirectUri = `${API_URL}/v1/facebook/callback`;
-
-      const facebookAuthUrl =
-        `https://www.facebook.com/v18.0/dialog/oauth?` +
-        `client_id=${FACEBOOK_APP_ID}&` +
-        `redirect_uri=${encodeURIComponent(redirectUri)}&` +
-        `scope=user_photos&` +
-        `response_type=code&` +
-        `state=facebook_auth`;
-
-      // InAppBrowser로 Facebook OAuth 시작
-      const result = await InAppBrowser.openAuth(facebookAuthUrl, redirectUri, {
-        showTitle: false,
-        toolbarColor: '#4267B2',
-        secondaryToolbarColor: 'white',
-        navigationBarColor: 'white',
-        navigationBarDividerColor: 'white',
-        enableUrlBarHiding: true,
-        enableDefaultShare: false,
-        forceCloseOnRedirection: true,
-      });
-
-      if (result.type === 'success' && result.url) {
-        // 백엔드 API URL에서 code 추출
-        const url = new URL(result.url);
-        const code = url.searchParams.get('code');
-        const state = url.searchParams.get('state');
-
-        if (!code) {
-          Alert.alert('오류', '페이스북 인증에 실패했습니다.');
-          navigation.goBack();
-          return;
-        }
-
-        if (state !== 'facebook_auth') {
-          Alert.alert('오류', '보안 검증에 실패했습니다.');
-          navigation.goBack();
-          return;
-        }
-
-        // 받은 code로 /v1/facebook/photos API 호출
-        getFacebookPhotos(code);
-      } else {
-        Alert.alert('로그인 취소', '페이스북 로그인이 취소되었습니다.');
-        navigation.goBack();
+  const callbacks: PhotoSelectorCallbacks = {
+    onConfirm: (photos: FacebookPhotoItem[], ageGroup: AgeType) => {
+      if (!ageGroup) {
+        return;
       }
-    } catch (error) {
-      console.error('Facebook login error:', error);
-      Alert.alert('오류', '페이스북 로그인에 실패했습니다.');
+
+      // Facebook 사진을 PhotoIdentifier 형태로 변환
+      const photoIdentifiers = photos.map(photo =>
+        toPhotoIdentifierFromFacebookPhoto(
+          photo as FacebookPhotoItem,
+          ageGroup,
+        ),
+      );
+
+      // 선택된 사진들을 갤러리 아이템에 추가
+      setSelectedGalleryItems([...selectedGalleryItems, ...photoIdentifiers]);
+
       navigation.goBack();
-    }
+    },
+    onCancel: () => {
+      navigation.goBack();
+    },
+    onError: (error: string) => {
+      navigation.goBack();
+    },
   };
 
-  const handlePhotoSelect = (photo: FacebookPhotoItem) => {
-    const updatedPhotos = facebookPhotos.map(p =>
-      p.id === photo.id ? {...p, selected: true} : p,
-    );
-    setFacebookPhotos(updatedPhotos);
-    setSelectedPhotos([...selectedPhotos, photo]);
-  };
-
-  const handlePhotoDeselect = (photo: FacebookPhotoItem) => {
-    const updatedPhotos = facebookPhotos.map(p =>
-      p.id === photo.id ? {...p, selected: false} : p,
-    );
-    setFacebookPhotos(updatedPhotos);
-    setSelectedPhotos(selectedPhotos.filter(p => p.id !== photo.id));
-  };
-
-  const handleConfirmSelection = () => {
-    if (selectedPhotos.length === 0) {
-      Alert.alert('알림', '선택된 사진이 없습니다.');
-      return;
-    }
-
-    if (!selectedAgeGroup) {
-      Alert.alert('알림', '나이대를 선택해주세요.');
-      return;
-    }
-
-    // Facebook 사진을 PhotoIdentifier 형태로 변환
-    const photoIdentifiers = selectedPhotos.map(photo =>
-      toPhotoIdentifierFromFacebookPhoto(photo, selectedAgeGroup),
-    );
-
-    // 선택된 사진들을 갤러리 아이템에 추가
-    setSelectedGalleryItems([...selectedGalleryItems, ...photoIdentifiers]);
-
-    navigation.goBack();
-  };
-
-  return (
-    <LoadingContainer isLoading={isLoading || isGalleryUploading}>
-      <ContentContainer flex={1} paddingHorizontal={16} paddingTop={16}>
-        {/* Age Group Dropdown */}
-        <ContentContainer marginBottom={16} zIndex={1000}>
-          <BodyTextB color={Color.BLACK} marginBottom={8}>
-            나이대 선택
-          </BodyTextB>
-          <DropDownPicker
-            open={ageDropdownOpen}
-            value={selectedAgeGroup}
-            items={ageGroupOptions}
-            setOpen={setAgeDropdownOpen}
-            setValue={setSelectedAgeGroup}
-            placeholder="나이대를 선택하세요"
-            style={{
-              borderColor: Color.GREY_300,
-              borderRadius: 8,
-            }}
-            dropDownContainerStyle={{
-              borderColor: Color.GREY_300,
-              borderRadius: 8,
-            }}
-            textStyle={{
-              fontSize: 16,
-              color: Color.BLACK,
-            }}
-            placeholderStyle={{
-              color: Color.GREY_500,
-            }}
-          />
-        </ContentContainer>
-
-        {/* Photo Grid */}
-        <FlatList
-          data={facebookPhotos}
-          numColumns={3}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            const order = selectedPhotos.findIndex(p => p.id === item.id) + 1;
-
-            return (
-              <SelectableFacebookPhoto
-                onSelected={handlePhotoSelect}
-                onDeselected={handlePhotoDeselect}
-                size={DeviceWidth / 3}
-                photo={item}
-                selected={item.selected}
-                order={order || undefined}
-              />
-            );
-          }}
-        />
-
-        {/* Confirm Button */}
-        {selectedPhotos.length > 0 && (
-          <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: Color.MAIN_DARK,
-              borderRadius: 50,
-              width: 50,
-              height: 50,
-              position: 'absolute',
-              bottom: 25,
-              right: 25,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: Color.WHITE,
-            }}
-            onPress={handleConfirmSelection}>
-            <Icon name="check" size={25} color={Color.MAIN_DARK} />
-          </TouchableOpacity>
-        )}
-      </ContentContainer>
-    </LoadingContainer>
-  );
+  return <CommonPhotoSelector config={config} callbacks={callbacks} />;
 };
 
 export default FacebookPhotoSelector;
