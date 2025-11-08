@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../components/styled/container/ContentContainer';
-import {Color} from '../../constants/color.constant';
+} from '../../../components/styled/container/ContentContainer.tsx';
+import {Color} from '../../../constants/color.constant.ts';
 import {
   BodyTextB,
   BodyTextM,
   Caption,
   Title,
-} from '../../components/styled/components/Text';
-import {BasicNavigationProps} from '../../navigation/types';
-import {formatDateToTodayOrYYMMDD} from '../../service/date-time-display.service';
-import {Photo} from '../../components/styled/components/Image';
-import {useAiGalleries} from '../../service/hooks/ai-photo.query.hook';
-import {AiGallery} from '../../types/ai-photo.type';
+} from '../../../components/styled/components/Text.tsx';
+import {BasicNavigationProps} from '../../../navigation/types.tsx';
+import {formatDateToTodayOrYYMMDD} from '../../../service/date-time-display.service.ts';
+import {Photo} from '../../../components/styled/components/Image.tsx';
+import {useAiGalleries} from '../../../service/hooks/ai-photo.query.hook.ts';
+import {AiGallery} from '../../../types/ai-photo.type.ts';
 
 interface WorkItem {
   id: number;

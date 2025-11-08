@@ -1,25 +1,25 @@
 import {useRef, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer.tsx';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
+import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../components/styled/container/ContentContainer.tsx';
-import {Title} from '../../components/styled/components/Text.tsx';
-import {Photo} from '../../components/styled/components/Image.tsx';
-import {AiPhotoMakerButton} from '../../components/button/AiPhotoMakerButton.tsx';
-import SelectableAiPhotoTemplate from '../../components/aiphoto/SelectableAiPhotoTemplate.tsx';
-import {CustomAlert} from '../../components/alert/CustomAlert';
-import {Color} from '../../constants/color.constant.ts';
+} from '../../../components/styled/container/ContentContainer.tsx';
+import {Title} from '../../../components/styled/components/Text.tsx';
+import {Photo} from '../../../components/styled/components/Image.tsx';
+import {AiPhotoMakerButton} from '../../../components/button/AiPhotoMakerButton.tsx';
+import SelectableAiPhotoTemplate from '../../../components/aiphoto/SelectableAiPhotoTemplate.tsx';
+import {CustomAlert} from '../../../components/alert/CustomAlert.tsx';
+import {Color} from '../../../constants/color.constant.ts';
 import {
   getGallery,
   selectedGalleryIndexState,
-} from '../../recoils/photos.recoil.ts';
-import {AiPhotoTemplate} from '../../types/ai-photo.type.ts';
-import {useAiPhotoTemplate} from '../../service/hooks/ai-photo.query.hook.ts';
-import {useCreateAiPhoto} from '../../service/hooks/ai-photo.create.hook.ts';
+} from '../../../recoils/photos.recoil.ts';
+import {AiPhotoTemplate} from '../../../types/ai-photo.type.ts';
+import {useAiPhotoTemplate} from '../../../service/hooks/ai-photo.query.hook.ts';
+import {useCreateAiPhoto} from '../../../service/hooks/ai-photo.create.hook.ts';
 
 const AiPhotoMakerPage = (): JSX.Element => {
   const scrollRef = useRef<ScrollView>(null);

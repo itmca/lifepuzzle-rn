@@ -3,13 +3,13 @@ import WebView from 'react-native-webview';
 import {SafeAreaView, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Button} from 'react-native-paper';
-import {PolicyRouteProps} from '../../navigation/types';
+import {PolicyRouteProps} from '../../../navigation/types.tsx';
 
-export const ServicePolicyPage = (): JSX.Element => {
+export const PrivacyPolicyPage = (): JSX.Element => {
   const navigation = useNavigation();
   const {
     params: {settingAgree},
-  } = useRoute<PolicyRouteProps<'ServicePolicy'>>();
+  } = useRoute<PolicyRouteProps<'PrivacyPolicy'>>();
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
 
   return (
@@ -49,7 +49,7 @@ export const ServicePolicyPage = (): JSX.Element => {
       </SafeAreaView>
       <WebView
         style={{paddingLeft: 8, paddingRight: 8}}
-        source={{uri: 'https://itmca.io/terms/service'}}
+        source={{uri: 'https://itmca.io/terms/privacy'}}
         onLoadEnd={() => setIsWebViewLoaded(true)}
         onLoadStart={() => setIsWebViewLoaded(false)}
       />

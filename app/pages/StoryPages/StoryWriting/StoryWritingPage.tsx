@@ -10,14 +10,14 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   playInfoState,
   writingStoryState,
-} from '../../../recoils/story-write.recoil';
-import StoryDateInput from './StoryDateInput';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer';
-import {useIsStoryUploading} from '../../../service/hooks/story.write.hook';
+} from '../../../recoils/story-write.recoil.ts';
+import StoryDateInput from './StoryDateInput.tsx';
+import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
+import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {useIsStoryUploading} from '../../../service/hooks/story.write.hook.ts';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
-import {Color} from '../../../constants/color.constant';
+import {Color} from '../../../constants/color.constant.ts';
 import {MediumImage} from '../../../components/styled/components/Image.tsx';
 import {ageGroupsState, tagState} from '../../../recoils/photos.recoil.ts';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -32,7 +32,7 @@ import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {VoiceBottomSheet} from '../../../components/story/VoiceBottomSheet.tsx';
 import {AudioBtn} from '../../../components/story/AudioBtn.tsx';
 
-const StoryWritingMainPage = (): JSX.Element => {
+const StoryWritingPage = (): JSX.Element => {
   const carouselRef = useRef<ICarouselInstance>(null);
   const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
   const isStoryUploading = useIsStoryUploading();
@@ -224,4 +224,4 @@ const StoryWritingMainPage = (): JSX.Element => {
   );
 };
 
-export default StoryWritingMainPage;
+export default StoryWritingPage;

@@ -15,13 +15,13 @@ import VMasonryList from '@react-native-seoul/masonry-list';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {GalleryType, TagKey} from '../../types/photo.type';
 
-import {Head} from '../../../components/styled/components/Text';
+import {Head} from '../../../components/styled/components/Text.tsx';
 
 import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer';
+} from '../../../components/styled/container/ContentContainer.tsx';
 
 import {SCREEN_HEIGHT} from '@gorhom/bottom-sheet';
 
@@ -31,14 +31,14 @@ import {
   selectedGalleryIndexState,
   selectedTagState,
   tagState,
-} from '../../../recoils/photos.recoil';
+} from '../../../recoils/photos.recoil.ts';
 import {isLoggedInState} from '../../../recoils/auth.recoil.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import Video from 'react-native-video';
 import VideoModal from '../../../components/styled/components/VideoModal.tsx';
 
-const StoryListPage = () => {
+const GalleryListPage = () => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
 
@@ -203,4 +203,4 @@ const StoryListPage = () => {
   );
 };
 
-export default StoryListPage;
+export default GalleryListPage;

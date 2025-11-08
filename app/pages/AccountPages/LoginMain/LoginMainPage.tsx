@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import LoginMainText from '../../assets/images/login_main_text.svg';
-import LoginMainIcon from '../../assets/images/login_main_icon.svg';
+import LoginMainText from '../../../assets/images/login_main_text.svg';
+import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
 
 import {Platform} from 'react-native';
-import KaKaoSocialLoginButton from '../../components/button/login/KaKaoSocialLoginButton';
-import AppleSocialLoginButton from '../../components/button/login/AppleSocialLoginButton';
-import OtherLoginButton from '../../components/button/login/OtherLoginButton';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {BodyTextM} from '../../components/styled/components/Text.tsx';
-import {Color} from '../../constants/color.constant.ts';
+import KaKaoSocialLoginButton from '../../../components/button/login/KaKaoSocialLoginButton.tsx';
+import AppleSocialLoginButton from '../../../components/button/login/AppleSocialLoginButton.tsx';
+import OtherLoginButton from '../../../components/button/login/OtherLoginButton.tsx';
+import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
+import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
+import {BodyTextM} from '../../../components/styled/components/Text.tsx';
+import {Color} from '../../../constants/color.constant.ts';
 
 const LoginMainPage = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);

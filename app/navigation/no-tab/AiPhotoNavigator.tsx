@@ -1,9 +1,8 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {TopBar} from '../../components/styled/components/TopBar';
-import DetailViewHeaderRight from '../../components/header/DetailViewHeaderRight';
-import AiPhotoWorkHistoryPage from '../../pages/AiPhoto/AiPhotoWorkHistoryPage';
-import AiPhotoMakerPage from '../../pages/AiPhotoMaker/AiPhotoMakerPage';
+import AiPhotoWorkHistoryPage from '../../pages/AiPhotoPages/AiPhotoHistory/AiPhotoWorkHistoryPage';
+import AiPhotoMakerPage from '../../pages/AiPhotoPages/AiPhotoMaker/AiPhotoMakerPage';
 
 export type AiPhotoParamList = {
   AiPhotoWorkHistory: undefined;

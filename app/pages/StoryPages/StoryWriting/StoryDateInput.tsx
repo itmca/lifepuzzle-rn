@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {Color} from '../../../constants/color.constant';
+import {Color} from '../../../constants/color.constant.ts';
 import {Caption} from '../../../components/styled/components/Text.tsx';
 import {SvgIcon} from '../../../components/styled/components/SvgIcon.tsx';
 import {ButtonBase} from '../../../components/styled/components/Button.tsx';

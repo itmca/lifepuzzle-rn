@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 
-import GeneralLoginButton from './GeneralLoginButton';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {Color} from '../../constants/color.constant';
-import RegisterButton from '../../components/button/login/RegisterButton';
-import BasicTextInput from '../../components/input/NewTextInput.tsx';
-import LoginMainIcon from '../../assets/images/login_main_icon.svg';
-import {BodyTextM} from '../../components/styled/components/Text.tsx';
+import GeneralLoginButton from './GeneralLoginButton.tsx';
+import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
+import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
+import {Color} from '../../../constants/color.constant.ts';
+import RegisterButton from '../../../components/button/login/RegisterButton.tsx';
+import BasicTextInput from '../../../components/input/NewTextInput.tsx';
+import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
+import {BodyTextM} from '../../../components/styled/components/Text.tsx';
 
 const LoginOthersPage = (): JSX.Element => {
   const [id, setId] = useState('');

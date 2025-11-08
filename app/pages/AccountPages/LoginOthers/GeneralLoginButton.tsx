@@ -1,14 +1,14 @@
 import React from 'react';
 import {Alert} from 'react-native';
-import {useAxios} from '../../service/hooks/network.hook';
+import {useAxios} from '../../../service/hooks/network.hook.ts';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../service/hooks/login.hook';
+} from '../../../service/hooks/login.hook.ts';
 
 import {useRecoilValue} from 'recoil';
-import {shareKeyState} from '../../recoils/share.recoil.ts';
-import {BasicButton} from '../../components/button/BasicButton.tsx';
+import {shareKeyState} from '../../../recoils/share.recoil.ts';
+import {BasicButton} from '../../../components/button/BasicButton.tsx';
 
 type Props = {
   userId: string;

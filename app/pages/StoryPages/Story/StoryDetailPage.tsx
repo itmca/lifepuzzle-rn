@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Dimensions} from 'react-native';
 import {
   useRecoilState,
@@ -6,16 +6,16 @@ import {
   useResetRecoilState,
   useSetRecoilState,
 } from 'recoil';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer';
+import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
 import {MediaCarousel} from '../../../components/story/MediaCarousel.tsx';
-import {StoryItemContents} from '../../../components/story-list/StoryItemContents';
+import {StoryItemContents} from '../../../components/story-list/StoryItemContents.tsx';
 import {
   useFocusEffect,
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import {writingStoryState} from '../../../recoils/story-write.recoil';
+import {writingStoryState} from '../../../recoils/story-write.recoil.ts';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -65,8 +65,6 @@ const StoryDetailPage = (): JSX.Element => {
   const setWritingStory = useSetRecoilState(writingStoryState);
   const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
   const isFocused = useIsFocused();
-
-  const snapPoints = useMemo(() => [isStory ? '40%' : '20%'], [isStory]);
 
   useFocusEffect(() => {
     resetWritingStory();

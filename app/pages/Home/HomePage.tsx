@@ -88,25 +88,23 @@ const HomePage = (): JSX.Element => {
     }
   }, [selectedTag?.key, navigation]);
 
-  // TEMPORARY: 무한 리렌더링 디버깅을 위해 비활성화
-  // const imageUrls = useMemo(() => {
-  //   if (!ageGroups || Object.keys(ageGroups).length === 0) {
-  //     return [];
-  //   }
-  //   return Object.values(ageGroups).flatMap(ageGroup =>
-  //     ageGroup.gallery.map(photo => ({uri: photo.url})),
-  //   );
-  // }, [ageGroups]);
+  const imageUrls = useMemo(() => {
+    if (!ageGroups || Object.keys(ageGroups).length === 0) {
+      return [];
+    }
+    return Object.values(ageGroups).flatMap(ageGroup =>
+      ageGroup.gallery.map(photo => ({uri: photo.url})),
+    );
+  }, [ageGroups]);
 
-  // // Side effects (useEffect 등)
-  // useEffect(() => {
-  //   if (imageUrls.length > 0) {
-  //     FastImage.preload(imageUrls);
-  //   }
-  // }, [imageUrls]);
+  // Side effects (useEffect 등)
+  useEffect(() => {
+    if (imageUrls.length > 0) {
+      FastImage.preload(imageUrls);
+    }
+  }, [imageUrls]);
 
-  // TEMPORARY: 무한 리렌더링 디버깅을 위해 비활성화
-  // useFocusAction(handleRefetch);
+  useFocusAction(handleRefetch);
 
   useEffect(() => {
     if (
