@@ -2,7 +2,7 @@ import {GestureResponderEvent} from 'react-native';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {Color} from '../../constants/color.constant';
 import {StoryType} from '../../types/photo.type';
-import StoryDateInput from '../../pages/StoryWritingMain/StoryDateInput';
+import StoryDateInput from '../../pages/StoryPages/StoryWritingMain/StoryDateInput';
 import {AudioBtn} from '../story/AudioBtn';
 import {BodyTextM, Title} from '../styled/components/Text.tsx';
 

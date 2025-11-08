@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeTabNavigator, {HomeTabParamList} from './home-tab/HomeRootNavigator';
 import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
-import OnboardingScreen from '../pages/Home/OnboardingScreen';
+import OnboardingPage from '../pages/Onboarding/OnboardingPage.tsx';
 import {LocalStorage} from '../service/local-storage.service.ts';
 import {isLoggedInState} from '../recoils/auth.recoil.ts';
 import {useRecoilValue} from 'recoil';
@@ -49,7 +49,7 @@ const RootNavigator = (): JSX.Element => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName={initialRoute}>
-      <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      <Stack.Screen name="Onboarding" component={OnboardingPage} />
       <Stack.Screen name="HomeTab" component={HomeTabNavigator} />
       <Stack.Screen name="NoTab" component={NoTabRootNavigator} />
     </Stack.Navigator>
