@@ -6,11 +6,11 @@ import {useNavigation} from '@react-navigation/native';
 import CommonPhotoSelector from '../../../components/photo/CommonPhotoSelector';
 import {selectedHeroPhotoState} from '../../../recoils/hero.recoil';
 import {
-  PhotoSelectorConfig,
   PhotoSelectorCallbacks,
+  PhotoSelectorConfig,
 } from '../../../types/photo-selector.type';
 
-const HeroSelectingPhotoPage = (): JSX.Element => {
+const HeroProfileSelectorPage = (): JSX.Element => {
   const navigation = useNavigation();
   const [selectedPhoto, setSelectedPhoto] = useRecoilState(
     selectedHeroPhotoState,
@@ -48,4 +48,4 @@ const HeroSelectingPhotoPage = (): JSX.Element => {
   );
 };
 
-export default HeroSelectingPhotoPage;
+export default HeroProfileSelectorPage;

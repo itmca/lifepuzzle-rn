@@ -5,19 +5,19 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import CommonPhotoSelector from '../../../components/photo/CommonPhotoSelector';
+import CommonPhotoSelector from '../../../components/photo/CommonPhotoSelector.tsx';
 import {
   editedGalleryItemsState,
   isGalleryUploadingState,
   selectedGalleryItemsState,
-} from '../../../recoils/gallery-write.recoil';
-import {selectedGalleryIndexState} from '../../../recoils/photos.recoil';
+} from '../../../recoils/gallery-write.recoil.ts';
+import {selectedGalleryIndexState} from '../../../recoils/photos.recoil.ts';
 import {
   PhotoSelectorConfig,
   PhotoSelectorCallbacks,
-} from '../../../types/photo-selector.type';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer';
-import {Color} from '../../../constants/color.constant';
+} from '../../../types/photo-selector.type.ts';
+import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {Color} from '../../../constants/color.constant.ts';
 
 const StoryGallerySelector = (): JSX.Element => {
   const navigation = useNavigation();

@@ -90,7 +90,7 @@ app/pages/Account/
 - Login 관련 (2개): `LoginMain/`, `LoginOthers/`
 - AI Photo 관련 (2개): `AiPhoto/`, `AiPhotoMaker/`
 - Policy 관련 (2개): `PrivacyPolicy/`, `ServicePolicy/`
-- 단일 페이지들: `Home/`, `Onboarding/`, `FacebookPhotoSelector/`
+- 단일 페이지들: `Home/`, `Onboarding/`, `FacebookGallerySelector/`
 
 ## 컴포넌트 구조 가이드라인
 

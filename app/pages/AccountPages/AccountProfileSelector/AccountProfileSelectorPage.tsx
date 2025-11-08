@@ -5,11 +5,11 @@ import {useRecoilState} from 'recoil';
 import CommonPhotoSelector from '../../../components/photo/CommonPhotoSelector';
 import {selectedUserPhotoState} from '../../../recoils/user.recoil';
 import {
-  PhotoSelectorConfig,
   PhotoSelectorCallbacks,
+  PhotoSelectorConfig,
 } from '../../../types/photo-selector.type';
 
-const AccountSelectingPhotoPage = (): JSX.Element => {
+const AccountProfileSelectorPage = (): JSX.Element => {
   const [selectedPhoto, setSelectedPhoto] = useRecoilState(
     selectedUserPhotoState,
   );
@@ -42,4 +42,4 @@ const AccountSelectingPhotoPage = (): JSX.Element => {
   );
 };
 
-export default AccountSelectingPhotoPage;
+export default AccountProfileSelectorPage;

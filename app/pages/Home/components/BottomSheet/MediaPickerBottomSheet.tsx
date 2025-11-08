@@ -167,7 +167,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
     // 2. OAuth 인증 플로우
     // 3. 사용자 앨범 목록 가져오기
     // 4. 선택된 사진들 다운로드 및 로컬 저장
-    // 5. FacebookPhotoSelector 화면으로 네비게이션
+    // 5. FacebookGallerySelector 화면으로 네비게이션
 
     // setSelectedStoryKey('');
     // setPostStoryKey('');
@@ -175,7 +175,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
     // navigation.push('NoTab', {
     //   screen: 'StoryWritingNavigator',
     //   params: {
-    //     screen: 'FacebookPhotoSelector',
+    //     screen: 'FacebookGallerySelector',
     //   },
     // });
   };

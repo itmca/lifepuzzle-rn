@@ -10,7 +10,6 @@ export interface PhotoSelectorConfig {
   source: PhotoSource;
   showCropButton?: boolean;
   showOrderNumbers?: boolean;
-  showConfirmButton?: boolean;
   maxSelection?: number;
   initialPhotos?: number;
   loadMoreCount?: number;

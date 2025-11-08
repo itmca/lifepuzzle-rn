@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Alert, Dimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
@@ -17,8 +17,8 @@ import {
 import {FacebookPhotoItem} from '../../../types/facebook.type';
 import {AgeType} from '../../../types/photo.type';
 import {
-  PhotoSelectorConfig,
   PhotoSelectorCallbacks,
+  PhotoSelectorConfig,
 } from '../../../types/photo-selector.type';
 import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/photo-identifier.service';
 import {useFacebookPhotos} from '../../../service/hooks/facebook.photos.hook';
@@ -38,7 +38,7 @@ const ageGroupOptions = [
   {label: '100세 이상', value: 'UPPER_NINETY' as AgeType},
 ];
 
-const FacebookPhotoSelector = (): JSX.Element => {
+const FacebookGallerySelector = (): JSX.Element => {
   const navigation = useNavigation();
   const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
     selectedGalleryItemsState,
@@ -210,4 +210,4 @@ const FacebookPhotoSelector = (): JSX.Element => {
   );
 };
 
-export default FacebookPhotoSelector;
+export default FacebookGallerySelector;

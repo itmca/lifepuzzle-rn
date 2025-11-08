@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HeroSettingPage from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
 import HeroRegisterPage from '../../pages/HeroPages/HeroRegister/HeroRegisterPage';
 import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroModificationPage';
-import HeroSelectingPhotoPage from '../../pages/HeroPages/HeroSelectingPhoto/HeroSelectingPhotoPage';
+import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
@@ -82,7 +82,7 @@ const HeroSettingNavigator = (): JSX.Element => {
       />
       <Stack.Screen
         name="HeroSelectingPhoto"
-        component={HeroSelectingPhotoPage}
+        component={HeroProfileSelectorPage}
         options={{
           header: () => (
             <TopBar
