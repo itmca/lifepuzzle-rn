@@ -1,34 +1,29 @@
+import React, {useCallback, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {heroState} from '../../recoils/hero.recoil';
-import {HeroType} from '../../types/hero.type';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
-import HeroOverview from './HeroOverview.tsx';
-import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
 import {
   ageGroupsState,
   selectedTagState,
   tagState,
 } from '../../recoils/photos.recoil.ts';
-import {AgeGroupsType, SharePhoto, TagType} from '../../types/photo.type.ts';
-import Gallery from './Gallery.tsx';
-import {useFocusAction} from '../../service/hooks/screen.hook.ts';
-import React, {useCallback, useEffect, useState} from 'react';
-import {ShareButton} from '../../components/button/ShareButton.tsx';
-import FastImage from 'react-native-fast-image';
-import {Keyboard} from 'react-native';
-import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
-import {ShareAuthList} from '../../components/hero/ShareAuthList.tsx';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {isGalleryUploadingState} from '../../recoils/gallery-write.recoil.ts';
-import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {sharedImageDataState} from '../../recoils/share.recoil';
-import GalleryBottomButton from './GalleryBottomButton.tsx';
-import {SharedBottomSheet} from './SharedBottomSheet.tsx';
-import {useNavigation} from '@react-navigation/native';
+import {HeroType} from '../../types/hero.type';
+import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
-import {MediaPickerBottomSheet} from './MediaPickerBottomSheet.tsx';
+import {LoadingContainer} from '../../components/loadding/LoadingContainer';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
+import {useFocusAction} from '../../service/hooks/screen.hook.ts';
+import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
+import Gallery from './Gallery.tsx';
+import GalleryBottomButton from './GalleryBottomButton.tsx';
+import HeroSection from './HeroSection.tsx';
+import BottomSheetSection from './BottomSheetSection.tsx';
 
 const HomePage = (): JSX.Element => {
   // React hooks
@@ -44,8 +39,7 @@ const HomePage = (): JSX.Element => {
   const [tags] = useRecoilState<TagType[]>(tagState);
   const selectedTag = useRecoilValue<TagType>(selectedTagState);
   const isGalleryUploading = useRecoilValue<boolean>(isGalleryUploadingState);
-  const [sharedImageData, setSharedImageData] =
-    useRecoilState(sharedImageDataState);
+  const sharedImageData = useRecoilValue(sharedImageDataState);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -55,10 +49,44 @@ const HomePage = (): JSX.Element => {
   const [submitGallery] = useUploadGalleryV2();
 
   // Custom functions (핸들러, 로직 함수 등)
-  const handlePresentModalPress = useCallback(() => {
-    Keyboard.dismiss();
+  const handleSharePress = useCallback(() => {
     setOpenModal(true);
   }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setOpenModal(false);
+  }, []);
+
+  const handleCloseShareBottomSheet = useCallback(() => {
+    setShareBottomSheetOpen(false);
+  }, []);
+
+  const handleCloseMediaPicker = useCallback(() => {
+    setMediaPickerBottomSheetOpen(false);
+  }, []);
+
+  const handleRefetch = useCallback(() => {
+    if (refetch && hero.heroNo >= 0) {
+      refetch({
+        params: {
+          heroNo: hero.heroNo,
+        },
+      });
+    }
+  }, [refetch, hero.heroNo]);
+
+  const handleGalleryButtonPress = useCallback(() => {
+    if (selectedTag.key === 'AI_PHOTO') {
+      navigation.push('NoTab', {
+        screen: 'AiPhotoNavigator',
+        params: {
+          screen: 'AiPhotoWorkHistory',
+        },
+      });
+    } else {
+      setMediaPickerBottomSheetOpen(true);
+    }
+  }, [selectedTag.key, navigation]);
 
   // Side effects (useEffect 등)
   useEffect(() => {
@@ -73,16 +101,7 @@ const HomePage = (): JSX.Element => {
     }
   }, [ageGroups]);
 
-  useFocusAction(() => {
-    if (!refetch || hero.heroNo < 0) {
-      return;
-    }
-    refetch({
-      params: {
-        heroNo: hero.heroNo,
-      },
-    });
-  });
+  useFocusAction(handleRefetch);
 
   useEffect(() => {
     if (sharedImageData && sharedImageData.type) {
@@ -98,70 +117,30 @@ const HomePage = (): JSX.Element => {
       <BottomSheetModalProvider>
         <ScreenContainer gap={0}>
           {/* 상단 프로필 영역 */}
-          <ContentContainer withScreenPadding useHorizontalLayout>
-            {photoHero && (
-              <>
-                <HeroOverview hero={photoHero} />
-                {(hero.auth === 'OWNER' || hero.auth === 'ADMIN') && (
-                  <ContentContainer width={'auto'}>
-                    <ShareButton onPress={handlePresentModalPress} />
-                  </ContentContainer>
-                )}
-              </>
-            )}
-          </ContentContainer>
+          <HeroSection photoHero={photoHero} onSharePress={handleSharePress} />
+
           {/* 중간 사진 영역 */}
           <ContentContainer flex={1}>
             <Gallery hero={photoHero} ageGroups={ageGroups} tags={tags} />
           </ContentContainer>
+
           {/* 하단 버튼 영역 */}
           {hero.auth !== 'VIEWER' && (
-            <GalleryBottomButton
-              onPress={() => {
-                if (selectedTag.key === 'AI_PHOTO') {
-                  navigation.push('NoTab', {
-                    screen: 'AiPhotoNavigator',
-                    params: {
-                      screen: 'AiPhotoWorkHistory',
-                    },
-                  });
-                } else {
-                  setMediaPickerBottomSheetOpen(true);
-                }
-              }}
-            />
+            <GalleryBottomButton onPress={handleGalleryButtonPress} />
           )}
         </ScreenContainer>
+
         {/* 바텀 시트 영역 */}
-        <BottomSheet
-          opened={openModal}
-          title={'공유하기'}
-          onClose={() => {
-            setOpenModal(false);
-          }}>
-          <ShareAuthList />
-        </BottomSheet>
-
-        <SharedBottomSheet
-          visible={shareBottomSheetOpen}
-          sharedImageData={sharedImageData}
-          onClose={() => {
-            setShareBottomSheetOpen(false);
-            setSharedImageData({} as SharePhoto);
-            refetch({
-              params: {
-                heroNo: hero.heroNo,
-              },
-            });
-          }}
+        <BottomSheetSection
+          openModal={openModal}
+          onCloseModal={handleCloseModal}
+          shareBottomSheetOpen={shareBottomSheetOpen}
+          onCloseShareBottomSheet={handleCloseShareBottomSheet}
+          mediaPickerBottomSheetOpen={mediaPickerBottomSheetOpen}
+          onCloseMediaPicker={handleCloseMediaPicker}
           isGalleryUploading={isGalleryUploading}
-        />
-
-        <MediaPickerBottomSheet
-          visible={mediaPickerBottomSheetOpen}
-          onClose={() => setMediaPickerBottomSheetOpen(false)}
           onSubmitGallery={submitGallery}
-          isGalleryUploading={isGalleryUploading}
+          onRefetch={handleRefetch}
         />
       </BottomSheetModalProvider>
     </LoadingContainer>
