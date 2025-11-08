@@ -2,8 +2,8 @@ import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useSaveStory} from '../../service/hooks/story.write.hook';
-import StorySelectingGallery from '../../pages/StoryPages/StoryGallerySelector/StoryGallerySelector.tsx';
-import FacebookPhotoSelector from '../../pages/GalleryPages/FacebookPhotoSelector/FacebookPhotoSelector.tsx';
+import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
+import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelector.tsx';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
@@ -21,7 +21,7 @@ export type StoryWritingParamList = {
   StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
   StoryGallerySelector: undefined;
-  FacebookPhotoSelector: undefined;
+  FacebookGallerySelector: undefined;
   GalleryDetail: undefined;
   GalleryDetailFilter: undefined;
   StoryWritingVoice: undefined;
@@ -80,7 +80,7 @@ const StoryWritingNavigator = (): JSX.Element => {
       />
       <Stack.Screen
         name="FacebookPhotoSelector"
-        component={FacebookPhotoSelector}
+        component={FacebookGallerySelector}
         options={{
           header: () => <TopBar title={'페이스북 사진'} />,
         }}

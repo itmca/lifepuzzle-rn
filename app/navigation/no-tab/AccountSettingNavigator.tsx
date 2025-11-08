@@ -1,7 +1,7 @@
 import * as React from 'react';
 import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import AccountSelectingPhotoPage from '../../pages/AccountPages/AccountSelectingPhoto/AccountSelectingPhotoPage';
+import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
@@ -60,7 +60,7 @@ const AccountSettingNavigator = (): JSX.Element => {
       />
       <Stack.Screen
         name="AccountSelectingPhoto"
-        component={AccountSelectingPhotoPage}
+        component={AccountProfileSelectorPage}
         options={{
           headerLeft: () => (
             <GoBackHeaderLeft

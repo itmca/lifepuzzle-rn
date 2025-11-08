@@ -6,12 +6,13 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import Image from '../styled/components/Image';
 import {Color} from '../../constants/color.constant';
 import {PhotoIndex} from '../styled/components/Text.tsx';
+import {FacebookPhotoItem} from '../../types/facebook.type';
 
 type SelectablePhotoProps = {
-  onSelected: Function;
-  onDeselected: Function;
+  onSelected: (photo: PhotoIdentifier | FacebookPhotoItem) => void;
+  onDeselected: (photo: PhotoIdentifier | FacebookPhotoItem) => void;
   size: number;
-  photo: PhotoIdentifier;
+  photo: PhotoIdentifier | FacebookPhotoItem;
   selected?: boolean;
   order?: number;
 };
@@ -28,19 +29,33 @@ const SelectablePhoto = ({
     selected === true ? onDeselected(photo) : onSelected(photo);
   };
 
+  // Determine image URI based on photo type
+  const getImageUri = (): string => {
+    if ('node' in photo) {
+      // PhotoIdentifier type
+      return (photo as PhotoIdentifier).node.image.uri;
+    } else {
+      // FacebookPhotoItem type
+      return (photo as FacebookPhotoItem).imageUrl;
+    }
+  };
+
+  const imageUri = getImageUri();
+
   return (
     <TouchableOpacity onPress={_onPress}>
       <Container style={{width: size, height: size}}>
-        {Platform.OS === 'ios' ? (
+        {Platform.OS === 'ios' && 'node' in photo ? (
           <RNImage
             style={{width: size, height: size}}
-            source={{uri: photo.node.image.uri}}
+            source={{uri: imageUri}}
             resizeMode="cover"
           />
         ) : (
           <Image
             style={{width: size, height: size}}
-            source={{uri: photo.node.image.uri}}
+            source={{uri: imageUri}}
+            resizeMode="cover"
           />
         )}
         {selected ? (
