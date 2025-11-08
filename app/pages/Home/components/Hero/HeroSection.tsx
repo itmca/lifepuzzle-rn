@@ -1,11 +1,11 @@
 import React, {useCallback} from 'react';
 import {Keyboard} from 'react-native';
 import {useRecoilValue} from 'recoil';
-import {heroState} from '../../recoils/hero.recoil';
-import {HeroType} from '../../types/hero.type';
-import {PhotoHeroType} from '../../types/photo.type';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {ShareButton} from '../../components/button/ShareButton';
+import {heroState} from '../../../../recoils/hero.recoil';
+import {HeroType} from '../../../../types/hero.type';
+import {PhotoHeroType} from '../../../../types/photo.type';
+import {ContentContainer} from '../../../../components/styled/container/ContentContainer';
+import {ShareButton} from '../../../../components/button/ShareButton';
 import HeroOverview from './HeroOverview';
 
 type Props = {

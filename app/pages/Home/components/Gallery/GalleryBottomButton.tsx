@@ -1,19 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
 
 import {useRecoilState, useResetRecoilState, useSetRecoilState} from 'recoil';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
-import {selectedTagState} from '../../recoils/photos.recoil.ts';
-import {TagType} from '../../types/photo.type.ts';
-import {Color} from '../../constants/color.constant.ts';
-import {Title} from '../../components/styled/components/Text.tsx';
-import {WritingButton} from './WritingButton.tsx';
-import {SelectedStoryKeyState} from '../../recoils/story-view.recoil.ts';
+import {BasicNavigationProps} from '../../../../navigation/types.tsx';
+import {ContentContainer} from '../../../../components/styled/container/ContentContainer.tsx';
+import {selectedTagState} from '../../../../recoils/photos.recoil.ts';
+import {TagType} from '../../../../types/photo.type.ts';
+import {Color} from '../../../../constants/color.constant.ts';
+import {Title} from '../../../../components/styled/components/Text.tsx';
+import {WritingButton} from '../Button/WritingButton.tsx';
+import {SelectedStoryKeyState} from '../../../../recoils/story-view.recoil.ts';
 import {
   writingStoryState,
   PostStoryKeyState,
-} from '../../recoils/story-write.recoil.ts';
-import {ButtonBase} from '../../components/styled/components/Button.tsx';
+} from '../../../../recoils/story-write.recoil.ts';
+import {ButtonBase} from '../../../../components/styled/components/Button.tsx';
 
 type props = {onPress: () => void};
 

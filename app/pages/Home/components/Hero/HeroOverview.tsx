@@ -1,13 +1,13 @@
 import {format} from 'date-fns';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {HeroAvatar} from '../../components/avatar/HeroAvatar.tsx';
+import {ContentContainer} from '../../../../components/styled/container/ContentContainer';
+import {HeroAvatar} from '../../../../components/avatar/HeroAvatar.tsx';
 import {
   BodyTextM,
   Caption,
   Head,
-} from '../../components/styled/components/Text.tsx';
-import {Color} from '../../constants/color.constant.ts';
-import {PhotoHeroType} from '../../types/photo.type.ts';
+} from '../../../../components/styled/components/Text.tsx';
+import {Color} from '../../../../constants/color.constant.ts';
+import {PhotoHeroType} from '../../../../types/photo.type.ts';
 
 type Props = {
   hero: PhotoHeroType;

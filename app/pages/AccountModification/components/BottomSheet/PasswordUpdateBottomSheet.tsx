@@ -1,16 +1,16 @@
 import React, {useMemo, useState} from 'react';
-import BasicTextInput from '../../components/input/NewTextInput.tsx';
-import {BasicButton} from '../../components/button/BasicButton.tsx';
-import BottomSheet from '../../components/styled/components/BottomSheet.tsx';
+import BasicTextInput from '../../../../components/input/NewTextInput.tsx';
+import {BasicButton} from '../../../../components/button/BasicButton.tsx';
+import BottomSheet from '../../../../components/styled/components/BottomSheet.tsx';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
-} from '../../constants/password.constant.ts';
-import {useAuthAxios} from '../../service/hooks/network.hook.ts';
-import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
-import {userState} from '../../recoils/user.recoil.ts';
+} from '../../../../constants/password.constant.ts';
+import {useAuthAxios} from '../../../../service/hooks/network.hook.ts';
+import {CustomAlert} from '../../../../components/alert/CustomAlert.tsx';
+import {userState} from '../../../../recoils/user.recoil.ts';
 import {useRecoilValue} from 'recoil';
-import {useLogout} from '../../service/hooks/logout.hook.ts';
+import {useLogout} from '../../../../service/hooks/logout.hook.ts';
 
 type Props = {
   opened: boolean;

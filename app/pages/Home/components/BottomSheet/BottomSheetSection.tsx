@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
 import {useRecoilState} from 'recoil';
-import {sharedImageDataState} from '../../recoils/share.recoil';
-import {SharePhoto} from '../../types/photo.type';
-import BottomSheet from '../../components/styled/components/BottomSheet';
-import {ShareAuthList} from '../../components/hero/ShareAuthList';
+import {sharedImageDataState} from '../../../../recoils/share.recoil';
+import {SharePhoto} from '../../../../types/photo.type';
+import BottomSheet from '../../../../components/styled/components/BottomSheet';
+import {ShareAuthList} from '../../../../components/hero/ShareAuthList';
 import {SharedBottomSheet} from './SharedBottomSheet';
 import {MediaPickerBottomSheet} from './MediaPickerBottomSheet';
 

@@ -18,8 +18,8 @@ import {ScreenContainer} from '../../components/styled/container/ScreenContainer
 import {BasicButton} from '../../components/button/BasicButton.tsx';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {useUserWithdraw} from '../../service/hooks/user.withdraw.hook.ts';
-import {ProfileUpdateBottomSheet} from './ProfileUpdateBottomSheet.tsx';
-import {PasswordUpdateBottomSheet} from './PasswordUpdateBottomSheet.tsx';
+import {ProfileUpdateBottomSheet} from './components/BottomSheet/ProfileUpdateBottomSheet.tsx';
+import {PasswordUpdateBottomSheet} from './components/BottomSheet/PasswordUpdateBottomSheet.tsx';
 
 type AccountQueryResponse = {
   userNo: number;

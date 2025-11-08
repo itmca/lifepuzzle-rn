@@ -1,18 +1,18 @@
 import React, {useRef, useState} from 'react';
 import {
-  Image,
-  ScrollView,
   Dimensions,
+  Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  ScrollView,
 } from 'react-native';
-import {BodyTextM, Head} from '../../components/styled/components/Text';
-import PageIndicator from '../../components/styled/components/PageIndicator';
-import {BasicButton} from '../../components/button/BasicButton';
-import {ContentContainer} from '../../components/styled/container/ContentContainer';
-import {Color} from '../../constants/color.constant';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {LocalStorage} from '../../service/local-storage.service';
+import {BodyTextM, Head} from '../../components/styled/components/Text.tsx';
+import PageIndicator from '../../components/styled/components/PageIndicator.tsx';
+import {BasicButton} from '../../components/button/BasicButton.tsx';
+import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {Color} from '../../constants/color.constant.ts';
+import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
+import {LocalStorage} from '../../service/local-storage.service.ts';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -43,7 +43,7 @@ const slides = [
   },
 ];
 
-const OnboardingScreen = ({navigation}: any) => {
+const OnboardingPage = ({navigation}: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
   const isScrollToScroll = useRef(false); // 👈 플래그
@@ -139,4 +139,4 @@ const OnboardingScreen = ({navigation}: any) => {
   );
 };
 
-export default OnboardingScreen;
+export default OnboardingPage;

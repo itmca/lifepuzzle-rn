@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
+import {BasicNavigationProps} from '../../../../navigation/types.tsx';
 import {useRecoilState} from 'recoil';
-import {selectedGalleryIndexState} from '../../recoils/photos.recoil.ts';
-import {editedGalleryItemsState} from '../../recoils/gallery-write.recoil.ts';
+import {selectedGalleryIndexState} from '../../../../recoils/photos.recoil.ts';
+import {editedGalleryItemsState} from '../../../../recoils/gallery-write.recoil.ts';
 import Slider from '@react-native-community/slider';
 import RNFS, {writeFile} from 'react-native-fs';
 import {encode as encodeBase64} from 'base64-arraybuffer';
@@ -27,20 +27,20 @@ import {
   useCanvasRef,
   Skia,
 } from '@shopify/react-native-skia';
-import {LoadingContainer} from '../../components/loadding/LoadingContainer.tsx';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
-import {TopBar} from '../../components/styled/components/TopBar.tsx';
-import WritingHeaderRight from '../../components/header/WritingHeaderRight.tsx';
-import {Title} from '../../components/styled/components/Text.tsx';
-import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
-import {Color} from '../../constants/color.constant.ts';
+import {LoadingContainer} from '../../../../components/loadding/LoadingContainer.tsx';
+import {ScreenContainer} from '../../../../components/styled/container/ScreenContainer.tsx';
+import {ContentContainer} from '../../../../components/styled/container/ContentContainer.tsx';
+import {TopBar} from '../../../../components/styled/components/TopBar.tsx';
+import WritingHeaderRight from '../../../../components/header/WritingHeaderRight.tsx';
+import {Title} from '../../../../components/styled/components/Text.tsx';
+import {CustomAlert} from '../../../../components/alert/CustomAlert.tsx';
+import {Color} from '../../../../constants/color.constant.ts';
 import {
   FILTER_LABELS,
   FILTER_EFFECTS,
   FILTER_SETTINGS,
   FilterType,
-} from '../../constants/filter.constant.ts';
+} from '../../../../constants/filter.constant.ts';
 
 const {width: screenWidth} = Dimensions.get('window');
 const displaySize = screenWidth;

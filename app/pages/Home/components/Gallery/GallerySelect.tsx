@@ -1,8 +1,8 @@
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {ContentContainer} from '../../../../components/styled/container/ContentContainer.tsx';
 import {TouchableOpacity} from 'react-native';
-import {TagType} from '../../types/photo.type.ts';
-import {Color} from '../../constants/color.constant.ts';
-import {Caption} from '../../components/styled/components/Text.tsx';
+import {TagType} from '../../../../types/photo.type.ts';
+import {Color} from '../../../../constants/color.constant.ts';
+import {Caption} from '../../../../components/styled/components/Text.tsx';
 
 type props = {
   item: TagType;

@@ -3,24 +3,24 @@ import {useNavigation} from '@react-navigation/native';
 
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {useRecoilState} from 'recoil';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
+import {BasicNavigationProps} from '../../../../navigation/types.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../components/styled/container/ContentContainer.tsx';
+} from '../../../../components/styled/container/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
-import {selectedTagState} from '../../recoils/photos.recoil.ts';
+import {selectedTagState} from '../../../../recoils/photos.recoil.ts';
 import {
   AgeGroupsType,
   GalleryType,
   PhotoHeroType,
   TagKey,
   TagType,
-} from '../../types/photo.type.ts';
-import {Color} from '../../constants/color.constant.ts';
+} from '../../../../types/photo.type.ts';
+import {Color} from '../../../../constants/color.constant.ts';
 
-import {NotificationBar} from '../../components/styled/components/NotificationBar.tsx';
-import {BasicCard} from '../../components/card/Card.tsx';
+import {NotificationBar} from '../../../../components/styled/components/NotificationBar.tsx';
+import {BasicCard} from '../../../../components/card/Card.tsx';
 import GalleryTag from './GalleryTag.tsx';
 
 type props = {

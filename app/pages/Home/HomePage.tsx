@@ -20,10 +20,10 @@ import {ContentContainer} from '../../components/styled/container/ContentContain
 import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
 import {useFocusAction} from '../../service/hooks/screen.hook.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
-import Gallery from './Gallery.tsx';
-import GalleryBottomButton from './GalleryBottomButton.tsx';
-import HeroSection from './HeroSection.tsx';
-import BottomSheetSection from './BottomSheetSection.tsx';
+import Gallery from './components/Gallery/Gallery.tsx';
+import GalleryBottomButton from './components/Gallery/GalleryBottomButton.tsx';
+import HeroSection from './components/Hero/HeroSection.tsx';
+import BottomSheetSection from './components/BottomSheet/BottomSheetSection.tsx';
 
 const HomePage = (): JSX.Element => {
   // React hooks
