@@ -57,7 +57,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
   } = useUploadHeroes();
   // 카메라 촬영 후 상태가 업데이트되면 업로드 실행
   useEffect(() => {
-    if (sharedImageData) {
+    if (sharedImageData && sharedImageData.type) {
       const uploadSharedImages =
         sharedImageData.type === 'single'
           ? [sharedImageData.uri]
@@ -75,7 +75,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
         ),
       });
     }
-  }, [sharedImageData]);
+  }, [sharedImageData, hero.heroNo, selectedTag, onClose]);
   return (
     <BottomSheet
       opened={visible}
@@ -116,6 +116,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
               .map((item: TagType, index) => {
                 return (
                   <GallerySelect
+                    key={item.key || index}
                     item={item}
                     index={index}
                     selected={uploadRequest?.selectedTag?.key === item.key}

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
@@ -12,14 +12,12 @@ import {ScrollView, useWindowDimensions} from 'react-native';
 import {selectedTagState} from '../../recoils/photos.recoil.ts';
 import {
   AgeGroupsType,
-  TagKey,
   GalleryType,
   PhotoHeroType,
+  TagKey,
   TagType,
 } from '../../types/photo.type.ts';
 import {Color} from '../../constants/color.constant.ts';
-import {Title} from '../../components/styled/components/Text.tsx';
-import Tag from '../../components/styled/components/Tag.tsx';
 
 import {NotificationBar} from '../../components/styled/components/NotificationBar.tsx';
 import {BasicCard} from '../../components/card/Card.tsx';
@@ -32,12 +30,24 @@ type props = {
 };
 
 const Gallery = ({ageGroups, tags}: props): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
+  // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
-  const {width: windowWidth} = useWindowDimensions();
+  const scrollRef = useRef<ScrollView>(null);
+
+  // React hooks
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  // 글로벌 상태 관리 (Recoil)
   const [selectedTag, setSelectedTag] =
     useRecoilState<TagType>(selectedTagState);
-  const [isScrolling, setIsScrolling] = useState(false);
+
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Memoized 값
+  const {width: windowWidth} = useWindowDimensions();
+
+  // Custom functions (핸들러, 로직 함수 등)
   const moveToStoryListPage = (index: GalleryType['index']) => {
     if (!isScrolling) {
       navigation.push('NoTab', {
@@ -48,19 +58,21 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
       });
     }
   };
-  const scrollRef = useRef<ScrollView>(null);
-  const hasGallery =
-    ageGroups &&
-    Object.values(ageGroups).reduce((sum, item) => sum + item.galleryCount, 0) >
-      0;
+
+  // Side effects (useEffect 등)
   useEffect(() => {
+    if (!selectedTag?.key || !tags?.length) return;
+
     const index = tags.findIndex(item => item.key === selectedTag.key);
+    if (index === -1) return;
+
     if (index < tags.length / 3) {
       scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
     } else if ((tags.length / 3) * 2 < index) {
       scrollRef.current?.scrollToEnd();
     }
-  }, [selectedTag]);
+  }, [selectedTag?.key, tags?.length]);
+
   return (
     <ContentContainer flex={1}>
       <ContentContainer paddingHorizontal={20}>
@@ -74,7 +86,12 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
           paddingRight={20}>
           {tags.map((item: TagType, index) => {
             return (
-              <GalleryTag carouselRef={carouselRef} item={item} index={index} />
+              <GalleryTag
+                key={item.key || index}
+                carouselRef={carouselRef}
+                item={item}
+                index={index}
+              />
             );
           })}
         </ScrollContentContainer>
@@ -110,6 +127,7 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
           renderItem={({item: tag}: any) => {
             return (
               <ContentContainer
+                key={tag.key}
                 style={{
                   transform: [{translateY: -20}],
                 }}>
