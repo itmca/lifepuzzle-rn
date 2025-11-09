@@ -49,24 +49,6 @@ LifePuzzle React Native 프로젝트 작업 가이드
 3. 성능 고려 (useMemo, useCallback 적절히 활용)
 4. 접근성 및 UX 일관성
 
-## 커스텀 명령어
-
-**`claude pr`**: PR 템플릿 기반 자동 생성
-
-- 작업 배경, 내용, 참고사항 구조화
-- 커밋 히스토리 분석하여 의미있는 제목/본문 작성
-
-**`claude sync`**: main 브랜치 동기화
-
-- main 브랜치로 체크아웃
-- 최신 변경사항 pull
-
-**`claude new <브랜치명>`**: 새로운 작업 브랜치 생성
-
-- main에서 최신 상태로 pull
-- 지정한 이름으로 새 브랜치 생성
-- 예시: `claude new feat/LP-123-user-profile`
-
 ## 문서 참조
 
 - [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트 구조
