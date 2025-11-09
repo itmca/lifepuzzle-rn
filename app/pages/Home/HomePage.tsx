@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {ScrollView, RefreshControl} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
@@ -32,6 +33,7 @@ const HomePage = (): JSX.Element => {
     useState<boolean>(false);
   const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
     useState<boolean>(false);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   // 글로벌 상태 관리 (Recoil)
   const hero = useRecoilValue<HeroType>(heroState);
@@ -67,6 +69,17 @@ const HomePage = (): JSX.Element => {
   }, []);
 
   const handleRefetch = useCallback(() => {
+    if (refetch && hero?.heroNo && hero.heroNo >= 0) {
+      refetch({
+        params: {
+          heroNo: hero.heroNo,
+        },
+      });
+    }
+  }, [refetch, hero?.heroNo]);
+
+  const handlePullToRefresh = useCallback(() => {
+    setIsRefreshing(true);
     if (refetch && hero?.heroNo && hero.heroNo >= 0) {
       refetch({
         params: {
@@ -123,27 +136,43 @@ const HomePage = (): JSX.Element => {
     receivedImageBottomSheetOpen,
   ]);
 
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false);
+    }
+  }, [isLoading, isRefreshing]);
+
   return (
     <LoadingContainer isLoading={isLoading || isGalleryUploading}>
       <BottomSheetModalProvider>
         <ScreenContainer gap={0}>
-          {/* 상단 프로필 영역 */}
-          <HeroSection
-            photoHero={photoHero}
-            onSharePress={handleHeroSharePress}
-          />
-
-          {/* 중간 사진 영역 */}
-          <ContentContainer flex={1}>
-            <Gallery
-              hero={photoHero}
-              ageGroups={ageGroups}
-              tags={tags}
-              isError={isError}
-              hasInitialData={hasInitialData}
-              onRetry={handleRefetch}
+          <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1}}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handlePullToRefresh}
+              />
+            }>
+            {/* 상단 프로필 영역 */}
+            <HeroSection
+              photoHero={photoHero}
+              onSharePress={handleHeroSharePress}
             />
-          </ContentContainer>
+
+            {/* 중간 사진 영역 */}
+            <ContentContainer flex={1}>
+              <Gallery
+                hero={photoHero}
+                ageGroups={ageGroups}
+                tags={tags}
+                isError={isError}
+                hasInitialData={hasInitialData}
+                onRetry={handleRefetch}
+              />
+            </ContentContainer>
+          </ScrollView>
 
           {/* 하단 버튼 영역 */}
           {hero.auth !== 'VIEWER' && (
