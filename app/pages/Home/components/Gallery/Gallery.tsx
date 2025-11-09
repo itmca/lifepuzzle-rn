@@ -10,8 +10,8 @@ import {
 } from '../../../../components/styled/container/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
 import {
-  selectedTagState,
   galleryErrorState,
+  selectedTagState,
 } from '../../../../recoils/photos.recoil.ts';
 import {
   AgeGroupsType,
@@ -92,7 +92,7 @@ const Gallery = ({
   }, [selectedTag?.key, tags?.length]);
 
   // 처음 데이터 로딩 시에만 에러 화면 표시
-  const shouldShowError = isError && !hasInitialData;
+  const shouldShowError = true; // isError && !hasInitialData;
 
   useEffect(() => {
     setGalleryError(shouldShowError);
@@ -104,17 +104,17 @@ const Gallery = ({
         flex={1}
         justifyContent="center"
         alignItems="center"
-        gap={20}>
+        gap={20}
+        paddingBottom={40}>
         <ContentContainer gap={8} alignCenter>
-          <Title color={Color.GREY_400}>네트워크 연결을 확인해주세요</Title>
+          <Title color={Color.GREY_400}>인터넷 연결이 잠시 불안정해요</Title>
           <ContentContainer gap={0} alignCenter>
             <BodyTextM color={Color.GREY_300}>
-              사진을 불러올 수 없습니다.
+              네트워크를 확인한 뒤 다시 시도해주세요
             </BodyTextM>
-            <BodyTextM color={Color.GREY_300}>다시 시도해주세요.</BodyTextM>
           </ContentContainer>
         </ContentContainer>
-        <ContentContainer width={100}>
+        <ContentContainer width={120}>
           <BasicButton
             text={'다시 시도'}
             height={48}

@@ -19,6 +19,7 @@ export const WritingButton = ({
     <ButtonBase
       height={'56px'}
       width={'100%'}
+      disabled={disabled}
       backgroundColor={disabled ? Color.GREY_100 : Color.MAIN_DARK}
       borderRadius={6}
       onPress={disabled ? undefined : onPress}>
