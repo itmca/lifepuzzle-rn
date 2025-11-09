@@ -145,10 +145,9 @@ const HomePage = (): JSX.Element => {
   return (
     <LoadingContainer isLoading={isLoading || isGalleryUploading}>
       <BottomSheetModalProvider>
-        <ScreenContainer gap={0}>
+        <ScreenContainer gap={0} alignItems="stretch">
           <ScrollView
-            style={{flex: 1, width: '100%'}}
-            contentContainerStyle={{flexGrow: 1, width: '100%'}}
+            style={{flex: 1}}
             showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl
