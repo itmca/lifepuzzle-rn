@@ -49,13 +49,6 @@ LifePuzzle React Native 프로젝트 작업 가이드
 3. 성능 고려 (useMemo, useCallback 적절히 활용)
 4. 접근성 및 UX 일관성
 
-## 커스텀 명령어
-
-**`claude pr`**: PR 템플릿 기반 자동 생성
-
-- 작업 배경, 내용, 참고사항 구조화
-- 커밋 히스토리 분석하여 의미있는 제목/본문 작성
-
 ## 문서 참조
 
 - [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트 구조

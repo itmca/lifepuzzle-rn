@@ -98,8 +98,10 @@ app/
 # 예시: feat/LP-1-user-authentication
 ```
 
-### PR 생성 (Claude Code)
+### 커스텀 명령어 (Claude Code)
 
 ```bash
-claude pr  # PR 템플릿 기반 자동 생성
+/create-pr                           # PR 템플릿 기반 자동 생성
+/new-feature 작업 설명                 # main 브랜치 동기화 후 작업 설명 기반 브랜치 생성하여 작업 진행
+# 예시: /new-feature 사진 관련 컴포넌트 정리해줘
 ```
