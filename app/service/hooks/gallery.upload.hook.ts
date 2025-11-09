@@ -20,6 +20,8 @@ import {
   PresignedUrlDto,
 } from '../api/gallery.api.service';
 import {useAuthAxios} from './network.hook';
+import {useUpdatePublisher} from './update.hooks';
+import {storyListUpdate} from '../../recoils/update.recoil';
 
 interface UploadItem {
   originalImage: PhotoIdentifier;
@@ -100,6 +102,7 @@ export const useUploadGalleryV2 = (
   );
   const isUploading = useRecoilValue(isGalleryUploadingState);
   const setIsUploading = useSetRecoilState(isGalleryUploadingState);
+  const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
 
   const {heroNo, selectedTag, selectedGalleryItems} = options?.request
     ? {
@@ -153,6 +156,7 @@ export const useUploadGalleryV2 = (
         CustomAlert.simpleAlert('추가 되었습니다.');
         options.onClose && options.onClose();
       }
+      publishStoryListUpdate(); // 갤러리 업로드 완료 후 홈화면 갱신 트리거
       resetUpload();
     },
     onError: () => {
