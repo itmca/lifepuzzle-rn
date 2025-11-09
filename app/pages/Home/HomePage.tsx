@@ -19,7 +19,6 @@ import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
 import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
-import {useFocusAction} from '../../service/hooks/screen.hook.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import Gallery from './components/Gallery/Gallery.tsx';
 import GalleryBottomButton from './components/Gallery/GalleryBottomButton.tsx';
@@ -120,8 +119,6 @@ const HomePage = (): JSX.Element => {
       FastImage.preload(imageUrls);
     }
   }, [imageUrls]);
-
-  useFocusAction(handleRefetch);
 
   useEffect(() => {
     if (
