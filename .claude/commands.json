@@ -9,8 +9,8 @@
       "prompt": "main 브랜치로 체크아웃하고 git pull origin main을 실행하여 최신 변경사항을 가져와주세요."
     },
     "new": {
-      "description": "main에서 새로운 작업 브랜치 생성",
-      "prompt": "main 브랜치에서 최신 변경사항을 pull한 후, 새로운 기능 브랜치를 생성해주세요. 브랜치명은 <type>/<ticket-no>-<subject> 형식을 따라주세요."
+      "description": "main에서 새로운 작업 브랜치 생성 (사용법: claude new <브랜치명>)",
+      "prompt": "main 브랜치로 체크아웃하고 최신 변경사항을 pull한 후, 사용자가 지정한 브랜치명으로 새로운 작업 브랜치를 생성해주세요. 브랜치명이 제공되지 않았다면 <type>/<ticket-no>-<subject> 형식으로 브랜치명을 요청해주세요."
     }
   }
 }

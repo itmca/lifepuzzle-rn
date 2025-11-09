@@ -61,10 +61,11 @@ LifePuzzle React Native 프로젝트 작업 가이드
 - main 브랜치로 체크아웃
 - 최신 변경사항 pull
 
-**`claude new`**: 새로운 작업 브랜치 생성
+**`claude new <브랜치명>`**: 새로운 작업 브랜치 생성
 
 - main에서 최신 상태로 pull
-- 브랜치 네이밍 컨벤션에 맞춰 새 브랜치 생성
+- 지정한 이름으로 새 브랜치 생성
+- 예시: `claude new feat/LP-123-user-profile`
 
 ## 문서 참조
 
