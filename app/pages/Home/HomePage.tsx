@@ -147,7 +147,7 @@ const HomePage = (): JSX.Element => {
       <BottomSheetModalProvider>
         <ScreenContainer gap={0} alignItems="stretch">
           <ScrollView
-            style={{flex: 1}}
+            style={{flex: 1, width: '100%'}}
             showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl
