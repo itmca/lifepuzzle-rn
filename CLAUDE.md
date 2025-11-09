@@ -56,6 +56,16 @@ LifePuzzle React Native 프로젝트 작업 가이드
 - 작업 배경, 내용, 참고사항 구조화
 - 커밋 히스토리 분석하여 의미있는 제목/본문 작성
 
+**`claude sync`**: main 브랜치 동기화
+
+- main 브랜치로 체크아웃
+- 최신 변경사항 pull
+
+**`claude new`**: 새로운 작업 브랜치 생성
+
+- main에서 최신 상태로 pull
+- 브랜치 네이밍 컨벤션에 맞춰 새 브랜치 생성
+
 ## 문서 참조
 
 - [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트 구조
