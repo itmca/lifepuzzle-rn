@@ -21,15 +21,29 @@ import {Color} from '../../../../constants/color.constant.ts';
 
 import {NotificationBar} from '../../../../components/styled/components/NotificationBar.tsx';
 import {BasicCard} from '../../../../components/card/Card.tsx';
+import {ButtonBase} from '../../../../components/styled/components/Button.tsx';
+import {
+  BodyTextM,
+  Title,
+} from '../../../../components/styled/components/Text.tsx';
 import GalleryTag from './GalleryTag.tsx';
 
 type props = {
   hero: PhotoHeroType;
   ageGroups: AgeGroupsType;
   tags: TagType[];
+  isError?: boolean;
+  hasInitialData?: boolean;
+  onRetry?: () => void;
 };
 
-const Gallery = ({ageGroups, tags}: props): JSX.Element => {
+const Gallery = ({
+  ageGroups,
+  tags,
+  isError = false,
+  hasInitialData = false,
+  onRetry,
+}: props): JSX.Element => {
   // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
   const scrollRef = useRef<ScrollView>(null);
@@ -72,6 +86,31 @@ const Gallery = ({ageGroups, tags}: props): JSX.Element => {
       scrollRef.current?.scrollToEnd();
     }
   }, [selectedTag?.key, tags?.length]);
+
+  // 처음 데이터 로딩 시에만 에러 화면 표시
+  const shouldShowError = isError && !hasInitialData;
+
+  if (shouldShowError) {
+    return (
+      <ContentContainer
+        flex={1}
+        justifyContent="center"
+        alignItems="center"
+        gap={20}>
+        <Title color={Color.GREY_400}>네트워크 연결을 확인해주세요</Title>
+        <BodyTextM color={Color.GREY_300}>
+          사진을 불러올 수 없습니다.{'\n'}다시 시도해주세요.
+        </BodyTextM>
+        <ButtonBase
+          backgroundColor={Color.MAIN_DARK}
+          width="auto"
+          paddingHorizontal={24}
+          onPress={onRetry}>
+          <BodyTextM color={Color.WHITE}>다시 시도</BodyTextM>
+        </ButtonBase>
+      </ContentContainer>
+    );
+  }
 
   return (
     <ContentContainer flex={1}>

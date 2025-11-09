@@ -45,7 +45,8 @@ const HomePage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const {photoHero, isLoading, refetch} = useHeroPhotos();
+  const {photoHero, isLoading, isError, hasInitialData, refetch} =
+    useHeroPhotos();
   const [submitGallery] = useUploadGalleryV2();
 
   // Custom functions (핸들러, 로직 함수 등)
@@ -134,7 +135,14 @@ const HomePage = (): JSX.Element => {
 
           {/* 중간 사진 영역 */}
           <ContentContainer flex={1}>
-            <Gallery hero={photoHero} ageGroups={ageGroups} tags={tags} />
+            <Gallery
+              hero={photoHero}
+              ageGroups={ageGroups}
+              tags={tags}
+              isError={isError}
+              hasInitialData={hasInitialData}
+              onRetry={handleRefetch}
+            />
           </ContentContainer>
 
           {/* 하단 버튼 영역 */}

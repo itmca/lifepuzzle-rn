@@ -32,11 +32,13 @@ type Response = {
   tags: TagType[];
 
   isLoading: boolean;
+  isError: boolean;
+  hasInitialData: boolean;
   refetch: (newRequestOption: Partial<AxiosRequestConfig>) => void;
 };
 
 export const useHeroPhotos = (): Response => {
-  const [hero, setHero] = useRecoilState<HeroType>(heroState);
+  const [hero] = useRecoilState<HeroType>(heroState);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
   const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
   const [photoHero, setPhotoHero] = useState<PhotoHeroType>({
@@ -51,6 +53,8 @@ export const useHeroPhotos = (): Response => {
     useRecoilState<AgeGroupsType>(ageGroupsState);
   const [tags, setTags] = useRecoilState<TagType[]>(tagState);
   const setSelectedTag = useSetRecoilState<TagType>(selectedTagState);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [hasInitialData, setHasInitialData] = useState<boolean>(false);
   const [isLoading, fetchHeroStories] = useAuthAxios<PhotoQueryResponse>({
     requestOption: {
       url: '/v1/galleries',
@@ -83,10 +87,13 @@ export const useHeroPhotos = (): Response => {
           const index = newTags.findIndex(item => (item.count ?? 0) > 0);
           setSelectedTag({...newTags[index ?? 0]});
         }
+
+        setIsError(false);
+        setHasInitialData(true);
       }
     },
     onError: () => {
-      // TODO: 예외 처리
+      setIsError(true);
     },
     disableInitialRequest: true,
   });
@@ -105,6 +112,7 @@ export const useHeroPhotos = (): Response => {
       return;
     }
 
+    setIsError(false);
     fetchHeroStories({});
   }, [hero.heroNo, heroUpdateObserver, storyListUpdateObserver]);
 
@@ -113,6 +121,8 @@ export const useHeroPhotos = (): Response => {
     ageGroups,
     tags,
     isLoading,
+    isError,
+    hasInitialData,
     refetch: fetchHeroStories,
   };
 };
