@@ -79,15 +79,17 @@ const HomePage = (): JSX.Element => {
   }, [refetch, hero?.heroNo]);
 
   const handlePullToRefresh = useCallback(() => {
-    setIsRefreshing(true);
-    if (refetch && hero?.heroNo && hero.heroNo >= 0) {
-      refetch({
-        params: {
-          heroNo: hero.heroNo,
-        },
-      });
+    if (!isRefreshing) {
+      setIsRefreshing(true);
+      if (refetch && hero?.heroNo && hero.heroNo >= 0) {
+        refetch({
+          params: {
+            heroNo: hero.heroNo,
+          },
+        });
+      }
     }
-  }, [refetch, hero?.heroNo]);
+  }, [refetch, hero?.heroNo, isRefreshing]);
 
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
@@ -148,11 +150,15 @@ const HomePage = (): JSX.Element => {
         <ScreenContainer gap={0} alignItems="stretch">
           <ScrollView
             style={{flex: 1, width: '100%'}}
+            contentContainerStyle={{flexGrow: 1}}
             showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}
                 onRefresh={handlePullToRefresh}
+                progressBackgroundColor="#ffffff"
+                colors={['#007AFF']}
+                tintColor="#007AFF"
               />
             }>
             {/* 상단 프로필 영역 */}
