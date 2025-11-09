@@ -1,39 +1,76 @@
-# lifepuzzle-rn
+# LifePuzzle - React Native
 
-### Get Started
+> 소중한 사람들과의 추억을 모으고 기록하는 모바일 애플리케이션
+
+## 프로젝트 개요
+
+LifePuzzle은 할아버지, 할머니와 같이 소중한 사람들의 사진들을 쉽게 모으고 이야기를 기록해가는 React Native 애플리케이션입니다.  
+가족과의 소중한 순간들을 체계적으로 정리하고, AI 기술을 활용해 재미있는 사진도 만들며 추억을 더욱 특별하게 보존할 수 있습니다.
+
+### 주요 기능
+
+- **추억 수집**: 디바이스 갤러리, Facebook 등 다양한 소스에서 사진 모으기
+- **이야기 기록**: 소중한 사람들과의 추억을 스토리로 기록하고 관리
+- **인터랙티브 갤러리**: 사진 선택, 편집, 크롭 등 직관적인 사진 관리
+- **AI 사진 생성**: 재미있고 특별한 추가 사진 생성 기능
+- **소셜 로그인**: Kakao, Apple, Facebook 간편 로그인
+- **멀티미디어**: 오디오 녹음/재생을 통한 풍부한 기록 경험
+
+## 기술 스택
+
+- **React Native** + **TypeScript** - 크로스 플랫폼 모바일 개발
+- **Recoil** - 상태 관리
+- **React Navigation** - 네비게이션
+- 추억 기록, 이미지 처리, AI 사진 생성, 소셜 로그인 기능 지원
+
+## 시작하기
+
+### 개발 환경 요구사항
+
+- Node.js 18+
+- React Native CLI
+- iOS: Xcode 15+, CocoaPods
+- Android: Android Studio, JDK 17+
+
+### 설치 및 실행
 
 ```bash
-npm install # 패키지 설치
-npm run android:prod # 안드로이드 실행
-npm run ios:prod # iOS 실행
+# 의존성 설치
+npm install
+
+# iOS 개발 환경
+npm run ios:dev      # 개발 환경
+npm run ios:prod     # 프로덕션 환경
+
+# Android 개발 환경
+npm run android:dev  # 개발 환경
+npm run android:prod # 프로덕션 환경
 ```
 
-### Known Issues
+### 개발 도구
 
-#### Xcode objectVersion 자동 변경 이슈
+```bash
+npm run lint         # ESLint 검사
+npm run test         # 테스트 실행
+npm start           # Metro 번들러 시작
+```
 
-Xcode에서 프로젝트를 열 때 `project.pbxproj` 파일의 `objectVersion`이 자동으로 54에서 70으로 변경되는 경우가 있습니다. 이는 최신 버전의 CocoaPods를 사용하더라도 빌드 실패를 일으킬 수 있습니다.
-
-**해결 방법:**
-
-1. Xcode에서 직접 실행하기
-2. 또는 `ios/lifepuzzle.xcodeproj/project.pbxproj` 파일에서 `objectVersion`을 54로 수정 후 실행
-
-### Structure of `app` Folder
+## 프로젝트 구조
 
 ```
 app/
 ├── app.tsx                   # 앱 엔트리 포인트
 ├── assets/                   # 정적 자산 (이미지, 폰트, 아이콘)
-│   ├── fonts/               # 폰트 파일
-│   ├── icons/               # SVG 아이콘들
-│   └── images/              # 이미지 파일
 ├── components/              # 재사용 가능한 UI 컴포넌트들
 ├── constants/               # 전역 상수 (API URL, 색상 등)
 ├── navigation/              # 화면 간 이동을 위한 네비게이션 설정
 │   ├── home-tab/           # 탭 네비게이션
 │   └── no-tab/             # 스택 네비게이션
 ├── pages/                   # 각 화면을 담당하는 페이지 컴포넌트
+│   ├── AccountPages/       # 계정 관련 페이지들
+│   ├── GalleryPages/       # 갤러리 관련 페이지들
+│   ├── HeroPages/          # 히어로(캐릭터) 관련 페이지들
+│   └── StoryPages/         # 스토리 관련 페이지들
 ├── recoils/                # Recoil을 이용한 전역 상태 관리
 ├── service/                # 비즈니스 로직 및 API 호출 로직
 │   └── hooks/              # 커스텀 훅
@@ -41,80 +78,28 @@ app/
 └── utils/                  # 공통 유틸리티 함수
 ```
 
-### Development Guide
+## 개발 가이드
 
-- [Code Style Guide](./docs/CODE_STYLE.md)
-- [Naming Guide](./docs/NAMING.md)
+- **[Code Style Guide](./docs/CODE_STYLE.md)** - React Native 코딩 스타일
+- **[Naming Convention](./docs/NAMING.md)** - 파일, 변수, 함수 네이밍 규칙
+- **[Git Workflow](./docs/GIT_WORKFLOW.md)** - Git 브랜치 전략 및 커밋 컨벤션
+- **[Folder Structure](./docs/FOLDER_STRUCTURE.md)** - 폴더 구조 가이드라인
 
-### Versioning
+## 배포 및 버전 관리
 
-[Sementic Versioning](https://semver.org/)을 따릅니다. e.g. 1.2.3
+- **버전 관리**: [Semantic Versioning](https://semver.org/) (Major.Minor.Patch)
+- **Git 전략**: [Trunk Based Development](https://trunkbaseddevelopment.com/)
+- **커밋 컨벤션**: [Chris Beams 스타일](https://chris.beams.io/posts/git-commit/)
 
-Format: `Major.Minor.Patch`
+### 브랜치 네이밍
 
-- Major: 이전 버전과 호환되지 않는 변경 발생
-- Minor: 새로운 기능 추가/수정/삭제
-- Patch: 버그 해결 및 기타 수정
+```
+<type>/<ticket-no>-<subject>
+# 예시: feat/LP-1-user-authentication
+```
 
-### Branch Name, Commit Msg Format
+### PR 생성 (Claude Code)
 
-- Branch Name: `<type>/<ticket no>-<subject>`
-  - 예시: feat/LP-1-foo
-- Commit Msg: `<type>: <subject>`
-  - 예시: feat: foo
-
-type 설명
-
-- feat: 새로운 기능 추가/수정/삭제
-- fix: 버그 수정
-- hotfix: 운영 환경 대상 긴급 버그 수정
-- refactor: 리팩토링
-- test: 테스트 코드 작성
-- build: dependency 추가/수정/삭제
-- docs: 문서 수정
-- style: 코드 포맷, 스타일 수정
-- chore: 위 타입들에 해당하지 않는 기타 작업
-
-참고 사항
-
-- 여러 성격을 가지는 커밋 또는 브랜치 명인 경우 대표하는 type 하나 사용
-- 커밋의 경우 최대한 적절한 타입으로 나누어 커밋
-
-### Git Strategy
-
-기본적으로 [Trunk Based Development](https://trunkbaseddevelopment.com/)를 따릅니다.
-
-Branches
-
-- `main`: 기본 브랜치로 작업 브랜치들이 머지 되는 브랜치
-
-Basic Flow
-
-1. `main` 브랜치에서 작업 브랜치 생성 및 작업 진행
-2. 작업 완료 후 `main` 브랜치로 PR, 리뷰 후 머지
-3. 배포 시 `main` 브랜치에서 배포
-4. 배포 후 버전 태그 추가 e.g. `v1.1.1`
-
-Hotfix Flow
-
-1. 배포 버전에서 버그 발생하여 긴급 수정 필요 시 버전 tag에서 `production`브랜치와 `hotfix` 브랜치 생성
-   - e.g. `production/1.1.2`, `hotfix/fix-some-problem`
-2. `hotfix` 브랜치 작업 후 `production` 브랜치로 PR 생성 (리뷰 권장되지만 생략 가능)
-3. `production` 브랜치에서 배포 후 버전 tag 추가 (hotfix 시 patch 버전 업 e.g. 1.2.3 -> 1.2.4)
-4. `production` 브랜치를 `main` 브랜치로 PR & 머지
-
-### Ship Show Ask 전략
-
-타입별 설명
-
-- Ship: PR 생성 후 바로 머지하며 별도 리뷰가 필요하지 않습니다.
-- Show:
-  - PR 생성 후 바로 머지하지만 리뷰가 필요합니다.
-  - 리뷰는 추후 별도 PR로 반영됩니다.
-- ASK
-  - PR 생성 후 리뷰 후 머지
-
-### PR Template
-
-- 형식: `[SHIP/SHOW/ASK][<ticket no>] <type>: <subject>`
-- 예시: `[SHIP][LP-1] feat: 기능 개발`
+```bash
+claude pr  # PR 템플릿 기반 자동 생성
+```
