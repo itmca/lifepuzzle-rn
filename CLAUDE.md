@@ -1,51 +1,64 @@
 # CLAUDE.md
 
-Claude AI 어시스턴트 개발 작업 가이드
+LifePuzzle React Native 프로젝트 작업 가이드
 
-## Git 워크플로우
+## 프로젝트 컨텍스트
 
-### 브랜치 관리
+**앱**: 소중한 사람들과의 추억을 모으고 기록하는 모바일 애플리케이션
+**핵심 기술**: React Native + TypeScript, Recoil, React Navigation
+**주요 기능**: 추억 수집 및 기록, 갤러리 관리, AI 사진 생성, 소셜 로그인
 
-- main 브랜치로 전환 시 `git pull origin main` 실행
+## 개발 컨벤션
 
-### 커밋 컨벤션
+### Git & 커밋
 
-Conventional Commits 규칙 + 티켓 번호 추가
+- Chris Beams 스타일: 명령형, 50자 이내, 첫 글자 대문자
+- 브랜치: `<type>/<ticket-no>-<subject>` (예: `feat/LP-1-user-auth`)
+- 각 커밋은 단일 목적, 성격별 분리 필수
 
-```bash
-# 티켓이 있는 경우
-[TICKET-123] feat: 새로운 기능 추가
-[JIRA-456] fix: 버그 수정
+### 파일 구조
 
-# 티켓이 없는 경우
-feat: 새로운 기능 추가
-fix: 버그 수정
-```
+- **페이지 컴포넌트**: `app/pages/[Domain]/[PageName]/`
+- **단일 페이지 전용 컴포넌트**: `app/pages/[Page]/components/`
+- **공통 컴포넌트**: `app/components/` (2개 이상 페이지에서 사용)
+- **파일명**: TSX는 PascalCase, TS는 kebab-case.category.ts
 
-**커밋 타입:**
+### 코딩 스타일
 
-- `feat`: 새 기능
-- `fix`: 버그 수정
-- `docs`: 문서 변경
-- `refactor`: 리팩토링
-- `test`: 테스트
-- `build`: 빌드 시스템, 의존성 변경
-- `chore`: 기타 작업
+- Hook 순서: Refs → React hooks → Recoil → Navigation → Memoized → Custom hooks → Handlers → useEffect
+- 변수: camelCase, 상수: UPPER_SNAKE_CASE
+- 함수: 동사로 시작 (handle*, validate*, fetch\*)
 
-**커밋 분리 원칙:**
+## 작업 효율성 가이드
 
-- 각 커밋은 하나의 목적만 가져야 함
-- 기능, 버그수정, 문서, 빌드 등 성격별로 분리하여 커밋
-- 관련 없는 변경사항은 별도 커밋으로 분리
+### 컴포넌트 작업 시
 
-## Pull Request
+1. 기존 유사 컴포넌트 먼저 확인 (`app/components/`, `app/pages/*/components/`)
+2. 재사용성 고려하여 위치 결정 (단일 vs 공통)
+3. 기존 스타일링 패턴 따르기 (React Native Paper, styled-components)
 
-`.github/PULL_REQUEST_TEMPLATE.md` 템플릿 참고해서 작성
+### 상태 관리
 
-## 개발 지원
+- Recoil 사용: `*State`, `*Atom` 네이밍
+- 페이지별 상태는 해당 페이지 폴더 내 관리 고려
 
-- 코드 작성 및 리뷰
-- 테스트 케이스 작성
-- 문서 작성/업데이트
-- 보안 및 성능 검토
-- 프로젝트 구조 분석
+### 작업 우선순위
+
+1. 기존 코드 패턴 분석 및 활용
+2. 타입 안전성 확보 (TypeScript strict)
+3. 성능 고려 (useMemo, useCallback 적절히 활용)
+4. 접근성 및 UX 일관성
+
+## 커스텀 명령어
+
+**`claude pr`**: PR 템플릿 기반 자동 생성
+
+- 작업 배경, 내용, 참고사항 구조화
+- 커밋 히스토리 분석하여 의미있는 제목/본문 작성
+
+## 문서 참조
+
+- [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트 구조
+- [Naming](./docs/NAMING.md): 파일명, 변수명, 타입 네이밍
+- [Folder Structure](./docs/FOLDER_STRUCTURE.md): 페이지 그룹핑, 컴포넌트 배치
+- [Git Workflow](./docs/GIT_WORKFLOW.md): 브랜치 전략, 상세 커밋 가이드
