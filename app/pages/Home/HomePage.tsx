@@ -34,6 +34,7 @@ const HomePage = (): JSX.Element => {
   const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
     useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [scrollY, setScrollY] = useState<number>(0);
 
   // 글로벌 상태 관리 (Recoil)
   const hero = useRecoilValue<HeroType>(heroState);
@@ -79,7 +80,7 @@ const HomePage = (): JSX.Element => {
   }, [refetch, hero?.heroNo]);
 
   const handlePullToRefresh = useCallback(() => {
-    if (!isRefreshing) {
+    if (!isRefreshing && scrollY <= 0) {
       setIsRefreshing(true);
       if (refetch && hero?.heroNo && hero.heroNo >= 0) {
         refetch({
@@ -89,7 +90,7 @@ const HomePage = (): JSX.Element => {
         });
       }
     }
-  }, [refetch, hero?.heroNo, isRefreshing]);
+  }, [refetch, hero?.heroNo, isRefreshing, scrollY]);
 
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
@@ -152,6 +153,10 @@ const HomePage = (): JSX.Element => {
             style={{flex: 1, width: '100%'}}
             contentContainerStyle={{flexGrow: 1}}
             showsVerticalScrollIndicator={false}
+            onScroll={event => {
+              setScrollY(event.nativeEvent.contentOffset.y);
+            }}
+            scrollEventThrottle={16}
             refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}
