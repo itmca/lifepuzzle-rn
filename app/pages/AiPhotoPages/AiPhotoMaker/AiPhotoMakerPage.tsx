@@ -29,6 +29,13 @@ const AiPhotoMakerPage = (): JSX.Element => {
   const [galleryIndex] = useRecoilState(selectedGalleryIndexState);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(-1);
 
+  // Hook을 최상위에서 호출 (기본값 사용)
+  const {submitWithParams: createAiPhoto} = useCreateAiPhoto({
+    heroNo: 0,
+    galleryId: 0,
+    drivingVideoId: 0,
+  });
+
   const onClickMake = () => {
     if (!gallery[galleryIndex].id) {
       CustomAlert.simpleAlert('선택된 사진을 확인할 수 없습니다.');
@@ -38,8 +45,11 @@ const AiPhotoMakerPage = (): JSX.Element => {
       CustomAlert.simpleAlert('움직임을 선택해 주세요.');
       return false;
     }
-    useCreateAiPhoto({
-      photoId: gallery[galleryIndex].id,
+
+    // 실제 값들을 파라미터로 전달
+    createAiPhoto({
+      heroNo: 0, // TODO: heroNo 값 확인 필요
+      galleryId: gallery[galleryIndex].id,
       drivingVideoId: selectedTemplateId,
     });
   };
