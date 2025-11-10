@@ -1,0 +1,16 @@
+{
+  "release-type": "simple",
+  "package-name": "lifepuzzle",
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "draft": false,
+  "prerelease": false,
+  "include-component-in-tag": false,
+  "packages": {
+    ".": {
+      "package-name": "lifepuzzle",
+      "release-type": "simple",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
