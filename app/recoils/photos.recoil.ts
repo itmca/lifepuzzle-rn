@@ -65,3 +65,8 @@ export const tagState = selector<TagType[]>({
     }
   },
 });
+
+export const galleryErrorState = atom<boolean>({
+  key: 'galleryErrorState',
+  default: false,
+});

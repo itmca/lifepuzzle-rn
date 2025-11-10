@@ -9,22 +9,33 @@ import {ContentContainer} from '../../../../components/styled/container/ContentC
 
 type Props = {
   onPress: () => void;
+  disabled?: boolean;
 };
-export const WritingButton = ({onPress}: Props): JSX.Element => {
+export const WritingButton = ({
+  onPress,
+  disabled = false,
+}: Props): JSX.Element => {
   return (
     <ButtonBase
       height={'56px'}
       width={'100%'}
-      backgroundColor={Color.MAIN_DARK}
+      disabled={disabled}
+      backgroundColor={disabled ? Color.GREY_100 : Color.MAIN_DARK}
       borderRadius={6}
-      onPress={onPress}>
+      onPress={disabled ? undefined : onPress}>
       <ContentContainer
         gap={8}
         useHorizontalLayout
         backgroundColor="transparent"
         alignCenter>
-        <SvgIcon name={'camera'} size={24} />
-        <Title color={Color.WHITE}>사진/동영상 추가하기</Title>
+        <SvgIcon
+          name={'camera'}
+          size={24}
+          color={disabled ? Color.GREY_300 : Color.WHITE}
+        />
+        <Title color={disabled ? Color.GREY_300 : Color.WHITE}>
+          사진/동영상 추가하기
+        </Title>
       </ContentContainer>
     </ButtonBase>
   );

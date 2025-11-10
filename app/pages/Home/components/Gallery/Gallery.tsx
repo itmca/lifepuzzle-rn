@@ -2,14 +2,17 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {BasicNavigationProps} from '../../../../navigation/types.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../../components/styled/container/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
-import {selectedTagState} from '../../../../recoils/photos.recoil.ts';
+import {
+  galleryErrorState,
+  selectedTagState,
+} from '../../../../recoils/photos.recoil.ts';
 import {
   AgeGroupsType,
   GalleryType,
@@ -21,12 +24,12 @@ import {Color} from '../../../../constants/color.constant.ts';
 
 import {NotificationBar} from '../../../../components/styled/components/NotificationBar.tsx';
 import {BasicCard} from '../../../../components/card/Card.tsx';
-import {ButtonBase} from '../../../../components/styled/components/Button.tsx';
 import {
   BodyTextM,
   Title,
 } from '../../../../components/styled/components/Text.tsx';
 import GalleryTag from './GalleryTag.tsx';
+import {BasicButton} from '../../../../components/button/BasicButton.tsx';
 
 type props = {
   hero: PhotoHeroType;
@@ -54,6 +57,7 @@ const Gallery = ({
   // 글로벌 상태 관리 (Recoil)
   const [selectedTag, setSelectedTag] =
     useRecoilState<TagType>(selectedTagState);
+  const setGalleryError = useSetRecoilState(galleryErrorState);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -90,24 +94,33 @@ const Gallery = ({
   // 처음 데이터 로딩 시에만 에러 화면 표시
   const shouldShowError = isError && !hasInitialData;
 
+  useEffect(() => {
+    setGalleryError(shouldShowError);
+  }, [shouldShowError, setGalleryError]);
+
   if (shouldShowError) {
     return (
       <ContentContainer
         flex={1}
         justifyContent="center"
         alignItems="center"
-        gap={20}>
-        <Title color={Color.GREY_400}>네트워크 연결을 확인해주세요</Title>
-        <BodyTextM color={Color.GREY_300}>
-          사진을 불러올 수 없습니다.{'\n'}다시 시도해주세요.
-        </BodyTextM>
-        <ButtonBase
-          backgroundColor={Color.MAIN_DARK}
-          width="auto"
-          paddingHorizontal={24}
-          onPress={onRetry}>
-          <BodyTextM color={Color.WHITE}>다시 시도</BodyTextM>
-        </ButtonBase>
+        gap={20}
+        paddingBottom={40}>
+        <ContentContainer gap={8} alignCenter>
+          <Title color={Color.GREY_400}>인터넷 연결이 잠시 불안정해요</Title>
+          <ContentContainer gap={0} alignCenter>
+            <BodyTextM color={Color.GREY_300}>
+              네트워크를 확인한 뒤 다시 시도해주세요
+            </BodyTextM>
+          </ContentContainer>
+        </ContentContainer>
+        <ContentContainer width={120}>
+          <BasicButton
+            text={'다시 시도'}
+            height={'48px'}
+            onPress={() => onRetry?.()}
+          />
+        </ContentContainer>
       </ContentContainer>
     );
   }
