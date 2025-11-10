@@ -92,7 +92,7 @@ const Gallery = ({
   }, [selectedTag?.key, tags?.length]);
 
   // 처음 데이터 로딩 시에만 에러 화면 표시
-  const shouldShowError = true; // isError && !hasInitialData;
+  const shouldShowError = isError && !hasInitialData;
 
   useEffect(() => {
     setGalleryError(shouldShowError);
@@ -117,7 +117,7 @@ const Gallery = ({
         <ContentContainer width={120}>
           <BasicButton
             text={'다시 시도'}
-            height={48}
+            height={'48px'}
             onPress={() => onRetry?.()}
           />
         </ContentContainer>
