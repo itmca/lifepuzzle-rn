@@ -13,6 +13,7 @@ interface AiPhotoCreateRequest {
 interface UseCreateAiPhotoReturn {
   submit: () => void;
   submitWithErrorHandling: () => Promise<boolean>;
+  submitWithParams: (params: AiPhotoCreateRequest) => void;
   isLoading: boolean;
 }
 export const useCreateAiPhoto = (
@@ -86,6 +87,18 @@ export const useCreateAiPhoto = (
     });
   };
 
+  const submitWithParams = (params: AiPhotoCreateRequest) => {
+    if (validateParams(params)) {
+      createAiPhoto({
+        data: {
+          heroNo: params.heroNo,
+          galleryId: params.galleryId,
+          drivingVideoId: params.drivingVideoId,
+        },
+      });
+    }
+  };
+
   function validate(): boolean {
     if (!request.drivingVideoId) {
       showErrorToast('움직임을 선택해 주세요.');
@@ -93,5 +106,14 @@ export const useCreateAiPhoto = (
     }
     return true;
   }
-  return {submit, submitWithErrorHandling, isLoading};
+
+  function validateParams(params: AiPhotoCreateRequest): boolean {
+    if (!params.drivingVideoId) {
+      showErrorToast('움직임을 선택해 주세요.');
+      return false;
+    }
+    return true;
+  }
+
+  return {submit, submitWithErrorHandling, submitWithParams, isLoading};
 };
