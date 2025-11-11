@@ -19,7 +19,7 @@ import {selectedTagState, tagState} from '../../../../recoils/photos.recoil.ts';
 import {BasicButton} from '../../../../components/button/BasicButton.tsx';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
 import {useUploadHeroes} from '../../../../service/hooks/hero.query.hook.ts';
-import {HeroSelect} from '../../../../components/avatar/HeroSelect.tsx';
+import {HeroSelect} from './HeroSelect';
 import {toInternationalAge} from '../../../../service/date-time-display.service.ts';
 import {CustomAlert} from '../../../../components/alert/CustomAlert.tsx';
 

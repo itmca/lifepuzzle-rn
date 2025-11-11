@@ -1,6 +1,6 @@
 import {format} from 'date-fns';
 import {ContentContainer} from '../../../../components/styled/container/ContentContainer';
-import {HeroAvatar} from '../../../../components/avatar/HeroAvatar.tsx';
+import {HeroAvatar} from '../avatar/HeroAvatar';
 import {
   BodyTextM,
   Caption,
