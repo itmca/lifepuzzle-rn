@@ -18,6 +18,7 @@ import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {ApiErrorFallback} from '../../components/error/ApiErrorFallback';
 import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import Gallery from './components/Gallery/Gallery.tsx';
@@ -36,10 +37,10 @@ const HomePage = (): JSX.Element => {
   const [scrollY, setScrollY] = useState<number>(0);
 
   // 글로벌 상태 관리 (Recoil)
-  const hero = useRecoilValue<HeroType>(heroState);
-  const [ageGroups] = useRecoilState<AgeGroupsType>(ageGroupsState);
-  const [tags] = useRecoilState<TagType[]>(tagState);
-  const selectedTag = useRecoilValue<TagType>(selectedTagState);
+  const hero = useRecoilValue<HeroType | null>(heroState);
+  const [ageGroups] = useRecoilState<AgeGroupsType | null>(ageGroupsState);
+  const [tags] = useRecoilState<TagType[] | null>(tagState);
+  const selectedTag = useRecoilValue<TagType | null>(selectedTagState);
   const isGalleryUploading = useRecoilValue<boolean>(isGalleryUploadingState);
   const sharedImageData = useRecoilValue(sharedImageDataState);
 
@@ -142,6 +143,30 @@ const HomePage = (): JSX.Element => {
     }
   }, [isLoading, isRefreshing]);
 
+  // Hero 데이터가 없고 로딩 중이 아닌 경우 에러 화면 표시
+  if (!isLoading && !hero && !isError) {
+    return (
+      <ApiErrorFallback
+        title="주인공 정보를 불러올 수 없습니다"
+        message="로그인 후 다시 시도해주세요."
+        onRetry={handleRefetch}
+        retryText="새로고침"
+      />
+    );
+  }
+
+  // API 에러가 발생한 경우 에러 화면 표시
+  if (!isLoading && isError && !hasInitialData) {
+    return (
+      <ApiErrorFallback
+        title="데이터를 불러올 수 없습니다"
+        message="네트워크 연결을 확인하고 다시 시도해주세요."
+        onRetry={handleRefetch}
+        retryText="다시 시도"
+      />
+    );
+  }
+
   return (
     <LoadingContainer isLoading={isLoading || isGalleryUploading}>
       <BottomSheetModalProvider>
@@ -183,7 +208,7 @@ const HomePage = (): JSX.Element => {
           </ScrollView>
 
           {/* 하단 버튼 영역 */}
-          {hero.auth !== 'VIEWER' && (
+          {hero && hero.auth !== 'VIEWER' && (
             <GalleryBottomButton onPress={handleGalleryButtonPress} />
           )}
         </ScreenContainer>

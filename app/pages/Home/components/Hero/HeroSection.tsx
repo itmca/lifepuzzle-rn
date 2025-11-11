@@ -15,7 +15,7 @@ type Props = {
 
 const HeroSection = ({photoHero, onSharePress}: Props): JSX.Element => {
   // 글로벌 상태 관리 (Recoil)
-  const hero = useRecoilValue<HeroType>(heroState);
+  const hero = useRecoilValue<HeroType | null>(heroState);
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleSharePress = useCallback(() => {

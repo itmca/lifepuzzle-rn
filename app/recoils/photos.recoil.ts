@@ -1,35 +1,33 @@
 import {atom, DefaultValue, selector} from 'recoil';
 import {AgeGroupsType, TagType} from '../types/photo.type';
-import {
-  DUMMY_AGE_GROUPS,
-  DUMMY_TAGS,
-} from '../constants/dummy-age-group.constant';
 
 export const selectedGalleryIndexState = atom<number>({
   key: 'selectedGalleryIndexState',
   default: 0,
 });
-export const selectedTagState = atom<TagType>({
+export const selectedTagState = atom<TagType | null>({
   key: 'selectedTagState',
-  default: {
-    key: 'UNDER_TEENAGER',
-    label: '10대 미만',
-  },
+  default: null,
 });
-const ageGroupsInternalState = atom<AgeGroupsType>({
+const ageGroupsInternalState = atom<AgeGroupsType | null>({
   key: 'ageGroupsInternalState',
-  default: DUMMY_AGE_GROUPS,
+  default: null,
 });
-export const ageGroupsState = selector<AgeGroupsType>({
+export const ageGroupsState = selector<AgeGroupsType | null>({
   key: 'ageGroupsState',
   get: ({get}) => get(ageGroupsInternalState),
   set: ({get, set, reset}, newValue) => {
     if (newValue instanceof DefaultValue) {
       reset(ageGroupsInternalState);
     } else {
-      set(ageGroupsInternalState, {
-        ...newValue,
-      });
+      set(
+        ageGroupsInternalState,
+        newValue
+          ? {
+              ...newValue,
+            }
+          : null,
+      );
     }
   },
 });
@@ -38,6 +36,11 @@ export const getGallery = selector({
   get: ({get}) => {
     const ageGroups = get(ageGroupsState);
     const tags = get(tagState);
+
+    if (!ageGroups || !tags) {
+      return [];
+    }
+
     const gallery = Object.entries(ageGroups)
       .map(([key, value]: [string, any]) => {
         const tag = tags.find((tag: any) => tag.key === key);
@@ -50,18 +53,18 @@ export const getGallery = selector({
     return gallery;
   },
 });
-const tagInternalState = atom<TagType[]>({
+const tagInternalState = atom<TagType[] | null>({
   key: 'tagInternalState',
-  default: DUMMY_TAGS,
+  default: null,
 });
-export const tagState = selector<TagType[]>({
+export const tagState = selector<TagType[] | null>({
   key: 'tagState',
   get: ({get}) => get(tagInternalState),
   set: ({get, set, reset}, newValue) => {
     if (newValue instanceof DefaultValue) {
       reset(tagInternalState);
     } else {
-      set(tagInternalState, [...newValue]);
+      set(tagInternalState, newValue ? [...newValue] : null);
     }
   },
 });
