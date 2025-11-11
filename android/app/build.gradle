@@ -84,8 +84,8 @@ android {
         applicationId "io.itmca.lifepuzzle"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 21
-        versionName "1.2.1"
+        versionCode 22
+        versionName "1.2.2"
         resValue "string", "kakao_app_key", "${project.env.get("KAKAO_NATIVE_APP_KEY")}"
         manifestPlaceholders = [
                 KAKAO_NATIVE_APP_KEY: project.env.get("KAKAO_NATIVE_APP_KEY")
