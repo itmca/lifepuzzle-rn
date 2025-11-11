@@ -101,7 +101,11 @@ app/
 ### 커스텀 명령어 (Claude Code)
 
 ```bash
-/create-pr                           # PR 템플릿 기반 자동 생성
+/create-pr                           # PR 템플릿 기반 자동 생성 (⚠️ 제목 50자 제한 확인 필요)
 /new-feature 작업 설명                 # main 브랜치 동기화 후 작업 설명 기반 브랜치 생성하여 작업 진행
 # 예시: /new-feature 사진 관련 컴포넌트 정리해줘
 ```
+
+> **⚠️ create-pr 사용 시 주의사항**
+> 자동 생성된 PR 제목이 50자를 초과할 경우 Chris Beams 규칙에 따라 수동으로 줄여야 합니다.
+> 자세한 가이드라인은 [CLAUDE.md의 PR 제목 작성 규칙](CLAUDE.md#pr-제목-작성-규칙) 참조
