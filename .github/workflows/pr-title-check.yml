@@ -14,8 +14,8 @@ jobs:
           script: |
             const title = context.payload.pull_request.title;
 
-            // Chris Beams 스타일: 명령형, 첫 글자 대문자, 50자 이내, 마침표 없음
-            const regex = /^(\[(SHIP|SHOW|ASK)\])?(\[LP-\d+\])?\s*[A-Z][^.]*$/;
+            // Chris Beams 스타일: 명령형, 첫 글자 대문자, 50자 이내, 마지막에 마침표 없음
+            const regex = /^(\[(SHIP|SHOW|ASK)\])?(\[LP-\d+\])?\s*[A-Z].*[^.]$/;
 
             if (!regex.test(title) || title.length > 50) {
               const errorMessage = `❌ PR 제목 형식이 올바르지 않습니다: "${title}"`;
@@ -26,13 +26,14 @@ jobs:
                   - 명령형으로 작성 (Add, Fix, Update 등)
                   - 첫 글자 대문자
                   - 50자 이내
-                  - 마침표 없음
+                  - 마지막에 마침표 없음 (중간에 마침표는 허용)
 
                 올바른 예시:
                   - Add user authentication feature
                   - [SHOW] Fix login button UI issue
                   - [SHIP][LP-1234] Update photo upload logic
                   - [LP-5678] Refactor gallery component
+                  - Bump version to 1.2.2 for app store release
               `);
 
               core.setFailed(errorMessage);
