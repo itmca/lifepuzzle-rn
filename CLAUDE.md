@@ -16,6 +16,16 @@ LifePuzzle React Native 프로젝트 작업 가이드
 - 브랜치: `<type>/<ticket-no>-<subject>` (예: `feat/LP-1-user-auth`)
 - 각 커밋은 단일 목적, 성격별 분리 필수
 
+### PR 제목 작성 규칙
+
+- **50자 제한 엄수**: Chris Beams 규칙에 따라 제목은 50자를 초과하면 안됨
+- **create-pr 사용 시 주의**: 자동 생성된 제목이 50자를 초과하면 수동으로 줄여야 함
+- **핵심 내용 우선**: 긴 제목은 핵심 동작만 남기고 세부사항 제거
+- **마침표 규칙**: 마지막에 마침표(.) 금지, 중간에는 허용 (예: "Bump version to 1.2.2 for app store release")
+- **예시 단축법**:
+  - "Add AI video API integration to MediaCarousel and fix AiPhotoMakerPage hook error" (79자) → "Add AI video API integration to MediaCarousel" (47자)
+  - "Fix invalid hook call error in AiPhotoMakerPage component" (55자) → "Fix invalid hook call error in AiPhotoMakerPage" (46자)
+
 ### 파일 구조
 
 - **페이지 컴포넌트**: `app/pages/[Domain]/[PageName]/`
