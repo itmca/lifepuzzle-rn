@@ -19,7 +19,7 @@ import {selectedTagState, tagState} from '../../../../recoils/photos.recoil.ts';
 import {BasicButton} from '../../../../components/button/BasicButton.tsx';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
 import {useUploadHeroes} from '../../../../service/hooks/hero.query.hook.ts';
-import {HeroSelect} from '../../../../components/avatar/HeroSelect.tsx';
+import {HeroSelect} from './HeroSelect';
 import {toInternationalAge} from '../../../../service/date-time-display.service.ts';
 import {CustomAlert} from '../../../../components/alert/CustomAlert.tsx';
 
@@ -39,11 +39,11 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
   const hero = useRecoilValue(heroState);
   const selectedTag = useRecoilValue<TagType>(selectedTagState);
   const [heroAge, setHeroAge] = useState<number>(
-    toInternationalAge(hero.birthday),
+    hero ? toInternationalAge(hero.birthday) : 0,
   );
   const [tags] = useRecoilState<TagType[]>(tagState);
   const [uploadRequest, setUploadRequest] = useState<UploadRequest>({
-    heroNo: hero.heroNo,
+    heroNo: hero?.heroNo || 0,
     selectedTag: selectedTag,
     selectedGalleryItems: [],
   });
@@ -68,14 +68,14 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
         return;
       }
       setUploadRequest({
-        heroNo: hero.heroNo,
+        heroNo: hero?.heroNo || 0,
         selectedTag: selectedTag,
         selectedGalleryItems: validImages.map(item =>
           toPhotoIdentifier(item ?? ''),
         ),
       });
     }
-  }, [sharedImageData, hero.heroNo, selectedTag, onClose]);
+  }, [sharedImageData, hero?.heroNo, selectedTag, onClose]);
   return (
     <BottomSheet
       opened={visible}

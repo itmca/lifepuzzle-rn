@@ -1,16 +1,16 @@
 import React from 'react';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
-import {useAxios} from '../../../service/hooks/network.hook';
+import {useAxios} from '../../../../service/hooks/network.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../../service/hooks/login.hook';
+} from '../../../../service/hooks/login.hook';
 
-import {Color} from '../../../constants/color.constant';
+import {Color} from '../../../../constants/color.constant';
 
 import {useRecoilValue} from 'recoil';
-import {shareKeyState} from '../../../recoils/share.recoil.ts';
-import {BasicButton} from '../BasicButton.tsx';
+import {shareKeyState} from '../../../../recoils/share.recoil.ts';
+import {BasicButton} from '../../../../components/button/BasicButton.tsx';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;

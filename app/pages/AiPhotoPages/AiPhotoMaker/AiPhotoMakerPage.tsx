@@ -9,8 +9,8 @@ import {
 } from '../../../components/styled/container/ContentContainer.tsx';
 import {Title} from '../../../components/styled/components/Text.tsx';
 import {Photo} from '../../../components/styled/components/Image.tsx';
-import {AiPhotoMakerButton} from '../../../components/button/AiPhotoMakerButton.tsx';
-import SelectableAiPhotoTemplate from '../../../components/aiphoto/SelectableAiPhotoTemplate.tsx';
+import {AiPhotoMakerButton} from '../components/AiPhotoMakerButton';
+import SelectableAiPhotoTemplate from '../components/SelectableAiPhotoTemplate';
 import {CustomAlert} from '../../../components/alert/CustomAlert.tsx';
 import {Color} from '../../../constants/color.constant.ts';
 import {
