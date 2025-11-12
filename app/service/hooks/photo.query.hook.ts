@@ -114,7 +114,12 @@ export const useHeroPhotos = (): Response => {
 
     setIsError(false);
     fetchHeroStories({});
-  }, [hero?.heroNo, heroUpdateObserver, storyListUpdateObserver]);
+  }, [
+    hero?.heroNo,
+    heroUpdateObserver,
+    storyListUpdateObserver,
+    fetchHeroStories,
+  ]);
 
   return {
     photoHero,
