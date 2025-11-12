@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {KakaoOAuthToken, login} from '@react-native-seoul/kakao-login';
-import {useAxios} from '../../../service/hooks/network.hook';
+import {useAxios} from '../../../../service/hooks/network.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../../service/hooks/login.hook';
-import {Color} from '../../../constants/color.constant';
+} from '../../../../service/hooks/login.hook';
+import {Color} from '../../../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
-import {shareKeyState} from '../../../recoils/share.recoil.ts';
-import {BasicButton} from '../BasicButton.tsx';
-import {showErrorToast} from '../../styled/components/Toast.tsx';
+import {shareKeyState} from '../../../../recoils/share.recoil.ts';
+import {BasicButton} from '../../../../components/button/BasicButton.tsx';
+import {showErrorToast} from '../../../../components/styled/components/Toast.tsx';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;

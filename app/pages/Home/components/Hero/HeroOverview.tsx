@@ -1,3 +1,4 @@
+import React from 'react';
 import {format} from 'date-fns';
 import {ContentContainer} from '../../../../components/styled/container/ContentContainer';
 import {HeroAvatar} from '../avatar/HeroAvatar';
