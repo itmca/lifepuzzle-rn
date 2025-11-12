@@ -40,7 +40,7 @@ export const ShareAuthList = ({}: props): JSX.Element => {
 
   const [updateLoading, refetch] = useAuthAxios<any>({
     requestOption: {
-      url: `/v1/users/hero/link?heroNo=${hero.heroNo.toString()}&auth=${auth}`,
+      url: `/v1/users/hero/link?heroNo=${hero?.heroNo?.toString() || '0'}&auth=${auth}`,
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -71,6 +71,11 @@ export const ShareAuthList = ({}: props): JSX.Element => {
     }
     refetch({});
   };
+
+  if (!hero) {
+    return <></>;
+  }
+
   return (
     <ContentContainer gap={20}>
       <ScrollContentContainer gap={0}>
