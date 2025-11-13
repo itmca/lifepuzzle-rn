@@ -1,8 +1,8 @@
 import * as React from 'react';
-import GoBackHeaderLeft from '../../components/header/GoBackHeaderLeft';
+import GoBackHeaderLeft from '../../components/ui/navigation/header/GoBackHeaderLeft';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
-import WritingHeaderRight from '../../components/header/WritingHeaderRight';
+import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {
@@ -11,9 +11,9 @@ import {
 } from '../../recoils/user.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
-import {TopBar} from '../../components/styled/components/TopBar.tsx';
+import {TopBar} from '../../components/ui/navigation/TopBar';
 import {TouchableOpacity} from 'react-native';
-import {BodyTextM, Title} from '../../components/styled/components/Text.tsx';
+import {BodyTextM, Title} from '../../components/ui/base/TextBase';
 import {Color} from '../../constants/color.constant.ts';
 import {useLogout} from '../../service/hooks/logout.hook.ts';
 

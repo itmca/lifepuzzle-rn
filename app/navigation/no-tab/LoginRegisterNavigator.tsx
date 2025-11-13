@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginMainPage from '../../pages/AccountPages/LoginMain/LoginMainPage';
-import LoginHeaderLeft from '../../components/header/LoginHeaderLeft';
+import LoginHeaderLeft from '../../components/ui/navigation/header/LoginHeaderLeft';
 import LoginOthersPage from '../../pages/AccountPages/LoginOthers/LoginOthersPage';
 import RegisterPage from '../../pages/AccountPages/Register/RegisterPage';
 import {Color} from '../../constants/color.constant';
-import {TopBar} from '../../components/styled/components/TopBar';
+import {TopBar} from '../../components/ui/navigation/TopBar';
 
 export type LoginRegisterParamList = {
   LoginMain: undefined;

@@ -1,12 +1,12 @@
 import React from 'react';
 import {format} from 'date-fns';
-import {ContentContainer} from '../../../../components/styled/container/ContentContainer';
+import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {HeroAvatar} from '../avatar/HeroAvatar';
 import {
   BodyTextM,
   Caption,
   Head,
-} from '../../../../components/styled/components/Text.tsx';
+} from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant.ts';
 import {PhotoHeroType} from '../../../../types/photo.type.ts';
 

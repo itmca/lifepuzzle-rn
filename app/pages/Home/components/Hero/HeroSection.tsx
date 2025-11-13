@@ -4,8 +4,8 @@ import {useRecoilValue} from 'recoil';
 import {heroState} from '../../../../recoils/hero.recoil';
 import {HeroType} from '../../../../types/hero.type';
 import {PhotoHeroType} from '../../../../types/photo.type';
-import {ContentContainer} from '../../../../components/styled/container/ContentContainer';
-import {ShareButton} from '../../../../components/button/ShareButton';
+import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
+import {ShareButton} from '../../../../components/feature/sharing/ShareButton';
 import HeroOverview from './HeroOverview';
 
 type Props = {

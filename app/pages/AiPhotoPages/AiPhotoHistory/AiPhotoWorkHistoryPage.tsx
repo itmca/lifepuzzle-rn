@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer.tsx';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 import {Color} from '../../../constants/color.constant.ts';
 import {
   BodyTextB,
   BodyTextM,
   Caption,
   Title,
-} from '../../../components/styled/components/Text.tsx';
+} from '../../../components/ui/base/TextBase';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {formatDateToTodayOrYYMMDD} from '../../../service/date-time-display.service.ts';
-import {Photo} from '../../../components/styled/components/Image.tsx';
+import {Photo} from '../../../components/ui/base/ImageBase';
 import {useAiGalleries} from '../../../service/hooks/ai-photo.query.hook.ts';
 import {AiGallery} from '../../../types/ai-photo.type.ts';
 

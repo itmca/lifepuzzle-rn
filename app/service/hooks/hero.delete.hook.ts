@@ -3,10 +3,7 @@ import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useAuthAxios} from './network.hook.ts';
-import {
-  showErrorToast,
-  showToast,
-} from '../../components/styled/components/Toast.tsx';
+import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
 
 export const useDeleteHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();

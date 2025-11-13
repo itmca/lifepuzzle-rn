@@ -1,11 +1,11 @@
 import {useState} from 'react';
 import {Dimensions, Image, TouchableOpacity} from 'react-native';
 import {useRecoilState} from 'recoil';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
-import {MediaCarousel} from '../../../components/story/MediaCarousel.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import {MediaCarousel} from '../../../components/feature/story/MediaCarousel.tsx';
 import {useNavigation} from '@react-navigation/native';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 
 import {Color} from '../../../constants/color.constant.ts';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
@@ -13,8 +13,8 @@ import {selectedGalleryIndexState} from '../../../recoils/photos.recoil.ts';
 import {editedGalleryItemsState} from '../../../recoils/gallery-write.recoil.ts';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
-import {CustomAlert} from '../../../components/alert/CustomAlert.tsx';
-import {Title} from '../../../components/styled/components/Text.tsx';
+import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
+import {Title} from '../../../components/ui/base/TextBase';
 
 const GalleryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();

@@ -4,15 +4,15 @@ import HeroSettingPage from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
 import HeroRegisterPage from '../../pages/HeroPages/HeroRegister/HeroRegisterPage';
 import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroModificationPage';
 import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
-import WritingHeaderRight from '../../components/header/WritingHeaderRight';
+import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 import {writingHeroState} from '../../recoils/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
-import HeroSettingRightHeader from '../../components/header/HeroSettingRightHeader.tsx';
-import {TopBar} from '../../components/styled/components/TopBar.tsx';
+import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
+import {TopBar} from '../../components/ui/navigation/TopBar';
 
 export type HeroSettingParamList = {
   HeroSetting: {shareKey?: string} | undefined;

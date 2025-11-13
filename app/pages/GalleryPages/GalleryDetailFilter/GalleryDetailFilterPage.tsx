@@ -27,13 +27,13 @@ import {
   SkImage,
   useCanvasRef,
 } from '@shopify/react-native-skia';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
-import {TopBar} from '../../../components/styled/components/TopBar.tsx';
-import WritingHeaderRight from '../../../components/header/WritingHeaderRight.tsx';
-import {Title} from '../../../components/styled/components/Text.tsx';
-import {CustomAlert} from '../../../components/alert/CustomAlert.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
+import {TopBar} from '../../../components/ui/navigation/TopBar';
+import WritingHeaderRight from '../../../components/ui/navigation/header/WritingHeaderRight.tsx';
+import {Title} from '../../../components/ui/base/TextBase';
+import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
 import {Color} from '../../../constants/color.constant.ts';
 import {
   FILTER_EFFECTS,

@@ -1,20 +1,20 @@
 import React, {useMemo, useState} from 'react';
-import {ContentContainer} from '../../../../../components/styled/container/ContentContainer.tsx';
-import {AccountAvatar} from '../../../../../components/avatar/AccountAvatar.tsx';
-import BasicTextInput from '../../../../../components/input/NewTextInput.tsx';
-import {BasicButton} from '../../../../../components/button/BasicButton.tsx';
-import BottomSheet from '../../../../../components/styled/components/BottomSheet.tsx';
+import {ContentContainer} from '../../../../../components/ui/layout/ContentContainer.tsx';
+import {AccountAvatar} from '../../../../../components/ui/display/Avatar';
+import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
+import {BasicButton} from '../../../../../components/ui/form/Button';
+import BottomSheet from '../../../../../components/ui/interaction/BottomSheet.tsx';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   getCurrentUserPhotoUri,
   userState,
   writingUserState,
 } from '../../../../../recoils/user.recoil.ts';
-import {useCommonActionSheet} from '../../../../../components/styled/components/ActionSheet.tsx';
+import {useCommonActionSheet} from '../../../../../components/ui/interaction/ActionSheet.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../../../navigation/types.tsx';
 import {useUserProfileUpdate} from '../../../../../service/hooks/user.update.hook.ts';
-import {LoadingContainer} from '../../../../../components/loadding/LoadingContainer.tsx';
+import {LoadingContainer} from '../../../../../components/ui/feedback/LoadingContainer';
 
 type Props = {
   opened: boolean;

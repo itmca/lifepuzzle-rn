@@ -6,10 +6,10 @@ import {
   useResetRecoilState,
   useSetRecoilState,
 } from 'recoil';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
-import {MediaCarousel} from '../../../components/story/MediaCarousel.tsx';
-import {StoryItemContents} from '../../../components/story-list/StoryItemContents.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import {MediaCarousel} from '../../../components/feature/story/MediaCarousel.tsx';
+import {StoryItemContents} from '../../../components/feature/story/StoryItemContents.tsx';
 import {
   useFocusEffect,
   useIsFocused,
@@ -19,20 +19,20 @@ import {writingStoryState} from '../../../recoils/story-write.recoil.ts';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer.tsx';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {Color} from '../../../constants/color.constant.ts';
-import {StoryDetailMenuBottomSheet} from '../../../components/story/StoryDetailMenuBottomSheet.tsx';
+import {StoryDetailMenuBottomSheet} from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {
   getGallery,
   selectedGalleryIndexState,
 } from '../../../recoils/photos.recoil.ts';
 import {SelectedStoryKeyState} from '../../../recoils/story-view.recoil.ts';
-import {Title} from '../../../components/styled/components/Text.tsx';
-import {StoryWritingButton} from '../../../components/button/StoryWritingButton.tsx';
-import PinchZoomModal from '../../../components/styled/components/PinchZoomModal.tsx';
+import {Title} from '../../../components/ui/base/TextBase';
+import {StoryWritingButton} from '../../../components/feature/story/StoryWritingButton';
+import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 
 const StoryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();

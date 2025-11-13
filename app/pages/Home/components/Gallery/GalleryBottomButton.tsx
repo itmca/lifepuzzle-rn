@@ -1,15 +1,15 @@
 import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {ContentContainer} from '../../../../components/styled/container/ContentContainer.tsx';
+import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {
   galleryErrorState,
   selectedTagState,
 } from '../../../../recoils/photos.recoil.ts';
 import {TagType} from '../../../../types/photo.type.ts';
 import {Color} from '../../../../constants/color.constant.ts';
-import {Title} from '../../../../components/styled/components/Text.tsx';
+import {Title} from '../../../../components/ui/base/TextBase';
 import {WritingButton} from '../Button/WritingButton.tsx';
-import {ButtonBase} from '../../../../components/styled/components/Button.tsx';
+import {ButtonBase} from '../../../../components/ui/base/ButtonBase';
 
 type props = {onPress: () => void};
 

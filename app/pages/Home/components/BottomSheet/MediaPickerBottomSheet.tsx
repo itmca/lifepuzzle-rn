@@ -2,17 +2,14 @@ import React, {useEffect, useRef} from 'react';
 import {Alert, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
-import BottomSheet from '../../../../components/styled/components/BottomSheet';
-import {ContentContainer} from '../../../../components/styled/container/ContentContainer';
-import {
-  IconName,
-  SvgIcon,
-} from '../../../../components/styled/components/SvgIcon';
+import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
+import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
+import {IconName, SvgIcon} from '../../../../components/ui/display/SvgIcon';
 import {
   BodyTextB,
   BodyTextM,
   Caption,
-} from '../../../../components/styled/components/Text';
+} from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant';
 import {BasicNavigationProps} from '../../../../navigation/types';
 import {SelectedStoryKeyState} from '../../../../recoils/story-view.recoil';
@@ -20,12 +17,12 @@ import {
   PostStoryKeyState,
   writingStoryState,
 } from '../../../../recoils/story-write.recoil';
-import {Divider} from '../../../../components/styled/components/Divider.tsx';
+import {Divider} from '../../../../components/ui/base/Divider';
 import ImagePicker from 'react-native-image-crop-picker';
 import {selectedGalleryItemsState} from '../../../../recoils/gallery-write.recoil';
 import {toPhotoIdentifierFromImage} from '../../../../service/photo-identifier.service';
 import {ensureCameraPermission} from '../../../../service/hooks/permission.hook';
-import {showInfoToast} from '../../../../components/styled/components/Toast.tsx';
+import {showInfoToast} from '../../../../components/ui/feedback/Toast';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;

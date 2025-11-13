@@ -2,20 +2,20 @@ import React, {useState} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userState, writingUserState} from '../../../recoils/user.recoil';
 import {useAuthAxios} from '../../../service/hooks/network.hook';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer';
-import {CustomAlert} from '../../../components/alert/CustomAlert';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 import {Color} from '../../../constants/color.constant';
 import {TouchableOpacity} from 'react-native';
-import {AccountAvatar} from '../../../components/avatar/AccountAvatar.tsx';
+import {AccountAvatar} from '../../../components/ui/display/Avatar';
 import {
   BodyTextM,
   Caption,
   Head,
   Title,
-} from '../../../components/styled/components/Text.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
-import {BasicButton} from '../../../components/button/BasicButton.tsx';
+} from '../../../components/ui/base/TextBase';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import {BasicButton} from '../../../components/ui/form/Button';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {useUserWithdraw} from '../../../service/hooks/user.withdraw.hook.ts';
 import {ProfileUpdateBottomSheet} from './components/BottomSheet/ProfileUpdateBottomSheet.tsx';

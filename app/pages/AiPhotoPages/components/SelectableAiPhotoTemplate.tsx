@@ -2,12 +2,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import Video from 'react-native-video';
 import {useNavigation} from '@react-navigation/native';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer';
-import {SvgIcon} from '../../../components/styled/components/SvgIcon';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
+import {SvgIcon} from '../../../components/ui/display/SvgIcon';
 import {Color} from '../../../constants/color.constant';
 import {BasicNavigationProps} from '../../../navigation/types';
 import {AiPhotoTemplate} from '../../../types/ai-photo.type';
-import {Photo} from '../../../components/styled/components/Image.tsx';
+import {Photo} from '../../../components/ui/base/ImageBase';
 
 type SelectableAiPhotoTemplateProps = {
   onSelected: (item: AiPhotoTemplate) => void;

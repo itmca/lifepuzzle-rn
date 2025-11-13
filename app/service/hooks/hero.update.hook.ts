@@ -12,7 +12,7 @@ import {
   writingHeroKeyState,
   writingHeroState,
 } from '../../recoils/hero-write.recoil';
-import {CustomAlert} from '../../components/alert/CustomAlert';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 
 export const useResetAllWritingHero = () => {
   const resetWritingHero = useResetRecoilState(writingHeroState);

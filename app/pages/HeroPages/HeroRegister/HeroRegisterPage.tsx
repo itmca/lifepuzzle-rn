@@ -1,20 +1,20 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 import {Color} from '../../../constants/color.constant';
-import {CustomDateInput} from '../../../components/input/CustomDateInput';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 import {writingHeroState} from '../../../recoils/hero-write.recoil';
-import {BasicCard} from '../../../components/card/Card.tsx';
-import BasicTextInput from '../../../components/input/NewTextInput.tsx';
-import {BasicButton} from '../../../components/button/BasicButton.tsx';
+import {BasicCard} from '../../../components/ui/display/Card';
+import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
+import {BasicButton} from '../../../components/ui/form/Button';
 import {useCreateHero} from '../../../service/hooks/hero.create.hook.ts';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {CustomDateInput} from '../../../components/ui/interaction/CustomDateInput.tsx';
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();

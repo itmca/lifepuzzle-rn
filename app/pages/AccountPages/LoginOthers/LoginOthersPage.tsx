@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 
 import GeneralLoginButton from './GeneralLoginButton.tsx';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 import {Color} from '../../../constants/color.constant.ts';
-import RegisterButton from '../../../components/button/login/RegisterButton.tsx';
-import BasicTextInput from '../../../components/input/NewTextInput.tsx';
+import RegisterButton from '../../../components/feature/auth/RegisterButton.tsx';
+import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
-import {BodyTextM} from '../../../components/styled/components/Text.tsx';
+import {BodyTextM} from '../../../components/ui/base/TextBase';
 
 const LoginOthersPage = (): JSX.Element => {
   const [id, setId] = useState('');

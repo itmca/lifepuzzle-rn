@@ -1,17 +1,17 @@
 import {useRef, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer.tsx';
-import {Title} from '../../../components/styled/components/Text.tsx';
-import {Photo} from '../../../components/styled/components/Image.tsx';
+} from '../../../components/ui/layout/ContentContainer.tsx';
+import {Title} from '../../../components/ui/base/TextBase';
+import {Photo} from '../../../components/ui/base/ImageBase';
 import {AiPhotoMakerButton} from '../components/AiPhotoMakerButton';
 import SelectableAiPhotoTemplate from '../components/SelectableAiPhotoTemplate';
-import {CustomAlert} from '../../../components/alert/CustomAlert.tsx';
+import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
 import {Color} from '../../../constants/color.constant.ts';
 import {
   getGallery,

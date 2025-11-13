@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {TopBar} from '../../components/styled/components/TopBar';
+import {TopBar} from '../../components/ui/navigation/TopBar';
 import AiPhotoWorkHistoryPage from '../../pages/AiPhotoPages/AiPhotoHistory/AiPhotoWorkHistoryPage';
 import AiPhotoMakerPage from '../../pages/AiPhotoPages/AiPhotoMaker/AiPhotoMakerPage';
 

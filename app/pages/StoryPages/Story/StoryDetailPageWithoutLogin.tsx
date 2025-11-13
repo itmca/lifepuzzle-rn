@@ -1,20 +1,20 @@
 import {Dimensions} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
-import {MediaCarousel} from '../../components/story/MediaCarousel.tsx';
-import {StoryItemContents} from '../../components/story-list/StoryItemContents';
+import {ScreenContainer} from '../../components/ui/layout/ScreenContainer';
+import {MediaCarousel} from '../../components/feature/story/MediaCarousel.tsx';
+import {StoryItemContents} from '../../components/feature/story/StoryItemContents';
 import {useIsFocused} from '@react-navigation/native';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../components/styled/container/ContentContainer.tsx';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 
 import {Color} from '../../constants/color.constant.ts';
 import {
   getGallery,
   selectedGalleryIndexState,
 } from '../../recoils/photos.recoil.ts';
-import {Title} from '../../components/styled/components/Text.tsx';
+import {Title} from '../../components/ui/base/TextBase';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
   const [galleryIndex, setGalleryIndex] = useRecoilState(

@@ -1,13 +1,13 @@
 import React, {useMemo, useState} from 'react';
-import BasicTextInput from '../../../../../components/input/NewTextInput.tsx';
-import {BasicButton} from '../../../../../components/button/BasicButton.tsx';
-import BottomSheet from '../../../../../components/styled/components/BottomSheet.tsx';
+import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
+import {BasicButton} from '../../../../../components/ui/form/Button';
+import BottomSheet from '../../../../../components/ui/interaction/BottomSheet';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../../../constants/password.constant.ts';
 import {useAuthAxios} from '../../../../../service/hooks/network.hook.ts';
-import {CustomAlert} from '../../../../../components/alert/CustomAlert.tsx';
+import {CustomAlert} from '../../../../../components/ui/feedback/CustomAlert';
 import {userState} from '../../../../../recoils/user.recoil.ts';
 import {useRecoilValue} from 'recoil';
 import {useLogout} from '../../../../../service/hooks/logout.hook.ts';

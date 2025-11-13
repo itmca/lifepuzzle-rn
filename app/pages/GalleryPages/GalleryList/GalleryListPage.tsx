@@ -15,13 +15,13 @@ import VMasonryList from '@react-native-seoul/masonry-list';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {GalleryType, TagKey} from '../../types/photo.type';
 
-import {Head} from '../../../components/styled/components/Text.tsx';
+import {Head} from '../../../components/ui/base/TextBase';
 
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer.tsx';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 
 import {SCREEN_HEIGHT} from '@gorhom/bottom-sheet';
 
@@ -36,7 +36,7 @@ import {isLoggedInState} from '../../../recoils/auth.recoil.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import Video from 'react-native-video';
-import VideoModal from '../../../components/styled/components/VideoModal.tsx';
+import VideoModal from '../../../components/ui/interaction/VideoModal';
 
 const GalleryListPage = () => {
   const screenWidth = Dimensions.get('window').width;

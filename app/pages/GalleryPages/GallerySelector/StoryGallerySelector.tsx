@@ -5,7 +5,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import CommonPhotoSelector from '../../../components/photo/CommonPhotoSelector.tsx';
+import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
 import {
   editedGalleryItemsState,
   isGalleryUploadingState,
@@ -16,7 +16,7 @@ import {
   PhotoSelectorConfig,
   PhotoSelectorCallbacks,
 } from '../../../types/photo-selector.type.ts';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {Color} from '../../../constants/color.constant.ts';
 
 const StoryGallerySelector = (): JSX.Element => {
