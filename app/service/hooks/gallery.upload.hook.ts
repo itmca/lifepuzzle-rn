@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 import {Alert} from 'react-native';
@@ -111,7 +111,7 @@ export const useUploadGalleryV2 = (
         selectedGalleryItems: options?.request?.selectedGalleryItems,
       }
     : {
-        heroNo: recoilHero.heroNo,
+        heroNo: recoilHero?.heroNo,
         selectedTag: recoilSelectedTag,
         selectedGalleryItems: recoilSelectedGalleryItems,
       };

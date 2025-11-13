@@ -46,15 +46,19 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
-    const userNo: number = LocalStorage.get('userNo', 'number');
+    const userNo: number | undefined = LocalStorage.get('userNo', 'number');
+    if (!userNo || userNo < 0) {
+      return;
+    }
+
     fetchUser({url: `/v1/users/${userNo}`});
-  }, [tokens, currentUserUpdateObserver]);
+  }, [tokens, currentUserUpdateObserver, fetchUser]);
 
   useEffect(() => {
-    if (currentHero.heroNo < 0) {
+    if (!currentHero || currentHero.heroNo < 0) {
       return;
     }
 
     fetchHero({url: `/v1/heroes/${currentHero.heroNo.toString()}`});
-  }, [currentHero.heroNo, currentHeroUpdateObserver]);
+  }, [currentHero, currentHeroUpdateObserver, fetchHero]);
 };

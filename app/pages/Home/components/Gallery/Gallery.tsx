@@ -55,8 +55,9 @@ const Gallery = ({
   const [isScrolling, setIsScrolling] = useState(false);
 
   // 글로벌 상태 관리 (Recoil)
-  const [selectedTag, setSelectedTag] =
-    useRecoilState<TagType>(selectedTagState);
+  const [selectedTag, setSelectedTag] = useRecoilState<TagType | null>(
+    selectedTagState,
+  );
   const setGalleryError = useSetRecoilState(galleryErrorState);
 
   // 외부 hook 호출 (navigation, route 등)
@@ -136,7 +137,7 @@ const Gallery = ({
           gap={6}
           ref={scrollRef}
           paddingRight={20}>
-          {tags.map((item: TagType, index) => {
+          {tags?.map((item: TagType, index) => {
             return (
               <GalleryTag
                 key={item.key || index}
@@ -155,9 +156,11 @@ const Gallery = ({
         justifyContent={'flex-start'}>
         <Carousel
           ref={carouselRef}
-          data={tags}
+          data={tags || []}
           mode={'parallax'}
           defaultIndex={
+            !tags ||
+            !selectedTag ||
             tags.findIndex(item => item.key === selectedTag.key) < 0
               ? 0
               : tags.findIndex(item => item.key === selectedTag.key)
@@ -167,10 +170,13 @@ const Gallery = ({
             parallaxScrollingOffset: 70,
             parallaxAdjacentItemScale: 0.72,
           }}
-          loop={tags.length <= 2 ? false : true}
+          loop={!tags || tags?.length <= 2 ? false : true}
           width={windowWidth}
           height={'100%'}
           onSnapToItem={index => {
+            if (!tags) {
+              return;
+            }
             setSelectedTag({...tags[index]});
           }}
           onProgressChange={(_: number, absoluteProgress: number) => {
@@ -185,7 +191,9 @@ const Gallery = ({
                 }}>
                 <BasicCard
                   photoUrls={
-                    ageGroups[tag.key as TagKey]?.gallery.map(g => g.url) ?? []
+                    (ageGroups &&
+                      ageGroups[tag.key as TagKey]?.gallery.map(g => g.url)) ??
+                    []
                   }
                   fallbackBackgroundColor={Color.WHITE}
                   fallbackBorderColor={Color.GREY_100}
@@ -195,6 +203,7 @@ const Gallery = ({
                   width={windowWidth}
                   onPress={() => {
                     const index =
+                      ageGroups &&
                       ageGroups[tag.key as TagKey]?.gallery[0].index;
                     if (index) {
                       moveToStoryListPage(index);

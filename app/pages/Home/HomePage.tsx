@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {ScrollView, RefreshControl} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
@@ -18,7 +18,7 @@ import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
-import {ApiErrorFallback} from '../../components/error/ApiErrorFallback';
+import {ApiErrorFallback} from '../../components/error/ApiErrorFallback.tsx';
 import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import Gallery from './components/Gallery/Gallery.tsx';
@@ -143,15 +143,12 @@ const HomePage = (): JSX.Element => {
     }
   }, [isLoading, isRefreshing]);
 
-  // Hero 데이터가 없고 로딩 중이 아닌 경우 에러 화면 표시
-  if (!isLoading && !hero && !isError) {
+  // Hero 데이터가 없는 경우 로딩 화면 표시 (초기 로딩 대기)
+  if (!hero) {
     return (
-      <ApiErrorFallback
-        title="주인공 정보를 불러올 수 없습니다"
-        message="로그인 후 다시 시도해주세요."
-        onRetry={handleRefetch}
-        retryText="새로고침"
-      />
+      <LoadingContainer isLoading={true}>
+        <></>
+      </LoadingContainer>
     );
   }
 
@@ -198,8 +195,8 @@ const HomePage = (): JSX.Element => {
             <ContentContainer flex={1}>
               <Gallery
                 hero={photoHero}
-                ageGroups={ageGroups}
-                tags={tags}
+                ageGroups={ageGroups || {}}
+                tags={tags || []}
                 isError={isError}
                 hasInitialData={hasInitialData}
                 onRetry={handleRefetch}

@@ -38,7 +38,7 @@ type Response = {
 };
 
 export const useHeroPhotos = (): Response => {
-  const [hero] = useRecoilState<HeroType>(heroState);
+  const [hero] = useRecoilState<HeroType | null>(heroState);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
   const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
   const [photoHero, setPhotoHero] = useState<PhotoHeroType>({
@@ -112,14 +112,13 @@ export const useHeroPhotos = (): Response => {
       return;
     }
 
+    console.error(
+      `heroNo: ${hero}, heroUpdateObserver: ${heroUpdateObserver}, storyListUpdateObserver: ${storyListUpdateObserver}`,
+    );
+
     setIsError(false);
     fetchHeroStories({});
-  }, [
-    hero?.heroNo,
-    heroUpdateObserver,
-    storyListUpdateObserver,
-    fetchHeroStories,
-  ]);
+  }, [hero?.heroNo, heroUpdateObserver, storyListUpdateObserver]);
 
   return {
     photoHero,
