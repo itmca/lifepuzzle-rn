@@ -2,9 +2,9 @@ import React from 'react';
 import {ScreenContainer} from '../styled/container/ScreenContainer';
 import {ContentContainer} from '../styled/container/ContentContainer';
 import {BodyTextB, Title} from '../styled/components/Text';
-import {ButtonBase} from '../styled/components/Button';
 import {Color} from '../../constants/color.constant';
 import {SvgIcon} from '../styled/components/SvgIcon';
+import {BasicButton} from '../button/BasicButton.tsx';
 
 type Props = {
   title?: string;
@@ -23,6 +23,7 @@ export const ApiErrorFallback = ({
     <ScreenContainer>
       <ContentContainer
         flex={1}
+        /** TODO: alignCenter 속성을 주는 것과 justifyContent, alignItems 개별 속성을 center로 하는 것이 차이가 있어 확인 필요. */
         justifyContent="center"
         alignItems="center"
         gap={24}
@@ -35,16 +36,7 @@ export const ApiErrorFallback = ({
           </ContentContainer>
         </ContentContainer>
 
-        {onRetry && (
-          <ButtonBase
-            backgroundColor={Color.MAIN}
-            paddingHorizontal={24}
-            paddingVertical={12}
-            borderRadius={8}
-            onPress={onRetry}>
-            <BodyTextB color={Color.WHITE}>{retryText}</BodyTextB>
-          </ButtonBase>
-        )}
+        {onRetry && <BasicButton text={retryText} onPress={onRetry} />}
       </ContentContainer>
     </ScreenContainer>
   );
