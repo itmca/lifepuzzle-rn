@@ -48,13 +48,13 @@ export const useFetchLocalStorageUserHero = (): void => {
 
     const userNo: number = LocalStorage.get('userNo', 'number');
     fetchUser({url: `/v1/users/${userNo}`});
-  }, [tokens, currentUserUpdateObserver]);
+  }, [tokens, currentUserUpdateObserver, fetchUser]);
 
   useEffect(() => {
-    if (currentHero.heroNo < 0) {
+    if (!currentHero || currentHero.heroNo < 0) {
       return;
     }
 
     fetchHero({url: `/v1/heroes/${currentHero.heroNo.toString()}`});
-  }, [currentHero.heroNo, currentHeroUpdateObserver]);
+  }, [currentHero, currentHeroUpdateObserver, fetchHero]);
 };
