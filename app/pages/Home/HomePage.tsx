@@ -18,7 +18,7 @@ import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {LoadingContainer} from '../../components/loadding/LoadingContainer';
 import {ScreenContainer} from '../../components/styled/container/ScreenContainer';
 import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
-import {ApiErrorFallback} from '../../components/error/ApiErrorFallback';
+import {ApiErrorFallback} from '../../components/error/ApiErrorFallback.tsx';
 import {useHeroPhotos} from '../../service/hooks/photo.query.hook.ts';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import Gallery from './components/Gallery/Gallery.tsx';
