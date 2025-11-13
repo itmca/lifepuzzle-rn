@@ -38,7 +38,7 @@ type Response = {
 };
 
 export const useHeroPhotos = (): Response => {
-  const [hero] = useRecoilState<HeroType>(heroState);
+  const [hero] = useRecoilState<HeroType | null>(heroState);
   const heroUpdateObserver = useUpdateObserver(heroUpdate);
   const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
   const [photoHero, setPhotoHero] = useState<PhotoHeroType>({

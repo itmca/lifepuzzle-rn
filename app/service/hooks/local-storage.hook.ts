@@ -46,7 +46,11 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
-    const userNo: number = LocalStorage.get('userNo', 'number');
+    const userNo: number | undefined = LocalStorage.get('userNo', 'number');
+    if (!userNo || userNo < 0) {
+      return;
+    }
+
     fetchUser({url: `/v1/users/${userNo}`});
   }, [tokens, currentUserUpdateObserver, fetchUser]);
 
