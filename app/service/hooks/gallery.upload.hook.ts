@@ -12,7 +12,7 @@ import {
   selectedGalleryItemsState,
 } from '../../recoils/gallery-write.recoil';
 import {TagType} from '../../types/photo.type';
-import {CustomAlert} from '../../components/alert/CustomAlert';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {imageConversionUtil} from '../../utils/image-conversion.util';
 import {
   FileUploadDto,

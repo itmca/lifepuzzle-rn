@@ -1,12 +1,12 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {useRecoilState} from 'recoil';
-import {CustomDateInput} from '../../../components/input/CustomDateInput';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer';
+
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
@@ -15,14 +15,15 @@ import {writingHeroState} from '../../../recoils/hero-write.recoil';
 import {useHero} from '../../../service/hooks/hero.query.hook';
 import {toPhotoIdentifier} from '../../../service/photo-identifier.service';
 import {useUpdateHero} from '../../../service/hooks/hero.update.hook.ts';
-import {Divider} from '../../../components/styled/components/Divider';
-import {BasicCard} from '../../../components/card/Card.tsx';
+import {Divider} from '../../../components/ui/base/Divider';
+import {BasicCard} from '../../../components/ui/display/Card';
 import {Color} from '../../../constants/color.constant.ts';
-import BasicTextInput from '../../../components/input/NewTextInput.tsx';
-import {BasicButton} from '../../../components/button/BasicButton.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
+import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
+import {BasicButton} from '../../../components/ui/form/Button';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {useDeleteHero} from '../../../service/hooks/hero.delete.hook.ts';
-import {CustomAlert} from '../../../components/alert/CustomAlert.tsx';
+import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
+import {CustomDateInput} from '../../../components/ui/interaction/CustomDateInput.tsx';
 
 const HeroModificationPage = (): JSX.Element => {
   const navigation =

@@ -1,19 +1,19 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
-import {AccountAvatar} from '../../../components/avatar/AccountAvatar.tsx';
-import {BasicButton} from '../../../components/button/BasicButton.tsx';
-import BottomSheet from '../../../components/styled/components/BottomSheet.tsx';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
+import {AccountAvatar} from '../../../components/ui/display/Avatar';
+import {BasicButton} from '../../../components/ui/form/Button';
+import BottomSheet from '../../../components/ui/interaction/BottomSheet';
 import {useUserAuthUpdate} from '../../../service/hooks/user.update.hook.ts';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {HeroType, HeroUserType} from '../../../types/hero.type.ts';
-import {Divider} from '../../../components/styled/components/Divider.tsx';
-import {Radio} from '../../../components/styled/components/Radio.tsx';
+import {Divider} from '../../../components/ui/base/Divider';
+import {Radio} from '../../../components/ui/form/Radio';
 import {
   HeroAuthTypeByCode,
   HeroAuthTypeCode,
   SortedHeroAuthTypes,
 } from '../../../constants/auth.constant.ts';
-import {BodyTextB} from '../../../components/styled/components/Text.tsx';
+import {BodyTextB} from '../../../components/ui/base/TextBase';
 
 type Props = {
   opened: boolean;

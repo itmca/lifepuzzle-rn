@@ -12,25 +12,25 @@ import {
   writingStoryState,
 } from '../../../recoils/story-write.recoil.ts';
 import StoryDateInput from './StoryDateInput.tsx';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {useIsStoryUploading} from '../../../service/hooks/story.write.hook.ts';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {Color} from '../../../constants/color.constant.ts';
-import {MediumImage} from '../../../components/styled/components/Image.tsx';
+import {MediumImage} from '../../../components/ui/base/ImageBase';
 import {ageGroupsState, tagState} from '../../../recoils/photos.recoil.ts';
 import SelectDropdown from 'react-native-select-dropdown';
 import {GalleryItem} from '../../../types/writing-story.type.ts';
-import {SvgIcon} from '../../../components/styled/components/SvgIcon.tsx';
-import {Title} from '../../../components/styled/components/Text.tsx';
-import {PlainTextInput} from '../../../components/input/NewTextInput.tsx';
-import {VoiceAddButton} from '../../../components/button/VoiceAddButton.tsx';
-import TextAreaInput from '../../../components/input/TextAreaInput.tsx';
+import {SvgIcon} from '../../../components/ui/display/SvgIcon';
+import {Title} from '../../../components/ui/base/TextBase';
+import {PlainTextInput} from '../../../components/ui/form/TextInput.tsx';
+import {VoiceAddButton} from '../../../components/feature/voice/VoiceAddButton';
+import TextAreaInput from '../../../components/ui/form/TextAreaInput';
 import {ScrollView} from 'react-native-gesture-handler';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
-import {VoiceBottomSheet} from '../../../components/story/VoiceBottomSheet.tsx';
-import {AudioBtn} from '../../../components/story/AudioBtn.tsx';
+import {VoiceBottomSheet} from '../../../components/feature/story/VoiceBottomSheet.tsx';
+import {AudioBtn} from '../../../components/feature/story/AudioBtn.tsx';
 
 const StoryWritingPage = (): JSX.Element => {
   const carouselRef = useRef<ICarouselInstance>(null);

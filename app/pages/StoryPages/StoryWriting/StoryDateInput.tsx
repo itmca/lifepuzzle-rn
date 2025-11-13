@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {Color} from '../../../constants/color.constant.ts';
-import {Caption} from '../../../components/styled/components/Text.tsx';
-import {SvgIcon} from '../../../components/styled/components/SvgIcon.tsx';
-import {ButtonBase} from '../../../components/styled/components/Button.tsx';
+import {Caption} from '../../../components/ui/base/TextBase';
+import {SvgIcon} from '../../../components/ui/display/SvgIcon';
+import {ButtonBase} from '../../../components/ui/base/ButtonBase';
 
 const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
 function StoryDateInput({...props}) {

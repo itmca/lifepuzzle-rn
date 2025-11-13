@@ -93,25 +93,70 @@ app/pages/Home/
 
 **2. 다중 페이지 공통 컴포넌트**
 
-- `app/components/` 최상위에 위치
-- 재사용성을 고려한 범용적 설계
+- `app/components/` 최상위에 `ui/`와 `feature/`로 분류
+- UI 컴포넌트: 재사용 가능한 범용 인터페이스 요소
+- Feature 컴포넌트: 특정 도메인 로직이 포함된 기능별 컴포넌트
 
 ```
 app/components/
-├── Button/
-│   ├── PrimaryButton.tsx
-│   └── SecondaryButton.tsx
-├── Input/
-│   ├── TextInput.tsx
-│   └── ImageInput.tsx
-├── Modal/
-│   ├── ConfirmModal.tsx
-│   └── AlertModal.tsx
-└── Layout/
-    ├── Header.tsx
-    ├── Footer.tsx
-    └── Container.tsx
+├── ui/
+│   ├── base/           # 기본 스타일 컴포넌트
+│   │   ├── ButtonBase.tsx
+│   │   ├── TextBase.tsx
+│   │   ├── ImageBase.tsx
+│   │   ├── Divider.tsx
+│   │   └── Dot.tsx
+│   ├── layout/         # 레이아웃 컴포넌트
+│   │   ├── ScreenContainer.tsx
+│   │   ├── ContentContainer.tsx
+│   │   └── SafeAreaContainer.tsx
+│   ├── form/           # 폼 관련 컴포넌트
+│   │   ├── Button.tsx
+│   │   └── Dropdown.tsx
+│   ├── feedback/       # 피드백 컴포넌트
+│   │   ├── LoadingContainer.tsx
+│   │   └── ApiErrorFallback.tsx
+│   ├── display/        # 표시 컴포넌트
+│   │   ├── Card.tsx
+│   │   ├── Avatar.tsx
+│   │   └── Tag.tsx
+│   ├── navigation/     # 네비게이션 컴포넌트
+│   │   ├── TopBar.tsx
+│   │   └── header/
+│   └── interaction/    # 상호작용 컴포넌트
+│       ├── BottomSheet.tsx
+│       └── ActionSheet.tsx
+└── feature/
+    ├── auth/           # 인증 관련
+    │   ├── RegisterButton.tsx
+    │   └── OtherLoginButton.tsx
+    ├── ai/             # AI 기능
+    │   └── AiPhotoButton.tsx
+    ├── story/          # 스토리 기능
+    │   ├── StoryWritingButton.tsx
+    │   └── story/
+    ├── photo/          # 사진 관리
+    ├── voice/          # 음성 기능
+    │   ├── VoiceAddButton.tsx
+    │   └── VoicePlayButton.tsx
+    ├── sharing/        # 공유 기능
+    │   └── ShareButton.tsx
+    └── hero/           # 히어로 관련
 ```
+
+### 컴포넌트 분류 기준
+
+**UI 컴포넌트 (`app/components/ui/`)**
+
+- 순수한 UI 요소로 비즈니스 로직 없음
+- 재사용성이 높고 여러 도메인에서 활용 가능
+- Props를 통해 동작이 결정됨
+
+**Feature 컴포넌트 (`app/components/feature/`)**
+
+- 특정 도메인의 비즈니스 로직 포함
+- 해당 기능 영역에 특화된 컴포넌트
+- 도메인별로 하위 디렉토리 구성
 
 ### 컴포넌트 이동 기준
 

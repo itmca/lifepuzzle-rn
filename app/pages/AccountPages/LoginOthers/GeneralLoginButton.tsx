@@ -8,7 +8,7 @@ import {
 
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
-import {BasicButton} from '../../../components/button/BasicButton.tsx';
+import {BasicButton} from '../../../components/ui/form/Button';
 
 type Props = {
   userId: string;

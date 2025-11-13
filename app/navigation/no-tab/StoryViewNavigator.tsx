@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import StoryDetailPage from '../../pages/StoryPages/Story/StoryDetailPage';
-import {TopBar} from '../../components/styled/components/TopBar';
-import DetailViewHeaderRight from '../../components/header/DetailViewHeaderRight';
+import {TopBar} from '../../components/ui/navigation/TopBar';
+import DetailViewHeaderRight from '../../components/ui/navigation/header/DetailViewHeaderRight';
 import GalleryListPage from '../../pages/GalleryPages/GalleryList/GalleryListPage.tsx';
 
 export type StoryViewParamList = {

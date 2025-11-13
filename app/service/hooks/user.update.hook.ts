@@ -2,11 +2,8 @@ import {useUserHttpPayLoad} from './user.payload.hook.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {useAuthAxios} from './network.hook.ts';
-import {
-  showErrorToast,
-  showToast,
-} from '../../components/styled/components/Toast.tsx';
-import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
+import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useUpdatePublisher} from './update.hooks.ts';
 import {currentUserUpdate} from '../../recoils/update.recoil.ts';
 import {useRecoilValue, useResetRecoilState} from 'recoil';

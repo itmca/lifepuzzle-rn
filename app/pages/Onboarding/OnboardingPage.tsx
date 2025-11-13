@@ -6,12 +6,12 @@ import {
   NativeSyntheticEvent,
   ScrollView,
 } from 'react-native';
-import {BodyTextM, Head} from '../../components/styled/components/Text.tsx';
-import PageIndicator from '../../components/styled/components/PageIndicator.tsx';
-import {BasicButton} from '../../components/button/BasicButton.tsx';
-import {ContentContainer} from '../../components/styled/container/ContentContainer.tsx';
+import {BodyTextM, Head} from '../../components/ui/base/TextBase';
+import PageIndicator from '../../components/ui/display/PageIndicator';
+import {BasicButton} from '../../components/ui/form/Button';
+import {ContentContainer} from '../../components/ui/layout/ContentContainer.tsx';
 import {Color} from '../../constants/color.constant.ts';
-import {ScreenContainer} from '../../components/styled/container/ScreenContainer.tsx';
+import {ScreenContainer} from '../../components/ui/layout/ScreenContainer';
 import {LocalStorage} from '../../service/local-storage.service.ts';
 
 const DeviceWidth = Dimensions.get('window').width;
@@ -90,7 +90,7 @@ const OnboardingPage = ({navigation}: any) => {
         {slides.map(slide => (
           <ContentContainer
             key={slide.key}
-            width={DeviceWidth + 'px'}
+            width={DeviceWidth}
             paddingHorizontal={20}
             justifyContent={'center'}>
             <ContentContainer gap={16}>
@@ -107,7 +107,7 @@ const OnboardingPage = ({navigation}: any) => {
         ))}
       </ScrollView>
       <ContentContainer alignCenter paddingBottom={160}>
-        <ContentContainer width={'40px'}>
+        <ContentContainer width={40}>
           <PageIndicator
             page={currentIndex + 1}
             size={slides.length}

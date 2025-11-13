@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import BottomSheet from '../../../../components/styled/components/BottomSheet.tsx';
+import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../../components/styled/container/ContentContainer.tsx';
-import {BodyTextB} from '../../../../components/styled/components/Text.tsx';
+} from '../../../../components/ui/layout/ContentContainer.tsx';
+import {BodyTextB} from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant.ts';
 import {toPhotoIdentifier} from '../../../../service/photo-identifier.service.ts';
 import {SharedData} from '../../../../../src/NativeLPShareModule.ts';
@@ -16,12 +16,12 @@ import {
 import {heroState} from '../../../../recoils/hero.recoil.ts';
 import {TagType} from '../../../../types/photo.type.ts';
 import {selectedTagState, tagState} from '../../../../recoils/photos.recoil.ts';
-import {BasicButton} from '../../../../components/button/BasicButton.tsx';
+import {BasicButton} from '../../../../components/ui/form/Button';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
 import {useUploadHeroes} from '../../../../service/hooks/hero.query.hook.ts';
 import {HeroSelect} from './HeroSelect';
 import {toInternationalAge} from '../../../../service/date-time-display.service.ts';
-import {CustomAlert} from '../../../../components/alert/CustomAlert.tsx';
+import {CustomAlert} from '../../../../components/ui/feedback/CustomAlert';
 
 interface SharedBottomSheetProps {
   visible: boolean;

@@ -7,7 +7,7 @@ import {BasicNavigationProps} from '../../../../navigation/types.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../../components/styled/container/ContentContainer.tsx';
+} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
 import {
   galleryErrorState,
@@ -22,14 +22,11 @@ import {
 } from '../../../../types/photo.type.ts';
 import {Color} from '../../../../constants/color.constant.ts';
 
-import {NotificationBar} from '../../../../components/styled/components/NotificationBar.tsx';
-import {BasicCard} from '../../../../components/card/Card.tsx';
-import {
-  BodyTextM,
-  Title,
-} from '../../../../components/styled/components/Text.tsx';
+import {NotificationBar} from '../../../../components/ui/feedback/NotificationBar';
+import {BasicCard} from '../../../../components/ui/display/Card';
+import {BodyTextM, Title} from '../../../../components/ui/base/TextBase';
 import GalleryTag from './GalleryTag.tsx';
-import {BasicButton} from '../../../../components/button/BasicButton.tsx';
+import {BasicButton} from '../../../../components/ui/form/Button';
 
 type props = {
   hero: PhotoHeroType;

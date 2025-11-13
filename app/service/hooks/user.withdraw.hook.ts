@@ -1,5 +1,5 @@
 import {useAuthAxios} from './network.hook.ts';
-import {CustomAlert} from '../../components/alert/CustomAlert.tsx';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useLogout} from './logout.hook.ts';
 import {useRecoilValue} from 'recoil';
 import {userState} from '../../recoils/user.recoil.ts';

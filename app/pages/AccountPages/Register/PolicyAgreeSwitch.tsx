@@ -2,8 +2,8 @@ import React from 'react';
 import {TouchableOpacity, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Color} from '../../../constants/color.constant';
-import {CheckBox} from '../../../components/styled/components/CheckBox.tsx';
-import {BodyTextM} from '../../../components/styled/components/Text.tsx';
+import {CheckBox} from '../../../components/ui/form/CheckBox';
+import {BodyTextM} from '../../../components/ui/base/TextBase';
 
 type Props = {
   style?: ViewStyle;

@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../../navigation/types';
 import {Color} from '../../../../constants/color.constant';
-import {BasicButton} from '../../../../components/button/BasicButton.tsx';
+import {BasicButton} from '../../../../components/ui/form/Button';
 
 export const HomeLoginButton = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();

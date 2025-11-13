@@ -1,14 +1,11 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {Color} from '../../../../constants/color.constant.ts';
-import {Profile} from '../../../../components/styled/components/Profile.tsx';
-import {ContentContainer} from '../../../../components/styled/container/ContentContainer.tsx';
+import {Profile} from '../../../../components/ui/display/Profile';
+import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {HeroType} from '../../../../types/hero.type.ts';
-import {
-  BodyTextB,
-  BodyTextM,
-} from '../../../../components/styled/components/Text.tsx';
-import {Photo} from '../../../../components/styled/components/Image.tsx';
+import {BodyTextB, BodyTextM} from '../../../../components/ui/base/TextBase';
+import {Photo} from '../../../../components/ui/base/ImageBase';
 
 type Props = {
   item: HeroType;

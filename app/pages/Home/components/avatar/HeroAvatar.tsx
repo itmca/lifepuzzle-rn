@@ -2,7 +2,7 @@ import React from 'react';
 import {Avatar} from 'react-native-paper';
 import {StyleProp} from 'react-native';
 import {Color} from '../../../../constants/color.constant.ts';
-import {Profile} from '../../../../components/styled/components/Profile.tsx';
+import {Profile} from '../../../../components/ui/display/Profile';
 
 type Props = {
   imageURL: string | undefined;

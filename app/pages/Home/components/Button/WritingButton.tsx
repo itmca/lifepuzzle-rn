@@ -2,10 +2,10 @@ import React from 'react';
 
 import {Color} from '../../../../constants/color.constant';
 
-import {ButtonBase} from '../../../../components/styled/components/Button.tsx';
-import {SvgIcon} from '../../../../components/styled/components/SvgIcon.tsx';
-import {Title} from '../../../../components/styled/components/Text.tsx';
-import {ContentContainer} from '../../../../components/styled/container/ContentContainer.tsx';
+import {ButtonBase} from '../../../../components/ui/base/ButtonBase';
+import {SvgIcon} from '../../../../components/ui/display/SvgIcon';
+import {Title} from '../../../../components/ui/base/TextBase';
+import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 
 type Props = {
   onPress: () => void;

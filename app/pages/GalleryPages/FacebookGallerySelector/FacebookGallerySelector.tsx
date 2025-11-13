@@ -5,10 +5,10 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import CommonPhotoSelector from '../../../components/photo/CommonPhotoSelector';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer';
-import {BodyTextB} from '../../../components/styled/components/Text';
+import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
+import {BodyTextB} from '../../../components/ui/base/TextBase';
 
 import {
   isGalleryUploadingState,

@@ -7,7 +7,7 @@ import {
   HeroUserType,
   HeroWithPuzzleCntType,
 } from '../../../types/hero.type';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {useUpdateObserver} from '../../../service/hooks/update.hooks';
 import {heroUpdate} from '../../../recoils/update.recoil';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -20,30 +20,30 @@ import Carousel from 'react-native-reanimated-carousel';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer.tsx';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {Color} from '../../../constants/color.constant.ts';
 import {writingHeroKeyState} from '../../../recoils/hero-write.recoil.ts';
-import {AccountAvatar} from '../../../components/avatar/AccountAvatar.tsx';
+import {AccountAvatar} from '../../../components/ui/display/Avatar';
 import {useRegisterSharedHero} from '../../../service/hooks/share.hero.hook.ts';
 import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';
-import {BasicCard} from '../../../components/card/Card.tsx';
+import {BasicCard} from '../../../components/ui/display/Card';
 import {
   BodyTextB,
   BodyTextM,
   Caption,
   Head,
   Title,
-} from '../../../components/styled/components/Text.tsx';
+} from '../../../components/ui/base/TextBase';
 import {toInternationalAge} from '../../../service/date-time-display.service.ts';
 import {format} from 'date-fns';
-import {BasicButton} from '../../../components/button/BasicButton.tsx';
-import {Divider} from '../../../components/styled/components/Divider.tsx';
+import {BasicButton} from '../../../components/ui/form/Button';
+import {Divider} from '../../../components/ui/base/Divider';
 import {heroState} from '../../../recoils/hero.recoil.ts';
 import {HeroAuthTypeByCode} from '../../../constants/auth.constant.ts';
-import {showToast} from '../../../components/styled/components/Toast.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
-import {SvgIcon} from '../../../components/styled/components/SvgIcon.tsx';
+import {showToast} from '../../../components/ui/feedback/Toast';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import {SvgIcon} from '../../../components/ui/display/SvgIcon';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {HeroAuthUpdateBottomSheet} from './HeroAuthUpdateBottomSheet.tsx';
 import {userState} from '../../../recoils/user.recoil.ts';

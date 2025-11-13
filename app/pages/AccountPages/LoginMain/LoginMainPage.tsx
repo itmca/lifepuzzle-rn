@@ -5,11 +5,11 @@ import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
 import {Platform} from 'react-native';
 import KaKaoSocialLoginButton from './components/KaKaoSocialLoginButton';
 import AppleSocialLoginButton from './components/AppleSocialLoginButton';
-import OtherLoginButton from '../../../components/button/login/OtherLoginButton.tsx';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
-import {ContentContainer} from '../../../components/styled/container/ContentContainer.tsx';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer.tsx';
-import {BodyTextM} from '../../../components/styled/components/Text.tsx';
+import OtherLoginButton from '../../../components/feature/auth/OtherLoginButton.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import {BodyTextM} from '../../../components/ui/base/TextBase';
 import {Color} from '../../../constants/color.constant.ts';
 
 const LoginMainPage = (): JSX.Element => {

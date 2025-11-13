@@ -3,8 +3,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useRecoilValue} from 'recoil';
 import {BasicNavigationProps} from '../../navigation/types';
 import {userState} from '../../recoils/user.recoil';
-import {CustomAlert} from '../../components/alert/CustomAlert';
-import {showErrorToast} from '../../components/styled/components/Toast';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
+import {showErrorToast} from '../../components/ui/feedback/Toast';
 interface AiPhotoCreateRequest {
   heroNo: number;
   galleryId: number;

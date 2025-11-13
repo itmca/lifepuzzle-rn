@@ -10,7 +10,7 @@ import {
 } from '../../recoils/hero-write.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
-import {CustomAlert} from '../../components/alert/CustomAlert';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {isLoggedInState} from '../../recoils/auth.recoil';
 import {useHeroHttpPayLoad} from './hero.payload.hook.ts';
 

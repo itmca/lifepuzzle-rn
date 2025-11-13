@@ -9,19 +9,19 @@ import {
 } from '../../../constants/password.constant';
 import {debounce} from 'lodash';
 import {BasicNavigationProps} from '../../../navigation/types';
-import {ScreenContainer} from '../../../components/styled/container/ScreenContainer';
+import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../../components/styled/container/ContentContainer';
+} from '../../../components/ui/layout/ContentContainer.tsx';
 import {shareKeyState} from '../../../recoils/share.recoil.ts';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
-import BasicTextInput from '../../../components/input/NewTextInput.tsx';
-import {BasicButton} from '../../../components/button/BasicButton.tsx';
+import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
+import {BasicButton} from '../../../components/ui/form/Button';
 import {Color} from '../../../constants/color.constant.ts';
-import {Divider} from '../../../components/styled/components/Divider.tsx';
+import {Divider} from '../../../components/ui/base/Divider';
 import {useAxios} from '../../../service/hooks/network.hook.ts';
-import {LoadingContainer} from '../../../components/loadding/LoadingContainer.tsx';
+import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 
 const RegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();

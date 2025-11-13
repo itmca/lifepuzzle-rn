@@ -8,8 +8,8 @@ import {
 import {Color} from '../../../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../../recoils/share.recoil.ts';
-import {BasicButton} from '../../../../components/button/BasicButton.tsx';
-import {showErrorToast} from '../../../../components/styled/components/Toast.tsx';
+import {BasicButton} from '../../../../components/ui/form/Button';
+import {showErrorToast} from '../../../../components/ui/feedback/Toast';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
