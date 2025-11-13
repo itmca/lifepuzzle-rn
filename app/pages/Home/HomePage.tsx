@@ -195,8 +195,8 @@ const HomePage = (): JSX.Element => {
             <ContentContainer flex={1}>
               <Gallery
                 hero={photoHero}
-                ageGroups={ageGroups}
-                tags={tags}
+                ageGroups={ageGroups || {}}
+                tags={tags || []}
                 isError={isError}
                 hasInitialData={hasInitialData}
                 onRetry={handleRefetch}

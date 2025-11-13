@@ -111,7 +111,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
           <BodyTextB color={Color.MAIN_DARK}>앨범 선택</BodyTextB>
           <ScrollContentContainer useHorizontalLayout gap={6}>
             {tags
-              .filter(tag => tag.key !== 'AI_PHOTO')
+              ?.filter(tag => tag.key !== 'AI_PHOTO')
               .filter((_, index) => index <= heroAge / 10)
               .map((item: TagType, index) => {
                 return (

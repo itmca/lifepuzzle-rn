@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScreenContainer} from '../styled/container/ScreenContainer';
 import {ContentContainer} from '../styled/container/ContentContainer';
-import {Title, BodyText} from '../styled/components/Text';
+import {BodyTextB, Title} from '../styled/components/Text';
 import {ButtonBase} from '../styled/components/Button';
 import {Color} from '../../constants/color.constant';
 import {SvgIcon} from '../styled/components/SvgIcon';
@@ -31,20 +31,18 @@ export const ApiErrorFallback = ({
           <SvgIcon name="error" size={48} color={Color.GREY_400} />
           <ContentContainer alignItems="center" gap={8}>
             <Title color={Color.GREY_800}>{title}</Title>
-            <BodyText color={Color.GREY_600} textAlign="center">
-              {message}
-            </BodyText>
+            <BodyTextB color={Color.GREY_600}>{message}</BodyTextB>
           </ContentContainer>
         </ContentContainer>
 
         {onRetry && (
           <ButtonBase
-            backgroundColor={Color.PRIMARY_500}
+            backgroundColor={Color.MAIN}
             paddingHorizontal={24}
             paddingVertical={12}
             borderRadius={8}
             onPress={onRetry}>
-            <BodyText color={Color.WHITE}>{retryText}</BodyText>
+            <BodyTextB color={Color.WHITE}>{retryText}</BodyTextB>
           </ButtonBase>
         )}
       </ContentContainer>

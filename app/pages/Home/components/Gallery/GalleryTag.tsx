@@ -35,8 +35,9 @@ type props = {
 };
 
 const GalleryTag = ({carouselRef, item, index}: props) => {
-  const [selectedTag, setSelectedTag] =
-    useRecoilState<TagType>(selectedTagState);
+  const [selectedTag, setSelectedTag] = useRecoilState<TagType | null>(
+    selectedTagState,
+  );
   if (selectedTag && selectedTag.key === item.key) {
     if (item.key === 'AI_PHOTO') {
       return (

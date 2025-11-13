@@ -2,8 +2,8 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {ContentContainer} from '../../../../components/styled/container/ContentContainer.tsx';
 import {
-  selectedTagState,
   galleryErrorState,
+  selectedTagState,
 } from '../../../../recoils/photos.recoil.ts';
 import {TagType} from '../../../../types/photo.type.ts';
 import {Color} from '../../../../constants/color.constant.ts';
@@ -16,7 +16,7 @@ type props = {onPress: () => void};
 const GalleryBottomButton = ({onPress}: props) => {
   const [selectedTag] = useRecoilState<TagType>(selectedTagState);
   const isGalleryError = useRecoilValue(galleryErrorState);
-  if (selectedTag.key === 'AI_PHOTO') {
+  if (selectedTag?.key === 'AI_PHOTO') {
     return (
       <ContentContainer
         paddingHorizontal={20}
