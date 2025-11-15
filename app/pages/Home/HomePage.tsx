@@ -5,12 +5,9 @@ import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {heroState} from '../../recoils/content/hero.recoil';
-import {
-  ageGroupsState,
-  selectedTagState,
-  tagState,
-} from '../../recoils/content/media.recoil.ts';
-import {isGalleryUploadingState} from '../../recoils/ui/upload.recoil.ts';
+import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
+import {selectedTagState} from '../../recoils/ui/selection.recoil';
+import {isGalleryUploadingState} from '../../recoils/ui/upload.recoil';
 import {sharedImageDataState} from '../../recoils/shared/share.recoil';
 import {HeroType} from '../../types/hero.type';
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';

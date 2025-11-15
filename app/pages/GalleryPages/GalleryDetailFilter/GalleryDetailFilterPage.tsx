@@ -11,8 +11,10 @@ import {ActivityIndicator} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {useRecoilState} from 'recoil';
-import {selectedGalleryIndexState} from '../../../recoils/content/media.recoil.ts';
-import {editedGalleryItemsState} from '../../../recoils/ui/selection.recoil.ts';
+import {
+  selectedGalleryIndexState,
+  editedGalleryItemsState,
+} from '../../../recoils/ui/selection.recoil';
 import Slider from '@react-native-community/slider';
 import RNFS, {writeFile} from 'react-native-fs';
 import {encode as encodeBase64} from 'base64-arraybuffer';

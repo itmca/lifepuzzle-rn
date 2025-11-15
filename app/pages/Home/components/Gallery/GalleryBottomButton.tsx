@@ -1,10 +1,8 @@
 import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {
-  galleryErrorState,
-  selectedTagState,
-} from '../../../../recoils/content/media.recoil.ts';
+import {galleryErrorState} from '../../../../recoils/content/media.recoil';
+import {selectedTagState} from '../../../../recoils/ui/selection.recoil';
 import {TagType} from '../../../../types/photo.type.ts';
 import {Color} from '../../../../constants/color.constant.ts';
 import {Title} from '../../../../components/ui/base/TextBase';

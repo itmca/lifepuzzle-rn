@@ -25,11 +25,9 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {Color} from '../../../constants/color.constant.ts';
 import {StoryDetailMenuBottomSheet} from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {
-  getGallery,
-  selectedGalleryIndexState,
-} from '../../../recoils/content/media.recoil.ts';
-import {SelectedStoryKeyState} from '../../../recoils/content/story-view.recoil.ts';
+import {getGallery} from '../../../recoils/content/media.recoil';
+import {selectedGalleryIndexState} from '../../../recoils/ui/selection.recoil';
+import {selectedStoryKeyState} from '../../../recoils/content/story-view.recoil';
 import {Title} from '../../../components/ui/base/TextBase';
 import {StoryWritingButton} from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
@@ -63,7 +61,7 @@ const StoryDetailPage = (): JSX.Element => {
 
   const resetWritingStory = useResetRecoilState(writingStoryState);
   const setWritingStory = useSetRecoilState(writingStoryState);
-  const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
+  const resetSelectedStory = useResetRecoilState(selectedStoryKeyState);
   const isFocused = useIsFocused();
 
   useFocusEffect(() => {

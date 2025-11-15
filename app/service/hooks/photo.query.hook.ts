@@ -11,11 +11,8 @@ import {
   TagType,
 } from '../../types/photo.type';
 import {HeroType} from '../../types/hero.type';
-import {
-  ageGroupsState,
-  selectedTagState,
-  tagState,
-} from '../../recoils/content/media.recoil';
+import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
+import {selectedTagState} from '../../recoils/ui/selection.recoil';
 import {AxiosRequestConfig} from 'axios';
 import {toInternationalAge} from '../date-time-display.service';
 

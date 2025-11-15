@@ -28,10 +28,12 @@ import {SCREEN_HEIGHT} from '@gorhom/bottom-sheet';
 import {
   ageGroupsState,
   getGallery,
+  tagState,
+} from '../../../recoils/content/media.recoil';
+import {
   selectedGalleryIndexState,
   selectedTagState,
-  tagState,
-} from '../../../recoils/content/media.recoil.ts';
+} from '../../../recoils/ui/selection.recoil';
 import {isLoggedInState} from '../../../recoils/auth/auth.recoil.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';

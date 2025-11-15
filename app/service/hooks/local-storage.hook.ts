@@ -1,9 +1,9 @@
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {authState} from '../../recoils/auth/auth.recoil';
+import {userState} from '../../recoils/auth/user.recoil';
 import {useAuthAxios} from './network.hook';
 import {UserType} from '../../types/user.type';
 import {useEffect} from 'react';
-import {userState} from '../../recoils/auth/user.recoil';
 import {heroState} from '../../recoils/content/hero.recoil';
 import {useUpdateObserver} from './update.hooks';
 import {

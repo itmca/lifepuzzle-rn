@@ -3,7 +3,7 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useRecoilState} from 'recoil';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import {selectedUserPhotoState} from '../../../recoils/auth/user.recoil';
+import {selectedUserPhotoState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,

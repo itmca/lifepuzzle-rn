@@ -1,5 +1,5 @@
 import {useSetRecoilState} from 'recoil';
-import {isStoryUploading} from '../../recoils/content/story-write.recoil';
+import {isStoryUploading} from '../../recoils/ui/upload.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hooks';

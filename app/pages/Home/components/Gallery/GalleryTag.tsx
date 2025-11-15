@@ -2,7 +2,7 @@ import {RefObject} from 'react';
 
 import {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {useRecoilState} from 'recoil';
-import {selectedTagState} from '../../../../recoils/content/media.recoil.ts';
+import {selectedTagState} from '../../../../recoils/ui/selection.recoil';
 import {TagType} from '../../../../types/photo.type.ts';
 import {Color} from '../../../../constants/color.constant.ts';
 import Tag from '../../../../components/ui/display/Tag';

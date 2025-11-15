@@ -1,8 +1,8 @@
-import {atom, DefaultValue, selector} from 'recoil';
+import {atom} from 'recoil';
 import {WritingHeroType} from '../../types/writing-Hero.type';
 
-const writingHeroInternalState = atom<WritingHeroType>({
-  key: 'writingHeroInternalState',
+export const writingHeroState = atom<WritingHeroType>({
+  key: 'writingHeroState',
   default: {
     heroNo: 0,
     heroName: '',
@@ -13,25 +13,8 @@ const writingHeroInternalState = atom<WritingHeroType>({
     isProfileImageUpdate: false,
   },
 });
-export const writingHeroKeyState = atom<number>({
+
+export const writingHeroKeyState = atom<number | undefined>({
   key: 'writingHeroKeyState',
   default: undefined,
 });
-export const writingHeroState = selector<WritingHeroType>({
-  key: 'writingHeroState',
-  get: ({get}) => get(writingHeroInternalState),
-  set: ({get, set, reset}, newValue) => {
-    if (newValue instanceof DefaultValue) {
-      reset(writingHeroInternalState);
-    } else {
-      const currentWritingHero = get(writingHeroInternalState);
-      set(writingHeroInternalState, {
-        ...currentWritingHero,
-        ...newValue,
-      });
-    }
-  },
-});
-
-// Re-export from upload.recoil for backward compatibility
-export {isHeroUploading} from '../ui/upload.recoil';

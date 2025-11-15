@@ -4,10 +4,8 @@ import {useUpdatePublisher} from './update.hooks';
 import {heroUpdate} from '../../recoils/shared/cache.recoil';
 import {useEffect} from 'react';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
-import {
-  isHeroUploading,
-  writingHeroState,
-} from '../../recoils/content/hero-write.recoil';
+import {writingHeroState} from '../../recoils/content/hero-write.recoil';
+import {isHeroUploading} from '../../recoils/ui/upload.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';

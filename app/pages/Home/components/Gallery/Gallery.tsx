@@ -9,10 +9,8 @@ import {
   ScrollContentContainer,
 } from '../../../../components/ui/layout/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
-import {
-  galleryErrorState,
-  selectedTagState,
-} from '../../../../recoils/content/media.recoil.ts';
+import {galleryErrorState} from '../../../../recoils/content/media.recoil';
+import {selectedTagState} from '../../../../recoils/ui/selection.recoil';
 import {
   AgeGroupsType,
   GalleryType,

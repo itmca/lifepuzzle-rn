@@ -13,10 +13,8 @@ import {AiPhotoMakerButton} from '../components/AiPhotoMakerButton';
 import SelectableAiPhotoTemplate from '../components/SelectableAiPhotoTemplate';
 import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
 import {Color} from '../../../constants/color.constant.ts';
-import {
-  getGallery,
-  selectedGalleryIndexState,
-} from '../../../recoils/content/media.recoil.ts';
+import {getGallery} from '../../../recoils/content/media.recoil';
+import {selectedGalleryIndexState} from '../../../recoils/ui/selection.recoil';
 import {AiPhotoTemplate} from '../../../types/ai-photo.type.ts';
 import {useAiPhotoTemplate} from '../../../service/hooks/ai-photo.query.hook.ts';
 import {useCreateAiPhoto} from '../../../service/hooks/ai-photo.create.hook.ts';
