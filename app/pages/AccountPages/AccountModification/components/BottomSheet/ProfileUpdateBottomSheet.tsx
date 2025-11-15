@@ -9,7 +9,7 @@ import {
   getCurrentUserPhotoUri,
   userState,
   writingUserState,
-} from '../../../../../recoils/user.recoil.ts';
+} from '../../../../../recoils/auth/user.recoil.ts';
 import {useCommonActionSheet} from '../../../../../components/ui/interaction/ActionSheet.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../../../navigation/types.tsx';

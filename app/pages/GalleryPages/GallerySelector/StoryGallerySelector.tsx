@@ -6,18 +6,18 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
+import {selectedGalleryIndexState} from '../../../recoils/content/media.recoil.ts';
 import {
-  editedGalleryItemsState,
-  isGalleryUploadingState,
-  selectedGalleryItemsState,
-} from '../../../recoils/gallery-write.recoil.ts';
-import {selectedGalleryIndexState} from '../../../recoils/photos.recoil.ts';
-import {
-  PhotoSelectorConfig,
   PhotoSelectorCallbacks,
+  PhotoSelectorConfig,
 } from '../../../types/photo-selector.type.ts';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {Color} from '../../../constants/color.constant.ts';
+import {
+  editedGalleryItemsState,
+  selectedGalleryItemsState,
+} from '../../../recoils/ui/selection.recoil.ts';
+import {isGalleryUploadingState} from '../../../recoils/ui/upload.recoil.ts';
 
 const StoryGallerySelector = (): JSX.Element => {
   const navigation = useNavigation();

@@ -12,7 +12,7 @@ import {ScrollView, useWindowDimensions} from 'react-native';
 import {
   galleryErrorState,
   selectedTagState,
-} from '../../../../recoils/photos.recoil.ts';
+} from '../../../../recoils/content/media.recoil.ts';
 import {
   AgeGroupsType,
   GalleryType,

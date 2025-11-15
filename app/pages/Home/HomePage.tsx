@@ -4,14 +4,14 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {heroState} from '../../recoils/hero.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
 import {
   ageGroupsState,
   selectedTagState,
   tagState,
-} from '../../recoils/photos.recoil.ts';
-import {isGalleryUploadingState} from '../../recoils/gallery-write.recoil.ts';
-import {sharedImageDataState} from '../../recoils/share.recoil';
+} from '../../recoils/content/media.recoil.ts';
+import {isGalleryUploadingState} from '../../recoils/ui/upload.recoil.ts';
+import {sharedImageDataState} from '../../recoils/shared/share.recoil';
 import {HeroType} from '../../types/hero.type';
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
 import {BasicNavigationProps} from '../../navigation/types.tsx';

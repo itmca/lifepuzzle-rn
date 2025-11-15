@@ -8,7 +8,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {writingHeroState} from '../../../recoils/hero-write.recoil';
+import {writingHeroState} from '../../../recoils/content/hero-write.recoil';
 import {BasicCard} from '../../../components/ui/display/Card';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import {BasicButton} from '../../../components/ui/form/Button';

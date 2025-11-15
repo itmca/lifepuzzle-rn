@@ -5,12 +5,9 @@ import {Alert} from 'react-native';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 import {BasicNavigationProps} from '../../navigation/types';
-import {heroState} from '../../recoils/hero.recoil';
-import {selectedTagState} from '../../recoils/photos.recoil';
-import {
-  isGalleryUploadingState,
-  selectedGalleryItemsState,
-} from '../../recoils/gallery-write.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
+import {selectedTagState} from '../../recoils/content/media.recoil';
+import {selectedGalleryItemsState} from '../../recoils/ui/selection.recoil.ts';
 import {TagType} from '../../types/photo.type';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {imageConversionUtil} from '../../utils/image-conversion.util';
@@ -21,7 +18,8 @@ import {
 } from '../api/gallery.api.service';
 import {useAuthAxios} from './network.hook';
 import {useUpdatePublisher} from './update.hooks';
-import {storyListUpdate} from '../../recoils/update.recoil';
+import {storyListUpdate} from '../../recoils/shared/cache.recoil';
+import {isGalleryUploadingState} from '../../recoils/ui/upload.recoil.ts';
 
 interface UploadItem {
   originalImage: PhotoIdentifier;

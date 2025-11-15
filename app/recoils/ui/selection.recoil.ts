@@ -1,6 +1,6 @@
 import {atom, selector} from 'recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {TagType} from '../types/photo.type';
+import {TagType} from '../../types/photo.type';
 
 export type SelectionStateType = {
   user?: PhotoIdentifier;

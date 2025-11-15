@@ -2,7 +2,7 @@ import {useRecoilValue} from 'recoil';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {UserType} from '../../types/user.type.ts';
-import {userState, writingUserState} from '../../recoils/user.recoil.ts';
+import {userState, writingUserState} from '../../recoils/auth/user.recoil.ts';
 
 export const useUserHttpPayLoad = () => {
   const formData = new FormData();

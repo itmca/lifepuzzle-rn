@@ -1,9 +1,9 @@
 import {useRecoilValue} from 'recoil';
-import {writingStoryState} from '../../recoils/story-write.recoil';
+import {writingStoryState} from '../../recoils/content/story-write.recoil';
 import {AUDIO_TYPE} from '../../constants/upload-file-type.constant';
 import {WritingStoryType} from '../../types/writing-story.type';
 import {HeroType} from '../../types/hero.type.ts';
-import {heroState} from '../../recoils/hero.recoil.ts';
+import {heroState} from '../../recoils/content/hero.recoil.ts';
 
 export const useStoryHttpPayLoad = () => {
   const formData = new FormData();

@@ -6,10 +6,10 @@ import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroMod
 import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {selectedHeroPhotoState} from '../../recoils/hero.recoil';
+import {selectedHeroPhotoState} from '../../recoils/content/hero.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
-import {writingHeroState} from '../../recoils/hero-write.recoil';
+import {writingHeroState} from '../../recoils/content/hero-write.recoil';
 import {HeroType} from '../../types/hero.type';
 import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
 import {TopBar} from '../../components/ui/navigation/TopBar';

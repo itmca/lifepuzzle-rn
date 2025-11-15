@@ -4,7 +4,7 @@ import {ContentContainer} from '../../../../components/ui/layout/ContentContaine
 import {
   galleryErrorState,
   selectedTagState,
-} from '../../../../recoils/photos.recoil.ts';
+} from '../../../../recoils/content/media.recoil.ts';
 import {TagType} from '../../../../types/photo.type.ts';
 import {Color} from '../../../../constants/color.constant.ts';
 import {Title} from '../../../../components/ui/base/TextBase';

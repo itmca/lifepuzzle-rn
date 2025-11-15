@@ -8,7 +8,7 @@ import {
 } from '../../../../../constants/password.constant.ts';
 import {useAuthAxios} from '../../../../../service/hooks/network.hook.ts';
 import {CustomAlert} from '../../../../../components/ui/feedback/CustomAlert';
-import {userState} from '../../../../../recoils/user.recoil.ts';
+import {userState} from '../../../../../recoils/auth/user.recoil.ts';
 import {useRecoilValue} from 'recoil';
 import {useLogout} from '../../../../../service/hooks/logout.hook.ts';
 

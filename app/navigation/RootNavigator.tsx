@@ -6,7 +6,7 @@ import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import OnboardingPage from '../pages/Onboarding/OnboardingPage.tsx';
 import {LocalStorage} from '../service/local-storage.service.ts';
-import {isLoggedInState} from '../recoils/auth.recoil.ts';
+import {isLoggedInState} from '../recoils/auth/auth.recoil.ts';
 import {useRecoilValue} from 'recoil';
 
 export type RootStackParamList = {

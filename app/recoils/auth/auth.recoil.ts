@@ -1,6 +1,6 @@
 import {atom, selector} from 'recoil';
-import {AuthTokens} from '../types/auth.type';
-import {getTokenState} from '../service/auth.service';
+import {AuthTokens} from '../../types/auth.type';
+import {getTokenState} from '../../service/auth.service';
 
 export const authState = atom<AuthTokens>({
   key: 'authState',

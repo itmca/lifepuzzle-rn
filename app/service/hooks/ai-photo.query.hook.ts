@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useAuthAxios} from './network.hook';
 import {AxiosRequestConfig} from 'axios';
 import {AiGallery, AiPhotoTemplate} from '../../types/ai-photo.type';
-import {heroState} from '../../recoils/hero.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
 import {HeroType} from '../../types/hero.type';
 import {useRecoilValue} from 'recoil';
 

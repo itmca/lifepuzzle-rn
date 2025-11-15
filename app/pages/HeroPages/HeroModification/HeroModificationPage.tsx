@@ -11,7 +11,7 @@ import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
-import {writingHeroState} from '../../../recoils/hero-write.recoil';
+import {writingHeroState} from '../../../recoils/content/hero-write.recoil';
 import {useHero} from '../../../service/hooks/hero.query.hook';
 import {toPhotoIdentifier} from '../../../service/photo-identifier.service';
 import {useUpdateHero} from '../../../service/hooks/hero.update.hook.ts';

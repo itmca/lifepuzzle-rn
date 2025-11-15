@@ -13,9 +13,12 @@ import {
   UploadRequest,
   useUploadGalleryV2,
 } from '../../../../service/hooks/gallery.upload.hook.ts';
-import {heroState} from '../../../../recoils/hero.recoil.ts';
+import {heroState} from '../../../../recoils/content/hero.recoil.ts';
 import {TagType} from '../../../../types/photo.type.ts';
-import {selectedTagState, tagState} from '../../../../recoils/photos.recoil.ts';
+import {
+  selectedTagState,
+  tagState,
+} from '../../../../recoils/content/media.recoil.ts';
 import {BasicButton} from '../../../../components/ui/form/Button';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
 import {useUploadHeroes} from '../../../../service/hooks/hero.query.hook.ts';

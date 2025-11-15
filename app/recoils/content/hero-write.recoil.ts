@@ -1,5 +1,5 @@
 import {atom, DefaultValue, selector} from 'recoil';
-import {WritingHeroType} from '../types/writing-Hero.type';
+import {WritingHeroType} from '../../types/writing-Hero.type';
 
 const writingHeroInternalState = atom<WritingHeroType>({
   key: 'writingHeroInternalState',
@@ -34,4 +34,4 @@ export const writingHeroState = selector<WritingHeroType>({
 });
 
 // Re-export from upload.recoil for backward compatibility
-export {isHeroUploading} from './upload.recoil';
+export {isHeroUploading} from '../ui/upload.recoil';

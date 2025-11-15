@@ -1,6 +1,6 @@
 import {atom, selector} from 'recoil';
-import {UserType} from '../types/user.type';
-import {selectedUserPhotoState} from './selection.recoil';
+import {UserType} from '../../types/user.type';
+import {selectedUserPhotoState} from '../ui/selection.recoil';
 
 export const userState = atom<UserType | null>({
   key: 'userState',

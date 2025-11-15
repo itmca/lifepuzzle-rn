@@ -31,8 +31,8 @@ import {
   selectedGalleryIndexState,
   selectedTagState,
   tagState,
-} from '../../../recoils/photos.recoil.ts';
-import {isLoggedInState} from '../../../recoils/auth.recoil.ts';
+} from '../../../recoils/content/media.recoil.ts';
+import {isLoggedInState} from '../../../recoils/auth/auth.recoil.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import Video from 'react-native-video';

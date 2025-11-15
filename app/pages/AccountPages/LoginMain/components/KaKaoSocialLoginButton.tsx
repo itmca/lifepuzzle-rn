@@ -7,7 +7,7 @@ import {
 } from '../../../../service/hooks/login.hook';
 import {Color} from '../../../../constants/color.constant';
 import {useRecoilValue} from 'recoil';
-import {shareKeyState} from '../../../../recoils/share.recoil.ts';
+import {shareKeyState} from '../../../../recoils/shared/share.recoil.ts';
 import {BasicButton} from '../../../../components/ui/form/Button';
 import {showErrorToast} from '../../../../components/ui/feedback/Toast';
 

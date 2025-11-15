@@ -8,7 +8,7 @@ import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {
   selectedUserPhotoState,
   writingUserState,
-} from '../../recoils/user.recoil';
+} from '../../recoils/auth/user.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
 import {TopBar} from '../../components/ui/navigation/TopBar';

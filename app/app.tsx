@@ -15,7 +15,7 @@ import RootNavigator from './navigation/RootNavigator';
 import {useFetchLocalStorageUserHero} from './service/hooks/local-storage.hook';
 import {MutableSnapshot, RecoilRoot, useSetRecoilState} from 'recoil';
 import {LocalStorage} from './service/local-storage.service';
-import {authState} from './recoils/auth.recoil';
+import {authState} from './recoils/auth/auth.recoil';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {hideSplash, showSplash} from 'react-native-splash-view';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -23,7 +23,7 @@ import {useLinking} from './service/hooks/linking.hook.ts';
 import {ToastComponent} from './components/ui/feedback/Toast.tsx';
 import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 import ShareModule from '../src/NativeLPShareModule';
-import {sharedImageDataState} from './recoils/share.recoil';
+import {sharedImageDataState} from './recoils/shared/share.recoil';
 import {BasicNavigationProps} from './navigation/types.tsx';
 
 const theme = {

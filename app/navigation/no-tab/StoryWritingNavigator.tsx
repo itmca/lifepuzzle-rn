@@ -5,7 +5,7 @@ import {useSaveStory} from '../../service/hooks/story.write.hook';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelector.tsx';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
+import {SelectedStoryKeyState} from '../../recoils/content/story-view.recoil';
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {TopBar} from '../../components/ui/navigation/TopBar';
@@ -14,7 +14,7 @@ import GalleryDetailFilter from '../../pages/GalleryPages/GalleryDetailFilter/Ga
 import {
   editedGalleryItemsState,
   selectedGalleryItemsState,
-} from '../../recoils/gallery-write.recoil.ts';
+} from '../../recoils/ui/selection.recoil.ts'; // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 
 // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {

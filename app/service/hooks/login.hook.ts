@@ -1,13 +1,13 @@
 import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import {LocalStorage} from '../local-storage.service';
-import {userState} from '../../recoils/user.recoil';
-import {authState} from '../../recoils/auth.recoil';
-import {heroState} from '../../recoils/hero.recoil';
+import {userState} from '../../recoils/auth/user.recoil';
+import {authState} from '../../recoils/auth/auth.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
 import {AuthTokens} from '../../types/auth.type';
 import {UserType} from '../../types/user.type';
 import {HeroType} from '../../types/hero.type';
 import {useNavigation} from '@react-navigation/native';
-import {shareKeyState} from '../../recoils/share.recoil.ts';
+import {shareKeyState} from '../../recoils/shared/share.recoil.ts';
 
 type Option = {
   customGoBackAction?: () => void;

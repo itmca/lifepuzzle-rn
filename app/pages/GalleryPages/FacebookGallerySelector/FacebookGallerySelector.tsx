@@ -10,10 +10,6 @@ import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer
 import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 import {BodyTextB} from '../../../components/ui/base/TextBase';
 
-import {
-  isGalleryUploadingState,
-  selectedGalleryItemsState,
-} from '../../../recoils/gallery-write.recoil';
 import {FacebookPhotoItem} from '../../../types/facebook.type';
 import {AgeType} from '../../../types/photo.type';
 import {
@@ -23,6 +19,8 @@ import {
 import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/photo-identifier.service';
 import {useFacebookPhotos} from '../../../service/hooks/facebook.photos.hook';
 import {Color} from '../../../constants/color.constant';
+import {selectedGalleryItemsState} from '../../../recoils/ui/selection.recoil.ts';
+import {isGalleryUploadingState} from '../../../recoils/ui/upload.recoil.ts';
 
 const ageGroupOptions = [
   {label: '10세 미만', value: 'UNDER_TEENAGER' as AgeType},

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable} from 'react-native';
 import {useRecoilState} from 'recoil';
-import {OpenDetailBottomSheet} from '../../../../recoils/story-view.recoil';
+import {OpenDetailBottomSheet} from '../../../../recoils/content/story-view.recoil';
 import {SvgIcon} from '../../display/SvgIcon';
 
 type Props = {

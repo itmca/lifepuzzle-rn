@@ -5,9 +5,9 @@ import {useAuthAxios} from './network.hook.ts';
 import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useUpdatePublisher} from './update.hooks.ts';
-import {currentUserUpdate} from '../../recoils/update.recoil.ts';
+import {currentUserUpdate} from '../../recoils/shared/cache.recoil.ts';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
-import {writingUserState} from '../../recoils/user.recoil.ts';
+import {writingUserState} from '../../recoils/auth/user.recoil.ts';
 import {HeroAuthTypeCode} from '../../constants/auth.constant.ts';
 
 type Props = {

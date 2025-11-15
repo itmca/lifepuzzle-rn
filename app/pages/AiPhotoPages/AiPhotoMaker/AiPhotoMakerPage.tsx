@@ -16,7 +16,7 @@ import {Color} from '../../../constants/color.constant.ts';
 import {
   getGallery,
   selectedGalleryIndexState,
-} from '../../../recoils/photos.recoil.ts';
+} from '../../../recoils/content/media.recoil.ts';
 import {AiPhotoTemplate} from '../../../types/ai-photo.type.ts';
 import {useAiPhotoTemplate} from '../../../service/hooks/ai-photo.query.hook.ts';
 import {useCreateAiPhoto} from '../../../service/hooks/ai-photo.create.hook.ts';

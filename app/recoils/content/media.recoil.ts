@@ -1,8 +1,11 @@
 import {atom, DefaultValue, selector} from 'recoil';
-import {AgeGroupsType, TagType} from '../types/photo.type';
+import {AgeGroupsType, TagType} from '../../types/photo.type';
 
 // Re-export from selection.recoil for backward compatibility
-export {selectedGalleryIndexState, selectedTagState} from './selection.recoil';
+export {
+  selectedGalleryIndexState,
+  selectedTagState,
+} from '../ui/selection.recoil';
 const ageGroupsInternalState = atom<AgeGroupsType | null>({
   key: 'ageGroupsInternalState',
   default: null,
