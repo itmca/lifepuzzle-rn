@@ -8,7 +8,7 @@ import {
   HeroWithPuzzleCntType,
 } from '../../../types/core/hero.type';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {useUpdateObserver} from '../../../service/hooks/update.hooks';
+import {useUpdateObserver} from '../../../service/hooks/update.hook';
 import {heroUpdate} from '../../../recoils/shared/cache.recoil';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {

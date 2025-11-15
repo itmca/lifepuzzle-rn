@@ -1,26 +1,32 @@
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {useUpdatePublisher} from './update.hooks';
+import {useUpdatePublisher} from './update.hook';
 import {heroUpdate} from '../../recoils/shared/cache.recoil';
-import {useEffect} from 'react';
+import {useEffect, useCallback} from 'react';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {writingHeroState} from '../../recoils/content/hero.recoil';
 import {uploadState} from '../../recoils/ui/upload.recoil';
 import {useAuthAxios} from './network.hook';
-import {Alert} from 'react-native';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {isLoggedInState} from '../../recoils/auth/auth.recoil';
 import {useHeroHttpPayLoad} from './hero.payload.hook.ts';
+import {useFieldValidation, useAuthValidation} from './common/validation.hook';
+import {useErrorHandler} from './common/error-handler.hook';
 
 export const useCreateHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const publishHeroUpdate = useUpdatePublisher(heroUpdate);
 
-  const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
   const resetWritingHero = useResetRecoilState(writingHeroState);
   const setUploadState = useSetRecoilState(uploadState);
-  const setHeroUploading = (value: boolean) => setUploadState(prev => ({...prev, hero: value}));
+  const setHeroUploading = useCallback(
+    (value: boolean) => setUploadState(prev => ({...prev, hero: value})),
+    [setUploadState],
+  );
   const writingHero = useRecoilValue(writingHeroState);
+
+  const {validateRequired} = useFieldValidation();
+  const {validateLogin} = useAuthValidation();
+  const {handleCreateError} = useErrorHandler();
 
   const [isLoading, registerHero] = useAuthAxios({
     requestOption: {
@@ -37,77 +43,44 @@ export const useCreateHero = (): [() => void, boolean] => {
       });
     },
     onError: () => {
-      CustomAlert.retryAlert('주인공 생성 실패하였습니다.', submit, goBack);
+      handleCreateError('주인공', submit, goBack);
     },
     disableInitialRequest: true,
   });
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     resetWritingHero();
     navigation.goBack();
     publishHeroUpdate();
-  };
+  }, [resetWritingHero, navigation, publishHeroUpdate]);
 
   const heroHttpPayLoad = useHeroHttpPayLoad();
 
   useEffect(() => {
     setHeroUploading(isLoading);
-  }, [isLoading]);
+  }, [isLoading, setHeroUploading]);
 
-  const submit = () => {
+  const submit = useCallback(() => {
     registerHero({
       data: heroHttpPayLoad,
     });
-  };
+  }, [registerHero, heroHttpPayLoad]);
 
-  function validate(): boolean {
-    if (!writingHero?.heroName) {
-      Alert.alert('이름을 입력해주세요.');
-      return false;
-    } else if (!writingHero?.heroNickName) {
-      Alert.alert('닉네임을 입력해주세요.');
-      return false;
-    } else if (!writingHero?.birthday) {
-      Alert.alert('태어난 날 을 입력해주세요.');
-      return false;
-    } else if (!isLoggedIn) {
-      Alert.alert(
-        '미로그인 시점에 작성한 이야기는 저장할 수 없습니다.',
-        '',
-        [
-          {
-            text: '로그인하러가기',
-            style: 'default',
-            onPress: () => {
-              navigation.push('NoTab', {
-                screen: 'LoginRegisterNavigator',
-                params: {
-                  screen: 'LoginMain',
-                },
-              });
-            },
-          },
-          {text: '계속 둘러보기', style: 'default'},
-        ],
-        {
-          cancelable: true,
-        },
-      );
-      return false;
+  const validate = useCallback((): boolean => {
+    return (
+      validateRequired(writingHero?.heroName, '이름') &&
+      validateRequired(writingHero?.heroNickName, '닉네임') &&
+      validateRequired(writingHero?.birthday?.toString(), '태어난 날') &&
+      validateLogin(navigation)
+    );
+  }, [validateRequired, validateLogin, writingHero, navigation]);
+
+  const handleSubmit = useCallback(() => {
+    if (!validate()) {
+      return;
     }
+    submit();
+  }, [validate, submit]);
 
-    return true;
-  }
-
-  return [
-    () => {
-      //   onSubmit();
-      if (!validate()) {
-        return;
-      }
-
-      submit();
-    },
-    isLoading,
-  ];
+  return [handleSubmit, isLoading];
 };

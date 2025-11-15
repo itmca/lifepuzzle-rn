@@ -2,7 +2,7 @@ import {useSetRecoilState} from 'recoil';
 import {uploadState} from '../../recoils/ui/upload.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
-import {useUpdatePublisher} from './update.hooks';
+import {useUpdatePublisher} from './update.hook';
 import {storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';

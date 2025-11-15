@@ -1,6 +1,6 @@
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {heroState} from '../../recoils/content/hero.recoil';
-import {useUpdateObserver} from './update.hooks';
+import {useUpdateObserver} from './update.hook';
 import {heroUpdate, storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {useEffect, useState} from 'react';
 import {useAuthAxios} from './network.hook';

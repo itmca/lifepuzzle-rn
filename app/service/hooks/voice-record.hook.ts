@@ -15,13 +15,13 @@ import {
 } from '../voice-record-info.service';
 import {playInfoState} from '../../recoils/content/story.recoil';
 
-type Props = {
+interface VoiceRecorderProps {
   audioUrl?: string;
   onStartRecord?: () => void;
   onStopRecord?: (uri: string) => void;
-};
+}
 
-type Response = {
+interface VoiceRecorderReturn {
   fileName: string | undefined;
   recordTime: string | undefined;
   isRecording: boolean;
@@ -30,15 +30,15 @@ type Response = {
   startPlay: () => Promise<void>;
   pausePlay: () => Promise<void>;
   stopPlay: () => Promise<void>;
-  seekPlay: (sec: number) => Promise<void>;
-};
+  seekPlay: (seconds: number) => Promise<void>;
+}
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 export const useVoiceRecorder = ({
   audioUrl,
   onStartRecord,
   onStopRecord,
-}: Props): Response => {
+}: VoiceRecorderProps): VoiceRecorderReturn => {
   const resetPlayInfo = useResetRecoilState(playInfoState);
 
   const setPlayInfo = useSetRecoilState(playInfoState);
@@ -119,8 +119,8 @@ export const useVoiceRecorder = ({
     audioRecorderPlayer.removePlayBackListener();
     setPlayInfo({isPlay: false});
   };
-  const seekPlay = async (sec: number) => {
-    audioRecorderPlayer.seekToPlayer(sec);
+  const seekPlay = async (seconds: number) => {
+    audioRecorderPlayer.seekToPlayer(seconds);
   };
   return {
     fileName: file,

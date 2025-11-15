@@ -5,7 +5,7 @@ import {useAuthAxios} from './network.hook';
 import {UserType} from '../../types/core/user.type';
 import {useEffect} from 'react';
 import {heroState} from '../../recoils/content/hero.recoil';
-import {useUpdateObserver} from './update.hooks';
+import {useUpdateObserver} from './update.hook';
 import {
   currentHeroUpdate,
   currentUserUpdate,

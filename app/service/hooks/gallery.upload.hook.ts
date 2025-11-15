@@ -16,7 +16,7 @@ import {
   PresignedUrlDto,
 } from '../api/gallery.api.service';
 import {useAuthAxios} from './network.hook';
-import {useUpdatePublisher} from './update.hooks';
+import {useUpdatePublisher} from './update.hook';
 import {storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {uploadState} from '../../recoils/ui/upload.recoil';
 
