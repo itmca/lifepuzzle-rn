@@ -35,15 +35,7 @@ export type TagType = {
   count?: number;
 };
 
-export type PhotoHeroType = {
-  id: number;
-  name: string;
-  nickname: string;
-  birthdate: string;
-  age: number;
-  image: string;
-};
-
+// Media 공유 관련 타입
 export type SharePhoto = {
   type: string;
   uri: string;

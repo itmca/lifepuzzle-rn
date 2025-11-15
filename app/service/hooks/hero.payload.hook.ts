@@ -4,7 +4,7 @@ import {
   writingHeroState,
 } from '../../recoils/content/hero.recoil';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
-import {WritingHeroType} from '../../types/core/writing-hero.type';
+import {WritingHeroType} from '../../types/core/hero.type';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 export const useHeroHttpPayLoad = () => {
@@ -21,7 +21,7 @@ const addHeroPhotoInFormData = function (
   formData: FormData,
   writingHero: WritingHeroType | undefined,
 ) {
-  const photo = writingHero?.imageURL;
+  const photo = writingHero?.modifiedImage;
   if (photo?.node?.image?.uri) {
     const uri = photo.node.image.uri;
     const fileParts = uri?.split('/');
@@ -43,7 +43,7 @@ const addHeroInFormData = (
   writingHeroKey: number,
   writingHero: WritingHeroType | undefined,
 ) => {
-  const photo: PhotoIdentifier | undefined = writingHero?.imageURL;
+  const photo: PhotoIdentifier | undefined = writingHero?.modifiedImage;
 
   const currentTime = Date.now();
   const uri = photo?.node.image.uri;
@@ -51,7 +51,7 @@ const addHeroInFormData = (
   const imgName = fileParts ? fileParts[fileParts?.length - 1] : undefined;
   const imgPath = photo
     ? `${currentTime}_${String(imgName)}`
-    : writingHero?.imageURL;
+    : writingHero?.imageUrl;
 
   const savedHero = {
     heroNo: writingHeroKey,
@@ -60,8 +60,8 @@ const addHeroInFormData = (
     birthday: writingHero?.birthday,
     isLunar: writingHero?.isLunar,
     title: writingHero?.title,
-    imageURL: imgPath ?? '',
-    isProfileImageUpdate: writingHero.isProfileImageUpdate,
+    imageUrl: imgPath ?? '',
+    isProfileImageUpdate: writingHero?.isProfileImageUpdate ?? false,
   };
 
   formData.append('toWrite', {
