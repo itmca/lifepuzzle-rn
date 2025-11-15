@@ -1,15 +1,15 @@
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {authState} from '../../recoils/auth.recoil';
+import {authState} from '../../recoils/auth/auth.recoil';
 import {useAuthAxios} from './network.hook';
 import {UserType} from '../../types/user.type';
 import {useEffect} from 'react';
-import {userState} from '../../recoils/user.recoil';
-import {heroState} from '../../recoils/hero.recoil';
+import {userState} from '../../recoils/auth/user.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
 import {useUpdateObserver} from './update.hooks';
 import {
   currentHeroUpdate,
   currentUserUpdate,
-} from '../../recoils/update.recoil';
+} from '../../recoils/shared/cache.recoil';
 import {LocalStorage} from '../local-storage.service';
 import {getTokenState} from '../auth.service';
 import {HeroQueryResponse} from './hero.query.hook';

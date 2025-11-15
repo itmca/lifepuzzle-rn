@@ -13,7 +13,7 @@ import {Color} from '../../constants/color.constant.ts';
 import {
   getGallery,
   selectedGalleryIndexState,
-} from '../../recoils/photos.recoil.ts';
+} from '../../recoils/content/media.recoil.ts';
 import {Title} from '../../components/ui/base/TextBase';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {

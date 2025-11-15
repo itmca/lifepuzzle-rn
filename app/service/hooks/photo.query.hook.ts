@@ -1,7 +1,7 @@
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {heroState} from '../../recoils/hero.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
 import {useUpdateObserver} from './update.hooks';
-import {heroUpdate, storyListUpdate} from '../../recoils/update.recoil';
+import {heroUpdate, storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {useEffect, useState} from 'react';
 import {useAuthAxios} from './network.hook';
 import {
@@ -15,7 +15,7 @@ import {
   ageGroupsState,
   selectedTagState,
   tagState,
-} from '../../recoils/photos.recoil';
+} from '../../recoils/content/media.recoil';
 import {AxiosRequestConfig} from 'axios';
 import {toInternationalAge} from '../date-time-display.service';
 

@@ -2,16 +2,16 @@ import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hooks';
-import {currentHeroUpdate, heroUpdate} from '../../recoils/update.recoil';
+import {currentHeroUpdate, heroUpdate} from '../../recoils/shared/cache.recoil';
 import {useNavigation} from '@react-navigation/native';
-import {isLoggedInState} from '../../recoils/auth.recoil';
+import {isLoggedInState} from '../../recoils/auth/auth.recoil';
 import {BasicNavigationProps} from '../../navigation/types';
-import {heroState} from '../../recoils/hero.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
 import {useHeroHttpPayLoad} from './hero.payload.hook';
 import {
   writingHeroKeyState,
   writingHeroState,
-} from '../../recoils/hero-write.recoil';
+} from '../../recoils/content/hero-write.recoil';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 
 export const useResetAllWritingHero = () => {

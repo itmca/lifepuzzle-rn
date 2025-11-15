@@ -1,5 +1,5 @@
 import {useRecoilState} from 'recoil';
-import {authState} from '../../recoils/auth.recoil';
+import {authState} from '../../recoils/auth/auth.recoil';
 import {SERVER_HOST} from '../../constants/url.constant';
 import axios, {AxiosError} from 'axios';
 import {convertDateStringToDate} from '../json-convert.service';

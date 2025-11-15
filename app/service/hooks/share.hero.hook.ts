@@ -2,8 +2,8 @@ import {useAuthAxios} from './network.hook.ts';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {isLoggedInState} from '../../recoils/auth.recoil.ts';
-import {shareKeyState} from '../../recoils/share.recoil.ts';
+import {isLoggedInState} from '../../recoils/auth/auth.recoil.ts';
+import {shareKeyState} from '../../recoils/shared/share.recoil.ts';
 
 type Params = {
   shareKey?: string;

@@ -1,5 +1,5 @@
 import {atom, DefaultValue, selector} from 'recoil';
-import {PlayInfo, WritingStoryType} from '../types/writing-story.type';
+import {PlayInfo, WritingStoryType} from '../../types/writing-story.type';
 
 const writingStoryInternalState = atom<WritingStoryType>({
   key: 'writingStoryInternalState',
@@ -41,12 +41,10 @@ export const playInfoState = selector<PlayInfo>({
   },
 });
 // Re-export from upload.recoil for backward compatibility
-export {isStoryUploading} from './upload.recoil';
+export {isStoryUploading} from '../ui/upload.recoil';
 
-export const isModalOpening = atom<boolean>({
-  key: 'isModalOpening',
-  default: false,
-});
+// Re-export from ui/modal.recoil for backward compatibility
+export {isModalOpening} from '../ui/modal.recoil';
 
 export const PostStoryKeyState = atom<string>({
   key: 'PostStoryKeyState',

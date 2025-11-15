@@ -2,7 +2,7 @@ import {useAuthAxios} from './network.hook';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilValue} from 'recoil';
 import {BasicNavigationProps} from '../../navigation/types';
-import {userState} from '../../recoils/user.recoil';
+import {userState} from '../../recoils/auth/user.recoil';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {showErrorToast} from '../../components/ui/feedback/Toast';
 interface AiPhotoCreateRequest {

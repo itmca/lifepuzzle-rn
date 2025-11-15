@@ -2,8 +2,8 @@ import {useAuthAxios} from './network.hook.ts';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useLogout} from './logout.hook.ts';
 import {useRecoilValue} from 'recoil';
-import {userState} from '../../recoils/user.recoil.ts';
-import {authState} from '../../recoils/auth.recoil.ts';
+import {userState} from '../../recoils/auth/user.recoil.ts';
+import {authState} from '../../recoils/auth/auth.recoil.ts';
 
 export const useUserWithdraw = (): [() => void, boolean] => {
   const user = useRecoilValue(userState);

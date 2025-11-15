@@ -12,17 +12,17 @@ import {
 } from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant';
 import {BasicNavigationProps} from '../../../../navigation/types';
-import {SelectedStoryKeyState} from '../../../../recoils/story-view.recoil';
+import {SelectedStoryKeyState} from '../../../../recoils/content/story-view.recoil';
 import {
   PostStoryKeyState,
   writingStoryState,
-} from '../../../../recoils/story-write.recoil';
+} from '../../../../recoils/content/story-write.recoil';
 import {Divider} from '../../../../components/ui/base/Divider';
 import ImagePicker from 'react-native-image-crop-picker';
-import {selectedGalleryItemsState} from '../../../../recoils/gallery-write.recoil';
 import {toPhotoIdentifierFromImage} from '../../../../service/photo-identifier.service';
 import {ensureCameraPermission} from '../../../../service/hooks/permission.hook';
 import {showInfoToast} from '../../../../components/ui/feedback/Toast';
+import {selectedGalleryItemsState} from '../../../../recoils/ui/selection.recoil.ts';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;

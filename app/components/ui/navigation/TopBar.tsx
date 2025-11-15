@@ -7,7 +7,7 @@ import {TopNavigationContainer} from '../layout/TopNavigationContainer';
 import {SvgIcon} from '../display/SvgIcon.tsx';
 import {Title} from '../base/TextBase.tsx';
 import {useRecoilValue} from 'recoil';
-import {isLoggedInState} from '../../../recoils/auth.recoil.ts';
+import {isLoggedInState} from '../../../recoils/auth/auth.recoil.ts';
 
 type Props = {
   logo?: boolean;

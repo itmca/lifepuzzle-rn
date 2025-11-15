@@ -9,8 +9,8 @@ import {ContentContainer} from '../../../components/ui/layout/ContentContainer.t
 
 import {Color} from '../../../constants/color.constant.ts';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {selectedGalleryIndexState} from '../../../recoils/photos.recoil.ts';
-import {editedGalleryItemsState} from '../../../recoils/gallery-write.recoil.ts';
+import {selectedGalleryIndexState} from '../../../recoils/content/media.recoil.ts';
+import {editedGalleryItemsState} from '../../../recoils/ui/selection.recoil.ts';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';

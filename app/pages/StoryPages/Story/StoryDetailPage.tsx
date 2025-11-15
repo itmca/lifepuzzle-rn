@@ -15,7 +15,7 @@ import {
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import {writingStoryState} from '../../../recoils/story-write.recoil.ts';
+import {writingStoryState} from '../../../recoils/content/story-write.recoil.ts';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -28,8 +28,8 @@ import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {
   getGallery,
   selectedGalleryIndexState,
-} from '../../../recoils/photos.recoil.ts';
-import {SelectedStoryKeyState} from '../../../recoils/story-view.recoil.ts';
+} from '../../../recoils/content/media.recoil.ts';
+import {SelectedStoryKeyState} from '../../../recoils/content/story-view.recoil.ts';
 import {Title} from '../../../components/ui/base/TextBase';
 import {StoryWritingButton} from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';

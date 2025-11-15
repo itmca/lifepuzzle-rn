@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Keyboard} from 'react-native';
 import {useRecoilValue} from 'recoil';
-import {heroState} from '../../../../recoils/hero.recoil';
+import {heroState} from '../../../../recoils/content/hero.recoil';
 import {HeroType} from '../../../../types/hero.type';
 import {PhotoHeroType} from '../../../../types/photo.type';
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';

@@ -14,7 +14,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {shareKeyState} from '../../../recoils/share.recoil.ts';
+import {shareKeyState} from '../../../recoils/shared/share.recoil.ts';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import {BasicButton} from '../../../components/ui/form/Button';

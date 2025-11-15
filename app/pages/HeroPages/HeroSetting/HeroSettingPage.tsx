@@ -9,7 +9,7 @@ import {
 } from '../../../types/hero.type';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {useUpdateObserver} from '../../../service/hooks/update.hooks';
-import {heroUpdate} from '../../../recoils/update.recoil';
+import {heroUpdate} from '../../../recoils/shared/cache.recoil';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   BasicNavigationProps,
@@ -23,7 +23,7 @@ import {
 } from '../../../components/ui/layout/ContentContainer.tsx';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {Color} from '../../../constants/color.constant.ts';
-import {writingHeroKeyState} from '../../../recoils/hero-write.recoil.ts';
+import {writingHeroKeyState} from '../../../recoils/content/hero-write.recoil.ts';
 import {AccountAvatar} from '../../../components/ui/display/Avatar';
 import {useRegisterSharedHero} from '../../../service/hooks/share.hero.hook.ts';
 import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';
@@ -39,14 +39,14 @@ import {toInternationalAge} from '../../../service/date-time-display.service.ts'
 import {format} from 'date-fns';
 import {BasicButton} from '../../../components/ui/form/Button';
 import {Divider} from '../../../components/ui/base/Divider';
-import {heroState} from '../../../recoils/hero.recoil.ts';
+import {heroState} from '../../../recoils/content/hero.recoil.ts';
 import {HeroAuthTypeByCode} from '../../../constants/auth.constant.ts';
 import {showToast} from '../../../components/ui/feedback/Toast';
 import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {SvgIcon} from '../../../components/ui/display/SvgIcon';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {HeroAuthUpdateBottomSheet} from './HeroAuthUpdateBottomSheet.tsx';
-import {userState} from '../../../recoils/user.recoil.ts';
+import {userState} from '../../../recoils/auth/user.recoil.ts';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();

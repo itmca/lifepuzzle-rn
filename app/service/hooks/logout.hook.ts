@@ -1,12 +1,12 @@
 import {useResetRecoilState} from 'recoil';
 import {LocalStorage} from '../local-storage.service';
-import {userState} from '../../recoils/user.recoil';
-import {authState} from '../../recoils/auth.recoil';
-import {heroState} from '../../recoils/hero.recoil';
+import {userState} from '../../recoils/auth/user.recoil';
+import {authState} from '../../recoils/auth/auth.recoil';
+import {heroState} from '../../recoils/content/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
-import {SelectedStoryKeyState} from '../../recoils/story-view.recoil';
-import {writingStoryState} from '../../recoils/story-write.recoil';
-import {ageGroupsState, tagState} from '../../recoils/photos.recoil';
+import {SelectedStoryKeyState} from '../../recoils/content/story-view.recoil';
+import {writingStoryState} from '../../recoils/content/story-write.recoil';
+import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
 
 type Option = {
   customGoBackAction?: () => void;

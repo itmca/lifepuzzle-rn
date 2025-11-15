@@ -13,7 +13,7 @@ import {
   getDisplayRecordTime,
   getRecordFileName,
 } from '../voice-record-info.service';
-import {playInfoState} from '../../recoils/story-write.recoil';
+import {playInfoState} from '../../recoils/content/story-write.recoil';
 
 type Props = {
   audioUrl?: string;

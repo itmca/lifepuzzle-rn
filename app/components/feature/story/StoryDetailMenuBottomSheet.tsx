@@ -4,7 +4,7 @@ import {Color} from '../../../constants/color.constant.ts';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {writingStoryState} from '../../../recoils/story-write.recoil.ts';
+import {writingStoryState} from '../../../recoils/content/story-write.recoil.ts';
 import {
   useDeleteGallery,
   useDeleteStory,
@@ -14,7 +14,7 @@ import {GalleryType} from '../../../types/photo.type.ts';
 import {
   OpenDetailBottomSheet,
   SelectedStoryKeyState,
-} from '../../../recoils/story-view.recoil.ts';
+} from '../../../recoils/content/story-view.recoil.ts';
 import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
 import {Title} from '../../ui/base/TextBase';
 import {Divider} from '../../ui/base/Divider.tsx';
