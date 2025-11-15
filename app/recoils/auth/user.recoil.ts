@@ -1,14 +1,10 @@
 import {atom, selector} from 'recoil';
 import {UserType} from '../../types/user.type';
-import {selectedUserPhotoState} from '../ui/selection.recoil';
 
 export const userState = atom<UserType | null>({
   key: 'userState',
   default: null,
 });
-
-// Re-export for backward compatibility
-export {selectedUserPhotoState};
 
 export const writingUserState = atom<UserType>({
   key: 'writingUserState',
@@ -30,14 +26,9 @@ export const getCurrentUserPhotoUri = selector({
     const user = get(writingUserState);
 
     if (!user) {
-      return;
+      return undefined;
     }
 
-    const modifiedImage = user.modifiedImage;
-    const currentUserPhotoUri = modifiedImage
-      ? modifiedImage.node.image.uri
-      : user.imageURL;
-
-    return currentUserPhotoUri;
+    return user.modifiedImage?.node.image.uri || user.imageURL;
   },
 });

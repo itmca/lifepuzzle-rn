@@ -4,7 +4,7 @@ import {userState} from '../../recoils/auth/user.recoil';
 import {authState} from '../../recoils/auth/auth.recoil';
 import {heroState} from '../../recoils/content/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
-import {SelectedStoryKeyState} from '../../recoils/content/story-view.recoil';
+import {selectedStoryKeyState} from '../../recoils/content/story-view.recoil';
 import {writingStoryState} from '../../recoils/content/story-write.recoil';
 import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
 
@@ -19,7 +19,7 @@ export const useLogout = (option?: Option) => {
   const resetUser = useResetRecoilState(userState);
   const resetHero = useResetRecoilState(heroState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
-  const resetSelectedStory = useResetRecoilState(SelectedStoryKeyState);
+  const resetSelectedStory = useResetRecoilState(selectedStoryKeyState);
   const resetAgeGroups = useResetRecoilState(ageGroupsState);
   const resetTag = useResetRecoilState(tagState);
 

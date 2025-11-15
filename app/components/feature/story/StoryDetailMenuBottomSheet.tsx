@@ -11,10 +11,8 @@ import {
 } from '../../../service/hooks/story.delete.hook.ts';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {GalleryType} from '../../../types/photo.type.ts';
-import {
-  OpenDetailBottomSheet,
-  SelectedStoryKeyState,
-} from '../../../recoils/content/story-view.recoil.ts';
+import {selectedStoryKeyState} from '../../../recoils/content/story-view.recoil';
+import {OpenDetailBottomSheet} from '../../../recoils/ui/modal.recoil';
 import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
 import {Title} from '../../ui/base/TextBase';
 import {Divider} from '../../ui/base/Divider.tsx';
@@ -35,7 +33,7 @@ export const StoryDetailMenuBottomSheet = ({
 }: Props): JSX.Element => {
   const [openModal, setOpenModal] = useRecoilState(OpenDetailBottomSheet);
   const setWritingStory = useSetRecoilState(writingStoryState);
-  const setEditStoryKey = useSetRecoilState(SelectedStoryKeyState);
+  const setEditStoryKey = useSetRecoilState(selectedStoryKeyState);
 
   const navigation = useNavigation<BasicNavigationProps>();
   const isStory = type === 'story';

@@ -1,32 +1,9 @@
-import {atom, DefaultValue, selector} from 'recoil';
+import {atom, selector} from 'recoil';
 import {AgeGroupsType, TagType} from '../../types/photo.type';
 
-// Re-export from selection.recoil for backward compatibility
-export {
-  selectedGalleryIndexState,
-  selectedTagState,
-} from '../ui/selection.recoil';
-const ageGroupsInternalState = atom<AgeGroupsType | null>({
-  key: 'ageGroupsInternalState',
-  default: null,
-});
-export const ageGroupsState = selector<AgeGroupsType | null>({
+export const ageGroupsState = atom<AgeGroupsType | null>({
   key: 'ageGroupsState',
-  get: ({get}) => get(ageGroupsInternalState),
-  set: ({get, set, reset}, newValue) => {
-    if (newValue instanceof DefaultValue) {
-      reset(ageGroupsInternalState);
-    } else {
-      set(
-        ageGroupsInternalState,
-        newValue
-          ? {
-              ...newValue,
-            }
-          : null,
-      );
-    }
-  },
+  default: null,
 });
 export const getGallery = selector({
   key: 'currentGalleryState',
@@ -39,9 +16,9 @@ export const getGallery = selector({
     }
 
     const gallery = Object.entries(ageGroups)
-      .map(([key, value]: [string, any]) => {
-        const tag = tags.find((tag: any) => tag.key === key);
-        return value.gallery.map((item: any) => ({
+      .map(([key, value]) => {
+        const tag = tags.find(tag => tag.key === key);
+        return value.gallery.map(item => ({
           ...item,
           tag,
         }));
@@ -50,20 +27,9 @@ export const getGallery = selector({
     return gallery;
   },
 });
-const tagInternalState = atom<TagType[] | null>({
-  key: 'tagInternalState',
-  default: null,
-});
-export const tagState = selector<TagType[] | null>({
+export const tagState = atom<TagType[] | null>({
   key: 'tagState',
-  get: ({get}) => get(tagInternalState),
-  set: ({get, set, reset}, newValue) => {
-    if (newValue instanceof DefaultValue) {
-      reset(tagInternalState);
-    } else {
-      set(tagInternalState, newValue ? [...newValue] : null);
-    }
-  },
+  default: null,
 });
 
 export const galleryErrorState = atom<boolean>({

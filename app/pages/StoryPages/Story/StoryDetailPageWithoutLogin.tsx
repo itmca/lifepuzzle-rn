@@ -10,10 +10,8 @@ import {
 } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import {Color} from '../../constants/color.constant.ts';
-import {
-  getGallery,
-  selectedGalleryIndexState,
-} from '../../recoils/content/media.recoil.ts';
+import {getGallery} from '../../recoils/content/media.recoil';
+import {selectedGalleryIndexState} from '../../recoils/ui/selection.recoil';
 import {Title} from '../../components/ui/base/TextBase';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {

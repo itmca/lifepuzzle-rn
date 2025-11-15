@@ -4,7 +4,7 @@ import {useRecoilState} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import {selectedHeroPhotoState} from '../../../recoils/content/hero.recoil';
+import {selectedHeroPhotoState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,

@@ -5,10 +5,8 @@ import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileS
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {
-  selectedUserPhotoState,
-  writingUserState,
-} from '../../recoils/auth/user.recoil';
+import {selectedUserPhotoState} from '../../recoils/ui/selection.recoil';
+import {writingUserState} from '../../recoils/auth/user.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
 import {TopBar} from '../../components/ui/navigation/TopBar';

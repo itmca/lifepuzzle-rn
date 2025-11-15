@@ -1,52 +1,16 @@
-import {atom, DefaultValue, selector} from 'recoil';
+import {atom} from 'recoil';
 import {PlayInfo, WritingStoryType} from '../../types/writing-story.type';
 
-const writingStoryInternalState = atom<WritingStoryType>({
-  key: 'writingStoryInternalState',
-  default: {},
-});
-export const playInfoInternalState = atom<PlayInfo>({
-  key: 'playInfoInternalState',
-  default: {},
-});
-
-export const writingStoryState = selector<WritingStoryType>({
+export const writingStoryState = atom<WritingStoryType>({
   key: 'writingStoryState',
-  get: ({get}) => get(writingStoryInternalState),
-  set: ({get, set, reset}, newValue) => {
-    if (newValue instanceof DefaultValue) {
-      reset(writingStoryInternalState);
-    } else {
-      const currentWritingStory = get(writingStoryInternalState);
-      set(writingStoryInternalState, {
-        ...currentWritingStory,
-        ...newValue,
-      });
-    }
-  },
+  default: {},
 });
-export const playInfoState = selector<PlayInfo>({
+
+export const playInfoState = atom<PlayInfo>({
   key: 'playInfoState',
-  get: ({get}) => get(playInfoInternalState),
-  set: ({get, set, reset}, newValue) => {
-    if (newValue instanceof DefaultValue) {
-      reset(playInfoInternalState);
-    } else {
-      const currentPlayInfo = get(playInfoInternalState);
-      set(playInfoInternalState, {
-        ...currentPlayInfo,
-        ...newValue,
-      });
-    }
-  },
+  default: {},
 });
-// Re-export from upload.recoil for backward compatibility
-export {isStoryUploading} from '../ui/upload.recoil';
-
-// Re-export from ui/modal.recoil for backward compatibility
-export {isModalOpening} from '../ui/modal.recoil';
-
-export const PostStoryKeyState = atom<string>({
-  key: 'PostStoryKeyState',
+export const postStoryKeyState = atom<string>({
+  key: 'postStoryKeyState',
   default: '',
 });

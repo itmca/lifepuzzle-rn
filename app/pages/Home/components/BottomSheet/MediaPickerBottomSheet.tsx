@@ -12,9 +12,9 @@ import {
 } from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant';
 import {BasicNavigationProps} from '../../../../navigation/types';
-import {SelectedStoryKeyState} from '../../../../recoils/content/story-view.recoil';
+import {selectedStoryKeyState} from '../../../../recoils/content/story-view.recoil';
 import {
-  PostStoryKeyState,
+  postStoryKeyState,
   writingStoryState,
 } from '../../../../recoils/content/story-write.recoil';
 import {Divider} from '../../../../components/ui/base/Divider';
@@ -81,9 +81,9 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   isGalleryUploading = false,
 }) => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const setSelectedStoryKey = useSetRecoilState(SelectedStoryKeyState);
+  const setSelectedStoryKey = useSetRecoilState(selectedStoryKeyState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
-  const setPostStoryKey = useSetRecoilState(PostStoryKeyState);
+  const setPostStoryKey = useSetRecoilState(postStoryKeyState);
   const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
   const selectedGalleryItems = useRecoilValue(selectedGalleryItemsState);
   const shouldSubmitAfterCameraCapture = useRef(false);

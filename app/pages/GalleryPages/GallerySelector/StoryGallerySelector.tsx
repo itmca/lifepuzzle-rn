@@ -6,7 +6,7 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
-import {selectedGalleryIndexState} from '../../../recoils/content/media.recoil.ts';
+import {selectedGalleryIndexState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
