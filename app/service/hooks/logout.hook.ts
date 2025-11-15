@@ -4,8 +4,10 @@ import {userState} from '../../recoils/auth/user.recoil';
 import {authState} from '../../recoils/auth/auth.recoil';
 import {heroState} from '../../recoils/content/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
-import {selectedStoryKeyState} from '../../recoils/content/story-view.recoil';
-import {writingStoryState} from '../../recoils/content/story-write.recoil';
+import {
+  selectedStoryKeyState,
+  writingStoryState,
+} from '../../recoils/content/story.recoil';
 import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
 
 type Option = {

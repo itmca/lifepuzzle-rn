@@ -13,7 +13,7 @@ import {useRecoilState, useResetRecoilState} from 'recoil';
 import {
   playInfoState,
   writingStoryState,
-} from '../../../recoils/content/story-write.recoil.ts';
+} from '../../../recoils/content/story.recoil';
 import {
   CheckButton,
   DeleteButton,

@@ -5,16 +5,13 @@ import {useSaveStory} from '../../service/hooks/story.write.hook';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelector.tsx';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {selectedStoryKeyState} from '../../recoils/content/story-view.recoil';
+import {selectedStoryKeyState} from '../../recoils/content/story.recoil';
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import {useUploadGalleryV2} from '../../service/hooks/gallery.upload.hook.ts';
 import {TopBar} from '../../components/ui/navigation/TopBar';
 import GalleryDetail from '../../pages/GalleryPages/GalleryDetail/GalleryDetailPage.tsx';
 import GalleryDetailFilter from '../../pages/GalleryPages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
-import {
-  editedGalleryItemsState,
-  selectedGalleryItemsState,
-} from '../../recoils/ui/selection.recoil'; // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
+import {selectionState} from '../../recoils/ui/selection.recoil'; // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 
 // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {
@@ -33,12 +30,12 @@ const StoryWritingNavigator = (): JSX.Element => {
   const [saveStory] = useSaveStory();
   const [uploadGallery] = useUploadGalleryV2();
   const selectedStoryKey = useRecoilValue(selectedStoryKeyState);
-  const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
-    selectedGalleryItemsState,
-  );
-  const [editGalleryItems, setEditGalleryItems] = useRecoilState(
-    editedGalleryItemsState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+
+  const selectedGalleryItems = selection.gallery;
+  const editGalleryItems = selection.editedGallery;
+  const setSelectedGalleryItems = (items: any[]) => setSelection(prev => ({...prev, gallery: items}));
+  const setEditGalleryItems = (items: any[]) => setSelection(prev => ({...prev, editedGallery: items}));
   return (
     <Stack.Navigator
       screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}>

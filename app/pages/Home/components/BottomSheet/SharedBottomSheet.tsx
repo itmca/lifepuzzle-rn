@@ -16,7 +16,7 @@ import {
 import {heroState} from '../../../../recoils/content/hero.recoil.ts';
 import {TagType} from '../../../../types/photo.type.ts';
 import {tagState} from '../../../../recoils/content/media.recoil';
-import {selectedTagState} from '../../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../../recoils/ui/selection.recoil';
 import {BasicButton} from '../../../../components/ui/form/Button';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
 import {useUploadHeroes} from '../../../../service/hooks/hero.query.hook.ts';
@@ -38,7 +38,8 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
   isGalleryUploading = false,
 }) => {
   const hero = useRecoilValue(heroState);
-  const selectedTag = useRecoilValue<TagType>(selectedTagState);
+  const selection = useRecoilValue(selectionState);
+  const selectedTag = selection.tag;
   const [heroAge, setHeroAge] = useState<number>(
     hero ? toInternationalAge(hero.birthday) : 0,
   );

@@ -6,12 +6,12 @@ import {currentHeroUpdate, heroUpdate} from '../../recoils/shared/cache.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {isLoggedInState} from '../../recoils/auth/auth.recoil';
 import {BasicNavigationProps} from '../../navigation/types';
-import {heroState} from '../../recoils/content/hero.recoil';
-import {useHeroHttpPayLoad} from './hero.payload.hook';
 import {
+  heroState,
   writingHeroKeyState,
   writingHeroState,
-} from '../../recoils/content/hero-write.recoil';
+} from '../../recoils/content/hero.recoil';
+import {useHeroHttpPayLoad} from './hero.payload.hook';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 
 export const useResetAllWritingHero = () => {

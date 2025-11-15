@@ -2,7 +2,7 @@ import {useRecoilValue} from 'recoil';
 import {
   writingHeroKeyState,
   writingHeroState,
-} from '../../recoils/content/hero-write.recoil';
+} from '../../recoils/content/hero.recoil';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import {WritingHeroType} from '../../types/writing-Hero.type';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';

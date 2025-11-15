@@ -12,17 +12,17 @@ import {
 } from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant';
 import {BasicNavigationProps} from '../../../../navigation/types';
-import {selectedStoryKeyState} from '../../../../recoils/content/story-view.recoil';
 import {
+  selectedStoryKeyState,
   postStoryKeyState,
   writingStoryState,
-} from '../../../../recoils/content/story-write.recoil';
+} from '../../../../recoils/content/story.recoil';
 import {Divider} from '../../../../components/ui/base/Divider';
 import ImagePicker from 'react-native-image-crop-picker';
 import {toPhotoIdentifierFromImage} from '../../../../service/photo-identifier.service';
 import {ensureCameraPermission} from '../../../../service/hooks/permission.hook';
 import {showInfoToast} from '../../../../components/ui/feedback/Toast';
-import {selectedGalleryItemsState} from '../../../../recoils/ui/selection.recoil.ts';
+import {selectionState} from '../../../../recoils/ui/selection.recoil.ts';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;
@@ -84,8 +84,12 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   const setSelectedStoryKey = useSetRecoilState(selectedStoryKeyState);
   const resetWritingStory = useResetRecoilState(writingStoryState);
   const setPostStoryKey = useSetRecoilState(postStoryKeyState);
-  const setSelectedGalleryItems = useSetRecoilState(selectedGalleryItemsState);
-  const selectedGalleryItems = useRecoilValue(selectedGalleryItemsState);
+  const setSelectionState = useSetRecoilState(selectionState);
+  const selectionValue = useRecoilValue(selectionState);
+
+  const selectedGalleryItems = selectionValue.gallery;
+  const setSelectedGalleryItems = (items: any[]) =>
+    setSelectionState(prev => ({...prev, gallery: items}));
   const shouldSubmitAfterCameraCapture = useRef(false);
 
   // 카메라 촬영 후 상태가 업데이트되면 업로드 실행

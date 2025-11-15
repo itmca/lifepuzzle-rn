@@ -10,7 +10,7 @@ import {
 } from '../../../../components/ui/layout/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
 import {galleryErrorState} from '../../../../recoils/content/media.recoil';
-import {selectedTagState} from '../../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../../recoils/ui/selection.recoil';
 import {
   AgeGroupsType,
   GalleryType,
@@ -50,9 +50,10 @@ const Gallery = ({
   const [isScrolling, setIsScrolling] = useState(false);
 
   // 글로벌 상태 관리 (Recoil)
-  const [selectedTag, setSelectedTag] = useRecoilState<TagType | null>(
-    selectedTagState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+  const selectedTag = selection.tag;
+  const setSelectedTag = (tag: TagType | null) =>
+    setSelection(prev => ({...prev, tag}));
   const setGalleryError = useSetRecoilState(galleryErrorState);
 
   // 외부 hook 호출 (navigation, route 등)

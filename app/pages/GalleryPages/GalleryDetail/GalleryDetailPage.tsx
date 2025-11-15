@@ -9,10 +9,7 @@ import {ContentContainer} from '../../../components/ui/layout/ContentContainer.t
 
 import {Color} from '../../../constants/color.constant.ts';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {
-  selectedGalleryIndexState,
-  editedGalleryItemsState,
-} from '../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../recoils/ui/selection.recoil';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
@@ -20,12 +17,12 @@ import {Title} from '../../../components/ui/base/TextBase';
 
 const GalleryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [galleryIndex, setGalleryIndex] = useRecoilState(
-    selectedGalleryIndexState,
-  );
-  const [editGalleryItems, setEditGalleryItems] = useRecoilState(
-    editedGalleryItemsState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+
+  const galleryIndex = selection.currentGalleryIndex;
+  const editGalleryItems = selection.editedGallery;
+  const setGalleryIndex = (index: number) => setSelection(prev => ({...prev, currentGalleryIndex: index}));
+  const setEditGalleryItems = (items: any[]) => setSelection(prev => ({...prev, editedGallery: items}));
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
 
   const onCrop = async () => {

@@ -5,7 +5,7 @@ import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileS
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {selectedUserPhotoState} from '../../recoils/ui/selection.recoil';
+import {selectionState} from '../../recoils/ui/selection.recoil';
 import {writingUserState} from '../../recoils/auth/user.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
@@ -25,11 +25,12 @@ const Stack = createNativeStackNavigator<AccountSettingParamList>();
 
 const AccountSettingNavigator = (): JSX.Element => {
   const navigation = useNavigation();
-  const resetSelectedUserPhoto = useResetRecoilState(selectedUserPhotoState);
+  const [selection, setSelection] = useRecoilState(selectionState);
   const [modifyingUser, setModifyingUser] = useRecoilState(writingUserState);
-  const seletedUserPhoto: PhotoIdentifier | undefined = useRecoilValue(
-    selectedUserPhotoState,
-  );
+  const seletedUserPhoto = selection.user;
+
+  const resetSelectedUserPhoto = () =>
+    setSelection(prev => ({...prev, user: undefined}));
   const logout = useLogout();
 
   return (

@@ -3,7 +3,7 @@ import {ContentContainer} from '../../ui/layout/ContentContainer';
 
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
-import {writingStoryState} from '../../../recoils/content/story-write.recoil.ts';
+import {writingStoryState} from '../../../recoils/content/story.recoil';
 import {VoicePlayer, VoicePlayerRef} from './StoryVoicePlayer.tsx';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import BottomSheet from '../../ui/interaction/BottomSheet.tsx';

@@ -11,10 +11,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {useRecoilState} from 'recoil';
-import {
-  selectedGalleryIndexState,
-  editedGalleryItemsState,
-} from '../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../recoils/ui/selection.recoil';
 import Slider from '@react-native-community/slider';
 import RNFS, {writeFile} from 'react-native-fs';
 import {encode as encodeBase64} from 'base64-arraybuffer';
@@ -105,12 +102,12 @@ const GalleryDetailFilterPage = (): JSX.Element => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('original');
   const [filterAmount, setFilterAmount] = useState(1);
 
-  const [galleryIndex, setGalleryIndex] = useRecoilState(
-    selectedGalleryIndexState,
-  );
-  const [editGalleryItems, setEditGalleryItems] = useRecoilState(
-    editedGalleryItemsState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+
+  const galleryIndex = selection.currentGalleryIndex;
+  const editGalleryItems = selection.editedGallery;
+  const setGalleryIndex = (index: number) => setSelection(prev => ({...prev, currentGalleryIndex: index}));
+  const setEditGalleryItems = (items: PhotoIdentifier[]) => setSelection(prev => ({...prev, editedGallery: items}));
   const [selectedImage, setSelectedImage] = useState<
     PhotoIdentifier | undefined
   >(editGalleryItems[galleryIndex]);

@@ -6,7 +6,7 @@ import Sound from 'react-native-sound';
 import {toMmSs, toMmSsSS} from '../../../service/date-time-display.service';
 import {VoicePlayButton} from '../voice/VoicePlayButton';
 import {useRecoilState} from 'recoil';
-import {playInfoState} from '../../../recoils/content/story-write.recoil';
+import {playInfoState} from '../../../recoils/content/story.recoil';
 
 type AudioBtnProps = {
   audioUrl?: string;

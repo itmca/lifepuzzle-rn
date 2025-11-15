@@ -23,7 +23,7 @@ import {
 } from '../../../components/ui/layout/ContentContainer.tsx';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {Color} from '../../../constants/color.constant.ts';
-import {writingHeroKeyState} from '../../../recoils/content/hero-write.recoil.ts';
+import {writingHeroKeyState} from '../../../recoils/content/hero.recoil';
 import {AccountAvatar} from '../../../components/ui/display/Avatar';
 import {useRegisterSharedHero} from '../../../service/hooks/share.hero.hook.ts';
 import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';

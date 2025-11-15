@@ -2,8 +2,9 @@ import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {
   writingStoryState,
   postStoryKeyState,
-} from '../../recoils/content/story-write.recoil';
-import {isStoryUploading} from '../../recoils/ui/upload.recoil';
+  selectedStoryKeyState,
+} from '../../recoils/content/story.recoil';
+import {uploadState} from '../../recoils/ui/upload.recoil';
 import {isModalOpening} from '../../recoils/ui/modal.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
@@ -13,7 +14,6 @@ import {useNavigation} from '@react-navigation/native';
 import {isLoggedInState} from '../../recoils/auth/auth.recoil';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
-import {selectedStoryKeyState} from '../../recoils/content/story-view.recoil';
 import {heroState} from '../../recoils/content/hero.recoil.ts';
 import {useStoryHttpPayLoad} from './story.payload.hook.ts';
 
@@ -29,7 +29,8 @@ export const useSaveStory = (): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const editStoryKey = useRecoilValue(selectedStoryKeyState);
   const writingStory = useRecoilValue(writingStoryState);
-  const setStoryUploading = useSetRecoilState(isStoryUploading);
+  const setUploadState = useSetRecoilState(uploadState);
+  const setStoryUploading = (value: boolean) => setUploadState(prev => ({...prev, story: value}));
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
 
   const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
@@ -133,5 +134,6 @@ export const useSaveStory = (): [() => void] => {
 };
 
 export const useIsStoryUploading = (): boolean => {
-  return useRecoilValue(isStoryUploading);
+  const uploadStateValue = useRecoilValue(uploadState);
+  return uploadStateValue.story;
 };
