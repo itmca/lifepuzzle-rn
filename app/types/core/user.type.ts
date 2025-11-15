@@ -5,8 +5,8 @@ export type UserType = {
   userId: string;
   userNickName: string;
   recentHeroNo: number;
-  imageURL: undefined | string;
+  imageUrl?: string;  // 네이밍 일관성: imageURL → imageUrl, undefined | string → string | undefined
   userType: 'general' | 'kakao' | 'apple' | 'none';
-  modifiedImage?: PhotoIdentifier | undefined;
+  modifiedImage?: PhotoIdentifier;
   isProfileImageUpdate: boolean;
 };

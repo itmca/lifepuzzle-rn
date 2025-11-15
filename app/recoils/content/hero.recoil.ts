@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {HeroType} from '../../types/core/hero.type';
-import {WritingHeroType} from '../../types/core/writing-hero.type';
+import {WritingHeroType} from '../../types/core/hero.type';
 
 // 조회용 Hero 상태
 export const heroState = atom<HeroType | null>({
@@ -17,7 +17,7 @@ export const writingHeroState = atom<WritingHeroType>({
     heroNickName: '',
     birthday: new Date(1948, 1, 1),
     title: '',
-    imageURL: undefined,
+    imageUrl: undefined,
     isProfileImageUpdate: false,
   },
 });
