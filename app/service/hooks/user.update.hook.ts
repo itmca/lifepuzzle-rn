@@ -3,25 +3,29 @@ import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
 import {useAuthAxios} from './network.hook.ts';
 import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {useUpdatePublisher} from './update.hooks.ts';
+import {useUpdatePublisher} from './update.hook.ts';
 import {currentUserUpdate} from '../../recoils/shared/cache.recoil.ts';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {writingUserState} from '../../recoils/auth/user.recoil.ts';
 import {HeroAuthTypeCode} from '../../constants/auth.constant.ts';
-
-type Props = {
-  onSuccess: () => void;
-};
+import {
+  HookProps,
+  UserAuthRequestBody,
+} from '../../types/hooks/user-update.type';
+import {useFieldValidation} from './common/validation.hook';
+import {useErrorHandler} from './common/error-handler.hook';
 
 export const useUserProfileUpdate = ({
   onSuccess,
-}: Props): [() => void, boolean] => {
+}: HookProps): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const publishUserUpdate = useUpdatePublisher(currentUserUpdate);
   const httpPayload = useUserHttpPayLoad();
   const resetWritingUser = useResetRecoilState(writingUserState);
   const writingUser = useRecoilValue(writingUserState);
+
+  const {validateNickname} = useFieldValidation();
+  const {handleUpdateError, showSuccessToast} = useErrorHandler();
 
   const [isUpdating, update] = useAuthAxios<void>({
     requestOption: {
@@ -30,13 +34,13 @@ export const useUserProfileUpdate = ({
       headers: {'Content-Type': 'multipart/form-data'},
     },
     onResponseSuccess: () => {
-      showToast('성공적으로 저장되었습니다.');
+      showSuccessToast('성공적으로 저장되었습니다.');
       publishUserUpdate();
       onSuccess && onSuccess();
     },
     onError: () => {
-      CustomAlert.retryAlert(
-        '회원 정보 수정이 실패했습니다.',
+      handleUpdateError(
+        '회원 정보',
         () => update({data: httpPayload}),
         () => {
           resetWritingUser();
@@ -50,18 +54,7 @@ export const useUserProfileUpdate = ({
   });
 
   function validate(): boolean {
-    const nickname = writingUser.userNickName;
-    if (!nickname) {
-      CustomAlert.simpleAlert('닉네임을 입력해 주세요.');
-      return false;
-    }
-
-    if (nickname.length > 8) {
-      CustomAlert.simpleAlert('닉네임은 8자 이하로 입력해주세요.');
-      return false;
-    }
-
-    return true;
+    return validateNickname(writingUser.userNickName);
   }
 
   return [
@@ -76,15 +69,9 @@ export const useUserProfileUpdate = ({
   ];
 };
 
-type UserAuthRequestBody = {
-  heroNo: number;
-  userNo: number;
-  heroAuthStatus: HeroAuthTypeCode;
-};
-
 export const useUserAuthUpdate = ({
   onSuccess,
-}: Props): [(body: UserAuthRequestBody) => void, boolean] => {
+}: HookProps): [(body: UserAuthRequestBody) => void, boolean] => {
   const [isUpdating, update] = useAuthAxios<void>({
     requestOption: {
       method: 'PUT',

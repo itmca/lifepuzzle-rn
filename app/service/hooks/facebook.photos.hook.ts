@@ -1,11 +1,7 @@
 import {useState} from 'react';
 import {useAuthAxios} from './network.hook';
 import {FacebookPhotosResponse} from '../../types/external/facebook.type';
-
-interface UseFacebookPhotosProps {
-  onSuccess?: (photos: FacebookPhotosResponse) => void;
-  onError?: (error: any) => void;
-}
+import {UseFacebookPhotosProps} from '../../types/hooks/facebook.type';
 
 export const useFacebookPhotos = ({
   onSuccess,
@@ -23,7 +19,7 @@ export const useFacebookPhotos = ({
       setPhotos(response);
       onSuccess?.(response);
     },
-    onError: error => {
+    onError: (error: AxiosError) => {
       console.error('Facebook photos fetch failed:', error);
       onError?.(error);
     },

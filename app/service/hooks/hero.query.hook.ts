@@ -1,16 +1,10 @@
-import {useState} from 'react';
+import {useState, useMemo} from 'react';
 import {HeroType, HeroUserType} from '../../types/core/hero.type';
 import {useAuthAxios} from './network.hook';
-
-export type HeroesQueryResponse = {
-  heroes: HeroQueryResponse[];
-};
-
-export type HeroQueryResponse = {
-  hero: HeroType;
-  puzzleCnt: number;
-  users: HeroUserType[];
-};
+import {
+  HeroesQueryResponse,
+  HeroQueryResponse,
+} from '../../types/hooks/hero-query.type';
 
 export const useHero = (heroNo: number) => {
   const [hero, setHero] = useState<HeroType>();
@@ -29,10 +23,15 @@ export const useHero = (heroNo: number) => {
     },
     disableInitialRequest: false,
   });
-  return {
-    res: {hero: hero, puzzleCnt: puzzleCnt, users: users, loading: isLoading},
-    fetchHero,
-  };
+  const result = useMemo(
+    () => ({
+      res: {hero, puzzleCnt, users, loading: isLoading},
+      fetchHero,
+    }),
+    [hero, puzzleCnt, users, isLoading, fetchHero],
+  );
+
+  return result;
 };
 
 export const useUploadHeroes = () => {
@@ -54,8 +53,13 @@ export const useUploadHeroes = () => {
     },
     disableInitialRequest: false,
   });
-  return {
-    res: {heroes: heroes, loading: isLoading},
-    fetchHeroes,
-  };
+  const result = useMemo(
+    () => ({
+      res: {heroes, loading: isLoading},
+      fetchHeroes,
+    }),
+    [heroes, isLoading, fetchHeroes],
+  );
+
+  return result;
 };

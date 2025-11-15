@@ -1,7 +1,7 @@
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
-import {useUpdatePublisher} from './update.hooks';
+import {useUpdatePublisher} from './update.hook';
 import {currentHeroUpdate, heroUpdate} from '../../recoils/shared/cache.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {isLoggedInState} from '../../recoils/auth/auth.recoil';
