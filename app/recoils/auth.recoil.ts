@@ -11,7 +11,7 @@ export const authState = atom<AuthTokens>({
 });
 
 export const isLoggedInState = selector({
-  key: 'loginState',
+  key: 'isLoggedInState',
   get: ({get}) => {
     const auth = get(authState);
     if (!auth || !auth.accessToken) {

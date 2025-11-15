@@ -40,10 +40,8 @@ export const playInfoState = selector<PlayInfo>({
     }
   },
 });
-export const isStoryUploading = atom<boolean>({
-  key: 'isStoryUploading',
-  default: false,
-});
+// Re-export from upload.recoil for backward compatibility
+export {isStoryUploading} from './upload.recoil';
 
 export const isModalOpening = atom<boolean>({
   key: 'isModalOpening',

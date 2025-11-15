@@ -33,7 +33,5 @@ export const writingHeroState = selector<WritingHeroType>({
   },
 });
 
-export const isHeroUploading = atom<boolean>({
-  key: 'isHeroUploading',
-  default: false,
-});
+// Re-export from upload.recoil for backward compatibility
+export {isHeroUploading} from './upload.recoil';
