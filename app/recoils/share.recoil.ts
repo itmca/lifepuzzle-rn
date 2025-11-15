@@ -3,10 +3,14 @@ import {SharePhoto} from '../types/photo.type';
 
 export const shareKeyState = atom<string>({
   key: 'shareKeyState',
-  default: undefined,
+  default: '',
 });
 
 export const sharedImageDataState = atom<SharePhoto>({
   key: 'sharedImageDataState',
-  default: {} as SharePhoto,
+  default: {
+    type: '',
+    uri: '',
+    uriList: [],
+  },
 });

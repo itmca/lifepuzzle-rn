@@ -1,19 +1,17 @@
 import {atom, selector} from 'recoil';
 import {UserType} from '../types/user.type';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import {selectedUserPhotoState} from './selection.recoil';
 
 export const userState = atom<UserType | null>({
   key: 'userState',
   default: null,
 });
 
-export const selectedUserPhotoState = atom<PhotoIdentifier | undefined>({
-  key: 'selectedUserPhotoState',
-  default: undefined,
-});
+// Re-export for backward compatibility
+export {selectedUserPhotoState};
 
 export const writingUserState = atom<UserType>({
-  key: 'wrtingUserState',
+  key: 'writingUserState',
   default: {
     userNo: -1,
     userId: '',
