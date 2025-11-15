@@ -11,13 +11,14 @@ import {
 
 import {Color} from '../../constants/color.constant.ts';
 import {getGallery} from '../../recoils/content/media.recoil';
-import {selectedGalleryIndexState} from '../../recoils/ui/selection.recoil';
+import {selectionState} from '../../recoils/ui/selection.recoil';
 import {Title} from '../../components/ui/base/TextBase';
 
 const StoryDetailPageWithoutLogin = (): JSX.Element => {
-  const [galleryIndex, setGalleryIndex] = useRecoilState(
-    selectedGalleryIndexState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+  const galleryIndex = selection.currentGalleryIndex;
+  const setGalleryIndex = (index: number) =>
+    setSelection(prev => ({...prev, currentGalleryIndex: index}));
 
   const gallery = useRecoilValue(getGallery);
   const isFocused = useIsFocused();

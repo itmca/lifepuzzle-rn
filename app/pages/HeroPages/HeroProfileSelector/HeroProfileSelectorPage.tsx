@@ -4,7 +4,7 @@ import {useRecoilState} from 'recoil';
 import {useNavigation} from '@react-navigation/native';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import {selectedHeroPhotoState} from '../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
@@ -12,9 +12,10 @@ import {
 
 const HeroProfileSelectorPage = (): JSX.Element => {
   const navigation = useNavigation();
-  const [selectedPhoto, setSelectedPhoto] = useRecoilState(
-    selectedHeroPhotoState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+  const selectedPhoto = selection.hero;
+  const setSelectedPhoto = (photo: PhotoIdentifier | undefined) =>
+    setSelection(prev => ({...prev, hero: photo}));
 
   const config: PhotoSelectorConfig = {
     mode: 'single',

@@ -6,8 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {heroState} from '../../recoils/content/hero.recoil';
 import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
-import {selectedTagState} from '../../recoils/ui/selection.recoil';
-import {isGalleryUploadingState} from '../../recoils/ui/upload.recoil';
+import {selectionState} from '../../recoils/ui/selection.recoil';
+import {uploadState} from '../../recoils/ui/upload.recoil';
 import {sharedImageDataState} from '../../recoils/shared/share.recoil';
 import {HeroType} from '../../types/hero.type';
 import {AgeGroupsType, TagType} from '../../types/photo.type.ts';
@@ -37,8 +37,11 @@ const HomePage = (): JSX.Element => {
   const hero = useRecoilValue<HeroType | null>(heroState);
   const [ageGroups] = useRecoilState<AgeGroupsType | null>(ageGroupsState);
   const [tags] = useRecoilState<TagType[] | null>(tagState);
-  const selectedTag = useRecoilValue<TagType | null>(selectedTagState);
-  const isGalleryUploading = useRecoilValue<boolean>(isGalleryUploadingState);
+  const selection = useRecoilValue(selectionState);
+  const uploadStateValue = useRecoilValue(uploadState);
+
+  const selectedTag = selection.tag;
+  const isGalleryUploading = uploadStateValue.gallery;
   const sharedImageData = useRecoilValue(sharedImageDataState);
 
   // 외부 hook 호출 (navigation, route 등)

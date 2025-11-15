@@ -2,7 +2,7 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {galleryErrorState} from '../../../../recoils/content/media.recoil';
-import {selectedTagState} from '../../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../../recoils/ui/selection.recoil';
 import {TagType} from '../../../../types/photo.type.ts';
 import {Color} from '../../../../constants/color.constant.ts';
 import {Title} from '../../../../components/ui/base/TextBase';
@@ -12,7 +12,8 @@ import {ButtonBase} from '../../../../components/ui/base/ButtonBase';
 type props = {onPress: () => void};
 
 const GalleryBottomButton = ({onPress}: props) => {
-  const [selectedTag] = useRecoilState<TagType>(selectedTagState);
+  const selection = useRecoilValue(selectionState);
+  const selectedTag = selection.tag;
   const isGalleryError = useRecoilValue(galleryErrorState);
   if (selectedTag?.key === 'AI_PHOTO') {
     return (

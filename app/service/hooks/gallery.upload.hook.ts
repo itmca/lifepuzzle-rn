@@ -6,10 +6,7 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 import {BasicNavigationProps} from '../../navigation/types';
 import {heroState} from '../../recoils/content/hero.recoil';
-import {
-  selectedTagState,
-  selectedGalleryItemsState,
-} from '../../recoils/ui/selection.recoil';
+import {selectionState} from '../../recoils/ui/selection.recoil';
 import {TagType} from '../../types/photo.type';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {imageConversionUtil} from '../../utils/image-conversion.util';
@@ -21,7 +18,7 @@ import {
 import {useAuthAxios} from './network.hook';
 import {useUpdatePublisher} from './update.hooks';
 import {storyListUpdate} from '../../recoils/shared/cache.recoil';
-import {isGalleryUploadingState} from '../../recoils/ui/upload.recoil';
+import {uploadState} from '../../recoils/ui/upload.recoil';
 
 interface UploadItem {
   originalImage: PhotoIdentifier;
@@ -95,13 +92,19 @@ export const useUploadGalleryV2 = (
   const navigation = useNavigation<BasicNavigationProps>();
 
   const recoilHero = useRecoilValue(heroState);
-  const recoilSelectedTag = useRecoilValue<TagType>(selectedTagState);
-  const recoilSelectedGalleryItems = useRecoilValue(selectedGalleryItemsState);
-  const resetSelectedGalleryItems = useResetRecoilState(
-    selectedGalleryItemsState,
-  );
-  const isUploading = useRecoilValue(isGalleryUploadingState);
-  const setIsUploading = useSetRecoilState(isGalleryUploadingState);
+  const recoilSelection = useRecoilValue(selectionState);
+  const setSelectionState = useSetRecoilState(selectionState);
+  const recoilUploadState = useRecoilValue(uploadState);
+  const setUploadState = useSetRecoilState(uploadState);
+
+  const recoilSelectedTag = recoilSelection.tag;
+  const recoilSelectedGalleryItems = recoilSelection.gallery;
+  const isUploading = recoilUploadState.gallery;
+
+  const resetSelectedGalleryItems = () =>
+    setSelectionState(prev => ({...prev, gallery: []}));
+  const setIsUploading = (value: boolean) =>
+    setUploadState(prev => ({...prev, gallery: value}));
   const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
 
   const {heroNo, selectedTag, selectedGalleryItems} = options?.request

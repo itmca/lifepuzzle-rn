@@ -10,7 +10,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   playInfoState,
   writingStoryState,
-} from '../../../recoils/content/story-write.recoil.ts';
+} from '../../../recoils/content/story.recoil';
 import StoryDateInput from './StoryDateInput.tsx';
 import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
@@ -19,7 +19,10 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {Color} from '../../../constants/color.constant.ts';
 import {MediumImage} from '../../../components/ui/base/ImageBase';
-import {ageGroupsState, tagState} from '../../../recoils/content/media.recoil.ts';
+import {
+  ageGroupsState,
+  tagState,
+} from '../../../recoils/content/media.recoil.ts';
 import SelectDropdown from 'react-native-select-dropdown';
 import {GalleryItem} from '../../../types/writing-story.type.ts';
 import {SvgIcon} from '../../../components/ui/display/SvgIcon';

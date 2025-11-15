@@ -4,8 +4,8 @@ import {useUpdatePublisher} from './update.hooks';
 import {heroUpdate} from '../../recoils/shared/cache.recoil';
 import {useEffect} from 'react';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
-import {writingHeroState} from '../../recoils/content/hero-write.recoil';
-import {isHeroUploading} from '../../recoils/ui/upload.recoil';
+import {writingHeroState} from '../../recoils/content/hero.recoil';
+import {uploadState} from '../../recoils/ui/upload.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
@@ -18,7 +18,8 @@ export const useCreateHero = (): [() => void, boolean] => {
 
   const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
   const resetWritingHero = useResetRecoilState(writingHeroState);
-  const setHeroUploading = useSetRecoilState(isHeroUploading);
+  const setUploadState = useSetRecoilState(uploadState);
+  const setHeroUploading = (value: boolean) => setUploadState(prev => ({...prev, hero: value}));
   const writingHero = useRecoilValue(writingHeroState);
 
   const [isLoading, registerHero] = useAuthAxios({

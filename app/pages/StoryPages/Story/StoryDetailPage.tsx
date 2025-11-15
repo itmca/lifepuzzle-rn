@@ -15,7 +15,10 @@ import {
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import {writingStoryState} from '../../../recoils/content/story-write.recoil.ts';
+import {
+  writingStoryState,
+  selectedStoryKeyState,
+} from '../../../recoils/content/story.recoil';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -26,17 +29,17 @@ import {Color} from '../../../constants/color.constant.ts';
 import {StoryDetailMenuBottomSheet} from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {getGallery} from '../../../recoils/content/media.recoil';
-import {selectedGalleryIndexState} from '../../../recoils/ui/selection.recoil';
-import {selectedStoryKeyState} from '../../../recoils/content/story-view.recoil';
+import {selectionState} from '../../../recoils/ui/selection.recoil';
 import {Title} from '../../../components/ui/base/TextBase';
 import {StoryWritingButton} from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 
 const StoryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [allGalleryIndex, setAllGalleryIndex] = useRecoilState(
-    selectedGalleryIndexState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+  const allGalleryIndex = selection.currentGalleryIndex;
+  const setAllGalleryIndex = (index: number) =>
+    setSelection(prev => ({...prev, currentGalleryIndex: index}));
   const allGallery = useRecoilValue(getGallery);
   const filteredGallery = useMemo(
     () => allGallery.filter(item => item.tag?.key !== 'AI_PHOTO'),

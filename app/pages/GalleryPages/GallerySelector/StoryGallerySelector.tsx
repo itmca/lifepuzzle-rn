@@ -6,31 +6,31 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
-import {selectedGalleryIndexState} from '../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
 } from '../../../types/photo-selector.type.ts';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {Color} from '../../../constants/color.constant.ts';
-import {
-  editedGalleryItemsState,
-  selectedGalleryItemsState,
-} from '../../../recoils/ui/selection.recoil.ts';
-import {isGalleryUploadingState} from '../../../recoils/ui/upload.recoil.ts';
+import {uploadState} from '../../../recoils/ui/upload.recoil.ts';
 
 const StoryGallerySelector = (): JSX.Element => {
   const navigation = useNavigation();
-  const [galleryIndex, setGalleryIndex] = useRecoilState(
-    selectedGalleryIndexState,
-  );
-  const [selectedGalleryItems, setSelectedGalleryItems] = useRecoilState(
-    selectedGalleryItemsState,
-  );
-  const [editGalleryItems, setEditGalleryItems] = useRecoilState(
-    editedGalleryItemsState,
-  );
-  const isGalleryUploading = useRecoilValue(isGalleryUploadingState);
+  const [selection, setSelection] = useRecoilState(selectionState);
+  const uploadStateValue = useRecoilValue(uploadState);
+
+  const galleryIndex = selection.currentGalleryIndex;
+  const selectedGalleryItems = selection.gallery;
+  const editGalleryItems = selection.editedGallery;
+  const isGalleryUploading = uploadStateValue.gallery;
+
+  const setGalleryIndex = (index: number) =>
+    setSelection(prev => ({...prev, currentGalleryIndex: index}));
+  const setSelectedGalleryItems = (items: PhotoIdentifier[]) =>
+    setSelection(prev => ({...prev, gallery: items}));
+  const setEditGalleryItems = (items: PhotoIdentifier[]) =>
+    setSelection(prev => ({...prev, editedGallery: items}));
 
   const config: PhotoSelectorConfig = {
     mode: 'multiple',

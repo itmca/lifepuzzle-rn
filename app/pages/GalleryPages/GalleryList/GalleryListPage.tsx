@@ -30,10 +30,7 @@ import {
   getGallery,
   tagState,
 } from '../../../recoils/content/media.recoil';
-import {
-  selectedGalleryIndexState,
-  selectedTagState,
-} from '../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../recoils/ui/selection.recoil';
 import {isLoggedInState} from '../../../recoils/auth/auth.recoil.ts';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
@@ -51,14 +48,16 @@ const GalleryListPage = () => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [selectedGalleryIndex, setSelectedGalleryIndex] =
-    useRecoilState<number>(selectedGalleryIndexState);
+  const [selection, setSelection] = useRecoilState(selectionState);
   const [videoModalOpen, setVideoModalOpen] = useState<boolean>(false);
 
   const [tags] = useRecoilState(tagState);
   const [ageGroups] = useRecoilState(ageGroupsState);
   const allGallery = useRecoilValue(getGallery);
-  const [selectedTag] = useRecoilState(selectedTagState);
+
+  const selectedGalleryIndex = selection.currentGalleryIndex;
+  const selectedTag = selection.tag;
+  const setSelectedGalleryIndex = (index: number) => setSelection(prev => ({...prev, currentGalleryIndex: index}));
 
   const ageGroupsArray = Object.entries(ageGroups);
 

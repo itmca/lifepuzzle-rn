@@ -3,16 +3,17 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useRecoilState} from 'recoil';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import {selectedUserPhotoState} from '../../../recoils/ui/selection.recoil';
+import {selectionState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
 } from '../../../types/photo-selector.type';
 
 const AccountProfileSelectorPage = (): JSX.Element => {
-  const [selectedPhoto, setSelectedPhoto] = useRecoilState(
-    selectedUserPhotoState,
-  );
+  const [selection, setSelection] = useRecoilState(selectionState);
+  const selectedPhoto = selection.user;
+  const setSelectedPhoto = (photo: PhotoIdentifier | undefined) =>
+    setSelection(prev => ({...prev, user: photo}));
 
   const config: PhotoSelectorConfig = {
     mode: 'single',

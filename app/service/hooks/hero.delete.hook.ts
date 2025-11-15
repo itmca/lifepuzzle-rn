@@ -1,5 +1,5 @@
 import {useRecoilValue} from 'recoil';
-import {writingHeroState} from '../../recoils/content/hero-write.recoil';
+import {writingHeroState} from '../../recoils/content/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useAuthAxios} from './network.hook.ts';

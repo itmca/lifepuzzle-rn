@@ -1,5 +1,5 @@
 import {useSetRecoilState} from 'recoil';
-import {isStoryUploading} from '../../recoils/ui/upload.recoil';
+import {uploadState} from '../../recoils/ui/upload.recoil';
 import {useAuthAxios} from './network.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hooks';
@@ -16,7 +16,9 @@ type GalleryProps = {
 };
 export const useDeleteStory = ({storyKey}: Props): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const setStoryloading = useSetRecoilState(isStoryUploading);
+  const setUploadState = useSetRecoilState(uploadState);
+  const setStoryloading = (value: boolean) =>
+    setUploadState(prev => ({...prev, story: value}));
   const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
@@ -54,7 +56,9 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
 };
 export const useDeleteGallery = ({galleryId}: GalleryProps): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const setStoryloading = useSetRecoilState(isStoryUploading);
+  const setUploadState = useSetRecoilState(uploadState);
+  const setStoryloading = (value: boolean) =>
+    setUploadState(prev => ({...prev, story: value}));
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {

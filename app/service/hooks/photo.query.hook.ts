@@ -12,7 +12,7 @@ import {
 } from '../../types/photo.type';
 import {HeroType} from '../../types/hero.type';
 import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
-import {selectedTagState} from '../../recoils/ui/selection.recoil';
+import {selectionState} from '../../recoils/ui/selection.recoil';
 import {AxiosRequestConfig} from 'axios';
 import {toInternationalAge} from '../date-time-display.service';
 
@@ -49,7 +49,7 @@ export const useHeroPhotos = (): Response => {
   const [ageGroups, setAgeGroups] =
     useRecoilState<AgeGroupsType>(ageGroupsState);
   const [tags, setTags] = useRecoilState<TagType[]>(tagState);
-  const setSelectedTag = useSetRecoilState<TagType>(selectedTagState);
+  const setSelectionState = useSetRecoilState(selectionState);
   const [isError, setIsError] = useState<boolean>(false);
   const [hasInitialData, setHasInitialData] = useState<boolean>(false);
   const [isLoading, fetchHeroStories] = useAuthAxios<PhotoQueryResponse>({
@@ -79,10 +79,13 @@ export const useHeroPhotos = (): Response => {
           const index =
             Math.trunc((res.hero.age ?? 0) / 10) +
             newTags.filter(item => item.key === 'AI_PHOTO').length;
-          setSelectedTag({...res.tags[index ?? 0]});
+          setSelectionState(prev => ({
+            ...prev,
+            tag: {...res.tags[index ?? 0]},
+          }));
         } else {
           const index = newTags.findIndex(item => (item.count ?? 0) > 0);
-          setSelectedTag({...newTags[index ?? 0]});
+          setSelectionState(prev => ({...prev, tag: {...newTags[index ?? 0]}}));
         }
 
         setIsError(false);
