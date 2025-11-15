@@ -1,7 +1,7 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
-import {FacebookPhotoItem} from '../types/facebook.type';
-import {AgeType} from '../types/photo.type';
+import {FacebookPhotoItem} from '../types/external/facebook.type';
+import {AgeType} from '../types/core/media.type';
 
 /**
  * URI 문자열을 PhotoIdentifier로 변환합니다.

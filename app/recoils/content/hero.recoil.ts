@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
-import {HeroType} from '../../types/hero.type';
-import {WritingHeroType} from '../../types/writing-Hero.type';
+import {HeroType} from '../../types/core/hero.type';
+import {WritingHeroType} from '../../types/core/writing-hero.type';
 
 // 조회용 Hero 상태
 export const heroState = atom<HeroType | null>({

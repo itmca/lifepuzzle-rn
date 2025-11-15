@@ -13,7 +13,7 @@ import FastImage from 'react-native-fast-image';
 import MasonryList from 'react-native-masonry-list';
 import VMasonryList from '@react-native-seoul/masonry-list';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {GalleryType, TagKey} from '../../types/photo.type';
+import {GalleryType, TagKey} from '../../types/core/media.type';
 
 import {Head} from '../../../components/ui/base/TextBase';
 
@@ -57,7 +57,8 @@ const GalleryListPage = () => {
 
   const selectedGalleryIndex = selection.currentGalleryIndex;
   const selectedTag = selection.tag;
-  const setSelectedGalleryIndex = (index: number) => setSelection(prev => ({...prev, currentGalleryIndex: index}));
+  const setSelectedGalleryIndex = (index: number) =>
+    setSelection(prev => ({...prev, currentGalleryIndex: index}));
 
   const ageGroupsArray = Object.entries(ageGroups);
 

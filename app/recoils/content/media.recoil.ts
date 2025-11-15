@@ -1,5 +1,5 @@
 import {atom, selector} from 'recoil';
-import {AgeGroupsType, TagType} from '../../types/photo.type';
+import {AgeGroupsType, TagType} from '../../types/core/media.type';
 
 export const ageGroupsState = atom<AgeGroupsType | null>({
   key: 'ageGroupsState',

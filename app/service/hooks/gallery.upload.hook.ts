@@ -7,7 +7,7 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {BasicNavigationProps} from '../../navigation/types';
 import {heroState} from '../../recoils/content/hero.recoil';
 import {selectionState} from '../../recoils/ui/selection.recoil';
-import {TagType} from '../../types/photo.type';
+import {TagType} from '../../types/core/media.type';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {imageConversionUtil} from '../../utils/image-conversion.util';
 import {

@@ -14,7 +14,7 @@ import {
   useUploadGalleryV2,
 } from '../../../../service/hooks/gallery.upload.hook.ts';
 import {heroState} from '../../../../recoils/content/hero.recoil.ts';
-import {TagType} from '../../../../types/photo.type.ts';
+import {TagType} from '../../../../types/core/media.type';
 import {tagState} from '../../../../recoils/content/media.recoil';
 import {selectionState} from '../../../../recoils/ui/selection.recoil';
 import {BasicButton} from '../../../../components/ui/form/Button';

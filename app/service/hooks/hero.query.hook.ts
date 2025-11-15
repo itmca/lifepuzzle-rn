@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {HeroType, HeroUserType} from '../../types/Hero.type';
+import {HeroType, HeroUserType} from '../../types/core/hero.type';
 import {useAuthAxios} from './network.hook';
 
 export type HeroesQueryResponse = {

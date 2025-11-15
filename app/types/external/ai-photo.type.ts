@@ -5,7 +5,9 @@ export type AiPhotoTemplate = {
   thumbnailUrl: string;
   description?: string;
 };
+
 export type AiType = 'AI_PHOTO';
+
 export type AiGallery = {
   id: number;
   status: 'IN_PROGRESS' | 'COMPLETED';
@@ -15,4 +17,3 @@ export type AiGallery = {
   thumbnailUrl?: string;
   videoUrl?: string;
 };
-export type AiType = 'AI_PHOTO';

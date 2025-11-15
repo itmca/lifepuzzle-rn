@@ -10,12 +10,12 @@ import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer
 import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 import {BodyTextB} from '../../../components/ui/base/TextBase';
 
-import {FacebookPhotoItem} from '../../../types/facebook.type';
-import {AgeType} from '../../../types/photo.type';
+import {FacebookPhotoItem} from '../../../types/external/facebook.type';
+import {AgeType} from '../../../types/core/media.type';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
-} from '../../../types/photo-selector.type';
+} from '../../../types/ui/photo-selector.type';
 import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/photo-identifier.service';
 import {useFacebookPhotos} from '../../../service/hooks/facebook.photos.hook';
 import {Color} from '../../../constants/color.constant';

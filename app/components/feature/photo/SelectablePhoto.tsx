@@ -6,7 +6,7 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import Image from '../../ui/base/ImageBase';
 import {Color} from '../../../constants/color.constant';
 import {PhotoIndex} from '../../ui/base/TextBase';
-import {FacebookPhotoItem} from '../../../types/facebook.type';
+import {FacebookPhotoItem} from '../../../types/external/facebook.type';
 
 type SelectablePhotoProps = {
   onSelected: (photo: PhotoIdentifier | FacebookPhotoItem) => void;

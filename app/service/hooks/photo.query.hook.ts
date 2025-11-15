@@ -9,8 +9,8 @@ import {
   PhotoHeroType,
   TagKey,
   TagType,
-} from '../../types/photo.type';
-import {HeroType} from '../../types/hero.type';
+} from '../../types/core/media.type';
+import {HeroType} from '../../types/core/hero.type';
 import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
 import {selectionState} from '../../recoils/ui/selection.recoil';
 import {AxiosRequestConfig} from 'axios';

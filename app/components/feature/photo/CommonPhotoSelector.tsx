@@ -28,8 +28,8 @@ import {
   PhotoSelectorConfig,
   PhotoSelectorCallbacks,
   PhotoSelectorState,
-} from '../../../types/photo-selector.type';
-import {FacebookPhotoItem} from '../../../types/facebook.type';
+} from '../../../types/ui/photo-selector.type';
+import {FacebookPhotoItem} from '../../../types/external/facebook.type';
 import {Color} from '../../../constants/color.constant';
 
 const DeviceWidth = Dimensions.get('window').width;

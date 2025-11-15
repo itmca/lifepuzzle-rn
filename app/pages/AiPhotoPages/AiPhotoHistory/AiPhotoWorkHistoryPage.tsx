@@ -17,7 +17,7 @@ import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {formatDateToTodayOrYYMMDD} from '../../../service/date-time-display.service.ts';
 import {Photo} from '../../../components/ui/base/ImageBase';
 import {useAiGalleries} from '../../../service/hooks/ai-photo.query.hook.ts';
-import {AiGallery} from '../../../types/ai-photo.type.ts';
+import {AiGallery} from '../../../types/external/ai-photo.type';
 
 interface WorkItem {
   id: number;

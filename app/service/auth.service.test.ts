@@ -1,5 +1,5 @@
 import {getTokenState} from './auth.service';
-import {AuthTokens} from '../types/auth.type';
+import {AuthTokens} from '../types/auth/auth.type';
 
 // Mock JWT tokens for testing
 const createMockToken = (exp: number): string => {

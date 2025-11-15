@@ -1,7 +1,7 @@
 import {GestureResponderEvent} from 'react-native';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {Color} from '../../../constants/color.constant';
-import {StoryType} from '../../../types/photo.type';
+import {StoryType} from '../../../types/core/media.type';
 import StoryDateInput from '../../../pages/StoryPages/StoryWriting/StoryDateInput';
 import {AudioBtn} from './AudioBtn.tsx';
 import {BodyTextM, Title} from '../../ui/base/TextBase';
