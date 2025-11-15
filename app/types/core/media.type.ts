@@ -1,4 +1,5 @@
-import {AiType} from './ai-photo.type';
+import {AiType} from '../external/ai-photo.type';
+import {StoryType} from './story.type';
 
 export type AgeType =
   | 'UNDER_TEENAGER'
@@ -42,13 +43,7 @@ export type PhotoHeroType = {
   age: number;
   image: string;
 };
-export type StoryType = {
-  id: string;
-  title: string;
-  content: string;
-  audios?: string[];
-  date: string;
-};
+
 export type SharePhoto = {
   type: string;
   uri: string;

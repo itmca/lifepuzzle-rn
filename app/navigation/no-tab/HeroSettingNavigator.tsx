@@ -10,7 +10,7 @@ import {selectionState} from '../../recoils/ui/selection.recoil';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 import {writingHeroState} from '../../recoils/content/hero.recoil';
-import {HeroType} from '../../types/hero.type';
+import {HeroType} from '../../types/core/hero.type';
 import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
 import {TopBar} from '../../components/ui/navigation/TopBar';
 

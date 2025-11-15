@@ -3,7 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import {Color} from '../../../../constants/color.constant.ts';
 import {Profile} from '../../../../components/ui/display/Profile';
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {HeroType} from '../../../../types/hero.type.ts';
+import {HeroType} from '../../../../types/core/hero.type';
 import {BodyTextB, BodyTextM} from '../../../../components/ui/base/TextBase';
 import {Photo} from '../../../../components/ui/base/ImageBase';
 

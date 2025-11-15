@@ -10,7 +10,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {Radio} from '../../ui/form/Radio';
 import {useRecoilValue} from 'recoil';
 import {heroState} from '../../../recoils/content/hero.recoil';
-import {HeroType} from '../../../types/hero.type';
+import {HeroType} from '../../../types/core/hero.type';
 import {Title} from '../../ui/base/TextBase';
 import {Color} from '../../../constants/color.constant';
 import {ButtonBase} from '../../ui/base/ButtonBase';

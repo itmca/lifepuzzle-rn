@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useAuthAxios} from './network.hook';
-import {FacebookPhotosResponse} from '../../types/facebook.type';
+import {FacebookPhotosResponse} from '../../types/external/facebook.type';
 
 interface UseFacebookPhotosProps {
   onSuccess?: (photos: FacebookPhotosResponse) => void;

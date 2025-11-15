@@ -17,7 +17,7 @@ import {
   PhotoHeroType,
   TagKey,
   TagType,
-} from '../../../../types/photo.type.ts';
+} from '../../../../types/core/media.type';
 import {Color} from '../../../../constants/color.constant.ts';
 
 import {NotificationBar} from '../../../../components/ui/feedback/NotificationBar';

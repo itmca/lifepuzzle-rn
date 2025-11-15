@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {galleryErrorState} from '../../../../recoils/content/media.recoil';
 import {selectionState} from '../../../../recoils/ui/selection.recoil';
-import {TagType} from '../../../../types/photo.type.ts';
+import {TagType} from '../../../../types/core/media.type';
 import {Color} from '../../../../constants/color.constant.ts';
 import {Title} from '../../../../components/ui/base/TextBase';
 import {WritingButton} from '../Button/WritingButton.tsx';

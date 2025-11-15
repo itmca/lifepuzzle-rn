@@ -1,5 +1,5 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {HeroAuthTypeCode} from '../constants/auth.constant.ts';
+import {HeroAuthTypeCode} from '../../constants/auth.constant';
 
 export type HeroType = {
   heroNo: number;

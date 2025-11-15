@@ -13,7 +13,7 @@ import {
   useDeleteStory,
 } from '../../../service/hooks/story.delete.hook.ts';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
-import {GalleryType} from '../../../types/photo.type.ts';
+import {GalleryType} from '../../../types/core/media.type';
 import {OpenDetailBottomSheet} from '../../../recoils/ui/modal.recoil';
 import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
 import {Title} from '../../ui/base/TextBase';

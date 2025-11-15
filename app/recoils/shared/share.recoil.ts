@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {SharePhoto} from '../../types/photo.type';
+import {SharePhoto} from '../../types/core/media.type';
 
 export const shareKeyState = atom<string>({
   key: 'shareKeyState',

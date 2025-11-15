@@ -1,4 +1,4 @@
-import {AuthTokens, TokenState} from '../types/auth.type';
+import {AuthTokens, TokenState} from '../types/auth/auth.type';
 
 // JWT 페이로드 디코딩 (exp 클레임 추출)
 const decodeJWTPayload = (token: string): {exp?: number} => {

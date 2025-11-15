@@ -7,7 +7,7 @@ import {LocalStorage} from '../local-storage.service';
 import {Alert} from 'react-native';
 import {useLogout} from './logout.hook';
 import {useEffect, useState} from 'react';
-import {AuthTokens} from '../../types/auth.type';
+import {AuthTokens} from '../../types/auth/auth.type';
 
 type RefreshParams = {
   onRefreshSuccess?: (refreshedTokens: AuthTokens) => void;

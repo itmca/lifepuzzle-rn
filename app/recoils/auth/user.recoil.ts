@@ -1,5 +1,5 @@
 import {atom, selector} from 'recoil';
-import {UserType} from '../../types/user.type';
+import {UserType} from '../../types/core/user.type';
 
 export const userState = atom<UserType | null>({
   key: 'userState',

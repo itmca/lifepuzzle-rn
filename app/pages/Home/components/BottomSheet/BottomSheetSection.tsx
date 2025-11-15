@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useRecoilState} from 'recoil';
 import {sharedImageDataState} from '../../../../recoils/shared/share.recoil';
-import {SharePhoto} from '../../../../types/photo.type';
+import {SharePhoto} from '../../../../types/core/media.type';
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import {ShareAuthList} from '../../../../components/feature/hero/ShareAuthList';
 import {SharedBottomSheet} from './SharedBottomSheet';

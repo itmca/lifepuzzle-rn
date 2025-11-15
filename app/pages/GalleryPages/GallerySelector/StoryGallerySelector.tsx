@@ -10,7 +10,7 @@ import {selectionState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
-} from '../../../types/photo-selector.type.ts';
+} from '../../../types/ui/photo-selector.type';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {Color} from '../../../constants/color.constant.ts';
 import {uploadState} from '../../../recoils/ui/upload.recoil.ts';

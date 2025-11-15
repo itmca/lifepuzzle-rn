@@ -4,8 +4,8 @@ import {userState} from '../../recoils/auth/user.recoil';
 import {authState} from '../../recoils/auth/auth.recoil';
 import {heroState} from '../../recoils/content/hero.recoil';
 import {AuthTokens} from '../../types/auth.type';
-import {UserType} from '../../types/user.type';
-import {HeroType} from '../../types/hero.type';
+import {UserType} from '../../types/core/user.type';
+import {HeroType} from '../../types/core/hero.type';
 import {useNavigation} from '@react-navigation/native';
 import {shareKeyState} from '../../recoils/shared/share.recoil.ts';
 

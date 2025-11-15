@@ -1,9 +1,9 @@
 import {useState} from 'react';
 import {useAuthAxios} from './network.hook';
 import {AxiosRequestConfig} from 'axios';
-import {AiGallery, AiPhotoTemplate} from '../../types/ai-photo.type';
+import {AiGallery, AiPhotoTemplate} from '../../types/external/ai-photo.type';
 import {heroState} from '../../recoils/content/hero.recoil';
-import {HeroType} from '../../types/hero.type';
+import {HeroType} from '../../types/core/hero.type';
 import {useRecoilValue} from 'recoil';
 
 interface AiPhotoTemplateQueryResponse {

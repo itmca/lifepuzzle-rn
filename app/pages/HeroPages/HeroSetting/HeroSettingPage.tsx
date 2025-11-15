@@ -6,7 +6,7 @@ import {
   HeroType,
   HeroUserType,
   HeroWithPuzzleCntType,
-} from '../../../types/hero.type';
+} from '../../../types/core/hero.type';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {useUpdateObserver} from '../../../service/hooks/update.hooks';
 import {heroUpdate} from '../../../recoils/shared/cache.recoil';

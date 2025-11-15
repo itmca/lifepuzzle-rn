@@ -7,7 +7,7 @@ import {getTokenState} from '../auth.service';
 import {convertDateStringToDate} from '../json-convert.service';
 import {useRefreshAuthTokens} from './refresh.hook';
 import {useLogout} from './logout.hook';
-import {AuthTokens} from '../../types/auth.type';
+import {AuthTokens} from '../../types/auth/auth.type';
 import logger from '../../utils/logger';
 
 type Param<R> = {

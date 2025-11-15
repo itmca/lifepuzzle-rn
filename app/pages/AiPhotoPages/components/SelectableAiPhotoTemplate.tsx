@@ -6,7 +6,7 @@ import {ContentContainer} from '../../../components/ui/layout/ContentContainer.t
 import {SvgIcon} from '../../../components/ui/display/SvgIcon';
 import {Color} from '../../../constants/color.constant';
 import {BasicNavigationProps} from '../../../navigation/types';
-import {AiPhotoTemplate} from '../../../types/ai-photo.type';
+import {AiPhotoTemplate} from '../../../types/external/ai-photo.type';
 import {Photo} from '../../../components/ui/base/ImageBase';
 
 type SelectableAiPhotoTemplateProps = {

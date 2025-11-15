@@ -1,6 +1,6 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {FacebookPhotoItem} from './facebook.type';
-import {AgeType} from './photo.type';
+import {FacebookPhotoItem} from '../external/facebook.type';
+import {AgeType} from '../core/media.type';
 
 export type PhotoSource = 'device' | 'custom';
 export type SelectionMode = 'single' | 'multiple';

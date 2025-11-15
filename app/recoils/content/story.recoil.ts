@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {PlayInfo, WritingStoryType} from '../../types/writing-story.type';
+import {PlayInfo, WritingStoryType} from '../../types/core/writing-story.type';
 
 // 조회용 Story 선택 상태
 export const selectedStoryKeyState = atom<string>({

@@ -7,7 +7,7 @@ import {selectionState} from '../../../recoils/ui/selection.recoil';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
-} from '../../../types/photo-selector.type';
+} from '../../../types/ui/photo-selector.type';
 
 const AccountProfileSelectorPage = (): JSX.Element => {
   const [selection, setSelection] = useRecoilState(selectionState);

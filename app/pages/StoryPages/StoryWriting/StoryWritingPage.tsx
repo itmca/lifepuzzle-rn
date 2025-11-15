@@ -24,7 +24,7 @@ import {
   tagState,
 } from '../../../recoils/content/media.recoil.ts';
 import SelectDropdown from 'react-native-select-dropdown';
-import {GalleryItem} from '../../../types/writing-story.type.ts';
+import {GalleryItem} from '../../../types/core/writing-story.type';
 import {SvgIcon} from '../../../components/ui/display/SvgIcon';
 import {Title} from '../../../components/ui/base/TextBase';
 import {PlainTextInput} from '../../../components/ui/form/TextInput.tsx';

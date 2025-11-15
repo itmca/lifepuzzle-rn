@@ -5,7 +5,7 @@ import {BasicButton} from '../../../components/ui/form/Button';
 import BottomSheet from '../../../components/ui/interaction/BottomSheet';
 import {useUserAuthUpdate} from '../../../service/hooks/user.update.hook.ts';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {HeroType, HeroUserType} from '../../../types/hero.type.ts';
+import {HeroType, HeroUserType} from '../../../types/core/hero.type';
 import {Divider} from '../../../components/ui/base/Divider';
 import {Radio} from '../../../components/ui/form/Radio';
 import {

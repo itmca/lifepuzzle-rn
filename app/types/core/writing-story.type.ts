@@ -1,4 +1,4 @@
-import {TagKey} from './photo.type.ts';
+import {TagKey} from './media.type';
 
 export type WritingStoryType = {
   title?: string;
