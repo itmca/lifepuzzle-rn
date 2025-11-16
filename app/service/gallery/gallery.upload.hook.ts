@@ -17,7 +17,6 @@ import {
 } from '../gallery/gallery.api.service';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {useUpdatePublisher} from '../common/update.hook';
-import {useCacheStore} from '../../stores/cache.store';
 import {useUIStore} from '../../stores/ui.store';
 
 interface UploadItem {
@@ -92,8 +91,8 @@ export const useUploadGalleryV2 = (
   const navigation = useNavigation<BasicNavigationProps>();
 
   const currentHero = useHeroStore(state => state.currentHero);
-  const selectedTag = useSelectionStore(state => state.selectedTag);
-  const selectedGalleryItems = useSelectionStore(
+  const storeSelectedTag = useSelectionStore(state => state.selectedTag);
+  const storeSelectedGalleryItems = useSelectionStore(
     state => state.selectedGalleryItems,
   );
   const setSelectedGalleryItems = useSelectionStore(
@@ -116,8 +115,8 @@ export const useUploadGalleryV2 = (
       }
     : {
         heroNo: currentHero?.heroNo,
-        selectedTag: selectedTag,
-        selectedGalleryItems: selectedGalleryItems,
+        selectedTag: storeSelectedTag,
+        selectedGalleryItems: storeSelectedGalleryItems,
       };
 
   const [uploadItems, setUploadItems] = useState<UploadItem[]>([]);

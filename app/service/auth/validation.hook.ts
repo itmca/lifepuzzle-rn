@@ -1,7 +1,7 @@
 import {Alert} from 'react-native';
-import {useAuthStore} from '../../../stores/auth.store';
-import {BasicNavigationProps} from '../../../navigation/types';
-import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
+import {useAuthStore} from '../../stores/auth.store';
+import {BasicNavigationProps} from '../../navigation/types';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 
 export const useFieldValidation = () => {
   const validateRequired = (

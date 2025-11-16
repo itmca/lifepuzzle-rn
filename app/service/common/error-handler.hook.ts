@@ -1,7 +1,7 @@
 import {AxiosError} from 'axios';
-import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
+import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {Alert} from 'react-native';
-import {showErrorToast, showToast} from '../../../components/ui/feedback/Toast';
+import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
 
 export const useErrorHandler = () => {
   const handleApiError = (

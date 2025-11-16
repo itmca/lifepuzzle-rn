@@ -1,5 +1,5 @@
 import {Alert} from 'react-native';
-import {WritingStoryType} from '../../../types/core/writing-story.type';
+import {WritingStoryType} from '../../types/core/writing-story.type';
 
 export const useStoryValidation = () => {
   const validateStoryContent = (

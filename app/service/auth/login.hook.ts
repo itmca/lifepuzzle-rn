@@ -1,5 +1,5 @@
-import {LocalStorage} from '../local-storage.service';
-import {AuthTokens} from '../../types/auth.type';
+import {LocalStorage} from '../core/local-storage.service';
+import {AuthTokens} from '../../types/auth/auth.type';
 import {UserType} from '../../types/core/user.type';
 import {HeroType} from '../../types/core/hero.type';
 import {useNavigation} from '@react-navigation/native';

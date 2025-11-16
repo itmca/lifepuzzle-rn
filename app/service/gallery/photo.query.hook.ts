@@ -1,4 +1,4 @@
-import {useUpdateObserver} from './common/update.hook';
+import {useUpdateObserver} from '../common/update.hook';
 import {useEffect, useState} from 'react';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {AgeGroupsType, TagKey, TagType} from '../../types/core/media.type';
@@ -7,7 +7,7 @@ import {useHeroStore} from '../../stores/hero.store';
 import {useMediaStore} from '../../stores/media.store';
 import {useSelectionStore} from '../../stores/selection.store';
 import {AxiosRequestConfig} from 'axios';
-import {toInternationalAge} from '../date-time-display.service';
+import {toInternationalAge} from '../utils/date-time-display.service';
 
 type PhotoQueryResponse = {
   hero: PhotoHeroType;

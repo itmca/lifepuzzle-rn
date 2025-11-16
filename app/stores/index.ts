@@ -3,7 +3,7 @@ export {useAuthStore} from './auth.store';
 export {useUserStore} from './user.store';
 export {useHeroStore} from './hero.store';
 export {useStoryStore} from './story.store';
-export {useUiStore} from './ui.store';
+export {useUIStore} from './ui.store';
 export {useCacheStore} from './cache.store';
 export {useShareStore} from './share.store';
 export {useMediaStore} from './media.store';
