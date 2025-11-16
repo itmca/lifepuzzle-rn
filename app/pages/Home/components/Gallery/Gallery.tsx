@@ -9,8 +9,8 @@ import {
   ScrollContentContainer,
 } from '../../../../components/ui/layout/ContentContainer.tsx';
 import {ScrollView, useWindowDimensions} from 'react-native';
-import {galleryErrorState} from '../../../../recoils/content/media.recoil';
-import {selectionState} from '../../../../recoils/ui/selection.recoil';
+import {useMediaStore} from '../../../../stores/media.store';
+import {useSelectionStore} from '../../../../stores/selection.store';
 import {
   AgeGroupsType,
   GalleryType,
@@ -49,12 +49,9 @@ const Gallery = ({
   // React hooks
   const [isScrolling, setIsScrolling] = useState(false);
 
-  // 글로벌 상태 관리 (Recoil)
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const selectedTag = selection.tag;
-  const setSelectedTag = (tag: TagType | null) =>
-    setSelection(prev => ({...prev, tag}));
-  const setGalleryError = useSetRecoilState(galleryErrorState);
+  // 글로벌 상태 관리 (Zustand)
+  const {selectedTag, setSelectedTag} = useSelectionStore();
+  const setGalleryError = useMediaStore(state => state.setGalleryError);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();

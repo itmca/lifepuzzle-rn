@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 
-import {sharedImageDataState} from '../../../../recoils/shared/share.recoil';
+import {useShareStore} from '../../../../stores/share.store';
 import {SharePhoto} from '../../../../types/core/media.type';
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import {ShareAuthList} from '../../../../components/feature/hero/ShareAuthList';
@@ -37,9 +37,8 @@ const BottomSheetSection = ({
   onSubmitGallery,
   onRefetch,
 }: Props): JSX.Element => {
-  // 글로벌 상태 관리 (Recoil)
-  const [sharedImageData, setSharedImageData] =
-    useRecoilState(sharedImageDataState);
+  // 글로벌 상태 관리 (Zustand)
+  const {sharedImageData, setSharedImageData} = useShareStore();
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleCloseReceivedImageBottomSheet = useCallback(() => {

@@ -2,7 +2,7 @@ import {RefObject} from 'react';
 
 import {ICarouselInstance} from 'react-native-reanimated-carousel';
 
-import {selectionState} from '../../../../recoils/ui/selection.recoil';
+import {useSelectionStore} from '../../../../stores/selection.store';
 import {TagType} from '../../../../types/core/media.type';
 import {Color} from '../../../../constants/color.constant.ts';
 import Tag from '../../../../components/ui/display/Tag';
@@ -14,10 +14,7 @@ type props = {
 };
 
 const GalleryTag = ({carouselRef, item, index}: props) => {
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const selectedTag = selection.tag;
-  const setSelectedTag = (tag: TagType) =>
-    setSelection(prev => ({...prev, tag}));
+  const {selectedTag, setSelectedTag} = useSelectionStore();
   if (selectedTag && selectedTag.key === item.key) {
     if (item.key === 'AI_PHOTO') {
       return (

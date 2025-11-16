@@ -10,7 +10,7 @@ import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
-import {writingHeroState} from '../../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../../stores/hero.store';
 import {useHero} from '../../../service/hero/hero.query.hook';
 import {toPhotoIdentifier} from '../../../service/utils/photo-identifier.service';
 import {useUpdateHero} from '../../../service/hero/hero.update.hook.ts';
@@ -33,7 +33,7 @@ const HeroModificationPage = (): JSX.Element => {
   //주인공 조회
   const {res} = useHero(heroNo);
   const {hero} = res;
-  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
+  const {writingHero, setWritingHero} = useHeroStore();
   const [updateHero, isUpdating] = useUpdateHero();
   const [deleteHero, isDeleting] = useDeleteHero();
 

@@ -11,7 +11,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 
-import {selectionState} from '../../../recoils/ui/selection.recoil';
+import {useSelectionStore} from '../../../stores/selection.store';
 import Slider from '@react-native-community/slider';
 import RNFS, {writeFile} from 'react-native-fs';
 import {encode as encodeBase64} from 'base64-arraybuffer';
@@ -102,7 +102,7 @@ const GalleryDetailFilterPage = (): JSX.Element => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('original');
   const [filterAmount, setFilterAmount] = useState(1);
 
-  const [selection, setSelection] = useRecoilState(selectionState);
+  const selection = useSelectionStore();
 
   const galleryIndex = selection.currentGalleryIndex;
   const editGalleryItems = selection.editedGallery;

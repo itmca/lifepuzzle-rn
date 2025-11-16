@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Keyboard} from 'react-native';
 
-import {heroState} from '../../../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../../../stores/hero.store';
 import {HeroType, PhotoHeroType} from '../../../../types/core/hero.type';
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {ShareButton} from '../../../../components/feature/sharing/ShareButton';
@@ -13,8 +13,8 @@ type Props = {
 };
 
 const HeroSection = ({photoHero, onSharePress}: Props): JSX.Element => {
-  // 글로벌 상태 관리 (Recoil)
-  const hero = useRecoilValue<HeroType | null>(heroState);
+  // 글로벌 상태 관리 (Zustand)
+  const hero = useHeroStore(state => state.currentHero);
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleSharePress = useCallback(() => {

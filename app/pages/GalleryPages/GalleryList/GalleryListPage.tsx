@@ -25,13 +25,9 @@ import {
 
 import {SCREEN_HEIGHT} from '@gorhom/bottom-sheet';
 
-import {
-  ageGroupsState,
-  getGallery,
-  tagState,
-} from '../../../recoils/content/media.recoil';
-import {selectionState} from '../../../recoils/ui/selection.recoil';
-import {isLoggedInState} from '../../../recoils/auth/auth.recoil.ts';
+import {useMediaStore} from '../../../stores/media.store';
+import {useSelectionStore} from '../../../stores/selection.store';
+import {useAuthStore} from '../../../stores/auth.store';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import Video from 'react-native-video';
@@ -47,18 +43,16 @@ const GalleryListPage = () => {
   const [scrollViewHeight, setScrollViewHeight] = useState(0);
   const navigation = useNavigation<BasicNavigationProps>();
 
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [selection, setSelection] = useRecoilState(selectionState);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
+  const {selectedTag, setSelectedGalleryIndex} = useSelectionStore();
   const [videoModalOpen, setVideoModalOpen] = useState<boolean>(false);
 
-  const [tags] = useRecoilState(tagState);
-  const [ageGroups] = useRecoilState(ageGroupsState);
-  const allGallery = useRecoilValue(getGallery);
+  const {tags, ageGroups, getGallery} = useMediaStore();
+  const allGallery = getGallery();
 
-  const selectedGalleryIndex = selection.currentGalleryIndex;
-  const selectedTag = selection.tag;
-  const setSelectedGalleryIndex = (index: number) =>
-    setSelection(prev => ({...prev, currentGalleryIndex: index}));
+  const selectedGalleryIndex = useSelectionStore(
+    state => state.selectedGalleryItems,
+  );
 
   const ageGroupsArray = Object.entries(ageGroups);
 

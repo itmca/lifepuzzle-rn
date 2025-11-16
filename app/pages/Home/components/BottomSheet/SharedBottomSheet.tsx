@@ -13,10 +13,10 @@ import {
   UploadRequest,
   useUploadGalleryV2,
 } from '../../../../service/gallery/gallery.upload.hook.ts';
-import {heroState} from '../../../../recoils/content/hero.recoil.ts';
+import {useHeroStore} from '../../../../stores/hero.store';
 import {TagType} from '../../../../types/core/media.type';
-import {tagState} from '../../../../recoils/content/media.recoil';
-import {selectionState} from '../../../../recoils/ui/selection.recoil';
+import {useMediaStore} from '../../../../stores/media.store';
+import {useSelectionStore} from '../../../../stores/selection.store';
 import {BasicButton} from '../../../../components/ui/form/Button';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
 import {useUploadHeroes} from '../../../../service/hero/hero.query.hook.ts';
@@ -37,13 +37,12 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
   onClose,
   isGalleryUploading = false,
 }) => {
-  const hero = useRecoilValue(heroState);
-  const selection = useRecoilValue(selectionState);
-  const selectedTag = selection.tag;
+  const hero = useHeroStore(state => state.currentHero);
+  const selectedTag = useSelectionStore(state => state.selectedTag);
   const [heroAge, setHeroAge] = useState<number>(
     hero ? toInternationalAge(hero.birthday) : 0,
   );
-  const [tags] = useRecoilState<TagType[]>(tagState);
+  const tags = useMediaStore(state => state.tags);
   const [uploadRequest, setUploadRequest] = useState<UploadRequest>({
     heroNo: hero?.heroNo || 0,
     selectedTag: selectedTag,
