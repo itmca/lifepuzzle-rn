@@ -4,7 +4,10 @@ import {HttpService} from './http.service';
 import {ApiHookParams, ApiHookReturn} from '../../types/hooks/common.type';
 
 type AxiosHookParams<TResponse> = ApiHookParams<TResponse>;
-type AxiosHookReturn = ApiHookReturn;
+type AxiosHookReturn = [
+  boolean,
+  (newRequestOption: Partial<AxiosRequestConfig>) => void,
+];
 
 export const useAxios = <TResponse>({
   requestOption,

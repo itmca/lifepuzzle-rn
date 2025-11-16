@@ -8,8 +8,7 @@ import {
 } from '../../../../../constants/password.constant.ts';
 import {useAuthAxios} from '../../../../../service/core/auth-http.hook.ts';
 import {CustomAlert} from '../../../../../components/ui/feedback/CustomAlert';
-import {userState} from '../../../../../recoils/auth/user.recoil.ts';
-
+import {useUserStore} from '../../../../../stores/user.store';
 import {useLogout} from '../../../../../service/auth/logout.hook.ts';
 
 type Props = {
@@ -18,7 +17,7 @@ type Props = {
 };
 
 export const PasswordUpdateBottomSheet = ({opened, onClose}: Props) => {
-  const user = useRecoilValue(userState);
+  const user = useUserStore(state => state.user);
   const logout = useLogout();
 
   const [oldPassword, setOldPassword] = useState<string>('');

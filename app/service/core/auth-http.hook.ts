@@ -8,6 +8,9 @@ import {AuthTokens} from '../../types/auth/auth.type';
 import {useAxios} from './http.hook';
 import {useEffect, useState} from 'react';
 
+// Re-export useAxios for convenience
+export {useAxios};
+
 type AuthAxiosParams<R> = {
   requestOption: AxiosRequestConfig;
   onResponseSuccess: (data: R) => void;

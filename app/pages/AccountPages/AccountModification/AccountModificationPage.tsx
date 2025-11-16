@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {userState, writingUserState} from '../../../recoils/auth/user.recoil';
+import {useUserStore} from '../../../stores/user.store';
 import {useAuthAxios} from '../../../service/core/auth-http.hook';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
@@ -30,12 +30,10 @@ type AccountQueryResponse = {
   userType: 'general' | 'kakao' | 'apple' | 'none';
 };
 const AccountModificationPage = (): JSX.Element => {
-  const user = useRecoilValue(userState);
+  const {user, setWritingUser} = useUserStore();
 
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
-
-  const setModifyingUser = useSetRecoilState(writingUserState);
 
   const [isUserLoading] = useAuthAxios<AccountQueryResponse>({
     requestOption: {
@@ -43,7 +41,7 @@ const AccountModificationPage = (): JSX.Element => {
       method: 'GET',
     },
     onResponseSuccess: responseUser => {
-      setModifyingUser({...responseUser, isProfileImageUpdate: false});
+      setWritingUser({...responseUser, isProfileImageUpdate: false});
     },
     disableInitialRequest: false,
   });
@@ -54,7 +52,7 @@ const AccountModificationPage = (): JSX.Element => {
     <LoadingContainer isLoading={isUserLoading || isWithdrawing}>
       <ScreenContainer>
         <ContentContainer gap={8} alignCenter expandToEnd>
-          <AccountAvatar imageURL={user.imageURL} size={100} />
+          <AccountAvatar imageURL={user.imageUrl} size={100} />
           <ContentContainer gap={0} alignCenter>
             <Head>{user.userNickName}</Head>
             {user?.userType === 'general' && (

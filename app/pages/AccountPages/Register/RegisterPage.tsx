@@ -14,7 +14,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {shareKeyState} from '../../../recoils/shared/share.recoil.ts';
+import {useShareStore} from '../../../stores/share.store';
 
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import {BasicButton} from '../../../components/ui/form/Button';
@@ -25,8 +25,7 @@ import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer
 
 const RegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const shareKey = useRecoilValue(shareKeyState);
-  const resetShareKey = useResetRecoilState(shareKeyState);
+  const {shareKey, resetShare} = useShareStore();
 
   const [id, setId] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
@@ -51,7 +50,7 @@ const RegisterPage = (): JSX.Element => {
       method: 'post',
     },
     onResponseSuccess: () => {
-      resetShareKey();
+      resetShare();
       Alert.alert(
         '회원가입이 완료되었습니다.',
         '',

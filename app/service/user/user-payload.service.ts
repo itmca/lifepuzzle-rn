@@ -30,14 +30,14 @@ export class UserPayloadService {
   ): void {
     const photo = modifyingUser?.modifiedImage;
     const imgPath = photo?.node?.image?.uri
-      ? generateImagePath(photo.node.image.uri, modifyingUser?.imageURL)
-      : modifyingUser?.imageURL;
+      ? generateImagePath(photo.node.image.uri, modifyingUser?.imageUrl)
+      : modifyingUser?.imageUrl;
 
     const savedUser: UserType = {
       ...modifyingUser,
       userNo,
       userNickName: modifyingUser.userNickName,
-      imageURL: imgPath,
+      imageUrl: imgPath,
     };
 
     PayloadBuilder.addJsonToFormData(formData, 'toUpdate', savedUser);

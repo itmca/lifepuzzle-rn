@@ -5,11 +5,7 @@ import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
 import {BasicButton} from '../../../../../components/ui/form/Button';
 import BottomSheet from '../../../../../components/ui/interaction/BottomSheet.tsx';
 
-import {
-  getCurrentUserPhotoUri,
-  userState,
-  writingUserState,
-} from '../../../../../recoils/auth/user.recoil.ts';
+import {useUserStore} from '../../../../../stores/user.store';
 import {useCommonActionSheet} from '../../../../../components/ui/interaction/ActionSheet.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../../../navigation/types.tsx';
@@ -28,11 +24,11 @@ export const ProfileUpdateBottomSheet = ({
   onClose,
 }: Props) => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const user = useRecoilValue(userState);
-  const [writingUser, setWritingUser] = useRecoilState(writingUserState);
+  const {user, writingUser, setWritingUser, getCurrentUserPhotoUri} =
+    useUserStore();
   const [newNicknameError, setNewNicknameError] = useState<boolean>(false);
 
-  const currentUserPhotoUri = useRecoilValue(getCurrentUserPhotoUri);
+  const currentUserPhotoUri = getCurrentUserPhotoUri();
 
   const openAlbum = () => {
     navigation.push('NoTab', {
