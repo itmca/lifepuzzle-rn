@@ -30,7 +30,7 @@ export const useAuthAxios = <R>({
   onLoadingStatusChange,
   disableInitialRequest = false,
 }: AuthAxiosParams<R>): AuthAxiosReturn => {
-  const recoilTokens = useAuthStore(state => state.authTokens);
+  const authTokens = useAuthStore(state => state.authTokens);
   const refreshAuthTokens = useRefreshAuthTokens();
   const logout = useLogout();
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ export const useAuthAxios = <R>({
     axiosConfig: AxiosRequestConfig,
     paramTokens?: AuthTokens,
   ) => {
-    const tokens = paramTokens ? paramTokens : recoilTokens;
+    const tokens = paramTokens ? paramTokens : authTokens;
     const tokenState = getTokenState(tokens);
 
     if (tokenState === 'Expire') {
