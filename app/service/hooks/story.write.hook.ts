@@ -1,46 +1,36 @@
-import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
-import {
-  writingStoryState,
-  postStoryKeyState,
-  selectedStoryKeyState,
-} from '../../recoils/content/story.recoil';
-import {uploadState} from '../../recoils/ui/upload.recoil';
-import {isModalOpening} from '../../recoils/ui/modal.recoil';
+import {useStoryStore} from '../../stores/story.store';
+import {useUiStore} from '../../stores/ui.store';
+import {useHeroStore} from '../../stores/hero.store';
 import {useAuthAxios} from './network.hook';
 import {useUpdatePublisher} from './update.hook';
-import {storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
-import {heroState} from '../../recoils/content/hero.recoil.ts';
 import {useStoryHttpPayLoad} from './story.payload.hook.ts';
 import {useAuthValidation} from './common/validation.hook';
 import {useStoryValidation} from './story/story-validation.hook';
 import {useErrorHandler} from './common/error-handler.hook';
 
 export const useResetAllWritingStory = () => {
-  const resetWritingStory = useResetRecoilState(writingStoryState);
+  const {resetWritingStory} = useStoryStore();
 
-  return () => {
-    resetWritingStory();
-  };
+  return resetWritingStory;
 };
 
 export const useSaveStory = (): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const editStoryKey = useRecoilValue(selectedStoryKeyState);
-  const writingStory = useRecoilValue(writingStoryState);
-  const setUploadState = useSetRecoilState(uploadState);
-  const setStoryUploading = (value: boolean) =>
-    setUploadState(prev => ({...prev, story: value}));
+  const {
+    selectedStoryKey: editStoryKey,
+    writingStory,
+    setPostStoryKey,
+  } = useStoryStore();
+  const {setUploadState, setModalOpen} = useUiStore();
+  const {hero} = useHeroStore();
+  const setStoryUploading = (value: boolean) => setUploadState({story: value});
 
-  const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
+  const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
   const resetAllWritingStory = useResetAllWritingStory();
   const storyHttpPayLoad = useStoryHttpPayLoad();
-  const hero = useRecoilValue(heroState);
-
-  const setModalOpen = useSetRecoilState(isModalOpening);
-  const setPostStoryKey = useSetRecoilState(postStoryKeyState);
 
   const {validateLogin} = useAuthValidation();
   const {validateStoryContent} = useStoryValidation();

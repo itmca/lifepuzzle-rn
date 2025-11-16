@@ -1,7 +1,7 @@
 import {useAuthAxios} from './network.hook.ts';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useLogout} from './logout.hook.ts';
-import {useRecoilValue} from 'recoil';
+
 import {userState} from '../../recoils/auth/user.recoil.ts';
 import {authState} from '../../recoils/auth/auth.recoil.ts';
 

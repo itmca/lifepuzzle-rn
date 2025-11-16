@@ -1,6 +1,6 @@
 import {useRef, useState} from 'react';
 import {ScrollView} from 'react-native';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {

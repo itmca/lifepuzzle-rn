@@ -7,13 +7,13 @@ import AudioRecorderPlayer, {
   AVEncodingOption,
   AVModeIOSOption,
 } from 'react-native-audio-recorder-player';
-import {useResetRecoilState, useSetRecoilState} from 'recoil';
+
 import {useState} from 'react';
 import {
   getDisplayRecordTime,
   getRecordFileName,
 } from '../voice-record-info.service';
-import {playInfoState} from '../../recoils/content/story.recoil';
+import {useStoryStore} from '../../stores/story.store';
 
 interface VoiceRecorderProps {
   audioUrl?: string;
@@ -39,9 +39,9 @@ export const useVoiceRecorder = ({
   onStartRecord,
   onStopRecord,
 }: VoiceRecorderProps): VoiceRecorderReturn => {
-  const resetPlayInfo = useResetRecoilState(playInfoState);
+  const resetPlayInfo = useStoryStore(state => state.resetPlayInfo);
 
-  const setPlayInfo = useSetRecoilState(playInfoState);
+  const setPlayInfo = useStoryStore(state => state.setPlayInfo);
   const [isRecording, setIsRecording] = useState(false);
 
   const [file, setFile] = useState<string>(audioUrl ?? '');

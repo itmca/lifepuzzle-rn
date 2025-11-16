@@ -1,8 +1,8 @@
 import React from 'react';
 import {Pressable} from 'react-native';
-import {useRecoilState} from 'recoil';
-import {OpenDetailBottomSheet} from '../../../../recoils/ui/modal.recoil';
+
 import {SvgIcon} from '../../display/SvgIcon';
+import {useUIStore} from '../../../../stores/ui.store';
 
 type Props = {
   iconSize?: number;
@@ -13,7 +13,7 @@ const DetailViewHeaderRight = ({
   iconSize = 24,
   customAction,
 }: Props): JSX.Element => {
-  const [openModal, setOpenModal] = useRecoilState(OpenDetailBottomSheet);
+  const setOpenModal = useUIStore(state => state.setOpenDetailBottomSheet);
   return (
     <Pressable
       onPress={() => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+
 import {Color} from '../../../constants/color.constant';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../navigation/types';

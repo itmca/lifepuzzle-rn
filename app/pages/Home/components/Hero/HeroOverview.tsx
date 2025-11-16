@@ -8,7 +8,7 @@ import {
   Head,
 } from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant.ts';
-import {PhotoHeroType} from '../../../../types/core/media.type';
+import {PhotoHeroType} from '../../../../types/core/hero.type';
 
 type Props = {
   hero: PhotoHeroType;

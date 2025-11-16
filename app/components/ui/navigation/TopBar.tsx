@@ -6,8 +6,8 @@ import {ContentContainer} from '../layout/ContentContainer';
 import {TopNavigationContainer} from '../layout/TopNavigationContainer';
 import {SvgIcon} from '../display/SvgIcon.tsx';
 import {Title} from '../base/TextBase.tsx';
-import {useRecoilValue} from 'recoil';
-import {isLoggedInState} from '../../../recoils/auth/auth.recoil.ts';
+
+import {useAuthStore} from '../../../stores/auth.store';
 
 type Props = {
   logo?: boolean;
@@ -50,7 +50,7 @@ export const TopBar = ({
 
 export const MainTopBar = ({customGoBackAction, right}: Props): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
   return (
     <TopNavigationContainer>
       <ContentContainer

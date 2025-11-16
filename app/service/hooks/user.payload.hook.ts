@@ -1,4 +1,3 @@
-import {useRecoilValue} from 'recoil';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {UserType} from '../../types/core/user.type';

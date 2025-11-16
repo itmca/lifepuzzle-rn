@@ -6,11 +6,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {
-  playInfoState,
-  writingStoryState,
-} from '../../../recoils/content/story.recoil';
+
 import StoryDateInput from './StoryDateInput.tsx';
 import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
@@ -19,10 +15,8 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {Color} from '../../../constants/color.constant.ts';
 import {MediumImage} from '../../../components/ui/base/ImageBase';
-import {
-  ageGroupsState,
-  tagState,
-} from '../../../recoils/content/media.recoil.ts';
+import {useStoryStore} from '../../../stores/story.store';
+import {useMediaStore} from '../../../stores/media.store';
 import SelectDropdown from 'react-native-select-dropdown';
 import {GalleryItem} from '../../../types/core/writing-story.type';
 import {SvgIcon} from '../../../components/ui/display/SvgIcon';
@@ -37,13 +31,15 @@ import {AudioBtn} from '../../../components/feature/story/AudioBtn.tsx';
 
 const StoryWritingPage = (): JSX.Element => {
   const carouselRef = useRef<ICarouselInstance>(null);
-  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const writingStory = useStoryStore(state => state.writingStory);
+  const setWritingStory = useStoryStore(state => state.setWritingStory);
   const isStoryUploading = useIsStoryUploading();
-  const ageGroups = useRecoilValue(ageGroupsState);
-  const tags = useRecoilValue(tagState);
+  const ageGroups = useMediaStore(state => state.ageGroups);
+  const tags = useMediaStore(state => state.tags);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
+  const playInfo = useStoryStore(state => state.playInfo);
+  const setPlayInfo = useStoryStore(state => state.setPlayInfo);
   if (!writingStory.gallery || writingStory.gallery.length === 0) {
     return <></>;
   }

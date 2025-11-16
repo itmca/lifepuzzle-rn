@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useRecoilState} from 'recoil';
+
 import {sharedImageDataState} from '../../../../recoils/shared/share.recoil';
 import {SharePhoto} from '../../../../types/core/media.type';
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';

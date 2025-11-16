@@ -6,8 +6,7 @@ import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import OnboardingPage from '../pages/Onboarding/OnboardingPage.tsx';
 import {LocalStorage} from '../service/local-storage.service.ts';
-import {isLoggedInState} from '../recoils/auth/auth.recoil.ts';
-import {useRecoilValue} from 'recoil';
+import {useAuthStore} from '../stores/auth.store';
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -22,7 +21,7 @@ const RootNavigator = (): JSX.Element => {
     keyof RootStackParamList | null
   >(null);
 
-  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
   useEffect(() => {
     const checkOnboarding = async () => {

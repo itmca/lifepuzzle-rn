@@ -5,8 +5,8 @@ import {BasicNavigationProps} from '../../../navigation/types';
 import Sound from 'react-native-sound';
 import {toMmSs, toMmSsSS} from '../../../service/date-time-display.service';
 import {VoicePlayButton} from '../voice/VoicePlayButton';
-import {useRecoilState} from 'recoil';
-import {playInfoState} from '../../../recoils/content/story.recoil';
+
+import {useStoryStore} from '../../../stores/story.store';
 
 type AudioBtnProps = {
   audioUrl?: string;
@@ -18,7 +18,7 @@ export const AudioBtn = ({
   disabled,
   onPlay,
 }: AudioBtnProps): JSX.Element => {
-  const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
+  const setPlayInfo = useStoryStore(state => state.setPlayInfo);
   const [audio, setAudio] = useState<Sound>();
   const [currTime, setCurrTime] = useState<number>();
   const [durationTime, setDurationTime] = useState<number>();

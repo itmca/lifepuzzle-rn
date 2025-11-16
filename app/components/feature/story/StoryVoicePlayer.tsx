@@ -9,7 +9,7 @@ import {ContentContainer} from '../../ui/layout/ContentContainer';
 
 import {Dimensions, View} from 'react-native';
 import {styles} from './styles.ts';
-import {useRecoilState, useResetRecoilState} from 'recoil';
+
 import {
   playInfoState,
   writingStoryState,

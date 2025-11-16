@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Dimensions, Image, TouchableOpacity} from 'react-native';
-import {useRecoilState} from 'recoil';
+
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {MediaCarousel} from '../../../components/feature/story/MediaCarousel.tsx';

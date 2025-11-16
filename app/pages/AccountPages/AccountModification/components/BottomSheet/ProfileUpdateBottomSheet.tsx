@@ -4,7 +4,7 @@ import {AccountAvatar} from '../../../../../components/ui/display/Avatar';
 import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
 import {BasicButton} from '../../../../../components/ui/form/Button';
 import BottomSheet from '../../../../../components/ui/interaction/BottomSheet.tsx';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
 import {
   getCurrentUserPhotoUri,
   userState,

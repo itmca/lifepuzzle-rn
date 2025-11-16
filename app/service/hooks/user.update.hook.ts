@@ -5,7 +5,7 @@ import {useAuthAxios} from './network.hook.ts';
 import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
 import {useUpdatePublisher} from './update.hook.ts';
 import {currentUserUpdate} from '../../recoils/shared/cache.recoil.ts';
-import {useRecoilValue, useResetRecoilState} from 'recoil';
+
 import {writingUserState} from '../../recoils/auth/user.recoil.ts';
 import {HeroAuthTypeCode} from '../../constants/auth.constant.ts';
 import {

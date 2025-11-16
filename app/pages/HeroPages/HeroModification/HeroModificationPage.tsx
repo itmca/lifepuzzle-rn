@@ -1,6 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {useRecoilState} from 'recoil';
 
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {

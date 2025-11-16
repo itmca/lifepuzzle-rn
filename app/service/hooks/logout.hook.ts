@@ -1,14 +1,10 @@
-import {useResetRecoilState} from 'recoil';
 import {LocalStorage} from '../local-storage.service';
-import {userState} from '../../recoils/auth/user.recoil';
-import {authState} from '../../recoils/auth/auth.recoil';
-import {heroState} from '../../recoils/content/hero.recoil';
 import {useNavigation} from '@react-navigation/native';
-import {
-  selectedStoryKeyState,
-  writingStoryState,
-} from '../../recoils/content/story.recoil';
-import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
+import {useAuthStore} from '../../stores/auth.store';
+import {useUserStore} from '../../stores/user.store';
+import {useHeroStore} from '../../stores/hero.store';
+import {useStoryStore} from '../../stores/story.store';
+import {useMediaStore} from '../../stores/media.store';
 
 type Option = {
   customGoBackAction?: () => void;
@@ -17,15 +13,17 @@ type Option = {
 export const useLogout = (option?: Option) => {
   const navigation = useNavigation();
 
-  const resetAuth = useResetRecoilState(authState);
-  const resetUser = useResetRecoilState(userState);
-  const resetHero = useResetRecoilState(heroState);
-  const resetWritingStory = useResetRecoilState(writingStoryState);
-  const resetSelectedStory = useResetRecoilState(selectedStoryKeyState);
-  const resetAgeGroups = useResetRecoilState(ageGroupsState);
-  const resetTag = useResetRecoilState(tagState);
+  const resetAuth = useAuthStore(state => state.clearAuth);
+  const resetUser = useUserStore(state => state.resetUser);
+  const resetHero = useHeroStore(state => state.resetHero);
+  const resetWritingStory = useStoryStore(state => state.resetWritingStory);
+  const resetSelectedStory = useStoryStore(
+    state => state.resetSelectedStoryKey,
+  );
+  const resetAgeGroups = useMediaStore(state => state.resetAgeGroups);
+  const resetTag = useMediaStore(state => state.resetTags);
 
-  const resetAllRecoil = () => {
+  const resetAllStores = () => {
     resetAuth();
     resetUser();
     resetHero();
@@ -41,7 +39,7 @@ export const useLogout = (option?: Option) => {
   };
 
   return () => {
-    resetAllRecoil();
+    resetAllStores();
     removeLocalStorage();
 
     if (typeof option?.customGoBackAction === 'function') {

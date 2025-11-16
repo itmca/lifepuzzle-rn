@@ -41,3 +41,13 @@ export type HeroWithPuzzleCntType = HeroType & {
   puzzleCount: number;
   users: HeroUserType[];
 };
+
+// 사진 조회용 Hero 타입 (API 응답용)
+export type PhotoHeroType = {
+  id: number;
+  name: string;
+  nickname: string;
+  birthdate: string;
+  age: number;
+  image: string;
+};

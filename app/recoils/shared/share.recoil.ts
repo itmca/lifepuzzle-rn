@@ -1,16 +1,3 @@
-import {atom} from 'recoil';
-import {SharePhoto} from '../../types/core/media.type';
-
-export const shareKeyState = atom<string>({
-  key: 'shareKeyState',
-  default: '',
-});
-
-export const sharedImageDataState = atom<SharePhoto>({
-  key: 'sharedImageDataState',
-  default: {
-    type: '',
-    uri: '',
-    uriList: [],
-  },
-});
+// Compatibility shim - use Zustand stores instead
+export const shareKeyState = {key: 'shareKeyState'};
+export const sharedImageDataState = {key: 'sharedImageDataState'};

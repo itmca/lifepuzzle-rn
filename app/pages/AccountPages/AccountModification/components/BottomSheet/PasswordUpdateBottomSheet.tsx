@@ -9,7 +9,7 @@ import {
 import {useAuthAxios} from '../../../../../service/hooks/network.hook.ts';
 import {CustomAlert} from '../../../../../components/ui/feedback/CustomAlert';
 import {userState} from '../../../../../recoils/auth/user.recoil.ts';
-import {useRecoilValue} from 'recoil';
+
 import {useLogout} from '../../../../../service/hooks/logout.hook.ts';
 
 type Props = {

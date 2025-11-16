@@ -1,4 +1,3 @@
-import {useRecoilValue} from 'recoil';
 import {writingStoryState} from '../../recoils/content/story.recoil';
 import {AUDIO_TYPE} from '../../constants/upload-file-type.constant';
 import {WritingStoryType} from '../../types/core/writing-story.type';

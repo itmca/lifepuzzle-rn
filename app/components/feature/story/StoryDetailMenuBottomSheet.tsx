@@ -2,19 +2,16 @@ import {Alert, TouchableOpacity} from 'react-native';
 import {Color} from '../../../constants/color.constant.ts';
 
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {
-  writingStoryState,
-  selectedStoryKeyState,
-} from '../../../recoils/content/story.recoil';
 import {
   useDeleteGallery,
   useDeleteStory,
 } from '../../../service/hooks/story.delete.hook.ts';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {GalleryType} from '../../../types/core/media.type';
-import {OpenDetailBottomSheet} from '../../../recoils/ui/modal.recoil';
+import {useStoryStore} from '../../../stores/story.store';
+import {useUIStore} from '../../../stores/ui.store';
 import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
 import {Title} from '../../ui/base/TextBase';
 import {Divider} from '../../ui/base/Divider.tsx';
@@ -33,9 +30,10 @@ export const StoryDetailMenuBottomSheet = ({
   type = 'story',
   gallery,
 }: Props): JSX.Element => {
-  const [openModal, setOpenModal] = useRecoilState(OpenDetailBottomSheet);
-  const setWritingStory = useSetRecoilState(writingStoryState);
-  const setEditStoryKey = useSetRecoilState(selectedStoryKeyState);
+  const openModal = useUIStore(state => state.openDetailBottomSheet);
+  const setOpenModal = useUIStore(state => state.setOpenDetailBottomSheet);
+  const setWritingStory = useStoryStore(state => state.setWritingStory);
+  const setEditStoryKey = useStoryStore(state => state.setSelectedStoryKey);
 
   const navigation = useNavigation<BasicNavigationProps>();
   const isStory = type === 'story';
