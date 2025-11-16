@@ -9,7 +9,7 @@ import {
 } from '../../../types/core/hero.type';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {useUpdateObserver} from '../../../service/common/update.hook.ts';
-import {heroUpdate} from '../../../recoils/shared/cache.recoil';
+import {useCacheStore} from '../../../stores/cache.store';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   BasicNavigationProps,
@@ -23,7 +23,7 @@ import {
 } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import {Color} from '../../../constants/color.constant.ts';
-import {writingHeroKeyState} from '../../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../../stores/hero.store';
 import {AccountAvatar} from '../../../components/ui/display/Avatar';
 import {useRegisterSharedHero} from '../../../service/hero/share.hero.hook.ts';
 import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';
@@ -39,14 +39,13 @@ import {toInternationalAge} from '../../../service/utils/date-time.service.ts';
 import {format} from 'date-fns';
 import {BasicButton} from '../../../components/ui/form/Button';
 import {Divider} from '../../../components/ui/base/Divider';
-import {heroState} from '../../../recoils/content/hero.recoil.ts';
 import {HeroAuthTypeByCode} from '../../../constants/auth.constant.ts';
 import {showToast} from '../../../components/ui/feedback/Toast';
 import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {SvgIcon} from '../../../components/ui/display/SvgIcon';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {HeroAuthUpdateBottomSheet} from './HeroAuthUpdateBottomSheet.tsx';
-import {userState} from '../../../recoils/auth/user.recoil.ts';
+import {useUserStore} from '../../../stores/user.store';
 
 const HeroSettingPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -64,15 +63,13 @@ const HeroSettingPage = (): JSX.Element => {
   const [displayHeroes, setDisplayHeroes] = useState<HeroWithPuzzleCntType[]>(
     [],
   );
-  const heroUpdateObserver = useUpdateObserver(heroUpdate);
+  const heroUpdateObserver = useUpdateObserver('heroUpdate');
   const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
     heroes[0],
   );
-  const user = useRecoilValue(userState);
+  const user = useUserStore(state => state.user);
 
-  const setWritingHeroNo = useSetRecoilState(writingHeroKeyState);
-
-  const [currentHero, setCurrentHero] = useRecoilState<HeroType>(heroState);
+  const {setWritingHeroKey, currentHero, setCurrentHero} = useHeroStore();
 
   const [_, updateRecentHero] = useAuthAxios<void>({
     requestOption: {
@@ -210,7 +207,7 @@ const HeroSettingPage = (): JSX.Element => {
                   {focusedHero.auth !== 'VIEWER' && (
                     <TouchableOpacity
                       onPress={() => {
-                        setWritingHeroNo(focusedHero?.heroNo);
+                        setWritingHeroKey(focusedHero?.heroNo);
                         navigation.push('NoTab', {
                           screen: 'HeroSettingNavigator',
                           params: {

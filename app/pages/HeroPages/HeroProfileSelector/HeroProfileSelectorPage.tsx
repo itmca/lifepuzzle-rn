@@ -4,7 +4,7 @@ import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import {selectionState} from '../../../recoils/ui/selection.recoil';
+import {useSelectionStore} from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
@@ -12,10 +12,9 @@ import {
 
 const HeroProfileSelectorPage = (): JSX.Element => {
   const navigation = useNavigation();
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const selectedPhoto = selection.hero;
-  const setSelectedPhoto = (photo: PhotoIdentifier | undefined) =>
-    setSelection(prev => ({...prev, hero: photo}));
+  const {selectedHeroPhoto, setSelectedHeroPhoto} = useSelectionStore();
+  const selectedPhoto = selectedHeroPhoto;
+  const setSelectedPhoto = setSelectedHeroPhoto;
 
   const config: PhotoSelectorConfig = {
     mode: 'single',

@@ -19,8 +19,8 @@ import {
 import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/utils/photo-identifier.service';
 import {useFacebookPhotos} from '../../../service/gallery/facebook.photos.hook';
 import {Color} from '../../../constants/color.constant';
-import {selectionState} from '../../../recoils/ui/selection.recoil.ts';
-import {uploadState} from '../../../recoils/ui/upload.recoil.ts';
+import {useSelectionStore} from '../../../stores/selection.store.ts';
+import {useUIStore} from '../../../stores';
 
 const ageGroupOptions = [
   {label: '10세 미만', value: 'UNDER_TEENAGER' as AgeType},
@@ -38,11 +38,12 @@ const ageGroupOptions = [
 
 const FacebookGallerySelector = (): JSX.Element => {
   const navigation = useNavigation();
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const uploadStateValue = useRecoilValue(uploadState);
+  const [selection, setSelection] = useSelectionStore(
+    state => state.selectedGalleryItems,
+  );
 
   const selectedGalleryItems = selection.gallery;
-  const isGalleryUploading = uploadStateValue.gallery;
+  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
   const setSelectedGalleryItems = (items: any[]) =>
     setSelection(prev => ({...prev, gallery: items}));
 

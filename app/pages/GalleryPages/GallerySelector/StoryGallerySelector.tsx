@@ -6,31 +6,26 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
-import {selectionState} from '../../../recoils/ui/selection.recoil';
+import {useSelectionStore} from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
 } from '../../../types/ui/photo-selector.type';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {Color} from '../../../constants/color.constant.ts';
-import {uploadState} from '../../../recoils/ui/upload.recoil.ts';
+import {useUIStore} from '../../../stores/ui.store';
 
 const StoryGallerySelector = (): JSX.Element => {
   const navigation = useNavigation();
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const uploadStateValue = useRecoilValue(uploadState);
-
-  const galleryIndex = selection.currentGalleryIndex;
-  const selectedGalleryItems = selection.gallery;
-  const editGalleryItems = selection.editedGallery;
-  const isGalleryUploading = uploadStateValue.gallery;
-
-  const setGalleryIndex = (index: number) =>
-    setSelection(prev => ({...prev, currentGalleryIndex: index}));
-  const setSelectedGalleryItems = (items: PhotoIdentifier[]) =>
-    setSelection(prev => ({...prev, gallery: items}));
-  const setEditGalleryItems = (items: PhotoIdentifier[]) =>
-    setSelection(prev => ({...prev, editedGallery: items}));
+  const {
+    currentGalleryIndex: galleryIndex,
+    selectedGalleryItems,
+    editGalleryItems,
+    setCurrentGalleryIndex: setGalleryIndex,
+    setSelectedGalleryItems,
+    setEditGalleryItems,
+  } = useSelectionStore();
+  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
 
   const config: PhotoSelectorConfig = {
     mode: 'multiple',

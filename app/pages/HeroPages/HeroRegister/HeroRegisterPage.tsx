@@ -8,7 +8,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {writingHeroState} from '../../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../../stores/hero.store';
 import {BasicCard} from '../../../components/ui/display/Card';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import {BasicButton} from '../../../components/ui/form/Button';
@@ -18,7 +18,7 @@ import {CustomDateInput} from '../../../components/ui/interaction/CustomDateInpu
 
 const HeroRegisterPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
+  const {writingHero, setWritingHero} = useHeroStore();
   const [createHero, isLoading] = useCreateHero();
 
   const navigateToSelectingPhoto = () => {

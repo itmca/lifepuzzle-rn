@@ -9,10 +9,7 @@ import {
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import {
-  writingStoryState,
-  selectedStoryKeyState,
-} from '../../../recoils/content/story.recoil';
+import {useStoryStore} from '../../../stores/story.store';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -22,19 +19,19 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {Color} from '../../../constants/color.constant.ts';
 import {StoryDetailMenuBottomSheet} from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {getGallery} from '../../../recoils/content/media.recoil';
-import {selectionState} from '../../../recoils/ui/selection.recoil';
+import {useMediaStore} from '../../../stores/media.store';
+import {useSelectionStore} from '../../../stores/selection.store';
 import {Title} from '../../../components/ui/base/TextBase';
 import {StoryWritingButton} from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 
 const StoryDetailPage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const allGalleryIndex = selection.currentGalleryIndex;
-  const setAllGalleryIndex = (index: number) =>
-    setSelection(prev => ({...prev, currentGalleryIndex: index}));
-  const allGallery = useRecoilValue(getGallery);
+  const {
+    currentGalleryIndex: allGalleryIndex,
+    setCurrentGalleryIndex: setAllGalleryIndex,
+  } = useSelectionStore();
+  const allGallery = useMediaStore(state => state.getGallery());
   const filteredGallery = useMemo(
     () => allGallery.filter(item => item.tag?.key !== 'AI_PHOTO'),
     [allGallery],
@@ -56,9 +53,8 @@ const StoryDetailPage = (): JSX.Element => {
   const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
 
-  const resetWritingStory = useResetRecoilState(writingStoryState);
-  const setWritingStory = useSetRecoilState(writingStoryState);
-  const resetSelectedStory = useResetRecoilState(selectedStoryKeyState);
+  const {resetWritingStory, setWritingStory, resetSelectedStoryKey} =
+    useStoryStore();
   const isFocused = useIsFocused();
 
   useFocusEffect(() => {
@@ -80,7 +76,7 @@ const StoryDetailPage = (): JSX.Element => {
       return;
     }
 
-    resetSelectedStory();
+    resetSelectedStoryKey();
     setWritingStory({
       gallery: [
         {

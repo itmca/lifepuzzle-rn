@@ -10,8 +10,6 @@
 
 import React, {useEffect} from 'react';
 
-// Import global Recoil polyfill for remaining legacy code
-import './lib/global-recoil-polyfill';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {AppState} from 'react-native';
 import RootNavigator from './navigation/RootNavigator';

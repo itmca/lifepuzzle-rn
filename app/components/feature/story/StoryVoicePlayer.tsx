@@ -10,10 +10,7 @@ import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {Dimensions, View} from 'react-native';
 import {styles} from './styles.ts';
 
-import {
-  playInfoState,
-  writingStoryState,
-} from '../../../recoils/content/story.recoil';
+import {useStoryStore} from '../../../stores/story.store';
 import {
   CheckButton,
   DeleteButton,
@@ -38,9 +35,13 @@ export type VoicePlayerRef = {
 };
 export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
   ({source, onSave, onDelete, editable = true, onClose}, ref) => {
-    const [playInfo, setPlayInfo] = useRecoilState(playInfoState);
-    const resetPlayInfo = useResetRecoilState(playInfoState);
-    const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+    const {
+      playInfo,
+      setPlayInfo,
+      resetPlayInfo,
+      writingStory,
+      setWritingStory,
+    } = useStoryStore();
 
     const [audioUri, setAudioUri] = useState<string | undefined>(source);
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {galleryErrorState} from '../../../../recoils/content/media.recoil';
-import {selectionState} from '../../../../recoils/ui/selection.recoil';
+import {useMediaStore} from '../../../../stores/media.store';
+import {useSelectionStore} from '../../../../stores/selection.store';
 import {TagType} from '../../../../types/core/media.type';
 import {Color} from '../../../../constants/color.constant.ts';
 import {Title} from '../../../../components/ui/base/TextBase';
@@ -12,9 +12,8 @@ import {ButtonBase} from '../../../../components/ui/base/ButtonBase';
 type props = {onPress: () => void};
 
 const GalleryBottomButton = ({onPress}: props) => {
-  const selection = useRecoilValue(selectionState);
-  const selectedTag = selection.tag;
-  const isGalleryError = useRecoilValue(galleryErrorState);
+  const selectedTag = useSelectionStore(state => state.selectedTag);
+  const isGalleryError = useMediaStore(state => state.galleryError);
   if (selectedTag?.key === 'AI_PHOTO') {
     return (
       <ContentContainer
