@@ -7,7 +7,7 @@ import {
 } from '../../../../service/auth/login.hook';
 import {Color} from '../../../../constants/color.constant';
 
-import {shareKeyState} from '../../../../recoils/shared/share.recoil.ts';
+import {useShareStore} from '../../../../stores/share.store';
 import {BasicButton} from '../../../../components/ui/form/Button';
 import {showErrorToast} from '../../../../components/ui/feedback/Toast';
 
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
-  const shareKey = useRecoilValue(shareKeyState);
+  const shareKey = useShareStore(state => state.shareKey);
   const [kakaoAccessToken, setKakaoAccessToken] = useState('');
 
   const signInWithKakao = async (): Promise<void> => {

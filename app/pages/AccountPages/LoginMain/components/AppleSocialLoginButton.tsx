@@ -8,7 +8,7 @@ import {
 
 import {Color} from '../../../../constants/color.constant';
 
-import {shareKeyState} from '../../../../recoils/shared/share.recoil.ts';
+import {useShareStore} from '../../../../stores/share.store';
 import {BasicButton} from '../../../../components/ui/form/Button';
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const AppleSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
-  const shareKey = useRecoilValue(shareKeyState);
+  const shareKey = useShareStore(state => state.shareKey);
   const loginResponseHandler = useLoginResponseHandler();
 
   const [_, appleLogin] = useAxios<LoginResponse>({
