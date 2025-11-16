@@ -109,7 +109,7 @@ export const StoryDetailMenuBottomSheet = ({
       title: gallery.story?.title ?? '',
       message: gallery.story?.content ?? '',
       url: 'file://' + picturePath,
-      type: `image/jpg`,
+      type: 'image/jpg',
       subject: gallery.story?.title ?? '',
     };
 

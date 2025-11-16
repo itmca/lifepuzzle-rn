@@ -26,7 +26,7 @@ export class PayloadBuilder {
       uri,
       type: mimeType,
       name: fileName,
-    });
+    } as any);
   }
 
   /**
@@ -40,7 +40,7 @@ export class PayloadBuilder {
     formData.append(fieldName, {
       string: JSON.stringify(data),
       type: 'application/json',
-    });
+    } as any);
   }
 
   /**
@@ -52,7 +52,9 @@ export class PayloadBuilder {
     photo: PhotoIdentifier | undefined,
     mimeType: string,
   ): void {
-    if (!photo?.node?.image?.uri) return;
+    if (!photo?.node?.image?.uri) {
+      return;
+    }
 
     const uri = photo.node.image.uri;
     const fileName = extractFileName(uri);
@@ -69,7 +71,9 @@ export class PayloadBuilder {
     voiceUrl: string,
     mimeType: string,
   ): void {
-    if (!voiceUrl) return;
+    if (!voiceUrl) {
+      return;
+    }
 
     const fileName = extractFileName(voiceUrl);
     this.addFileToFormData(formData, fieldName, voiceUrl, fileName, mimeType);

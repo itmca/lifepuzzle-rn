@@ -25,7 +25,7 @@ export const useCreateAiPhoto = (
   const [isLoading, createAiPhoto] = useAuthAxios<any>({
     requestOption: {
       method: 'post',
-      url: `/v1/ai/videos`,
+      url: '/v1/ai/videos',
       data: {
         heroNo: request.heroNo,
         galleryId: request.galleryId,

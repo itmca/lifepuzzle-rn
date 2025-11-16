@@ -1,21 +1,21 @@
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {useUpdatePublisher} from './update.hook';
+import {useUpdatePublisher} from '../common/update.hook';
 import {useCallback, useEffect} from 'react';
 import {useHeroStore} from '../../stores/hero.store';
-import {useUiStore} from '../../stores/ui.store';
+import {useUIStore} from '../../stores/ui.store';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {useHeroHttpPayLoad} from './hero.payload.hook.ts';
-import {useAuthValidation, useFieldValidation} from './common/validation.hook';
-import {useErrorHandler} from './common/error-handler.hook';
+import {HeroPayloadService} from './hero-payload.service';
+import {useAuthValidation, useFieldValidation} from '../auth/validation.hook';
+import {useErrorHandler} from '../common/error-handler.hook';
 
 export const useCreateHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const publishHeroUpdate = useUpdatePublisher('heroUpdate');
 
-  const {writingHero, resetWritingHero} = useHeroStore();
-  const {setUploadState} = useUiStore();
+  const {writingHero, writingHeroKey, resetWritingHero} = useHeroStore();
+  const {setUploadState} = useUIStore();
   const setHeroUploading = useCallback(
     (value: boolean) => setUploadState({hero: value}),
     [setUploadState],
@@ -51,7 +51,10 @@ export const useCreateHero = (): [() => void, boolean] => {
     publishHeroUpdate();
   }, [resetWritingHero, navigation, publishHeroUpdate]);
 
-  const heroHttpPayLoad = useHeroHttpPayLoad();
+  const heroHttpPayLoad = HeroPayloadService.createHeroFormData(
+    writingHeroKey,
+    writingHero,
+  );
 
   useEffect(() => {
     setHeroUploading(isLoading);
@@ -61,7 +64,7 @@ export const useCreateHero = (): [() => void, boolean] => {
     registerHero({
       data: heroHttpPayLoad,
     });
-  }, [registerHero, heroHttpPayLoad]);
+  }, [registerHero]);
 
   const validate = useCallback((): boolean => {
     return (

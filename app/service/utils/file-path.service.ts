@@ -3,7 +3,9 @@
  */
 
 export const extractFileName = (uri: string): string | undefined => {
-  if (!uri) return undefined;
+  if (!uri) {
+    return undefined;
+  }
   const fileParts = uri.split('/');
   return fileParts.length > 0 ? fileParts[fileParts.length - 1] : undefined;
 };
@@ -20,7 +22,9 @@ export const generateTimestampedFileName = (
 };
 
 export const normalizeFileUri = (path: string): string => {
-  if (!path) return '';
+  if (!path) {
+    return '';
+  }
   return path.startsWith('file://') ? path : `file://${path}`;
 };
 

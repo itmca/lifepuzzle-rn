@@ -12,7 +12,7 @@ import {
 } from '../../../navigation/types';
 import {writingHeroState} from '../../../recoils/content/hero.recoil';
 import {useHero} from '../../../service/hero/hero.query.hook';
-import {toPhotoIdentifier} from '../../../service/photo-identifier.service';
+import {toPhotoIdentifier} from '../../../service/utils/photo-identifier.service';
 import {useUpdateHero} from '../../../service/hero/hero.update.hook.ts';
 import {Divider} from '../../../components/ui/base/Divider';
 import {BasicCard} from '../../../components/ui/display/Card';

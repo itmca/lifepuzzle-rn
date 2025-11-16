@@ -1,4 +1,4 @@
-import {useUpdateObserver} from './update.hook';
+import {useUpdateObserver} from './common/update.hook';
 import {useEffect, useState} from 'react';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {AgeGroupsType, TagKey, TagType} from '../../types/core/media.type';

@@ -1,20 +1,15 @@
 import {useAuthAxios} from '../core/auth-http.hook';
 import {Alert} from 'react-native';
-import {useUpdatePublisher} from './update.hook';
-import {currentHeroUpdate, heroUpdate} from '../../recoils/shared/cache.recoil';
+import {useUpdatePublisher} from '../common/update.hook';
 import {useNavigation} from '@react-navigation/native';
-import {isLoggedInState} from '../../recoils/auth/auth.recoil';
+import {useAuthStore} from '../../stores/auth.store';
 import {BasicNavigationProps} from '../../navigation/types';
-import {
-  heroState,
-  writingHeroKeyState,
-  writingHeroState,
-} from '../../recoils/content/hero.recoil';
-import {useHeroHttpPayLoad} from './hero.payload.hook';
+import {useHeroStore} from '../../stores/hero.store';
+import {HeroPayloadService} from './hero-payload.service';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 
 export const useResetAllWritingHero = () => {
-  const resetWritingHero = useResetRecoilState(writingHeroState);
+  const resetWritingHero = useHeroStore(state => state.resetWritingHero);
 
   return () => {
     resetWritingHero();
@@ -23,19 +18,20 @@ export const useResetAllWritingHero = () => {
 
 export const useUpdateHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const [writingHeroKey, setWritingHeroKey] = useRecoilState<
-    number | undefined
-  >(writingHeroKeyState);
-  const writingHero = useRecoilValue(writingHeroState);
-  const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
+  const writingHeroKey = useHeroStore(state => state.writingHeroKey);
+  const setWritingHeroKey = useHeroStore(state => state.setWritingHeroKey);
+  const writingHero = useHeroStore(state => state.writingHero);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
-  const publishHeroUpdate = useUpdatePublisher(heroUpdate);
-  const publishCurrentHeroUpdate = useUpdatePublisher(currentHeroUpdate);
+  const publishHeroUpdate = useUpdatePublisher('heroUpdate');
+  const publishCurrentHeroUpdate = useUpdatePublisher('currentHeroUpdate');
 
   const resetAllWritingHero = useResetAllWritingHero();
-  const heroHttpPayLoad = useHeroHttpPayLoad();
+  const heroHttpPayLoad = writingHeroKey
+    ? HeroPayloadService.createHeroFormData(writingHeroKey, writingHero)
+    : null;
 
-  const currentHero = useRecoilValue(heroState);
+  const currentHero = useHeroStore(state => state.currentHero);
 
   const [isLoading, saveHero] = useAuthAxios<any>({
     requestOption: {
@@ -48,7 +44,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
       setWritingHeroKey(undefined);
       resetAllWritingHero();
       publishHeroUpdate();
-      if (currentHero.heroNo === writingHeroKey) {
+      if (currentHero?.heroNo === writingHeroKey) {
         publishCurrentHeroUpdate();
       }
       navigation.goBack();
@@ -64,7 +60,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
   });
 
   const submit = function () {
-    if (writingHeroKey === undefined) {
+    if (writingHeroKey === undefined || !heroHttpPayLoad) {
       return;
     }
 

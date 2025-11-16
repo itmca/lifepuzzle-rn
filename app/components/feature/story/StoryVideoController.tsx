@@ -39,7 +39,9 @@ export const VideoController = ({
     onVisibleChanged(isPaused);
   }, [isPaused]);
 
-  if (!playingTime) return null;
+  if (!playingTime) {
+    return null;
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -63,9 +65,9 @@ export const VideoController = ({
                   setPaused(!isPaused);
                 }}>
                 {isPaused ? (
-                  <SvgIcon name={'playRound'} style={{zIndex: 1}}></SvgIcon>
+                  <SvgIcon name={'playRound'} style={{zIndex: 1}} />
                 ) : (
-                  <SvgIcon name={'pauseRound'} style={{zIndex: 1}}></SvgIcon>
+                  <SvgIcon name={'pauseRound'} style={{zIndex: 1}} />
                 )}
               </TouchableWithoutFeedback>
             </ContentContainer>

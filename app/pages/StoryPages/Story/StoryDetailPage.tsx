@@ -76,7 +76,9 @@ const StoryDetailPage = (): JSX.Element => {
   };
 
   const onClickWrite = () => {
-    if (!currentGalleryItem) return;
+    if (!currentGalleryItem) {
+      return;
+    }
 
     resetSelectedStory();
     setWritingStory({

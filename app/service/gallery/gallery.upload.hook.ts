@@ -316,7 +316,9 @@ export const useUploadGalleryV2 = (
             currentItem.originalImage.node.image.uri,
         );
 
-        if (itemIndex === -1) continue;
+        if (itemIndex === -1) {
+          continue;
+        }
 
         try {
           setUploadItems(currentItems => {

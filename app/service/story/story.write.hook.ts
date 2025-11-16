@@ -1,14 +1,14 @@
 import {useStoryStore} from '../../stores/story.store';
-import {useUiStore} from '../../stores/ui.store';
+import {useUIStore} from '../../stores/ui.store';
 import {useHeroStore} from '../../stores/hero.store';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {useUpdatePublisher} from '../common/update.hook';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
-import {useStoryHttpPayLoad} from './story-payload.service';
+import {StoryPayloadService} from './story-payload.service';
 import {useAuthValidation} from '../auth/validation.hook';
-import {useStoryValidation} from '../story/story-validation.hook';
+import {useStoryValidation} from './story-validation.hook';
 import {useErrorHandler} from '../common/error-handler.hook';
 
 export const useResetAllWritingStory = () => {
@@ -24,13 +24,16 @@ export const useSaveStory = (): [() => void] => {
     writingStory,
     setPostStoryKey,
   } = useStoryStore();
-  const {setUploadState, setModalOpen} = useUiStore();
-  const {hero} = useHeroStore();
+  const {setUploadState, setModalOpen} = useUIStore();
+  const {currentHero: hero} = useHeroStore();
   const setStoryUploading = (value: boolean) => setUploadState({story: value});
 
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
   const resetAllWritingStory = useResetAllWritingStory();
-  const storyHttpPayLoad = useStoryHttpPayLoad();
+  const storyHttpPayLoad = StoryPayloadService.createStoryFormData(
+    writingStory,
+    hero,
+  );
 
   const {validateLogin} = useAuthValidation();
   const {validateStoryContent} = useStoryValidation();
@@ -91,6 +94,6 @@ export const useSaveStory = (): [() => void] => {
 };
 
 export const useIsStoryUploading = (): boolean => {
-  const uploadStateValue = useRecoilValue(uploadState);
-  return uploadStateValue.story;
+  const uploadState = useUIStore(state => state.uploadState);
+  return uploadState.story;
 };
