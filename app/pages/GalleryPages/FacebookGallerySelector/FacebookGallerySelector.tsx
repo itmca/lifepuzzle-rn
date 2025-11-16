@@ -16,8 +16,8 @@ import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
 } from '../../../types/ui/photo-selector.type';
-import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/photo-identifier.service';
-import {useFacebookPhotos} from '../../../service/hooks/facebook.photos.hook';
+import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/utils/photo-identifier.service';
+import {useFacebookPhotos} from '../../../service/gallery/facebook.photos.hook';
 import {Color} from '../../../constants/color.constant';
 import {selectionState} from '../../../recoils/ui/selection.recoil.ts';
 import {uploadState} from '../../../recoils/ui/upload.recoil.ts';

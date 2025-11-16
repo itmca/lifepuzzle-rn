@@ -6,11 +6,11 @@ import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../../../constants/password.constant.ts';
-import {useAuthAxios} from '../../../../../service/hooks/network.hook.ts';
+import {useAuthAxios} from '../../../../../service/core/auth-http.hook.ts';
 import {CustomAlert} from '../../../../../components/ui/feedback/CustomAlert';
 import {userState} from '../../../../../recoils/auth/user.recoil.ts';
 
-import {useLogout} from '../../../../../service/hooks/logout.hook.ts';
+import {useLogout} from '../../../../../service/auth/logout.hook.ts';
 
 type Props = {
   opened: boolean;

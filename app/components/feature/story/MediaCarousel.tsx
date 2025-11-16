@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
+import {StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 import {Photo} from '../../ui/base/ImageBase';
 import {VideoPlayer} from './StoryVideoPlayer';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
@@ -9,8 +9,7 @@ import MediaCarouselPagination from './MediaCarouselPagination';
 import {AiPhotoButton} from '../ai/AiPhotoButton';
 import {BasicNavigationProps} from '../../../navigation/types';
 import {useNavigation} from '@react-navigation/native';
-import {useCreateAiPhoto} from '../../../service/hooks/ai-photo.create.hook';
-import {showErrorToast} from '../../ui/feedback/Toast';
+import {useCreateAiPhoto} from '../../../service/gallery/ai-photo.create.hook';
 
 type Props = {
   data: MediaItem[];

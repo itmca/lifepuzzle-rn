@@ -7,21 +7,21 @@ import {
 } from '../../../../components/ui/layout/ContentContainer.tsx';
 import {BodyTextB} from '../../../../components/ui/base/TextBase';
 import {Color} from '../../../../constants/color.constant.ts';
-import {toPhotoIdentifier} from '../../../../service/photo-identifier.service.ts';
+import {toPhotoIdentifier} from '../../../../service/utils/photo-identifier.service.ts';
 import {SharedData} from '../../../../../src/NativeLPShareModule.ts';
 import {
   UploadRequest,
   useUploadGalleryV2,
-} from '../../../../service/hooks/gallery.upload.hook.ts';
+} from '../../../../service/gallery/gallery.upload.hook.ts';
 import {heroState} from '../../../../recoils/content/hero.recoil.ts';
 import {TagType} from '../../../../types/core/media.type';
 import {tagState} from '../../../../recoils/content/media.recoil';
 import {selectionState} from '../../../../recoils/ui/selection.recoil';
 import {BasicButton} from '../../../../components/ui/form/Button';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
-import {useUploadHeroes} from '../../../../service/hooks/hero.query.hook.ts';
+import {useUploadHeroes} from '../../../../service/hero/hero.query.hook.ts';
 import {HeroSelect} from './HeroSelect';
-import {toInternationalAge} from '../../../../service/date-time-display.service.ts';
+import {toInternationalAge} from '../../../../service/utils/date-time.service.ts';
 import {CustomAlert} from '../../../../components/ui/feedback/CustomAlert';
 
 interface SharedBottomSheetProps {

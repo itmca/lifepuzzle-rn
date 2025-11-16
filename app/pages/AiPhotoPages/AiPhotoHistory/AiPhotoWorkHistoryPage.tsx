@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, TouchableOpacity, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
@@ -13,10 +12,9 @@ import {
   Caption,
   Title,
 } from '../../../components/ui/base/TextBase';
-import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {formatDateToTodayOrYYMMDD} from '../../../service/date-time-display.service.ts';
+import {formatDateToTodayOrYYMMDD} from '../../../service/utils/date-time.service.ts';
 import {Photo} from '../../../components/ui/base/ImageBase';
-import {useAiGalleries} from '../../../service/hooks/ai-photo.query.hook.ts';
+import {useAiGalleries} from '../../../service/gallery/ai-photo.query.hook.ts';
 import {AiGallery} from '../../../types/external/ai-photo.type';
 
 interface WorkItem {

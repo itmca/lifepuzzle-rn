@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 import {AuthTokens} from '../types/auth/auth.type';
-import {getTokenState} from '../service/auth.service';
+import {getTokenState} from '../service/core/auth.service';
 
 interface AuthState {
   authTokens: AuthTokens;

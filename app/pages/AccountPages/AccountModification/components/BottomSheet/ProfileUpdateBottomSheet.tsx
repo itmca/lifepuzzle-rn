@@ -13,7 +13,7 @@ import {
 import {useCommonActionSheet} from '../../../../../components/ui/interaction/ActionSheet.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../../../../navigation/types.tsx';
-import {useUserProfileUpdate} from '../../../../../service/hooks/user.update.hook.ts';
+import {useUserProfileUpdate} from '../../../../../service/user/user.update.hook.ts';
 import {LoadingContainer} from '../../../../../components/ui/feedback/LoadingContainer';
 
 type Props = {

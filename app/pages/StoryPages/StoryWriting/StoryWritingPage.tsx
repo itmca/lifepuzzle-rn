@@ -10,7 +10,7 @@ import {
 import StoryDateInput from './StoryDateInput.tsx';
 import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {useIsStoryUploading} from '../../../service/hooks/story.write.hook.ts';
+import {useIsStoryUploading} from '../../../service/story/story.write.hook.ts';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {Color} from '../../../constants/color.constant.ts';

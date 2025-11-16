@@ -1,21 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import {TouchableOpacity, useWindowDimensions} from 'react-native';
-import {useAuthAxios} from '../../../service/hooks/network.hook';
+import {useAuthAxios} from '../../../service/core/auth-http.hook';
 import {
   HeroType,
   HeroUserType,
   HeroWithPuzzleCntType,
 } from '../../../types/core/hero.type';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {useUpdateObserver} from '../../../service/hooks/update.hook';
+import {useUpdateObserver} from '../../../service/common/update.hook.ts';
 import {heroUpdate} from '../../../recoils/shared/cache.recoil';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   BasicNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
-import {HeroesQueryResponse} from '../../../service/hooks/hero.query.hook';
+import {HeroesQueryResponse} from '../../../service/hero/hero.query.hook';
 import Carousel from 'react-native-reanimated-carousel';
 import {
   ContentContainer,
@@ -25,7 +25,7 @@ import {
 import {Color} from '../../../constants/color.constant.ts';
 import {writingHeroKeyState} from '../../../recoils/content/hero.recoil';
 import {AccountAvatar} from '../../../components/ui/display/Avatar';
-import {useRegisterSharedHero} from '../../../service/hooks/share.hero.hook.ts';
+import {useRegisterSharedHero} from '../../../service/hero/share.hero.hook.ts';
 import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';
 import {BasicCard} from '../../../components/ui/display/Card';
 import {
@@ -35,7 +35,7 @@ import {
   Head,
   Title,
 } from '../../../components/ui/base/TextBase';
-import {toInternationalAge} from '../../../service/date-time-display.service.ts';
+import {toInternationalAge} from '../../../service/utils/date-time.service.ts';
 import {format} from 'date-fns';
 import {BasicButton} from '../../../components/ui/form/Button';
 import {Divider} from '../../../components/ui/base/Divider';

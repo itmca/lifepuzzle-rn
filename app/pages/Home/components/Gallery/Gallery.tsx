@@ -76,10 +76,14 @@ const Gallery = ({
 
   // Side effects (useEffect 등)
   useEffect(() => {
-    if (!selectedTag?.key || !tags?.length) return;
+    if (!selectedTag?.key || !tags?.length) {
+      return;
+    }
 
     const index = tags.findIndex(item => item.key === selectedTag.key);
-    if (index === -1) return;
+    if (index === -1) {
+      return;
+    }
 
     if (index < tags.length / 3) {
       scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});

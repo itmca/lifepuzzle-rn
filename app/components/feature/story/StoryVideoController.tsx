@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, TouchableWithoutFeedback} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {Bar} from 'react-native-progress';
 import {Color} from '../../../constants/color.constant';
-import {toMmSs} from '../../../service/date-time-display.service.ts';
+import {toMmSs} from '../../../service/utils/date-time.service.ts';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {Caption} from '../../ui/base/TextBase';
 import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
@@ -39,7 +39,9 @@ export const VideoController = ({
     onVisibleChanged(isPaused);
   }, [isPaused]);
 
-  if (!playingTime) return null;
+  if (!playingTime) {
+    return null;
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -63,9 +65,9 @@ export const VideoController = ({
                   setPaused(!isPaused);
                 }}>
                 {isPaused ? (
-                  <SvgIcon name={'playRound'} style={{zIndex: 1}}></SvgIcon>
+                  <SvgIcon name={'playRound'} style={{zIndex: 1}} />
                 ) : (
-                  <SvgIcon name={'pauseRound'} style={{zIndex: 1}}></SvgIcon>
+                  <SvgIcon name={'pauseRound'} style={{zIndex: 1}} />
                 )}
               </TouchableWithoutFeedback>
             </ContentContainer>

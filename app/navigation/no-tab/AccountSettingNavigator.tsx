@@ -7,13 +7,12 @@ import {useNavigation} from '@react-navigation/native';
 
 import {useSelectionStore} from '../../stores/selection.store';
 import {useUserStore} from '../../stores/user.store';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
 import {TopBar} from '../../components/ui/navigation/TopBar';
 import {TouchableOpacity} from 'react-native';
 import {BodyTextM, Title} from '../../components/ui/base/TextBase';
 import {Color} from '../../constants/color.constant.ts';
-import {useLogout} from '../../service/hooks/logout.hook.ts';
+import {useLogout} from '../../service/auth/logout.hook.ts';
 
 export type AccountSettingParamList = {
   AccountModification: undefined;

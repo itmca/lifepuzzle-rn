@@ -5,7 +5,7 @@ import HomeTabNavigator, {HomeTabParamList} from './home-tab/HomeRootNavigator';
 import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import OnboardingPage from '../pages/Onboarding/OnboardingPage.tsx';
-import {LocalStorage} from '../service/local-storage.service.ts';
+import {LocalStorage} from '../service/core/local-storage.service';
 import {useAuthStore} from '../stores/auth.store';
 
 export type RootStackParamList = {
