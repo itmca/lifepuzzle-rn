@@ -7,7 +7,7 @@ import {useHeroStore} from '../../stores/hero.store';
 import {useMediaStore} from '../../stores/media.store';
 import {useSelectionStore} from '../../stores/selection.store';
 import {AxiosRequestConfig} from 'axios';
-import {toInternationalAge} from '../utils/date-time.service.ts';
+import {toInternationalAge} from '../utils/date-time.service';
 
 type PhotoQueryResponse = {
   hero: PhotoHeroType;
