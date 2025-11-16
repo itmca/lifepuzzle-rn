@@ -1,3 +1,7 @@
+// TODO: Migrate to new pattern - use ./domain/hero/use-hero-create.ts instead
+// This file is deprecated and will be removed in future versions
+// New usage: import { useCreateHero } from '@/service/hooks/domain/hero/use-hero-create';
+
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useUpdatePublisher} from './update.hook';
