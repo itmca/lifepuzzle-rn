@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {BasicNavigationProps} from '../../../navigation/types';
 import Sound from 'react-native-sound';
-import {toMmSs, toMmSsSS} from '../../../service/date-time-display.service';
+import {toMmSs, toMmSsSS} from '../../../service/utils/date-time.service';
 import {VoicePlayButton} from '../voice/VoicePlayButton';
 
 import {useStoryStore} from '../../../stores/story.store';

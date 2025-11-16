@@ -1,4 +1,4 @@
-import {LocalStorage} from '../local-storage.service';
+import {LocalStorage} from '../core/local-storage.service';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthStore} from '../../stores/auth.store';
 import {useUserStore} from '../../stores/user.store';

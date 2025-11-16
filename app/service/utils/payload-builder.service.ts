@@ -1,5 +1,5 @@
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {extractFileName, generateImagePath} from './file-path.service';
+import {extractFileName} from './file-path.service';
 
 /**
  * FormData 생성을 위한 공통 유틸리티 클래스

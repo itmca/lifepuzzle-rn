@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {userState, writingUserState} from '../../../recoils/auth/user.recoil';
-import {useAuthAxios} from '../../../service/hooks/network.hook';
+import {useAuthAxios} from '../../../service/core/auth-http.hook';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
 import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
@@ -17,7 +17,7 @@ import {
 import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {BasicButton} from '../../../components/ui/form/Button';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {useUserWithdraw} from '../../../service/hooks/user.withdraw.hook.ts';
+import {useUserWithdraw} from '../../../service/user/user.withdraw.hook.ts';
 import {ProfileUpdateBottomSheet} from './components/BottomSheet/ProfileUpdateBottomSheet.tsx';
 import {PasswordUpdateBottomSheet} from './components/BottomSheet/PasswordUpdateBottomSheet.tsx';
 

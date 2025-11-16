@@ -1,13 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useUpdatePublisher} from './update.hook';
-import {useEffect, useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useHeroStore} from '../../stores/hero.store';
 import {useUiStore} from '../../stores/ui.store';
-import {useAuthAxios} from './network.hook';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useHeroHttpPayLoad} from './hero.payload.hook.ts';
-import {useFieldValidation, useAuthValidation} from './common/validation.hook';
+import {useAuthValidation, useFieldValidation} from './common/validation.hook';
 import {useErrorHandler} from './common/error-handler.hook';
 
 export const useCreateHero = (): [() => void, boolean] => {

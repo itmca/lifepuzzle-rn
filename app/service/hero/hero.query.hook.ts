@@ -1,6 +1,6 @@
-import {useState, useMemo} from 'react';
+import {useMemo, useState} from 'react';
 import {HeroType, HeroUserType} from '../../types/core/hero.type';
-import {useAuthAxios} from './network.hook';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {
   HeroesQueryResponse,
   HeroQueryResponse,

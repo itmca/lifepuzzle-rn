@@ -1,25 +1,22 @@
-import {authState} from '../../recoils/auth/auth.recoil';
-import {userState} from '../../recoils/auth/user.recoil';
-import {useAuthAxios} from './network.hook';
+import {useAuthStore} from '../../stores/auth.store';
+import {useUserStore} from '../../stores/user.store';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {UserType} from '../../types/core/user.type';
 import {useEffect} from 'react';
-import {heroState} from '../../recoils/content/hero.recoil';
-import {useUpdateObserver} from './update.hook';
-import {
-  currentHeroUpdate,
-  currentUserUpdate,
-} from '../../recoils/shared/cache.recoil';
-import {LocalStorage} from '../local-storage.service';
-import {getTokenState} from '../auth.service';
-import {HeroQueryResponse} from './hero.query.hook';
+import {useHeroStore} from '../../stores/hero.store';
+import {useUpdateObserver} from '../common/update.hook';
+import {LocalStorage} from './local-storage.service';
+import {getTokenState} from './auth.service';
+import {HeroQueryResponse} from '../hero/hero.query.hook';
 
 export const useFetchLocalStorageUserHero = (): void => {
-  const tokens = useRecoilValue(authState);
-  const setUser = useSetRecoilState(userState);
-  const [currentHero, setHero] = useRecoilState(heroState);
+  const tokens = useAuthStore(state => state.authTokens);
+  const setUser = useUserStore(state => state.setUser);
+  const currentHero = useHeroStore(state => state.currentHero);
+  const setHero = useHeroStore(state => state.setCurrentHero);
 
-  const currentUserUpdateObserver = useUpdateObserver(currentUserUpdate);
-  const currentHeroUpdateObserver = useUpdateObserver(currentHeroUpdate);
+  const currentUserUpdateObserver = useUpdateObserver('currentUserUpdate');
+  const currentHeroUpdateObserver = useUpdateObserver('currentHeroUpdate');
 
   const [, fetchUser] = useAuthAxios<UserType>({
     requestOption: {},

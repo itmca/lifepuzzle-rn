@@ -1,15 +1,15 @@
 import {useStoryStore} from '../../stores/story.store';
 import {useUiStore} from '../../stores/ui.store';
 import {useHeroStore} from '../../stores/hero.store';
-import {useAuthAxios} from './network.hook';
-import {useUpdatePublisher} from './update.hook';
+import {useAuthAxios} from '../core/auth-http.hook';
+import {useUpdatePublisher} from '../common/update.hook';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
-import {useStoryHttpPayLoad} from './story.payload.hook.ts';
-import {useAuthValidation} from './common/validation.hook';
-import {useStoryValidation} from './story/story-validation.hook';
-import {useErrorHandler} from './common/error-handler.hook';
+import {useStoryHttpPayLoad} from './story-payload.service';
+import {useAuthValidation} from '../auth/validation.hook';
+import {useStoryValidation} from '../story/story-validation.hook';
+import {useErrorHandler} from '../common/error-handler.hook';
 
 export const useResetAllWritingStory = () => {
   const {resetWritingStory} = useStoryStore();

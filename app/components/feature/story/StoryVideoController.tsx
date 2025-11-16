@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, TouchableWithoutFeedback} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {Bar} from 'react-native-progress';
 import {Color} from '../../../constants/color.constant';
-import {toMmSs} from '../../../service/date-time-display.service.ts';
+import {toMmSs} from '../../../service/utils/date-time.service.ts';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {Caption} from '../../ui/base/TextBase';
 import {SvgIcon} from '../../ui/display/SvgIcon.tsx';

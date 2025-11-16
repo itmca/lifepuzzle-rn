@@ -1,19 +1,14 @@
-import {useUserHttpPayLoad} from './user.payload.hook.ts';
 import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
-import {useAuthAxios} from './network.hook.ts';
+import {BasicNavigationProps} from '../../navigation/types';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
-import {useUpdatePublisher} from './update.hook.ts';
-import {currentUserUpdate} from '../../recoils/shared/cache.recoil.ts';
-
-import {writingUserState} from '../../recoils/auth/user.recoil.ts';
-import {HeroAuthTypeCode} from '../../constants/auth.constant.ts';
+import {useUpdatePublisher} from '../common/update.hook';
 import {
   HookProps,
   UserAuthRequestBody,
 } from '../../types/hooks/user-update.type';
-import {useFieldValidation} from './common/validation.hook';
-import {useErrorHandler} from './common/error-handler.hook';
+import {useFieldValidation} from '../auth/validation.hook';
+import {useErrorHandler} from '../common/error-handler.hook';
 
 export const useUserProfileUpdate = ({
   onSuccess,

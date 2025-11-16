@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useAuthAxios} from './network.hook';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {FacebookPhotosResponse} from '../../types/external/facebook.type';
 import {UseFacebookPhotosProps} from '../../types/hooks/facebook.type';
 

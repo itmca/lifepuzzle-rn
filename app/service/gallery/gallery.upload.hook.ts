@@ -14,9 +14,9 @@ import {
   FileUploadDto,
   galleryApiService,
   PresignedUrlDto,
-} from '../api/gallery.api.service';
-import {useAuthAxios} from './network.hook';
-import {useUpdatePublisher} from './update.hook';
+} from '../gallery/gallery.api.service';
+import {useAuthAxios} from '../core/auth-http.hook';
+import {useUpdatePublisher} from '../common/update.hook';
 import {storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {uploadState} from '../../recoils/ui/upload.recoil';
 

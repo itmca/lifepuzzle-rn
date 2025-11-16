@@ -1,6 +1,6 @@
 import {useUpdateObserver} from './update.hook';
 import {useEffect, useState} from 'react';
-import {useAuthAxios} from './network.hook';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {AgeGroupsType, TagKey, TagType} from '../../types/core/media.type';
 import {PhotoHeroType} from '../../types/core/hero.type';
 import {useHeroStore} from '../../stores/hero.store';

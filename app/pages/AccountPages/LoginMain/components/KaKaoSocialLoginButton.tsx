@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {KakaoOAuthToken, login} from '@react-native-seoul/kakao-login';
-import {useAxios} from '../../../../service/hooks/network.hook';
+import {useAxios} from '../../../../service/core/auth-http.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../../../service/hooks/login.hook';
+} from '../../../../service/auth/login.hook';
 import {Color} from '../../../../constants/color.constant';
 
 import {shareKeyState} from '../../../../recoils/shared/share.recoil.ts';

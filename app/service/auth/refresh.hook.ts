@@ -1,8 +1,8 @@
-import {authState} from '../../recoils/auth/auth.recoil';
+import {useAuthStore} from '../../stores/auth.store';
 import {SERVER_HOST} from '../../constants/url.constant';
 import axios, {AxiosError} from 'axios';
-import {convertDateStringToDate} from '../json-convert.service';
-import {LocalStorage} from '../local-storage.service';
+import {convertDateStringToDate} from '../utils/json-convert.service';
+import {LocalStorage} from '../core/local-storage.service';
 import {Alert} from 'react-native';
 import {useLogout} from './logout.hook';
 import {useEffect, useState} from 'react';
@@ -18,7 +18,8 @@ type IsRefreshInErrorType = 'BeforeSelect' | 'Retry' | 'NoRetry';
 export const useRefreshAuthTokens = () => {
   const [userRetryChoice, setUserRetryChoice] =
     useState<IsRefreshInErrorType>('BeforeSelect');
-  const [tokens, setAuthTokens] = useRecoilState(authState);
+  const tokens = useAuthStore(state => state.authTokens);
+  const setAuthTokens = useAuthStore(state => state.setAuthTokens);
   const logout = useLogout();
 
   useEffect(() => {

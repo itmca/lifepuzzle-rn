@@ -1,4 +1,4 @@
-import {useAuthAxios} from './network.hook';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from './update.hook';
 import {currentHeroUpdate, heroUpdate} from '../../recoils/shared/cache.recoil';

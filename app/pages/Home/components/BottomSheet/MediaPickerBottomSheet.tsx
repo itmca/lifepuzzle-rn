@@ -13,14 +13,14 @@ import {
 import {Color} from '../../../../constants/color.constant';
 import {BasicNavigationProps} from '../../../../navigation/types';
 import {
-  selectedStoryKeyState,
   postStoryKeyState,
+  selectedStoryKeyState,
   writingStoryState,
 } from '../../../../recoils/content/story.recoil';
 import {Divider} from '../../../../components/ui/base/Divider';
 import ImagePicker from 'react-native-image-crop-picker';
 import {toPhotoIdentifierFromImage} from '../../../../service/photo-identifier.service';
-import {ensureCameraPermission} from '../../../../service/hooks/permission.hook';
+import {ensureCameraPermission} from '../../../../service/device/permission.hook';
 import {showInfoToast} from '../../../../components/ui/feedback/Toast';
 import {selectionState} from '../../../../recoils/ui/selection.recoil.ts';
 

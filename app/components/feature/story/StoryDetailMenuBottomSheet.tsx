@@ -7,7 +7,7 @@ import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import {
   useDeleteGallery,
   useDeleteStory,
-} from '../../../service/hooks/story.delete.hook.ts';
+} from '../../../service/story/story.delete.hook.ts';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {GalleryType} from '../../../types/core/media.type';
 import {useStoryStore} from '../../../stores/story.store';
@@ -18,7 +18,7 @@ import {Divider} from '../../ui/base/Divider.tsx';
 import BottomSheet from '../../ui/interaction/BottomSheet.tsx';
 import {showToast} from '../../ui/feedback/Toast.tsx';
 import RNFetchBlob from 'rn-fetch-blob';
-import {getFormattedDateTime} from '../../../service/date-time-display.service.ts';
+import {getFormattedDateTime} from '../../../service/utils/date-time.service.ts';
 import Share from 'react-native-share';
 
 type Props = {

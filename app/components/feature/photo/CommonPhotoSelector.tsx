@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import {
   CameraRoll,
-  PhotoIdentifier,
   cameraRollEventEmitter,
+  PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,11 +22,11 @@ import {LoadingContainer} from '../../ui/feedback/LoadingContainer';
 import {
   hasAndroidPermission,
   usePhotoPermission,
-} from '../../../service/hooks/permission.hook';
+} from '../../../service/device/permission.hook';
 
 import {
-  PhotoSelectorConfig,
   PhotoSelectorCallbacks,
+  PhotoSelectorConfig,
   PhotoSelectorState,
 } from '../../../types/ui/photo-selector.type';
 import {FacebookPhotoItem} from '../../../types/external/facebook.type';

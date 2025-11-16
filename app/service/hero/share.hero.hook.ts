@@ -1,4 +1,4 @@
-import {useAuthAxios} from './network.hook.ts';
+import {useAuthAxios} from '../core/auth-http.hook.ts';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useEffect} from 'react';
 

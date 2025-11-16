@@ -4,7 +4,7 @@ import Video, {
   OnProgressData,
 } from 'react-native-video';
 import {Color} from '../../../constants/color.constant';
-import {toMmSs} from '../../../service/date-time-display.service.ts';
+import {toMmSs} from '../../../service/utils/date-time.service';
 import React, {useEffect, useRef, useState} from 'react';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 import {VideoController} from './StoryVideoController';

@@ -5,12 +5,11 @@ import {
   ScrollContentContainer,
 } from '../../ui/layout/ContentContainer.tsx';
 import {SortedHeroAuthTypes} from '../../../constants/auth.constant';
-import {useAuthAxios} from '../../../service/hooks/network.hook';
+import {useAuthAxios} from '../../../service/core/auth-http.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Radio} from '../../ui/form/Radio';
 
 import {useHeroStore} from '../../../stores/hero.store';
-import {HeroType} from '../../../types/core/hero.type';
 import {Title} from '../../ui/base/TextBase';
 import {Color} from '../../../constants/color.constant';
 import {ButtonBase} from '../../ui/base/ButtonBase';
@@ -18,6 +17,7 @@ import {SvgIcon} from '../../ui/display/SvgIcon';
 import {Divider} from '../../ui/base/Divider';
 
 import {showToast} from '../../ui/feedback/Toast.tsx';
+
 type props = {};
 
 export const ShareAuthList = ({}: props): JSX.Element => {

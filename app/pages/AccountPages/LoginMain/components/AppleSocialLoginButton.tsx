@@ -1,10 +1,10 @@
 import React from 'react';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
-import {useAxios} from '../../../../service/hooks/network.hook';
+import {useAxios} from '../../../../service/core/auth-http.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../../../service/hooks/login.hook';
+} from '../../../../service/auth/login.hook';
 
 import {Color} from '../../../../constants/color.constant';
 
