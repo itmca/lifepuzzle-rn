@@ -21,8 +21,10 @@ const GalleryDetailPage = (): JSX.Element => {
 
   const galleryIndex = selection.currentGalleryIndex;
   const editGalleryItems = selection.editedGallery;
-  const setGalleryIndex = (index: number) => setSelection(prev => ({...prev, currentGalleryIndex: index}));
-  const setEditGalleryItems = (items: any[]) => setSelection(prev => ({...prev, editedGallery: items}));
+  const setGalleryIndex = (index: number) =>
+    setSelection(prev => ({...prev, currentGalleryIndex: index}));
+  const setEditGalleryItems = (items: any[]) =>
+    setSelection(prev => ({...prev, editedGallery: items}));
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
 
   const onCrop = async () => {
