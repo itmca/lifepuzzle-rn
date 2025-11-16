@@ -1,9 +1,8 @@
 import React, {useCallback} from 'react';
 import {Keyboard} from 'react-native';
-import {useRecoilValue} from 'recoil';
+
 import {heroState} from '../../../../recoils/content/hero.recoil';
-import {HeroType} from '../../../../types/core/hero.type';
-import {PhotoHeroType} from '../../../../types/core/media.type';
+import {HeroType, PhotoHeroType} from '../../../../types/core/hero.type';
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {ShareButton} from '../../../../components/feature/sharing/ShareButton';
 import HeroOverview from './HeroOverview';

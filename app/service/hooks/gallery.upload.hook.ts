@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
+
 import {useNavigation} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';

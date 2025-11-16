@@ -1,6 +1,6 @@
 import React from 'react';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {useRecoilState} from 'recoil';
+
 import {useNavigation} from '@react-navigation/native';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';

@@ -8,7 +8,6 @@ import {
 
 import {Color} from '../../../../constants/color.constant';
 
-import {useRecoilValue} from 'recoil';
 import {shareKeyState} from '../../../../recoils/shared/share.recoil.ts';
 import {BasicButton} from '../../../../components/ui/form/Button';
 

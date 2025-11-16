@@ -1,6 +1,5 @@
 import {Alert} from 'react-native';
-import {useRecoilValue} from 'recoil';
-import {isLoggedInState} from '../../../recoils/auth/auth.recoil';
+import {useAuthStore} from '../../../stores/auth.store';
 import {BasicNavigationProps} from '../../../navigation/types';
 import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
 
@@ -43,10 +42,11 @@ export const useFieldValidation = () => {
 };
 
 export const useAuthValidation = () => {
-  const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
+  const {isLoggedIn} = useAuthStore();
+  const isUserLoggedIn = isLoggedIn();
 
   const validateLogin = (navigation: BasicNavigationProps): boolean => {
-    if (!isLoggedIn) {
+    if (!isUserLoggedIn) {
       Alert.alert(
         '미로그인 시점에 작성한 이야기는 저장할 수 없습니다.',
         '',
@@ -81,6 +81,6 @@ export const useAuthValidation = () => {
   return {
     validateLogin,
     showLoginAlert,
-    isLoggedIn,
+    isLoggedIn: isUserLoggedIn,
   };
 };

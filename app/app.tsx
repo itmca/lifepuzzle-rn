@@ -9,13 +9,15 @@
  */
 
 import React, {useEffect} from 'react';
+
+// Import global Recoil polyfill for remaining legacy code
+import './lib/global-recoil-polyfill';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {AppState} from 'react-native';
 import RootNavigator from './navigation/RootNavigator';
 import {useFetchLocalStorageUserHero} from './service/hooks/local-storage.hook';
-import {MutableSnapshot, RecoilRoot, useSetRecoilState} from 'recoil';
 import {LocalStorage} from './service/local-storage.service';
-import {authState} from './recoils/auth/auth.recoil';
+import {useAuthStore} from './stores/auth.store';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {hideSplash, showSplash} from 'react-native-splash-view';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -23,7 +25,7 @@ import {useLinking} from './service/hooks/linking.hook.ts';
 import {ToastComponent} from './components/ui/feedback/Toast.tsx';
 import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 import ShareModule from '../src/NativeLPShareModule';
-import {sharedImageDataState} from './recoils/shared/share.recoil';
+import {useShareStore} from './stores/share.store';
 import {BasicNavigationProps} from './navigation/types.tsx';
 
 const theme = {
@@ -36,17 +38,17 @@ const theme = {
   },
 };
 
-function initializeRecoilState({set}: MutableSnapshot): void {
+function initializeZustandState(): void {
   const authToken = LocalStorage.get('authToken', 'json');
   if (authToken) {
-    set(authState, authToken);
+    useAuthStore.getState().setAuthTokens(authToken);
   }
 }
 
 const InternalApp = (): React.JSX.Element => {
   useFetchLocalStorageUserHero();
   const navigation = useNavigation<BasicNavigationProps>();
-  const setSharedImageData = useSetRecoilState(sharedImageDataState);
+  const {setSharedImageData} = useShareStore();
 
   const checkSharedData = () => {
     if (ShareModule?.getSharedData) {
@@ -91,6 +93,9 @@ const App = (): React.JSX.Element => {
   useEffect(() => {
     showSplash();
 
+    // Initialize Zustand stores
+    initializeZustandState();
+
     setTimeout(() => {
       hideSplash(); // Hide after some time
     }, 2000);
@@ -99,14 +104,12 @@ const App = (): React.JSX.Element => {
   const linking = useLinking();
 
   return (
-    <RecoilRoot initializeState={initializeRecoilState}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <NavigationContainer linking={linking}>
-          <InternalApp />
-          <ToastComponent />
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </RecoilRoot>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer linking={linking}>
+        <InternalApp />
+        <ToastComponent />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 

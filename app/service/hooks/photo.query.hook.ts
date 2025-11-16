@@ -1,18 +1,11 @@
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {heroState} from '../../recoils/content/hero.recoil';
 import {useUpdateObserver} from './update.hook';
-import {heroUpdate, storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {useEffect, useState} from 'react';
 import {useAuthAxios} from './network.hook';
-import {
-  AgeGroupsType,
-  PhotoHeroType,
-  TagKey,
-  TagType,
-} from '../../types/core/media.type';
-import {HeroType} from '../../types/core/hero.type';
-import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
-import {selectionState} from '../../recoils/ui/selection.recoil';
+import {AgeGroupsType, TagKey, TagType} from '../../types/core/media.type';
+import {PhotoHeroType} from '../../types/core/hero.type';
+import {useHeroStore} from '../../stores/hero.store';
+import {useMediaStore} from '../../stores/media.store';
+import {useSelectionStore} from '../../stores/selection.store';
 import {AxiosRequestConfig} from 'axios';
 import {toInternationalAge} from '../date-time-display.service';
 
@@ -35,21 +28,22 @@ type Response = {
 };
 
 export const useHeroPhotos = (): Response => {
-  const [hero] = useRecoilState<HeroType | null>(heroState);
-  const heroUpdateObserver = useUpdateObserver(heroUpdate);
-  const storyListUpdateObserver = useUpdateObserver(storyListUpdate);
+  const hero = useHeroStore(state => state.currentHero);
+  const heroUpdateObserver = useUpdateObserver('heroUpdate');
+  const storyListUpdateObserver = useUpdateObserver('storyListUpdate');
   const [photoHero, setPhotoHero] = useState<PhotoHeroType>({
     id: hero?.heroNo || -1,
     name: hero?.heroName || '',
     nickname: hero?.heroNickName || '',
     birthdate: hero?.birthday?.toDateString() || '',
     age: hero ? toInternationalAge(hero.birthday) : 0,
-    image: hero?.imageURL ?? '',
+    image: hero?.imageUrl ?? '',
   });
-  const [ageGroups, setAgeGroups] =
-    useRecoilState<AgeGroupsType>(ageGroupsState);
-  const [tags, setTags] = useRecoilState<TagType[]>(tagState);
-  const setSelectionState = useSetRecoilState(selectionState);
+  const ageGroups = useMediaStore(state => state.ageGroups);
+  const tags = useMediaStore(state => state.tags);
+  const setAgeGroups = useMediaStore(state => state.setAgeGroups);
+  const setTags = useMediaStore(state => state.setTags);
+  const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
   const [isError, setIsError] = useState<boolean>(false);
   const [hasInitialData, setHasInitialData] = useState<boolean>(false);
   const [isLoading, fetchHeroStories] = useAuthAxios<PhotoQueryResponse>({
@@ -79,13 +73,10 @@ export const useHeroPhotos = (): Response => {
           const index =
             Math.trunc((res.hero.age ?? 0) / 10) +
             newTags.filter(item => item.key === 'AI_PHOTO').length;
-          setSelectionState(prev => ({
-            ...prev,
-            tag: {...res.tags[index ?? 0]},
-          }));
+          setSelectedTag({...res.tags[index ?? 0]});
         } else {
           const index = newTags.findIndex(item => (item.count ?? 0) > 0);
-          setSelectionState(prev => ({...prev, tag: {...newTags[index ?? 0]}}));
+          setSelectedTag({...newTags[index ?? 0]});
         }
 
         setIsError(false);
@@ -118,8 +109,8 @@ export const useHeroPhotos = (): Response => {
 
   return {
     photoHero,
-    ageGroups,
-    tags,
+    ageGroups: ageGroups || {},
+    tags: tags || [],
     isLoading,
     isError,
     hasInitialData,

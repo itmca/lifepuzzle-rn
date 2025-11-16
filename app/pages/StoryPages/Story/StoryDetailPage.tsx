@@ -1,11 +1,5 @@
 import React, {useMemo, useState} from 'react';
 import {Dimensions} from 'react-native';
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
 import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
 import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
 import {MediaCarousel} from '../../../components/feature/story/MediaCarousel.tsx';

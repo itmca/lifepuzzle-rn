@@ -2,8 +2,8 @@ import React, {useEffect, useMemo, useRef} from 'react';
 import {ContentContainer} from '../../ui/layout/ContentContainer';
 
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState} from 'recoil';
-import {writingStoryState} from '../../../recoils/content/story.recoil';
+
+import {useStoryStore} from '../../../stores/story.store';
 import {VoicePlayer, VoicePlayerRef} from './StoryVoicePlayer.tsx';
 import {BasicNavigationProps} from '../../../navigation/types.tsx';
 import BottomSheet from '../../ui/interaction/BottomSheet.tsx';
@@ -16,7 +16,8 @@ type Props = {
 
 export const VoiceBottomSheet = (props: Props): JSX.Element => {
   const voicePlayerRef = useRef<VoicePlayerRef>(null);
-  const [writingStory, setWritingStory] = useRecoilState(writingStoryState);
+  const writingStory = useStoryStore(state => state.writingStory);
+  const setWritingStory = useStoryStore(state => state.setWritingStory);
   const navigation = useNavigation<BasicNavigationProps>();
   const mSnapPoints = useMemo(() => ['30%'], []);
 

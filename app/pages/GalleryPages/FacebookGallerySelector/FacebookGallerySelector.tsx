@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
 

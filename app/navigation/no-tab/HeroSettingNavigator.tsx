@@ -5,11 +5,11 @@ import HeroRegisterPage from '../../pages/HeroPages/HeroRegister/HeroRegisterPag
 import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroModificationPage';
 import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {selectionState} from '../../recoils/ui/selection.recoil';
+
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
-import {writingHeroState} from '../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../stores/hero.store';
+import {useSelectionStore} from '../../stores/selection.store';
 import {HeroType} from '../../types/core/hero.type';
 import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
 import {TopBar} from '../../components/ui/navigation/TopBar';
@@ -26,13 +26,13 @@ const Stack = createNativeStackNavigator<HeroSettingParamList>();
 
 const HeroSettingNavigator = (): JSX.Element => {
   const navigation = useNavigation();
-  const resetWritingHero = useResetRecoilState(writingHeroState);
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const [writingHero, setWritingHero] = useRecoilState(writingHeroState);
-  const seletedHeroPhoto = selection.hero;
-
-  const resetSelectedHeroPhoto = () =>
-    setSelection(prev => ({...prev, hero: undefined}));
+  const resetWritingHero = useHeroStore(state => state.resetWritingHero);
+  const writingHero = useHeroStore(state => state.writingHero);
+  const setWritingHero = useHeroStore(state => state.setWritingHero);
+  const selectedHeroPhoto = useSelectionStore(state => state.selectedHeroPhoto);
+  const resetSelectedHeroPhoto = useSelectionStore(
+    state => state.resetSelectedHeroPhoto,
+  );
 
   return (
     <Stack.Navigator

@@ -1,16 +1,24 @@
-import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
+import {useCacheStore} from '../../stores/cache.store';
 
-export const useUpdateObserver = (updaterState: RecoilState<number>) => {
-  return useRecoilValue<number>(updaterState);
+type UpdateFunctionMap = {
+  heroUpdate: () => void;
+  currentHeroUpdate: () => void;
+  storyListUpdate: () => void;
+  currentUserUpdate: () => void;
 };
 
-export const useUpdatePublisher = (updaterState: RecoilState<number>) => {
-  const [version, setVersion] = useRecoilState<number>(updaterState);
-  return () => {
-    if (version >= 10000000000000) {
-      setVersion(0);
-    } else {
-      setVersion(version + 1);
-    }
+export const useUpdateObserver = (updateKey: keyof UpdateFunctionMap) => {
+  const state = useCacheStore();
+  return state[updateKey] as number;
+};
+
+export const useUpdatePublisher = (updateKey: keyof UpdateFunctionMap) => {
+  const incrementMap: UpdateFunctionMap = {
+    heroUpdate: useCacheStore(state => state.incrementHeroUpdate),
+    currentHeroUpdate: useCacheStore(state => state.incrementCurrentHeroUpdate),
+    storyListUpdate: useCacheStore(state => state.incrementStoryListUpdate),
+    currentUserUpdate: useCacheStore(state => state.incrementCurrentUserUpdate),
   };
+
+  return incrementMap[updateKey];
 };

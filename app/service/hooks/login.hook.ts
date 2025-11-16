@@ -1,13 +1,12 @@
-import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import {LocalStorage} from '../local-storage.service';
-import {userState} from '../../recoils/auth/user.recoil';
-import {authState} from '../../recoils/auth/auth.recoil';
-import {heroState} from '../../recoils/content/hero.recoil';
 import {AuthTokens} from '../../types/auth.type';
 import {UserType} from '../../types/core/user.type';
 import {HeroType} from '../../types/core/hero.type';
 import {useNavigation} from '@react-navigation/native';
-import {shareKeyState} from '../../recoils/shared/share.recoil.ts';
+import {useAuthStore} from '../../stores/auth.store';
+import {useUserStore} from '../../stores/user.store';
+import {useHeroStore} from '../../stores/hero.store';
+import {useUIStore} from '../../stores/ui.store';
 
 type Option = {
   customGoBackAction?: () => void;
@@ -21,10 +20,10 @@ export type LoginResponse = {
 
 export const useLoginResponseHandler = (option?: Option) => {
   const navigation = useNavigation();
-  const setUser = useSetRecoilState(userState);
-  const setAuthTokens = useSetRecoilState(authState);
-  const setHero = useSetRecoilState(heroState);
-  const resetShareKey = useResetRecoilState(shareKeyState);
+  const setUser = useUserStore(state => state.setUser);
+  const setAuthTokens = useAuthStore(state => state.setAuthTokens);
+  const setHero = useHeroStore(state => state.setCurrentHero);
+  const resetShareKey = useUIStore(state => state.resetShareKey);
 
   return (loginResponse: LoginResponse) => {
     const {user, tokens, hero} = loginResponse;

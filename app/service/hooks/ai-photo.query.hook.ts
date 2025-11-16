@@ -4,7 +4,6 @@ import {AxiosRequestConfig} from 'axios';
 import {AiGallery, AiPhotoTemplate} from '../../types/external/ai-photo.type';
 import {heroState} from '../../recoils/content/hero.recoil';
 import {HeroType} from '../../types/core/hero.type';
-import {useRecoilValue} from 'recoil';
 
 interface AiPhotoTemplateQueryResponse {
   drivingVideos: AiPhotoTemplate[];

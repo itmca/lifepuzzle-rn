@@ -1,6 +1,6 @@
 import {AxiosError, AxiosRequestConfig} from 'axios';
-import {useRecoilValue} from 'recoil';
-import {authState} from '../../../recoils/auth/auth.recoil';
+
+import {useAuthStore} from '../../../stores/auth.store';
 import {getTokenState} from '../../auth.service';
 import {useRefreshAuthTokens} from '../refresh.hook';
 import {useLogout} from '../logout.hook';
@@ -30,7 +30,7 @@ export const useAuthAxios = <R>({
   onLoadingStatusChange,
   disableInitialRequest = false,
 }: AuthAxiosParams<R>): AuthAxiosReturn => {
-  const recoilTokens = useRecoilValue(authState);
+  const recoilTokens = useAuthStore(state => state.authTokens);
   const refreshAuthTokens = useRefreshAuthTokens();
   const logout = useLogout();
   const [loading, setLoading] = useState(false);

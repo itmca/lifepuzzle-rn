@@ -1,16 +1,12 @@
-import {useRecoilValue} from 'recoil';
-import {
-  writingHeroKeyState,
-  writingHeroState,
-} from '../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../stores/hero.store';
 import {IMG_TYPE} from '../../constants/upload-file-type.constant';
 import {WritingHeroType} from '../../types/core/hero.type';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 export const useHeroHttpPayLoad = () => {
   const formData = new FormData();
-  const writingHeroKey = useRecoilValue(writingHeroKeyState);
-  const writingHero = useRecoilValue(writingHeroState);
+  const writingHeroKey = useHeroStore(state => state.writingHeroKey);
+  const writingHero = useHeroStore(state => state.writingHero);
 
   addHeroPhotoInFormData(formData, writingHero);
   addHeroInFormData(formData, writingHeroKey, writingHero);

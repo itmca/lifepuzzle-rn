@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+
 import {BasicNavigationProps} from '../../../../navigation/types.tsx';
 import {
   ContentContainer,
@@ -14,10 +14,10 @@ import {selectionState} from '../../../../recoils/ui/selection.recoil';
 import {
   AgeGroupsType,
   GalleryType,
-  PhotoHeroType,
   TagKey,
   TagType,
 } from '../../../../types/core/media.type';
+import {PhotoHeroType} from '../../../../types/core/hero.type';
 import {Color} from '../../../../constants/color.constant.ts';
 
 import {NotificationBar} from '../../../../components/ui/feedback/NotificationBar';

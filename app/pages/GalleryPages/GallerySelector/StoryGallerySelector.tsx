@@ -1,7 +1,7 @@
 import React from 'react';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 

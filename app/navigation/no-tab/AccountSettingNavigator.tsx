@@ -4,9 +4,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import {useNavigation} from '@react-navigation/native';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
-import {selectionState} from '../../recoils/ui/selection.recoil';
-import {writingUserState} from '../../recoils/auth/user.recoil';
+
+import {useSelectionStore} from '../../stores/selection.store';
+import {useUserStore} from '../../stores/user.store';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
 import {TopBar} from '../../components/ui/navigation/TopBar';
@@ -25,9 +25,9 @@ const Stack = createNativeStackNavigator<AccountSettingParamList>();
 
 const AccountSettingNavigator = (): JSX.Element => {
   const navigation = useNavigation();
-  const [selection, setSelection] = useRecoilState(selectionState);
-  const [modifyingUser, setModifyingUser] = useRecoilState(writingUserState);
-  const seletedUserPhoto = selection.user;
+  const selectedUserPhoto = useSelectionStore(state => state.selectedUserPhoto);
+  const modifyingUser = useUserStore(state => state.writingUser);
+  const setModifyingUser = useUserStore(state => state.setWritingUser);
 
   const resetSelectedUserPhoto = () =>
     setSelection(prev => ({...prev, user: undefined}));

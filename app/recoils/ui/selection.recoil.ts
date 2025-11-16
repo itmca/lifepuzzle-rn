@@ -1,22 +1,2 @@
-import {atom} from 'recoil';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {TagType} from '../../types/core/media.type';
-
-export type SelectionStateType = {
-  user?: PhotoIdentifier;
-  hero?: PhotoIdentifier;
-  gallery: PhotoIdentifier[];
-  editedGallery: PhotoIdentifier[];
-  currentGalleryIndex: number;
-  tag: TagType | null;
-};
-
-export const selectionState = atom<SelectionStateType>({
-  key: 'selectionState',
-  default: {
-    gallery: [],
-    editedGallery: [],
-    currentGalleryIndex: 0,
-    tag: null,
-  },
-});
+// Compatibility shim - use Zustand stores instead
+export const selectionState = {key: 'selectionState'};

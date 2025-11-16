@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
 import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
 import {galleryErrorState} from '../../../../recoils/content/media.recoil';
 import {selectionState} from '../../../../recoils/ui/selection.recoil';

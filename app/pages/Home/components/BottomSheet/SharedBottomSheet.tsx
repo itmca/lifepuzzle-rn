@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import {
   ContentContainer,

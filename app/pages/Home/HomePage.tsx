@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {heroState} from '../../recoils/content/hero.recoil';
-import {ageGroupsState, tagState} from '../../recoils/content/media.recoil';
-import {selectionState} from '../../recoils/ui/selection.recoil';
-import {uploadState} from '../../recoils/ui/upload.recoil';
-import {sharedImageDataState} from '../../recoils/shared/share.recoil';
+import {useHeroStore} from '../../stores/hero.store';
+import {useMediaStore} from '../../stores/media.store';
+import {useUIStore} from '../../stores/ui.store';
+import {useSelectionStore} from '../../stores/selection.store';
+import {useShareStore} from '../../stores/share.store';
 import {HeroType} from '../../types/core/hero.type';
 import {AgeGroupsType, TagType} from '../../types/core/media.type';
 import {BasicNavigationProps} from '../../navigation/types.tsx';
@@ -33,16 +33,13 @@ const HomePage = (): JSX.Element => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState<number>(0);
 
-  // 글로벌 상태 관리 (Recoil)
-  const hero = useRecoilValue<HeroType | null>(heroState);
-  const [ageGroups] = useRecoilState<AgeGroupsType | null>(ageGroupsState);
-  const [tags] = useRecoilState<TagType[] | null>(tagState);
-  const selection = useRecoilValue(selectionState);
-  const uploadStateValue = useRecoilValue(uploadState);
-
-  const selectedTag = selection.tag;
-  const isGalleryUploading = uploadStateValue.gallery;
-  const sharedImageData = useRecoilValue(sharedImageDataState);
+  // 글로벌 상태 관리 (Zustand)
+  const hero = useHeroStore(state => state.currentHero);
+  const ageGroups = useMediaStore(state => state.ageGroups);
+  const tags = useMediaStore(state => state.tags);
+  const selectedTag = useSelectionStore(state => state.selectedTag);
+  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
+  const sharedImageData = useShareStore(state => state.sharedImageData);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();

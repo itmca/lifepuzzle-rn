@@ -8,8 +8,8 @@ import {SortedHeroAuthTypes} from '../../../constants/auth.constant';
 import {useAuthAxios} from '../../../service/hooks/network.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Radio} from '../../ui/form/Radio';
-import {useRecoilValue} from 'recoil';
-import {heroState} from '../../../recoils/content/hero.recoil';
+
+import {useHeroStore} from '../../../stores/hero.store';
 import {HeroType} from '../../../types/core/hero.type';
 import {Title} from '../../ui/base/TextBase';
 import {Color} from '../../../constants/color.constant';
@@ -21,7 +21,7 @@ import {showToast} from '../../ui/feedback/Toast.tsx';
 type props = {};
 
 export const ShareAuthList = ({}: props): JSX.Element => {
-  const hero = useRecoilValue<HeroType>(heroState);
+  const hero = useHeroStore(state => state.currentHero);
   const onSelectAuth = (auth: string) => {
     setAuth(auth);
   };
