@@ -12,7 +12,7 @@ import {BasicButton} from '../../components/ui/form/Button';
 import {ContentContainer} from '../../components/ui/layout/ContentContainer.tsx';
 import {Color} from '../../constants/color.constant.ts';
 import {ScreenContainer} from '../../components/ui/layout/ScreenContainer';
-import {LocalStorage} from '../../service/local-storage.service.ts';
+import {LocalStorage} from '../../service/core/local-storage.service.ts';
 
 const DeviceWidth = Dimensions.get('window').width;
 

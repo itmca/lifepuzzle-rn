@@ -1,10 +1,7 @@
-import axios, {AxiosError, AxiosRequestConfig} from 'axios';
+import {AxiosError, AxiosRequestConfig} from 'axios';
 import {useEffect, useState} from 'react';
-import {SERVER_HOST} from '../../../constants/url.constant';
-import {convertDateStringToDate} from '../../json-convert.service';
-import logger from '../../../utils/logger';
-
-import {ApiHookParams, ApiHookReturn} from '../../../types/hooks/common.type';
+import {HttpService} from './http.service';
+import {ApiHookParams, ApiHookReturn} from '../../types/hooks/common.type';
 
 type AxiosHookParams<TResponse> = ApiHookParams<TResponse>;
 type AxiosHookReturn = ApiHookReturn;
@@ -30,23 +27,13 @@ export const useAxios = <TResponse>({
   }, [loading]);
 
   const fetchData = (axiosConfig: AxiosRequestConfig) => {
-    const url = axiosConfig.url || '';
-    axiosConfig.url = url.startsWith('http') ? url : SERVER_HOST + url;
+    const preparedConfig = HttpService.prepareRequestConfig(axiosConfig);
+    const client = HttpService.createAxiosInstance();
 
-    logger.debug(axiosConfig.url);
     setLoading(true);
 
-    const client = axios.create();
-
-    client.interceptors.response.use<TResponse>(r => {
-      return convertDateStringToDate(r);
-    });
-
     client
-      .request<TResponse>({
-        timeout: 5000,
-        ...axiosConfig,
-      })
+      .request<TResponse>(preparedConfig)
       .then(r => r.data)
       .then(onResponseSuccess)
       .catch(onError)

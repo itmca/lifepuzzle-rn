@@ -1,11 +1,11 @@
 import {AxiosError, AxiosRequestConfig} from 'axios';
 
-import {useAuthStore} from '../../../stores/auth.store';
-import {getTokenState} from '../../auth.service';
-import {useRefreshAuthTokens} from '../refresh.hook';
-import {useLogout} from '../logout.hook';
-import {AuthTokens} from '../../../types/auth/auth.type';
-import {useAxios} from '../core/axios.hook';
+import {useAuthStore} from '../../stores/auth.store';
+import {getTokenState} from './auth.service';
+import {useRefreshAuthTokens} from '../auth/refresh.hook';
+import {useLogout} from '../auth/logout.hook';
+import {AuthTokens} from '../../types/auth/auth.type';
+import {useAxios} from './http.hook';
 import {useEffect, useState} from 'react';
 
 type AuthAxiosParams<R> = {
