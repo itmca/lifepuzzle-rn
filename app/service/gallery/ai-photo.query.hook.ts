@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {AxiosRequestConfig} from 'axios';
 import {AiGallery, AiPhotoTemplate} from '../../types/external/ai-photo.type';
-import {heroState} from '../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../stores/hero.store';
 import {HeroType} from '../../types/core/hero.type';
 
 interface AiPhotoTemplateQueryResponse {
@@ -52,7 +52,7 @@ export const useAiPhotoTemplate = (): UseAiPhotoTemplateReturn => {
 };
 
 export const useAiGalleries = (): UseAiGalleriesReturn => {
-  const hero = useRecoilValue<HeroType>(heroState);
+  const hero = useHeroStore(state => state.currentHero);
   const [gallery, setGallery] = useState<AiGallery[]>([]);
   const [isLoading, fetchAiGalleries] = useAuthAxios<AiGalleriesQueryResponse>({
     requestOption: {

@@ -1,20 +1,20 @@
-import {writingHeroState} from '../../recoils/content/hero.recoil';
+import {useHeroStore} from '../../stores/hero.store';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
-import {useAuthAxios} from './network.hook.ts';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
 
 export const useDeleteHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const writingHero = useRecoilValue(writingHeroState);
+  const writingHero = useHeroStore(state => state.writingHero);
 
   const [isLoading, deleteHero] = useAuthAxios<any>({
     requestOption: {
-      url: `/v1/heroes/${writingHero.heroNo}`,
+      url: `/v1/heroes/${writingHero?.heroNo}`,
       method: 'delete',
     },
     onResponseSuccess: () => {
-      showToast(`${writingHero.heroName}이 삭제되었습니다.`);
+      showToast(`${writingHero?.heroName}이 삭제되었습니다.`);
       // 주인공 관리 화면으로 이동
       navigation.push('NoTab', {
         screen: 'HeroSettingNavigator',

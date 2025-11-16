@@ -1,8 +1,7 @@
-import {uploadState} from '../../recoils/ui/upload.recoil';
+import {useUIStore} from '../../stores/ui.store';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {Alert} from 'react-native';
 import {useUpdatePublisher} from '../common/update.hook';
-import {storyListUpdate} from '../../recoils/shared/cache.recoil';
 import {useNavigation} from '@react-navigation/native';
 import {BasicNavigationProps} from '../../navigation/types';
 import {useEffect} from 'react';
@@ -15,10 +14,10 @@ type GalleryProps = {
 };
 export const useDeleteStory = ({storyKey}: Props): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const setUploadState = useSetRecoilState(uploadState);
+  const setUploadState = useUIStore(state => state.setUploadState);
   const setStoryloading = (value: boolean) =>
     setUploadState(prev => ({...prev, story: value}));
-  const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
+  const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
@@ -55,7 +54,7 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
 };
 export const useDeleteGallery = ({galleryId}: GalleryProps): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const setUploadState = useSetRecoilState(uploadState);
+  const setUploadState = useUIStore(state => state.setUploadState);
   const setStoryloading = (value: boolean) =>
     setUploadState(prev => ({...prev, story: value}));
 

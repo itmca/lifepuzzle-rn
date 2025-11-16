@@ -1,9 +1,8 @@
-import {useAuthAxios} from '../core/auth-http.hook.ts';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {useEffect} from 'react';
-
-import {isLoggedInState} from '../../recoils/auth/auth.recoil.ts';
-import {shareKeyState} from '../../recoils/shared/share.recoil.ts';
+import {useAuthStore} from '../../stores/auth.store';
+import {useShareStore} from '../../stores/share.store';
 
 type Params = {
   shareKey?: string;
@@ -14,8 +13,8 @@ export const useRegisterSharedHero = ({
   shareKey,
   onRegisterSuccess,
 }: Params) => {
-  const isLoggedIn = useRecoilValue<boolean>(isLoggedInState);
-  const setShareKey = useSetRecoilState(shareKeyState);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
+  const setShareKey = useShareStore(state => state.setShareKey);
 
   const [_, registerHero] = useAuthAxios<any>({
     requestOption: {

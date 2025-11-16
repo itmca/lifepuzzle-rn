@@ -5,8 +5,8 @@ import {Alert} from 'react-native';
 import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
 
 import {BasicNavigationProps} from '../../navigation/types';
-import {heroState} from '../../recoils/content/hero.recoil';
-import {selectionState} from '../../recoils/ui/selection.recoil';
+import {useHeroStore} from '../../stores/hero.store';
+import {useSelectionStore} from '../../stores/selection.store';
 import {TagType} from '../../types/core/media.type';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
 import {imageConversionUtil} from '../../utils/image-conversion.util';
@@ -17,8 +17,8 @@ import {
 } from '../gallery/gallery.api.service';
 import {useAuthAxios} from '../core/auth-http.hook';
 import {useUpdatePublisher} from '../common/update.hook';
-import {storyListUpdate} from '../../recoils/shared/cache.recoil';
-import {uploadState} from '../../recoils/ui/upload.recoil';
+import {useCacheStore} from '../../stores/cache.store';
+import {useUIStore} from '../../stores/ui.store';
 
 interface UploadItem {
   originalImage: PhotoIdentifier;
@@ -91,21 +91,22 @@ export const useUploadGalleryV2 = (
 ): [() => void, boolean, UploadProgress] => {
   const navigation = useNavigation<BasicNavigationProps>();
 
-  const recoilHero = useRecoilValue(heroState);
-  const recoilSelection = useRecoilValue(selectionState);
-  const setSelectionState = useSetRecoilState(selectionState);
-  const recoilUploadState = useRecoilValue(uploadState);
-  const setUploadState = useSetRecoilState(uploadState);
+  const currentHero = useHeroStore(state => state.currentHero);
+  const selectedTag = useSelectionStore(state => state.selectedTag);
+  const selectedGalleryItems = useSelectionStore(
+    state => state.selectedGalleryItems,
+  );
+  const setSelectedGalleryItems = useSelectionStore(
+    state => state.setSelectedGalleryItems,
+  );
+  const uploadState = useUIStore(state => state.uploadState);
+  const setUploadState = useUIStore(state => state.setUploadState);
+  const isUploading = uploadState.gallery;
 
-  const recoilSelectedTag = recoilSelection.tag;
-  const recoilSelectedGalleryItems = recoilSelection.gallery;
-  const isUploading = recoilUploadState.gallery;
-
-  const resetSelectedGalleryItems = () =>
-    setSelectionState(prev => ({...prev, gallery: []}));
+  const resetSelectedGalleryItems = () => setSelectedGalleryItems([]);
   const setIsUploading = (value: boolean) =>
     setUploadState(prev => ({...prev, gallery: value}));
-  const publishStoryListUpdate = useUpdatePublisher(storyListUpdate);
+  const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
 
   const {heroNo, selectedTag, selectedGalleryItems} = options?.request
     ? {
@@ -114,9 +115,9 @@ export const useUploadGalleryV2 = (
         selectedGalleryItems: options?.request?.selectedGalleryItems,
       }
     : {
-        heroNo: recoilHero?.heroNo,
-        selectedTag: recoilSelectedTag,
-        selectedGalleryItems: recoilSelectedGalleryItems,
+        heroNo: currentHero?.heroNo,
+        selectedTag: selectedTag,
+        selectedGalleryItems: selectedGalleryItems,
       };
 
   const [uploadItems, setUploadItems] = useState<UploadItem[]>([]);

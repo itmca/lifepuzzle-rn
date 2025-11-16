@@ -2,7 +2,7 @@ import {useAuthAxios} from '../core/auth-http.hook';
 import {useNavigation} from '@react-navigation/native';
 
 import {BasicNavigationProps} from '../../navigation/types';
-import {userState} from '../../recoils/auth/user.recoil';
+import {useUserStore} from '../../stores/user.store';
 import {showErrorToast} from '../../components/ui/feedback/Toast';
 
 interface AiPhotoCreateRequest {
@@ -20,7 +20,7 @@ export const useCreateAiPhoto = (
   request: AiPhotoCreateRequest,
 ): UseCreateAiPhotoReturn => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const user = useRecoilValue(userState);
+  const user = useUserStore(state => state.user);
   //TODO: 임시 API
   const [isLoading, createAiPhoto] = useAuthAxios<any>({
     requestOption: {

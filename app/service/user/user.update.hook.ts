@@ -9,15 +9,20 @@ import {
 } from '../../types/hooks/user-update.type';
 import {useFieldValidation} from '../auth/validation.hook';
 import {useErrorHandler} from '../common/error-handler.hook';
+import {useUserStore} from '../../stores/user.store';
+import {UserPayloadService} from './user-payload.service';
 
 export const useUserProfileUpdate = ({
   onSuccess,
 }: HookProps): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const publishUserUpdate = useUpdatePublisher(currentUserUpdate);
-  const httpPayload = useUserHttpPayLoad();
-  const resetWritingUser = useResetRecoilState(writingUserState);
-  const writingUser = useRecoilValue(writingUserState);
+  const publishUserUpdate = useUpdatePublisher('currentUserUpdate');
+  const user = useUserStore(state => state.user);
+  const writingUser = useUserStore(state => state.writingUser);
+  const resetWritingUser = useUserStore(state => state.resetWritingUser);
+  const httpPayload = user
+    ? UserPayloadService.createUserFormData(user.userNo, writingUser)
+    : null;
 
   const {validateNickname} = useFieldValidation();
   const {handleUpdateError, showSuccessToast} = useErrorHandler();
@@ -36,7 +41,7 @@ export const useUserProfileUpdate = ({
     onError: () => {
       handleUpdateError(
         '회원 정보',
-        () => update({data: httpPayload}),
+        () => httpPayload && update({data: httpPayload}),
         () => {
           resetWritingUser();
           if (navigation.canGoBack()) {
@@ -58,7 +63,7 @@ export const useUserProfileUpdate = ({
         return;
       }
 
-      update({data: httpPayload});
+      httpPayload && update({data: httpPayload});
     },
     isUpdating,
   ];

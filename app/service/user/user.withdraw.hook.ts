@@ -1,14 +1,13 @@
-import {useAuthAxios} from '../core/auth-http.hook.ts';
+import {useAuthAxios} from '../core/auth-http.hook';
 import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {useLogout} from '../auth/logout.hook.ts';
-
-import {userState} from '../../recoils/auth/user.recoil.ts';
-import {authState} from '../../recoils/auth/auth.recoil.ts';
+import {useLogout} from '../auth/logout.hook';
+import {useUserStore} from '../../stores/user.store';
+import {useAuthStore} from '../../stores/auth.store';
 
 export const useUserWithdraw = (): [() => void, boolean] => {
-  const user = useRecoilValue(userState);
+  const user = useUserStore(state => state.user);
   const logout = useLogout();
-  const tokens = useRecoilValue(authState);
+  const tokens = useAuthStore(state => state.authTokens);
   const [withdrawLoading, withdraw] = useAuthAxios<void>({
     requestOption: {
       url: `/v1/users/${String(user?.userNo)}`,
