@@ -16,11 +16,12 @@
    const [count, setCount] = useState(0);
    ```
 
-3. **글로벌 상태 관리 (Recoil, Zustand 등)**
+3. **글로벌 상태 관리 (Zustand, Recoil 등)**
 
    ```ts
-   const [user, setUser] = useRecoilState(userState);
-   const resetUser = useResetRecoilState(userState);
+   const user = useUserStore(state => state.user);
+   const setUser = useUserStore(state => state.setUser);
+   const resetUser = useUserStore(state => state.resetUser);
    ```
 
 4. **외부 hook 호출 (navigation, route 등)**

@@ -72,13 +72,13 @@
   useImageUpload();
   ```
 
-### Recoil State
+### Zustand Store
 
-- **camelCase + State/Atom 접미사**
+- **camelCase + Store 접미사**
   ```ts
-  const userState = atom({...});
-  const photoSelectorAtom = atom({...});
-  const isLoadingState = atom({...});
+  const useUserStore = create({...});
+  const usePhotoSelectorStore = create({...});
+  const useLoadingStore = create({...});
   ```
 
 ## 컴포넌트 Props 네이밍
