@@ -19,7 +19,7 @@ LifePuzzle은 할아버지, 할머니와 같이 소중한 사람들의 사진들
 ## 기술 스택
 
 - **React Native** + **TypeScript** - 크로스 플랫폼 모바일 개발
-- **Recoil** - 상태 관리
+- **Zustand** - 상태 관리
 - **React Navigation** - 네비게이션
 - 추억 기록, 이미지 처리, AI 사진 생성, 소셜 로그인 기능 지원
 
@@ -27,7 +27,7 @@ LifePuzzle은 할아버지, 할머니와 같이 소중한 사람들의 사진들
 
 ### 개발 환경 요구사항
 
-- Node.js 18+
+- Node.js 20+
 - React Native CLI
 - iOS: Xcode 15+, CocoaPods
 - Android: Android Studio, JDK 17+
@@ -71,7 +71,7 @@ app/
 │   ├── GalleryPages/       # 갤러리 관련 페이지들
 │   ├── HeroPages/          # 히어로(캐릭터) 관련 페이지들
 │   └── StoryPages/         # 스토리 관련 페이지들
-├── recoils/                # Recoil을 이용한 전역 상태 관리
+├── stores/                 # Zustand를 이용한 전역 상태 관리
 ├── service/                # 비즈니스 로직 및 API 호출 로직
 │   └── hooks/              # 커스텀 훅
 ├── types/                  # TypeScript 타입 정의
