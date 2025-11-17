@@ -10,6 +10,7 @@ import { LoadingContainer } from '../../../components/ui/feedback/LoadingContain
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { BodyTextB } from '../../../components/ui/base/TextBase';
 
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 import { AgeType } from '../../../types/core/media.type';
 import {
@@ -66,7 +67,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
       setFacebookPhotos(photoItems);
       setIsLoading(false);
     },
-    onError: _error => {
+    onError: () => {
       Alert.alert('오류', '페이스북 사진을 불러오는데 실패했습니다.');
       navigation.goBack();
       setIsLoading(false);
@@ -104,9 +105,20 @@ const FacebookGallerySelector = (): React.ReactElement => {
       });
 
       if (result.type === 'success' && result.url) {
-        const url = new URL(result.url);
-        const code = url.searchParams.get('code');
-        const state = url.searchParams.get('state');
+        const urlParts = result.url.split('?')[1];
+        const params = new Map<string, string>();
+
+        if (urlParts) {
+          urlParts.split('&').forEach(param => {
+            const [key, value] = param.split('=');
+            if (key && value) {
+              params.set(key, decodeURIComponent(value));
+            }
+          });
+        }
+
+        const code = params.get('code');
+        const state = params.get('state');
 
         if (!code || state !== 'facebook_auth') {
           throw new Error('Facebook authentication failed');
@@ -133,7 +145,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
   };
 
   const callbacks: PhotoSelectorCallbacks = {
-    onMultipleSelect: (photos: FacebookPhotoItem[]) => {
+    onMultipleSelect: (photos: (PhotoIdentifier | FacebookPhotoItem)[]) => {
       setSelectedPhotos(photos as FacebookPhotoItem[]);
     },
     onConfirm: () => {
