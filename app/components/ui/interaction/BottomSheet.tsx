@@ -14,10 +14,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {Title} from '../base/TextBase';
-import {ContentContainer} from '../layout/ContentContainer';
-import {SvgIcon} from '../display/SvgIcon';
-import {Dimensions, TouchableOpacity} from 'react-native';
+import { Title } from '../base/TextBase';
+import { ContentContainer } from '../layout/ContentContainer';
+import { SvgIcon } from '../display/SvgIcon';
+import { Dimensions, TouchableOpacity } from 'react-native';
 
 interface HandleProps extends BottomSheetHandleProps {
   title: string;
@@ -29,13 +29,14 @@ interface ModalProps extends BottomSheetModalProps {
   onClose?: () => void;
 }
 const HeaderHandleComponent: React.FC<HandleProps> = memo(
-  ({title, onClose}) => {
+  ({ title, onClose }) => {
     return (
       <ContentContainer
         borderTopRadius={20}
         useHorizontalLayout
         paddingHorizontal={20}
-        paddingVertical={20}>
+        paddingVertical={20}
+      >
         <ContentContainer width={20} />
         <Title>{title}</Title>
         <TouchableOpacity onPress={onClose}>
@@ -46,12 +47,17 @@ const HeaderHandleComponent: React.FC<HandleProps> = memo(
   },
 );
 const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
-  ({title, opened, snapPoints, backdropComponent, ...props}, ref) => {
+  ({ title, opened, snapPoints, backdropComponent, ...props }, ref) => {
+    // Refs
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+    // React hooks
     const [contentHeight, setContentHeight] = useState(0);
 
+    // Memoized 값
     const _snapPoints =
       snapPoints ?? useMemo(() => [`${contentHeight || 60}%`], [contentHeight]);
+
     const renderBackdrop =
       backdropComponent ??
       useCallback(
@@ -64,6 +70,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
         ),
         [],
       );
+
     const handleClose = useCallback(() => {
       bottomSheetModalRef?.current?.close();
       if (props.onClose) {
@@ -81,6 +88,8 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
       ),
       [],
     );
+
+    // Side effects
     useEffect(() => {
       if (opened) {
         bottomSheetModalRef.current?.present();
@@ -95,7 +104,8 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
         snapPoints={_snapPoints}
         handleComponent={renderCustomHandle}
         backdropComponent={renderBackdrop}
-        onDismiss={handleClose}>
+        onDismiss={handleClose}
+      >
         <ContentContainer
           onLayout={e => {
             const screenHeight = Dimensions.get('window').height;
@@ -103,7 +113,8 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
             setContentHeight(((contentHeight + 60) / screenHeight) * 100); // padding 고려
           }}
           paddingHorizontal={20}
-          paddingBottom={38}>
+          paddingBottom={38}
+        >
           {props.children}
         </ContentContainer>
       </BottomSheetModal>

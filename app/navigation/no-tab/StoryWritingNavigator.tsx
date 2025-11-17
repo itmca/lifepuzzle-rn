@@ -1,17 +1,17 @@
 import * as React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
-import {useSaveStory} from '../../service/story/story.write.hook';
+import { useSaveStory } from '../../service/story/story.write.hook';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelector.tsx';
 
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
-import {useUploadGalleryV2} from '../../service/gallery/gallery.upload.hook.ts';
-import {TopBar} from '../../components/ui/navigation/TopBar';
+import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
+import { TopBar } from '../../components/ui/navigation/TopBar';
 import GalleryDetail from '../../pages/GalleryPages/GalleryDetail/GalleryDetailPage.tsx';
 import GalleryDetailFilter from '../../pages/GalleryPages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
-import {useStoryStore} from '../../stores/story.store';
-import {useSelectionStore} from '../../stores/selection.store'; // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
+import { useStoryStore } from '../../stores/story.store';
+import { useSelectionStore } from '../../stores/selection.store'; // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 
 // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {
@@ -27,8 +27,7 @@ export type StoryWritingParamList = {
 const Stack = createNativeStackNavigator<StoryWritingParamList>();
 
 const StoryWritingNavigator = (): JSX.Element => {
-  const [saveStory] = useSaveStory();
-  const [uploadGallery] = useUploadGalleryV2();
+  // 글로벌 상태 관리 (Zustand)
   const selectedStoryKey = useStoryStore(state => state.selectedStoryKey);
   const selectedGalleryItems = useSelectionStore(
     state => state.selectedGalleryItems,
@@ -40,9 +39,14 @@ const StoryWritingNavigator = (): JSX.Element => {
   const setEditGalleryItems = useSelectionStore(
     state => state.setEditGalleryItems,
   );
+
+  // Custom hooks
+  const [saveStory] = useSaveStory();
+  const [uploadGallery] = useUploadGalleryV2();
   return (
     <Stack.Navigator
-      screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}>
+      screenOptions={{ headerShadowVisible: false, headerTitleAlign: 'center' }}
+    >
       <Stack.Screen
         name="StoryWritingMain"
         component={StoryWritingPage}

@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import {StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
-import {Photo} from '../../ui/base/ImageBase';
-import {VideoPlayer} from './StoryVideoPlayer';
-import {ContentContainer} from '../../ui/layout/ContentContainer';
-import {Color} from '../../../constants/color.constant';
+import React, { useState } from 'react';
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import { Photo } from '../../ui/base/ImageBase';
+import { VideoPlayer } from './StoryVideoPlayer';
+import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { Color } from '../../../constants/color.constant';
 import Carousel from 'react-native-reanimated-carousel';
 import MediaCarouselPagination from './MediaCarouselPagination';
-import {AiPhotoButton} from '../ai/AiPhotoButton';
-import {BasicNavigationProps} from '../../../navigation/types';
-import {useNavigation} from '@react-navigation/native';
-import {useCreateAiPhoto} from '../../../service/gallery/ai-photo.create.hook';
+import { AiPhotoButton } from '../ai/AiPhotoButton';
+import { BasicNavigationProps } from '../../../navigation/types';
+import { useNavigation } from '@react-navigation/native';
+import { useCreateAiPhoto } from '../../../service/gallery/ai-photo.create.hook';
 
 type Props = {
   data: MediaItem[];
@@ -44,18 +44,24 @@ export const MediaCarousel = ({
   galleryId,
   drivingVideoId,
 }: Props): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
+  // React hooks
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(
     activeIndex ?? 0,
   );
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
 
-  const {submitWithErrorHandling: createAiPhoto, isLoading: isCreatingAiPhoto} =
-    useCreateAiPhoto({
-      heroNo: heroNo || 0,
-      galleryId: galleryId || 0,
-      drivingVideoId: drivingVideoId || 0,
-    });
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Custom hooks
+  const {
+    submitWithErrorHandling: createAiPhoto,
+    isLoading: isCreatingAiPhoto,
+  } = useCreateAiPhoto({
+    heroNo: heroNo || 0,
+    galleryId: galleryId || 0,
+    drivingVideoId: drivingVideoId || 0,
+  });
 
   const handleAiPhotoPress = async () => {
     // API 호출에 필요한 데이터가 없으면 기존처럼 바로 이동
@@ -73,7 +79,7 @@ export const MediaCarousel = ({
     await createAiPhoto();
   };
 
-  const renderItem = ({item}: {item: MediaItem}) => {
+  const renderItem = ({ item }: { item: MediaItem }) => {
     const type = item.type;
     const mediaUrl = item.url;
     const index = item.index ?? -1;
@@ -82,7 +88,8 @@ export const MediaCarousel = ({
       <ContentContainer
         flex={1}
         backgroundColor={Color.GREY_700}
-        borderRadius={6}>
+        borderRadius={6}
+      >
         {type === 'VIDEO' && (
           <VideoPlayer
             videoUrl={mediaUrl}
@@ -95,7 +102,8 @@ export const MediaCarousel = ({
           <TouchableOpacity
             onPress={() => {
               onPress && onPress(mediaUrl);
-            }}>
+            }}
+          >
             <Photo
               resizeMode={'contain'}
               source={{
@@ -117,7 +125,7 @@ export const MediaCarousel = ({
   return (
     <>
       <Carousel
-        style={{alignSelf: 'center'}}
+        style={{ alignSelf: 'center' }}
         loop={false}
         width={carouselWidth}
         height={carouselMaxHeight}

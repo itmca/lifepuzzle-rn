@@ -3,13 +3,13 @@ import Video, {
   OnPlaybackRateData,
   OnProgressData,
 } from 'react-native-video';
-import {Color} from '../../../constants/color.constant';
-import {toMmSs} from '../../../service/utils/date-time.service';
-import React, {useEffect, useRef, useState} from 'react';
-import {ContentContainer} from '../../ui/layout/ContentContainer';
-import {VideoController} from './StoryVideoController';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../navigation/types';
+import { Color } from '../../../constants/color.constant';
+import { toMmSs } from '../../../service/utils/date-time.service';
+import React, { useEffect, useRef, useState } from 'react';
+import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { VideoController } from './StoryVideoController';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types';
 
 type props = {
   videoUrl: string;
@@ -27,18 +27,23 @@ export const VideoPlayer = ({
   activeMediaIndexNo,
   onLoad,
 }: props) => {
+  // Refs
   const player = useRef<any>(null);
+
+  // React hooks
   const [duration, setDuration] = useState<number>(0);
   const [playingTime, setPlayingTime] = useState<string>('');
   const [currentProgress, setcurrentProgress] = useState<number>(0);
   const [isPaused, setPaused] = useState<boolean>(true);
 
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Side effects
   useEffect(() => {
     setPaused(true);
     setPaginationShown(true);
   }, [activeMediaIndexNo]);
-
-  const navigation = useNavigation<BasicNavigationProps>();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
@@ -50,6 +55,7 @@ export const VideoPlayer = ({
     };
   }, [navigation]);
 
+  // Custom functions
   const _onLoad = (data: OnLoadData) => {
     const videoDuration = data.duration;
     setDuration(videoDuration);
@@ -71,7 +77,7 @@ export const VideoPlayer = ({
     }
   };
 
-  const handleProgress = (e: {nativeEvent: {pageX: number}}) => {
+  const handleProgress = (e: { nativeEvent: { pageX: number } }) => {
     const position = e.nativeEvent.pageX - 26;
     const progress = (position / width) * duration;
     player.current.seek(progress);
@@ -86,7 +92,7 @@ export const VideoPlayer = ({
           height: '100%',
           backgroundColor: Color.BLACK,
         }}
-        source={{uri: videoUrl}}
+        source={{ uri: videoUrl }}
         paused={isPaused}
         resizeMode={'contain'}
         fullscreen={false}

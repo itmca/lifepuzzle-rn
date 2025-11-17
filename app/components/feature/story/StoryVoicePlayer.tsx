@@ -1,16 +1,16 @@
-import {Color} from '../../../constants/color.constant.ts';
+import { Color } from '../../../constants/color.constant.ts';
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
 } from 'react';
-import {ContentContainer} from '../../ui/layout/ContentContainer';
+import { ContentContainer } from '../../ui/layout/ContentContainer';
 
-import {Dimensions, View} from 'react-native';
-import {styles} from './styles.ts';
+import { Dimensions, View } from 'react-native';
+import { styles } from './styles.ts';
 
-import {useStoryStore} from '../../../stores/story.store';
+import { useStoryStore } from '../../../stores/story.store';
 import {
   CheckButton,
   DeleteButton,
@@ -19,9 +19,17 @@ import {
   RecordButton,
   StopButton,
 } from '../voice/AudioController';
-import {Caption} from '../../ui/base/TextBase';
-import {useVoiceRecorder} from '../../../service/common/voice-record.hook.ts';
+import { Caption } from '../../ui/base/TextBase';
+import { useVoiceRecorder } from '../../../service/common/voice-record.hook.ts';
 import Waveform from './WaveForm.tsx';
+
+const initWaveData = [
+  0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
+  0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.9, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5,
+  0.4, 0.2, 0.6, 0.3, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 1.0,
+  0.7, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8,
+  0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4,
+];
 
 type props = {
   source: string | undefined;
@@ -34,7 +42,13 @@ export type VoicePlayerRef = {
   stopAllAudio: () => void;
 };
 export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
-  ({source, onSave, onDelete, editable = true, onClose}, ref) => {
+  ({ source, onSave, onDelete, editable = true, onClose }, ref) => {
+    // React hooks
+    const [audioUri, setAudioUri] = useState<string | undefined>(source);
+    const [waveData, setWaveData] = useState<number[]>(initWaveData);
+    const [progress, setProgress] = useState(0);
+
+    // 글로벌 상태 관리 (Zustand)
     const {
       playInfo,
       setPlayInfo,
@@ -43,8 +57,22 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
       setWritingStory,
     } = useStoryStore();
 
-    const [audioUri, setAudioUri] = useState<string | undefined>(source);
+    // Custom hooks
+    const {
+      isRecording,
+      startRecord,
+      stopRecord,
+      startPlay,
+      pausePlay,
+      stopPlay,
+    } = useVoiceRecorder({
+      audioUrl: audioUri,
+      onStopRecord: (url: string) => {
+        setAudioUri(url);
+      },
+    });
 
+    // Custom functions
     const stopAllAudio = () => {
       if (isRecording) {
         stopRecord();
@@ -60,34 +88,15 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
     }));
 
     const DeviceWidth = Dimensions.get('window').width;
-    const {
-      isRecording,
-      startRecord,
-      stopRecord,
-      startPlay,
-      pausePlay,
-      stopPlay,
-    } = useVoiceRecorder({
-      audioUrl: audioUri,
-      onStopRecord: (url: string) => {
-        setAudioUri(url);
-      },
-    });
-    const initWaveData = [
-      0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
-      0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.9, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5,
-      0.4, 0.2, 0.6, 0.3, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 1.0,
-      0.7, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8,
-      0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4,
-    ];
-    const [waveData, setWaveData] = useState<number[]>(initWaveData);
-    const [progress, setProgress] = useState(0);
+
     const onRemove = () => {
       stopPlay();
       resetPlayInfo();
       setAudioUri(undefined);
       onDelete?.();
     };
+
+    // Side effects
     useEffect(() => {
       const randomHeight = Math.random();
       setWaveData(prev => [...prev, randomHeight].slice(-50));
@@ -128,7 +137,8 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
                 : '00:00'}
             </Caption>
             <Caption
-              color={audioUri || isRecording ? Color.GREY_800 : Color.GREY_300}>
+              color={audioUri || isRecording ? Color.GREY_800 : Color.GREY_300}
+            >
               {playInfo.duration
                 ? playInfo.duration.substring(
                     0,
@@ -142,7 +152,8 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
           useHorizontalLayout
           height={'64px'}
           alignCenter
-          gap={28}>
+          gap={28}
+        >
           <DeleteButton visiable={audioUri && editable} onPress={onRemove} />
           {audioUri ? (
             playInfo.isPlay ? (

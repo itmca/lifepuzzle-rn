@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -12,12 +12,12 @@ import {
   cameraRollEventEmitter,
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import SelectablePhoto from './SelectablePhoto';
-import {LoadingContainer} from '../../ui/feedback/LoadingContainer';
+import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
 
 import {
   hasAndroidPermission,
@@ -29,8 +29,8 @@ import {
   PhotoSelectorConfig,
   PhotoSelectorState,
 } from '../../../types/ui/photo-selector.type';
-import {FacebookPhotoItem} from '../../../types/external/facebook.type';
-import {Color} from '../../../constants/color.constant';
+import { FacebookPhotoItem } from '../../../types/external/facebook.type';
+import { Color } from '../../../constants/color.constant';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -45,28 +45,19 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
   callbacks,
   state,
 }) => {
-  const navigation = useNavigation();
-
-  // Device photos state (only for device source)
+  // React hooks
   const [devicePhotos, setDevicePhotos] = useState<PhotoIdentifier[]>([]);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [nextCursor, setNextCursor] = useState<string>();
-
-  // Selection state
   const [internalSelectedPhotos, setInternalSelectedPhotos] = useState<
     (PhotoIdentifier | FacebookPhotoItem)[]
   >([]);
-  const selectedPhotos = state?.selectedPhotos ?? internalSelectedPhotos;
-  const setSelectedPhotos =
-    state?.setSelectedPhotos ?? setInternalSelectedPhotos;
-
-  // Loading state
   const [isLoading, setIsLoading] = useState(false);
 
-  const isAboveIOS14 =
-    Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation();
 
-  // Photo permission hook (only for device source)
+  // Custom hooks
   usePhotoPermission({
     onDeny: () => {
       if (callbacks.onPermissionDenied) {
@@ -82,6 +73,7 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
     },
   });
 
+  // Side effects
   useEffect(() => {
     if (config.source === 'device') {
       void initDevicePhotos();
@@ -106,6 +98,14 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
       }
     };
   }, []);
+
+  // Custom functions
+  const selectedPhotos = state?.selectedPhotos ?? internalSelectedPhotos;
+  const setSelectedPhotos =
+    state?.setSelectedPhotos ?? setInternalSelectedPhotos;
+
+  const isAboveIOS14 =
+    Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 14;
 
   const initDevicePhotos = async () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
@@ -273,7 +273,7 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={photosData}
           numColumns={3}
@@ -287,8 +287,8 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.8}
           renderItem={renderPhoto}
-          contentContainerStyle={{flexGrow: 1}}
-          style={{flex: 1}}
+          contentContainerStyle={{ flexGrow: 1 }}
+          style={{ flex: 1 }}
         />
 
         {/* Confirm Button */}
@@ -307,7 +307,8 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
               justifyContent: 'center',
               backgroundColor: Color.WHITE,
             }}
-            onPress={handleConfirmSelection}>
+            onPress={handleConfirmSelection}
+          >
             <Icon name="check" size={25} color={Color.MAIN_DARK} />
           </TouchableOpacity>
         )}
@@ -328,7 +329,8 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
               justifyContent: 'center',
               backgroundColor: Color.WHITE,
             }}
-            onPress={handleCropPhotos}>
+            onPress={handleCropPhotos}
+          >
             <Icon name="magic" size={25} color={Color.MAIN_DARK} />
           </TouchableOpacity>
         )}

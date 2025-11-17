@@ -1,18 +1,18 @@
 import * as React from 'react';
 import GoBackHeaderLeft from '../../components/ui/navigation/header/GoBackHeaderLeft';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-import {useSelectionStore} from '../../stores/selection.store';
-import {useUserStore} from '../../stores/user.store';
+import { useSelectionStore } from '../../stores/selection.store';
+import { useUserStore } from '../../stores/user.store';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
-import {TopBar} from '../../components/ui/navigation/TopBar';
-import {TouchableOpacity} from 'react-native';
-import {BodyTextM, Title} from '../../components/ui/base/TextBase';
-import {Color} from '../../constants/color.constant.ts';
-import {useLogout} from '../../service/auth/logout.hook.ts';
+import { TopBar } from '../../components/ui/navigation/TopBar';
+import { TouchableOpacity } from 'react-native';
+import { BodyTextM, Title } from '../../components/ui/base/TextBase';
+import { Color } from '../../constants/color.constant.ts';
+import { useLogout } from '../../service/auth/logout.hook.ts';
 
 export type AccountSettingParamList = {
   AccountModification: undefined;
@@ -23,14 +23,20 @@ export type AccountSettingParamList = {
 const Stack = createNativeStackNavigator<AccountSettingParamList>();
 
 const AccountSettingNavigator = (): JSX.Element => {
-  const navigation = useNavigation();
+  // 글로벌 상태 관리 (Zustand)
   const selectedUserPhoto = useSelectionStore(state => state.selectedUserPhoto);
   const modifyingUser = useUserStore(state => state.writingUser);
   const setModifyingUser = useUserStore(state => state.setWritingUser);
 
-  const resetSelectedUserPhoto = () =>
-    setSelection(prev => ({...prev, user: undefined}));
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation();
+
+  // Custom hooks
   const logout = useLogout();
+
+  // Custom functions
+  const resetSelectedUserPhoto = () =>
+    setSelection(prev => ({ ...prev, user: undefined }));
 
   return (
     <Stack.Navigator
@@ -38,7 +44,8 @@ const AccountSettingNavigator = (): JSX.Element => {
       screenOptions={{
         headerShadowVisible: false,
         headerTitleAlign: 'center',
-      }}>
+      }}
+    >
       <Stack.Screen
         name="AccountModification"
         component={AccountModificationPage}
