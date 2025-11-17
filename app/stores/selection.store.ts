@@ -1,5 +1,5 @@
-import {create} from 'zustand';
-import {TagType} from '../types/core/media.type';
+import { create } from 'zustand';
+import { TagType } from '../types/core/media.type';
 
 interface SelectionState {
   selectedTag: TagType | null;
@@ -27,21 +27,22 @@ export const useSelectionStore = create<SelectionState>(set => ({
   selectedHeroPhoto: undefined,
   selectedUserPhoto: undefined,
 
-  setSelectedTag: selectedTag => set({selectedTag}),
+  setSelectedTag: selectedTag => set({ selectedTag }),
 
-  setSelectedGalleryItems: selectedGalleryItems => set({selectedGalleryItems}),
+  setSelectedGalleryItems: selectedGalleryItems =>
+    set({ selectedGalleryItems }),
 
-  setEditGalleryItems: editGalleryItems => set({editGalleryItems}),
+  setEditGalleryItems: editGalleryItems => set({ editGalleryItems }),
 
-  setCurrentGalleryIndex: currentGalleryIndex => set({currentGalleryIndex}),
+  setCurrentGalleryIndex: currentGalleryIndex => set({ currentGalleryIndex }),
 
-  setSelectedHeroPhoto: selectedHeroPhoto => set({selectedHeroPhoto}),
+  setSelectedHeroPhoto: selectedHeroPhoto => set({ selectedHeroPhoto }),
 
-  setSelectedUserPhoto: selectedUserPhoto => set({selectedUserPhoto}),
+  setSelectedUserPhoto: selectedUserPhoto => set({ selectedUserPhoto }),
 
-  resetSelectedHeroPhoto: () => set({selectedHeroPhoto: undefined}),
+  resetSelectedHeroPhoto: () => set({ selectedHeroPhoto: undefined }),
 
-  resetSelectedUserPhoto: () => set({selectedUserPhoto: undefined}),
+  resetSelectedUserPhoto: () => set({ selectedUserPhoto: undefined }),
 
   resetSelection: () =>
     set({

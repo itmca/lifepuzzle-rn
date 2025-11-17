@@ -110,9 +110,6 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
   // 글로벌 상태 관리
   const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
   const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
-  const setCurrentGalleryIndex = useSelectionStore(
-    state => state.setCurrentGalleryIndex,
-  );
   const setEditGalleryItems = useSelectionStore(
     state => state.setEditGalleryItems,
   );
@@ -135,7 +132,11 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
       const fileName = `filtered_${Date.now()}.png`;
       const filePath = `${RNFS.CachesDirectoryPath}/${fileName}`;
 
-      await writeFile(filePath, encodeBase64(bytes.buffer), 'base64');
+      await writeFile(
+        filePath,
+        encodeBase64(bytes.buffer as ArrayBuffer),
+        'base64',
+      );
 
       const newImageObject = {
         ...selectedImage!,
@@ -205,7 +206,7 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
             const size = await getImageSizeAsync(selectedImage.node.image.uri);
             width = size.width;
             height = size.height;
-          } catch (e) {
+          } catch {
             setImageSize({ width: displaySize, height: displaySize });
             return;
           }
@@ -218,7 +219,7 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
       }
     };
 
-    fetchImageSize();
+    void fetchImageSize();
   }, [selectedImage]);
 
   useEffect(() => {
@@ -280,9 +281,16 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
               >
                 {activeFilter === 'blur' && <Blur blur={filterAmount} />}
                 {Object.keys(FILTER_EFFECTS).includes(activeFilter) &&
-                  typeof FILTER_EFFECTS[activeFilter] !== 'function' && (
+                  activeFilter !== 'blur' &&
+                  typeof FILTER_EFFECTS[
+                    activeFilter as keyof typeof FILTER_EFFECTS
+                  ] !== 'function' && (
                     <ColorMatrix
-                      matrix={FILTER_EFFECTS[activeFilter] as number[]}
+                      matrix={Array.from(
+                        FILTER_EFFECTS[
+                          activeFilter as keyof typeof FILTER_EFFECTS
+                        ] as readonly number[],
+                      )}
                     />
                   )}
                 {(activeFilter === 'brightness' ||
@@ -302,7 +310,7 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
           )}
         </ContentContainer>
 
-        <ContentContainer minHeight={40}>
+        <ContentContainer minHeight="40px">
           {isSliderNeeded && currentSliderConfig && (
             <Slider
               minimumValue={currentSliderConfig.min}
@@ -337,7 +345,7 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
                     borderRadius: 5,
                   },
                 ]}
-                onPress={() => applyFilter(filterName)}
+                onPress={() => applyFilter(filterName as FilterType)}
               >
                 <ContentContainer borderRadius={5} alignCenter flex={1}>
                   <Title>{FILTER_LABELS[filterName as FilterType]}</Title>

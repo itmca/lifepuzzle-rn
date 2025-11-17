@@ -1,21 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {KakaoOAuthToken, login} from '@react-native-seoul/kakao-login';
-import {useAxios} from '../../../../service/core/auth-http.hook';
+import React, { useEffect, useState } from 'react';
+import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
+import { useAxios } from '../../../../service/core/auth-http.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../../service/auth/login.hook';
-import {Color} from '../../../../constants/color.constant';
+import { Color } from '../../../../constants/color.constant';
 
-import {useShareStore} from '../../../../stores/share.store';
-import {BasicButton} from '../../../../components/ui/form/Button';
-import {showErrorToast} from '../../../../components/ui/feedback/Toast';
+import { useShareStore } from '../../../../stores/share.store';
+import { BasicButton } from '../../../../components/ui/form/Button';
+import { showErrorToast } from '../../../../components/ui/feedback/Toast';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
 };
 
-const KaKaoSocialLoginButton = ({onChangeLoading}: Props): React.ReactElement => {
+const KaKaoSocialLoginButton = ({
+  onChangeLoading,
+}: Props): React.ReactElement => {
   const shareKey = useShareStore(state => state.shareKey);
   const [kakaoAccessToken, setKakaoAccessToken] = useState('');
 
