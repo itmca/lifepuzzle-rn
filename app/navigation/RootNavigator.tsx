@@ -1,12 +1,16 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeTabNavigator, {HomeTabParamList} from './home-tab/HomeRootNavigator';
-import NoTabRootNavigator, {NoTabParamList} from './no-tab/NoTabRootNavigator';
-import {NavigatorScreenParams} from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeTabNavigator, {
+  HomeTabParamList,
+} from './home-tab/HomeRootNavigator';
+import NoTabRootNavigator, {
+  NoTabParamList,
+} from './no-tab/NoTabRootNavigator';
+import { NavigatorScreenParams } from '@react-navigation/native';
 import OnboardingPage from '../pages/Onboarding/OnboardingPage.tsx';
-import {LocalStorage} from '../service/core/local-storage.service';
-import {useAuthStore} from '../stores/auth.store';
+import { LocalStorage } from '../service/core/local-storage.service';
+import { useAuthStore } from '../stores/auth.store';
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -17,12 +21,15 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = (): JSX.Element => {
+  // React hooks
   const [initialRoute, setInitialRoute] = useState<
     keyof RootStackParamList | null
   >(null);
 
+  // 글로벌 상태 관리 (Zustand)
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
+  // Side effects
   useEffect(() => {
     const checkOnboarding = async () => {
       const isOnboardingNotCompleted =
@@ -46,8 +53,9 @@ const RootNavigator = (): JSX.Element => {
 
   return (
     <Stack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName={initialRoute}>
+      screenOptions={{ headerShown: false }}
+      initialRouteName={initialRoute}
+    >
       <Stack.Screen name="Onboarding" component={OnboardingPage} />
       <Stack.Screen name="HomeTab" component={HomeTabNavigator} />
       <Stack.Screen name="NoTab" component={NoTabRootNavigator} />

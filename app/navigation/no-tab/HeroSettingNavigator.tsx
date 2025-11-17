@@ -1,31 +1,31 @@
 import * as React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HeroSettingPage from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
 import HeroRegisterPage from '../../pages/HeroPages/HeroRegister/HeroRegisterPage';
 import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroModificationPage';
 import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {useNavigation} from '@react-navigation/native';
-import {useHeroStore} from '../../stores/hero.store';
-import {useSelectionStore} from '../../stores/selection.store';
-import {HeroType} from '../../types/core/hero.type';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
+import { useNavigation } from '@react-navigation/native';
+import { useHeroStore } from '../../stores/hero.store';
+import { useSelectionStore } from '../../stores/selection.store';
+import { HeroType } from '../../types/core/hero.type';
 import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
-import {TopBar} from '../../components/ui/navigation/TopBar';
+import { TopBar } from '../../components/ui/navigation/TopBar';
 
 export type HeroSettingParamList = {
-  HeroSetting: {shareKey?: string} | undefined;
+  HeroSetting: { shareKey?: string } | undefined;
   HeroRegister: undefined;
-  HeroModification: {heroNo: number};
+  HeroModification: { heroNo: number };
   HeroSelectingPhoto: undefined;
-  HeroShare: {hero: HeroType};
+  HeroShare: { hero: HeroType };
 };
 
 const Stack = createNativeStackNavigator<HeroSettingParamList>();
 
 const HeroSettingNavigator = (): JSX.Element => {
-  const navigation = useNavigation();
+  // 글로벌 상태 관리 (Zustand)
   const resetWritingHero = useHeroStore(state => state.resetWritingHero);
   const writingHero = useHeroStore(state => state.writingHero);
   const setWritingHero = useHeroStore(state => state.setWritingHero);
@@ -34,10 +34,14 @@ const HeroSettingNavigator = (): JSX.Element => {
     state => state.resetSelectedHeroPhoto,
   );
 
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator
       initialRouteName="HeroSetting"
-      screenOptions={{headerShadowVisible: false, headerTitleAlign: 'center'}}>
+      screenOptions={{ headerShadowVisible: false, headerTitleAlign: 'center' }}
+    >
       <Stack.Screen
         name="HeroSetting"
         component={HeroSettingPage}
