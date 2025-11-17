@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Linking } from 'react-native';
-import type { LinkingOptions } from '@react-navigation/native/lib/typescript/src/types';
+import type { LinkingOptions } from '@react-navigation/native';
 
 export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
   useEffect(() => {

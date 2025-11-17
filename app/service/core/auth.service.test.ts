@@ -1,10 +1,32 @@
-import {getTokenState} from './auth.service';
-import {AuthTokens} from '../../types/auth/auth.type';
+import { getTokenState } from './auth.service';
+import { AuthTokens } from '../../types/auth/auth.type';
+
+// Base64 encode for React Native
+const base64Encode = (str: string): string => {
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  let result = '';
+  let i = 0;
+
+  while (i < str.length) {
+    const a = str.charCodeAt(i++);
+    const b = i < str.length ? str.charCodeAt(i++) : 0;
+    const c = i < str.length ? str.charCodeAt(i++) : 0;
+
+    const bitmap = (a << 16) | (b << 8) | c;
+    result += chars[(bitmap >> 18) & 63];
+    result += chars[(bitmap >> 12) & 63];
+    result += i - 2 < str.length ? chars[(bitmap >> 6) & 63] : '=';
+    result += i - 1 < str.length ? chars[bitmap & 63] : '=';
+  }
+
+  return result;
+};
 
 // Mock JWT tokens for testing
 const createMockToken = (exp: number): string => {
-  const header = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
-  const payload = btoa(JSON.stringify({exp}));
+  const header = base64Encode(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+  const payload = base64Encode(JSON.stringify({ exp }));
   const signature = 'mock-signature';
   return `${header}.${payload}.${signature}`;
 };
