@@ -42,9 +42,9 @@
     "lodash": "^4.17.21",
     "loglevel": "^1.8.1",
     "patch-package": "^8.0.0",
-    "react": "18.3.1",
+    "react": "19.1.1",
     "react-dom": "^18.3.1",
-    "react-native": "0.77.0",
+    "react-native": "0.82.1",
     "react-native-audio-recorder-player": "^3.6.7",
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-config": "^1.5.5",
@@ -71,7 +71,7 @@
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "^3.17.5",
     "react-native-reanimated-carousel": "^4.0.2",
-    "react-native-safe-area-context": "^5.1.0",
+    "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.5.0",
     "react-native-select-dropdown": "^4.0.0",
     "react-native-share": "^12.2.0",
@@ -94,19 +94,19 @@
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@commitlint/types": "^17.4.4",
-    "@react-native-community/cli": "15.0.1",
-    "@react-native-community/cli-platform-android": "15.0.1",
-    "@react-native-community/cli-platform-ios": "15.0.1",
-    "@react-native/babel-preset": "0.77.0",
-    "@react-native/eslint-config": "0.77.0",
-    "@react-native/metro-config": "0.77.0",
-    "@react-native/typescript-config": "0.77.0",
+    "@react-native-community/cli": "20.0.0",
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@react-native/babel-preset": "0.82.1",
+    "@react-native/eslint-config": "0.82.1",
+    "@react-native/metro-config": "0.82.1",
+    "@react-native/typescript-config": "0.0.82.1",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.14.192",
-    "@types/react": "^18.2.6",
+    "@types/react": "^19.1.1",
     "@types/react-native-vector-icons": "^6.4.13",
     "@types/react-native-video": "^5.0.15",
-    "@types/react-test-renderer": "^18.0.0",
+    "@types/react-test-renderer": "^19.1.0",
     "@types/styled-components": "^5.1.26",
     "@types/styled-components-react-native": "^5.2.1",
     "eslint": "^8.19.0",
@@ -115,9 +115,9 @@
     "prettier": "3.6.2",
     "pretty-quick": "^4.2.2",
     "react-native-svg-transformer": "^1.5.0",
-    "react-test-renderer": "18.3.1",
+    "react-test-renderer": "19.1.1",
     "reactotron-react-native": "^5.1.13",
-    "typescript": "5.0.4"
+    "typescript": "^5.8.3"
   },
   "codegenConfig": {
     "name": "LPShareModuleSpec",
@@ -128,6 +128,6 @@
     }
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }
