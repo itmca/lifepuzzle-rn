@@ -1,11 +1,11 @@
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 
-import {useShareStore} from '../../../../stores/share.store';
-import {SharePhoto} from '../../../../types/core/media.type';
+import { useShareStore } from '../../../../stores/share.store';
+import { SharePhoto } from '../../../../types/core/media.type';
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
-import {ShareAuthList} from '../../../../components/feature/hero/ShareAuthList';
-import {SharedBottomSheet} from './SharedBottomSheet';
-import {MediaPickerBottomSheet} from './MediaPickerBottomSheet';
+import { ShareAuthList } from '../../../../components/feature/hero/ShareAuthList';
+import { SharedBottomSheet } from './SharedBottomSheet';
+import { MediaPickerBottomSheet } from './MediaPickerBottomSheet';
 
 type Props = {
   // 주인공 공유 모달 관련
@@ -36,9 +36,9 @@ const BottomSheetSection = ({
   isGalleryUploading,
   onSubmitGallery,
   onRefetch,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
-  const {sharedImageData, setSharedImageData} = useShareStore();
+  const { sharedImageData, setSharedImageData } = useShareStore();
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleCloseReceivedImageBottomSheet = useCallback(() => {
@@ -52,7 +52,8 @@ const BottomSheetSection = ({
       <BottomSheet
         opened={heroShareModalOpen}
         title={'공유하기'}
-        onClose={onCloseHeroShareModal}>
+        onClose={onCloseHeroShareModal}
+      >
         <ShareAuthList />
       </BottomSheet>
 

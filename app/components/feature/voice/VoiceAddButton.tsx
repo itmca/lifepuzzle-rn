@@ -1,15 +1,15 @@
 import React from 'react';
 
-import {Color} from '../../../constants/color.constant';
-import {ButtonBase} from '../../ui/base/ButtonBase';
-import {Caption} from '../../ui/base/TextBase';
-import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
+import { Color } from '../../../constants/color.constant';
+import { ButtonBase } from '../../ui/base/ButtonBase';
+import { Caption } from '../../ui/base/TextBase';
+import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
 
 type Props = {
   onPress: () => void;
 };
 
-export const VoiceAddButton = ({onPress}: Props): JSX.Element => {
+export const VoiceAddButton = ({ onPress }: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'28x'}
@@ -22,7 +22,8 @@ export const VoiceAddButton = ({onPress}: Props): JSX.Element => {
       borderRadius={6}
       borderWidth={1}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'plus'} color={Color.MAIN_DARK} size={16} />
       <Caption color={Color.GREY_600}>음성 메모 추가</Caption>
     </ButtonBase>

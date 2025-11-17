@@ -25,7 +25,7 @@ import { Title } from '../../../components/ui/base/TextBase';
 import { StoryWritingButton } from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 
-const StoryDetailPage = (): JSX.Element => {
+const StoryDetailPage = (): React.ReactElement => {
   // React hooks
   const [isStory, setIsStory] = useState<boolean>(false);
   const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);

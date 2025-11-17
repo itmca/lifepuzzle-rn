@@ -12,7 +12,7 @@ type Props = {
 const DetailViewHeaderRight = ({
   iconSize = 24,
   customAction,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const setOpenModal = useUIStore(state => state.setOpenDetailBottomSheet);
   return (
     <Pressable

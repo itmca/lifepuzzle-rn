@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -91,7 +91,7 @@ async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   }
 }
 
-const GalleryDetailFilterPage = (): JSX.Element => {
+const GalleryDetailFilterPage = (): React.ReactElement => {
   // Refs
   const canvasRef = useCanvasRef();
 
@@ -108,18 +108,17 @@ const GalleryDetailFilterPage = (): JSX.Element => {
   >(undefined);
 
   // 글로벌 상태 관리
-  const selection = useSelectionStore();
+  const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
+  const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
+  const setCurrentGalleryIndex = useSelectionStore(
+    state => state.setCurrentGalleryIndex,
+  );
+  const setEditGalleryItems = useSelectionStore(
+    state => state.setEditGalleryItems,
+  );
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
-
-  // Derived value or local variables
-  const galleryIndex = selection.currentGalleryIndex;
-  const editGalleryItems = selection.editedGallery;
-  const setGalleryIndex = (index: number) =>
-    setSelection(prev => ({ ...prev, currentGalleryIndex: index }));
-  const setEditGalleryItems = (items: PhotoIdentifier[]) =>
-    setSelection(prev => ({ ...prev, editedGallery: items }));
   const isSliderNeeded = FILTER_SETTINGS[activeFilter] !== undefined;
   const currentSliderConfig = FILTER_SETTINGS[activeFilter];
 

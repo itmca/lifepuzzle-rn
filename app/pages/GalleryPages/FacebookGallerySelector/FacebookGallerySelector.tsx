@@ -1,42 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import {Alert} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {BodyTextB} from '../../../components/ui/base/TextBase';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { BodyTextB } from '../../../components/ui/base/TextBase';
 
-import {FacebookPhotoItem} from '../../../types/external/facebook.type';
-import {AgeType} from '../../../types/core/media.type';
+import { FacebookPhotoItem } from '../../../types/external/facebook.type';
+import { AgeType } from '../../../types/core/media.type';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
 } from '../../../types/ui/photo-selector.type';
-import {toPhotoIdentifierFromFacebookPhoto} from '../../../service/utils/photo-identifier.service';
-import {useFacebookPhotos} from '../../../service/gallery/facebook.photos.hook';
-import {Color} from '../../../constants/color.constant';
-import {useSelectionStore} from '../../../stores/selection.store.ts';
-import {useUIStore} from '../../../stores';
+import { toPhotoIdentifierFromFacebookPhoto } from '../../../service/utils/photo-identifier.service';
+import { useFacebookPhotos } from '../../../service/gallery/facebook.photos.hook';
+import { Color } from '../../../constants/color.constant';
+import { useSelectionStore } from '../../../stores/selection.store.ts';
+import { useUIStore } from '../../../stores';
 
 const ageGroupOptions = [
-  {label: '10세 미만', value: 'UNDER_TEENAGER' as AgeType},
-  {label: '10대', value: 'TEENAGER' as AgeType},
-  {label: '20대', value: 'TWENTIES' as AgeType},
-  {label: '30대', value: 'THIRTY' as AgeType},
-  {label: '40대', value: 'FORTY' as AgeType},
-  {label: '50대', value: 'FIFTY' as AgeType},
-  {label: '60대', value: 'SIXTY' as AgeType},
-  {label: '70대', value: 'SEVENTY' as AgeType},
-  {label: '80대', value: 'EIGHTY' as AgeType},
-  {label: '90대', value: 'NINETY' as AgeType},
-  {label: '100세 이상', value: 'UPPER_NINETY' as AgeType},
+  { label: '10세 미만', value: 'UNDER_TEENAGER' as AgeType },
+  { label: '10대', value: 'TEENAGER' as AgeType },
+  { label: '20대', value: 'TWENTIES' as AgeType },
+  { label: '30대', value: 'THIRTY' as AgeType },
+  { label: '40대', value: 'FORTY' as AgeType },
+  { label: '50대', value: 'FIFTY' as AgeType },
+  { label: '60대', value: 'SIXTY' as AgeType },
+  { label: '70대', value: 'SEVENTY' as AgeType },
+  { label: '80대', value: 'EIGHTY' as AgeType },
+  { label: '90대', value: 'NINETY' as AgeType },
+  { label: '100세 이상', value: 'UPPER_NINETY' as AgeType },
 ];
 
-const FacebookGallerySelector = (): JSX.Element => {
+const FacebookGallerySelector = (): React.ReactElement => {
   const navigation = useNavigation();
   const [selection, setSelection] = useSelectionStore(
     state => state.selectedGalleryItems,
@@ -45,7 +45,7 @@ const FacebookGallerySelector = (): JSX.Element => {
   const selectedGalleryItems = selection.gallery;
   const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
   const setSelectedGalleryItems = (items: any[]) =>
-    setSelection(prev => ({...prev, gallery: items}));
+    setSelection(prev => ({ ...prev, gallery: items }));
 
   // Facebook specific state
   const [facebookPhotos, setFacebookPhotos] = useState<FacebookPhotoItem[]>([]);
@@ -56,7 +56,7 @@ const FacebookGallerySelector = (): JSX.Element => {
   const [ageDropdownOpen, setAgeDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const {isLoading: facebookLoading, getFacebookPhotos} = useFacebookPhotos({
+  const { isLoading: facebookLoading, getFacebookPhotos } = useFacebookPhotos({
     onSuccess: response => {
       const photoItems = response.photos.map((photo, index) => ({
         id: `facebook_${index}`,
@@ -166,13 +166,15 @@ const FacebookGallerySelector = (): JSX.Element => {
 
   return (
     <LoadingContainer
-      isLoading={isLoading || facebookLoading || isGalleryUploading}>
+      isLoading={isLoading || facebookLoading || isGalleryUploading}
+    >
       <ContentContainer flex={1} paddingTop={16}>
         {/* Age Group Dropdown */}
         <ContentContainer
           marginBottom={16}
           paddingHorizontal={16}
-          zIndex={1000}>
+          zIndex={1000}
+        >
           <BodyTextB color={Color.BLACK} marginBottom={8}>
             나이대 선택
           </BodyTextB>

@@ -47,7 +47,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { HeroAuthUpdateBottomSheet } from './HeroAuthUpdateBottomSheet.tsx';
 import { useUserStore } from '../../../stores/user.store';
 
-const HeroSettingPage = (): JSX.Element => {
+const HeroSettingPage = (): React.ReactElement => {
   // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
 

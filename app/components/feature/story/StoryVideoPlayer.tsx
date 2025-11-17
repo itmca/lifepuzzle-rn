@@ -1,6 +1,6 @@
 import Video, {
   OnLoadData,
-  OnPlaybackRateData,
+  OnPlaybackRateChangeData,
   OnProgressData,
 } from 'react-native-video';
 import { Color } from '../../../constants/color.constant';
@@ -71,7 +71,7 @@ export const VideoPlayer = ({
     setPaused(true);
   };
 
-  const handlePause = (data: OnPlaybackRateData) => {
+  const handlePause = (data: OnPlaybackRateChangeData) => {
     if (data.playbackRate === 0 && isPaused == true) {
       setPaused(true);
     }

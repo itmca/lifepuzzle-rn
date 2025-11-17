@@ -1,21 +1,23 @@
 import React from 'react';
-import {appleAuth} from '@invertase/react-native-apple-authentication';
-import {useAxios} from '../../../../service/core/auth-http.hook';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { useAxios } from '../../../../service/core/auth-http.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../../service/auth/login.hook';
 
-import {Color} from '../../../../constants/color.constant';
+import { Color } from '../../../../constants/color.constant';
 
-import {useShareStore} from '../../../../stores/share.store';
-import {BasicButton} from '../../../../components/ui/form/Button';
+import { useShareStore } from '../../../../stores/share.store';
+import { BasicButton } from '../../../../components/ui/form/Button';
 
 type Props = {
   onChangeLoading: (loading: boolean) => void;
 };
 
-const AppleSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
+const AppleSocialLoginButton = ({
+  onChangeLoading,
+}: Props): React.ReactElement => {
   const shareKey = useShareStore(state => state.shareKey);
   const loginResponseHandler = useLoginResponseHandler();
 

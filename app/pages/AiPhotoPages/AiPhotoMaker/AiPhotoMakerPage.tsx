@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ScrollView } from 'react-native';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
@@ -19,7 +19,7 @@ import { AiPhotoTemplate } from '../../../types/external/ai-photo.type';
 import { useAiPhotoTemplate } from '../../../service/gallery/ai-photo.query.hook.ts';
 import { useCreateAiPhoto } from '../../../service/gallery/ai-photo.create.hook.ts';
 
-const AiPhotoMakerPage = (): JSX.Element => {
+const AiPhotoMakerPage = (): React.ReactElement => {
   // Refs
   const scrollRef = useRef<ScrollView>(null);
 

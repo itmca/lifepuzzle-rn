@@ -1,13 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import Video from 'react-native-video';
-import {useNavigation} from '@react-navigation/native';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {SvgIcon} from '../../../components/ui/display/SvgIcon';
-import {Color} from '../../../constants/color.constant';
-import {BasicNavigationProps} from '../../../navigation/types';
-import {AiPhotoTemplate} from '../../../types/external/ai-photo.type';
-import {Photo} from '../../../components/ui/base/ImageBase';
+import { useNavigation } from '@react-navigation/native';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { SvgIcon } from '../../../components/ui/display/SvgIcon';
+import { Color } from '../../../constants/color.constant';
+import { BasicNavigationProps } from '../../../navigation/types';
+import { AiPhotoTemplate } from '../../../types/external/ai-photo.type';
+import { Photo } from '../../../components/ui/base/ImageBase';
 
 type SelectableAiPhotoTemplateProps = {
   onSelected: (item: AiPhotoTemplate) => void;
@@ -21,7 +21,7 @@ const SelectableAiPhotoTemplate = ({
   size,
   data,
   selected,
-}: SelectableAiPhotoTemplateProps): JSX.Element => {
+}: SelectableAiPhotoTemplateProps): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
   const player = useRef<any>(null);
   const [paused, setPaused] = useState<boolean>(true);
@@ -66,10 +66,11 @@ const SelectableAiPhotoTemplate = ({
         backgroundColor={Color.GREY_700}
         borderRadius={6}
         borderColor={Color.AI_500}
-        style={{borderWidth: selected ? 4 : 0}}>
+        style={{ borderWidth: selected ? 4 : 0 }}
+      >
         {selected || (
           <ContentContainer absoluteTopPosition height={'100%'} zIndex={1}>
-            <Photo source={{uri: data.thumbnailUrl}} />
+            <Photo source={{ uri: data.thumbnailUrl }} />
           </ContentContainer>
         )}
         <Video
@@ -80,7 +81,7 @@ const SelectableAiPhotoTemplate = ({
             height: '100%',
             backgroundColor: Color.BLACK,
           }}
-          source={{uri: data.url}}
+          source={{ uri: data.url }}
           paused={paused}
           resizeMode={'contain'}
           fullscreen={false}
@@ -106,7 +107,8 @@ const SelectableAiPhotoTemplate = ({
           absoluteRightPosition
           paddingBottom={8}
           paddingRight={8}
-          withNoBackground>
+          withNoBackground
+        >
           {paused && <SvgIcon name={'previewPlay'} size={24} />}
         </ContentContainer>
       </ContentContainer>

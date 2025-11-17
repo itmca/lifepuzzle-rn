@@ -1,10 +1,10 @@
 import React from 'react';
-import {Avatar} from 'react-native-paper';
-import {StyleProp, TouchableOpacity} from 'react-native';
-import {Color} from '../../../constants/color.constant.ts';
-import {ContentContainer} from '../layout/ContentContainer';
-import {SvgIcon} from './SvgIcon.tsx';
-import {HeroAuthTypeCode} from '../../../constants/auth.constant.ts';
+import { Avatar } from 'react-native-paper';
+import { StyleProp, TouchableOpacity } from 'react-native';
+import { Color } from '../../../constants/color.constant.ts';
+import { ContentContainer } from '../layout/ContentContainer';
+import { SvgIcon } from './SvgIcon.tsx';
+import { HeroAuthTypeCode } from '../../../constants/auth.constant.ts';
 
 type Props = {
   imageURL: string | undefined;
@@ -26,7 +26,7 @@ export const AccountAvatar = ({
   auth,
   iconSize = 24,
   iconPadding = 0,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <TouchableOpacity
       disabled={!editable}
@@ -34,13 +34,14 @@ export const AccountAvatar = ({
         if (editable) {
           onEditPress?.();
         }
-      }}>
+      }}
+    >
       <ContentContainer width={'auto'} alignCenter>
         {imageURL ? (
           <Avatar.Image
-            style={{backgroundColor: Color.GREY, ...style}}
+            style={{ backgroundColor: Color.GREY, ...style }}
             size={size}
-            source={{uri: imageURL}}
+            source={{ uri: imageURL }}
           />
         ) : (
           <SvgIcon name="profile" size={size} />
@@ -53,7 +54,8 @@ export const AccountAvatar = ({
             paddingBottom={iconPadding}
             paddingRight={iconPadding}
             withNoBackground
-            alignCenter>
+            alignCenter
+          >
             <SvgIcon name="cameraCircleSmall" size={iconSize} />
           </ContentContainer>
         )}
@@ -65,7 +67,8 @@ export const AccountAvatar = ({
             paddingTop={iconPadding}
             paddingRight={iconPadding}
             withNoBackground
-            alignCenter>
+            alignCenter
+          >
             <SvgIcon
               name={auth === 'OWNER' ? 'owner' : 'manager'}
               size={iconSize}

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Color} from '../../../constants/color.constant.ts';
-import {ButtonBase} from '../../ui/base/ButtonBase';
-import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
-import {ContentContainer} from '../../ui/layout/ContentContainer';
+import { Color } from '../../../constants/color.constant.ts';
+import { ButtonBase } from '../../ui/base/ButtonBase';
+import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
+import { ContentContainer } from '../../ui/layout/ContentContainer';
 
 type Props = {
   visiable?: boolean;
@@ -13,7 +13,7 @@ type Props = {
 export const RecordButton = ({
   visiable = true,
   onPress,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'64px'}
@@ -21,13 +21,14 @@ export const RecordButton = ({
       backgroundColor={Color.TRANSPARENT}
       borderRadius={32}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'recordRound'} color={Color.MAIN_DARK} size={64} />
     </ButtonBase>
   );
 };
 
-export const StopButton = ({onPress}: Props): JSX.Element => {
+export const StopButton = ({ onPress }: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'64px'}
@@ -35,26 +36,28 @@ export const StopButton = ({onPress}: Props): JSX.Element => {
       backgroundColor={Color.TRANSPARENT}
       borderRadius={64}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'stopRound'} color={Color.MAIN_DARK} size={64} />
     </ButtonBase>
   );
 };
 
-export const PauseButton = ({onPress}: Props): JSX.Element => {
+export const PauseButton = ({ onPress }: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'64px'}
       width={'auto'}
       backgroundColor={Color.TRANSPARENT}
       borderRadius={64}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       <SvgIcon name={'pauseRound'} color={Color.MAIN_DARK} size={64} />
     </ButtonBase>
   );
 };
 
-export const PlayButton = ({onPress}: Props): JSX.Element => {
+export const PlayButton = ({ onPress }: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'64px'}
@@ -62,13 +65,17 @@ export const PlayButton = ({onPress}: Props): JSX.Element => {
       backgroundColor={Color.TRANSPARENT}
       borderRadius={64}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'playRound'} color={Color.MAIN_DARK} size={64} />
     </ButtonBase>
   );
 };
 
-export const CheckButton = ({onPress, visiable}: Props): JSX.Element => {
+export const CheckButton = ({
+  onPress,
+  visiable,
+}: Props): React.ReactElement => {
   if (!visiable) {
     return <ContentContainer width={'40px'} />;
   }
@@ -76,17 +83,21 @@ export const CheckButton = ({onPress, visiable}: Props): JSX.Element => {
     <ButtonBase
       height={'40px'}
       width={'auto'}
-      style={{alignSelf: 'center'}}
+      style={{ alignSelf: 'center' }}
       backgroundColor={Color.TRANSPARENT}
       borderRadius={40}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'checkRound'} color={Color.MAIN_DARK} size={40} />
     </ButtonBase>
   );
 };
 
-export const DeleteButton = ({onPress, visiable}: Props): JSX.Element => {
+export const DeleteButton = ({
+  onPress,
+  visiable,
+}: Props): React.ReactElement => {
   if (!visiable) {
     return <ContentContainer width={'40px'} />;
   }
@@ -94,11 +105,12 @@ export const DeleteButton = ({onPress, visiable}: Props): JSX.Element => {
     <ButtonBase
       height={'40px'}
       width={'auto'}
-      style={{alignSelf: 'center'}}
+      style={{ alignSelf: 'center' }}
       backgroundColor={Color.TRANSPARENT}
       borderRadius={40}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'deleteRound'} color={Color.MAIN_DARK} size={40} />
     </ButtonBase>
   );

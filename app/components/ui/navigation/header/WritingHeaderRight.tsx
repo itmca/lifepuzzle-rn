@@ -1,10 +1,10 @@
 import React from 'react';
-import {Pressable} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../../navigation/types';
-import {StoryWritingParamList} from '../../../../navigation/no-tab/StoryWritingNavigator';
-import {Color} from '../../../../constants/color.constant';
-import {BodyTextB} from '../../base/TextBase';
+import { Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../../navigation/types';
+import { StoryWritingParamList } from '../../../../navigation/no-tab/StoryWritingNavigator';
+import { Color } from '../../../../constants/color.constant';
+import { BodyTextB } from '../../base/TextBase';
 
 type Props = {
   text: string;
@@ -18,7 +18,7 @@ const WritingHeaderRight = ({
   disable = false,
   nextScreenName,
   customAction,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <Pressable
@@ -36,7 +36,8 @@ const WritingHeaderRight = ({
             },
           });
         }
-      }}>
+      }}
+    >
       <BodyTextB color={disable ? Color.GREY_400 : Color.MAIN_DARK}>
         {text}
       </BodyTextB>

@@ -1,16 +1,16 @@
 import React from 'react';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import {useSelectionStore} from '../../../stores/selection.store';
+import { useSelectionStore } from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
 } from '../../../types/ui/photo-selector.type';
 
-const AccountProfileSelectorPage = (): JSX.Element => {
+const AccountProfileSelectorPage = (): React.ReactElement => {
   // 글로벌 상태 관리
-  const {selectedUserPhoto, setSelectedUserPhoto} = useSelectionStore();
+  const { selectedUserPhoto, setSelectedUserPhoto } = useSelectionStore();
 
   // Derived value or local variables
   const selectedPhoto = selectedUserPhoto;

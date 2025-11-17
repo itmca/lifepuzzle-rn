@@ -1,23 +1,24 @@
 import * as React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ServicePolicyPage} from '../../pages/PolicyPages/ServicePolicy/ServicePolicyPage';
-import {PrivacyPolicyPage} from '../../pages/PolicyPages/PrivacyPolicy/PrivacyPolicyPage';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ServicePolicyPage } from '../../pages/PolicyPages/ServicePolicy/ServicePolicyPage';
+import { PrivacyPolicyPage } from '../../pages/PolicyPages/PrivacyPolicy/PrivacyPolicyPage';
 
 export type PolicyParamList = {
-  ServicePolicy: {settingAgree: (checked: boolean) => void};
-  PrivacyPolicy: {settingAgree: (checked: boolean) => void};
+  ServicePolicy: { settingAgree: (checked: boolean) => void };
+  PrivacyPolicy: { settingAgree: (checked: boolean) => void };
 };
 
 const Stack = createNativeStackNavigator<PolicyParamList>();
 
-const PolicyNavigator = (): JSX.Element => {
+const PolicyNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
       initialRouteName="ServicePolicy"
       screenOptions={{
         headerShown: false,
         headerTitleAlign: 'center',
-      }}>
+      }}
+    >
       <Stack.Screen
         name="ServicePolicy"
         component={ServicePolicyPage}

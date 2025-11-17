@@ -10,7 +10,7 @@ import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
 import { BodyTextM } from '../../../components/ui/base/TextBase';
 
-const LoginOthersPage = (): JSX.Element => {
+const LoginOthersPage = (): React.ReactElement => {
   // React hooks
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');

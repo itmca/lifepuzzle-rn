@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {TouchableWithoutFeedback} from 'react-native';
-import {Bar} from 'react-native-progress';
-import {Color} from '../../../constants/color.constant';
-import {toMmSs} from '../../../service/utils/date-time.service.ts';
-import {ContentContainer} from '../../ui/layout/ContentContainer';
-import {Caption} from '../../ui/base/TextBase';
-import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
+import React, { useEffect, useState } from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
+import { Bar } from 'react-native-progress';
+import { Color } from '../../../constants/color.constant';
+import { toMmSs } from '../../../service/utils/date-time.service.ts';
+import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { Caption } from '../../ui/base/TextBase';
+import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
 
 type Props = {
   width: number;
@@ -14,7 +14,7 @@ type Props = {
   isPaused: boolean;
   currentProgress: number;
   listThumbnail?: boolean;
-  handleProgress: (e: {nativeEvent: {pageX: number}}) => void;
+  handleProgress: (e: { nativeEvent: { pageX: number } }) => void;
   setPaused: (data: boolean) => void;
   onVisibleChanged: (data: boolean) => void;
 };
@@ -47,7 +47,8 @@ export const VideoController = ({
     <TouchableWithoutFeedback
       onPress={() => {
         setPaused(!isPaused);
-      }}>
+      }}
+    >
       <ContentContainer
         absoluteTopPosition
         gap={0}
@@ -56,18 +57,20 @@ export const VideoController = ({
         height="100%"
         backgroundColor={
           isControlPadShown ? 'rgba(0, 0, 0, .4)' : 'rgba(0, 0, 0, .0)'
-        }>
+        }
+      >
         {isControlPadShown && (
           <>
             <ContentContainer alignCenter height={'100%'} withNoBackground>
               <TouchableWithoutFeedback
                 onPressIn={() => {
                   setPaused(!isPaused);
-                }}>
+                }}
+              >
                 {isPaused ? (
-                  <SvgIcon name={'playRound'} style={{zIndex: 1}} />
+                  <SvgIcon name={'playRound'} />
                 ) : (
-                  <SvgIcon name={'pauseRound'} style={{zIndex: 1}} />
+                  <SvgIcon name={'pauseRound'} />
                 )}
               </TouchableWithoutFeedback>
             </ContentContainer>
@@ -75,13 +78,12 @@ export const VideoController = ({
               <ContentContainer
                 useHorizontalLayout
                 withNoBackground
-                paddingHorizontal={4}>
-                <Caption fontSize={10} color={Color.WHITE}>
+                paddingHorizontal={4}
+              >
+                <Caption color={Color.WHITE}>
                   {toMmSs(currentProgress * duration)}
                 </Caption>
-                <Caption fontSize={10} color={Color.WHITE}>
-                  {playingTime}
-                </Caption>
+                <Caption color={Color.WHITE}>{playingTime}</Caption>
               </ContentContainer>
 
               <TouchableWithoutFeedback onPress={handleProgress}>

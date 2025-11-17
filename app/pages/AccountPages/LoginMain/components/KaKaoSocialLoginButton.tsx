@@ -15,7 +15,7 @@ type Props = {
   onChangeLoading: (loading: boolean) => void;
 };
 
-const KaKaoSocialLoginButton = ({onChangeLoading}: Props): JSX.Element => {
+const KaKaoSocialLoginButton = ({onChangeLoading}: Props): React.ReactElement => {
   const shareKey = useShareStore(state => state.shareKey);
   const [kakaoAccessToken, setKakaoAccessToken] = useState('');
 

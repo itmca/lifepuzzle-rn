@@ -4,7 +4,7 @@ import {BasicNavigationProps} from '../../../../navigation/types';
 import {Color} from '../../../../constants/color.constant';
 import {BasicButton} from '../../../../components/ui/form/Button';
 
-export const HomeLoginButton = (): JSX.Element => {
+export const HomeLoginButton = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   return (

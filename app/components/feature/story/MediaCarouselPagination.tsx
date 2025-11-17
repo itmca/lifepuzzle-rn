@@ -1,3 +1,4 @@
+import React from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 
 import {Color} from '../../../constants/color.constant';
@@ -17,7 +18,7 @@ const MediaCarouselPagination = ({
   mediaCount,
   activeMediaIndexNo,
   containerStyle,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   if (!visible) {
     return <></>;
   }
@@ -29,7 +30,7 @@ const MediaCarouselPagination = ({
         position: 'absolute',
         top: 10,
         left: 10,
-      })}>
+      }, containerStyle)}>
       <ContentContainer
         alignCenter
         gap={0}
@@ -39,7 +40,7 @@ const MediaCarouselPagination = ({
         opacity={0.5}
         backgroundColor={Color.BLACK}
         zIndex={100}>
-        <Caption fontSize={10} color={Color.GREY}>{`${
+        <Caption color={Color.GREY}>{`${
           activeMediaIndexNo + 1
         } / ${mediaCount}`}</Caption>
       </ContentContainer>

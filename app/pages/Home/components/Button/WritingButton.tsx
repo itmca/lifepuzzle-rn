@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {Color} from '../../../../constants/color.constant';
+import { Color } from '../../../../constants/color.constant';
 
-import {ButtonBase} from '../../../../components/ui/base/ButtonBase';
-import {SvgIcon} from '../../../../components/ui/display/SvgIcon';
-import {Title} from '../../../../components/ui/base/TextBase';
-import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
+import { ButtonBase } from '../../../../components/ui/base/ButtonBase';
+import { SvgIcon } from '../../../../components/ui/display/SvgIcon';
+import { Title } from '../../../../components/ui/base/TextBase';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 
 type Props = {
   onPress: () => void;
@@ -14,7 +14,7 @@ type Props = {
 export const WritingButton = ({
   onPress,
   disabled = false,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'56px'}
@@ -22,12 +22,14 @@ export const WritingButton = ({
       disabled={disabled}
       backgroundColor={disabled ? Color.GREY_100 : Color.MAIN_DARK}
       borderRadius={6}
-      onPress={disabled ? undefined : onPress}>
+      onPress={disabled ? undefined : onPress}
+    >
       <ContentContainer
         gap={8}
         useHorizontalLayout
         backgroundColor="transparent"
-        alignCenter>
+        alignCenter
+      >
         <SvgIcon
           name={'camera'}
           size={24}

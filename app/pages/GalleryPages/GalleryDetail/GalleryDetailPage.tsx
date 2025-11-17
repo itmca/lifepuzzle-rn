@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { Title } from '../../../components/ui/base/TextBase';
 
-const GalleryDetailPage = (): JSX.Element => {
+const GalleryDetailPage = (): React.ReactElement => {
   // React hooks
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
 

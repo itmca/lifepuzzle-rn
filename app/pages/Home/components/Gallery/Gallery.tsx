@@ -1,30 +1,30 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
+import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 
-import {BasicNavigationProps} from '../../../../navigation/types.tsx';
+import { BasicNavigationProps } from '../../../../navigation/types.tsx';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../../components/ui/layout/ContentContainer.tsx';
-import {ScrollView, useWindowDimensions} from 'react-native';
-import {useMediaStore} from '../../../../stores/media.store';
-import {useSelectionStore} from '../../../../stores/selection.store';
+import { ScrollView, useWindowDimensions } from 'react-native';
+import { useMediaStore } from '../../../../stores/media.store';
+import { useSelectionStore } from '../../../../stores/selection.store';
 import {
   AgeGroupsType,
   GalleryType,
   TagKey,
   TagType,
 } from '../../../../types/core/media.type';
-import {PhotoHeroType} from '../../../../types/core/hero.type';
-import {Color} from '../../../../constants/color.constant.ts';
+import { PhotoHeroType } from '../../../../types/core/hero.type';
+import { Color } from '../../../../constants/color.constant.ts';
 
-import {NotificationBar} from '../../../../components/ui/feedback/NotificationBar';
-import {BasicCard} from '../../../../components/ui/display/Card';
-import {BodyTextM, Title} from '../../../../components/ui/base/TextBase';
+import { NotificationBar } from '../../../../components/ui/feedback/NotificationBar';
+import { BasicCard } from '../../../../components/ui/display/Card';
+import { BodyTextM, Title } from '../../../../components/ui/base/TextBase';
 import GalleryTag from './GalleryTag.tsx';
-import {BasicButton} from '../../../../components/ui/form/Button';
+import { BasicButton } from '../../../../components/ui/form/Button';
 
 type props = {
   hero: PhotoHeroType;
@@ -41,7 +41,7 @@ const Gallery = ({
   isError = false,
   hasInitialData = false,
   onRetry,
-}: props): JSX.Element => {
+}: props): React.ReactElement => {
   // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
   const scrollRef = useRef<ScrollView>(null);
@@ -50,14 +50,14 @@ const Gallery = ({
   const [isScrolling, setIsScrolling] = useState(false);
 
   // 글로벌 상태 관리 (Zustand)
-  const {selectedTag, setSelectedTag} = useSelectionStore();
+  const { selectedTag, setSelectedTag } = useSelectionStore();
   const setGalleryError = useMediaStore(state => state.setGalleryError);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Memoized 값
-  const {width: windowWidth} = useWindowDimensions();
+  const { width: windowWidth } = useWindowDimensions();
 
   // Custom functions (핸들러, 로직 함수 등)
   const moveToStoryListPage = (index: GalleryType['index']) => {
@@ -83,7 +83,7 @@ const Gallery = ({
     }
 
     if (index < tags.length / 3) {
-      scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
+      scrollRef.current?.scrollTo({ x: 0, y: 0, animated: true });
     } else if ((tags.length / 3) * 2 < index) {
       scrollRef.current?.scrollToEnd();
     }
@@ -103,7 +103,8 @@ const Gallery = ({
         justifyContent="center"
         alignItems="center"
         gap={20}
-        paddingBottom={40}>
+        paddingBottom={40}
+      >
         <ContentContainer gap={8} alignCenter>
           <Title color={Color.GREY_400}>인터넷 연결이 잠시 불안정해요</Title>
           <ContentContainer gap={0} alignCenter>
@@ -133,7 +134,8 @@ const Gallery = ({
           useHorizontalLayout
           gap={6}
           ref={scrollRef}
-          paddingRight={20}>
+          paddingRight={20}
+        >
           {tags?.map((item: TagType, index) => {
             return (
               <GalleryTag
@@ -150,7 +152,8 @@ const Gallery = ({
         flex={1}
         gap={0}
         alignItems={'center'}
-        justifyContent={'flex-start'}>
+        justifyContent={'flex-start'}
+      >
         <Carousel
           ref={carouselRef}
           data={tags || []}
@@ -174,18 +177,19 @@ const Gallery = ({
             if (!tags) {
               return;
             }
-            setSelectedTag({...tags[index]});
+            setSelectedTag({ ...tags[index] });
           }}
           onProgressChange={(_: number, absoluteProgress: number) => {
             setIsScrolling(absoluteProgress % 1 !== 0);
           }}
-          renderItem={({item: tag}: any) => {
+          renderItem={({ item: tag }: any) => {
             return (
               <ContentContainer
                 key={tag.key}
                 style={{
-                  transform: [{translateY: -20}],
-                }}>
+                  transform: [{ translateY: -20 }],
+                }}
+              >
                 <BasicCard
                   photoUrls={
                     (ageGroups &&

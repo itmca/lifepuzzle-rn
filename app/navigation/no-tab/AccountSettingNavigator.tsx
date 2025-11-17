@@ -22,7 +22,7 @@ export type AccountSettingParamList = {
 
 const Stack = createNativeStackNavigator<AccountSettingParamList>();
 
-const AccountSettingNavigator = (): JSX.Element => {
+const AccountSettingNavigator = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const selectedUserPhoto = useSelectionStore(state => state.selectedUserPhoto);
   const modifyingUser = useUserStore(state => state.writingUser);

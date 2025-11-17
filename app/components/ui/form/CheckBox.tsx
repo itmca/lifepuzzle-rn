@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
-import {SvgIcon} from '../display/SvgIcon.tsx';
-import {BodyTextM} from '../base/TextBase.tsx';
+import React, { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { SvgIcon } from '../display/SvgIcon.tsx';
+import { BodyTextM } from '../base/TextBase.tsx';
 
 type Props = {
-  label?: string | JSX.Element;
+  label?: string | React.ReactElement;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   disableBuiltInState?: boolean;
@@ -37,7 +37,8 @@ export const CheckBox = ({
         alignItems: 'center',
         gap: 6,
       }}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       {_checked ? (
         <SvgIcon name="checkRoundOn" />
       ) : (

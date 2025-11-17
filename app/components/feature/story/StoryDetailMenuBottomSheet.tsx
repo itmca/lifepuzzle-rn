@@ -1,24 +1,25 @@
-import {Alert, TouchableOpacity} from 'react-native';
-import {Color} from '../../../constants/color.constant.ts';
+import React from 'react';
+import { Alert, TouchableOpacity } from 'react-native';
+import { Color } from '../../../constants/color.constant.ts';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-import {BasicNavigationProps} from '../../../navigation/types.tsx';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import {
   useDeleteGallery,
   useDeleteStory,
 } from '../../../service/story/story.delete.hook.ts';
-import {ContentContainer} from '../../ui/layout/ContentContainer';
-import {GalleryType} from '../../../types/core/media.type';
-import {useStoryStore} from '../../../stores/story.store';
-import {useUIStore} from '../../../stores/ui.store';
-import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
-import {Title} from '../../ui/base/TextBase';
-import {Divider} from '../../ui/base/Divider.tsx';
+import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { GalleryType } from '../../../types/core/media.type';
+import { useStoryStore } from '../../../stores/story.store';
+import { useUIStore } from '../../../stores/ui.store';
+import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
+import { Title } from '../../ui/base/TextBase';
+import { Divider } from '../../ui/base/Divider.tsx';
 import BottomSheet from '../../ui/interaction/BottomSheet.tsx';
-import {showToast} from '../../ui/feedback/Toast.tsx';
+import { showToast } from '../../ui/feedback/Toast.tsx';
 import RNFetchBlob from 'rn-fetch-blob';
-import {getFormattedDateTime} from '../../../service/utils/date-time.service.ts';
+import { getFormattedDateTime } from '../../../service/utils/date-time.service.ts';
 import Share from 'react-native-share';
 
 type Props = {
@@ -29,7 +30,7 @@ type Props = {
 export const StoryDetailMenuBottomSheet = ({
   type = 'story',
   gallery,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const openModal = useUIStore(state => state.openDetailBottomSheet);
   const setOpenModal = useUIStore(state => state.setOpenDetailBottomSheet);
   const setWritingStory = useStoryStore(state => state.setWritingStory);
@@ -40,14 +41,14 @@ export const StoryDetailMenuBottomSheet = ({
   const [deleteStory] = useDeleteStory({
     storyKey: gallery.story ? gallery.story.id : '',
   });
-  const [deleteGallery] = useDeleteGallery({galleryId: gallery.id});
+  const [deleteGallery] = useDeleteGallery({ galleryId: gallery.id });
 
   const onEditStory = () => {
     setWritingStory({
       title: gallery.story?.title ?? '',
       content: gallery.story?.content ?? '',
       date: gallery.story?.date ? new Date(gallery.story?.date) : new Date(),
-      gallery: [{id: gallery.id, uri: gallery.url, tagKey: gallery.tag.key}],
+      gallery: [{ id: gallery.id, uri: gallery.url, tagKey: gallery.tag.key }],
       voice:
         gallery.story?.audios && gallery.story?.audios.length > 0
           ? gallery.story?.audios[0]
@@ -97,7 +98,7 @@ export const StoryDetailMenuBottomSheet = ({
     ]);
   };
   const onShareGallery = async () => {
-    const {config, fs} = RNFetchBlob;
+    const { config, fs } = RNFetchBlob;
     let picturePath = `${fs.dirs.CacheDir}/lp_${getFormattedDateTime()}.jpg`;
     await config({
       fileCache: true,
@@ -127,16 +128,18 @@ export const StoryDetailMenuBottomSheet = ({
       opened={openModal}
       onClose={() => {
         setOpenModal(false);
-      }}>
+      }}
+    >
       <ContentContainer gap={0}>
         {isStory && (
           <>
             <TouchableOpacity onPress={onEditStory}>
               <ContentContainer
                 gap={6}
-                height={'48px'}
+                height={48}
                 useHorizontalLayout
-                justifyContent="flex-start">
+                justifyContent="flex-start"
+              >
                 <SvgIcon name={'pencil'} />
                 <Title color={Color.GREY_800}>이야기 수정하기</Title>
               </ContentContainer>
@@ -144,14 +147,15 @@ export const StoryDetailMenuBottomSheet = ({
             <TouchableOpacity onPress={onDeleteStory}>
               <ContentContainer
                 gap={6}
-                height={'48px'}
+                height={48}
                 useHorizontalLayout
-                justifyContent="flex-start">
+                justifyContent="flex-start"
+              >
                 <SvgIcon name={'trash'} />
                 <Title color={Color.GREY_800}>이야기 삭제하기</Title>
               </ContentContainer>
             </TouchableOpacity>
-            <ContentContainer height={'20px'} alignCenter>
+            <ContentContainer height={20} alignCenter>
               <Divider />
             </ContentContainer>
           </>
@@ -161,7 +165,8 @@ export const StoryDetailMenuBottomSheet = ({
             gap={6}
             height={'48px'}
             useHorizontalLayout
-            justifyContent="flex-start">
+            justifyContent="flex-start"
+          >
             <SvgIcon name={'trash'} />
             <Title color={Color.GREY_800}>사진 삭제하기</Title>
           </ContentContainer>
@@ -171,7 +176,8 @@ export const StoryDetailMenuBottomSheet = ({
             gap={2}
             height={'48px'}
             useHorizontalLayout
-            justifyContent="flex-start">
+            justifyContent="flex-start"
+          >
             <SvgIcon name={'link'} size={28} />
             <Title color={Color.GREY_800}>사진 공유하기</Title>
           </ContentContainer>

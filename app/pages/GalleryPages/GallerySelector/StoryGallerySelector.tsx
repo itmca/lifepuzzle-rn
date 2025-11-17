@@ -1,21 +1,21 @@
 import React from 'react';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {useNavigation} from '@react-navigation/native';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
+import { useNavigation } from '@react-navigation/native';
 
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
-import {useSelectionStore} from '../../../stores/selection.store';
+import { useSelectionStore } from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
 } from '../../../types/ui/photo-selector.type';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {Color} from '../../../constants/color.constant.ts';
-import {useUIStore} from '../../../stores/ui.store';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { Color } from '../../../constants/color.constant.ts';
+import { useUIStore } from '../../../stores/ui.store';
 
-const StoryGallerySelector = (): JSX.Element => {
+const StoryGallerySelector = (): React.ReactElement => {
   const navigation = useNavigation();
   const {
     currentGalleryIndex: galleryIndex,
@@ -94,7 +94,8 @@ const StoryGallerySelector = (): JSX.Element => {
             justifyContent: 'center',
             backgroundColor: Color.WHITE,
           }}
-          onPress={handleNavigateToGalleryDetail}>
+          onPress={handleNavigateToGalleryDetail}
+        >
           <Icon name="magic" size={25} color={Color.MAIN_DARK} />
         </TouchableOpacity>
       )}

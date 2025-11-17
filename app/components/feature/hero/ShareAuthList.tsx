@@ -1,26 +1,26 @@
-import React, {useState} from 'react';
-import {CustomAlert} from '../../ui/feedback/CustomAlert';
+import React, { useState } from 'react';
+import { CustomAlert } from '../../ui/feedback/CustomAlert';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../ui/layout/ContentContainer.tsx';
-import {SortedHeroAuthTypes} from '../../../constants/auth.constant';
-import {useAuthAxios} from '../../../service/core/auth-http.hook';
+import { SortedHeroAuthTypes } from '../../../constants/auth.constant';
+import { useAuthAxios } from '../../../service/core/auth-http.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
-import {Radio} from '../../ui/form/Radio';
+import { Radio } from '../../ui/form/Radio';
 
-import {useHeroStore} from '../../../stores/hero.store';
-import {Title} from '../../ui/base/TextBase';
-import {Color} from '../../../constants/color.constant';
-import {ButtonBase} from '../../ui/base/ButtonBase';
-import {SvgIcon} from '../../ui/display/SvgIcon';
-import {Divider} from '../../ui/base/Divider';
+import { useHeroStore } from '../../../stores/hero.store';
+import { Title } from '../../ui/base/TextBase';
+import { Color } from '../../../constants/color.constant';
+import { ButtonBase } from '../../ui/base/ButtonBase';
+import { SvgIcon } from '../../ui/display/SvgIcon';
+import { Divider } from '../../ui/base/Divider';
 
-import {showToast} from '../../ui/feedback/Toast.tsx';
+import { showToast } from '../../ui/feedback/Toast.tsx';
 
 type props = {};
 
-export const ShareAuthList = ({}: props): JSX.Element => {
+export const ShareAuthList = ({}: props): React.ReactElement => {
   const hero = useHeroStore(state => state.currentHero);
   const onSelectAuth = (auth: string) => {
     setAuth(auth);
@@ -46,7 +46,7 @@ export const ShareAuthList = ({}: props): JSX.Element => {
         'Content-Type': 'application/json',
       },
     },
-    onResponseSuccess: ({link}) => {
+    onResponseSuccess: ({ link }) => {
       onCopy(link);
     },
     onError: error => {
@@ -88,7 +88,8 @@ export const ShareAuthList = ({}: props): JSX.Element => {
                 key={'share-auth-' + index}
                 paddingVertical={14}
                 gap={0}
-                alignCenter>
+                alignCenter
+              >
                 <Radio
                   selected={auth === i.value}
                   label={i.label}
@@ -108,7 +109,8 @@ export const ShareAuthList = ({}: props): JSX.Element => {
         borderRadius={6}
         borderWidth={1.5}
         onPress={onSubmit}
-        borderInside>
+        borderInside
+      >
         <SvgIcon name={'link'} size={24} />
         <Title color={Color.MAIN_DARK}>링크복사</Title>
       </ButtonBase>

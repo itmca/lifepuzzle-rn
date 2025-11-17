@@ -5,11 +5,13 @@ interface SelectionState {
   selectedTag: TagType | null;
   selectedGalleryItems: any[];
   editGalleryItems: any[];
+  currentGalleryIndex: number;
   selectedHeroPhoto: any;
   selectedUserPhoto: any;
   setSelectedTag: (tag: TagType | null) => void;
   setSelectedGalleryItems: (items: any[]) => void;
   setEditGalleryItems: (items: any[]) => void;
+  setCurrentGalleryIndex: (index: number) => void;
   setSelectedHeroPhoto: (photo: any) => void;
   setSelectedUserPhoto: (photo: any) => void;
   resetSelectedHeroPhoto: () => void;
@@ -21,6 +23,7 @@ export const useSelectionStore = create<SelectionState>(set => ({
   selectedTag: null,
   selectedGalleryItems: [],
   editGalleryItems: [],
+  currentGalleryIndex: 0,
   selectedHeroPhoto: undefined,
   selectedUserPhoto: undefined,
 
@@ -29,6 +32,8 @@ export const useSelectionStore = create<SelectionState>(set => ({
   setSelectedGalleryItems: selectedGalleryItems => set({selectedGalleryItems}),
 
   setEditGalleryItems: editGalleryItems => set({editGalleryItems}),
+
+  setCurrentGalleryIndex: currentGalleryIndex => set({currentGalleryIndex}),
 
   setSelectedHeroPhoto: selectedHeroPhoto => set({selectedHeroPhoto}),
 
@@ -43,6 +48,7 @@ export const useSelectionStore = create<SelectionState>(set => ({
       selectedTag: null,
       selectedGalleryItems: [],
       editGalleryItems: [],
+      currentGalleryIndex: 0,
       selectedHeroPhoto: undefined,
       selectedUserPhoto: undefined,
     }),

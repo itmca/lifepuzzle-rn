@@ -21,7 +21,7 @@ import GalleryBottomButton from './components/Gallery/GalleryBottomButton.tsx';
 import HeroSection from './components/Hero/HeroSection.tsx';
 import BottomSheetSection from './components/BottomSheet/BottomSheetSection.tsx';
 
-const HomePage = (): JSX.Element => {
+const HomePage = (): React.ReactElement => {
   // React hooks
   const [heroShareModalOpen, setHeroShareModalOpen] = useState<boolean>(false);
   const [receivedImageBottomSheetOpen, setReceivedImageBottomSheetOpen] =

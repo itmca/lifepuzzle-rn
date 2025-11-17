@@ -23,7 +23,7 @@ import { Divider } from '../../../components/ui/base/Divider';
 import { useAxios } from '../../../service/core/auth-http.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 
-const RegisterPage = (): JSX.Element => {
+const RegisterPage = (): React.ReactElement => {
   // React hooks
   const [id, setId] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');

@@ -43,7 +43,7 @@ export const MediaCarousel = ({
   heroNo,
   galleryId,
   drivingVideoId,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   // React hooks
   const [activeMediaIndexNo, setActiveMediaIndexNo] = useState<number>(
     activeIndex ?? 0,

@@ -10,7 +10,7 @@ export type HomeTabParamList = {
 
 const Stack = createNativeStackNavigator<HomeTabParamList>();
 
-const HomeTabNavigator = (): JSX.Element => {
+const HomeTabNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen

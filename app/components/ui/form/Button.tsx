@@ -28,7 +28,7 @@ export const BasicButton = ({
   height = '56px',
   iconSize = 24,
   onPress,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={height}

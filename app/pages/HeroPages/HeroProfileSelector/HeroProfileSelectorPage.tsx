@@ -10,7 +10,7 @@ import {
   PhotoSelectorConfig,
 } from '../../../types/ui/photo-selector.type';
 
-const HeroProfileSelectorPage = (): JSX.Element => {
+const HeroProfileSelectorPage = (): React.ReactElement => {
   // 글로벌 상태 관리
   const { selectedHeroPhoto, setSelectedHeroPhoto } = useSelectionStore();
 

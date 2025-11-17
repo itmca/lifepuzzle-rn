@@ -43,7 +43,7 @@ function initializeZustandState(): void {
   }
 }
 
-const InternalApp = (): React.JSX.Element => {
+const InternalApp = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const { setSharedImageData } = useShareStore();
 
@@ -94,7 +94,7 @@ const InternalApp = (): React.JSX.Element => {
   );
 };
 
-const App = (): React.JSX.Element => {
+const App = (): React.ReactElement => {
   // Custom hooks
   const linking = useLinking();
 

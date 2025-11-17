@@ -1,10 +1,11 @@
-import {Color} from '../../../constants/color.constant';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../navigation/types';
-import {BodyTextB} from '../../ui/base/TextBase';
-import {TouchableOpacity} from 'react-native';
+import React from 'react';
+import { Color } from '../../../constants/color.constant';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types';
+import { BodyTextB } from '../../ui/base/TextBase';
+import { TouchableOpacity } from 'react-native';
 
-const RegisterButton = (): JSX.Element => {
+const RegisterButton = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <>
@@ -16,7 +17,8 @@ const RegisterButton = (): JSX.Element => {
               screen: 'Register',
             },
           });
-        }}>
+        }}
+      >
         <BodyTextB color={Color.GREY_800} underline>
           회원가입
         </BodyTextB>

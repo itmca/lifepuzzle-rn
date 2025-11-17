@@ -1,13 +1,13 @@
 import React from 'react';
-import {Alert} from 'react-native';
-import {useAxios} from '../../../service/core/auth-http.hook.ts';
+import { Alert } from 'react-native';
+import { useAxios } from '../../../service/core/auth-http.hook.ts';
 import {
   LoginResponse,
   useLoginResponseHandler,
 } from '../../../service/auth/login.hook.ts';
 
-import {useShareStore} from '../../../stores/share.store';
-import {BasicButton} from '../../../components/ui/form/Button';
+import { useShareStore } from '../../../stores/share.store';
+import { BasicButton } from '../../../components/ui/form/Button';
 
 type Props = {
   userId: string;
@@ -21,7 +21,7 @@ const GeneralLoginButton = ({
   password,
   disabled,
   onChangeLoading,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const shareKey = useShareStore(state => state.shareKey);
   const loginResponseHandler = useLoginResponseHandler();
   const [_, login] = useAxios<LoginResponse>({
@@ -41,7 +41,7 @@ const GeneralLoginButton = ({
   return (
     <BasicButton
       onPress={() => {
-        login({data: {username: userId, password, shareKey}});
+        login({ data: { username: userId, password, shareKey } });
       }}
       disabled={disabled}
       text={'로그인'}

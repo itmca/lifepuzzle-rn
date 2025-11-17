@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StoryWritingNavigator, {
   StoryWritingParamList,
 } from './StoryWritingNavigator';
@@ -12,10 +12,10 @@ import HeroSettingNavigator, {
 import AccountSettingNavigator, {
   AccountSettingParamList,
 } from './AccountSettingNavigator';
-import StoryViewNavigator, {StoryViewParamList} from './StoryViewNavigator';
-import PolicyNavigator, {PolicyParamList} from './PolicyNavigator';
-import {NavigatorScreenParams} from '@react-navigation/native';
-import AiPhotoNavigator, {AiPhotoParamList} from './AiPhotoNavigator';
+import StoryViewNavigator, { StoryViewParamList } from './StoryViewNavigator';
+import PolicyNavigator, { PolicyParamList } from './PolicyNavigator';
+import { NavigatorScreenParams } from '@react-navigation/native';
+import AiPhotoNavigator, { AiPhotoParamList } from './AiPhotoNavigator';
 
 export type NoTabParamList = {
   StoryViewNavigator: NavigatorScreenParams<StoryViewParamList>;
@@ -29,14 +29,15 @@ export type NoTabParamList = {
 
 const Stack = createNativeStackNavigator<NoTabParamList>();
 
-const NoTabRootNavigator = (): JSX.Element => {
+const NoTabRootNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
-      screenOptions={{headerShown: false}}
+      screenOptions={{ headerShown: false }}
       initialRouteName={
         /* 앱 실행 시 미로그인 되어 있다면 로그인 화면이 노출되어야 해 명시적으로 LoginRegisterNavigator을 초기화면으로 설정한다 */
         'LoginRegisterNavigator'
-      }>
+      }
+    >
       <Stack.Screen
         name="LoginRegisterNavigator"
         component={LoginRegisterNavigator}
