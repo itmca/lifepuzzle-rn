@@ -1,6 +1,6 @@
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {FacebookPhotoItem} from '../external/facebook.type';
-import {AgeType} from '../core/media.type';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
+import { FacebookPhotoItem } from '../external/facebook.type';
+import { AgeType } from '../core/media.type';
 
 export type PhotoSource = 'device' | 'custom';
 export type SelectionMode = 'single' | 'multiple';
@@ -10,6 +10,7 @@ export interface PhotoSelectorConfig {
   source: PhotoSource;
   showCropButton?: boolean;
   showOrderNumbers?: boolean;
+  showConfirmButton?: boolean;
   maxSelection?: number;
   initialPhotos?: number;
   loadMoreCount?: number;

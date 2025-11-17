@@ -1,6 +1,6 @@
 import RNHeicConverter from 'react-native-heic-converter';
 import ImageResizer from '@bam.tech/react-native-image-resizer';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 
 export interface OptimizeImageOptions {
@@ -43,7 +43,7 @@ export const imageConversionUtil = {
 
       // Convert HEIC to JPEG if needed
       if (this.isHeicFile(fileName)) {
-        const heicResult = await RNHeicConverter.convert({path: imageUri});
+        const heicResult = await RNHeicConverter.convert({ path: imageUri });
 
         if (!heicResult.success) {
           throw new Error(`HEIC conversion failed: ${heicResult.error}`);
@@ -99,12 +99,12 @@ export const imageConversionUtil = {
    */
   async getImageSize(
     imageUri: string,
-  ): Promise<{width: number; height: number}> {
+  ): Promise<{ width: number; height: number }> {
     return new Promise((resolve, reject) => {
       const Image = require('react-native').Image;
       Image.getSize(
         imageUri,
-        (width: number, height: number) => resolve({width, height}),
+        (width: number, height: number) => resolve({ width, height }),
         (error: any) => reject(error),
       );
     });
@@ -165,7 +165,20 @@ export const imageConversionUtil = {
    * @returns Uint8Array
    */
   base64ToUint8Array(base64Data: string): Uint8Array {
-    const binaryString = atob(base64Data);
+    // React Native polyfill for atob
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    let str = base64Data.replace(/=+$/, '');
+    let output = '';
+
+    for (let bc = 0, bs = 0, buffer = 0, i = 0; i < str.length; i++) {
+      buffer = (buffer << 6) | chars.indexOf(str[i]);
+      bc += 6;
+      if (bc >= 8) {
+        output += String.fromCharCode((buffer >> (bc -= 8)) & 0xff);
+      }
+    }
+    const binaryString = output;
     const bytes = new Uint8Array(binaryString.length);
 
     for (let i = 0; i < binaryString.length; i++) {
@@ -206,7 +219,7 @@ export const imageConversionUtil = {
    */
   async validateImage(imageUri: string): Promise<boolean> {
     try {
-      const {width, height} = await this.getImageSize(imageUri);
+      const { width, height } = await this.getImageSize(imageUri);
       return width > 0 && height > 0;
     } catch {
       return false;

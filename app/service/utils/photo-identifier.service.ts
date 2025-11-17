@@ -1,7 +1,10 @@
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {ImageOrVideo} from 'react-native-image-crop-picker';
-import {FacebookPhotoItem} from '../../types/external/facebook.type';
-import {AgeType} from '../../types/core/media.type';
+import {
+  PhotoIdentifier,
+  SubTypes,
+} from '@react-native-camera-roll/camera-roll';
+import { ImageOrVideo } from 'react-native-image-crop-picker';
+import { FacebookPhotoItem } from '../../types/external/facebook.type';
+import { AgeType } from '../../types/core/media.type';
 
 /**
  * URI 문자열을 PhotoIdentifier로 변환합니다.
@@ -10,10 +13,10 @@ import {AgeType} from '../../types/core/media.type';
 export const toPhotoIdentifier = (uri: string): PhotoIdentifier => ({
   node: {
     type: '',
-    subTypes: [],
+    subTypes: [] as SubTypes[],
     group_name: [],
     image: {
-      filename: uri ? uri.split('/').pop() : null,
+      filename: uri ? uri.split('/').pop() || null : null,
       filepath: null,
       extension: null,
       uri: uri,
@@ -50,7 +53,7 @@ export const toPhotoIdentifierFromImage = (
   return {
     node: {
       type: 'image',
-      subTypes: [],
+      subTypes: [] as SubTypes[],
       group_name: ['Camera'],
       image: {
         filename,
@@ -89,7 +92,7 @@ export const toPhotoIdentifierFromFacebookPhoto = (
   return {
     node: {
       type: 'image',
-      subTypes: [],
+      subTypes: [] as SubTypes[],
       group_name: [`Facebook_${ageGroup}`],
       image: {
         filename,

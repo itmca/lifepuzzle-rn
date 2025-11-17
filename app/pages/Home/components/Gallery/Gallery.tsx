@@ -116,7 +116,7 @@ const Gallery = ({
         <ContentContainer width={120}>
           <BasicButton
             text={'다시 시도'}
-            height={'48px'}
+            height={48}
             onPress={() => onRetry?.()}
           />
         </ContentContainer>

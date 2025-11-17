@@ -79,27 +79,25 @@ export const ShareAuthList = ({}: props): React.ReactElement => {
   return (
     <ContentContainer gap={20}>
       <ScrollContentContainer gap={0}>
-        {authList
-          .filter(i => i.value !== 'OWNER')
-          .map((i, index) => (
-            <>
-              {index !== 0 && <Divider marginVertical={0} />}
-              <ContentContainer
-                key={'share-auth-' + index}
-                paddingVertical={14}
-                gap={0}
-                alignCenter
-              >
-                <Radio
-                  selected={auth === i.value}
-                  label={i.label}
-                  value={i.value}
-                  subLabel={i.description}
-                  onSelect={onSelectAuth}
-                />
-              </ContentContainer>
-            </>
-          ))}
+        {authList.map((i, index) => (
+          <>
+            {index !== 0 && <Divider marginVertical={0} />}
+            <ContentContainer
+              key={'share-auth-' + index}
+              paddingVertical={14}
+              gap={0}
+              alignCenter
+            >
+              <Radio
+                selected={auth === i.value}
+                label={i.label}
+                value={i.value}
+                subLabel={i.description}
+                onSelect={onSelectAuth}
+              />
+            </ContentContainer>
+          </>
+        ))}
       </ScrollContentContainer>
       <ButtonBase
         height={'56px'}

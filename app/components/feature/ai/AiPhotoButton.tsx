@@ -22,7 +22,7 @@ export const AiPhotoButton = ({ onPress }: Props): React.ReactElement => {
       withNoBackground
     >
       <ButtonBase
-        height={'28x'}
+        height={'28px'}
         width={'auto'}
         backgroundColor={Color.WHITE}
         borderColor={Color.GREY_200}

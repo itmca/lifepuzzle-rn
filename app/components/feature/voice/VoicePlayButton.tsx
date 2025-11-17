@@ -16,7 +16,7 @@ export const VoicePlayButton = ({
 }: Props): React.ReactElement => {
   return (
     <ButtonBase
-      height={'28x'}
+      height={'28px'}
       width={'auto'}
       backgroundColor={Color.TRANSPARENT}
       borderColor={Color.MAIN_DARK}

@@ -1,7 +1,7 @@
 import { AiType } from '../external/ai-photo.type';
 import { StoryType } from './story.type';
 
-export { StoryType };
+export type { StoryType };
 
 export type AgeType =
   | 'UNDER_TEENAGER'
@@ -39,7 +39,7 @@ export type TagType = {
 
 // Media 공유 관련 타입
 export type SharePhoto = {
-  type: string;
-  uri: string;
-  uriList: string[];
+  type: string | null;
+  uri?: string;
+  uriList?: string[];
 };
