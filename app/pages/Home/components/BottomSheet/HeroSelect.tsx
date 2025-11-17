@@ -30,8 +30,8 @@ export const HeroSelect = ({
           borderRadius={20}
           backgroundColor={Color.GREY_100}
         >
-          {item.imageURL ? (
-            <Photo source={{ uri: item.imageURL }} />
+          {item.imageUrl ? (
+            <Photo source={{ uri: item.imageUrl }} />
           ) : (
             <Profile />
           )}

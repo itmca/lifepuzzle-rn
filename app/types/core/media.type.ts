@@ -41,5 +41,5 @@ export type TagType = {
 export type SharePhoto = {
   type: string | null;
   uri?: string;
-  uriList?: string[];
+  uriList?: readonly string[] | string[];
 };

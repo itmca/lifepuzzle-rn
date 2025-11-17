@@ -13,7 +13,7 @@ import FastImage from 'react-native-fast-image';
 import MasonryList from 'react-native-masonry-list';
 import VMasonryList from '@react-native-seoul/masonry-list';
 
-import { GalleryType, TagKey } from '../../types/core/media.type';
+import { GalleryType, TagKey } from '../../../types/core/media.type';
 
 import { Head } from '../../../components/ui/base/TextBase';
 
@@ -44,7 +44,7 @@ const GalleryListPage = () => {
 
   // 글로벌 상태 관리
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
-  const { selectedTag, setSelectedGalleryIndex } = useSelectionStore();
+  const { selectedTag, setCurrentGalleryIndex } = useSelectionStore();
   const { tags, ageGroups, getGallery } = useMediaStore();
   const selectedGalleryIndex = useSelectionStore(
     state => state.selectedGalleryItems,
@@ -57,7 +57,7 @@ const GalleryListPage = () => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
   const allGallery = getGallery();
-  const ageGroupsArray = Object.entries(ageGroups);
+  const ageGroupsArray = ageGroups ? Object.entries(ageGroups) : [];
 
   // Custom functions
   const handleScrollViewLayout = (event: any) => {
@@ -74,9 +74,9 @@ const GalleryListPage = () => {
     );
 
     if (allGalleryIndex !== -1) {
-      setSelectedGalleryIndex(allGalleryIndex);
+      setCurrentGalleryIndex(allGalleryIndex);
     } else {
-      setSelectedGalleryIndex(0);
+      setCurrentGalleryIndex(0);
     }
 
     navigation.push('NoTab', {

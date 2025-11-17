@@ -98,7 +98,7 @@ const GalleryDetailPage = (): React.ReactElement => {
       },
     });
   };
-  const onContentContainerLayout = event => {
+  const onContentContainerLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
     // console.log('ContentContainer Height:', height); // 디버깅용
     setContentContainerHeight(height);

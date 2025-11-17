@@ -84,7 +84,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name="FacebookPhotoSelector"
+        name="FacebookGallerySelector"
         component={FacebookGallerySelector}
         options={{
           header: () => <TopBar title={'페이스북 사진'} />,

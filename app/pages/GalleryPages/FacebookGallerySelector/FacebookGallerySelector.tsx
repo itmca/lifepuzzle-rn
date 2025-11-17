@@ -13,6 +13,7 @@ import { BodyTextB } from '../../../components/ui/base/TextBase';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 import { AgeType } from '../../../types/core/media.type';
+import { PhotoSelectorState } from '../../../types/ui/photo-selector.type';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
@@ -46,7 +47,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
   const selectedGalleryItems = selection.gallery;
   const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
   const setSelectedGalleryItems = (items: any[]) =>
-    setSelection(prev => ({ ...prev, gallery: items }));
+    setSelection((prev: any) => ({ ...prev, gallery: items }));
 
   // Facebook specific state
   const [facebookPhotos, setFacebookPhotos] = useState<FacebookPhotoItem[]>([]);
@@ -129,7 +130,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
         navigation.goBack();
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch (err) {
       Alert.alert('오류', '페이스북 로그인에 실패했습니다.');
       navigation.goBack();
       setIsLoading(false);
@@ -171,9 +172,13 @@ const FacebookGallerySelector = (): React.ReactElement => {
     },
   };
 
-  const state = {
-    selectedPhotos,
-    setSelectedPhotos,
+  const state: PhotoSelectorState = {
+    selectedPhotos: selectedPhotos as (PhotoIdentifier | FacebookPhotoItem)[],
+    setSelectedPhotos: (photos: (PhotoIdentifier | FacebookPhotoItem)[]) => {
+      setSelectedPhotos(
+        photos.filter(photo => !('node' in photo)) as FacebookPhotoItem[],
+      );
+    },
   };
 
   return (
@@ -182,14 +187,10 @@ const FacebookGallerySelector = (): React.ReactElement => {
     >
       <ContentContainer flex={1} paddingTop={16}>
         {/* Age Group Dropdown */}
-        <ContentContainer
-          marginBottom={16}
-          paddingHorizontal={16}
-          zIndex={1000}
-        >
-          <BodyTextB color={Color.BLACK} marginBottom={8}>
-            나이대 선택
-          </BodyTextB>
+        <ContentContainer paddingBottom={16} paddingHorizontal={16}>
+          <ContentContainer paddingBottom={8}>
+            <BodyTextB color={Color.BLACK}>나이대 선택</BodyTextB>
+          </ContentContainer>
           <DropDownPicker
             open={ageDropdownOpen}
             value={selectedAgeGroup}

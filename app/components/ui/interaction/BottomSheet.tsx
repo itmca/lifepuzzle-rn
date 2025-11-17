@@ -21,12 +21,13 @@ import { Dimensions, TouchableOpacity } from 'react-native';
 
 interface HandleProps extends BottomSheetHandleProps {
   title: string;
-  onClose: () => {};
+  onClose: () => void;
 }
-interface ModalProps extends BottomSheetModalProps {
+interface ModalProps extends Omit<BottomSheetModalProps, 'children'> {
   title?: string;
   opened?: boolean;
   onClose?: () => void;
+  children?: React.ReactNode;
 }
 const HeaderHandleComponent: React.FC<HandleProps> = memo(
   ({ title, onClose }) => {
@@ -79,14 +80,14 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
     }, [props.onClose, bottomSheetModalRef]);
 
     const renderCustomHandle = useCallback(
-      props => (
+      (props: BottomSheetHandleProps) => (
         <HeaderHandleComponent
           title={title ?? ''}
           onClose={handleClose}
           {...props}
         />
       ),
-      [],
+      [handleClose, title],
     );
 
     // Side effects

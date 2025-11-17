@@ -1,5 +1,5 @@
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
-import {HeroAuthTypeCode} from '../../constants/auth.constant';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
+import { HeroAuthTypeCode } from '../../constants/auth.constant';
 
 // 조회용 Hero 타입
 export type HeroType = {
@@ -18,8 +18,8 @@ export type HeroType = {
 // 편집용 Hero 타입 (통합)
 export type WritingHeroType = {
   heroNo?: number;
-  heroName: string;
-  heroNickName: string;
+  heroName?: string;
+  heroNickName?: string;
   birthday?: Date;
   isLunar?: boolean;
   title?: string;

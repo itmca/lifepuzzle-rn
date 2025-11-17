@@ -63,7 +63,7 @@ const KaKaoSocialLoginButton = ({
 
   return (
     <BasicButton
-      height={44}
+      height="44px"
       iconName={'kakaoLogo'}
       backgroundColor={Color.YELLOW}
       textColor={Color.BLACK}

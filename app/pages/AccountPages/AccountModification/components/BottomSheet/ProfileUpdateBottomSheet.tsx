@@ -1,16 +1,16 @@
-import React, {useMemo, useState} from 'react';
-import {ContentContainer} from '../../../../../components/ui/layout/ContentContainer.tsx';
-import {AccountAvatar} from '../../../../../components/ui/display/Avatar';
+import React, { useMemo, useState } from 'react';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer.tsx';
+import { AccountAvatar } from '../../../../../components/ui/display/Avatar';
 import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
-import {BasicButton} from '../../../../../components/ui/form/Button';
+import { BasicButton } from '../../../../../components/ui/form/Button';
 import BottomSheet from '../../../../../components/ui/interaction/BottomSheet.tsx';
 
-import {useUserStore} from '../../../../../stores/user.store';
-import {useCommonActionSheet} from '../../../../../components/ui/interaction/ActionSheet.tsx';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../../../navigation/types.tsx';
-import {useUserProfileUpdate} from '../../../../../service/user/user.update.hook.ts';
-import {LoadingContainer} from '../../../../../components/ui/feedback/LoadingContainer';
+import { useUserStore } from '../../../../../stores/user.store';
+import { useCommonActionSheet } from '../../../../../components/ui/interaction/ActionSheet.tsx';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../../../navigation/types.tsx';
+import { useUserProfileUpdate } from '../../../../../service/user/user.update.hook.ts';
+import { LoadingContainer } from '../../../../../components/ui/feedback/LoadingContainer';
 
 type Props = {
   opened: boolean;
@@ -24,7 +24,7 @@ export const ProfileUpdateBottomSheet = ({
   onClose,
 }: Props) => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const {user, writingUser, setWritingUser, getCurrentUserPhotoUri} =
+  const { user, writingUser, setWritingUser, getCurrentUserPhotoUri } =
     useUserStore();
   const [newNicknameError, setNewNicknameError] = useState<boolean>(false);
 
@@ -43,16 +43,16 @@ export const ProfileUpdateBottomSheet = ({
     onSuccess: () => onSuccess && onSuccess(),
   });
 
-  const {showActionSheet} = useCommonActionSheet({
+  const { showActionSheet } = useCommonActionSheet({
     options: [
-      {label: '앨범에서 선택', value: 'gallery', onSelect: () => openAlbum()},
+      { label: '앨범에서 선택', value: 'gallery', onSelect: () => openAlbum() },
       {
         label: '프로필 사진 삭제',
         value: 'delete',
         onSelect: () =>
           setWritingUser({
             ...writingUser,
-            imageURL: undefined,
+            imageUrl: undefined,
             modifiedImage: undefined,
             isProfileImageUpdate: true,
           }),
@@ -67,8 +67,9 @@ export const ProfileUpdateBottomSheet = ({
       snapPoints={useMemo(() => ['55%'], [])}
       onClose={() => {
         onClose && onClose();
-        setWritingUser({...user, modifiedImage: undefined});
-      }}>
+        user && setWritingUser({ ...user, modifiedImage: undefined });
+      }}
+    >
       <ContentContainer alignCenter paddingVertical={16}>
         <AccountAvatar
           size={100}
@@ -80,7 +81,7 @@ export const ProfileUpdateBottomSheet = ({
           label={'닉네임'}
           text={writingUser.userNickName}
           onChangeText={userNickName =>
-            setWritingUser({...writingUser, userNickName})
+            setWritingUser({ ...writingUser, userNickName })
           }
           placeholder="변경하실 닉네임을 입력해 주세요"
           validations={[
@@ -99,7 +100,7 @@ export const ProfileUpdateBottomSheet = ({
           <BasicButton
             onPress={() => updateProfile()}
             disabled={
-              (user.userNickName === writingUser.userNickName ||
+              (user?.userNickName === writingUser.userNickName ||
                 newNicknameError) &&
               !writingUser?.isProfileImageUpdate
             }

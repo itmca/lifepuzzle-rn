@@ -6,7 +6,9 @@ import { useSelectionStore } from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
+  PhotoSelectorState,
 } from '../../../types/ui/photo-selector.type';
+import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 
 const AccountProfileSelectorPage = (): React.ReactElement => {
   // 글로벌 상태 관리
@@ -24,18 +26,29 @@ const AccountProfileSelectorPage = (): React.ReactElement => {
   };
 
   const callbacks: PhotoSelectorCallbacks = {
-    onPhotoSelect: (photo: PhotoIdentifier) => {
-      setSelectedPhoto(photo as PhotoIdentifier);
+    onPhotoSelect: (photo: PhotoIdentifier | FacebookPhotoItem) => {
+      if ('node' in photo) {
+        // It's a PhotoIdentifier
+        setSelectedPhoto(photo as PhotoIdentifier);
+      } else {
+        // It's a FacebookPhotoItem - convert or handle accordingly
+        console.warn('FacebookPhotoItem not supported in account profile selector');
+      }
     },
     onPhotoDeselect: () => {
       setSelectedPhoto(undefined);
     },
   };
 
-  const state = {
+  const state: PhotoSelectorState = {
     selectedPhotos: selectedPhoto ? [selectedPhoto] : [],
-    setSelectedPhotos: (photos: PhotoIdentifier[]) => {
-      setSelectedPhoto(photos[0] || undefined);
+    setSelectedPhotos: (photos: (PhotoIdentifier | FacebookPhotoItem)[]) => {
+      const firstPhoto = photos[0];
+      if (firstPhoto && 'node' in firstPhoto) {
+        setSelectedPhoto(firstPhoto as PhotoIdentifier);
+      } else {
+        setSelectedPhoto(undefined);
+      }
     },
   };
 

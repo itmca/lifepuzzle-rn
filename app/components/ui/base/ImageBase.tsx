@@ -1,34 +1,33 @@
-import {ImageSourcePropType} from 'react-native/Libraries/Image/Image';
 import React from 'react';
 
-import styled, {css} from 'styled-components/native';
-import FastImage from 'react-native-fast-image';
+import styled, { css } from 'styled-components/native';
+import FastImage, { FastImageSource } from 'react-native-fast-image';
 
 type Props = {
   width?: number;
   height?: number;
-  source: ImageSourcePropType;
+  source: FastImageSource | number;
   tintColor?: string;
   backgroundColor?: string;
   borderRadius?: number;
-  resizeMode?: string;
+  resizeMode?: 'contain' | 'cover' | 'stretch' | 'center';
 };
 
 export const MediumImage = styled(FastImage)<Props>`
-  width: ${({width}) => (width ? `${width}px` : '33.94px')};
-  height: ${({height}) => (height ? `${height}px` : '100px')};
+  width: ${({ width }) => (width ? `${width}px` : '33.94px')};
+  height: ${({ height }) => (height ? `${height}px` : '100px')};
   justify-content: center;
   align-content: center;
-  border-radius: ${({borderRadius}) =>
+  border-radius: ${({ borderRadius }) =>
     borderRadius ? `${borderRadius}px` : '0px'};
-  resize-mode: ${({resizeMode}) => (resizeMode ? `${resizeMode}` : 'cover')};
+  resize-mode: ${({ resizeMode }) => (resizeMode ? `${resizeMode}` : 'cover')};
 `;
 export const SmallImage = styled(FastImage)<Props>`
-  width: ${({width}) => (width ? `${width}px` : '20px')};
-  height: ${({height}) => (height ? `${height}px` : '20px')};
-  background-color: ${({backgroundColor}) =>
+  width: ${({ width }) => (width ? `${width}px` : '20px')};
+  height: ${({ height }) => (height ? `${height}px` : '20px')};
+  background-color: ${({ backgroundColor }) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
-  border-radius: ${({borderRadius}) =>
+  border-radius: ${({ borderRadius }) =>
     borderRadius ? `${borderRadius}px` : '0px'};
   ${props =>
     props.tintColor &&
@@ -37,11 +36,11 @@ export const SmallImage = styled(FastImage)<Props>`
     `};
 `;
 export const XSmallImage = styled(FastImage)<Props>`
-  width: ${({width}) => (width ? `${width}px` : '16px')};
-  height: ${({height}) => (height ? `${height}px` : '16px')};
-  background-color: ${({backgroundColor}) =>
+  width: ${({ width }) => (width ? `${width}px` : '16px')};
+  height: ${({ height }) => (height ? `${height}px` : '16px')};
+  background-color: ${({ backgroundColor }) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
-  border-radius: ${({borderRadius}) =>
+  border-radius: ${({ borderRadius }) =>
     borderRadius ? `${borderRadius}px` : '0px'};
   ${props =>
     props.tintColor &&
@@ -51,11 +50,11 @@ export const XSmallImage = styled(FastImage)<Props>`
 `;
 
 export const XXSmallImage = styled(FastImage)<Props>`
-  width: ${({width}) => (width ? `${width}px` : '14px')};
-  height: ${({height}) => (height ? `${height}px` : '14px')};
-  background-color: ${({backgroundColor}) =>
+  width: ${({ width }) => (width ? `${width}px` : '14px')};
+  height: ${({ height }) => (height ? `${height}px` : '14px')};
+  background-color: ${({ backgroundColor }) =>
     backgroundColor ? `${backgroundColor}` : 'transparent'};
-  border-radius: ${({borderRadius}) =>
+  border-radius: ${({ borderRadius }) =>
     borderRadius ? `${borderRadius}px` : '0px'};
   ${props =>
     props.tintColor &&
@@ -64,16 +63,16 @@ export const XXSmallImage = styled(FastImage)<Props>`
     `};
 `;
 export const LargeImage = styled(FastImage)<Props>`
-  width: ${({width}) => (width ? `${width}px` : '94px')};
-  height: ${({height}) => (height ? `${height}px` : '94px')};
+  width: ${({ width }) => (width ? `${width}px` : '94px')};
+  height: ${({ height }) => (height ? `${height}px` : '94px')};
   border-radius: 10px;
 `;
 export const Photo = styled(FastImage)<Props>`
-  width: ${({width}) => (width ? `${width}px` : '100%')};
-  height: ${({height}) => (height ? `${height}px` : '100%')};
-  border-radius: ${({borderRadius}) =>
+  width: ${({ width }) => (width ? `${width}px` : '100%')};
+  height: ${({ height }) => (height ? `${height}px` : '100%')};
+  border-radius: ${({ borderRadius }) =>
     borderRadius ? `${borderRadius}px` : '0px'};
-  resize-mode: ${({resizeMode}) => (resizeMode ? `${resizeMode}` : 'cover')};
+  resize-mode: ${({ resizeMode }) => (resizeMode ? `${resizeMode}` : 'cover')};
 `;
 
 function Image(props: Props) {

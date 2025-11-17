@@ -24,7 +24,7 @@ const HeroRegisterPage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Derived value or local variables
-  const heroProfileImage = writingHero?.imageURL?.node.image.uri;
+  const heroProfileImage = writingHero?.imageUrl?.node.image.uri;
 
   // Custom hooks
   const [createHero, isLoading] = useCreateHero();

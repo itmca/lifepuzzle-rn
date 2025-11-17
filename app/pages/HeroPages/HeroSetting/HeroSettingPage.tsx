@@ -91,7 +91,7 @@ const HeroSettingPage = (): React.ReactElement => {
       url: '/v1/heroes',
     },
     onResponseSuccess: res => {
-      let resHeroes = res.heroes.map(item => ({
+      let resHeroes = res.heroes.map((item: any) => ({
         ...item.hero,
         puzzleCount: item.puzzleCnt,
         users: item.users,
@@ -164,7 +164,7 @@ const HeroSettingPage = (): React.ReactElement => {
                 renderItem={({ item }: any) => {
                   return (
                     <BasicCard
-                      photoUrls={[item.imageURL]}
+                      photoUrls={[item.imageUrl]}
                       height={windowWidth * 1.14}
                       width={windowWidth}
                       onPress={() => {}}
@@ -272,7 +272,7 @@ const HeroSettingPage = (): React.ReactElement => {
                 >
                   <ContentContainer useHorizontalLayout flex={1} expandToEnd>
                     <AccountAvatar
-                      imageURL={linkedUser.imageURL}
+                      imageUrl={linkedUser.imageUrl}
                       size={52}
                       auth={linkedUser.auth}
                       iconSize={20}

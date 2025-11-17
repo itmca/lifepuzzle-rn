@@ -49,7 +49,9 @@ const HeroModificationPage = (): React.ReactElement => {
       return;
     }
 
-    const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
+    const currentPhoto = hero.imageUrl
+      ? toPhotoIdentifier(hero.imageUrl)
+      : undefined;
     setWritingHero({
       heroNo: heroNo,
       heroName: hero.heroName ?? '',
@@ -57,9 +59,10 @@ const HeroModificationPage = (): React.ReactElement => {
       birthday: hero.birthday,
       isLunar: hero.isLunar,
       title: hero.title,
-      imageURL: currentPhoto,
+      imageUrl: hero.imageUrl,
+      modifiedImage: currentPhoto,
     });
-  }, [hero]);
+  }, [hero, heroNo, setWritingHero]);
 
   const navigateToSelectingPhoto = () => {
     navigation.push('NoTab', {
@@ -69,7 +72,7 @@ const HeroModificationPage = (): React.ReactElement => {
       },
     });
   };
-  const heroProfileImage = writingHero?.imageURL?.node.image.uri;
+  const heroProfileImage = writingHero?.modifiedImage?.node.image.uri;
 
   return (
     <ScreenContainer>
@@ -91,13 +94,13 @@ const HeroModificationPage = (): React.ReactElement => {
             <ContentContainer>
               <BasicTextInput
                 label={'이름'}
-                text={writingHero.heroName}
+                text={writingHero.heroName ?? ''}
                 onChangeText={heroName => setWritingHero({ heroName })}
                 placeholder="이름을 입력해 주세요"
               />
               <BasicTextInput
                 label={'닉네임'}
-                text={writingHero.heroNickName}
+                text={writingHero.heroNickName ?? ''}
                 onChangeText={heroNickName => setWritingHero({ heroNickName })}
                 placeholder="닉네임을 입력해 주세요"
               />

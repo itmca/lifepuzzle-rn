@@ -8,7 +8,9 @@ import { useSelectionStore } from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
+  PhotoSelectorState,
 } from '../../../types/ui/photo-selector.type';
+import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 
 const HeroProfileSelectorPage = (): React.ReactElement => {
   // 글로벌 상태 관리
@@ -30,8 +32,12 @@ const HeroProfileSelectorPage = (): React.ReactElement => {
   };
 
   const callbacks: PhotoSelectorCallbacks = {
-    onPhotoSelect: (photo: PhotoIdentifier) => {
-      setSelectedPhoto(photo as PhotoIdentifier);
+    onPhotoSelect: (photo: PhotoIdentifier | FacebookPhotoItem) => {
+      if ('node' in photo) {
+        setSelectedPhoto(photo as PhotoIdentifier);
+      } else {
+        console.warn('FacebookPhotoItem not supported in hero profile selector');
+      }
     },
     onPhotoDeselect: () => {
       setSelectedPhoto(undefined);
@@ -41,10 +47,15 @@ const HeroProfileSelectorPage = (): React.ReactElement => {
     },
   };
 
-  const state = {
+  const state: PhotoSelectorState = {
     selectedPhotos: selectedPhoto ? [selectedPhoto] : [],
-    setSelectedPhotos: (photos: PhotoIdentifier[]) => {
-      setSelectedPhoto(photos[0] || undefined);
+    setSelectedPhotos: (photos: (PhotoIdentifier | FacebookPhotoItem)[]) => {
+      const firstPhoto = photos[0];
+      if (firstPhoto && 'node' in firstPhoto) {
+        setSelectedPhoto(firstPhoto as PhotoIdentifier);
+      } else {
+        setSelectedPhoto(undefined);
+      }
     },
   };
 

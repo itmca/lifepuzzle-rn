@@ -61,7 +61,7 @@ const AppleSocialLoginButton = ({
 
   return (
     <BasicButton
-      height={44}
+      height="44px"
       iconName={'appleLogo'}
       backgroundColor={Color.BLACK}
       textColor={Color.WHITE}
