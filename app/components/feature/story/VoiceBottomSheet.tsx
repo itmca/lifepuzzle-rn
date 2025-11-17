@@ -14,7 +14,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export const VoiceBottomSheet = (props: Props): JSX.Element => {
+export const VoiceBottomSheet = (props: Props): React.ReactElement => {
   // Refs
   const voicePlayerRef = useRef<VoicePlayerRef>(null);
 

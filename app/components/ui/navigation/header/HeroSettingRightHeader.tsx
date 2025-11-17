@@ -1,11 +1,11 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../../navigation/types.tsx';
-import {ContentContainer} from '../../layout/ContentContainer';
-import {SvgIcon} from '../../display/SvgIcon.tsx';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../../navigation/types.tsx';
+import { ContentContainer } from '../../layout/ContentContainer';
+import { SvgIcon } from '../../display/SvgIcon.tsx';
 
-const HeroSettingRightHeader = (): JSX.Element => {
+const HeroSettingRightHeader = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
     <ContentContainer alignCenter width={'auto'}>
@@ -17,7 +17,8 @@ const HeroSettingRightHeader = (): JSX.Element => {
               screen: 'HeroRegister',
             },
           });
-        }}>
+        }}
+      >
         <SvgIcon name={'heroAdd'} />
       </TouchableOpacity>
     </ContentContainer>

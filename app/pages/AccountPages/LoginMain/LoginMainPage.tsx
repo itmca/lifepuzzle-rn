@@ -12,7 +12,7 @@ import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { BodyTextM } from '../../../components/ui/base/TextBase';
 import { Color } from '../../../constants/color.constant.ts';
 
-const LoginMainPage = (): JSX.Element => {
+const LoginMainPage = (): React.ReactElement => {
   // React hooks
   const [loading, setLoading] = useState<boolean>(false);
 

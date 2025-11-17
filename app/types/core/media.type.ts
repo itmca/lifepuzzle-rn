@@ -1,5 +1,7 @@
-import {AiType} from '../external/ai-photo.type';
-import {StoryType} from './story.type';
+import { AiType } from '../external/ai-photo.type';
+import { StoryType } from './story.type';
+
+export { StoryType };
 
 export type AgeType =
   | 'UNDER_TEENAGER'

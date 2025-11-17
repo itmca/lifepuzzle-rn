@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {TextInput} from 'react-native';
-import {Color} from '../../../constants/color.constant.ts';
-import {ContentContainer} from '../layout/ContentContainer';
-import {BodyTextM} from '../base/TextBase';
+import React, { useEffect, useState } from 'react';
+import { TextInput } from 'react-native';
+import { Color } from '../../../constants/color.constant.ts';
+import { ContentContainer } from '../layout/ContentContainer';
+import { BodyTextM } from '../base/TextBase';
 
 type Props = {
   label?: string;
@@ -27,7 +27,7 @@ const TextAreaInput = ({
   secureTextEntry,
   validations = [],
   onIsErrorChanged,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const [focused, setFocused] = useState(false);
   const [changed, setChanged] = useState<boolean>(false);
 
@@ -52,7 +52,8 @@ const TextAreaInput = ({
         paddingHorizontal={12}
         paddingVertical={12}
         borderColor={isError ? Color.ERROR_300 : Color.TRANSPARENT}
-        borderRadius={6}>
+        borderRadius={6}
+      >
         <TextInput
           value={text}
           onChangeText={(text: string) => {

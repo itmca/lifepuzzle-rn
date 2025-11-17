@@ -26,7 +26,7 @@ export type StoryWritingParamList = {
 
 const Stack = createNativeStackNavigator<StoryWritingParamList>();
 
-const StoryWritingNavigator = (): JSX.Element => {
+const StoryWritingNavigator = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const selectedStoryKey = useStoryStore(state => state.selectedStoryKey);
   const selectedGalleryItems = useSelectionStore(

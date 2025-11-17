@@ -16,7 +16,7 @@ import { useCreateHero } from '../../../service/hero/hero.create.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 
-const HeroRegisterPage = (): JSX.Element => {
+const HeroRegisterPage = (): React.ReactElement => {
   // 글로벌 상태 관리
   const { writingHero, setWritingHero } = useHeroStore();
 

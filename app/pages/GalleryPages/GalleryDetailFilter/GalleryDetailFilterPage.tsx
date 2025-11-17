@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -91,7 +91,7 @@ async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   }
 }
 
-const GalleryDetailFilterPage = (): JSX.Element => {
+const GalleryDetailFilterPage = (): React.ReactElement => {
   // Refs
   const canvasRef = useCanvasRef();
 
@@ -108,18 +108,14 @@ const GalleryDetailFilterPage = (): JSX.Element => {
   >(undefined);
 
   // 글로벌 상태 관리
-  const selection = useSelectionStore();
+  const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
+  const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
+  const setEditGalleryItems = useSelectionStore(
+    state => state.setEditGalleryItems,
+  );
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
-
-  // Derived value or local variables
-  const galleryIndex = selection.currentGalleryIndex;
-  const editGalleryItems = selection.editedGallery;
-  const setGalleryIndex = (index: number) =>
-    setSelection(prev => ({ ...prev, currentGalleryIndex: index }));
-  const setEditGalleryItems = (items: PhotoIdentifier[]) =>
-    setSelection(prev => ({ ...prev, editedGallery: items }));
   const isSliderNeeded = FILTER_SETTINGS[activeFilter] !== undefined;
   const currentSliderConfig = FILTER_SETTINGS[activeFilter];
 
@@ -136,7 +132,11 @@ const GalleryDetailFilterPage = (): JSX.Element => {
       const fileName = `filtered_${Date.now()}.png`;
       const filePath = `${RNFS.CachesDirectoryPath}/${fileName}`;
 
-      await writeFile(filePath, encodeBase64(bytes.buffer), 'base64');
+      await writeFile(
+        filePath,
+        encodeBase64(bytes.buffer as ArrayBuffer),
+        'base64',
+      );
 
       const newImageObject = {
         ...selectedImage!,
@@ -206,7 +206,7 @@ const GalleryDetailFilterPage = (): JSX.Element => {
             const size = await getImageSizeAsync(selectedImage.node.image.uri);
             width = size.width;
             height = size.height;
-          } catch (e) {
+          } catch {
             setImageSize({ width: displaySize, height: displaySize });
             return;
           }
@@ -219,7 +219,7 @@ const GalleryDetailFilterPage = (): JSX.Element => {
       }
     };
 
-    fetchImageSize();
+    void fetchImageSize();
   }, [selectedImage]);
 
   useEffect(() => {
@@ -281,9 +281,16 @@ const GalleryDetailFilterPage = (): JSX.Element => {
               >
                 {activeFilter === 'blur' && <Blur blur={filterAmount} />}
                 {Object.keys(FILTER_EFFECTS).includes(activeFilter) &&
-                  typeof FILTER_EFFECTS[activeFilter] !== 'function' && (
+                  activeFilter !== 'blur' &&
+                  typeof FILTER_EFFECTS[
+                    activeFilter as keyof typeof FILTER_EFFECTS
+                  ] !== 'function' && (
                     <ColorMatrix
-                      matrix={FILTER_EFFECTS[activeFilter] as number[]}
+                      matrix={Array.from(
+                        FILTER_EFFECTS[
+                          activeFilter as keyof typeof FILTER_EFFECTS
+                        ] as readonly number[],
+                      )}
                     />
                   )}
                 {(activeFilter === 'brightness' ||
@@ -303,7 +310,7 @@ const GalleryDetailFilterPage = (): JSX.Element => {
           )}
         </ContentContainer>
 
-        <ContentContainer minHeight={40}>
+        <ContentContainer minHeight="40px">
           {isSliderNeeded && currentSliderConfig && (
             <Slider
               minimumValue={currentSliderConfig.min}
@@ -338,7 +345,7 @@ const GalleryDetailFilterPage = (): JSX.Element => {
                     borderRadius: 5,
                   },
                 ]}
-                onPress={() => applyFilter(filterName)}
+                onPress={() => applyFilter(filterName as FilterType)}
               >
                 <ContentContainer borderRadius={5} alignCenter flex={1}>
                   <Title>{FILTER_LABELS[filterName as FilterType]}</Title>

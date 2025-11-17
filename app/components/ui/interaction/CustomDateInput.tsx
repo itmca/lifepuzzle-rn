@@ -15,7 +15,7 @@ export const CustomDateInput = ({
   onDateChange,
   isLunar,
   onIsLunarChange,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <DateInput
       label={label}

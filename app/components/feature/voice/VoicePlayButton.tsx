@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Color} from '../../../constants/color.constant';
-import {ButtonBase} from '../../ui/base/ButtonBase';
-import {Caption} from '../../ui/base/TextBase';
-import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
+import { Color } from '../../../constants/color.constant';
+import { ButtonBase } from '../../ui/base/ButtonBase';
+import { Caption } from '../../ui/base/TextBase';
+import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
 
 type Props = {
   onPress: () => void;
@@ -13,7 +13,7 @@ type Props = {
 export const VoicePlayButton = ({
   onPress,
   playDurationText,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'28x'}
@@ -26,7 +26,8 @@ export const VoicePlayButton = ({
       borderRadius={6}
       borderWidth={1}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'play'} color={Color.MAIN_DARK} size={16} />
       <Caption color={Color.MAIN_DARK}>{playDurationText}</Caption>
     </ButtonBase>

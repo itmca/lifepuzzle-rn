@@ -1,11 +1,11 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import {Color} from '../../../../constants/color.constant.ts';
-import {Profile} from '../../../../components/ui/display/Profile';
-import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {HeroType} from '../../../../types/core/hero.type';
-import {BodyTextB, BodyTextM} from '../../../../components/ui/base/TextBase';
-import {Photo} from '../../../../components/ui/base/ImageBase';
+import { TouchableOpacity } from 'react-native';
+import { Color } from '../../../../constants/color.constant.ts';
+import { Profile } from '../../../../components/ui/display/Profile';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
+import { HeroType } from '../../../../types/core/hero.type';
+import { BodyTextB, BodyTextM } from '../../../../components/ui/base/TextBase';
+import { Photo } from '../../../../components/ui/base/ImageBase';
 
 type Props = {
   item: HeroType;
@@ -13,7 +13,11 @@ type Props = {
   onSelect: () => void;
 };
 
-export const HeroSelect = ({item, selected, onSelect}: Props): JSX.Element => {
+export const HeroSelect = ({
+  item,
+  selected,
+  onSelect,
+}: Props): React.ReactElement => {
   return (
     <TouchableOpacity onPress={onSelect}>
       <ContentContainer gap={8}>
@@ -21,12 +25,13 @@ export const HeroSelect = ({item, selected, onSelect}: Props): JSX.Element => {
           width={52}
           height={52}
           alignCenter
-          style={{borderWidth: selected ? 3 : 0}}
+          style={{ borderWidth: selected ? 3 : 0 }}
           borderColor={Color.MAIN}
           borderRadius={20}
-          backgroundColor={Color.GREY_100}>
+          backgroundColor={Color.GREY_100}
+        >
           {item.imageURL ? (
-            <Photo source={{uri: item.imageURL}} />
+            <Photo source={{ uri: item.imageURL }} />
           ) : (
             <Profile />
           )}

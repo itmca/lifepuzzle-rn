@@ -1,20 +1,20 @@
 import React from 'react';
-import {format} from 'date-fns';
-import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {HeroAvatar} from '../avatar/HeroAvatar';
+import { format } from 'date-fns';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
+import { HeroAvatar } from '../avatar/HeroAvatar';
 import {
   BodyTextM,
   Caption,
   Head,
 } from '../../../../components/ui/base/TextBase';
-import {Color} from '../../../../constants/color.constant.ts';
-import {PhotoHeroType} from '../../../../types/core/hero.type';
+import { Color } from '../../../../constants/color.constant.ts';
+import { PhotoHeroType } from '../../../../types/core/hero.type';
 
 type Props = {
   hero: PhotoHeroType;
 };
 
-const HeroOverview = ({hero}: Props): JSX.Element => {
+const HeroOverview = ({ hero }: Props): React.ReactElement => {
   if (!hero || hero.id === -1) {
     return <></>;
   }
@@ -26,7 +26,8 @@ const HeroOverview = ({hero}: Props): JSX.Element => {
           <ContentContainer
             useHorizontalLayout
             justifyContent={'flex-start'}
-            gap={4}>
+            gap={4}
+          >
             <Head>
               {hero.name.length > 8
                 ? hero.name.substring(0, 8) + '...'
@@ -43,7 +44,8 @@ const HeroOverview = ({hero}: Props): JSX.Element => {
             <ContentContainer
               useHorizontalLayout
               gap={0}
-              justifyContent="flex-start">
+              justifyContent="flex-start"
+            >
               <Caption color={Color.GREY_600}>
                 {format(new Date(hero.birthdate), 'yyyy.MM.dd')}
               </Caption>

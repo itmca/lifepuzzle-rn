@@ -24,7 +24,7 @@ import { useDeleteHero } from '../../../service/hero/hero.delete.hook.ts';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 
-const HeroModificationPage = (): JSX.Element => {
+const HeroModificationPage = (): React.ReactElement => {
   // 글로벌 상태 관리
   const { writingHero, setWritingHero } = useHeroStore();
 

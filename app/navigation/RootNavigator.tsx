@@ -20,7 +20,7 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const RootNavigator = (): JSX.Element => {
+const RootNavigator = (): React.ReactElement => {
   // React hooks
   const [initialRoute, setInitialRoute] = useState<
     keyof RootStackParamList | null

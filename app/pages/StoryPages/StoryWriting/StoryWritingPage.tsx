@@ -29,7 +29,7 @@ import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
 
-const StoryWritingPage = (): JSX.Element => {
+const StoryWritingPage = (): React.ReactElement => {
   // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
 

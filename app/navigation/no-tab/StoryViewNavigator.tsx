@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StoryDetailPage from '../../pages/StoryPages/Story/StoryDetailPage';
-import {TopBar} from '../../components/ui/navigation/TopBar';
+import { TopBar } from '../../components/ui/navigation/TopBar';
 import DetailViewHeaderRight from '../../components/ui/navigation/header/DetailViewHeaderRight';
 import GalleryListPage from '../../pages/GalleryPages/GalleryList/GalleryListPage.tsx';
 
@@ -13,14 +13,15 @@ export type StoryViewParamList = {
 
 const Stack = createNativeStackNavigator<StoryViewParamList>();
 
-const StoryViewNavigator = (): JSX.Element => {
+const StoryViewNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
       initialRouteName="Story"
       screenOptions={{
         headerShadowVisible: true,
         headerTitleAlign: 'center',
-      }}>
+      }}
+    >
       <Stack.Screen
         name="StoryList"
         component={GalleryListPage}

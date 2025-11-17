@@ -24,7 +24,7 @@ export type HeroSettingParamList = {
 
 const Stack = createNativeStackNavigator<HeroSettingParamList>();
 
-const HeroSettingNavigator = (): JSX.Element => {
+const HeroSettingNavigator = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const resetWritingHero = useHeroStore(state => state.resetWritingHero);
   const writingHero = useHeroStore(state => state.writingHero);

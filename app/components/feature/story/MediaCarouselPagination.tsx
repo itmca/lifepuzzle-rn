@@ -1,9 +1,10 @@
-import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
+import React from 'react';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
-import {Color} from '../../../constants/color.constant';
+import { Color } from '../../../constants/color.constant';
 
-import {ContentContainer} from '../../ui/layout/ContentContainer';
-import {Caption} from '../../ui/base/TextBase';
+import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { Caption } from '../../ui/base/TextBase';
 
 type Props = {
   visible: boolean;
@@ -17,19 +18,23 @@ const MediaCarouselPagination = ({
   mediaCount,
   activeMediaIndexNo,
   containerStyle,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   if (!visible) {
     return <></>;
   }
 
   return (
     <View
-      style={StyleSheet.compose({
-        alignItems: 'flex-end',
-        position: 'absolute',
-        top: 10,
-        left: 10,
-      })}>
+      style={StyleSheet.compose(
+        {
+          alignItems: 'flex-end',
+          position: 'absolute',
+          top: 10,
+          left: 10,
+        },
+        containerStyle,
+      )}
+    >
       <ContentContainer
         alignCenter
         gap={0}
@@ -38,8 +43,9 @@ const MediaCarouselPagination = ({
         borderRadius={4}
         opacity={0.5}
         backgroundColor={Color.BLACK}
-        zIndex={100}>
-        <Caption fontSize={10} color={Color.GREY}>{`${
+        zIndex={100}
+      >
+        <Caption color={Color.GREY}>{`${
           activeMediaIndexNo + 1
         } / ${mediaCount}`}</Caption>
       </ContentContainer>

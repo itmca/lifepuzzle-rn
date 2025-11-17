@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {SvgIcon} from '../display/SvgIcon.tsx';
-import {BodyTextB, BodyTextM} from '../base/TextBase.tsx';
-import {Color} from '../../../constants/color.constant.ts';
-import {ContentContainer} from '../layout/ContentContainer.tsx';
+import React, { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { SvgIcon } from '../display/SvgIcon.tsx';
+import { BodyTextB, BodyTextM } from '../base/TextBase.tsx';
+import { Color } from '../../../constants/color.constant.ts';
+import { ContentContainer } from '../layout/ContentContainer.tsx';
 
 type Props = {
   selected?: boolean;
-  label?: string | JSX.Element;
+  label?: string | React.ReactElement;
   value: string;
   onSelect?: (value: string) => void;
   subLabel?: string;
@@ -43,7 +43,8 @@ export const Radio = ({
         gap: 8,
         width: '100%',
       }}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       {_selected ? (
         <SvgIcon name="radioOn" size={16} />
       ) : (
@@ -53,7 +54,8 @@ export const Radio = ({
         useHorizontalLayout
         justifyContent="flex-start"
         alignItems="stretch"
-        gap={12}>
+        gap={12}
+      >
         {typeof label === 'string' ? <BodyTextB>{label}</BodyTextB> : label}
         {subLabel && <BodyTextM color={Color.GREY_500}>{subLabel}</BodyTextM>}
       </ContentContainer>

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {TopBar} from '../../components/ui/navigation/TopBar';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TopBar } from '../../components/ui/navigation/TopBar';
 import AiPhotoWorkHistoryPage from '../../pages/AiPhotoPages/AiPhotoHistory/AiPhotoWorkHistoryPage';
 import AiPhotoMakerPage from '../../pages/AiPhotoPages/AiPhotoMaker/AiPhotoMakerPage';
 
@@ -11,14 +11,15 @@ export type AiPhotoParamList = {
 
 const Stack = createNativeStackNavigator<AiPhotoParamList>();
 
-const AiPhotoNavigator = (): JSX.Element => {
+const AiPhotoNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
       initialRouteName="AiPhoto"
       screenOptions={{
         headerShadowVisible: true,
         headerTitleAlign: 'center',
-      }}>
+      }}
+    >
       <Stack.Screen
         name="AiPhoto"
         component={AiPhotoMakerPage}

@@ -1,8 +1,8 @@
 import React from 'react';
-import {Pressable} from 'react-native';
+import { Pressable } from 'react-native';
 
-import {SvgIcon} from '../../display/SvgIcon';
-import {useUIStore} from '../../../../stores/ui.store';
+import { SvgIcon } from '../../display/SvgIcon';
+import { useUIStore } from '../../../../stores/ui.store';
 
 type Props = {
   iconSize?: number;
@@ -12,14 +12,15 @@ type Props = {
 const DetailViewHeaderRight = ({
   iconSize = 24,
   customAction,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const setOpenModal = useUIStore(state => state.setOpenDetailBottomSheet);
   return (
     <Pressable
       onPress={() => {
         setOpenModal(true);
         customAction && customAction();
-      }}>
+      }}
+    >
       <SvgIcon name={'kebab'} size={iconSize} />
     </Pressable>
   );

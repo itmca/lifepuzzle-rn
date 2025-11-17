@@ -1,10 +1,10 @@
-import React, {useCallback} from 'react';
-import {Keyboard} from 'react-native';
+import React, { useCallback } from 'react';
+import { Keyboard } from 'react-native';
 
-import {useHeroStore} from '../../../../stores/hero.store';
-import {HeroType, PhotoHeroType} from '../../../../types/core/hero.type';
-import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {ShareButton} from '../../../../components/feature/sharing/ShareButton';
+import { useHeroStore } from '../../../../stores/hero.store';
+import { HeroType, PhotoHeroType } from '../../../../types/core/hero.type';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
+import { ShareButton } from '../../../../components/feature/sharing/ShareButton';
 import HeroOverview from './HeroOverview';
 
 type Props = {
@@ -12,7 +12,10 @@ type Props = {
   onSharePress: () => void;
 };
 
-const HeroSection = ({photoHero, onSharePress}: Props): JSX.Element => {
+const HeroSection = ({
+  photoHero,
+  onSharePress,
+}: Props): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
 

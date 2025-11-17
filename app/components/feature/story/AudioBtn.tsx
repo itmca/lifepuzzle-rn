@@ -1,12 +1,12 @@
-import {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-import {BasicNavigationProps} from '../../../navigation/types';
+import { BasicNavigationProps } from '../../../navigation/types';
 import Sound from 'react-native-sound';
-import {toMmSs, toMmSsSS} from '../../../service/utils/date-time.service';
-import {VoicePlayButton} from '../voice/VoicePlayButton';
+import { toMmSs, toMmSsSS } from '../../../service/utils/date-time.service';
+import { VoicePlayButton } from '../voice/VoicePlayButton';
 
-import {useStoryStore} from '../../../stores/story.store';
+import { useStoryStore } from '../../../stores/story.store';
 
 type AudioBtnProps = {
   audioUrl?: string;
@@ -17,7 +17,7 @@ export const AudioBtn = ({
   audioUrl,
   disabled,
   onPlay,
-}: AudioBtnProps): JSX.Element => {
+}: AudioBtnProps): React.ReactElement => {
   const setPlayInfo = useStoryStore(state => state.setPlayInfo);
   const [audio, setAudio] = useState<Sound>();
   const [currTime, setCurrTime] = useState<number>();

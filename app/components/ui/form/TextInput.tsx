@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {TextInput} from 'react-native';
-import {Color} from '../../../constants/color.constant';
-import {ContentContainer} from '../layout/ContentContainer';
-import {BodyTextM, Caption} from '../base/TextBase';
-import {SvgIcon} from '../display/SvgIcon';
+import React, { useEffect, useState } from 'react';
+import { TextInput } from 'react-native';
+import { Color } from '../../../constants/color.constant';
+import { ContentContainer } from '../layout/ContentContainer';
+import { BodyTextM, Caption } from '../base/TextBase';
+import { SvgIcon } from '../display/SvgIcon';
 
 type Props = {
   label?: string;
@@ -28,7 +28,7 @@ const BasicTextInput = ({
   secureTextEntry,
   validations = [],
   onIsErrorChanged,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const [focused, setFocused] = useState(false);
   const [changed, setChanged] = useState<boolean>(false);
 
@@ -58,7 +58,8 @@ const BasicTextInput = ({
         borderColor={
           isError ? Color.ERROR_300 : focused ? Color.GREY_600 : Color.GREY_200
         }
-        borderRadius={6}>
+        borderRadius={6}
+      >
         <TextInput
           value={text}
           onChangeText={(text: string) => {
@@ -84,7 +85,8 @@ const BasicTextInput = ({
           withNoBackground
           width={'auto'}
           paddingHorizontal={8}
-          gap={8}>
+          gap={8}
+        >
           {text && (
             <SvgIcon
               name={'closeFilled'}
@@ -111,7 +113,8 @@ const BasicTextInput = ({
         <ContentContainer
           useHorizontalLayout
           justifyContent={'flex-start'}
-          gap={2}>
+          gap={2}
+        >
           <SvgIcon name={'error'} size={16} />
           <Caption color={Color.ERROR_300}>
             {typeof violated?.errorText === 'function'
@@ -132,7 +135,7 @@ export const PlainTextInput = ({
   placeholder,
   validations = [],
   onIsErrorChanged,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   const [focused, setFocused] = useState(false);
   const [changed, setChanged] = useState<boolean>(false);
 
@@ -159,7 +162,8 @@ export const PlainTextInput = ({
         borderColor={
           isError ? Color.ERROR_300 : focused ? Color.GREY_600 : Color.GREY_200
         }
-        borderRadius={6}>
+        borderRadius={6}
+      >
         <TextInput
           value={text}
           onChangeText={(text: string) => {
@@ -183,7 +187,8 @@ export const PlainTextInput = ({
           withNoBackground
           width={'auto'}
           paddingHorizontal={8}
-          gap={8}>
+          gap={8}
+        >
           {text && (
             <SvgIcon
               name={'closeFilled'}
@@ -200,7 +205,8 @@ export const PlainTextInput = ({
         <ContentContainer
           useHorizontalLayout
           justifyContent={'flex-start'}
-          gap={2}>
+          gap={2}
+        >
           <SvgIcon name={'error'} size={16} />
           <Caption color={Color.ERROR_300}>
             {typeof violated?.errorText === 'function'

@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
 import { PolicyRouteProps } from '../../../navigation/types.tsx';
 
-export const ServicePolicyPage = (): JSX.Element => {
+export const ServicePolicyPage = (): React.ReactElement => {
   // React hooks
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
 

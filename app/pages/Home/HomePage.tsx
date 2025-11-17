@@ -1,27 +1,27 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {RefreshControl, ScrollView} from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { RefreshControl, ScrollView } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
-import {useNavigation} from '@react-navigation/native';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {useHeroStore} from '../../stores/hero.store';
-import {useMediaStore} from '../../stores/media.store';
-import {useUIStore} from '../../stores/ui.store';
-import {useSelectionStore} from '../../stores/selection.store';
-import {useShareStore} from '../../stores/share.store';
-import {BasicNavigationProps} from '../../navigation/types.tsx';
-import {LoadingContainer} from '../../components/ui/feedback/LoadingContainer';
-import {ScreenContainer} from '../../components/ui/layout/ScreenContainer';
-import {ContentContainer} from '../../components/ui/layout/ContentContainer.tsx';
-import {ApiErrorFallback} from '../../components/ui/feedback/ApiErrorFallback';
-import {useHeroPhotos} from '../../service/gallery/photo.query.hook.ts';
-import {useUploadGalleryV2} from '../../service/gallery/gallery.upload.hook.ts';
+import { useNavigation } from '@react-navigation/native';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { useHeroStore } from '../../stores/hero.store';
+import { useMediaStore } from '../../stores/media.store';
+import { useUIStore } from '../../stores/ui.store';
+import { useSelectionStore } from '../../stores/selection.store';
+import { useShareStore } from '../../stores/share.store';
+import { BasicNavigationProps } from '../../navigation/types.tsx';
+import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
+import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
+import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
+import { ApiErrorFallback } from '../../components/ui/feedback/ApiErrorFallback';
+import { useHeroPhotos } from '../../service/gallery/photo.query.hook.ts';
+import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
 import Gallery from './components/Gallery/Gallery.tsx';
 import GalleryBottomButton from './components/Gallery/GalleryBottomButton.tsx';
 import HeroSection from './components/Hero/HeroSection.tsx';
 import BottomSheetSection from './components/BottomSheet/BottomSheetSection.tsx';
 
-const HomePage = (): JSX.Element => {
+const HomePage = (): React.ReactElement => {
   // React hooks
   const [heroShareModalOpen, setHeroShareModalOpen] = useState<boolean>(false);
   const [receivedImageBottomSheetOpen, setReceivedImageBottomSheetOpen] =
@@ -43,7 +43,7 @@ const HomePage = (): JSX.Element => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const {photoHero, isLoading, isError, hasInitialData, refetch} =
+  const { photoHero, isLoading, isError, hasInitialData, refetch } =
     useHeroPhotos();
   const [submitGallery] = useUploadGalleryV2();
 
@@ -105,7 +105,7 @@ const HomePage = (): JSX.Element => {
       return [];
     }
     return Object.values(ageGroups).flatMap(ageGroup =>
-      ageGroup.gallery.map(photo => ({uri: photo.url})),
+      ageGroup.gallery.map(photo => ({ uri: photo.url })),
     );
   }, [ageGroups]);
 
@@ -164,8 +164,8 @@ const HomePage = (): JSX.Element => {
       <BottomSheetModalProvider>
         <ScreenContainer gap={0} alignItems="stretch">
           <ScrollView
-            style={{flex: 1, width: '100%'}}
-            contentContainerStyle={{flexGrow: 1}}
+            style={{ flex: 1, width: '100%' }}
+            contentContainerStyle={{ flexGrow: 1 }}
             showsVerticalScrollIndicator={false}
             onScroll={event => {
               setScrollY(event.nativeEvent.contentOffset.y);
@@ -179,7 +179,8 @@ const HomePage = (): JSX.Element => {
                 colors={['#007AFF']}
                 tintColor="#007AFF"
               />
-            }>
+            }
+          >
             {/* 상단 프로필 영역 */}
             <HeroSection
               photoHero={photoHero}

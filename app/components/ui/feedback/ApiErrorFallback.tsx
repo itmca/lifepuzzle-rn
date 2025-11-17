@@ -1,10 +1,10 @@
 import React from 'react';
-import {ScreenContainer} from '../layout/ScreenContainer';
-import {ContentContainer} from '../layout/ContentContainer';
-import {BodyTextB, Title} from '../base/TextBase';
-import {Color} from '../../../constants/color.constant';
-import {SvgIcon} from '../display/SvgIcon';
-import {BasicButton} from '../form/Button';
+import { ScreenContainer } from '../layout/ScreenContainer';
+import { ContentContainer } from '../layout/ContentContainer';
+import { BodyTextB, Title } from '../base/TextBase';
+import { Color } from '../../../constants/color.constant';
+import { SvgIcon } from '../display/SvgIcon';
+import { BasicButton } from '../form/Button';
 
 type Props = {
   title?: string;
@@ -18,7 +18,7 @@ export const ApiErrorFallback = ({
   message = '네트워크 연결을 확인하고 다시 시도해주세요.',
   onRetry,
   retryText = '다시 시도',
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <ScreenContainer>
       <ContentContainer
@@ -27,7 +27,8 @@ export const ApiErrorFallback = ({
         justifyContent="center"
         alignItems="center"
         gap={24}
-        paddingHorizontal={20}>
+        paddingHorizontal={20}
+      >
         <ContentContainer alignItems="center" gap={12}>
           <SvgIcon name="error" size={48} color={Color.GREY_400} />
           <ContentContainer alignItems="center" gap={8}>

@@ -1,20 +1,20 @@
 import React from 'react';
 
-import {Color} from '../../../constants/color.constant';
-import {ButtonBase} from '../../ui/base/ButtonBase';
-import {Title} from '../../ui/base/TextBase';
-import {SvgIcon} from '../../ui/display/SvgIcon.tsx';
+import { Color } from '../../../constants/color.constant';
+import { ButtonBase } from '../../ui/base/ButtonBase';
+import { Title } from '../../ui/base/TextBase';
+import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
 
 type Props = {
   onPress: () => void;
 };
 
-export const StoryWritingButton = ({onPress}: Props): JSX.Element => {
+export const StoryWritingButton = ({ onPress }: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={'44px'}
       width={'auto'}
-      style={{alignSelf: 'center'}}
+      style={{ alignSelf: 'center' }}
       backgroundColor={Color.TRANSPARENT}
       borderColor={Color.MAIN_DARK}
       paddingVertical={10}
@@ -23,7 +23,8 @@ export const StoryWritingButton = ({onPress}: Props): JSX.Element => {
       borderRadius={100}
       borderWidth={1.5}
       onPress={onPress}
-      borderInside>
+      borderInside
+    >
       <SvgIcon name={'pencil'} size={24} />
       <Title color={Color.MAIN_DARK}>이야기 작성하기</Title>
     </ButtonBase>

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {Color, ColorType} from '../../../constants/color.constant';
-import {ButtonBase} from '../base/ButtonBase';
-import {Title} from '../base/TextBase';
-import {IconName, SvgIcon} from '../display/SvgIcon.tsx';
-import {ContentContainer} from '../layout/ContentContainer';
+import { Color, ColorType } from '../../../constants/color.constant';
+import { ButtonBase } from '../base/ButtonBase';
+import { Title } from '../base/TextBase';
+import { IconName, SvgIcon } from '../display/SvgIcon.tsx';
+import { ContentContainer } from '../layout/ContentContainer';
 
 type Props = {
   disabled?: boolean;
@@ -28,7 +28,7 @@ export const BasicButton = ({
   height = '56px',
   iconSize = 24,
   onPress,
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <ButtonBase
       height={height}
@@ -37,12 +37,14 @@ export const BasicButton = ({
       borderColor={borderColor}
       borderWidth={borderColor !== Color.TRANSPARENT ? 1 : 0}
       onPress={onPress}
-      disabled={disabled}>
+      disabled={disabled}
+    >
       {iconName && (
         <ContentContainer
           absoluteLeftPosition
           withNoBackground
-          paddingLeft={16}>
+          paddingLeft={16}
+        >
           <SvgIcon name={iconName} size={iconSize} />
         </ContentContainer>
       )}

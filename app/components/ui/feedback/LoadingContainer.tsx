@@ -1,13 +1,16 @@
 import React from 'react';
-import {ActivityIndicator} from 'react-native-paper';
-import {Color} from '../../../constants/color.constant.ts';
+import { ActivityIndicator } from 'react-native-paper';
+import { Color } from '../../../constants/color.constant.ts';
 
 type Props = {
   isLoading: boolean;
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactElement | React.ReactElement[];
 };
 
-export const LoadingContainer = ({isLoading, children}: Props): JSX.Element => {
+export const LoadingContainer = ({
+  isLoading,
+  children,
+}: Props): React.ReactElement => {
   if (!isLoading) {
     return <>{children}</>;
   }

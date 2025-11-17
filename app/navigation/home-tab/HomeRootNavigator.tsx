@@ -1,7 +1,7 @@
 import React from 'react';
 import HomePage from '../../pages/Home/HomePage';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {MainTopBar} from '../../components/ui/navigation/TopBar';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { MainTopBar } from '../../components/ui/navigation/TopBar';
 
 export type HomeTabParamList = {
   Home: undefined;
@@ -10,7 +10,7 @@ export type HomeTabParamList = {
 
 const Stack = createNativeStackNavigator<HomeTabParamList>();
 
-const HomeTabNavigator = (): JSX.Element => {
+const HomeTabNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen

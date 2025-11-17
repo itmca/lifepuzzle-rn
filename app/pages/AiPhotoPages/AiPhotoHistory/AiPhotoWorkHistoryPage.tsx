@@ -27,7 +27,7 @@ interface WorkItem {
   videoUrl?: string;
 }
 
-const AiPhotoWorkHistoryPage = (): JSX.Element => {
+const AiPhotoWorkHistoryPage = (): React.ReactElement => {
   // React hooks
   const [inProgressItems, setInProgressItems] = useState<AiGallery[]>([]);
   const [completedItems, setCompletedItems] = useState<AiGallery[]>([]);
