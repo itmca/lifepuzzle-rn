@@ -9,7 +9,10 @@ import {
 } from '../../../types/ui/photo-selector.type';
 
 const AccountProfileSelectorPage = (): JSX.Element => {
+  // 글로벌 상태 관리
   const {selectedUserPhoto, setSelectedUserPhoto} = useSelectionStore();
+
+  // Derived value or local variables
   const selectedPhoto = selectedUserPhoto;
   const setSelectedPhoto = setSelectedUserPhoto;
 

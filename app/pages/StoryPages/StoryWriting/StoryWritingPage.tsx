@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Dimensions,
   Keyboard,
@@ -8,38 +8,44 @@ import {
 } from 'react-native';
 
 import StoryDateInput from './StoryDateInput.tsx';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {useIsStoryUploading} from '../../../service/story/story.write.hook.ts';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { useIsStoryUploading } from '../../../service/story/story.write.hook.ts';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
-import {Color} from '../../../constants/color.constant.ts';
-import {MediumImage} from '../../../components/ui/base/ImageBase';
-import {useStoryStore} from '../../../stores/story.store';
-import {useMediaStore} from '../../../stores/media.store';
+import { Color } from '../../../constants/color.constant.ts';
+import { MediumImage } from '../../../components/ui/base/ImageBase';
+import { useStoryStore } from '../../../stores/story.store';
+import { useMediaStore } from '../../../stores/media.store';
 import SelectDropdown from 'react-native-select-dropdown';
-import {GalleryItem} from '../../../types/core/writing-story.type';
-import {SvgIcon} from '../../../components/ui/display/SvgIcon';
-import {Title} from '../../../components/ui/base/TextBase';
-import {PlainTextInput} from '../../../components/ui/form/TextInput.tsx';
-import {VoiceAddButton} from '../../../components/feature/voice/VoiceAddButton';
+import { GalleryItem } from '../../../types/core/writing-story.type';
+import { SvgIcon } from '../../../components/ui/display/SvgIcon';
+import { Title } from '../../../components/ui/base/TextBase';
+import { PlainTextInput } from '../../../components/ui/form/TextInput.tsx';
+import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import TextAreaInput from '../../../components/ui/form/TextAreaInput';
-import {ScrollView} from 'react-native-gesture-handler';
-import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
-import {VoiceBottomSheet} from '../../../components/feature/story/VoiceBottomSheet.tsx';
-import {AudioBtn} from '../../../components/feature/story/AudioBtn.tsx';
+import { ScrollView } from 'react-native-gesture-handler';
+import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
+import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
 
 const StoryWritingPage = (): JSX.Element => {
+  // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
-  const writingStory = useStoryStore(state => state.writingStory);
-  const setWritingStory = useStoryStore(state => state.setWritingStory);
-  const isStoryUploading = useIsStoryUploading();
-  const ageGroups = useMediaStore(state => state.ageGroups);
-  const tags = useMediaStore(state => state.tags);
+
+  // React hooks
   const [openModal, setOpenModal] = useState<boolean>(false);
 
+  // 글로벌 상태 관리 (Zustand)
+  const writingStory = useStoryStore(state => state.writingStory);
+  const setWritingStory = useStoryStore(state => state.setWritingStory);
   const playInfo = useStoryStore(state => state.playInfo);
   const setPlayInfo = useStoryStore(state => state.setPlayInfo);
+  const ageGroups = useMediaStore(state => state.ageGroups);
+  const tags = useMediaStore(state => state.tags);
+
+  // Custom hooks
+  const isStoryUploading = useIsStoryUploading();
   if (!writingStory.gallery || writingStory.gallery.length === 0) {
     return <></>;
   }
@@ -59,7 +65,8 @@ const StoryWritingPage = (): JSX.Element => {
           style={{
             backgroundColor: 'transparent',
             flex: 1,
-          }}>
+          }}
+        >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ContentContainer height={'100%'} paddingBottom={15}>
               <ScrollView
@@ -67,7 +74,8 @@ const StoryWritingPage = (): JSX.Element => {
                   flexGrow: 1,
                   paddingTop: 15,
                 }}
-                keyboardShouldPersistTaps={'handled'}>
+                keyboardShouldPersistTaps={'handled'}
+              >
                 <ContentContainer paddingHorizontal={20}>
                   <SelectDropdown
                     data={tags}
@@ -77,7 +85,7 @@ const StoryWritingPage = (): JSX.Element => {
                           ...i,
                           tagKey: selectedItem.key,
                         })) ?? [];
-                      setWritingStory({gallery});
+                      setWritingStory({ gallery });
                     }}
                     renderButton={(selectedItem, isOpened) => {
                       return (
@@ -88,13 +96,15 @@ const StoryWritingPage = (): JSX.Element => {
                             flexDirection: 'row',
                             alignItems: 'center',
                             alignSelf: 'flex-start',
-                          }}>
+                          }}
+                        >
                           <Title
                             color={
                               selectedItem && selectedItem.label
                                 ? Color.GREY_700
                                 : Color.GREY_400
-                            }>
+                            }
+                          >
                             {(selectedItem && selectedItem.label) || '나이대'}
                           </Title>
                           <SvgIcon
@@ -133,18 +143,19 @@ const StoryWritingPage = (): JSX.Element => {
                   }}
                   width={Dimensions.get('window').width}
                   height={Dimensions.get('window').height * 0.52}
-                  renderItem={({item: data}: any) => {
+                  renderItem={({ item: data }: any) => {
                     return (
                       <ContentContainer
                         borderRadius={6}
                         alignCenter
-                        backgroundColor={Color.GREY_700}>
+                        backgroundColor={Color.GREY_700}
+                      >
                         <MediumImage
                           style={{
                             width: '100%',
                             height: '100%',
                           }}
-                          source={{uri: data.uri}}
+                          source={{ uri: data.uri }}
                           resizeMode={'contain'}
                         />
                       </ContentContainer>
@@ -156,7 +167,7 @@ const StoryWritingPage = (): JSX.Element => {
                   <PlainTextInput
                     text={writingStory.title ?? ''}
                     onChangeText={text => {
-                      setWritingStory({title: text});
+                      setWritingStory({ title: text });
                     }}
                     placeholder={'제목을 입력해주세요'}
                     validations={[
@@ -169,11 +180,12 @@ const StoryWritingPage = (): JSX.Element => {
                   <ContentContainer
                     flex={1}
                     minHeight={100}
-                    backgroundColor={Color.GREY}>
+                    backgroundColor={Color.GREY}
+                  >
                     <TextAreaInput
                       text={writingStory.content ?? ''}
                       onChangeText={text => {
-                        setWritingStory({content: text});
+                        setWritingStory({ content: text });
                       }}
                       placeholder={'내용을 입력해주세요'}
                       validations={[
@@ -203,7 +215,7 @@ const StoryWritingPage = (): JSX.Element => {
                     endDate={ageGroupEndDate}
                     value={''}
                     onChange={(date: Date) => {
-                      setWritingStory({date});
+                      setWritingStory({ date });
                     }}
                   />
                 </ContentContainer>

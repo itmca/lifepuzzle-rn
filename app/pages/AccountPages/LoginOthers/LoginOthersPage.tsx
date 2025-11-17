@@ -1,16 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import GeneralLoginButton from './GeneralLoginButton.tsx';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {Color} from '../../../constants/color.constant.ts';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { Color } from '../../../constants/color.constant.ts';
 import RegisterButton from '../../../components/feature/auth/RegisterButton.tsx';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
-import {BodyTextM} from '../../../components/ui/base/TextBase';
+import { BodyTextM } from '../../../components/ui/base/TextBase';
 
 const LoginOthersPage = (): JSX.Element => {
+  // React hooks
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +23,8 @@ const LoginOthersPage = (): JSX.Element => {
           withScreenPadding
           paddingVertical={0}
           justifyContent={'space-between'}
-          flex={1}>
+          flex={1}
+        >
           <ContentContainer flex={1}>
             <ContentContainer alignCenter paddingTop={40} flex={1}>
               <LoginMainIcon width={167} />

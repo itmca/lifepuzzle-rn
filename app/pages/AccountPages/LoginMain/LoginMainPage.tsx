@@ -1,18 +1,19 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import LoginMainText from '../../../assets/images/login_main_text.svg';
 import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
 
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import KaKaoSocialLoginButton from './components/KaKaoSocialLoginButton';
 import AppleSocialLoginButton from './components/AppleSocialLoginButton';
 import OtherLoginButton from '../../../components/feature/auth/OtherLoginButton.tsx';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {BodyTextM} from '../../../components/ui/base/TextBase';
-import {Color} from '../../../constants/color.constant.ts';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { BodyTextM } from '../../../components/ui/base/TextBase';
+import { Color } from '../../../constants/color.constant.ts';
 
 const LoginMainPage = (): JSX.Element => {
+  // React hooks
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
@@ -22,13 +23,15 @@ const LoginMainPage = (): JSX.Element => {
           withScreenPadding
           justifyContent={'flex-end'}
           height={'100%'}
-          gap={0}>
+          gap={0}
+        >
           {/* Top Part */}
           <ContentContainer
             paddingTop={40}
             expandToEnd
             gap={80}
-            justifyContent={'flex-start'}>
+            justifyContent={'flex-start'}
+          >
             <ContentContainer>
               <LoginMainText />
             </ContentContainer>
@@ -41,7 +44,8 @@ const LoginMainPage = (): JSX.Element => {
             gap={40}
             alignCenter
             showOverflow
-            justifyContent={'flex-end'}>
+            justifyContent={'flex-end'}
+          >
             <ContentContainer>
               <ContentContainer gap={12} alignCenter>
                 <KaKaoSocialLoginButton onChangeLoading={setLoading} />

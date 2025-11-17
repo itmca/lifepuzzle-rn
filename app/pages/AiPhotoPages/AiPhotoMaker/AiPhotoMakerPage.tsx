@@ -1,34 +1,38 @@
-import {useRef, useState} from 'react';
-import {ScrollView} from 'react-native';
+import { useRef, useState } from 'react';
+import { ScrollView } from 'react-native';
 
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {Title} from '../../../components/ui/base/TextBase';
-import {Photo} from '../../../components/ui/base/ImageBase';
-import {AiPhotoMakerButton} from '../components/AiPhotoMakerButton';
+import { Title } from '../../../components/ui/base/TextBase';
+import { Photo } from '../../../components/ui/base/ImageBase';
+import { AiPhotoMakerButton } from '../components/AiPhotoMakerButton';
 import SelectableAiPhotoTemplate from '../components/SelectableAiPhotoTemplate';
-import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
-import {Color} from '../../../constants/color.constant.ts';
-import {useMediaStore} from '../../../stores/media.store';
-import {useSelectionStore} from '../../../stores/selection.store';
-import {AiPhotoTemplate} from '../../../types/external/ai-photo.type';
-import {useAiPhotoTemplate} from '../../../service/gallery/ai-photo.query.hook.ts';
-import {useCreateAiPhoto} from '../../../service/gallery/ai-photo.create.hook.ts';
+import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
+import { Color } from '../../../constants/color.constant.ts';
+import { useMediaStore } from '../../../stores/media.store';
+import { useSelectionStore } from '../../../stores/selection.store';
+import { AiPhotoTemplate } from '../../../types/external/ai-photo.type';
+import { useAiPhotoTemplate } from '../../../service/gallery/ai-photo.query.hook.ts';
+import { useCreateAiPhoto } from '../../../service/gallery/ai-photo.create.hook.ts';
 
 const AiPhotoMakerPage = (): JSX.Element => {
+  // Refs
   const scrollRef = useRef<ScrollView>(null);
 
-  const {drivingVideos: aiPhotoTemplate} = useAiPhotoTemplate();
-  const gallery = useMediaStore(state => state.getGallery());
-  const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
+  // React hooks
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(-1);
 
-  // Hook을 최상위에서 호출 (기본값 사용)
-  const {submitWithParams: createAiPhoto} = useCreateAiPhoto({
+  // 글로벌 상태 관리 (Zustand)
+  const gallery = useMediaStore(state => state.getGallery());
+  const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
+
+  // Custom hooks
+  const { drivingVideos: aiPhotoTemplate } = useAiPhotoTemplate();
+  const { submitWithParams: createAiPhoto } = useCreateAiPhoto({
     heroNo: 0,
     galleryId: 0,
     drivingVideoId: 0,
@@ -60,7 +64,8 @@ const AiPhotoMakerPage = (): JSX.Element => {
               flex={1}
               backgroundColor={Color.GREY_700}
               borderRadius={6}
-              height={376}>
+              height={376}
+            >
               <Photo
                 resizeMode={'contain'}
                 source={{
@@ -73,7 +78,8 @@ const AiPhotoMakerPage = (): JSX.Element => {
               <ScrollContentContainer
                 useHorizontalLayout
                 gap={6}
-                ref={scrollRef}>
+                ref={scrollRef}
+              >
                 {aiPhotoTemplate.map((item: AiPhotoTemplate) => {
                   return (
                     <SelectableAiPhotoTemplate

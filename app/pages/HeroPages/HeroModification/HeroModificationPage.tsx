@@ -1,7 +1,7 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -10,33 +10,40 @@ import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
-import {useHeroStore} from '../../../stores/hero.store';
-import {useHero} from '../../../service/hero/hero.query.hook';
-import {toPhotoIdentifier} from '../../../service/utils/photo-identifier.service';
-import {useUpdateHero} from '../../../service/hero/hero.update.hook.ts';
-import {Divider} from '../../../components/ui/base/Divider';
-import {BasicCard} from '../../../components/ui/display/Card';
-import {Color} from '../../../constants/color.constant.ts';
+import { useHeroStore } from '../../../stores/hero.store';
+import { useHero } from '../../../service/hero/hero.query.hook';
+import { toPhotoIdentifier } from '../../../service/utils/photo-identifier.service';
+import { useUpdateHero } from '../../../service/hero/hero.update.hook.ts';
+import { Divider } from '../../../components/ui/base/Divider';
+import { BasicCard } from '../../../components/ui/display/Card';
+import { Color } from '../../../constants/color.constant.ts';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
-import {BasicButton} from '../../../components/ui/form/Button';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {useDeleteHero} from '../../../service/hero/hero.delete.hook.ts';
-import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
-import {CustomDateInput} from '../../../components/ui/interaction/CustomDateInput.tsx';
+import { BasicButton } from '../../../components/ui/form/Button';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { useDeleteHero } from '../../../service/hero/hero.delete.hook.ts';
+import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
+import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 
 const HeroModificationPage = (): JSX.Element => {
+  // 글로벌 상태 관리
+  const { writingHero, setWritingHero } = useHeroStore();
+
+  // 외부 hook 호출 (navigation, route 등)
   const navigation =
     useNavigation<HeroSettingNavigationProps<'HeroModification'>>();
   const route = useRoute<HeroSettingRouteProps<'HeroModification'>>();
+
+  // Derived value or local variables
   const heroNo = route.params.heroNo;
 
+  // Custom hooks
   //주인공 조회
-  const {res} = useHero(heroNo);
-  const {hero} = res;
-  const {writingHero, setWritingHero} = useHeroStore();
+  const { res } = useHero(heroNo);
+  const { hero } = res;
   const [updateHero, isUpdating] = useUpdateHero();
   const [deleteHero, isDeleting] = useDeleteHero();
 
+  // Side effects
   useEffect(() => {
     if (!hero) {
       return;
@@ -85,19 +92,19 @@ const HeroModificationPage = (): JSX.Element => {
               <BasicTextInput
                 label={'이름'}
                 text={writingHero.heroName}
-                onChangeText={heroName => setWritingHero({heroName})}
+                onChangeText={heroName => setWritingHero({ heroName })}
                 placeholder="이름을 입력해 주세요"
               />
               <BasicTextInput
                 label={'닉네임'}
                 text={writingHero.heroNickName}
-                onChangeText={heroNickName => setWritingHero({heroNickName})}
+                onChangeText={heroNickName => setWritingHero({ heroNickName })}
                 placeholder="닉네임을 입력해 주세요"
               />
               <CustomDateInput
                 label={'태어난 날'}
                 date={writingHero.birthday}
-                onDateChange={birthday => setWritingHero({birthday})}
+                onDateChange={birthday => setWritingHero({ birthday })}
               />
             </ContentContainer>
           </ContentContainer>

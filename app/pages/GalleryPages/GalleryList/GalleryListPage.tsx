@@ -1,5 +1,5 @@
 // 1. React
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   Dimensions,
@@ -13,51 +13,55 @@ import FastImage from 'react-native-fast-image';
 import MasonryList from 'react-native-masonry-list';
 import VMasonryList from '@react-native-seoul/masonry-list';
 
-import {GalleryType, TagKey} from '../../types/core/media.type';
+import { GalleryType, TagKey } from '../../types/core/media.type';
 
-import {Head} from '../../../components/ui/base/TextBase';
+import { Head } from '../../../components/ui/base/TextBase';
 
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
 
-import {SCREEN_HEIGHT} from '@gorhom/bottom-sheet';
+import { SCREEN_HEIGHT } from '@gorhom/bottom-sheet';
 
-import {useMediaStore} from '../../../stores/media.store';
-import {useSelectionStore} from '../../../stores/selection.store';
-import {useAuthStore} from '../../../stores/auth.store';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../navigation/types.tsx';
+import { useMediaStore } from '../../../stores/media.store';
+import { useSelectionStore } from '../../../stores/selection.store';
+import { useAuthStore } from '../../../stores/auth.store';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import Video from 'react-native-video';
 import VideoModal from '../../../components/ui/interaction/VideoModal';
 
 const GalleryListPage = () => {
-  const screenWidth = Dimensions.get('window').width;
-  const screenHeight = Dimensions.get('window').height;
-
+  // Refs
   const scrollContainerRef = useRef<any>(null);
-  const itemRefs = useRef<{[key in TagKey]?: View | null}>({});
+  const itemRefs = useRef<{ [key in TagKey]?: View | null }>({});
 
+  // React hooks
   const [scrollViewHeight, setScrollViewHeight] = useState(0);
-  const navigation = useNavigation<BasicNavigationProps>();
-
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
-  const {selectedTag, setSelectedGalleryIndex} = useSelectionStore();
   const [videoModalOpen, setVideoModalOpen] = useState<boolean>(false);
 
-  const {tags, ageGroups, getGallery} = useMediaStore();
-  const allGallery = getGallery();
-
+  // 글로벌 상태 관리
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
+  const { selectedTag, setSelectedGalleryIndex } = useSelectionStore();
+  const { tags, ageGroups, getGallery } = useMediaStore();
   const selectedGalleryIndex = useSelectionStore(
     state => state.selectedGalleryItems,
   );
 
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Derived value or local variables
+  const screenWidth = Dimensions.get('window').width;
+  const screenHeight = Dimensions.get('window').height;
+  const allGallery = getGallery();
   const ageGroupsArray = Object.entries(ageGroups);
 
+  // Custom functions
   const handleScrollViewLayout = (event: any) => {
-    const {height} = event.nativeEvent.layout;
+    const { height } = event.nativeEvent.layout;
     if (height >= scrollViewHeight + SCREEN_HEIGHT) {
       setScrollViewHeight(height);
     }
@@ -82,6 +86,8 @@ const GalleryListPage = () => {
       },
     });
   };
+
+  // Side effects
   useEffect(() => {
     const targetRef = itemRefs.current[selectedTag.key as TagKey];
     const scrollRef = scrollContainerRef.current?.getScrollResponder();
@@ -96,7 +102,7 @@ const GalleryListPage = () => {
           scrollNodeHandle,
           () => console.warn('Failed to measure layout for scroll!'),
           (_x, y) => {
-            scrollRef.scrollTo({y: y, animated: true});
+            scrollRef.scrollTo({ y: y, animated: true });
           },
         );
       }
@@ -109,7 +115,8 @@ const GalleryListPage = () => {
         ref={scrollContainerRef}
         paddingVertical={16}
         onLayout={handleScrollViewLayout}
-        scrollEventThrottle={50}>
+        scrollEventThrottle={50}
+      >
         {ageGroupsArray.map(([ageKey, ageGroup], index) => {
           const isLastAgeGroup = index === ageGroupsArray.length - 1;
 
@@ -118,7 +125,8 @@ const GalleryListPage = () => {
               ref={ref => (itemRefs.current[ageKey as TagKey] = ref)}
               collapsable={false}
               key={ageKey}
-              minHeight={isLastAgeGroup ? screenHeight : screenHeight / 3}>
+              minHeight={isLastAgeGroup ? screenHeight : screenHeight / 3}
+            >
               <ContentContainer gap={0}>
                 <ContentContainer paddingHorizontal={20}>
                   <Head>
@@ -134,7 +142,13 @@ const GalleryListPage = () => {
                     contentContainerStyle={{
                       padding: 20,
                     }}
-                    renderItem={({item, i}: {item: GalleryType; i: number}) => {
+                    renderItem={({
+                      item,
+                      i,
+                    }: {
+                      item: GalleryType;
+                      i: number;
+                    }) => {
                       return (
                         <TouchableOpacity
                           onPress={() => setVideoModalOpen(true)}
@@ -143,9 +157,10 @@ const GalleryListPage = () => {
                             overflow: 'hidden',
                             marginBottom: 4,
                             flex: 1,
-                          }}>
+                          }}
+                        >
                           <Video
-                            source={{uri: item.url}}
+                            source={{ uri: item.url }}
                             style={{
                               width: '100%',
                               aspectRatio: 0.75,
@@ -172,7 +187,7 @@ const GalleryListPage = () => {
                     numColumns={2}
                     spacing={4}
                     containerWidth={screenWidth}
-                    imageContainerStyle={{borderRadius: 12}}
+                    imageContainerStyle={{ borderRadius: 12 }}
                     customImageComponent={FastImage}
                     customImageProps={{
                       cacheControl: FastImage.cacheControl.immutable,

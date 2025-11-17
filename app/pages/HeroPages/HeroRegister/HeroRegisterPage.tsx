@@ -1,26 +1,35 @@
 import React from 'react';
 
-import {Color} from '../../../constants/color.constant';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../navigation/types';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import { Color } from '../../../constants/color.constant';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {useHeroStore} from '../../../stores/hero.store';
-import {BasicCard} from '../../../components/ui/display/Card';
+import { useHeroStore } from '../../../stores/hero.store';
+import { BasicCard } from '../../../components/ui/display/Card';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
-import {BasicButton} from '../../../components/ui/form/Button';
-import {useCreateHero} from '../../../service/hero/hero.create.hook.ts';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {CustomDateInput} from '../../../components/ui/interaction/CustomDateInput.tsx';
+import { BasicButton } from '../../../components/ui/form/Button';
+import { useCreateHero } from '../../../service/hero/hero.create.hook.ts';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 
 const HeroRegisterPage = (): JSX.Element => {
+  // 글로벌 상태 관리
+  const { writingHero, setWritingHero } = useHeroStore();
+
+  // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
-  const {writingHero, setWritingHero} = useHeroStore();
+
+  // Derived value or local variables
+  const heroProfileImage = writingHero?.imageURL?.node.image.uri;
+
+  // Custom hooks
   const [createHero, isLoading] = useCreateHero();
 
+  // Custom functions
   const navigateToSelectingPhoto = () => {
     navigation.push('NoTab', {
       screen: 'HeroSettingNavigator',
@@ -29,7 +38,6 @@ const HeroRegisterPage = (): JSX.Element => {
       },
     });
   };
-  const heroProfileImage = writingHero?.imageURL?.node.image.uri;
 
   return (
     <ScreenContainer>
@@ -52,19 +60,19 @@ const HeroRegisterPage = (): JSX.Element => {
               <BasicTextInput
                 label={'이름'}
                 text={writingHero.heroName}
-                onChangeText={heroName => setWritingHero({heroName})}
+                onChangeText={heroName => setWritingHero({ heroName })}
                 placeholder="이름을 입력해 주세요"
               />
               <BasicTextInput
                 label={'닉네임'}
                 text={writingHero.heroNickName}
-                onChangeText={heroNickName => setWritingHero({heroNickName})}
+                onChangeText={heroNickName => setWritingHero({ heroNickName })}
                 placeholder="닉네임을 입력해 주세요"
               />
               <CustomDateInput
                 label={'태어난 날'}
                 date={writingHero.birthday}
-                onDateChange={birthday => setWritingHero({birthday})}
+                onDateChange={birthday => setWritingHero({ birthday })}
               />
             </ContentContainer>
           </ContentContainer>
