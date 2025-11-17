@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 
-  override func application(_ app: UIApplication,
+  func application(_ app: UIApplication,
                    open url: URL,
                    options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
       if kakao_login.RNKakaoLogins.isKakaoTalkLoginUrl(url) {

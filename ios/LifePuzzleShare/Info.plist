@@ -8,19 +8,17 @@
 		<dict>
 			<key>NSExtensionActivationRule</key>
 			<dict>
-				<key>NSExtensionActivationSupportsImageWithMaxCount</key>
-				<integer>10</integer>
-				<!-- ✅ 최신 방식 (iOS 14+) -->
-				<key>NSExtensionActivationSupportsImage</key>
-				<true/>
-				<key>NSExtensionActivationSupportsWebURL</key>
-				<true/>
-				<!-- ✅ 구형 방식 (iOS 13 이하) -->
 				<key>NSExtensionActivationSupportsAttachmentsWithMatchingUTIs</key>
 				<array>
 					<string>public.image</string>
 					<string>public.url</string>
 				</array>
+				<key>NSExtensionActivationSupportsImage</key>
+				<true/>
+				<key>NSExtensionActivationSupportsImageWithMaxCount</key>
+				<integer>10</integer>
+				<key>NSExtensionActivationSupportsWebURL</key>
+				<true/>
 			</dict>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
@@ -28,5 +26,7 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
 	</dict>
+	<key>RCTNewArchEnabled</key>
+	<true/>
 </dict>
 </plist>
