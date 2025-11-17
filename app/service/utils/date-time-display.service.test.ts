@@ -1,4 +1,4 @@
-import {toInternationalAge, toMmSs} from './date-time.service';
+import { toInternationalAge, toMmSs } from './date-time.service';
 
 test.each([1, 11, 21, 31, 41, 59])(
   '60초 미만의 숫자가 주어지는 경우에도 00:으로 시작한다.',
@@ -27,11 +27,14 @@ test.each([
   [3600, '60:00'],
   [3943, '65:43'],
   [5999, '99:59'],
-])('최소 99분 까지는 분초로 정상 변환한다.', (seconds, expected) => {
-  const minuteSeconds = toMmSs(seconds);
+])(
+  '최소 99분 까지는 분초로 정상 변환한다.',
+  (seconds: number, expected: string) => {
+    const minuteSeconds = toMmSs(seconds);
 
-  expect(minuteSeconds).toBe(expected);
-});
+    expect(minuteSeconds).toBe(expected);
+  },
+);
 
 describe('toInternationalAge', () => {
   const mockCurrentDate = (year: number, month: number, day: number) => {

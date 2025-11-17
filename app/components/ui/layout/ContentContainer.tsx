@@ -1,9 +1,9 @@
-import styled, {css} from 'styled-components/native';
-import {Platform, ScrollView} from 'react-native';
-import React, {forwardRef, ReactNode, RefAttributes} from 'react';
-import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
-import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
-import {Color} from '../../../constants/color.constant.ts';
+import styled, { css } from 'styled-components/native';
+import { Platform, ScrollView, LayoutChangeEvent } from 'react-native';
+import React, { forwardRef, ReactNode, RefAttributes } from 'react';
+import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import { NativeScrollEvent } from 'react-native/Libraries/Components/ScrollView/ScrollView';
+import { Color } from '../../../constants/color.constant.ts';
 
 type ContentContainerProps = {
   // Size
@@ -162,6 +162,8 @@ type ScrollContentContainerProps = ContentContainerProps &
     onScroll?:
       | ((event: NativeSyntheticEvent<NativeScrollEvent>) => void)
       | undefined;
+    onLayout?: ((event: LayoutChangeEvent) => void) | undefined;
+    scrollEventThrottle?: number | undefined;
     children?: ReactNode;
   };
 export const ScrollContentContainer = forwardRef(
@@ -170,10 +172,11 @@ export const ScrollContentContainer = forwardRef(
       ref={ref}
       onScroll={props.onScroll}
       scrollEventThrottle={100}
-      style={{width: '100%'}}
+      style={{ width: '100%' }}
       horizontal={props.useHorizontalLayout}
       automaticallyAdjustKeyboardInsets={true}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+    >
       <ContentContainer {...(props as ContentContainerProps)}>
         {props.children}
       </ContentContainer>

@@ -15,7 +15,7 @@ import {
   BasicNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
-import { HeroesQueryResponse } from '../../../service/hero/hero.query.hook';
+import { HeroesQueryResponse } from '../../../types/hooks/hero-query.type';
 import Carousel from 'react-native-reanimated-carousel';
 import {
   ContentContainer,
@@ -125,6 +125,8 @@ const HeroSettingPage = (): React.ReactElement => {
   }, [heroUpdateObserver]);
 
   useEffect(() => {
+    if (!currentHero) return;
+
     const currentViewingHero = heroes.filter(
       hero => hero.heroNo === currentHero.heroNo,
     );
@@ -137,7 +139,7 @@ const HeroSettingPage = (): React.ReactElement => {
   }
 
   var currentUserAuth = focusedHero.users.find(
-    linkedUser => linkedUser.userNo === user.userNo,
+    linkedUser => linkedUser.userNo === user?.userNo,
   )?.auth;
 
   return (
@@ -272,7 +274,7 @@ const HeroSettingPage = (): React.ReactElement => {
                 >
                   <ContentContainer useHorizontalLayout flex={1} expandToEnd>
                     <AccountAvatar
-                      imageUrl={linkedUser.imageUrl}
+                      imageURL={linkedUser.imageUrl}
                       size={52}
                       auth={linkedUser.auth}
                       iconSize={20}
@@ -299,7 +301,7 @@ const HeroSettingPage = (): React.ReactElement => {
                     {(currentUserAuth === 'OWNER' ||
                       currentUserAuth === 'ADMIN') &&
                       linkedUser.auth !== 'OWNER' &&
-                      linkedUser.userNo !== user.userNo && (
+                      linkedUser.userNo !== user?.userNo && (
                         <SvgIcon
                           name={'setting'}
                           size={24}

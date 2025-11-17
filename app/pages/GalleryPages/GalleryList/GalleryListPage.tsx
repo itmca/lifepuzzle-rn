@@ -44,11 +44,9 @@ const GalleryListPage = () => {
 
   // 글로벌 상태 관리
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
-  const { selectedTag, setCurrentGalleryIndex } = useSelectionStore();
+  const { selectedTag, setCurrentGalleryIndex, currentGalleryIndex } =
+    useSelectionStore();
   const { tags, ageGroups, getGallery } = useMediaStore();
-  const selectedGalleryIndex = useSelectionStore(
-    state => state.selectedGalleryItems,
-  );
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -89,6 +87,7 @@ const GalleryListPage = () => {
 
   // Side effects
   useEffect(() => {
+    if (!selectedTag) return;
     const targetRef = itemRefs.current[selectedTag.key as TagKey];
     const scrollRef = scrollContainerRef.current?.getScrollResponder();
 
@@ -122,15 +121,19 @@ const GalleryListPage = () => {
 
           return (
             <ContentContainer
-              ref={ref => (itemRefs.current[ageKey as TagKey] = ref)}
+              ref={(ref: any) => {
+                itemRefs.current[ageKey as TagKey] = ref;
+              }}
               collapsable={false}
               key={ageKey}
-              minHeight={isLastAgeGroup ? screenHeight : screenHeight / 3}
+              minHeight={
+                isLastAgeGroup ? `${screenHeight}px` : `${screenHeight / 3}px`
+              }
             >
               <ContentContainer gap={0}>
                 <ContentContainer paddingHorizontal={20}>
                   <Head>
-                    {tags.filter(item => item.key === ageKey)[0]?.label ||
+                    {tags?.filter(item => item.key === ageKey)[0]?.label ||
                       ageKey}{' '}
                     ({ageGroup.galleryCount || 0})
                   </Head>
@@ -142,13 +145,8 @@ const GalleryListPage = () => {
                     contentContainerStyle={{
                       padding: 20,
                     }}
-                    renderItem={({
-                      item,
-                      i,
-                    }: {
-                      item: GalleryType;
-                      i: number;
-                    }) => {
+                    renderItem={({ item, i }: { item: any; i: number }) => {
+                      const galleryItem = item as GalleryType;
                       return (
                         <TouchableOpacity
                           onPress={() => setVideoModalOpen(true)}
@@ -160,7 +158,7 @@ const GalleryListPage = () => {
                           }}
                         >
                           <Video
-                            source={{ uri: item.url }}
+                            source={{ uri: galleryItem.url }}
                             style={{
                               width: '100%',
                               aspectRatio: 0.75,
@@ -184,17 +182,21 @@ const GalleryListPage = () => {
                       uri: e.url,
                       id: e.id,
                     }))}
-                    numColumns={2}
-                    spacing={4}
-                    containerWidth={screenWidth}
-                    imageContainerStyle={{ borderRadius: 12 }}
+                    brickProps={{
+                      imageContainerStyle: { borderRadius: 12 },
+                    }}
                     customImageComponent={FastImage}
                     customImageProps={{
                       cacheControl: FastImage.cacheControl.immutable,
                       resizeMode: FastImage.resizeMode.cover,
                     }}
-                    onPressImage={(gallery: GalleryType) => {
-                      moveToStoryDetailPage(gallery);
+                    onPressImage={(item: any) => {
+                      const galleryItem = ageGroup.gallery.find(
+                        (g: GalleryType) => g.id === item.id,
+                      );
+                      if (galleryItem) {
+                        moveToStoryDetailPage(galleryItem);
+                      }
                     }}
                   />
                 )}
@@ -206,7 +208,7 @@ const GalleryListPage = () => {
       {videoModalOpen && (
         <VideoModal
           opened={videoModalOpen}
-          videoUri={allGallery[selectedGalleryIndex].url}
+          videoUri={allGallery[currentGalleryIndex]?.url || ''}
           onClose={() => setVideoModalOpen(false)}
         />
       )}
