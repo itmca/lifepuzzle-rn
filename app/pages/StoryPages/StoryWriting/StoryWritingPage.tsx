@@ -49,7 +49,7 @@ const StoryWritingPage = (): React.ReactElement => {
   }
 
   const galleryItem = writingStory.gallery[0];
-  const currentAgeGroup = ageGroups[galleryItem.tagKey];
+  const currentAgeGroup = ageGroups?.[galleryItem.tagKey];
   const ageGroupStartDate =
     currentAgeGroup && new Date(Date.UTC(currentAgeGroup.startYear, 0, 1));
   const ageGroupEndDate =
