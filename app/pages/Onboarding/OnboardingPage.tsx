@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -6,13 +6,13 @@ import {
   NativeSyntheticEvent,
   ScrollView,
 } from 'react-native';
-import {BodyTextM, Head} from '../../components/ui/base/TextBase';
+import { BodyTextM, Head } from '../../components/ui/base/TextBase';
 import PageIndicator from '../../components/ui/display/PageIndicator';
-import {BasicButton} from '../../components/ui/form/Button';
-import {ContentContainer} from '../../components/ui/layout/ContentContainer.tsx';
-import {Color} from '../../constants/color.constant.ts';
-import {ScreenContainer} from '../../components/ui/layout/ScreenContainer';
-import {LocalStorage} from '../../service/core/local-storage.service.ts';
+import { BasicButton } from '../../components/ui/form/Button';
+import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
+import { Color } from '../../constants/color.constant.ts';
+import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
+import { LocalStorage } from '../../service/core/local-storage.service.ts';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -43,10 +43,13 @@ const slides = [
   },
 ];
 
-const OnboardingPage = ({navigation}: any) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const OnboardingPage = ({ navigation }: any) => {
+  // Refs
   const scrollRef = useRef<ScrollView>(null);
   const isScrollToScroll = useRef(false); // 👈 플래그
+
+  // React hooks
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = async () => {
     if (currentIndex < slides.length - 1) {
@@ -58,7 +61,7 @@ const OnboardingPage = ({navigation}: any) => {
       await LocalStorage.set('onboarding', 'true');
       navigation.reset({
         index: 0,
-        routes: [{name: 'HomeTab', params: {screen: 'Home'}}],
+        routes: [{ name: 'HomeTab', params: { screen: 'Home' } }],
       });
 
       navigation.push('NoTab', {
@@ -86,13 +89,15 @@ const OnboardingPage = ({navigation}: any) => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
-        scrollEventThrottle={16}>
+        scrollEventThrottle={16}
+      >
         {slides.map(slide => (
           <ContentContainer
             key={slide.key}
             width={DeviceWidth}
             paddingHorizontal={20}
-            justifyContent={'center'}>
+            justifyContent={'center'}
+          >
             <ContentContainer gap={16}>
               <Head color={Color.GREY_900}>{slide.title}</Head>
               <BodyTextM color={Color.GREY_600}>{slide.description}</BodyTextM>
@@ -100,7 +105,7 @@ const OnboardingPage = ({navigation}: any) => {
             <ContentContainer alignCenter paddingTop={62}>
               <Image
                 source={slide.image}
-                style={{width: 275, height: 212, resizeMode: 'contain'}}
+                style={{ width: 275, height: 212, resizeMode: 'contain' }}
               />
             </ContentContainer>
           </ContentContainer>
@@ -113,7 +118,7 @@ const OnboardingPage = ({navigation}: any) => {
             size={slides.length}
             onChange={page => {
               isScrollToScroll.current = true;
-              scrollRef.current?.scrollTo({x: (page - 1) * DeviceWidth});
+              scrollRef.current?.scrollTo({ x: (page - 1) * DeviceWidth });
 
               setCurrentIndex(page - 1);
               //ScrollView onScroll 작동 방지용(IOS)
@@ -126,7 +131,8 @@ const OnboardingPage = ({navigation}: any) => {
         <ContentContainer
           absoluteBottomPosition
           paddingHorizontal={20}
-          paddingBottom={50}>
+          paddingBottom={50}
+        >
           {currentIndex === slides.length - 1 && (
             <BasicButton
               onPress={handleNext}

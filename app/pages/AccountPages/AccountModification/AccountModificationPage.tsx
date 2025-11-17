@@ -1,25 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {useUserStore} from '../../../stores/user.store';
-import {useAuthAxios} from '../../../service/core/auth-http.hook';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {Color} from '../../../constants/color.constant';
-import {TouchableOpacity} from 'react-native';
-import {AccountAvatar} from '../../../components/ui/display/Avatar';
+import { useUserStore } from '../../../stores/user.store';
+import { useAuthAxios } from '../../../service/core/auth-http.hook';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { Color } from '../../../constants/color.constant';
+import { TouchableOpacity } from 'react-native';
+import { AccountAvatar } from '../../../components/ui/display/Avatar';
 import {
   BodyTextM,
   Caption,
   Head,
   Title,
 } from '../../../components/ui/base/TextBase';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {BasicButton} from '../../../components/ui/form/Button';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {useUserWithdraw} from '../../../service/user/user.withdraw.hook.ts';
-import {ProfileUpdateBottomSheet} from './components/BottomSheet/ProfileUpdateBottomSheet.tsx';
-import {PasswordUpdateBottomSheet} from './components/BottomSheet/PasswordUpdateBottomSheet.tsx';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { BasicButton } from '../../../components/ui/form/Button';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { useUserWithdraw } from '../../../service/user/user.withdraw.hook.ts';
+import { ProfileUpdateBottomSheet } from './components/BottomSheet/ProfileUpdateBottomSheet.tsx';
+import { PasswordUpdateBottomSheet } from './components/BottomSheet/PasswordUpdateBottomSheet.tsx';
 
 type AccountQueryResponse = {
   userNo: number;
@@ -30,18 +30,21 @@ type AccountQueryResponse = {
   userType: 'general' | 'kakao' | 'apple' | 'none';
 };
 const AccountModificationPage = (): JSX.Element => {
-  const {user, setWritingUser} = useUserStore();
-
+  // React hooks
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
 
+  // 글로벌 상태 관리
+  const { user, setWritingUser } = useUserStore();
+
+  // Custom hooks
   const [isUserLoading] = useAuthAxios<AccountQueryResponse>({
     requestOption: {
       url: `/v1/users/${String(user?.userNo)}`,
       method: 'GET',
     },
     onResponseSuccess: responseUser => {
-      setWritingUser({...responseUser, isProfileImageUpdate: false});
+      setWritingUser({ ...responseUser, isProfileImageUpdate: false });
     },
     disableInitialRequest: false,
   });
@@ -83,7 +86,8 @@ const AccountModificationPage = (): JSX.Element => {
                       withdraw();
                     },
                   });
-                }}>
+                }}
+              >
                 <BodyTextM color={Color.GREY_800} underline>
                   회원 탈퇴
                 </BodyTextM>
@@ -94,7 +98,8 @@ const AccountModificationPage = (): JSX.Element => {
             gap={0}
             alignCenter
             absoluteBottomPosition
-            paddingVertical={16}>
+            paddingVertical={16}
+          >
             <Caption color={Color.GREY_300}>designed by 박유나</Caption>
             <Caption color={Color.GREY_300}>
               developed by 오솔미 이시은 정주온 정지현

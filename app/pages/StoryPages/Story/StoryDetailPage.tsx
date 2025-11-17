@@ -1,37 +1,50 @@
-import React, {useMemo, useState} from 'react';
-import {Dimensions} from 'react-native';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {MediaCarousel} from '../../../components/feature/story/MediaCarousel.tsx';
-import {StoryItemContents} from '../../../components/feature/story/StoryItemContents.tsx';
+import React, { useMemo, useState } from 'react';
+import { Dimensions } from 'react-native';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
+import { StoryItemContents } from '../../../components/feature/story/StoryItemContents.tsx';
 import {
   useFocusEffect,
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import {useStoryStore} from '../../../stores/story.store';
+import { useStoryStore } from '../../../stores/story.store';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
-import {Color} from '../../../constants/color.constant.ts';
-import {StoryDetailMenuBottomSheet} from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
-import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {useMediaStore} from '../../../stores/media.store';
-import {useSelectionStore} from '../../../stores/selection.store';
-import {Title} from '../../../components/ui/base/TextBase';
-import {StoryWritingButton} from '../../../components/feature/story/StoryWritingButton';
+import { Color } from '../../../constants/color.constant.ts';
+import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
+import { useMediaStore } from '../../../stores/media.store';
+import { useSelectionStore } from '../../../stores/selection.store';
+import { Title } from '../../../components/ui/base/TextBase';
+import { StoryWritingButton } from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 
 const StoryDetailPage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
+  // React hooks
+  const [isStory, setIsStory] = useState<boolean>(false);
+  const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
+  const [pinchZoomImage, setPinchZoomImage] = useState<string>();
+
+  // 글로벌 상태 관리
   const {
     currentGalleryIndex: allGalleryIndex,
     setCurrentGalleryIndex: setAllGalleryIndex,
   } = useSelectionStore();
   const allGallery = useMediaStore(state => state.getGallery());
+  const { resetWritingStory, setWritingStory, resetSelectedStoryKey } =
+    useStoryStore();
+
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+  const isFocused = useIsFocused();
+
+  // Memoized 값
   const filteredGallery = useMemo(
     () => allGallery.filter(item => item.tag?.key !== 'AI_PHOTO'),
     [allGallery],
@@ -46,22 +59,10 @@ const StoryDetailPage = (): JSX.Element => {
     return filteredGallery.findIndex(item => item.id === currentItem.id);
   }, [allGallery, filteredGallery, allGalleryIndex]);
 
+  // Derived value or local variables
   const currentGalleryItem = filteredGallery[filteredIndex];
-  const [isStory, setIsStory] = useState<boolean>(
-    currentGalleryItem?.story || false,
-  );
-  const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
-  const [pinchZoomImage, setPinchZoomImage] = useState<string>();
 
-  const {resetWritingStory, setWritingStory, resetSelectedStoryKey} =
-    useStoryStore();
-  const isFocused = useIsFocused();
-
-  useFocusEffect(() => {
-    resetWritingStory();
-    setIsStory(currentGalleryItem?.story || false);
-  });
-
+  // Custom functions
   const handleIndexChange = (filteredIdx: number) => {
     const selectedItem = filteredGallery[filteredIdx % filteredGallery.length];
     const originalIndex = allGallery.findIndex(
@@ -98,6 +99,12 @@ const StoryDetailPage = (): JSX.Element => {
     setPinchZoomImage(img);
     setPinchZoomModalOpen(true);
   };
+
+  // Side effects
+  useFocusEffect(() => {
+    resetWritingStory();
+    setIsStory(currentGalleryItem?.story || false);
+  });
   return (
     <LoadingContainer isLoading={false}>
       <BottomSheetModalProvider>

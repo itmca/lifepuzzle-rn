@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -7,16 +7,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ActivityIndicator} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../../navigation/types.tsx';
+import { ActivityIndicator } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 
-import {useSelectionStore} from '../../../stores/selection.store';
+import { useSelectionStore } from '../../../stores/selection.store';
 import Slider from '@react-native-community/slider';
-import RNFS, {writeFile} from 'react-native-fs';
-import {encode as encodeBase64} from 'base64-arraybuffer';
+import RNFS, { writeFile } from 'react-native-fs';
+import { encode as encodeBase64 } from 'base64-arraybuffer';
 import PhotoManipulator from 'react-native-photo-manipulator';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import {
   Blur,
   Canvas,
@@ -26,14 +26,14 @@ import {
   SkImage,
   useCanvasRef,
 } from '@shopify/react-native-skia';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {TopBar} from '../../../components/ui/navigation/TopBar';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { TopBar } from '../../../components/ui/navigation/TopBar';
 import WritingHeaderRight from '../../../components/ui/navigation/header/WritingHeaderRight.tsx';
-import {Title} from '../../../components/ui/base/TextBase';
-import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
-import {Color} from '../../../constants/color.constant.ts';
+import { Title } from '../../../components/ui/base/TextBase';
+import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
+import { Color } from '../../../constants/color.constant.ts';
 import {
   FILTER_EFFECTS,
   FILTER_LABELS,
@@ -41,17 +41,17 @@ import {
   FilterType,
 } from '../../../constants/filter.constant.ts';
 
-const {width: screenWidth} = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 const displaySize = screenWidth;
 
 //TODO: 리팩터링 필요
 const getImageSizeAsync = (
   uri: string,
-): Promise<{width: number; height: number}> =>
+): Promise<{ width: number; height: number }> =>
   new Promise((resolve, reject) => {
     Image.getSize(
       uri,
-      (width, height) => resolve({width, height}),
+      (width, height) => resolve({ width, height }),
       error => reject(error),
     );
   });
@@ -66,7 +66,7 @@ async function copyContentUriToFile(
     return `file://${dest}`;
   }
   if (Platform.OS === 'ios' && uri.startsWith('ph://')) {
-    const {width = 1000, height = 1000} = selectedImage?.node.image ?? {};
+    const { width = 1000, height = 1000 } = selectedImage?.node.image ?? {};
     const manipulatedPath = await PhotoManipulator.crop(uri, {
       x: 0,
       y: 0,
@@ -92,8 +92,10 @@ async function loadSkiaImage(uri: string): Promise<SkImage | null> {
 }
 
 const GalleryDetailFilterPage = (): JSX.Element => {
+  // Refs
   const canvasRef = useCanvasRef();
 
+  // React hooks
   const [skiaImage, setSkiaImage] = useState<SkImage | null>(null);
   const [imageSize, setImageSize] = useState({
     width: displaySize,
@@ -101,35 +103,27 @@ const GalleryDetailFilterPage = (): JSX.Element => {
   });
   const [activeFilter, setActiveFilter] = useState<FilterType>('original');
   const [filterAmount, setFilterAmount] = useState(1);
+  const [selectedImage, setSelectedImage] = useState<
+    PhotoIdentifier | undefined
+  >(undefined);
 
+  // 글로벌 상태 관리
   const selection = useSelectionStore();
 
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Derived value or local variables
   const galleryIndex = selection.currentGalleryIndex;
   const editGalleryItems = selection.editedGallery;
   const setGalleryIndex = (index: number) =>
-    setSelection(prev => ({...prev, currentGalleryIndex: index}));
+    setSelection(prev => ({ ...prev, currentGalleryIndex: index }));
   const setEditGalleryItems = (items: PhotoIdentifier[]) =>
-    setSelection(prev => ({...prev, editedGallery: items}));
-  const [selectedImage, setSelectedImage] = useState<
-    PhotoIdentifier | undefined
-  >(editGalleryItems[galleryIndex]);
-
-  const navigation = useNavigation<BasicNavigationProps>();
-
+    setSelection(prev => ({ ...prev, editedGallery: items }));
   const isSliderNeeded = FILTER_SETTINGS[activeFilter] !== undefined;
   const currentSliderConfig = FILTER_SETTINGS[activeFilter];
 
-  const applyFilter = (filterName: FilterType) => {
-    if (!selectedImage) {
-      CustomAlert.simpleAlert('먼저 사진을 선택해주세요.');
-      return;
-    }
-    setActiveFilter(filterName);
-
-    const config = FILTER_SETTINGS[filterName];
-    setFilterAmount(config ? config.initial : 1);
-  };
-
+  // Memoized 값
   const saveFilteredImage = useCallback(async () => {
     if (!canvasRef.current || !skiaImage) {
       CustomAlert.simpleAlert('저장할 사진이 없습니다.');
@@ -177,10 +171,23 @@ const GalleryDetailFilterPage = (): JSX.Element => {
     navigation,
   ]);
 
+  // Custom functions
+  const applyFilter = (filterName: FilterType) => {
+    if (!selectedImage) {
+      CustomAlert.simpleAlert('먼저 사진을 선택해주세요.');
+      return;
+    }
+    setActiveFilter(filterName);
+
+    const config = FILTER_SETTINGS[filterName];
+    setFilterAmount(config ? config.initial : 1);
+  };
+
+  // Side effects
   useEffect(() => {
     if (editGalleryItems && editGalleryItems.length > galleryIndex) {
       setSelectedImage(editGalleryItems[galleryIndex]);
-    } else {
+    } else if (editGalleryItems) {
       setSelectedImage(undefined);
       CustomAlert.simpleAlert(
         '이미지를 불러올 수 없습니다. 갤러리 항목을 확인해주세요.',
@@ -200,15 +207,15 @@ const GalleryDetailFilterPage = (): JSX.Element => {
             width = size.width;
             height = size.height;
           } catch (e) {
-            setImageSize({width: displaySize, height: displaySize});
+            setImageSize({ width: displaySize, height: displaySize });
             return;
           }
         }
 
         const aspectRatio = width / height;
-        setImageSize({width: displaySize, height: displaySize / aspectRatio});
+        setImageSize({ width: displaySize, height: displaySize / aspectRatio });
       } else {
-        setImageSize({width: displaySize, height: displaySize});
+        setImageSize({ width: displaySize, height: displaySize });
       }
     };
 
@@ -252,7 +259,8 @@ const GalleryDetailFilterPage = (): JSX.Element => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: displaySize,
-              }}>
+              }}
+            >
               <ActivityIndicator size="large" color={Color.GREY} />
             </View>
           ) : (
@@ -261,14 +269,16 @@ const GalleryDetailFilterPage = (): JSX.Element => {
               style={{
                 width: imageSize.width,
                 height: imageSize.height,
-              }}>
+              }}
+            >
               <SkiaImage
                 image={skiaImage}
                 x={0}
                 y={0}
                 width={imageSize.width}
                 height={imageSize.height}
-                fit="contain">
+                fit="contain"
+              >
                 {activeFilter === 'blur' && <Blur blur={filterAmount} />}
                 {Object.keys(FILTER_EFFECTS).includes(activeFilter) &&
                   typeof FILTER_EFFECTS[activeFilter] !== 'function' && (
@@ -311,7 +321,8 @@ const GalleryDetailFilterPage = (): JSX.Element => {
         <ContentContainer
           useHorizontalLayout
           withContentPadding
-          style={{paddingVertical: 10}}>
+          style={{ paddingVertical: 10 }}
+        >
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {Object.keys(FILTER_LABELS).map(filterName => (
               <TouchableOpacity
@@ -327,7 +338,8 @@ const GalleryDetailFilterPage = (): JSX.Element => {
                     borderRadius: 5,
                   },
                 ]}
-                onPress={() => applyFilter(filterName)}>
+                onPress={() => applyFilter(filterName)}
+              >
                 <ContentContainer borderRadius={5} alignCenter flex={1}>
                   <Title>{FILTER_LABELS[filterName as FilterType]}</Title>
                 </ContentContainer>

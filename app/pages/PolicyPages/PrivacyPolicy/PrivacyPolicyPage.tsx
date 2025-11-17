@@ -1,27 +1,31 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import WebView from 'react-native-webview';
-import {SafeAreaView, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {Button} from 'react-native-paper';
-import {PolicyRouteProps} from '../../../navigation/types.tsx';
+import { SafeAreaView, View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Button } from 'react-native-paper';
+import { PolicyRouteProps } from '../../../navigation/types.tsx';
 
 export const PrivacyPolicyPage = (): JSX.Element => {
+  // React hooks
+  const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
+
+  // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation();
   const {
-    params: {settingAgree},
+    params: { settingAgree },
   } = useRoute<PolicyRouteProps<'PrivacyPolicy'>>();
-  const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
 
   return (
     <>
-      <SafeAreaView style={{backgroundColor: '#ffffff'}}>
+      <SafeAreaView style={{ backgroundColor: '#ffffff' }}>
         <View
           style={{
             justifyContent: 'space-between',
             width: '100%',
             flexDirection: 'row',
             backgroundColor: '#ffffff',
-          }}>
+          }}
+        >
           <Button
             labelStyle={{
               fontSize: 16,
@@ -30,7 +34,8 @@ export const PrivacyPolicyPage = (): JSX.Element => {
             onPress={() => {
               settingAgree(false);
               navigation.goBack();
-            }}>
+            }}
+          >
             비동의
           </Button>
           <Button
@@ -42,14 +47,15 @@ export const PrivacyPolicyPage = (): JSX.Element => {
             onPress={() => {
               settingAgree(true);
               navigation.goBack();
-            }}>
+            }}
+          >
             동의
           </Button>
         </View>
       </SafeAreaView>
       <WebView
-        style={{paddingLeft: 8, paddingRight: 8}}
-        source={{uri: 'https://itmca.io/terms/privacy'}}
+        style={{ paddingLeft: 8, paddingRight: 8 }}
+        source={{ uri: 'https://itmca.io/terms/privacy' }}
         onLoadEnd={() => setIsWebViewLoaded(true)}
         onLoadStart={() => setIsWebViewLoaded(false)}
       />

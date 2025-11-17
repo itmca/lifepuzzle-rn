@@ -1,32 +1,30 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 
-import {PolicyAgreeSwitch} from './PolicyAgreeSwitch';
-import {useNavigation} from '@react-navigation/native';
+import { PolicyAgreeSwitch } from './PolicyAgreeSwitch';
+import { useNavigation } from '@react-navigation/native';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../constants/password.constant';
-import {debounce} from 'lodash';
-import {BasicNavigationProps} from '../../../navigation/types';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import { debounce } from 'lodash';
+import { BasicNavigationProps } from '../../../navigation/types';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {useShareStore} from '../../../stores/share.store';
+import { useShareStore } from '../../../stores/share.store';
 
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
-import {BasicButton} from '../../../components/ui/form/Button';
-import {Color} from '../../../constants/color.constant.ts';
-import {Divider} from '../../../components/ui/base/Divider';
-import {useAxios} from '../../../service/core/auth-http.hook.ts';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
+import { BasicButton } from '../../../components/ui/form/Button';
+import { Color } from '../../../constants/color.constant.ts';
+import { Divider } from '../../../components/ui/base/Divider';
+import { useAxios } from '../../../service/core/auth-http.hook.ts';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 
 const RegisterPage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
-  const {shareKey, resetShare} = useShareStore();
-
+  // React hooks
   const [id, setId] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -44,6 +42,13 @@ const RegisterPage = (): JSX.Element => {
   const [isPrivacyPolicyChecked, setPrivacyPolicyChecked] =
     useState<boolean>(false);
 
+  // 글로벌 상태 관리
+  const { shareKey, resetShare } = useShareStore();
+
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Custom hooks
   const [registerLoading, register] = useAxios({
     requestOption: {
       url: '/v1/users',
@@ -80,12 +85,12 @@ const RegisterPage = (): JSX.Element => {
     disableInitialRequest: true,
   });
 
-  const [_, idDupcheck] = useAxios<{isDuplicated: boolean}>({
+  const [_, idDupcheck] = useAxios<{ isDuplicated: boolean }>({
     requestOption: {
       url: '/v1/users/dupcheck/id',
       method: 'get',
     },
-    onResponseSuccess: ({isDuplicated}) => {
+    onResponseSuccess: ({ isDuplicated }) => {
       if (isDuplicated) {
         Alert.alert('이미 존재하는 아이디입니다.');
       }
@@ -98,6 +103,19 @@ const RegisterPage = (): JSX.Element => {
     disableInitialRequest: true,
   });
 
+  // Memoized 값
+  const dupcheck = useCallback(
+    debounce((toCheck: string) => {
+      idDupcheck({
+        params: {
+          id: toCheck,
+        },
+      });
+    }, 200),
+    [idDupcheck],
+  );
+
+  // Custom functions
   const onSubmit = () => {
     if (idError || nickNameError || passwordError || passwordConfirmError) {
       return;
@@ -120,23 +138,14 @@ const RegisterPage = (): JSX.Element => {
       },
     });
   };
-  const dupcheck = useCallback(
-    debounce((toCheck: string) => {
-      idDupcheck({
-        params: {
-          id: toCheck,
-        },
-      });
-    }, 200),
-    [],
-  );
 
+  // Side effects
   useEffect(() => {
     if (!id) {
       return;
     }
     dupcheck(id);
-  }, [id]);
+  }, [id, dupcheck]);
 
   return (
     <LoadingContainer isLoading={registerLoading}>

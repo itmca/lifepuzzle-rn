@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, TouchableOpacity, View} from 'react-native';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, TouchableOpacity, View } from 'react-native';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import {Color} from '../../../constants/color.constant.ts';
+import { Color } from '../../../constants/color.constant.ts';
 import {
   BodyTextB,
   BodyTextM,
   Caption,
   Title,
 } from '../../../components/ui/base/TextBase';
-import {formatDateToTodayOrYYMMDD} from '../../../service/utils/date-time.service.ts';
-import {Photo} from '../../../components/ui/base/ImageBase';
-import {useAiGalleries} from '../../../service/gallery/ai-photo.query.hook.ts';
-import {AiGallery} from '../../../types/external/ai-photo.type';
+import { formatDateToTodayOrYYMMDD } from '../../../service/utils/date-time.service.ts';
+import { Photo } from '../../../components/ui/base/ImageBase';
+import { useAiGalleries } from '../../../service/gallery/ai-photo.query.hook.ts';
+import { AiGallery } from '../../../types/external/ai-photo.type';
 
 interface WorkItem {
   id: number;
@@ -28,16 +28,17 @@ interface WorkItem {
 }
 
 const AiPhotoWorkHistoryPage = (): JSX.Element => {
-  const screenWidth = Dimensions.get('window').width;
-  const {gallery} = useAiGalleries();
+  // React hooks
   const [inProgressItems, setInProgressItems] = useState<AiGallery[]>([]);
   const [completedItems, setCompletedItems] = useState<AiGallery[]>([]);
-  useEffect(() => {
-    if (gallery && gallery.length > 0) {
-      setInProgressItems(gallery.filter(item => item.status === 'IN_PROGRESS'));
-      setCompletedItems(gallery.filter(item => item.status === 'COMPLETED'));
-    }
-  }, [gallery]);
+
+  // Custom hooks
+  const { gallery } = useAiGalleries();
+
+  // Derived value or local variables
+  const screenWidth = Dimensions.get('window').width;
+
+  // Custom functions
   const renderWorkItem = (item: WorkItem) => {
     const itemWidth = (screenWidth - 48) / 2; // 좌우 패딩 20px씩, 아이템 간격 20px
 
@@ -47,20 +48,23 @@ const AiPhotoWorkHistoryPage = (): JSX.Element => {
         style={{
           width: itemWidth,
           marginBottom: 20,
-        }}>
+        }}
+      >
         <ContentContainer gap={8}>
           <ContentContainer
             flex={1}
             backgroundColor={Color.GREY_700}
             borderRadius={6}
-            height={itemWidth * 0.85}>
-            <Photo source={{uri: item.thumbnailUrl}} style={{flex: 1}} />
+            height={itemWidth * 0.85}
+          >
+            <Photo source={{ uri: item.thumbnailUrl }} style={{ flex: 1 }} />
           </ContentContainer>
           {item.status !== 'COMPLETED' ? (
             <ContentContainer
               useHorizontalLayout
               gap={6}
-              justifyContent={'flex-start'}>
+              justifyContent={'flex-start'}
+            >
               <BodyTextM color={Color.GREY_700}>
                 {formatDateToTodayOrYYMMDD(item.requestedAt)}{' '}
               </BodyTextM>
@@ -84,11 +88,19 @@ const AiPhotoWorkHistoryPage = (): JSX.Element => {
     );
   };
 
+  // Side effects
+  useEffect(() => {
+    if (gallery && gallery.length > 0) {
+      setInProgressItems(gallery.filter(item => item.status === 'IN_PROGRESS'));
+      setCompletedItems(gallery.filter(item => item.status === 'COMPLETED'));
+    }
+  }, [gallery]);
+
   return (
     <ScreenContainer>
       <ScrollContentContainer>
         <ContentContainer withContentPadding paddingVertical={24} gap={32}>
-          <BodyTextM color={Color.GREY_500} style={{marginTop: 8}}>
+          <BodyTextM color={Color.GREY_500} style={{ marginTop: 8 }}>
             일반적으로 약 <BodyTextM color={Color.AI_500}>2</BodyTextM>분 정도
             소요되며,{'\n'}
             다른 화면으로 이동해도 문제없이 완료돼요.
@@ -102,7 +114,8 @@ const AiPhotoWorkHistoryPage = (): JSX.Element => {
                   flexDirection: 'row',
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
-                }}>
+                }}
+              >
                 {inProgressItems.map(renderWorkItem)}
               </View>
             </ContentContainer>
@@ -114,7 +127,8 @@ const AiPhotoWorkHistoryPage = (): JSX.Element => {
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
-              }}>
+              }}
+            >
               {completedItems.map(renderWorkItem)}
             </View>
           </ContentContainer>

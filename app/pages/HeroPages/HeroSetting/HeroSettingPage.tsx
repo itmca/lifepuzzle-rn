@@ -1,33 +1,33 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import {TouchableOpacity, useWindowDimensions} from 'react-native';
-import {useAuthAxios} from '../../../service/core/auth-http.hook';
+import { TouchableOpacity, useWindowDimensions } from 'react-native';
+import { useAuthAxios } from '../../../service/core/auth-http.hook';
 import {
   HeroType,
   HeroUserType,
   HeroWithPuzzleCntType,
 } from '../../../types/core/hero.type';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {useUpdateObserver} from '../../../service/common/update.hook.ts';
-import {useCacheStore} from '../../../stores/cache.store';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { useUpdateObserver } from '../../../service/common/update.hook.ts';
+import { useCacheStore } from '../../../stores/cache.store';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   BasicNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
-import {HeroesQueryResponse} from '../../../service/hero/hero.query.hook';
+import { HeroesQueryResponse } from '../../../service/hero/hero.query.hook';
 import Carousel from 'react-native-reanimated-carousel';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
 
-import {Color} from '../../../constants/color.constant.ts';
-import {useHeroStore} from '../../../stores/hero.store';
-import {AccountAvatar} from '../../../components/ui/display/Avatar';
-import {useRegisterSharedHero} from '../../../service/hero/share.hero.hook.ts';
-import {ICarouselInstance} from 'react-native-reanimated-carousel/lib/typescript/types';
-import {BasicCard} from '../../../components/ui/display/Card';
+import { Color } from '../../../constants/color.constant.ts';
+import { useHeroStore } from '../../../stores/hero.store';
+import { AccountAvatar } from '../../../components/ui/display/Avatar';
+import { useRegisterSharedHero } from '../../../service/hero/share.hero.hook.ts';
+import { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
+import { BasicCard } from '../../../components/ui/display/Card';
 import {
   BodyTextB,
   BodyTextM,
@@ -35,41 +35,47 @@ import {
   Head,
   Title,
 } from '../../../components/ui/base/TextBase';
-import {toInternationalAge} from '../../../service/utils/date-time.service.ts';
-import {format} from 'date-fns';
-import {BasicButton} from '../../../components/ui/form/Button';
-import {Divider} from '../../../components/ui/base/Divider';
-import {HeroAuthTypeByCode} from '../../../constants/auth.constant.ts';
-import {showToast} from '../../../components/ui/feedback/Toast';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {SvgIcon} from '../../../components/ui/display/SvgIcon';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {HeroAuthUpdateBottomSheet} from './HeroAuthUpdateBottomSheet.tsx';
-import {useUserStore} from '../../../stores/user.store';
+import { toInternationalAge } from '../../../service/utils/date-time.service.ts';
+import { format } from 'date-fns';
+import { BasicButton } from '../../../components/ui/form/Button';
+import { Divider } from '../../../components/ui/base/Divider';
+import { HeroAuthTypeByCode } from '../../../constants/auth.constant.ts';
+import { showToast } from '../../../components/ui/feedback/Toast';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { SvgIcon } from '../../../components/ui/display/SvgIcon';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { HeroAuthUpdateBottomSheet } from './HeroAuthUpdateBottomSheet.tsx';
+import { useUserStore } from '../../../stores/user.store';
 
 const HeroSettingPage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
-  const route = useRoute<HeroSettingRouteProps<'HeroSetting'>>();
+  // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
 
-  const {width: windowWidth} = useWindowDimensions();
+  // React hooks
   const [authSettingModalOpen, setAuthSettingModalOpen] =
     useState<boolean>(false);
   const [authSettingUser, setAuthSettingUser] = useState<
     HeroUserType | undefined
   >(undefined);
-
   const [heroes, setHeroes] = useState<HeroWithPuzzleCntType[]>([]);
   const [displayHeroes, setDisplayHeroes] = useState<HeroWithPuzzleCntType[]>(
     [],
   );
-  const heroUpdateObserver = useUpdateObserver('heroUpdate');
   const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
     heroes[0],
   );
-  const user = useUserStore(state => state.user);
 
-  const {setWritingHeroKey, currentHero, setCurrentHero} = useHeroStore();
+  // 글로벌 상태 관리
+  const user = useUserStore(state => state.user);
+  const { setWritingHeroKey, currentHero, setCurrentHero } = useHeroStore();
+
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
+  const route = useRoute<HeroSettingRouteProps<'HeroSetting'>>();
+  const { width: windowWidth } = useWindowDimensions();
+
+  // Custom hooks
+  const heroUpdateObserver = useUpdateObserver('heroUpdate');
 
   const [_, updateRecentHero] = useAuthAxios<void>({
     requestOption: {
@@ -100,6 +106,20 @@ const HeroSettingPage = (): JSX.Element => {
     disableInitialRequest: false,
   });
 
+  useRegisterSharedHero({
+    shareKey: route.params?.shareKey,
+    onRegisterSuccess: () => {
+      fetchHeroes({});
+      showToast('주인공을 추가하였습니다.');
+
+      if (carouselRef && carouselRef.current) {
+        setFocusedHero(heroes[heroes.length - 1]);
+        carouselRef.current.scrollTo({ index: heroes.length - 1 });
+      }
+    },
+  });
+
+  // Side effects
   useEffect(() => {
     fetchHeroes({});
   }, [heroUpdateObserver]);
@@ -111,19 +131,6 @@ const HeroSettingPage = (): JSX.Element => {
     const others = heroes.filter(hero => hero.heroNo !== currentHero.heroNo);
     setDisplayHeroes([...currentViewingHero, ...others]);
   }, [heroes, currentHero]);
-
-  useRegisterSharedHero({
-    shareKey: route.params?.shareKey,
-    onRegisterSuccess: () => {
-      fetchHeroes({});
-      showToast('주인공을 추가하였습니다.');
-
-      if (carouselRef && carouselRef.current) {
-        setFocusedHero(heroes[heroes.length - 1]);
-        carouselRef.current.scrollTo({index: heroes.length - 1});
-      }
-    },
-  });
 
   if (focusedHero === undefined) {
     return <></>;
@@ -154,7 +161,7 @@ const HeroSettingPage = (): JSX.Element => {
                 onProgressChange={(_: number, absoluteProgress: number) => {
                   setFocusedHero(displayHeroes[Math.floor(absoluteProgress)]);
                 }}
-                renderItem={({item}: any) => {
+                renderItem={({ item }: any) => {
                   return (
                     <BasicCard
                       photoUrls={[item.imageURL]}
@@ -174,7 +181,8 @@ const HeroSettingPage = (): JSX.Element => {
                     useHorizontalLayout
                     width={'auto'}
                     justifyContent={'flex-start'}
-                    gap={4}>
+                    gap={4}
+                  >
                     <Head>
                       {focusedHero.heroName.length > 8
                         ? focusedHero.heroName.substring(0, 8) + '...'
@@ -191,7 +199,8 @@ const HeroSettingPage = (): JSX.Element => {
                     width={'auto'}
                     justifyContent={'flex-start'}
                     alignItems={'flex-start'}
-                    gap={4}>
+                    gap={4}
+                  >
                     <Caption color={Color.GREY_600}>
                       {focusedHero.isLunar ? '음력' : '양력'}
                     </Caption>
@@ -217,7 +226,8 @@ const HeroSettingPage = (): JSX.Element => {
                             },
                           },
                         });
-                      }}>
+                      }}
+                    >
                       <BodyTextB color={Color.MAIN_DARK}>수정하기</BodyTextB>
                     </TouchableOpacity>
                   )}
@@ -233,7 +243,7 @@ const HeroSettingPage = (): JSX.Element => {
                       },
                     });
 
-                    navigation.navigate('HomeTab', {screen: 'Home'});
+                    navigation.navigate('HomeTab', { screen: 'Home' });
                   }}
                   disabled={currentHero?.heroNo === focusedHero.heroNo}
                   text={
@@ -258,7 +268,8 @@ const HeroSettingPage = (): JSX.Element => {
                   justifyContent={'flex-start'}
                   height={52}
                   useHorizontalLayout
-                  gap={12}>
+                  gap={12}
+                >
                   <ContentContainer useHorizontalLayout flex={1} expandToEnd>
                     <AccountAvatar
                       imageURL={linkedUser.imageURL}
@@ -278,7 +289,8 @@ const HeroSettingPage = (): JSX.Element => {
                             : linkedUser.auth === 'ADMIN'
                               ? Color.SUB_TEAL
                               : Color.MAIN_DARK
-                        }>
+                        }
+                      >
                         {HeroAuthTypeByCode[linkedUser.auth].name}
                       </BodyTextM>
                     </ContentContainer>

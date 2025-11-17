@@ -1,29 +1,34 @@
-import {useState} from 'react';
-import {Dimensions, Image, TouchableOpacity} from 'react-native';
+import { useState } from 'react';
+import { Dimensions, Image, TouchableOpacity } from 'react-native';
 
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {ScreenContainer} from '../../../components/ui/layout/ScreenContainer';
-import {MediaCarousel} from '../../../components/feature/story/MediaCarousel.tsx';
-import {useNavigation} from '@react-navigation/native';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
+import { useNavigation } from '@react-navigation/native';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 
-import {Color} from '../../../constants/color.constant.ts';
-import {BasicNavigationProps} from '../../../navigation/types.tsx';
-import {useSelectionStore} from '../../../stores/selection.store';
+import { Color } from '../../../constants/color.constant.ts';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
+import { useSelectionStore } from '../../../stores/selection.store';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
-import {CustomAlert} from '../../../components/ui/feedback/CustomAlert';
-import {Title} from '../../../components/ui/base/TextBase';
+import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
+import { Title } from '../../../components/ui/base/TextBase';
 
 const GalleryDetailPage = (): JSX.Element => {
-  const navigation = useNavigation<BasicNavigationProps>();
+  // React hooks
+  const [contentContainerHeight, setContentContainerHeight] = useState(0);
+
+  // 글로벌 상태 관리 (Zustand)
   const {
     editGalleryItems,
     setEditGalleryItems,
     currentGalleryIndex: galleryIndex,
     setCurrentGalleryIndex: setGalleryIndex,
   } = useSelectionStore();
-  const [contentContainerHeight, setContentContainerHeight] = useState(0);
+
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
 
   const onCrop = async () => {
     const image = editGalleryItems.find((e, idx) => idx === galleryIndex);
@@ -94,7 +99,7 @@ const GalleryDetailPage = (): JSX.Element => {
     });
   };
   const onContentContainerLayout = event => {
-    const {height} = event.nativeEvent.layout;
+    const { height } = event.nativeEvent.layout;
     // console.log('ContentContainer Height:', height); // 디버깅용
     setContentContainerHeight(height);
   };
@@ -105,7 +110,8 @@ const GalleryDetailPage = (): JSX.Element => {
           flex={1}
           alignItems="center"
           justifyContent="center"
-          onLayout={onContentContainerLayout}>
+          onLayout={onContentContainerLayout}
+        >
           <MediaCarousel
             data={editGalleryItems.map((item, index) => ({
               type: 'IMAGE',
@@ -131,14 +137,16 @@ const GalleryDetailPage = (): JSX.Element => {
           style={{
             alignItems: 'center',
             justifyContent: 'space-evenly',
-          }}>
+          }}
+        >
           <TouchableOpacity
             style={{
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            onPress={onCrop}>
+            onPress={onCrop}
+          >
             <ContentContainer useHorizontalLayout justifyContent={'center'}>
               <Icon name="crop" size={20} color={'black'} />
               <Title>자르기</Title>
@@ -150,7 +158,8 @@ const GalleryDetailPage = (): JSX.Element => {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            onPress={onFilter}>
+            onPress={onFilter}
+          >
             <ContentContainer useHorizontalLayout justifyContent={'center'}>
               <Icon name="layers" size={20} color={'black'} />
               <Title>필터</Title>
