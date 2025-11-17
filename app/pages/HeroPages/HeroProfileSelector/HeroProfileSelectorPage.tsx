@@ -36,7 +36,9 @@ const HeroProfileSelectorPage = (): React.ReactElement => {
       if ('node' in photo) {
         setSelectedPhoto(photo as PhotoIdentifier);
       } else {
-        console.warn('FacebookPhotoItem not supported in hero profile selector');
+        console.warn(
+          'FacebookPhotoItem not supported in hero profile selector',
+        );
       }
     },
     onPhotoDeselect: () => {

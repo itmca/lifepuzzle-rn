@@ -16,7 +16,7 @@ const StyledIcon = styled(MaterialIcons)<Props>`
     props.backgroundColor ? props.backgroundColor : 'transparent'};
 `;
 
-function Icon({size = 24, ...props}: Props) {
+function Icon({ size = 24, ...props }: Props) {
   return <StyledIcon size={size} {...props} />;
 }
 export default Icon;

@@ -32,7 +32,9 @@ const AccountProfileSelectorPage = (): React.ReactElement => {
         setSelectedPhoto(photo as PhotoIdentifier);
       } else {
         // It's a FacebookPhotoItem - convert or handle accordingly
-        console.warn('FacebookPhotoItem not supported in account profile selector');
+        console.warn(
+          'FacebookPhotoItem not supported in account profile selector',
+        );
       }
     },
     onPhotoDeselect: () => {
