@@ -76,7 +76,7 @@ const StoryWritingPage = (): React.ReactElement => {
               >
                 <ContentContainer paddingHorizontal={20}>
                   <SelectDropdown
-                    data={tags}
+                    data={tags || []}
                     onSelect={(selectedItem, _) => {
                       const gallery: GalleryItem[] =
                         writingStory.gallery?.map(i => ({
@@ -177,7 +177,7 @@ const StoryWritingPage = (): React.ReactElement => {
                   />
                   <ContentContainer
                     flex={1}
-                    minHeight={100}
+                    minHeight="100px"
                     backgroundColor={Color.GREY}
                   >
                     <TextAreaInput
