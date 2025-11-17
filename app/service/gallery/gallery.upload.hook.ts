@@ -1,23 +1,23 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
-import {useNavigation} from '@react-navigation/native';
-import {Alert} from 'react-native';
-import {PhotoIdentifier} from '@react-native-camera-roll/camera-roll';
+import { useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
-import {BasicNavigationProps} from '../../navigation/types';
-import {useHeroStore} from '../../stores/hero.store';
-import {useSelectionStore} from '../../stores/selection.store';
-import {TagType} from '../../types/core/media.type';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {imageConversionUtil} from '../../utils/image-conversion.util';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useHeroStore } from '../../stores/hero.store';
+import { useSelectionStore } from '../../stores/selection.store';
+import { TagType } from '../../types/core/media.type';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { imageConversionUtil } from '../../utils/image-conversion.util';
 import {
   FileUploadDto,
   galleryApiService,
   PresignedUrlDto,
 } from '../gallery/gallery.api.service';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {useUpdatePublisher} from '../common/update.hook';
-import {useUIStore} from '../../stores/ui.store';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { useUpdatePublisher } from '../common/update.hook';
+import { useUIStore } from '../../stores/ui.store';
 
 interface UploadItem {
   originalImage: PhotoIdentifier;
@@ -104,10 +104,10 @@ export const useUploadGalleryV2 = (
 
   const resetSelectedGalleryItems = () => setSelectedGalleryItems([]);
   const setIsUploading = (value: boolean) =>
-    setUploadState(prev => ({...prev, gallery: value}));
+    setUploadState((prev: any) => ({ ...prev, gallery: value }));
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
 
-  const {heroNo, selectedTag, selectedGalleryItems} = options?.request
+  const { heroNo, selectedTag, selectedGalleryItems } = options?.request
     ? {
         heroNo: options?.request.heroNo,
         selectedTag: options?.request.selectedTag,
@@ -133,7 +133,7 @@ export const useUploadGalleryV2 = (
       method: 'post',
       url: '/v1/galleries/presigned-urls',
     },
-    onResponseSuccess: (response: {presignedUrls: PresignedUrlDto[]}) => {
+    onResponseSuccess: (response: { presignedUrls: PresignedUrlDto[] }) => {
       handlePresignedUrlsReceived(response.presignedUrls);
     },
     onError: () => {
@@ -278,7 +278,7 @@ export const useUploadGalleryV2 = (
           '일부 이미지 변환 실패',
           `${currentItems.length}개 중 ${failedCount}개 이미지 변환에 실패했습니다. 성공한 이미지만 업로드하시겠습니까?`,
           [
-            {text: '취소', style: 'cancel', onPress: resetUpload},
+            { text: '취소', style: 'cancel', onPress: resetUpload },
             {
               text: '계속',
               onPress: () =>
@@ -387,8 +387,8 @@ export const useUploadGalleryV2 = (
           '일부 이미지 업로드 실패',
           `${completedItems.length}개 완료, ${failedCount}개 실패했습니다. 재시도하시겠습니까?`,
           [
-            {text: '취소', style: 'cancel', onPress: resetUpload},
-            {text: '재시도', onPress: () => retryFailedUploads()},
+            { text: '취소', style: 'cancel', onPress: resetUpload },
+            { text: '재시도', onPress: () => retryFailedUploads() },
           ],
         );
       } else if (completedItems.length > 0) {
@@ -396,7 +396,7 @@ export const useUploadGalleryV2 = (
           .map(item => item.fileKey)
           .filter(Boolean) as string[];
 
-        completeUpload({data: {fileKeys}});
+        completeUpload({ data: { fileKeys } });
       } else {
         Alert.alert('업로드할 이미지가 없습니다.');
         resetUpload();
@@ -427,7 +427,7 @@ export const useUploadGalleryV2 = (
     setUploadItems(currentItems => {
       const updatedItems = currentItems.map(item =>
         item.uploadStatus === 'failed'
-          ? {...item, uploadStatus: 'pending' as const, error: undefined}
+          ? { ...item, uploadStatus: 'pending' as const, error: undefined }
           : item,
       );
 

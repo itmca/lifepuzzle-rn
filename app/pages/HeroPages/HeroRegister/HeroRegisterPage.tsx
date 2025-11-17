@@ -15,6 +15,7 @@ import { BasicButton } from '../../../components/ui/form/Button';
 import { useCreateHero } from '../../../service/hero/hero.create.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
+import { getHeroImageUri } from '../../../utils/hero-image.util';
 
 const HeroRegisterPage = (): React.ReactElement => {
   // 글로벌 상태 관리
@@ -24,7 +25,7 @@ const HeroRegisterPage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Derived value or local variables
-  const heroProfileImage = writingHero?.imageURL?.node.image.uri;
+  const heroProfileImage = getHeroImageUri(writingHero);
 
   // Custom hooks
   const [createHero, isLoading] = useCreateHero();
@@ -59,13 +60,13 @@ const HeroRegisterPage = (): React.ReactElement => {
             <ContentContainer>
               <BasicTextInput
                 label={'이름'}
-                text={writingHero.heroName}
+                text={writingHero.heroName ?? ''}
                 onChangeText={heroName => setWritingHero({ heroName })}
                 placeholder="이름을 입력해 주세요"
               />
               <BasicTextInput
                 label={'닉네임'}
-                text={writingHero.heroNickName}
+                text={writingHero.heroNickName ?? ''}
                 onChangeText={heroNickName => setWritingHero({ heroNickName })}
                 placeholder="닉네임을 입력해 주세요"
               />

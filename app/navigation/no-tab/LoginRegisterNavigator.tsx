@@ -34,9 +34,7 @@ const LoginRegisterNavigator = (): React.ReactElement => {
         name="LoginOthers"
         component={LoginOthersPage}
         options={{
-          headerLeft: () => (
-            <LoginHeaderLeft type={'sub'} iconColor={Color.GREY_900} />
-          ),
+          headerLeft: () => <LoginHeaderLeft type={'sub'} />,
           headerShown: true,
           title: '',
           headerShadowVisible: false,

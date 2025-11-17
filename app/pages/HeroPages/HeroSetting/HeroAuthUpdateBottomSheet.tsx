@@ -1,19 +1,19 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {ContentContainer} from '../../../components/ui/layout/ContentContainer.tsx';
-import {AccountAvatar} from '../../../components/ui/display/Avatar';
-import {BasicButton} from '../../../components/ui/form/Button';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { AccountAvatar } from '../../../components/ui/display/Avatar';
+import { BasicButton } from '../../../components/ui/form/Button';
 import BottomSheet from '../../../components/ui/interaction/BottomSheet';
-import {useUserAuthUpdate} from '../../../service/user/user.update.hook.ts';
-import {LoadingContainer} from '../../../components/ui/feedback/LoadingContainer';
-import {HeroType, HeroUserType} from '../../../types/core/hero.type';
-import {Divider} from '../../../components/ui/base/Divider';
-import {Radio} from '../../../components/ui/form/Radio';
+import { useUserAuthUpdate } from '../../../service/user/user.update.hook.ts';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { HeroType, HeroUserType } from '../../../types/core/hero.type';
+import { Divider } from '../../../components/ui/base/Divider';
+import { Radio } from '../../../components/ui/form/Radio';
 import {
   HeroAuthTypeByCode,
   HeroAuthTypeCode,
   SortedHeroAuthTypes,
 } from '../../../constants/auth.constant.ts';
-import {BodyTextB} from '../../../components/ui/base/TextBase';
+import { BodyTextB } from '../../../components/ui/base/TextBase';
 
 type Props = {
   opened: boolean;
@@ -71,13 +71,14 @@ export const HeroAuthUpdateBottomSheet = ({
       snapPoints={snapPoints}
       onClose={() => {
         onClose && onClose();
-      }}>
+      }}
+    >
       <ContentContainer alignCenter paddingVertical={16}>
         <ContentContainer useHorizontalLayout gap={12}>
           <ContentContainer width={'auto'}>
             <AccountAvatar
               size={52}
-              imageURL={user.imageURL}
+              imageUrl={user.imageUrl}
               iconSize={20}
               auth={user.auth}
             />
@@ -97,7 +98,8 @@ export const HeroAuthUpdateBottomSheet = ({
                   key={'share-auth-' + index}
                   paddingVertical={14}
                   gap={0}
-                  alignCenter>
+                  alignCenter
+                >
                   <Radio
                     selected={newUserAuth === i.value}
                     label={i.label}

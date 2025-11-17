@@ -1,10 +1,10 @@
-import {useUIStore} from '../../stores/ui.store';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {Alert} from 'react-native';
-import {useUpdatePublisher} from '../common/update.hook';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
-import {useEffect} from 'react';
+import { useUIStore } from '../../stores/ui.store';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { Alert } from 'react-native';
+import { useUpdatePublisher } from '../common/update.hook';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useEffect } from 'react';
 
 type Props = {
   storyKey: string;
@@ -12,11 +12,11 @@ type Props = {
 type GalleryProps = {
   galleryId: number;
 };
-export const useDeleteStory = ({storyKey}: Props): [() => void] => {
+export const useDeleteStory = ({ storyKey }: Props): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const setUploadState = useUIStore(state => state.setUploadState);
   const setStoryloading = (value: boolean) =>
-    setUploadState(prev => ({...prev, story: value}));
+    setUploadState((prev: any) => ({ ...prev, story: value }));
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
@@ -26,7 +26,7 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
     },
     onResponseSuccess: () => {
       publishStoryListUpdate();
-      navigation.navigate('HomeTab', {screen: 'Home'});
+      navigation.navigate('HomeTab', { screen: 'Home' });
     },
     onError: err => {
       Alert.alert('스토리 삭제를 실패했습니다. 재시도 부탁드립니다.');
@@ -52,11 +52,11 @@ export const useDeleteStory = ({storyKey}: Props): [() => void] => {
     },
   ];
 };
-export const useDeleteGallery = ({galleryId}: GalleryProps): [() => void] => {
+export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const setUploadState = useUIStore(state => state.setUploadState);
   const setStoryloading = (value: boolean) =>
-    setUploadState(prev => ({...prev, story: value}));
+    setUploadState((prev: any) => ({ ...prev, story: value }));
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
@@ -64,7 +64,7 @@ export const useDeleteGallery = ({galleryId}: GalleryProps): [() => void] => {
       url: `/v1/galleries/${galleryId}`,
     },
     onResponseSuccess: () => {
-      navigation.navigate('HomeTab', {screen: 'Home'});
+      navigation.navigate('HomeTab', { screen: 'Home' });
     },
     onError: err => {
       Alert.alert('사진 삭제를 실패했습니다. 재시도 부탁드립니다.');

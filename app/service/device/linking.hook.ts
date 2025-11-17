@@ -1,10 +1,10 @@
-import {useEffect} from 'react';
-import {Linking} from 'react-native';
-import type {LinkingOptions} from '@react-navigation/native/lib/typescript/src/types';
+import { useEffect } from 'react';
+import { Linking } from 'react-native';
+import type { LinkingOptions } from '@react-navigation/native/lib/typescript/src/types';
 
 export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
   useEffect(() => {
-    const handleDeepLink = ({url}: {url: string}) => {
+    const handleDeepLink = ({ url }: { url: string }) => {
       // 여기에 필요한 처리 로직 추가
     };
 
@@ -29,7 +29,7 @@ export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
                 HeroSetting: {
                   path: 'share/hero',
                   parse: {
-                    shareKey: shareKey => `${shareKey}`,
+                    shareKey: (shareKey: any) => `${shareKey}`,
                   },
                 },
               },
@@ -39,7 +39,7 @@ export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
       },
     },
     subscribe(listener: (url: string) => void) {
-      const onReceiveURL = ({url}: {url: string}) => {
+      const onReceiveURL = ({ url }: { url: string }) => {
         listener(url);
       };
 

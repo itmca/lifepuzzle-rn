@@ -49,11 +49,12 @@ const SelectablePhoto = ({
           <RNImage
             style={{ width: size, height: size }}
             source={{ uri: imageUri }}
-            resizeMode="cover"
+            resizeMode={'cover' as const}
           />
         ) : (
           <Image
-            style={{ width: size, height: size }}
+            width={size}
+            height={size}
             source={{ uri: imageUri }}
             resizeMode="cover"
           />

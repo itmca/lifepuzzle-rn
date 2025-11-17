@@ -23,6 +23,7 @@ import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { useDeleteHero } from '../../../service/hero/hero.delete.hook.ts';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
+import { getHeroImageUri } from '../../../utils/hero-image.util';
 
 const HeroModificationPage = (): React.ReactElement => {
   // 글로벌 상태 관리
@@ -49,7 +50,9 @@ const HeroModificationPage = (): React.ReactElement => {
       return;
     }
 
-    const currentPhoto = toPhotoIdentifier(hero.imageURL ?? '');
+    const currentPhoto = hero.imageUrl
+      ? toPhotoIdentifier(hero.imageUrl)
+      : undefined;
     setWritingHero({
       heroNo: heroNo,
       heroName: hero.heroName ?? '',
@@ -57,9 +60,10 @@ const HeroModificationPage = (): React.ReactElement => {
       birthday: hero.birthday,
       isLunar: hero.isLunar,
       title: hero.title,
-      imageURL: currentPhoto,
+      imageUrl: hero.imageUrl,
+      modifiedImage: currentPhoto,
     });
-  }, [hero]);
+  }, [hero, heroNo, setWritingHero]);
 
   const navigateToSelectingPhoto = () => {
     navigation.push('NoTab', {
@@ -69,7 +73,7 @@ const HeroModificationPage = (): React.ReactElement => {
       },
     });
   };
-  const heroProfileImage = writingHero?.imageURL?.node.image.uri;
+  const heroProfileImage = getHeroImageUri(writingHero);
 
   return (
     <ScreenContainer>
@@ -91,13 +95,13 @@ const HeroModificationPage = (): React.ReactElement => {
             <ContentContainer>
               <BasicTextInput
                 label={'이름'}
-                text={writingHero.heroName}
+                text={writingHero.heroName ?? ''}
                 onChangeText={heroName => setWritingHero({ heroName })}
                 placeholder="이름을 입력해 주세요"
               />
               <BasicTextInput
                 label={'닉네임'}
-                text={writingHero.heroNickName}
+                text={writingHero.heroNickName ?? ''}
                 onChangeText={heroNickName => setWritingHero({ heroNickName })}
                 placeholder="닉네임을 입력해 주세요"
               />

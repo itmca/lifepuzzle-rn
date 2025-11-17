@@ -28,7 +28,7 @@ const WritingHeaderRight = ({
         }
         if (typeof customAction === 'function') {
           customAction();
-        } else {
+        } else if (nextScreenName) {
           navigation.push('NoTab', {
             screen: 'StoryWritingNavigator',
             params: {

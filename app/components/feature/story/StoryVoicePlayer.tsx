@@ -148,13 +148,11 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
             </Caption>
           </ContentContainer>
         </ContentContainer>
-        <ContentContainer
-          useHorizontalLayout
-          height={'64px'}
-          alignCenter
-          gap={28}
-        >
-          <DeleteButton visiable={audioUri && editable} onPress={onRemove} />
+        <ContentContainer useHorizontalLayout height={64} alignCenter gap={28}>
+          <DeleteButton
+            visiable={Boolean(audioUri && editable)}
+            onPress={onRemove}
+          />
           {audioUri ? (
             playInfo.isPlay ? (
               <PauseButton onPress={pausePlay} />

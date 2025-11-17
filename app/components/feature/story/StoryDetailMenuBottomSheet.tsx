@@ -163,7 +163,7 @@ export const StoryDetailMenuBottomSheet = ({
         <TouchableOpacity onPress={onDeleteGallery}>
           <ContentContainer
             gap={6}
-            height={'48px'}
+            height={48}
             useHorizontalLayout
             justifyContent="flex-start"
           >
@@ -174,7 +174,7 @@ export const StoryDetailMenuBottomSheet = ({
         <TouchableOpacity onPress={onShareGallery}>
           <ContentContainer
             gap={2}
-            height={'48px'}
+            height={48}
             useHorizontalLayout
             justifyContent="flex-start"
           >

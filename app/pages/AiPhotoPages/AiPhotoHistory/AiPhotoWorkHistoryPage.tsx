@@ -100,11 +100,13 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
     <ScreenContainer>
       <ScrollContentContainer>
         <ContentContainer withContentPadding paddingVertical={24} gap={32}>
-          <BodyTextM color={Color.GREY_500} style={{ marginTop: 8 }}>
-            일반적으로 약 <BodyTextM color={Color.AI_500}>2</BodyTextM>분 정도
-            소요되며,{'\n'}
-            다른 화면으로 이동해도 문제없이 완료돼요.
-          </BodyTextM>
+          <ContentContainer paddingTop={8}>
+            <BodyTextM color={Color.GREY_500}>
+              일반적으로 약 <BodyTextM color={Color.AI_500}>2</BodyTextM>분 정도
+              소요되며,{'\n'}
+              다른 화면으로 이동해도 문제없이 완료돼요.
+            </BodyTextM>
+          </ContentContainer>
 
           {inProgressItems.length > 0 && (
             <ContentContainer gap={12}>

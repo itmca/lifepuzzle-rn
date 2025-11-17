@@ -1,9 +1,9 @@
 import React from 'react';
 import Toast from 'react-native-toast-message';
-import {ContentContainer} from '../layout/ContentContainer';
-import {SvgIcon} from '../display/SvgIcon';
-import {BodyTextB} from '../base/TextBase';
-import {Color} from '../../../constants/color.constant';
+import { ContentContainer } from '../layout/ContentContainer';
+import { SvgIcon } from '../display/SvgIcon';
+import { BodyTextB } from '../base/TextBase';
+import { Color } from '../../../constants/color.constant';
 
 export const showToast = (message: string) => {
   Toast.show({
@@ -26,8 +26,12 @@ export const showErrorToast = (message: string) => {
     position: 'bottom',
   });
 };
+interface ToastProps {
+  text2?: string;
+}
+
 const toastConfig = {
-  success: ({text2 = ''}) => (
+  success: ({ text2 = '' }: ToastProps) => (
     <ContentContainer paddingHorizontal={20}>
       <ContentContainer
         paddingHorizontal={14}
@@ -37,13 +41,14 @@ const toastConfig = {
         borderRadius={6}
         height={44}
         justifyContent="flex-start"
-        gap={4}>
+        gap={4}
+      >
         <SvgIcon name={'success'} />
         <BodyTextB color={Color.WHITE}>{text2}</BodyTextB>
       </ContentContainer>
     </ContentContainer>
   ),
-  error: props => (
+  error: (props: ToastProps) => (
     <ContentContainer paddingHorizontal={20}>
       <ContentContainer
         paddingHorizontal={14}
@@ -53,13 +58,14 @@ const toastConfig = {
         borderRadius={6}
         height={44}
         justifyContent="flex-start"
-        gap={4}>
+        gap={4}
+      >
         <SvgIcon name={'error'} />
         <BodyTextB color={Color.WHITE}>{props.text2}</BodyTextB>
       </ContentContainer>
     </ContentContainer>
   ),
-  info: props => (
+  info: (props: ToastProps) => (
     <ContentContainer paddingHorizontal={20}>
       <ContentContainer
         paddingHorizontal={14}
@@ -68,7 +74,8 @@ const toastConfig = {
         backgroundColor={Color.GREY_600}
         borderRadius={6}
         height={44}
-        justifyContent="flex-start">
+        justifyContent="flex-start"
+      >
         <BodyTextB color={Color.WHITE}>{props.text2}</BodyTextB>
       </ContentContainer>
     </ContentContainer>

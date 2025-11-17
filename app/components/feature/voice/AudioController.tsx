@@ -77,7 +77,7 @@ export const CheckButton = ({
   visiable,
 }: Props): React.ReactElement => {
   if (!visiable) {
-    return <ContentContainer width={'40px'} />;
+    return <ContentContainer width={40} />;
   }
   return (
     <ButtonBase
@@ -99,7 +99,7 @@ export const DeleteButton = ({
   visiable,
 }: Props): React.ReactElement => {
   if (!visiable) {
-    return <ContentContainer width={'40px'} />;
+    return <ContentContainer width={40} />;
   }
   return (
     <ButtonBase

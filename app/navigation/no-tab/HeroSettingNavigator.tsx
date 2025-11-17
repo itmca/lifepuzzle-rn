@@ -104,7 +104,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
                   customAction={() => {
                     setWritingHero({
                       ...writingHero,
-                      imageURL: seletedHeroPhoto,
+                      imageUrl: selectedHeroPhoto,
                       isProfileImageUpdate: true,
                     });
                     resetSelectedHeroPhoto();

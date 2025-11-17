@@ -54,58 +54,62 @@ const AccountModificationPage = (): React.ReactElement => {
   return (
     <LoadingContainer isLoading={isUserLoading || isWithdrawing}>
       <ScreenContainer>
-        <ContentContainer gap={8} alignCenter expandToEnd>
-          <AccountAvatar imageURL={user.imageUrl} size={100} />
-          <ContentContainer gap={0} alignCenter>
-            <Head>{user.userNickName}</Head>
-            {user?.userType === 'general' && (
-              <Title color={Color.GREY_500}>{user.userId}</Title>
-            )}
-          </ContentContainer>
-        </ContentContainer>
-        <ContentContainer withScreenPadding alignCenter paddingBottom={65}>
-          <BasicButton
-            text={'프로필 수정'}
-            onPress={() => setProfileModalOpen(true)}
-          />
-          <ContentContainer>
-            {user?.userType === 'general' && (
-              <BasicButton
-                text="비밀번호 변경"
-                onPress={() => setPasswordModalOpen(true)}
-              />
-            )}
-            <ContentContainer alignCenter>
-              <TouchableOpacity
-                onPress={() => {
-                  CustomAlert.actionAlert({
-                    title: '회원탈퇴',
-                    desc: '기록하셨던 주인공의 이야기를 포함하여 모든 데이터가 삭제됩니다. 탈퇴하시겠습니까?',
-                    actionBtnText: '탈퇴',
-                    action: () => {
-                      withdraw();
-                    },
-                  });
-                }}
-              >
-                <BodyTextM color={Color.GREY_800} underline>
-                  회원 탈퇴
-                </BodyTextM>
-              </TouchableOpacity>
+        {user && (
+          <>
+            <ContentContainer gap={8} alignCenter expandToEnd>
+              <AccountAvatar imageURL={user.imageUrl} size={100} />
+              <ContentContainer gap={0} alignCenter>
+                <Head>{user.userNickName}</Head>
+                {user?.userType === 'general' && (
+                  <Title color={Color.GREY_500}>{user.userId}</Title>
+                )}
+              </ContentContainer>
             </ContentContainer>
-          </ContentContainer>
-          <ContentContainer
-            gap={0}
-            alignCenter
-            absoluteBottomPosition
-            paddingVertical={16}
-          >
-            <Caption color={Color.GREY_300}>designed by 박유나</Caption>
-            <Caption color={Color.GREY_300}>
-              developed by 오솔미 이시은 정주온 정지현
-            </Caption>
-          </ContentContainer>
-        </ContentContainer>
+            <ContentContainer withScreenPadding alignCenter paddingBottom={65}>
+              <BasicButton
+                text={'프로필 수정'}
+                onPress={() => setProfileModalOpen(true)}
+              />
+              <ContentContainer>
+                {user?.userType === 'general' && (
+                  <BasicButton
+                    text="비밀번호 변경"
+                    onPress={() => setPasswordModalOpen(true)}
+                  />
+                )}
+                <ContentContainer alignCenter>
+                  <TouchableOpacity
+                    onPress={() => {
+                      CustomAlert.actionAlert({
+                        title: '회원탈퇴',
+                        desc: '기록하셨던 주인공의 이야기를 포함하여 모든 데이터가 삭제됩니다. 탈퇴하시겠습니까?',
+                        actionBtnText: '탈퇴',
+                        action: () => {
+                          withdraw();
+                        },
+                      });
+                    }}
+                  >
+                    <BodyTextM color={Color.GREY_800} underline>
+                      회원 탈퇴
+                    </BodyTextM>
+                  </TouchableOpacity>
+                </ContentContainer>
+              </ContentContainer>
+              <ContentContainer
+                gap={0}
+                alignCenter
+                absoluteBottomPosition
+                paddingVertical={16}
+              >
+                <Caption color={Color.GREY_300}>designed by 박유나</Caption>
+                <Caption color={Color.GREY_300}>
+                  developed by 오솔미 이시은 정주온 정지현
+                </Caption>
+              </ContentContainer>
+            </ContentContainer>
+          </>
+        )}
         <BottomSheetModalProvider>
           <ProfileUpdateBottomSheet
             opened={profileModalOpen}

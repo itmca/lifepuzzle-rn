@@ -34,9 +34,10 @@ const AccountSettingNavigator = (): React.ReactElement => {
   // Custom hooks
   const logout = useLogout();
 
+  const { resetSelectedUserPhoto } = useSelectionStore();
+
   // Custom functions
-  const resetSelectedUserPhoto = () =>
-    setSelection(prev => ({ ...prev, user: undefined }));
+  // resetSelectedUserPhoto is now obtained directly from the store
 
   return (
     <Stack.Navigator
@@ -83,7 +84,7 @@ const AccountSettingNavigator = (): React.ReactElement => {
               customAction={() => {
                 setModifyingUser({
                   ...modifyingUser,
-                  modifiedImage: seletedUserPhoto,
+                  modifiedImage: selectedUserPhoto,
                   isProfileImageUpdate: true,
                 });
 

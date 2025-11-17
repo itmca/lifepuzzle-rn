@@ -12,7 +12,7 @@ type Props = {
 export const VoiceAddButton = ({ onPress }: Props): React.ReactElement => {
   return (
     <ButtonBase
-      height={'28x'}
+      height={'28px'}
       width={'auto'}
       backgroundColor={Color.TRANSPARENT}
       borderColor={Color.GREY_200}
