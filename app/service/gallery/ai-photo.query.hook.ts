@@ -3,7 +3,6 @@ import { useAuthAxios } from '../core/auth-http.hook';
 import { AxiosRequestConfig } from 'axios';
 import { AiGallery, AiPhotoTemplate } from '../../types/external/ai-photo.type';
 import { useHeroStore } from '../../stores/hero.store';
-import { HeroType } from '../../types/core/hero.type';
 
 interface AiPhotoTemplateQueryResponse {
   drivingVideos: AiPhotoTemplate[];

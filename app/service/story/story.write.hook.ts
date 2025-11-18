@@ -43,7 +43,7 @@ export const useSaveStory = (): [() => void] => {
     requestOption: {
       method: editStoryKey ? 'put' : 'post',
       url: editStoryKey
-        ? `/v3/galleries/stories//${editStoryKey}`
+        ? `/v3/galleries/stories/${editStoryKey}`
         : '/v3/galleries/stories',
       headers: { 'Content-Type': 'multipart/form-data' },
       timeout: 30_000, // speech to text 시 10~20초가 걸려 30초로 하며 관련 처리 시간 단축 시 timeout 조정 필요
@@ -61,8 +61,8 @@ export const useSaveStory = (): [() => void] => {
     },
     onError: () => {
       const errorMessage = editStoryKey
-        ? '퍼즐 수정에 실패했습니다. 재시도 부탁드립니다.'
-        : '퍼즐 등록에 실패했습니다. 재시도 부탁드립니다.';
+        ? '이야기 수정에 실패했습니다. 재시도 부탁드립니다.'
+        : '이야기 등록에 실패했습니다. 재시도 부탁드립니다.';
       showSimpleAlert(errorMessage);
     },
     disableInitialRequest: true,
@@ -74,7 +74,7 @@ export const useSaveStory = (): [() => void] => {
 
   const submit = function () {
     if (!storyHttpPayLoad) {
-      showSimpleAlert('스토리를 저장할 수 없습니다. 히어로 정보가 없습니다.');
+      showSimpleAlert('스토리를 저장할 수 없습니다. 주인공 정보가 없습니다.');
       return;
     }
 
