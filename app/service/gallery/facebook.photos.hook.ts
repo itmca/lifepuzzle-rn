@@ -1,7 +1,8 @@
-import {useState} from 'react';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {FacebookPhotosResponse} from '../../types/external/facebook.type';
-import {UseFacebookPhotosProps} from '../../types/hooks/facebook.type';
+import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { FacebookPhotosResponse } from '../../types/external/facebook.type';
+import { UseFacebookPhotosProps } from '../../types/hooks/facebook.type';
 
 export const useFacebookPhotos = ({
   onSuccess,
@@ -28,7 +29,7 @@ export const useFacebookPhotos = ({
 
   const getFacebookPhotos = (code: string) => {
     fetchPhotos({
-      params: {code},
+      params: { code },
     });
   };
 

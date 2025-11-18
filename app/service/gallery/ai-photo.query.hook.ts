@@ -1,9 +1,8 @@
-import {useState} from 'react';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {AxiosRequestConfig} from 'axios';
-import {AiGallery, AiPhotoTemplate} from '../../types/external/ai-photo.type';
-import {useHeroStore} from '../../stores/hero.store';
-import {HeroType} from '../../types/core/hero.type';
+import { useState } from 'react';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { AxiosRequestConfig } from 'axios';
+import { AiGallery, AiPhotoTemplate } from '../../types/external/ai-photo.type';
+import { useHeroStore } from '../../stores/hero.store';
 
 interface AiPhotoTemplateQueryResponse {
   drivingVideos: AiPhotoTemplate[];
@@ -57,7 +56,7 @@ export const useAiGalleries = (): UseAiGalleriesReturn => {
   const [isLoading, fetchAiGalleries] = useAuthAxios<AiGalleriesQueryResponse>({
     requestOption: {
       method: 'GET',
-      url: `/v1/galleries/ai?heroId=${hero.heroNo}`,
+      url: `/v1/galleries/ai?heroId=${hero?.heroNo || 0}`,
     },
     onResponseSuccess: res => {
       if (res && res.gallery) {

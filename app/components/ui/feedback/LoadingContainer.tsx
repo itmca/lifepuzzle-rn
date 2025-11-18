@@ -4,7 +4,7 @@ import { Color } from '../../../constants/color.constant.ts';
 
 type Props = {
   isLoading: boolean;
-  children: React.ReactElement | React.ReactElement[];
+  children: React.ReactNode;
 };
 
 export const LoadingContainer = ({

@@ -12,8 +12,10 @@ import { AgeType } from '../../types/core/media.type';
  */
 export const toPhotoIdentifier = (uri: string): PhotoIdentifier => ({
   node: {
+    id: uri,
     type: '',
-    subTypes: [] as SubTypes[],
+    subTypes: 'PhotoPanorama',
+    sourceType: 'UserLibrary',
     group_name: [],
     image: {
       filename: uri ? uri.split('/').pop() || null : null,
@@ -52,8 +54,10 @@ export const toPhotoIdentifierFromImage = (
 
   return {
     node: {
+      id: normalizedUri,
       type: 'image',
-      subTypes: [] as SubTypes[],
+      subTypes: 'PhotoPanorama',
+      sourceType: 'UserLibrary',
       group_name: ['Camera'],
       image: {
         filename,
@@ -91,8 +95,10 @@ export const toPhotoIdentifierFromFacebookPhoto = (
 
   return {
     node: {
+      id: facebookPhoto.id,
       type: 'image',
-      subTypes: [] as SubTypes[],
+      subTypes: 'PhotoPanorama',
+      sourceType: 'UserLibrary',
       group_name: [`Facebook_${ageGroup}`],
       image: {
         filename,

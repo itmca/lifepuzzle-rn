@@ -1,5 +1,5 @@
-import {useState, useEffect, useCallback} from 'react';
-import {Keyboard, KeyboardEventListener} from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Keyboard } from 'react-native';
 
 export const useKeyboardVisible = (): boolean => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);

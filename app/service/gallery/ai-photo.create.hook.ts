@@ -1,9 +1,8 @@
-import {useAuthAxios} from '../core/auth-http.hook';
-import {useNavigation} from '@react-navigation/native';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { useNavigation } from '@react-navigation/native';
 
-import {BasicNavigationProps} from '../../navigation/types';
-import {useUserStore} from '../../stores/user.store';
-import {showErrorToast} from '../../components/ui/feedback/Toast';
+import { BasicNavigationProps } from '../../navigation/types';
+import { showErrorToast } from '../../components/ui/feedback/Toast';
 
 interface AiPhotoCreateRequest {
   heroNo: number;
@@ -20,7 +19,6 @@ export const useCreateAiPhoto = (
   request: AiPhotoCreateRequest,
 ): UseCreateAiPhotoReturn => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const user = useUserStore(state => state.user);
   //TODO: 임시 API
   const [isLoading, createAiPhoto] = useAuthAxios<any>({
     requestOption: {
@@ -32,7 +30,7 @@ export const useCreateAiPhoto = (
         drivingVideoId: request.drivingVideoId,
       },
     },
-    onResponseSuccess: res => {
+    onResponseSuccess: _res => {
       navigation.push('NoTab', {
         screen: 'AiPhotoNavigator',
         params: {
@@ -40,7 +38,7 @@ export const useCreateAiPhoto = (
         },
       });
     },
-    onError: err => {
+    onError: _err => {
       showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,
@@ -63,28 +61,27 @@ export const useCreateAiPhoto = (
       return false;
     }
 
-    return new Promise(resolve => {
-      createAiPhoto({
+    try {
+      await createAiPhoto({
         data: {
           heroNo: request.heroNo,
           galleryId: request.galleryId,
           drivingVideoId: request.drivingVideoId,
         },
-        onResponseSuccess: () => {
-          navigation.push('NoTab', {
-            screen: 'AiPhotoNavigator',
-            params: {
-              screen: 'AiPhotoWorkHistory',
-            },
-          });
-          resolve(true);
-        },
-        onError: () => {
-          showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
-          resolve(false);
+      });
+
+      navigation.push('NoTab', {
+        screen: 'AiPhotoNavigator',
+        params: {
+          screen: 'AiPhotoWorkHistory',
         },
       });
-    });
+
+      return true;
+    } catch (error) {
+      showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
+      return false;
+    }
   };
 
   const submitWithParams = (params: AiPhotoCreateRequest) => {
@@ -115,5 +112,5 @@ export const useCreateAiPhoto = (
     return true;
   }
 
-  return {submit, submitWithErrorHandling, submitWithParams, isLoading};
+  return { submit, submitWithErrorHandling, submitWithParams, isLoading };
 };

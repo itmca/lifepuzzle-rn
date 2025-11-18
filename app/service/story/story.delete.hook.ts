@@ -15,8 +15,7 @@ type GalleryProps = {
 export const useDeleteStory = ({ storyKey }: Props): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const setUploadState = useUIStore(state => state.setUploadState);
-  const setStoryloading = (value: boolean) =>
-    setUploadState((prev: any) => ({ ...prev, story: value }));
+  const setStoryloading = (value: boolean) => setUploadState({ story: value });
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
@@ -55,8 +54,7 @@ export const useDeleteStory = ({ storyKey }: Props): [() => void] => {
 export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const setUploadState = useUIStore(state => state.setUploadState);
-  const setStoryloading = (value: boolean) =>
-    setUploadState((prev: any) => ({ ...prev, story: value }));
+  const setStoryloading = (value: boolean) => setUploadState({ story: value });
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {

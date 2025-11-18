@@ -1,7 +1,25 @@
-import {AuthTokens, TokenState} from '../../types/auth/auth.type';
+import { AuthTokens, TokenState } from '../../types/auth/auth.type';
+
+// Base64 decode for React Native
+const base64Decode = (base64: string): string => {
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  let str = base64.replace(/=+$/, '');
+  let output = '';
+
+  for (let bc = 0, bs = 0, buffer = 0, i = 0; i < str.length; i++) {
+    buffer = (buffer << 6) | chars.indexOf(str[i]);
+    bc += 6;
+    if (bc >= 8) {
+      output += String.fromCharCode((buffer >> (bc -= 8)) & 0xff);
+    }
+  }
+
+  return output;
+};
 
 // JWT 페이로드 디코딩 (exp 클레임 추출)
-const decodeJWTPayload = (token: string): {exp?: number} => {
+const decodeJWTPayload = (token: string): { exp?: number } => {
   try {
     const parts = token.split('.');
     if (parts.length !== 3) {
@@ -10,7 +28,7 @@ const decodeJWTPayload = (token: string): {exp?: number} => {
 
     // Base64Url 디코딩
     const payload = parts[1];
-    const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    const decoded = base64Decode(payload.replace(/-/g, '+').replace(/_/g, '/'));
     return JSON.parse(decoded);
   } catch {
     return {};

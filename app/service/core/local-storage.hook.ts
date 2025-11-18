@@ -1,13 +1,13 @@
-import {useAuthStore} from '../../stores/auth.store';
-import {useUserStore} from '../../stores/user.store';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {UserType} from '../../types/core/user.type';
-import {useEffect} from 'react';
-import {useHeroStore} from '../../stores/hero.store';
-import {useUpdateObserver} from '../common/update.hook';
-import {LocalStorage} from './local-storage.service';
-import {getTokenState} from './auth.service';
-import {HeroQueryResponse} from '../hero/hero.query.hook';
+import { useAuthStore } from '../../stores/auth.store';
+import { useUserStore } from '../../stores/user.store';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { UserType } from '../../types/core/user.type';
+import { useEffect } from 'react';
+import { useHeroStore } from '../../stores/hero.store';
+import { useUpdateObserver } from '../common/update.hook';
+import { LocalStorage } from './local-storage.service';
+import { getTokenState } from './auth.service';
+import { HeroQueryResponse } from '../../types/hooks/hero-query.type';
 
 export const useFetchLocalStorageUserHero = (): void => {
   const tokens = useAuthStore(state => state.authTokens);
@@ -23,7 +23,7 @@ export const useFetchLocalStorageUserHero = (): void => {
     onResponseSuccess: user => {
       const heroNo = user.recentHeroNo;
       setUser(user);
-      fetchHero({url: `/v1/heroes/${heroNo.toString()}`});
+      fetchHero({ url: `/v1/heroes/${heroNo.toString()}` });
     },
     disableInitialRequest: true,
   });
@@ -47,7 +47,7 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
-    fetchUser({url: `/v1/users/${userNo}`});
+    fetchUser({ url: `/v1/users/${userNo}` });
   }, [tokens, currentUserUpdateObserver, fetchUser]);
 
   useEffect(() => {
@@ -55,6 +55,6 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
-    fetchHero({url: `/v1/heroes/${currentHero.heroNo.toString()}`});
+    fetchHero({ url: `/v1/heroes/${currentHero.heroNo.toString()}` });
   }, [currentHero, currentHeroUpdateObserver, fetchHero]);
 };

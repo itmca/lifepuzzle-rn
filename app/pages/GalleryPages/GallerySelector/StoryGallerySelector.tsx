@@ -1,6 +1,8 @@
 import React from 'react';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types';
+import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,7 +18,7 @@ import { Color } from '../../../constants/color.constant.ts';
 import { useUIStore } from '../../../stores/ui.store';
 
 const StoryGallerySelector = (): React.ReactElement => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const {
     currentGalleryIndex: galleryIndex,
     selectedGalleryItems,
@@ -38,8 +40,10 @@ const StoryGallerySelector = (): React.ReactElement => {
   };
 
   const callbacks: PhotoSelectorCallbacks = {
-    onMultipleSelect: (photos: PhotoIdentifier[]) => {
-      setSelectedGalleryItems(photos as PhotoIdentifier[]);
+    onMultipleSelect: (photos: (PhotoIdentifier | FacebookPhotoItem)[]) => {
+      setSelectedGalleryItems(
+        photos.filter(photo => 'node' in photo) as PhotoIdentifier[],
+      );
     },
     onPermissionDenied: () => {
       navigation.goBack();
@@ -79,7 +83,7 @@ const StoryGallerySelector = (): React.ReactElement => {
       />
 
       {/* Custom navigation button */}
-      {selectedGalleryItems.length > 0 && (
+      {selectedGalleryItems.length > 0 ? (
         <TouchableOpacity
           style={{
             borderWidth: 1,
@@ -98,7 +102,7 @@ const StoryGallerySelector = (): React.ReactElement => {
         >
           <Icon name="magic" size={25} color={Color.MAIN_DARK} />
         </TouchableOpacity>
-      )}
+      ) : null}
     </LoadingContainer>
   );
 };

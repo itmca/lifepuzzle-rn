@@ -1,7 +1,7 @@
-import {AxiosError} from 'axios';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {Alert} from 'react-native';
-import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
+import { AxiosError } from 'axios';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { Alert } from 'react-native';
+import { showErrorToast, showToast } from '../../components/ui/feedback/Toast';
 
 export const useErrorHandler = () => {
   const handleApiError = (
@@ -11,7 +11,7 @@ export const useErrorHandler = () => {
     cancelFn?: () => void,
   ) => {
     if (retryFn) {
-      CustomAlert.retryAlert(errorMessage, retryFn, cancelFn);
+      CustomAlert.retryAlert(errorMessage, retryFn, cancelFn || (() => {}));
     } else {
       CustomAlert.simpleAlert(errorMessage);
     }

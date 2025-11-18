@@ -78,7 +78,7 @@ export const HeroAuthUpdateBottomSheet = ({
           <ContentContainer width={'auto'}>
             <AccountAvatar
               size={52}
-              imageUrl={user.imageUrl}
+              imageURL={user.imageUrl}
               iconSize={20}
               auth={user.auth}
             />
@@ -89,29 +89,27 @@ export const HeroAuthUpdateBottomSheet = ({
           </ContentContainer>
         </ContentContainer>
         <ContentContainer gap={0}>
-          {authList
-            .filter(i => i.value !== 'OWNER')
-            .map((i, index) => (
-              <>
-                {index !== 0 && <Divider marginVertical={0} />}
-                <ContentContainer
-                  key={'share-auth-' + index}
-                  paddingVertical={14}
-                  gap={0}
-                  alignCenter
-                >
-                  <Radio
-                    selected={newUserAuth === i.value}
-                    label={i.label}
-                    value={i.value}
-                    subLabel={i.description}
-                    onSelect={value => {
-                      setNewUserAuth(value as HeroAuthTypeCode);
-                    }}
-                  />
-                </ContentContainer>
-              </>
-            ))}
+          {authList.map((i, index) => (
+            <>
+              {index !== 0 && <Divider marginVertical={0} />}
+              <ContentContainer
+                key={'share-auth-' + index}
+                paddingVertical={14}
+                gap={0}
+                alignCenter
+              >
+                <Radio
+                  selected={newUserAuth === i.value}
+                  label={i.label}
+                  value={i.value}
+                  subLabel={i.description}
+                  onSelect={value => {
+                    setNewUserAuth(value as HeroAuthTypeCode);
+                  }}
+                />
+              </ContentContainer>
+            </>
+          ))}
         </ContentContainer>
         <LoadingContainer isLoading={isAuthUpdating}>
           <BasicButton

@@ -1,28 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../../components/ui/layout/ContentContainer.tsx';
-import {BodyTextB} from '../../../../components/ui/base/TextBase';
-import {Color} from '../../../../constants/color.constant.ts';
-import {toPhotoIdentifier} from '../../../../service/utils/photo-identifier.service.ts';
-import {SharedData} from '../../../../../src/NativeLPShareModule.ts';
+import { BodyTextB } from '../../../../components/ui/base/TextBase';
+import { Color } from '../../../../constants/color.constant.ts';
+import { toPhotoIdentifier } from '../../../../service/utils/photo-identifier.service.ts';
+import { SharedData } from '../../../../../src/NativeLPShareModule.ts';
 import {
   UploadRequest,
   useUploadGalleryV2,
 } from '../../../../service/gallery/gallery.upload.hook.ts';
-import {useHeroStore} from '../../../../stores/hero.store';
-import {TagType} from '../../../../types/core/media.type';
-import {useMediaStore} from '../../../../stores/media.store';
-import {useSelectionStore} from '../../../../stores/selection.store';
-import {BasicButton} from '../../../../components/ui/form/Button';
+import { useHeroStore } from '../../../../stores/hero.store';
+import { TagType } from '../../../../types/core/media.type';
+import { useMediaStore } from '../../../../stores/media.store';
+import { useSelectionStore } from '../../../../stores/selection.store';
+import { BasicButton } from '../../../../components/ui/form/Button';
 import GallerySelect from '../Gallery/GallerySelect.tsx';
-import {useUploadHeroes} from '../../../../service/hero/hero.query.hook.ts';
-import {HeroSelect} from './HeroSelect';
-import {toInternationalAge} from '../../../../service/utils/date-time.service.ts';
-import {CustomAlert} from '../../../../components/ui/feedback/CustomAlert';
+import { useUploadHeroes } from '../../../../service/hero/hero.query.hook.ts';
+import { HeroSelect } from './HeroSelect';
+import { toInternationalAge } from '../../../../service/utils/date-time.service.ts';
+import { CustomAlert } from '../../../../components/ui/feedback/CustomAlert';
 
 interface SharedBottomSheetProps {
   visible: boolean;
@@ -45,15 +45,17 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
   const tags = useMediaStore(state => state.tags);
   const [uploadRequest, setUploadRequest] = useState<UploadRequest>({
     heroNo: hero?.heroNo || 0,
-    selectedTag: selectedTag,
+    selectedTag: selectedTag || undefined,
     selectedGalleryItems: [],
   });
   const [submitGallery] = useUploadGalleryV2({
     request: uploadRequest,
-    onClose: onClose,
+    onClose: () => {
+      onClose();
+    },
   });
   const {
-    res: {heroes, loading},
+    res: { heroes, loading },
     fetchHeroes: fetchUploadHeroes,
   } = useUploadHeroes();
   // 카메라 촬영 후 상태가 업데이트되면 업로드 실행
@@ -70,7 +72,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
       }
       setUploadRequest({
         heroNo: hero?.heroNo || 0,
-        selectedTag: selectedTag,
+        selectedTag: selectedTag || undefined,
         selectedGalleryItems: validImages.map(item =>
           toPhotoIdentifier(item ?? ''),
         ),
@@ -81,7 +83,8 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
     <BottomSheet
       opened={visible}
       title={'공유된 이미지 업로드'}
-      onClose={isGalleryUploading ? () => {} : onClose}>
+      onClose={isGalleryUploading ? () => {} : onClose}
+    >
       <ContentContainer gap={24}>
         <ScrollContentContainer useHorizontalLayout gap={6}>
           {heroes &&
@@ -91,7 +94,8 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
                   key={index}
                   width={54.5}
                   height={100}
-                  gap={12}>
+                  gap={12}
+                >
                   <HeroSelect
                     item={item}
                     selected={uploadRequest?.heroNo === item.heroNo}

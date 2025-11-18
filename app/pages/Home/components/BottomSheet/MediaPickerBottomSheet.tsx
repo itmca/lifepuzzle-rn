@@ -1,24 +1,24 @@
-import React, {useEffect, useRef} from 'react';
-import {Alert, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, { useEffect, useRef } from 'react';
+import { Alert, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
-import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {IconName, SvgIcon} from '../../../../components/ui/display/SvgIcon';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
+import { IconName, SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import {
   BodyTextB,
   BodyTextM,
   Caption,
 } from '../../../../components/ui/base/TextBase';
-import {Color} from '../../../../constants/color.constant';
-import {BasicNavigationProps} from '../../../../navigation/types';
-import {Divider} from '../../../../components/ui/base/Divider';
+import { Color } from '../../../../constants/color.constant';
+import { BasicNavigationProps } from '../../../../navigation/types';
+import { Divider } from '../../../../components/ui/base/Divider';
 import ImagePicker from 'react-native-image-crop-picker';
-import {toPhotoIdentifierFromImage} from '../../../../service/utils/photo-identifier.service';
-import {ensureCameraPermission} from '../../../../service/device/permission.hook';
-import {showInfoToast} from '../../../../components/ui/feedback/Toast';
-import {useStoryStore} from '../../../../stores/story.store';
-import {useSelectionStore} from '../../../../stores/selection.store';
+import { toPhotoIdentifierFromImage } from '../../../../service/utils/photo-identifier.service';
+import { ensureCameraPermission } from '../../../../service/device/permission.hook';
+import { showInfoToast } from '../../../../components/ui/feedback/Toast';
+import { useStoryStore } from '../../../../stores/story.store';
+import { useSelectionStore } from '../../../../stores/selection.store';
 
 interface MediaPickerBottomSheetProps {
   visible: boolean;
@@ -45,7 +45,8 @@ const MediaOption: React.FC<MediaOptionProps> = ({
       useHorizontalLayout
       gap={16}
       paddingVertical={12}
-      paddingHorizontal={12}>
+      paddingHorizontal={12}
+    >
       <ContentContainer width={32} height={32} alignCenter>
         <SvgIcon name={icon} size={32} />
       </ContentContainer>
@@ -62,7 +63,7 @@ const isPickerCancelledError = (error: unknown): boolean => {
     return false;
   }
 
-  const maybeError = error as {code?: string; message?: string};
+  const maybeError = error as { code?: string; message?: string };
 
   return (
     maybeError.code === 'E_PICKER_CANCELLED' ||
@@ -77,9 +78,9 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   isGalleryUploading = false,
 }) => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const {setSelectedStoryKey, resetWritingStory, setPostStoryKey} =
+  const { setSelectedStoryKey, resetWritingStory, setPostStoryKey } =
     useStoryStore();
-  const {selectedGalleryItems, setSelectedGalleryItems} = useSelectionStore();
+  const { selectedGalleryItems, setSelectedGalleryItems } = useSelectionStore();
   const shouldSubmitAfterCameraCapture = useRef(false);
 
   // 카메라 촬영 후 상태가 업데이트되면 업로드 실행
@@ -175,13 +176,14 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
     <BottomSheet
       opened={visible}
       title="사진/동영상 추가하기"
-      onClose={isGalleryUploading ? () => {} : onClose}>
+      onClose={isGalleryUploading ? () => {} : onClose}
+    >
       <ContentContainer gap={0} paddingBottom={32}>
         {isGalleryUploading ? (
           <ContentContainer paddingVertical={40} alignCenter>
-            <BodyTextB color={Color.BLACK} marginBottom={8}>
-              업로드 중...
-            </BodyTextB>
+            <ContentContainer paddingBottom={8}>
+              <BodyTextB color={Color.BLACK}>업로드 중...</BodyTextB>
+            </ContentContainer>
             <BodyTextM color={Color.GREY_500}>잠시만 기다려주세요</BodyTextM>
           </ContentContainer>
         ) : (

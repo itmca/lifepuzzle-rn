@@ -39,8 +39,6 @@ const StoryWritingPage = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const writingStory = useStoryStore(state => state.writingStory);
   const setWritingStory = useStoryStore(state => state.setWritingStory);
-  const playInfo = useStoryStore(state => state.playInfo);
-  const setPlayInfo = useStoryStore(state => state.setPlayInfo);
   const ageGroups = useMediaStore(state => state.ageGroups);
   const tags = useMediaStore(state => state.tags);
 
@@ -51,7 +49,7 @@ const StoryWritingPage = (): React.ReactElement => {
   }
 
   const galleryItem = writingStory.gallery[0];
-  const currentAgeGroup = ageGroups[galleryItem.tagKey];
+  const currentAgeGroup = ageGroups?.[galleryItem.tagKey];
   const ageGroupStartDate =
     currentAgeGroup && new Date(Date.UTC(currentAgeGroup.startYear, 0, 1));
   const ageGroupEndDate =
@@ -78,8 +76,8 @@ const StoryWritingPage = (): React.ReactElement => {
               >
                 <ContentContainer paddingHorizontal={20}>
                   <SelectDropdown
-                    data={tags}
-                    onSelect={(selectedItem, index) => {
+                    data={tags || []}
+                    onSelect={(selectedItem, _) => {
                       const gallery: GalleryItem[] =
                         writingStory.gallery?.map(i => ({
                           ...i,
@@ -119,7 +117,7 @@ const StoryWritingPage = (): React.ReactElement => {
                       width: 70,
                     }}
                     dropdownOverlayColor={'transparent'}
-                    renderItem={(item, index, isSelected) => {
+                    renderItem={(item, _index, _isSelected) => {
                       return (
                         <ContentContainer withContentPadding gap={8}>
                           <Title color={Color.GREY_700}>{item.label}</Title>
@@ -179,7 +177,7 @@ const StoryWritingPage = (): React.ReactElement => {
                   />
                   <ContentContainer
                     flex={1}
-                    minHeight={100}
+                    minHeight="100px"
                     backgroundColor={Color.GREY}
                   >
                     <TextAreaInput
