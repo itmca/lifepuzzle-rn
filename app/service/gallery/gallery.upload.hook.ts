@@ -103,8 +103,7 @@ export const useUploadGalleryV2 = (
   const isUploading = uploadState.gallery;
 
   const resetSelectedGalleryItems = () => setSelectedGalleryItems([]);
-  const setIsUploading = (value: boolean) =>
-    setUploadState((prev: any) => ({ ...prev, gallery: value }));
+  const setIsUploading = (value: boolean) => setUploadState({ gallery: value });
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
 
   const { heroNo, selectedTag, selectedGalleryItems } = options?.request
@@ -119,7 +118,7 @@ export const useUploadGalleryV2 = (
         selectedGalleryItems: storeSelectedGalleryItems,
       };
 
-  const [uploadItems, setUploadItems] = useState<UploadItem[]>([]);
+  const [_, setUploadItems] = useState<UploadItem[]>([]);
   const [progress, setProgress] = useState<UploadProgress>({
     total: 0,
     completed: 0,
@@ -417,7 +416,7 @@ export const useUploadGalleryV2 = (
     requestPresignedUrls({
       data: {
         heroId: heroNo,
-        ageGroup: selectedTag.key,
+        ageGroup: selectedTag?.key || '',
         files,
       },
     });
