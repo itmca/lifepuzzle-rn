@@ -1,12 +1,13 @@
 import React from 'react';
+import { ImageRequireSource } from 'react-native';
 
 import styled, { css } from 'styled-components/native';
-import FastImage, { FastImageSource } from 'react-native-fast-image';
+import FastImage, { Source } from '@d11/react-native-fast-image';
 
 type Props = {
   width?: number;
   height?: number;
-  source: FastImageSource | number;
+  source: Source | ImageRequireSource;
   tintColor?: string;
   backgroundColor?: string;
   borderRadius?: number;

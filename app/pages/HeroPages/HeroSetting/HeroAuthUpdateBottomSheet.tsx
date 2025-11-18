@@ -78,7 +78,7 @@ export const HeroAuthUpdateBottomSheet = ({
           <ContentContainer width={'auto'}>
             <AccountAvatar
               size={52}
-              imageURL={user.imageUrl}
+              imageUrl={user.imageUrl}
               iconSize={20}
               auth={user.auth}
             />

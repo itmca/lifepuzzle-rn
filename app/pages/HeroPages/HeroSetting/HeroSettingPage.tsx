@@ -274,7 +274,7 @@ const HeroSettingPage = (): React.ReactElement => {
                 >
                   <ContentContainer useHorizontalLayout flex={1} expandToEnd>
                     <AccountAvatar
-                      imageURL={linkedUser.imageUrl}
+                      imageUrl={linkedUser.imageUrl}
                       size={52}
                       auth={linkedUser.auth}
                       iconSize={20}

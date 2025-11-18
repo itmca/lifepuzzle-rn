@@ -8,7 +8,7 @@ import {
   UIManager,
   View,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import FastImage from '@d11/react-native-fast-image';
 
 import MasonryList from 'react-native-masonry-list';
 import VMasonryList from '@react-native-seoul/masonry-list';
@@ -52,7 +52,6 @@ const GalleryListPage = () => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Derived value or local variables
-  const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
   const allGallery = getGallery();
   const ageGroupsArray = ageGroups ? Object.entries(ageGroups) : [];
@@ -106,7 +105,7 @@ const GalleryListPage = () => {
         );
       }
     }
-  }, [scrollViewHeight]);
+  }, [scrollViewHeight, selectedTag]);
 
   return (
     <ScreenContainer>
@@ -145,7 +144,7 @@ const GalleryListPage = () => {
                     contentContainerStyle={{
                       padding: 20,
                     }}
-                    renderItem={({ item, i }: { item: any; i: number }) => {
+                    renderItem={({ item, i: _i }: { item: any; i: number }) => {
                       const galleryItem = item as GalleryType;
                       return (
                         <TouchableOpacity
