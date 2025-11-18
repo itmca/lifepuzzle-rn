@@ -1,18 +1,18 @@
-import {useStoryStore} from '../../stores/story.store';
-import {useUIStore} from '../../stores/ui.store';
-import {useHeroStore} from '../../stores/hero.store';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {useUpdatePublisher} from '../common/update.hook';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
-import {useEffect} from 'react';
-import {StoryPayloadService} from './story-payload.service';
-import {useAuthValidation} from '../auth/validation.hook';
-import {useStoryValidation} from './story-validation.hook';
-import {useErrorHandler} from '../common/error-handler.hook';
+import { useStoryStore } from '../../stores/story.store';
+import { useUIStore } from '../../stores/ui.store';
+import { useHeroStore } from '../../stores/hero.store';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { useUpdatePublisher } from '../common/update.hook';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useEffect } from 'react';
+import { StoryPayloadService } from './story-payload.service';
+import { useAuthValidation } from '../auth/validation.hook';
+import { useStoryValidation } from './story-validation.hook';
+import { useErrorHandler } from '../common/error-handler.hook';
 
 export const useResetAllWritingStory = () => {
-  const {resetWritingStory} = useStoryStore();
+  const { resetWritingStory } = useStoryStore();
 
   return resetWritingStory;
 };
@@ -24,20 +24,20 @@ export const useSaveStory = (): [() => void] => {
     writingStory,
     setPostStoryKey,
   } = useStoryStore();
-  const {setUploadState, setModalOpen} = useUIStore();
-  const {currentHero: hero} = useHeroStore();
-  const setStoryUploading = (value: boolean) => setUploadState({story: value});
+  const { setUploadState, setModalOpen } = useUIStore();
+  const { currentHero: hero } = useHeroStore();
+  const setStoryUploading = (value: boolean) =>
+    setUploadState({ story: value });
 
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
   const resetAllWritingStory = useResetAllWritingStory();
-  const storyHttpPayLoad = StoryPayloadService.createStoryFormData(
-    writingStory,
-    hero,
-  );
+  const storyHttpPayLoad = hero
+    ? StoryPayloadService.createStoryFormData(writingStory, hero)
+    : null;
 
-  const {validateLogin} = useAuthValidation();
-  const {validateStoryContent} = useStoryValidation();
-  const {showSimpleAlert} = useErrorHandler();
+  const { validateLogin } = useAuthValidation();
+  const { validateStoryContent } = useStoryValidation();
+  const { showSimpleAlert } = useErrorHandler();
 
   const [isLoading, saveStory] = useAuthAxios<any>({
     requestOption: {
@@ -45,10 +45,10 @@ export const useSaveStory = (): [() => void] => {
       url: editStoryKey
         ? `/v3/galleries/stories//${editStoryKey}`
         : '/v3/galleries/stories',
-      headers: {'Content-Type': 'multipart/form-data'},
+      headers: { 'Content-Type': 'multipart/form-data' },
       timeout: 30_000, // speech to text 시 10~20초가 걸려 30초로 하며 관련 처리 시간 단축 시 timeout 조정 필요
     },
-    onResponseSuccess: ({storyKey}) => {
+    onResponseSuccess: ({ storyKey }) => {
       if (!editStoryKey) {
         setPostStoryKey(storyKey);
         setModalOpen(true);
@@ -57,7 +57,7 @@ export const useSaveStory = (): [() => void] => {
       resetAllWritingStory();
       publishStoryListUpdate();
 
-      navigation.navigate('HomeTab', {screen: 'Home'});
+      navigation.navigate('HomeTab', { screen: 'Home' });
     },
     onError: () => {
       const errorMessage = editStoryKey
@@ -73,6 +73,11 @@ export const useSaveStory = (): [() => void] => {
   }, [isLoading]);
 
   const submit = function () {
+    if (!storyHttpPayLoad) {
+      showSimpleAlert('스토리를 저장할 수 없습니다. 히어로 정보가 없습니다.');
+      return;
+    }
+
     saveStory({
       data: storyHttpPayLoad,
     });
