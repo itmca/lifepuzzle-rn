@@ -1,14 +1,9 @@
 import RNFetchBlob from 'rn-fetch-blob';
-import {Platform} from 'react-native';
-import AudioRecorderPlayer, {
-  AudioEncoderAndroidType,
-  AudioSourceAndroidType,
-  AVEncoderAudioQualityIOSType,
-  AVEncodingOption,
-  AVModeIOSOption,
-} from 'react-native-audio-recorder-player';
+import { Platform } from 'react-native';
+import Sound from 'react-native-nitro-sound';
 
-import {useState} from 'react';
+import { useState } from 'react';
+import { useStoryStore } from '../../stores/story.store';
 // Voice record utility functions (integrated from voice-record-info.service.ts)
 const getRecordFileName = (): string => {
   const date = new Date();
@@ -32,15 +27,14 @@ const getDisplayRecordTime = (milliSeconds: number): string => {
   const hour = Math.floor((milliSeconds / 3600000) % 60);
 
   const hourMinuteSeconds =
-    hour.toLocaleString('en-US', {minimumIntegerDigits: 2}) +
+    hour.toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
     ':' +
-    minute.toLocaleString('en-US', {minimumIntegerDigits: 2}) +
+    minute.toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
     ':' +
-    seconds.toLocaleString('en-US', {minimumIntegerDigits: 2});
+    seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 });
 
   return hourMinuteSeconds;
 };
-import {useStoryStore} from '../../stores/story.store';
 
 interface VoiceRecorderProps {
   audioUrl?: string;
@@ -60,7 +54,6 @@ interface VoiceRecorderReturn {
   seekPlay: (seconds: number) => Promise<void>;
 }
 
-const audioRecorderPlayer = new AudioRecorderPlayer();
 export const useVoiceRecorder = ({
   audioUrl,
   onStartRecord,
@@ -82,27 +75,24 @@ export const useVoiceRecorder = ({
       android: `${dirs.CacheDir}/${fileName}.mp4`,
     });
     const audioSet = {
-      AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-      AudioSourceAndroid: AudioSourceAndroidType.MIC,
-      AVModeIOS: AVModeIOSOption.measurement,
-      AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-      AVNumberOfChannelsKeyIOS: 2,
-      AVFormatIDKeyIOS: AVEncodingOption.aac,
+      AudioSamplingRate: 44100,
+      AudioEncodingBitRate: 128000,
+      AudioChannels: 1,
     };
     stopPlay();
     resetPlayInfo();
     setIsRecording(true);
 
-    const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
+    const uri = await Sound.startRecorder(path, audioSet);
 
-    audioRecorderPlayer.addRecordBackListener(e => {
+    Sound.addRecordBackListener(e => {
       const hourMinuteSeconds = getDisplayRecordTime(
         Math.floor(e.currentPosition),
       );
       setRecordTime(hourMinuteSeconds);
       setPlayInfo({
         currentDurationSec: e.currentPosition,
-        duration: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+        duration: Sound.mmssss(Math.floor(e.currentPosition)),
       });
     });
 
@@ -111,25 +101,25 @@ export const useVoiceRecorder = ({
   };
 
   const stopRecord = async function () {
-    await audioRecorderPlayer.stopRecorder();
-    audioRecorderPlayer.removeRecordBackListener();
+    await Sound.stopRecorder();
+    Sound.removeRecordBackListener();
 
     setIsRecording(false);
-    setPlayInfo({isPlay: false});
+    setPlayInfo({ isPlay: false });
     onStopRecord?.(file);
   };
   const startPlay = async () => {
-    setPlayInfo({isPlay: true});
-    const msg = await audioRecorderPlayer.startPlayer(file);
-    audioRecorderPlayer.addPlayBackListener(e => {
+    setPlayInfo({ isPlay: true });
+    const msg = await Sound.startPlayer(file);
+    Sound.addPlayBackListener(e => {
       setPlayInfo({
         currentPositionSec: e.currentPosition,
         currentDurationSec: e.duration,
-        playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
-        duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+        playTime: Sound.mmssss(Math.floor(e.currentPosition)),
+        duration: Sound.mmssss(Math.floor(e.duration)),
       });
       if (e.currentPosition == e.duration) {
-        setPlayInfo({isPlay: false});
+        setPlayInfo({ isPlay: false });
 
         stopRecord();
       }
@@ -137,17 +127,17 @@ export const useVoiceRecorder = ({
   };
 
   const pausePlay = async () => {
-    await audioRecorderPlayer.pausePlayer();
-    setPlayInfo({isPlay: false});
+    await Sound.pausePlayer();
+    setPlayInfo({ isPlay: false });
   };
 
   const stopPlay = async () => {
-    audioRecorderPlayer.stopPlayer();
-    audioRecorderPlayer.removePlayBackListener();
-    setPlayInfo({isPlay: false});
+    Sound.stopPlayer();
+    Sound.removePlayBackListener();
+    setPlayInfo({ isPlay: false });
   };
   const seekPlay = async (seconds: number) => {
-    audioRecorderPlayer.seekToPlayer(seconds);
+    Sound.seekToPlayer(seconds);
   };
   return {
     fileName: file,
