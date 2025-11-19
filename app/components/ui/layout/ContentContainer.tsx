@@ -59,16 +59,16 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   /* Size */
   width: ${props => props.width ?? '100%'};
   height: ${props => props.height ?? 'auto'};
-  ${props => props.minHeight && `min-height: ${props.minHeight}`}
-  ${props => props.maxHeight && `max-height: ${props.maxHeight}`}
+  ${props => props.minHeight && `min-height: ${props.minHeight};`}
+  ${props => props.maxHeight && `max-height: ${props.maxHeight};`}
 
   /* Flex Basic */
   display: flex;
   ${props => props.expandToEnd && 'flex-grow: 1;'}
-  ${props => props.flex && `flex: ${props.flex}`}
-  
+  ${props => props.flex && `flex: ${props.flex};`}
+
   /* Layout */
-  flex-direction: ${props => (props.useHorizontalLayout ? 'row' : 'column')}
+  flex-direction: ${props => (props.useHorizontalLayout ? 'row' : 'column')};
   justify-content: ${props =>
     props.useHorizontalLayout ? 'space-between' : 'flex-start'};
   align-items: ${props => (props.useHorizontalLayout ? 'center' : 'stretch')};
@@ -83,7 +83,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   ${props => props.absoluteBottomPosition && 'bottom: 0;'}
   ${props => props.absoluteLeftPosition && 'left: 0;'}
   ${props => props.absoluteRightPosition && 'right: 0;'}
-  ${props => props.aspectRatio && `aspect-ratio: ${props.aspectRatio}`};
+  ${props => props.aspectRatio && `aspect-ratio: ${props.aspectRatio};`};
 
   /* Align */
   ${props =>
@@ -95,7 +95,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   
   /* Padding */
   ${props => props.withScreenPadding && 'padding: 16px 20px 16px 20px;'}
-  ${props => props.withContentPadding && 'padding: 16px'}
+  ${props => props.withContentPadding && 'padding: 16px;'}
   ${props =>
     props.paddingVertical !== undefined &&
     css`
