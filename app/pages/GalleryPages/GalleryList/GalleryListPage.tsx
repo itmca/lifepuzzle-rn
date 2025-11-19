@@ -8,10 +8,9 @@ import {
   UIManager,
   View,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import FastImage from '@d11/react-native-fast-image';
 
-import MasonryList from 'react-native-masonry-list';
-import VMasonryList from '@react-native-seoul/masonry-list';
+import { FlashList } from '@shopify/flash-list';
 
 import { GalleryType, TagKey } from '../../../types/core/media.type';
 
@@ -52,7 +51,6 @@ const GalleryListPage = () => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Derived value or local variables
-  const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
   const allGallery = getGallery();
   const ageGroupsArray = ageGroups ? Object.entries(ageGroups) : [];
@@ -106,7 +104,7 @@ const GalleryListPage = () => {
         );
       }
     }
-  }, [scrollViewHeight]);
+  }, [scrollViewHeight, selectedTag]);
 
   return (
     <ScreenContainer>
@@ -139,13 +137,14 @@ const GalleryListPage = () => {
                   </Head>
                 </ContentContainer>
                 {ageKey === 'AI_PHOTO' ? (
-                  <VMasonryList
+                  <FlashList
                     data={ageGroup.gallery}
                     numColumns={2}
+                    estimatedItemSize={200}
                     contentContainerStyle={{
                       padding: 20,
                     }}
-                    renderItem={({ item, i }: { item: any; i: number }) => {
+                    renderItem={({ item }: { item: any }) => {
                       const galleryItem = item as GalleryType;
                       return (
                         <TouchableOpacity
@@ -177,26 +176,30 @@ const GalleryListPage = () => {
                     }}
                   />
                 ) : (
-                  <MasonryList
-                    images={ageGroup.gallery.map((e: GalleryType) => ({
-                      uri: e.url,
-                      id: e.id,
-                    }))}
-                    brickProps={{
-                      imageContainerStyle: { borderRadius: 12 },
-                    }}
-                    customImageComponent={FastImage}
-                    customImageProps={{
-                      cacheControl: FastImage.cacheControl.immutable,
-                      resizeMode: FastImage.resizeMode.cover,
-                    }}
-                    onPressImage={(item: any) => {
-                      const galleryItem = ageGroup.gallery.find(
-                        (g: GalleryType) => g.id === item.id,
+                  <FlashList
+                    data={ageGroup.gallery}
+                    numColumns={2}
+                    estimatedItemSize={200}
+                    renderItem={({ item }: { item: any }) => {
+                      const galleryItem = item as GalleryType;
+                      return (
+                        <TouchableOpacity
+                          onPress={() => moveToStoryDetailPage(galleryItem)}
+                          style={{
+                            borderRadius: 12,
+                            overflow: 'hidden',
+                            marginBottom: 4,
+                            margin: 2,
+                          }}
+                        >
+                          <FastImage
+                            source={{ uri: galleryItem.url }}
+                            style={{ width: '100%', aspectRatio: 1 }}
+                            cacheControl={FastImage.cacheControl.immutable}
+                            resizeMode={FastImage.resizeMode.cover}
+                          />
+                        </TouchableOpacity>
                       );
-                      if (galleryItem) {
-                        moveToStoryDetailPage(galleryItem);
-                      }
                     }}
                   />
                 )}

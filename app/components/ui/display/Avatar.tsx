@@ -7,7 +7,7 @@ import { SvgIcon } from './SvgIcon.tsx';
 import { HeroAuthTypeCode } from '../../../constants/auth.constant.ts';
 
 type Props = {
-  imageURL: string | undefined;
+  imageUrl: string | undefined;
   size: number;
   style?: StyleProp<any> | undefined;
   editable?: boolean;
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const AccountAvatar = ({
-  imageURL,
+  imageUrl,
   size,
   style,
   editable = false,
@@ -37,11 +37,11 @@ export const AccountAvatar = ({
       }}
     >
       <ContentContainer width={'auto'} alignCenter>
-        {imageURL ? (
+        {imageUrl ? (
           <Avatar.Image
             style={{ backgroundColor: Color.GREY, ...style }}
             size={size}
-            source={{ uri: imageURL }}
+            source={{ uri: imageUrl }}
           />
         ) : (
           <SvgIcon name="profile" size={size} />

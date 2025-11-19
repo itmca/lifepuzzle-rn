@@ -1,5 +1,5 @@
-import styled, {css} from 'styled-components/native';
-import {Color, ColorType} from '../../../constants/color.constant';
+import styled, { css } from 'styled-components/native';
+import { Color, ColorType } from '../../../constants/color.constant';
 
 type Props = {
   // Size
@@ -34,8 +34,8 @@ export const ButtonBase = styled.TouchableOpacity<Props>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  ${props => (props.gap ? `gap: ${props.gap}px` : '')};
-  ${props => (props.width === 'auto' ? 'align-self: flex-start' : '')};
+  ${props => (props.gap ? `gap: ${props.gap}px;` : '')};
+  ${props => (props.width === 'auto' ? 'align-self: flex-start;' : '')};
 
   ${props =>
     props.paddingVertical !== undefined &&
@@ -75,5 +75,5 @@ export const ButtonBase = styled.TouchableOpacity<Props>`
   border-color: ${props => props.borderColor ?? Color.TRANSPARENT};
   border-radius: ${props => props.borderRadius ?? 6}px;
   border-width: ${props => props.borderWidth ?? 0}px;
-  ${props => (props.borderInside ? 'box-sizing: border-box' : '')};
+  ${props => (props.borderInside ? 'box-sizing: border-box;' : '')};
 `;

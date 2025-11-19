@@ -21,7 +21,7 @@ const HeroOverview = ({ hero }: Props): React.ReactElement => {
   return (
     <ContentContainer gap={20} flex={1}>
       <ContentContainer useHorizontalLayout gap={8}>
-        <HeroAvatar imageURL={hero.image} size={52} />
+        <HeroAvatar imageUrl={hero.image} size={52} />
         <ContentContainer gap={4}>
           <ContentContainer
             useHorizontalLayout

@@ -25,7 +25,7 @@ type AccountQueryResponse = {
   userNo: number;
   userId: string;
   userNickName: string;
-  imageURL: string;
+  imageUrl: string;
   recentHeroNo: number;
   userType: 'general' | 'kakao' | 'apple' | 'none';
 };
@@ -57,7 +57,7 @@ const AccountModificationPage = (): React.ReactElement => {
         {user && (
           <>
             <ContentContainer gap={8} alignCenter expandToEnd>
-              <AccountAvatar imageURL={user.imageUrl} size={100} />
+              <AccountAvatar imageUrl={user.imageUrl} size={100} />
               <ContentContainer gap={0} alignCenter>
                 <Head>{user.userNickName}</Head>
                 {user?.userType === 'general' && (

@@ -73,7 +73,7 @@ export const ProfileUpdateBottomSheet = ({
       <ContentContainer alignCenter paddingVertical={16}>
         <AccountAvatar
           size={100}
-          imageURL={currentUserPhotoUri}
+          imageUrl={currentUserPhotoUri}
           editable
           onEditPress={() => showActionSheet()}
         />

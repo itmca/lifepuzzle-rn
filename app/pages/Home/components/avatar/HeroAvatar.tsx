@@ -5,17 +5,17 @@ import { Color } from '../../../../constants/color.constant.ts';
 import { Profile } from '../../../../components/ui/display/Profile';
 
 type Props = {
-  imageURL: string | undefined;
+  imageUrl: string | undefined;
   size: number;
   style?: StyleProp<any> | undefined;
 };
 
 export const HeroAvatar = ({
-  imageURL,
+  imageUrl,
   size,
   style,
 }: Props): React.ReactElement => {
-  if (!imageURL) {
+  if (!imageUrl) {
     return <Profile />;
   }
 
@@ -23,7 +23,7 @@ export const HeroAvatar = ({
     <Avatar.Image
       style={{ backgroundColor: Color.GREY, ...style }}
       size={size}
-      source={{ uri: imageURL }}
+      source={{ uri: imageUrl }}
     />
   );
 };

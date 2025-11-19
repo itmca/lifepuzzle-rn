@@ -1,8 +1,8 @@
-import {useHeroStore} from '../../stores/hero.store';
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
+import { useHeroStore } from '../../stores/hero.store';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { showErrorToast, showToast } from '../../components/ui/feedback/Toast';
 
 export const useDeleteHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
@@ -23,7 +23,7 @@ export const useDeleteHero = (): [() => void, boolean] => {
         },
       });
     },
-    onError: error => {
+    onError: _err => {
       showErrorToast(
         `${writingHero.heroName} 삭제를 실패했습니다.\n잠시 후 다시 시도 부탁드립니다.`,
       );
