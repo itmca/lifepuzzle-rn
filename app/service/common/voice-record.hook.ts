@@ -1,4 +1,4 @@
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import { Platform } from 'react-native';
 import Sound from 'react-native-nitro-sound';
 
@@ -69,7 +69,7 @@ export const useVoiceRecorder = ({
 
   const startRecord = async function () {
     const fileName = getRecordFileName();
-    const dirs = RNFetchBlob.fs.dirs;
+    const dirs = ReactNativeBlobUtil.fs.dirs;
     const path = Platform.select({
       ios: `${fileName}.m4a`,
       android: `${dirs.CacheDir}/${fileName}.mp4`,
