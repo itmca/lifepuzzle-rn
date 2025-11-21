@@ -18,7 +18,7 @@ import { Title } from '../../ui/base/TextBase';
 import { Divider } from '../../ui/base/Divider.tsx';
 import BottomSheet from '../../ui/interaction/BottomSheet.tsx';
 import { showToast } from '../../ui/feedback/Toast.tsx';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import { getFormattedDateTime } from '../../../service/utils/date-time.service.ts';
 import Share from 'react-native-share';
 
@@ -98,7 +98,7 @@ export const StoryDetailMenuBottomSheet = ({
     ]);
   };
   const onShareGallery = async () => {
-    const { config, fs } = RNFetchBlob;
+    const { config, fs } = ReactNativeBlobUtil;
     let picturePath = `${fs.dirs.CacheDir}/lp_${getFormattedDateTime()}.jpg`;
     await config({
       fileCache: true,
