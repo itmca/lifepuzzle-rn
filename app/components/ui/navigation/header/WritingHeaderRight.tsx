@@ -29,7 +29,7 @@ const WritingHeaderRight = ({
         if (typeof customAction === 'function') {
           customAction();
         } else if (nextScreenName) {
-          navigation.push('App', {
+          navigation.navigate('App', {
             screen: 'StoryWritingNavigator',
             params: {
               screen: nextScreenName,

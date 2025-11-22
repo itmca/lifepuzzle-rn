@@ -75,7 +75,7 @@ const GalleryListPage = () => {
       setCurrentGalleryIndex(0);
     }
 
-    navigation.push('App', {
+    navigation.navigate('App', {
       screen: 'StoryViewNavigator',
       params: {
         screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',

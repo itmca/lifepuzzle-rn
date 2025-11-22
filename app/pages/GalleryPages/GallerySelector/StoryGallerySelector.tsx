@@ -53,7 +53,7 @@ const StoryGallerySelector = (): React.ReactElement => {
   const handleNavigateToGalleryDetail = () => {
     setGalleryIndex(0);
     setEditGalleryItems([...selectedGalleryItems]);
-    navigation.push('App', {
+    navigation.navigate('App', {
       screen: 'StoryWritingNavigator',
       params: {
         screen: 'GalleryDetail',

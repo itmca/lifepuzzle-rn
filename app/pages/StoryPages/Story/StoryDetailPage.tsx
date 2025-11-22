@@ -87,7 +87,7 @@ const StoryDetailPage = (): React.ReactElement => {
         },
       ],
     });
-    navigation.push('App', {
+    navigation.navigate('App', {
       screen: 'StoryWritingNavigator',
       params: {
         screen: 'StoryWritingMain',

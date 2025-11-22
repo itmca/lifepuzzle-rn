@@ -64,7 +64,7 @@ const OnboardingPage = ({ navigation }: any) => {
         routes: [{ name: 'App', params: { screen: 'Home' } }],
       });
 
-      navigation.push('Auth', {
+      navigation.navigate('Auth', {
         screen: 'LoginRegisterNavigator',
         params: {
           screen: 'LoginMain',
