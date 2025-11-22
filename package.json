@@ -61,7 +61,7 @@
     "react-native-linear-gradient": "^2.8.3",
     "react-native-mmkv": "^3.2.0",
     "react-native-modal": "^14.0.0-rc.1",
-    "react-native-modal-datetime-picker": "^15.0.1",
+    "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-nitro-modules": "^0.31.8",
     "react-native-nitro-sound": "^0.2.9",
     "react-native-paper": "^5.12.3",
