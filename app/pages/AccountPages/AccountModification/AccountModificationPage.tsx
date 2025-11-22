@@ -16,7 +16,6 @@ import {
 } from '../../../components/ui/base/TextBase';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { BasicButton } from '../../../components/ui/form/Button';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useUserWithdraw } from '../../../service/user/user.withdraw.hook.ts';
 import { ProfileUpdateBottomSheet } from './components/BottomSheet/ProfileUpdateBottomSheet.tsx';
 import { PasswordUpdateBottomSheet } from './components/BottomSheet/PasswordUpdateBottomSheet.tsx';
@@ -110,17 +109,15 @@ const AccountModificationPage = (): React.ReactElement => {
             </ContentContainer>
           </>
         )}
-        <BottomSheetModalProvider>
-          <ProfileUpdateBottomSheet
-            opened={profileModalOpen}
-            onSuccess={() => setProfileModalOpen(false)}
-            onClose={() => setProfileModalOpen(false)}
-          />
-          <PasswordUpdateBottomSheet
-            opened={passwordModalOpen}
-            onClose={() => setPasswordModalOpen(false)}
-          />
-        </BottomSheetModalProvider>
+        <ProfileUpdateBottomSheet
+          opened={profileModalOpen}
+          onSuccess={() => setProfileModalOpen(false)}
+          onClose={() => setProfileModalOpen(false)}
+        />
+        <PasswordUpdateBottomSheet
+          opened={passwordModalOpen}
+          onClose={() => setPasswordModalOpen(false)}
+        />
       </ScreenContainer>
     </LoadingContainer>
   );

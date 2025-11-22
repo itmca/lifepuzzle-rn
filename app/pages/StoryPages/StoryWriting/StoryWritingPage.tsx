@@ -11,7 +11,6 @@ import StoryDateInput from './StoryDateInput.tsx';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { useIsStoryUploading } from '../../../service/story/story.write.hook.ts';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import { Color } from '../../../constants/color.constant.ts';
 import { MediumImage } from '../../../components/ui/base/ImageBase';
@@ -57,178 +56,176 @@ const StoryWritingPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={isStoryUploading}>
-      <BottomSheetModalProvider>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={{
-            backgroundColor: 'transparent',
-            flex: 1,
-          }}
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ContentContainer height={'100%'} paddingBottom={15}>
-              <ScrollView
-                contentContainerStyle={{
-                  flexGrow: 1,
-                  paddingTop: 15,
-                }}
-                keyboardShouldPersistTaps={'handled'}
-              >
-                <ContentContainer paddingHorizontal={20}>
-                  <SelectDropdown
-                    data={tags || []}
-                    onSelect={(selectedItem, _) => {
-                      const gallery: GalleryItem[] =
-                        writingStory.gallery?.map(i => ({
-                          ...i,
-                          tagKey: selectedItem.key,
-                        })) ?? [];
-                      setWritingStory({ gallery });
-                    }}
-                    renderButton={(selectedItem, isOpened) => {
-                      return (
-                        <ContentContainer
-                          gap={8}
-                          style={{
-                            height: 24,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            alignSelf: 'flex-start',
-                          }}
-                        >
-                          <Title
-                            color={
-                              selectedItem && selectedItem.label
-                                ? Color.GREY_700
-                                : Color.GREY_400
-                            }
-                          >
-                            {(selectedItem && selectedItem.label) || '나이대'}
-                          </Title>
-                          <SvgIcon
-                            name={isOpened ? 'chevronUp' : 'chevronDown'}
-                          />
-                        </ContentContainer>
-                      );
-                    }}
-                    dropdownStyle={{
-                      backgroundColor: '#FFFFFF',
-                      borderRadius: 2,
-                      width: 70,
-                    }}
-                    dropdownOverlayColor={'transparent'}
-                    renderItem={(item, _index, _isSelected) => {
-                      return (
-                        <ContentContainer withContentPadding gap={8}>
-                          <Title color={Color.GREY_700}>{item.label}</Title>
-                        </ContentContainer>
-                      );
-                    }}
-                    showsVerticalScrollIndicator={false}
-                  />
-                </ContentContainer>
-
-                <Carousel
-                  ref={carouselRef}
-                  data={[galleryItem]}
-                  mode={'parallax'}
-                  loop={false}
-                  defaultIndex={0}
-                  modeConfig={{
-                    parallaxScrollingScale: 0.91,
-                    parallaxAdjacentItemScale: 0.91,
-                    parallaxScrollingOffset: 25,
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{
+          backgroundColor: 'transparent',
+          flex: 1,
+        }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ContentContainer height={'100%'} paddingBottom={15}>
+            <ScrollView
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingTop: 15,
+              }}
+              keyboardShouldPersistTaps={'handled'}
+            >
+              <ContentContainer paddingHorizontal={20}>
+                <SelectDropdown
+                  data={tags || []}
+                  onSelect={(selectedItem, _) => {
+                    const gallery: GalleryItem[] =
+                      writingStory.gallery?.map(i => ({
+                        ...i,
+                        tagKey: selectedItem.key,
+                      })) ?? [];
+                    setWritingStory({ gallery });
                   }}
-                  width={Dimensions.get('window').width}
-                  height={Dimensions.get('window').height * 0.52}
-                  renderItem={({ item: data }: any) => {
+                  renderButton={(selectedItem, isOpened) => {
                     return (
                       <ContentContainer
-                        borderRadius={6}
-                        alignCenter
-                        backgroundColor={Color.GREY_700}
+                        gap={8}
+                        style={{
+                          height: 24,
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          alignSelf: 'flex-start',
+                        }}
                       >
-                        <MediumImage
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                          }}
-                          source={{ uri: data.uri }}
-                          resizeMode={'contain'}
+                        <Title
+                          color={
+                            selectedItem && selectedItem.label
+                              ? Color.GREY_700
+                              : Color.GREY_400
+                          }
+                        >
+                          {(selectedItem && selectedItem.label) || '나이대'}
+                        </Title>
+                        <SvgIcon
+                          name={isOpened ? 'chevronUp' : 'chevronDown'}
                         />
                       </ContentContainer>
                     );
                   }}
+                  dropdownStyle={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: 2,
+                    width: 70,
+                  }}
+                  dropdownOverlayColor={'transparent'}
+                  renderItem={(item, _index, _isSelected) => {
+                    return (
+                      <ContentContainer withContentPadding gap={8}>
+                        <Title color={Color.GREY_700}>{item.label}</Title>
+                      </ContentContainer>
+                    );
+                  }}
+                  showsVerticalScrollIndicator={false}
                 />
+              </ContentContainer>
 
-                <ContentContainer flex={1} paddingHorizontal={20}>
-                  <PlainTextInput
-                    text={writingStory.title ?? ''}
+              <Carousel
+                ref={carouselRef}
+                data={[galleryItem]}
+                mode={'parallax'}
+                loop={false}
+                defaultIndex={0}
+                modeConfig={{
+                  parallaxScrollingScale: 0.91,
+                  parallaxAdjacentItemScale: 0.91,
+                  parallaxScrollingOffset: 25,
+                }}
+                width={Dimensions.get('window').width}
+                height={Dimensions.get('window').height * 0.52}
+                renderItem={({ item: data }: any) => {
+                  return (
+                    <ContentContainer
+                      borderRadius={6}
+                      alignCenter
+                      backgroundColor={Color.GREY_700}
+                    >
+                      <MediumImage
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                        }}
+                        source={{ uri: data.uri }}
+                        resizeMode={'contain'}
+                      />
+                    </ContentContainer>
+                  );
+                }}
+              />
+
+              <ContentContainer flex={1} paddingHorizontal={20}>
+                <PlainTextInput
+                  text={writingStory.title ?? ''}
+                  onChangeText={text => {
+                    setWritingStory({ title: text });
+                  }}
+                  placeholder={'제목을 입력해주세요'}
+                  validations={[
+                    {
+                      condition: (text: string) => !!text,
+                      errorText: '제목을 입력해주세요',
+                    },
+                  ]}
+                />
+                <ContentContainer
+                  flex={1}
+                  minHeight="100px"
+                  backgroundColor={Color.GREY}
+                >
+                  <TextAreaInput
+                    text={writingStory.content ?? ''}
                     onChangeText={text => {
-                      setWritingStory({ title: text });
+                      setWritingStory({ content: text });
                     }}
-                    placeholder={'제목을 입력해주세요'}
+                    placeholder={'내용을 입력해주세요'}
                     validations={[
                       {
                         condition: (text: string) => !!text,
-                        errorText: '제목을 입력해주세요',
+                        errorText: '내용을 입력해주세요',
                       },
                     ]}
                   />
-                  <ContentContainer
-                    flex={1}
-                    minHeight="100px"
-                    backgroundColor={Color.GREY}
-                  >
-                    <TextAreaInput
-                      text={writingStory.content ?? ''}
-                      onChangeText={text => {
-                        setWritingStory({ content: text });
-                      }}
-                      placeholder={'내용을 입력해주세요'}
-                      validations={[
-                        {
-                          condition: (text: string) => !!text,
-                          errorText: '내용을 입력해주세요',
-                        },
-                      ]}
-                    />
-                  </ContentContainer>
-                  {writingStory.voice ? (
-                    <AudioBtn
-                      audioUrl={writingStory.voice}
-                      onPlay={() => {
-                        setOpenModal(true);
-                      }}
-                    />
-                  ) : (
-                    <VoiceAddButton
-                      onPress={() => {
-                        setOpenModal(true);
-                      }}
-                    />
-                  )}
-                  <StoryDateInput
-                    startDate={ageGroupStartDate}
-                    endDate={ageGroupEndDate}
-                    value={''}
-                    onChange={(date: Date) => {
-                      setWritingStory({ date });
+                </ContentContainer>
+                {writingStory.voice ? (
+                  <AudioBtn
+                    audioUrl={writingStory.voice}
+                    onPlay={() => {
+                      setOpenModal(true);
                     }}
                   />
-                </ContentContainer>
-              </ScrollView>
-            </ContentContainer>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-        <VoiceBottomSheet
-          opened={openModal}
-          editable
-          onClose={() => {
-            setOpenModal(false);
-          }}
-        />
-      </BottomSheetModalProvider>
+                ) : (
+                  <VoiceAddButton
+                    onPress={() => {
+                      setOpenModal(true);
+                    }}
+                  />
+                )}
+                <StoryDateInput
+                  startDate={ageGroupStartDate}
+                  endDate={ageGroupEndDate}
+                  value={''}
+                  onChange={(date: Date) => {
+                    setWritingStory({ date });
+                  }}
+                />
+              </ContentContainer>
+            </ScrollView>
+          </ContentContainer>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+      <VoiceBottomSheet
+        opened={openModal}
+        editable
+        onClose={() => {
+          setOpenModal(false);
+        }}
+      />
     </LoadingContainer>
   );
 };
