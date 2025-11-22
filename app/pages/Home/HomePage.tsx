@@ -3,7 +3,6 @@ import { RefreshControl, ScrollView } from 'react-native';
 
 import FastImage from '@d11/react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useHeroStore } from '../../stores/hero.store';
 import { useMediaStore } from '../../stores/media.store';
 import { useUIStore } from '../../stores/ui.store';
@@ -161,64 +160,62 @@ const HomePage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={isLoading || isGalleryUploading}>
-      <BottomSheetModalProvider>
-        <ScreenContainer gap={0} alignItems="stretch">
-          <ScrollView
-            style={{ flex: 1, width: '100%' }}
-            contentContainerStyle={{ flexGrow: 1 }}
-            showsVerticalScrollIndicator={false}
-            onScroll={event => {
-              setScrollY(event.nativeEvent.contentOffset.y);
-            }}
-            scrollEventThrottle={16}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={handlePullToRefresh}
-                progressBackgroundColor="#ffffff"
-                colors={['#007AFF']}
-                tintColor="#007AFF"
-              />
-            }
-          >
-            {/* 상단 프로필 영역 */}
-            <HeroSection
-              photoHero={photoHero}
-              onSharePress={handleHeroSharePress}
+      <ScreenContainer gap={0} alignItems="stretch">
+        <ScrollView
+          style={{ flex: 1, width: '100%' }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+          onScroll={event => {
+            setScrollY(event.nativeEvent.contentOffset.y);
+          }}
+          scrollEventThrottle={16}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handlePullToRefresh}
+              progressBackgroundColor="#ffffff"
+              colors={['#007AFF']}
+              tintColor="#007AFF"
             />
+          }
+        >
+          {/* 상단 프로필 영역 */}
+          <HeroSection
+            photoHero={photoHero}
+            onSharePress={handleHeroSharePress}
+          />
 
-            {/* 중간 사진 영역 */}
-            <ContentContainer flex={1}>
-              <Gallery
-                hero={photoHero}
-                ageGroups={ageGroups || {}}
-                tags={tags || []}
-                isError={isError}
-                hasInitialData={hasInitialData}
-                onRetry={handleRefetch}
-              />
-            </ContentContainer>
-          </ScrollView>
+          {/* 중간 사진 영역 */}
+          <ContentContainer flex={1}>
+            <Gallery
+              hero={photoHero}
+              ageGroups={ageGroups || {}}
+              tags={tags || []}
+              isError={isError}
+              hasInitialData={hasInitialData}
+              onRetry={handleRefetch}
+            />
+          </ContentContainer>
+        </ScrollView>
 
-          {/* 하단 버튼 영역 */}
-          {hero && hero.auth !== 'VIEWER' && (
-            <GalleryBottomButton onPress={handleGalleryButtonPress} />
-          )}
-        </ScreenContainer>
+        {/* 하단 버튼 영역 */}
+        {hero && hero.auth !== 'VIEWER' && (
+          <GalleryBottomButton onPress={handleGalleryButtonPress} />
+        )}
+      </ScreenContainer>
 
-        {/* 바텀 시트 영역 */}
-        <BottomSheetSection
-          heroShareModalOpen={heroShareModalOpen}
-          onCloseHeroShareModal={handleCloseHeroShareModal}
-          receivedImageBottomSheetOpen={receivedImageBottomSheetOpen}
-          onCloseReceivedImageBottomSheet={handleCloseReceivedImageBottomSheet}
-          mediaPickerBottomSheetOpen={mediaPickerBottomSheetOpen}
-          onCloseMediaPicker={handleCloseMediaPicker}
-          isGalleryUploading={isGalleryUploading}
-          onSubmitGallery={submitGallery}
-          onRefetch={handleRefetch}
-        />
-      </BottomSheetModalProvider>
+      {/* 바텀 시트 영역 */}
+      <BottomSheetSection
+        heroShareModalOpen={heroShareModalOpen}
+        onCloseHeroShareModal={handleCloseHeroShareModal}
+        receivedImageBottomSheetOpen={receivedImageBottomSheetOpen}
+        onCloseReceivedImageBottomSheet={handleCloseReceivedImageBottomSheet}
+        mediaPickerBottomSheetOpen={mediaPickerBottomSheetOpen}
+        onCloseMediaPicker={handleCloseMediaPicker}
+        isGalleryUploading={isGalleryUploading}
+        onSubmitGallery={submitGallery}
+        onRefetch={handleRefetch}
+      />
     </LoadingContainer>
   );
 };

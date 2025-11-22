@@ -43,7 +43,6 @@ import { HeroAuthTypeByCode } from '../../../constants/auth.constant.ts';
 import { showToast } from '../../../components/ui/feedback/Toast';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { SvgIcon } from '../../../components/ui/display/SvgIcon';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { HeroAuthUpdateBottomSheet } from './HeroAuthUpdateBottomSheet.tsx';
 import { useUserStore } from '../../../stores/user.store';
 
@@ -317,17 +316,15 @@ const HeroSettingPage = (): React.ReactElement => {
             })}
           </ContentContainer>
         </ScrollContentContainer>
-        <BottomSheetModalProvider>
-          <HeroAuthUpdateBottomSheet
-            opened={authSettingModalOpen}
-            user={authSettingUser}
-            hero={focusedHero}
-            onSuccess={() => {
-              setAuthSettingModalOpen(false);
-            }}
-            onClose={() => setAuthSettingModalOpen(false)}
-          />
-        </BottomSheetModalProvider>
+        <HeroAuthUpdateBottomSheet
+          opened={authSettingModalOpen}
+          user={authSettingUser}
+          hero={focusedHero}
+          onSuccess={() => {
+            setAuthSettingModalOpen(false);
+          }}
+          onClose={() => setAuthSettingModalOpen(false)}
+        />
       </ScreenContainer>
     </LoadingContainer>
   );

@@ -14,8 +14,6 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
 import { Color } from '../../../constants/color.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
@@ -107,58 +105,56 @@ const StoryDetailPage = (): React.ReactElement => {
   });
   return (
     <LoadingContainer isLoading={false}>
-      <BottomSheetModalProvider>
-        <ScreenContainer>
-          <ScrollContentContainer gap={0}>
-            <ContentContainer paddingHorizontal={20} paddingTop={20}>
-              <Title color={Color.GREY_700}>
-                {currentGalleryItem?.tag?.label +
-                  '(' +
-                  currentGalleryItem?.tag?.count +
-                  ')'}
-              </Title>
-            </ContentContainer>
-            <ContentContainer>
-              <MediaCarousel
-                data={filteredGallery.map((item, index) => ({
-                  type: item.type,
-                  url: item.url,
-                  index: index,
-                }))}
-                activeIndex={filteredIndex}
-                isFocused={isFocused}
-                carouselWidth={Dimensions.get('window').width}
-                onScroll={handleIndexChange}
-                onPress={openPinchZoomModal}
-              />
-            </ContentContainer>
-            <ContentContainer paddingHorizontal={20} flex={1} expandToEnd>
-              {currentGalleryItem?.story ? (
-                <StoryItemContents story={currentGalleryItem.story} />
-              ) : (
-                <>
-                  <Title color={Color.GREY_400}>
-                    사진에 담겨있는 당신의 이야기를 작성해 주세요
-                  </Title>
-                  <ContentContainer alignCenter paddingTop={36}>
-                    <StoryWritingButton onPress={onClickWrite} />
-                  </ContentContainer>
-                </>
-              )}
-            </ContentContainer>
-          </ScrollContentContainer>
-        </ScreenContainer>
+      <ScreenContainer>
+        <ScrollContentContainer gap={0}>
+          <ContentContainer paddingHorizontal={20} paddingTop={20}>
+            <Title color={Color.GREY_700}>
+              {currentGalleryItem?.tag?.label +
+                '(' +
+                currentGalleryItem?.tag?.count +
+                ')'}
+            </Title>
+          </ContentContainer>
+          <ContentContainer>
+            <MediaCarousel
+              data={filteredGallery.map((item, index) => ({
+                type: item.type,
+                url: item.url,
+                index: index,
+              }))}
+              activeIndex={filteredIndex}
+              isFocused={isFocused}
+              carouselWidth={Dimensions.get('window').width}
+              onScroll={handleIndexChange}
+              onPress={openPinchZoomModal}
+            />
+          </ContentContainer>
+          <ContentContainer paddingHorizontal={20} flex={1} expandToEnd>
+            {currentGalleryItem?.story ? (
+              <StoryItemContents story={currentGalleryItem.story} />
+            ) : (
+              <>
+                <Title color={Color.GREY_400}>
+                  사진에 담겨있는 당신의 이야기를 작성해 주세요
+                </Title>
+                <ContentContainer alignCenter paddingTop={36}>
+                  <StoryWritingButton onPress={onClickWrite} />
+                </ContentContainer>
+              </>
+            )}
+          </ContentContainer>
+        </ScrollContentContainer>
+      </ScreenContainer>
 
-        <StoryDetailMenuBottomSheet
-          type={isStory ? 'story' : 'photo'}
-          gallery={currentGalleryItem}
-        />
-        <PinchZoomModal
-          opened={pinchZoomModalOpen}
-          imageUri={pinchZoomImage}
-          onClose={() => setPinchZoomModalOpen(false)}
-        />
-      </BottomSheetModalProvider>
+      <StoryDetailMenuBottomSheet
+        type={isStory ? 'story' : 'photo'}
+        gallery={currentGalleryItem}
+      />
+      <PinchZoomModal
+        opened={pinchZoomModalOpen}
+        imageUri={pinchZoomImage}
+        onClose={() => setPinchZoomModalOpen(false)}
+      />
     </LoadingContainer>
   );
 };
