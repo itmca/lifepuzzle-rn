@@ -14,7 +14,7 @@ const LoginHeaderLeft = ({ type }: Props): React.ReactElement => {
     return (
       <Pressable
         onPress={() => {
-          navigation.navigate('HomeTab', {
+          navigation.navigate('App', {
             screen: 'Home',
           });
         }}

@@ -69,7 +69,7 @@ export const MainTopBar = ({
             if (typeof customGoBackAction === 'function') {
               customGoBackAction();
             } else {
-              navigation.navigate('HomeTab', { screen: 'Home' });
+              navigation.navigate('App', { screen: 'Home' });
             }
           }}
         >
@@ -82,7 +82,7 @@ export const MainTopBar = ({
             {isLoggedIn && (
               <Pressable
                 onPress={() => {
-                  navigation.push('NoTab', {
+                  navigation.push('App', {
                     screen: 'HeroSettingNavigator',
                     params: {
                       screen: 'HeroSetting',
@@ -96,14 +96,14 @@ export const MainTopBar = ({
             <Pressable
               onPress={() => {
                 if (isLoggedIn) {
-                  navigation.push('NoTab', {
+                  navigation.push('App', {
                     screen: 'AccountSettingNavigator',
                     params: {
                       screen: 'AccountModification',
                     },
                   });
                 } else {
-                  navigation.navigate('HomeTab', { screen: 'Profile' });
+                  navigation.navigate('App', { screen: 'Home' });
                 }
               }}
             >

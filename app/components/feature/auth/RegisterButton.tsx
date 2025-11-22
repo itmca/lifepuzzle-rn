@@ -11,7 +11,7 @@ const RegisterButton = (): React.ReactElement => {
     <>
       <TouchableOpacity
         onPress={() => {
-          navigation.push('NoTab', {
+          navigation.push('Auth', {
             screen: 'LoginRegisterNavigator',
             params: {
               screen: 'Register',

@@ -42,7 +42,7 @@ export const useLogout = (option?: Option) => {
     if (customGoBackAction) {
       customGoBackAction();
     } else {
-      navigation.navigate('NoTab', {
+      navigation.navigate('Auth', {
         screen: 'LoginRegisterNavigator',
         params: {
           screen: 'LoginMain',

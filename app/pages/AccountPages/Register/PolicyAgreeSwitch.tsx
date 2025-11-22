@@ -1,9 +1,9 @@
 import React from 'react';
-import {TouchableOpacity, ViewStyle} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Color} from '../../../constants/color.constant';
-import {CheckBox} from '../../../components/ui/form/CheckBox';
-import {BodyTextM} from '../../../components/ui/base/TextBase';
+import { TouchableOpacity, ViewStyle } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Color } from '../../../constants/color.constant';
+import { CheckBox } from '../../../components/ui/form/CheckBox';
+import { BodyTextM } from '../../../components/ui/base/TextBase';
 
 type Props = {
   style?: ViewStyle;
@@ -23,7 +23,7 @@ export const PolicyAgreeSwitch = ({
   const screenName = type === 'service' ? 'ServicePolicy' : 'PrivacyPolicy';
 
   const onPress = () => {
-    navigation.navigate('NoTab', {
+    navigation.navigate('Auth', {
       screen: 'PolicyNavigator',
       params: {
         screen: screenName,
@@ -46,7 +46,8 @@ export const PolicyAgreeSwitch = ({
         height: 32,
         ...style,
       }}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       <CheckBox
         label={
           <>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../../navigation/types';
-import { StoryWritingParamList } from '../../../../navigation/no-tab/StoryWritingNavigator';
+import { StoryWritingParamList } from '../../../../navigation/app/StoryWritingNavigator';
 import { Color } from '../../../../constants/color.constant';
 import { BodyTextB } from '../../base/TextBase';
 
@@ -29,7 +29,7 @@ const WritingHeaderRight = ({
         if (typeof customAction === 'function') {
           customAction();
         } else if (nextScreenName) {
-          navigation.push('NoTab', {
+          navigation.push('App', {
             screen: 'StoryWritingNavigator',
             params: {
               screen: nextScreenName,

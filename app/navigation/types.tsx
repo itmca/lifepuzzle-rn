@@ -1,11 +1,11 @@
-import type {CompositeScreenProps} from '@react-navigation/native';
-import {RootStackParamList} from './RootNavigator';
+import type { CompositeScreenProps } from '@react-navigation/native';
+import { RootStackParamList } from './RootNavigator';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {HeroSettingParamList} from './no-tab/HeroSettingNavigator';
-import {PolicyParamList} from './no-tab/PolicyNavigator';
+import { HeroSettingParamList } from './app/HeroSettingNavigator';
+import { PolicyParamList } from './auth/PolicyNavigator';
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;

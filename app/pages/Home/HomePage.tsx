@@ -89,7 +89,7 @@ const HomePage = (): React.ReactElement => {
 
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
-      navigation.push('NoTab', {
+      navigation.push('App', {
         screen: 'AiPhotoNavigator',
         params: {
           screen: 'AiPhotoWorkHistory',

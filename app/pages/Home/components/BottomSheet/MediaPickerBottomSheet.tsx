@@ -99,7 +99,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
     setSelectedStoryKey('');
     setPostStoryKey('');
     resetWritingStory();
-    navigation.push('NoTab', {
+    navigation.push('App', {
       screen: 'StoryWritingNavigator',
       params: {
         screen: 'StoryGallerySelector',
@@ -164,7 +164,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
     // setSelectedStoryKey('');
     // setPostStoryKey('');
     // resetWritingStory();
-    // navigation.push('NoTab', {
+    // navigation.push('App', {
     //   screen: 'StoryWritingNavigator',
     //   params: {
     //     screen: 'FacebookGallerySelector',

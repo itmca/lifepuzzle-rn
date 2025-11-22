@@ -75,7 +75,7 @@ const GalleryListPage = () => {
       setCurrentGalleryIndex(0);
     }
 
-    navigation.push('NoTab', {
+    navigation.push('App', {
       screen: 'StoryViewNavigator',
       params: {
         screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',

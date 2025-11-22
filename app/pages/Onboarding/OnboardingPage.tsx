@@ -61,10 +61,10 @@ const OnboardingPage = ({ navigation }: any) => {
       await LocalStorage.set('onboarding', 'true');
       navigation.reset({
         index: 0,
-        routes: [{ name: 'HomeTab', params: { screen: 'Home' } }],
+        routes: [{ name: 'App', params: { screen: 'Home' } }],
       });
 
-      navigation.push('NoTab', {
+      navigation.push('Auth', {
         screen: 'LoginRegisterNavigator',
         params: {
           screen: 'LoginMain',
