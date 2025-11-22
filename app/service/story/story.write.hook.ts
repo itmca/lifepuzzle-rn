@@ -57,7 +57,7 @@ export const useSaveStory = (): [() => void] => {
       resetAllWritingStory();
       publishStoryListUpdate();
 
-      navigation.navigate('HomeTab', { screen: 'Home' });
+      navigation.navigate('App', { screen: 'Home' });
     },
     onError: () => {
       const errorMessage = editStoryKey

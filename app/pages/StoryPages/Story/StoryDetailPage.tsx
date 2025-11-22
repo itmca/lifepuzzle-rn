@@ -87,7 +87,7 @@ const StoryDetailPage = (): React.ReactElement => {
         },
       ],
     });
-    navigation.push('NoTab', {
+    navigation.push('App', {
       screen: 'StoryWritingNavigator',
       params: {
         screen: 'StoryWritingMain',

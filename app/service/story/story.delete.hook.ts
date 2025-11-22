@@ -25,7 +25,7 @@ export const useDeleteStory = ({ storyKey }: Props): [() => void] => {
     },
     onResponseSuccess: () => {
       publishStoryListUpdate();
-      navigation.navigate('HomeTab', { screen: 'Home' });
+      navigation.navigate('App', { screen: 'Home' });
     },
     onError: err => {
       Alert.alert('스토리 삭제를 실패했습니다. 재시도 부탁드립니다.');
@@ -62,7 +62,7 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
       url: `/v1/galleries/${galleryId}`,
     },
     onResponseSuccess: () => {
-      navigation.navigate('HomeTab', { screen: 'Home' });
+      navigation.navigate('App', { screen: 'Home' });
     },
     onError: err => {
       Alert.alert('사진 삭제를 실패했습니다. 재시도 부탁드립니다.');

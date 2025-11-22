@@ -64,7 +64,7 @@ const RegisterPage = (): React.ReactElement => {
             text: '로그인하러가기',
             style: 'default',
             onPress: () => {
-              navigation.push('NoTab', {
+              navigation.push('Auth', {
                 screen: 'LoginRegisterNavigator',
                 params: {
                   screen: 'LoginOthers',

@@ -29,7 +29,7 @@ const GoBackHeaderLeft = ({
         if (navigation.canGoBack()) {
           navigation.goBack();
         } else {
-          navigation.navigate('HomeTab', {
+          navigation.navigate('App', {
             screen: 'Home',
           });
         }

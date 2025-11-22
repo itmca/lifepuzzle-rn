@@ -1,12 +1,12 @@
-import {useAuthAxios} from '../core/auth-http.hook';
-import {Alert} from 'react-native';
-import {useUpdatePublisher} from '../common/update.hook';
-import {useNavigation} from '@react-navigation/native';
-import {useAuthStore} from '../../stores/auth.store';
-import {BasicNavigationProps} from '../../navigation/types';
-import {useHeroStore} from '../../stores/hero.store';
-import {HeroPayloadService} from './hero-payload.service';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { Alert } from 'react-native';
+import { useUpdatePublisher } from '../common/update.hook';
+import { useNavigation } from '@react-navigation/native';
+import { useAuthStore } from '../../stores/auth.store';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useHeroStore } from '../../stores/hero.store';
+import { HeroPayloadService } from './hero-payload.service';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
 
 export const useResetAllWritingHero = () => {
   const resetWritingHero = useHeroStore(state => state.resetWritingHero);
@@ -37,7 +37,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
     requestOption: {
       method: 'put',
       url: `/v1/heroes/${writingHeroKey}`,
-      headers: {'Content-Type': 'multipart/form-data'},
+      headers: { 'Content-Type': 'multipart/form-data' },
     },
     onResponseSuccess: () => {
       CustomAlert.simpleAlert('주인공이 수정되었습니다.');
@@ -64,7 +64,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
       return;
     }
 
-    saveHero({data: heroHttpPayLoad});
+    saveHero({ data: heroHttpPayLoad });
   };
 
   function validate(): boolean {
@@ -86,7 +86,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
             text: '로그인하러가기',
             style: 'default',
             onPress: () => {
-              navigation.push('NoTab', {
+              navigation.push('Auth', {
                 screen: 'LoginRegisterNavigator',
                 params: {
                   screen: 'LoginMain',
@@ -94,7 +94,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
               });
             },
           },
-          {text: '계속 둘러보기', style: 'default'},
+          { text: '계속 둘러보기', style: 'default' },
         ],
         {
           cancelable: true,

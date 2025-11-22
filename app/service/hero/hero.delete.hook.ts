@@ -16,7 +16,7 @@ export const useDeleteHero = (): [() => void, boolean] => {
     onResponseSuccess: () => {
       showToast(`${writingHero?.heroName}이 삭제되었습니다.`);
       // 주인공 관리 화면으로 이동
-      navigation.push('NoTab', {
+      navigation.push('App', {
         screen: 'HeroSettingNavigator',
         params: {
           screen: 'HeroSetting',

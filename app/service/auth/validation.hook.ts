@@ -1,7 +1,7 @@
-import {Alert} from 'react-native';
-import {useAuthStore} from '../../stores/auth.store';
-import {BasicNavigationProps} from '../../navigation/types';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
+import { Alert } from 'react-native';
+import { useAuthStore } from '../../stores/auth.store';
+import { BasicNavigationProps } from '../../navigation/types';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
 
 export const useFieldValidation = () => {
   const validateRequired = (
@@ -42,7 +42,7 @@ export const useFieldValidation = () => {
 };
 
 export const useAuthValidation = () => {
-  const {isLoggedIn} = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
   const isUserLoggedIn = isLoggedIn();
 
   const validateLogin = (navigation: BasicNavigationProps): boolean => {
@@ -55,7 +55,7 @@ export const useAuthValidation = () => {
             text: '로그인하러가기',
             style: 'default',
             onPress: () => {
-              navigation.push('NoTab', {
+              navigation.push('Auth', {
                 screen: 'LoginRegisterNavigator',
                 params: {
                   screen: 'LoginMain',
@@ -63,7 +63,7 @@ export const useAuthValidation = () => {
               });
             },
           },
-          {text: '계속 둘러보기', style: 'default'},
+          { text: '계속 둘러보기', style: 'default' },
         ],
         {
           cancelable: true,

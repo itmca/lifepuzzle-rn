@@ -66,7 +66,7 @@ export const MediaCarousel = ({
   const handleAiPhotoPress = async () => {
     // API 호출에 필요한 데이터가 없으면 기존처럼 바로 이동
     if (!heroNo || !galleryId || !drivingVideoId) {
-      navigation.push('NoTab', {
+      navigation.push('App', {
         screen: 'AiPhotoNavigator',
         params: {
           screen: 'AiPhoto',

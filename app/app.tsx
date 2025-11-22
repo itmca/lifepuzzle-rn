@@ -60,7 +60,7 @@ const InternalApp = (): React.ReactElement => {
         .then(data => {
           if (data && data.type) {
             setSharedImageData(data);
-            navigation.navigate('HomeTab', { screen: 'Home' });
+            navigation.navigate('App', { screen: 'Home' });
           }
         })
         .catch(() => {});

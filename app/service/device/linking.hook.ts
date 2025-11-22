@@ -22,7 +22,7 @@ export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
 
     config: {
       screens: {
-        NoTab: {
+        App: {
           screens: {
             HeroSettingNavigator: {
               screens: {

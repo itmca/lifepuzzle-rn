@@ -13,7 +13,7 @@ const OtherLoginButton = (): React.ReactElement => {
     <ContentContainer alignCenter>
       <TouchableOpacity
         onPress={() => {
-          navigation.push('NoTab', {
+          navigation.push('Auth', {
             screen: 'LoginRegisterNavigator',
             params: {
               screen: 'LoginOthers',

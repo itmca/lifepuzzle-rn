@@ -11,7 +11,7 @@ const HeroSettingRightHeader = (): React.ReactElement => {
     <ContentContainer alignCenter width={'auto'}>
       <TouchableOpacity
         onPress={() => {
-          navigation.push('NoTab', {
+          navigation.push('App', {
             screen: 'HeroSettingNavigator',
             params: {
               screen: 'HeroRegister',

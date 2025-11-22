@@ -1,46 +1,44 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigatorScreenParams } from '@react-navigation/native';
+import HomePage from '../../pages/Home/HomePage';
+import { MainTopBar } from '../../components/ui/navigation/TopBar';
+import StoryViewNavigator, { StoryViewParamList } from './StoryViewNavigator';
+import AiPhotoNavigator, { AiPhotoParamList } from './AiPhotoNavigator';
 import StoryWritingNavigator, {
   StoryWritingParamList,
 } from './StoryWritingNavigator';
-import LoginRegisterNavigator, {
-  LoginRegisterParamList,
-} from './LoginRegisterNavigator';
 import HeroSettingNavigator, {
   HeroSettingParamList,
 } from './HeroSettingNavigator';
 import AccountSettingNavigator, {
   AccountSettingParamList,
 } from './AccountSettingNavigator';
-import StoryViewNavigator, { StoryViewParamList } from './StoryViewNavigator';
-import PolicyNavigator, { PolicyParamList } from './PolicyNavigator';
-import { NavigatorScreenParams } from '@react-navigation/native';
-import AiPhotoNavigator, { AiPhotoParamList } from './AiPhotoNavigator';
 
-export type NoTabParamList = {
+export type AppParamList = {
+  Home: undefined;
   StoryViewNavigator: NavigatorScreenParams<StoryViewParamList>;
   AiPhotoNavigator: NavigatorScreenParams<AiPhotoParamList>;
   StoryWritingNavigator: NavigatorScreenParams<StoryWritingParamList>;
-  LoginRegisterNavigator: NavigatorScreenParams<LoginRegisterParamList>;
   HeroSettingNavigator: NavigatorScreenParams<HeroSettingParamList>;
   AccountSettingNavigator: NavigatorScreenParams<AccountSettingParamList>;
-  PolicyNavigator: NavigatorScreenParams<PolicyParamList>;
 };
 
-const Stack = createNativeStackNavigator<NoTabParamList>();
+const Stack = createNativeStackNavigator<AppParamList>();
 
-const NoTabRootNavigator = (): React.ReactElement => {
+const AppNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={
-        /* 앱 실행 시 미로그인 되어 있다면 로그인 화면이 노출되어야 해 명시적으로 LoginRegisterNavigator을 초기화면으로 설정한다 */
-        'LoginRegisterNavigator'
-      }
+      initialRouteName="Home"
     >
       <Stack.Screen
-        name="LoginRegisterNavigator"
-        component={LoginRegisterNavigator}
+        name="Home"
+        component={HomePage}
+        options={{
+          header: () => <MainTopBar />,
+          headerShown: true,
+        }}
       />
       <Stack.Screen name="StoryViewNavigator" component={StoryViewNavigator} />
       <Stack.Screen name="AiPhotoNavigator" component={AiPhotoNavigator} />
@@ -56,9 +54,8 @@ const NoTabRootNavigator = (): React.ReactElement => {
         name="AccountSettingNavigator"
         component={AccountSettingNavigator}
       />
-      <Stack.Screen name="PolicyNavigator" component={PolicyNavigator} />
     </Stack.Navigator>
   );
 };
 
-export default NoTabRootNavigator;
+export default AppNavigator;

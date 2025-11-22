@@ -57,7 +57,7 @@ export const StoryDetailMenuBottomSheet = ({
 
     setEditStoryKey(gallery.story?.id ?? '');
     setOpenModal(false);
-    navigation.push('NoTab', {
+    navigation.push('App', {
       screen: 'StoryWritingNavigator',
       params: {
         screen: 'StoryWritingMain',

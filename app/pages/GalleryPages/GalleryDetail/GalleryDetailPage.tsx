@@ -91,7 +91,7 @@ const GalleryDetailPage = (): React.ReactElement => {
     }
   };
   const onFilter = () => {
-    navigation.push('NoTab', {
+    navigation.push('App', {
       screen: 'StoryWritingNavigator',
       params: {
         screen: 'GalleryDetailFilter',
