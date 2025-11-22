@@ -13,6 +13,11 @@ import { ContentContainer } from '../../components/ui/layout/ContentContainer.ts
 import { Color } from '../../constants/color.constant.ts';
 import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
 import { LocalStorage } from '../../service/core/local-storage.service.ts';
+import {
+  ROOT_SCREENS,
+  AUTH_SCREENS,
+  LOGIN_REGISTER_SCREENS,
+} from '../../navigation/screens.constant';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -59,16 +64,21 @@ const OnboardingPage = ({ navigation }: any) => {
       });
     } else {
       await LocalStorage.set('onboarding', 'true');
+      // 온보딩 완료 후 로그인 화면으로 이동
+      // reset을 사용하여 스택을 초기화하고 Auth 화면을 루트로 설정
       navigation.reset({
         index: 0,
-        routes: [{ name: 'App', params: { screen: 'Home' } }],
-      });
-
-      navigation.navigate('Auth', {
-        screen: 'LoginRegisterNavigator',
-        params: {
-          screen: 'LoginMain',
-        },
+        routes: [
+          {
+            name: ROOT_SCREENS.AUTH,
+            params: {
+              screen: AUTH_SCREENS.LOGIN_REGISTER_NAVIGATOR,
+              params: {
+                screen: LOGIN_REGISTER_SCREENS.LOGIN_MAIN,
+              },
+            },
+          },
+        ],
       });
     }
   };
