@@ -1,15 +1,15 @@
-import {AxiosError, AxiosRequestConfig} from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 
-import {useAuthStore} from '../../stores/auth.store';
-import {getTokenState} from './auth.service';
-import {useRefreshAuthTokens} from '../auth/refresh.hook';
-import {useLogout} from '../auth/logout.hook';
-import {AuthTokens} from '../../types/auth/auth.type';
-import {useAxios} from './http.hook';
-import {useEffect, useState} from 'react';
+import { useAuthStore } from '../../stores/auth.store';
+import { getTokenState } from './auth.service';
+import { useRefreshAuthTokens } from '../auth/refresh.hook';
+import { useLogout } from '../auth/logout.hook';
+import { AuthTokens } from '../../types/auth/auth.type';
+import { useAxios } from './http.hook';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Re-export useAxios for convenience
-export {useAxios};
+export { useAxios };
 
 type AuthAxiosParams<R> = {
   requestOption: AxiosRequestConfig;
@@ -38,64 +38,90 @@ export const useAuthAxios = <R>({
   const logout = useLogout();
   const [loading, setLoading] = useState(false);
 
-  const fetchData = (
-    axiosConfig: AxiosRequestConfig,
-    paramTokens?: AuthTokens,
-  ) => {
-    const tokens = paramTokens ? paramTokens : authTokens;
-    const tokenState = getTokenState(tokens);
+  // Use refs to store latest values to avoid dependency changes
+  const authTokensRef = useRef(authTokens);
+  const requestOptionRef = useRef(requestOption);
+  const onTokenExpireRef = useRef(onTokenExpire);
+  const onLoadingStatusChangeRef = useRef(onLoadingStatusChange);
 
-    if (tokenState === 'Expire') {
-      logout();
-      onTokenExpire?.();
-      return;
-    } else if (tokenState === 'Refresh') {
-      refreshAuthTokens({
-        onRefreshSuccess: refreshedTokens => {
-          fetchData(axiosConfig, refreshedTokens);
-        },
-      });
-      return;
-    }
+  // Update refs when values change
+  useEffect(() => {
+    authTokensRef.current = authTokens;
+  }, [authTokens]);
 
-    // Add auth headers to the config
-    const authenticatedConfig = {
-      ...axiosConfig,
-      headers: {
-        Authorization: tokens.accessToken && `Bearer ${tokens.accessToken}`,
-        ...axiosConfig.headers,
-      },
-    };
+  useEffect(() => {
+    requestOptionRef.current = requestOption;
+  }, [requestOption]);
 
-    // Use the basic axios hook with authenticated config
-    makeRequest(authenticatedConfig);
-  };
+  useEffect(() => {
+    onTokenExpireRef.current = onTokenExpire;
+  }, [onTokenExpire]);
+
+  useEffect(() => {
+    onLoadingStatusChangeRef.current = onLoadingStatusChange;
+  }, [onLoadingStatusChange]);
+
+  const handleLoadingStatusChange = useCallback((isLoading: boolean) => {
+    setLoading(isLoading);
+    onLoadingStatusChangeRef.current?.(isLoading);
+  }, []);
 
   const [, makeRequest] = useAxios({
     requestOption,
     onResponseSuccess,
     onError,
-    onLoadingStatusChange: (isLoading: boolean) => {
-      setLoading(isLoading);
-      onLoadingStatusChange?.(isLoading);
-    },
+    onLoadingStatusChange: handleLoadingStatusChange,
     disableInitialRequest: true, // We handle initial request manually
   });
+
+  const fetchData = useCallback(
+    (axiosConfig: AxiosRequestConfig, paramTokens?: AuthTokens) => {
+      const tokens = paramTokens ? paramTokens : authTokensRef.current;
+      const tokenState = getTokenState(tokens);
+
+      if (tokenState === 'Expire') {
+        logout();
+        onTokenExpireRef.current?.();
+        return;
+      } else if (tokenState === 'Refresh') {
+        refreshAuthTokens({
+          onRefreshSuccess: refreshedTokens => {
+            fetchData(axiosConfig, refreshedTokens);
+          },
+        });
+        return;
+      }
+
+      // Add auth headers to the config
+      const authenticatedConfig = {
+        ...axiosConfig,
+        headers: {
+          Authorization: tokens.accessToken && `Bearer ${tokens.accessToken}`,
+          ...axiosConfig.headers,
+        },
+      };
+
+      // Use the basic axios hook with authenticated config
+      makeRequest(authenticatedConfig);
+    },
+    [logout, makeRequest, refreshAuthTokens],
+  );
 
   useEffect(() => {
     if (!disableInitialRequest) {
       fetchData(requestOption);
     }
-  }, []);
+  }, [disableInitialRequest, fetchData, requestOption]);
 
-  const authenticatedMakeRequest = (
-    newRequestOption: Partial<AxiosRequestConfig>,
-  ) => {
-    fetchData({
-      ...requestOption,
-      ...newRequestOption,
-    });
-  };
+  const authenticatedMakeRequest = useCallback(
+    (newRequestOption: Partial<AxiosRequestConfig>) => {
+      fetchData({
+        ...requestOptionRef.current,
+        ...newRequestOption,
+      });
+    },
+    [fetchData],
+  );
 
   return [loading, authenticatedMakeRequest];
 };

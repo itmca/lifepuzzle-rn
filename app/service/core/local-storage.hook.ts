@@ -55,6 +55,8 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
+    console.log('currentHeroUpdateObserver - ', currentHeroUpdateObserver);
+
     fetchHero({ url: `/v1/heroes/${currentHero.heroNo.toString()}` });
   }, [currentHero, currentHeroUpdateObserver, fetchHero]);
 };
