@@ -1,13 +1,13 @@
-import {useUpdateObserver} from '../common/update.hook';
-import {useEffect, useState} from 'react';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {AgeGroupsType, TagKey, TagType} from '../../types/core/media.type';
-import {PhotoHeroType} from '../../types/core/hero.type';
-import {useHeroStore} from '../../stores/hero.store';
-import {useMediaStore} from '../../stores/media.store';
-import {useSelectionStore} from '../../stores/selection.store';
-import {AxiosRequestConfig} from 'axios';
-import {toInternationalAge} from '../utils/date-time.service';
+import { useUpdateObserver } from '../common/update.hook';
+import { useEffect, useState } from 'react';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { AgeGroupsType, TagKey, TagType } from '../../types/core/media.type';
+import { PhotoHeroType } from '../../types/core/hero.type';
+import { useHeroStore } from '../../stores/hero.store';
+import { useMediaStore } from '../../stores/media.store';
+import { useSelectionStore } from '../../stores/selection.store';
+import { AxiosRequestConfig } from 'axios';
+import { toInternationalAge } from '../utils/date-time.service';
 
 type PhotoQueryResponse = {
   hero: PhotoHeroType;
@@ -73,10 +73,10 @@ export const useHeroPhotos = (): Response => {
           const index =
             Math.trunc((res.hero.age ?? 0) / 10) +
             newTags.filter(item => item.key === 'AI_PHOTO').length;
-          setSelectedTag({...res.tags[index ?? 0]});
+          setSelectedTag({ ...res.tags[index ?? 0] });
         } else {
           const index = newTags.findIndex(item => (item.count ?? 0) > 0);
-          setSelectedTag({...newTags[index ?? 0]});
+          setSelectedTag({ ...newTags[index ?? 0] });
         }
 
         setIsError(false);
@@ -105,7 +105,12 @@ export const useHeroPhotos = (): Response => {
 
     setIsError(false);
     fetchHeroStories({});
-  }, [hero?.heroNo, heroUpdateObserver, storyListUpdateObserver]);
+  }, [
+    hero?.heroNo,
+    heroUpdateObserver,
+    storyListUpdateObserver,
+    fetchHeroStories,
+  ]);
 
   return {
     photoHero,

@@ -2,7 +2,7 @@ import { useAuthStore } from '../../stores/auth.store';
 import { useUserStore } from '../../stores/user.store';
 import { useAuthAxios } from '../core/auth-http.hook';
 import { UserType } from '../../types/core/user.type';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useHeroStore } from '../../stores/hero.store';
 import { useUpdateObserver } from '../common/update.hook';
 import { LocalStorage } from './local-storage.service';
@@ -17,6 +17,9 @@ export const useFetchLocalStorageUserHero = (): void => {
 
   const currentUserUpdateObserver = useUpdateObserver('currentUserUpdate');
   const currentHeroUpdateObserver = useUpdateObserver('currentHeroUpdate');
+
+  // Use ref to store heroNo to avoid triggering useEffect when hero data changes
+  const heroNoRef = useRef(currentHero?.heroNo);
 
   const [, fetchUser] = useAuthAxios<UserType>({
     requestOption: {},
@@ -50,11 +53,22 @@ export const useFetchLocalStorageUserHero = (): void => {
     fetchUser({ url: `/v1/users/${userNo}` });
   }, [tokens, currentUserUpdateObserver, fetchUser]);
 
+  // Update heroNo ref when currentHero changes
   useEffect(() => {
-    if (!currentHero || currentHero.heroNo < 0) {
+    if (currentHero?.heroNo !== undefined) {
+      heroNoRef.current = currentHero.heroNo;
+    }
+  }, [currentHero?.heroNo]);
+
+  // Only refetch when currentHeroUpdateObserver changes, not when hero data changes
+  useEffect(() => {
+    const heroNo = heroNoRef.current;
+    if (heroNo === undefined || heroNo < 0) {
       return;
     }
 
-    fetchHero({ url: `/v1/heroes/${currentHero.heroNo.toString()}` });
-  }, [currentHero, currentHeroUpdateObserver, fetchHero]);
+    console.log('currentHeroUpdateObserver - ', currentHeroUpdateObserver);
+
+    fetchHero({ url: `/v1/heroes/${heroNo.toString()}` });
+  }, [currentHeroUpdateObserver, fetchHero]);
 };
