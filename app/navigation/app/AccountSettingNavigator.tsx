@@ -1,5 +1,4 @@
 import * as React from 'react';
-import GoBackHeaderLeft from '../../components/ui/navigation/header/GoBackHeaderLeft';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
@@ -10,14 +9,15 @@ import { useUserStore } from '../../stores/user.store';
 import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { TouchableOpacity } from 'react-native';
-import { BodyTextM, Title } from '../../components/ui/base/TextBase';
+import { BodyTextM } from '../../components/ui/base/TextBase';
 import { Color } from '../../constants/color.constant.ts';
 import { useLogout } from '../../service/auth/logout.hook.ts';
+import { ACCOUNT_SETTING_SCREENS } from '../screens.constant';
 
 export type AccountSettingParamList = {
-  AccountModification: undefined;
-  AccountSelectingPhoto: undefined;
-  AccountPasswordModification: undefined;
+  [ACCOUNT_SETTING_SCREENS.ACCOUNT_MODIFICATION]: undefined;
+  [ACCOUNT_SETTING_SCREENS.ACCOUNT_SELECTING_PHOTO]: undefined;
+  [ACCOUNT_SETTING_SCREENS.ACCOUNT_PASSWORD_MODIFICATION]: undefined;
 };
 
 const Stack = createNativeStackNavigator<AccountSettingParamList>();
@@ -36,19 +36,16 @@ const AccountSettingNavigator = (): React.ReactElement => {
 
   const { resetSelectedUserPhoto } = useSelectionStore();
 
-  // Custom functions
-  // resetSelectedUserPhoto is now obtained directly from the store
-
   return (
     <Stack.Navigator
-      initialRouteName="AccountModification"
+      initialRouteName={ACCOUNT_SETTING_SCREENS.ACCOUNT_MODIFICATION}
       screenOptions={{
         headerShadowVisible: false,
         headerTitleAlign: 'center',
       }}
     >
       <Stack.Screen
-        name="AccountModification"
+        name={ACCOUNT_SETTING_SCREENS.ACCOUNT_MODIFICATION}
         component={AccountModificationPage}
         options={{
           header: () => (
@@ -61,36 +58,35 @@ const AccountSettingNavigator = (): React.ReactElement => {
               }
             />
           ),
-          headerBackVisible: false,
         }}
       />
       <Stack.Screen
-        name="AccountSelectingPhoto"
+        name={ACCOUNT_SETTING_SCREENS.ACCOUNT_SELECTING_PHOTO}
         component={AccountProfileSelectorPage}
         options={{
-          headerLeft: () => (
-            <GoBackHeaderLeft
-              iconType="chevron-left"
-              customAction={() => {
+          header: () => (
+            <TopBar
+              customGoBackAction={() => {
                 resetSelectedUserPhoto();
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                }
               }}
-            />
-          ),
-          headerTitle: () => <Title>주인공 사진 선택</Title>,
-          headerBackVisible: false,
-          headerRight: () => (
-            <WritingHeaderRight
-              text="확인"
-              customAction={() => {
-                setModifyingUser({
-                  ...modifyingUser,
-                  modifiedImage: selectedUserPhoto,
-                  isProfileImageUpdate: true,
-                });
-
-                resetSelectedUserPhoto();
-                navigation.goBack();
-              }}
+              title={'주인공 사진 선택'}
+              right={
+                <WritingHeaderRight
+                  text="확인"
+                  customAction={() => {
+                    setModifyingUser({
+                      ...modifyingUser,
+                      modifiedImage: selectedUserPhoto,
+                      isProfileImageUpdate: true,
+                    });
+                    resetSelectedUserPhoto();
+                    navigation.goBack();
+                  }}
+                />
+              }
             />
           ),
         }}

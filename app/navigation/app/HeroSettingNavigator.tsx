@@ -6,20 +6,20 @@ import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroMod
 import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 
-import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
 import { useHeroStore } from '../../stores/hero.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { HeroType } from '../../types/core/hero.type';
 import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
 import { TopBar } from '../../components/ui/navigation/TopBar';
+import { HERO_SETTING_SCREENS } from '../screens.constant';
 
 export type HeroSettingParamList = {
-  HeroSetting: { shareKey?: string } | undefined;
-  HeroRegister: undefined;
-  HeroModification: { heroNo: number };
-  HeroSelectingPhoto: undefined;
-  HeroShare: { hero: HeroType };
+  [HERO_SETTING_SCREENS.HERO_SETTING]: { shareKey?: string } | undefined;
+  [HERO_SETTING_SCREENS.HERO_REGISTER]: undefined;
+  [HERO_SETTING_SCREENS.HERO_MODIFICATION]: { heroNo: number };
+  [HERO_SETTING_SCREENS.HERO_SELECTING_PHOTO]: undefined;
+  [HERO_SETTING_SCREENS.HERO_SHARE]: { hero: HeroType };
 };
 
 const Stack = createNativeStackNavigator<HeroSettingParamList>();
@@ -39,11 +39,11 @@ const HeroSettingNavigator = (): React.ReactElement => {
 
   return (
     <Stack.Navigator
-      initialRouteName="HeroSetting"
+      initialRouteName={HERO_SETTING_SCREENS.HERO_SETTING}
       screenOptions={{ headerShadowVisible: false, headerTitleAlign: 'center' }}
     >
       <Stack.Screen
-        name="HeroSetting"
+        name={HERO_SETTING_SCREENS.HERO_SETTING}
         component={HeroSettingPage}
         options={{
           header: () => (
@@ -52,7 +52,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name="HeroRegister"
+        name={HERO_SETTING_SCREENS.HERO_REGISTER}
         component={HeroRegisterPage}
         options={{
           header: () => (
@@ -69,7 +69,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name="HeroModification"
+        name={HERO_SETTING_SCREENS.HERO_MODIFICATION}
         component={HeroModificationPage}
         options={{
           header: () => (
@@ -86,7 +86,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name="HeroSelectingPhoto"
+        name={HERO_SETTING_SCREENS.HERO_SELECTING_PHOTO}
         component={HeroProfileSelectorPage}
         options={{
           header: () => (

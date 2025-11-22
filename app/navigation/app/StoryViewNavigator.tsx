@@ -4,11 +4,12 @@ import StoryDetailPage from '../../pages/StoryPages/Story/StoryDetailPage';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import DetailViewHeaderRight from '../../components/ui/navigation/header/DetailViewHeaderRight';
 import GalleryListPage from '../../pages/GalleryPages/GalleryList/GalleryListPage.tsx';
+import { STORY_VIEW_SCREENS } from '../screens.constant';
 
 export type StoryViewParamList = {
-  StoryList: undefined;
-  Story: undefined;
-  StoryDetailWithoutLogin: undefined;
+  [STORY_VIEW_SCREENS.STORY_LIST]: undefined;
+  [STORY_VIEW_SCREENS.STORY]: undefined;
+  [STORY_VIEW_SCREENS.STORY_DETAIL_WITHOUT_LOGIN]: undefined;
 };
 
 const Stack = createNativeStackNavigator<StoryViewParamList>();
@@ -16,21 +17,21 @@ const Stack = createNativeStackNavigator<StoryViewParamList>();
 const StoryViewNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
-      initialRouteName="Story"
+      initialRouteName={STORY_VIEW_SCREENS.STORY}
       screenOptions={{
         headerShadowVisible: true,
         headerTitleAlign: 'center',
       }}
     >
       <Stack.Screen
-        name="StoryList"
+        name={STORY_VIEW_SCREENS.STORY_LIST}
         component={GalleryListPage}
         options={{
           header: () => <TopBar title={'사진 목록'} />,
         }}
       />
       <Stack.Screen
-        name="Story"
+        name={STORY_VIEW_SCREENS.STORY}
         component={StoryDetailPage}
         options={{
           header: () => (

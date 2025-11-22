@@ -5,10 +5,11 @@ import LoginRegisterNavigator, {
   LoginRegisterParamList,
 } from './LoginRegisterNavigator';
 import PolicyNavigator, { PolicyParamList } from './PolicyNavigator';
+import { AUTH_SCREENS } from '../screens.constant';
 
 export type AuthParamList = {
-  LoginRegisterNavigator: NavigatorScreenParams<LoginRegisterParamList>;
-  PolicyNavigator: NavigatorScreenParams<PolicyParamList>;
+  [AUTH_SCREENS.LOGIN_REGISTER_NAVIGATOR]: NavigatorScreenParams<LoginRegisterParamList>;
+  [AUTH_SCREENS.POLICY_NAVIGATOR]: NavigatorScreenParams<PolicyParamList>;
 };
 
 const Stack = createNativeStackNavigator<AuthParamList>();
@@ -17,13 +18,16 @@ const AuthNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="LoginRegisterNavigator"
+      initialRouteName={AUTH_SCREENS.LOGIN_REGISTER_NAVIGATOR}
     >
       <Stack.Screen
-        name="LoginRegisterNavigator"
+        name={AUTH_SCREENS.LOGIN_REGISTER_NAVIGATOR}
         component={LoginRegisterNavigator}
       />
-      <Stack.Screen name="PolicyNavigator" component={PolicyNavigator} />
+      <Stack.Screen
+        name={AUTH_SCREENS.POLICY_NAVIGATOR}
+        component={PolicyNavigator}
+      />
     </Stack.Navigator>
   );
 };
