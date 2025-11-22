@@ -22,6 +22,7 @@ export const useAxios = <TResponse>({
   const requestOptionRef = useRef(requestOption);
   const onResponseSuccessRef = useRef(onResponseSuccess);
   const onErrorRef = useRef(onError);
+  const onLoadingStatusChangeRef = useRef(onLoadingStatusChange);
 
   // Update refs when values change
   useEffect(() => {
@@ -35,6 +36,10 @@ export const useAxios = <TResponse>({
   useEffect(() => {
     onErrorRef.current = onError;
   }, [onError]);
+
+  useEffect(() => {
+    onLoadingStatusChangeRef.current = onLoadingStatusChange;
+  }, [onLoadingStatusChange]);
 
   const fetchData = useCallback((axiosConfig: AxiosRequestConfig) => {
     const preparedConfig = HttpService.prepareRequestConfig(axiosConfig);
@@ -53,16 +58,19 @@ export const useAxios = <TResponse>({
       });
   }, []);
 
+  // Initial request - only run once on mount if not disabled
+  const initialRequestDone = useRef(false);
   useEffect(() => {
-    if (disableInitialRequest) {
+    if (disableInitialRequest || initialRequestDone.current) {
       return;
     }
-    fetchData(requestOption);
-  }, [disableInitialRequest, fetchData, requestOption]);
+    initialRequestDone.current = true;
+    fetchData(requestOptionRef.current);
+  }, [disableInitialRequest, fetchData]);
 
   useEffect(() => {
-    onLoadingStatusChange?.(loading);
-  }, [loading, onLoadingStatusChange]);
+    onLoadingStatusChangeRef.current?.(loading);
+  }, [loading]);
 
   const makeRequest = useCallback(
     (newRequestOption: Partial<AxiosRequestConfig>) => {
