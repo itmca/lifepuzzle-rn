@@ -7,11 +7,12 @@ import { LocalStorage } from '../service/core/local-storage.service';
 import { useAuthStore } from '../stores/auth.store';
 import AuthNavigator, { AuthParamList } from './auth/AuthNavigator';
 import AppNavigator, { AppParamList } from './app/AppNavigator';
+import { ROOT_SCREENS } from './screens.constant';
 
 export type RootStackParamList = {
-  Onboarding: undefined;
-  Auth: NavigatorScreenParams<AuthParamList>;
-  App: NavigatorScreenParams<AppParamList>;
+  [ROOT_SCREENS.ONBOARDING]: undefined;
+  [ROOT_SCREENS.AUTH]: NavigatorScreenParams<AuthParamList>;
+  [ROOT_SCREENS.APP]: NavigatorScreenParams<AppParamList>;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -32,12 +33,12 @@ const RootNavigator = (): React.ReactElement => {
         LocalStorage.get('onboarding', 'boolean') !== true;
 
       if (isOnboardingNotCompleted) {
-        setInitialRoute('Onboarding');
+        setInitialRoute(ROOT_SCREENS.ONBOARDING);
         return;
       }
 
       // 미로그인 시에는 홈화면이 아니라 로그인 화면이 노출되도록 Auth를 초기화면으로 설정한다.
-      setInitialRoute(isLoggedIn ? 'App' : 'Auth');
+      setInitialRoute(isLoggedIn ? ROOT_SCREENS.APP : ROOT_SCREENS.AUTH);
     };
 
     checkOnboarding();
@@ -52,9 +53,9 @@ const RootNavigator = (): React.ReactElement => {
       screenOptions={{ headerShown: false }}
       initialRouteName={initialRoute}
     >
-      <Stack.Screen name="Onboarding" component={OnboardingPage} />
-      <Stack.Screen name="Auth" component={AuthNavigator} />
-      <Stack.Screen name="App" component={AppNavigator} />
+      <Stack.Screen name={ROOT_SCREENS.ONBOARDING} component={OnboardingPage} />
+      <Stack.Screen name={ROOT_SCREENS.AUTH} component={AuthNavigator} />
+      <Stack.Screen name={ROOT_SCREENS.APP} component={AppNavigator} />
     </Stack.Navigator>
   );
 };

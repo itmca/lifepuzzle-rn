@@ -12,13 +12,14 @@ import GalleryDetail from '../../pages/GalleryPages/GalleryDetail/GalleryDetailP
 import GalleryDetailFilter from '../../pages/GalleryPages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
 import { useStoryStore } from '../../stores/story.store';
 import { useSelectionStore } from '../../stores/selection.store';
+import { STORY_WRITING_SCREENS } from '../screens.constant';
 
 export type StoryWritingParamList = {
-  StoryWritingMain: undefined;
-  StoryGallerySelector: undefined;
-  FacebookGallerySelector: undefined;
-  GalleryDetail: undefined;
-  GalleryDetailFilter: undefined;
+  [STORY_WRITING_SCREENS.STORY_WRITING_MAIN]: undefined;
+  [STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR]: undefined;
+  [STORY_WRITING_SCREENS.FACEBOOK_GALLERY_SELECTOR]: undefined;
+  [STORY_WRITING_SCREENS.GALLERY_DETAIL]: undefined;
+  [STORY_WRITING_SCREENS.GALLERY_DETAIL_FILTER]: undefined;
 };
 
 const Stack = createNativeStackNavigator<StoryWritingParamList>();
@@ -39,7 +40,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
       screenOptions={{ headerShadowVisible: false, headerTitleAlign: 'center' }}
     >
       <Stack.Screen
-        name="StoryWritingMain"
+        name={STORY_WRITING_SCREENS.STORY_WRITING_MAIN}
         component={StoryWritingPage}
         options={{
           header: () => (
@@ -56,7 +57,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name="StoryGallerySelector"
+        name={STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR}
         component={StorySelectingGallery}
         options={{
           header: () => (
@@ -75,14 +76,14 @@ const StoryWritingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name="FacebookGallerySelector"
+        name={STORY_WRITING_SCREENS.FACEBOOK_GALLERY_SELECTOR}
         component={FacebookGallerySelector}
         options={{
           header: () => <TopBar title={'페이스북 사진'} />,
         }}
       />
       <Stack.Screen
-        name="GalleryDetail"
+        name={STORY_WRITING_SCREENS.GALLERY_DETAIL}
         component={GalleryDetail}
         options={{
           header: () => (
@@ -102,7 +103,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name="GalleryDetailFilter"
+        name={STORY_WRITING_SCREENS.GALLERY_DETAIL_FILTER}
         component={GalleryDetailFilter}
         options={{
           header: () => <TopBar title={'사진 편집'} />,

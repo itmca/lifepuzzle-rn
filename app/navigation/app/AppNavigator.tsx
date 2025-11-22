@@ -14,14 +14,15 @@ import HeroSettingNavigator, {
 import AccountSettingNavigator, {
   AccountSettingParamList,
 } from './AccountSettingNavigator';
+import { APP_SCREENS } from '../screens.constant';
 
 export type AppParamList = {
-  Home: undefined;
-  StoryViewNavigator: NavigatorScreenParams<StoryViewParamList>;
-  AiPhotoNavigator: NavigatorScreenParams<AiPhotoParamList>;
-  StoryWritingNavigator: NavigatorScreenParams<StoryWritingParamList>;
-  HeroSettingNavigator: NavigatorScreenParams<HeroSettingParamList>;
-  AccountSettingNavigator: NavigatorScreenParams<AccountSettingParamList>;
+  [APP_SCREENS.HOME]: undefined;
+  [APP_SCREENS.STORY_VIEW_NAVIGATOR]: NavigatorScreenParams<StoryViewParamList>;
+  [APP_SCREENS.AI_PHOTO_NAVIGATOR]: NavigatorScreenParams<AiPhotoParamList>;
+  [APP_SCREENS.STORY_WRITING_NAVIGATOR]: NavigatorScreenParams<StoryWritingParamList>;
+  [APP_SCREENS.HERO_SETTING_NAVIGATOR]: NavigatorScreenParams<HeroSettingParamList>;
+  [APP_SCREENS.ACCOUNT_SETTING_NAVIGATOR]: NavigatorScreenParams<AccountSettingParamList>;
 };
 
 const Stack = createNativeStackNavigator<AppParamList>();
@@ -30,28 +31,34 @@ const AppNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="Home"
+      initialRouteName={APP_SCREENS.HOME}
     >
       <Stack.Screen
-        name="Home"
+        name={APP_SCREENS.HOME}
         component={HomePage}
         options={{
           header: () => <MainTopBar />,
           headerShown: true,
         }}
       />
-      <Stack.Screen name="StoryViewNavigator" component={StoryViewNavigator} />
-      <Stack.Screen name="AiPhotoNavigator" component={AiPhotoNavigator} />
       <Stack.Screen
-        name="StoryWritingNavigator"
+        name={APP_SCREENS.STORY_VIEW_NAVIGATOR}
+        component={StoryViewNavigator}
+      />
+      <Stack.Screen
+        name={APP_SCREENS.AI_PHOTO_NAVIGATOR}
+        component={AiPhotoNavigator}
+      />
+      <Stack.Screen
+        name={APP_SCREENS.STORY_WRITING_NAVIGATOR}
         component={StoryWritingNavigator}
       />
       <Stack.Screen
-        name="HeroSettingNavigator"
+        name={APP_SCREENS.HERO_SETTING_NAVIGATOR}
         component={HeroSettingNavigator}
       />
       <Stack.Screen
-        name="AccountSettingNavigator"
+        name={APP_SCREENS.ACCOUNT_SETTING_NAVIGATOR}
         component={AccountSettingNavigator}
       />
     </Stack.Navigator>
