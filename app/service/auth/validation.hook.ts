@@ -55,7 +55,7 @@ export const useAuthValidation = () => {
             text: '로그인하러가기',
             style: 'default',
             onPress: () => {
-              navigation.push('Auth', {
+              navigation.navigate('Auth', {
                 screen: 'LoginRegisterNavigator',
                 params: {
                   screen: 'LoginMain',

@@ -219,7 +219,7 @@ const HeroSettingPage = (): React.ReactElement => {
                     <TouchableOpacity
                       onPress={() => {
                         setWritingHeroKey(focusedHero?.heroNo);
-                        navigation.push('App', {
+                        navigation.navigate('App', {
                           screen: 'HeroSettingNavigator',
                           params: {
                             screen: 'HeroModification',

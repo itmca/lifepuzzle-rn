@@ -31,7 +31,7 @@ export const useCreateAiPhoto = (
       },
     },
     onResponseSuccess: _res => {
-      navigation.push('App', {
+      navigation.navigate('App', {
         screen: 'AiPhotoNavigator',
         params: {
           screen: 'AiPhotoWorkHistory',
@@ -70,7 +70,7 @@ export const useCreateAiPhoto = (
         },
       });
 
-      navigation.push('App', {
+      navigation.navigate('App', {
         screen: 'AiPhotoNavigator',
         params: {
           screen: 'AiPhotoWorkHistory',

@@ -82,7 +82,7 @@ export const MainTopBar = ({
             {isLoggedIn && (
               <Pressable
                 onPress={() => {
-                  navigation.push('App', {
+                  navigation.navigate('App', {
                     screen: 'HeroSettingNavigator',
                     params: {
                       screen: 'HeroSetting',
@@ -96,7 +96,7 @@ export const MainTopBar = ({
             <Pressable
               onPress={() => {
                 if (isLoggedIn) {
-                  navigation.push('App', {
+                  navigation.navigate('App', {
                     screen: 'AccountSettingNavigator',
                     params: {
                       screen: 'AccountModification',

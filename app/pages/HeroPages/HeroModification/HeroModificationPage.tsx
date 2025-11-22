@@ -66,7 +66,7 @@ const HeroModificationPage = (): React.ReactElement => {
   }, [hero, heroNo, setWritingHero]);
 
   const navigateToSelectingPhoto = () => {
-    navigation.push('App', {
+    navigation.navigate('App', {
       screen: 'HeroSettingNavigator',
       params: {
         screen: 'HeroSelectingPhoto',

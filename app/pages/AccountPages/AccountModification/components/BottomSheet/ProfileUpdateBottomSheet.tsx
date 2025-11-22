@@ -31,7 +31,7 @@ export const ProfileUpdateBottomSheet = ({
   const currentUserPhotoUri = getCurrentUserPhotoUri();
 
   const openAlbum = () => {
-    navigation.push('App', {
+    navigation.navigate('App', {
       screen: 'AccountSettingNavigator',
       params: {
         screen: 'AccountSelectingPhoto',

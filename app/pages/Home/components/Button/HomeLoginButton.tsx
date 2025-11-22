@@ -12,7 +12,7 @@ export const HomeLoginButton = (): React.ReactElement => {
       backgroundColor={Color.GREY}
       textColor={Color.GREY_800}
       onPress={() => {
-        navigation.push('Auth', {
+        navigation.navigate('Auth', {
           screen: 'LoginRegisterNavigator',
           params: {
             screen: 'LoginMain',

@@ -62,7 +62,7 @@ const Gallery = ({
   // Custom functions (핸들러, 로직 함수 등)
   const moveToStoryListPage = (index: GalleryType['index']) => {
     if (!isScrolling) {
-      navigation.push('App', {
+      navigation.navigate('App', {
         screen: 'StoryViewNavigator',
         params: {
           screen: 'StoryList',

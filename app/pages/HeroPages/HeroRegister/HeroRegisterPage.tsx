@@ -32,7 +32,7 @@ const HeroRegisterPage = (): React.ReactElement => {
 
   // Custom functions
   const navigateToSelectingPhoto = () => {
-    navigation.push('App', {
+    navigation.navigate('App', {
       screen: 'HeroSettingNavigator',
       params: {
         screen: 'HeroSelectingPhoto',
