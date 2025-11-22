@@ -4,7 +4,6 @@ import LoginMainPage from '../../pages/AccountPages/LoginMain/LoginMainPage';
 import LoginHeaderLeft from '../../components/ui/navigation/header/LoginHeaderLeft';
 import LoginOthersPage from '../../pages/AccountPages/LoginOthers/LoginOthersPage';
 import RegisterPage from '../../pages/AccountPages/Register/RegisterPage';
-import { Color } from '../../constants/color.constant';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 
 export type LoginRegisterParamList = {

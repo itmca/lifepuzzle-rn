@@ -11,17 +11,14 @@ import { TopBar } from '../../components/ui/navigation/TopBar';
 import GalleryDetail from '../../pages/GalleryPages/GalleryDetail/GalleryDetailPage.tsx';
 import GalleryDetailFilter from '../../pages/GalleryPages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
 import { useStoryStore } from '../../stores/story.store';
-import { useSelectionStore } from '../../stores/selection.store'; // TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
+import { useSelectionStore } from '../../stores/selection.store';
 
-// TODO(border-line): 화면 이름 적절하게 바꾸기 e.g. StoryWritingQuestion -> StoryRecommendQuestion
 export type StoryWritingParamList = {
-  StoryWritingQuestion: undefined;
   StoryWritingMain: undefined;
   StoryGallerySelector: undefined;
   FacebookGallerySelector: undefined;
   GalleryDetail: undefined;
   GalleryDetailFilter: undefined;
-  StoryWritingVoice: undefined;
 };
 
 const Stack = createNativeStackNavigator<StoryWritingParamList>();
@@ -29,15 +26,9 @@ const Stack = createNativeStackNavigator<StoryWritingParamList>();
 const StoryWritingNavigator = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const selectedStoryKey = useStoryStore(state => state.selectedStoryKey);
-  const selectedGalleryItems = useSelectionStore(
-    state => state.selectedGalleryItems,
-  );
   const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
   const setSelectedGalleryItems = useSelectionStore(
     state => state.setSelectedGalleryItems,
-  );
-  const setEditGalleryItems = useSelectionStore(
-    state => state.setEditGalleryItems,
   );
 
   // Custom hooks
