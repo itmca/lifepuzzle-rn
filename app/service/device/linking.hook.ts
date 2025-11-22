@@ -1,6 +1,11 @@
 import { useEffect } from 'react';
 import { Linking } from 'react-native';
 import type { LinkingOptions } from '@react-navigation/native';
+import {
+  ROOT_SCREENS,
+  APP_SCREENS,
+  HERO_SETTING_SCREENS,
+} from '../../navigation/screens.constant';
 
 export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
   useEffect(() => {
@@ -22,14 +27,14 @@ export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
 
     config: {
       screens: {
-        App: {
+        [ROOT_SCREENS.APP]: {
           screens: {
-            HeroSettingNavigator: {
+            [APP_SCREENS.HERO_SETTING_NAVIGATOR]: {
               screens: {
-                HeroSetting: {
+                [HERO_SETTING_SCREENS.HERO_SETTING]: {
                   path: 'share/hero',
                   parse: {
-                    shareKey: (shareKey: any) => `${shareKey}`,
+                    shareKey: (shareKey: string) => `${shareKey}`,
                   },
                 },
               },
