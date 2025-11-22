@@ -107,11 +107,15 @@ export const useAuthAxios = <R>({
     [logout, makeRequest, refreshAuthTokens],
   );
 
+  // Initial request - only run once on mount if not disabled
+  const initialRequestDone = useRef(false);
   useEffect(() => {
-    if (!disableInitialRequest) {
-      fetchData(requestOption);
+    if (disableInitialRequest || initialRequestDone.current) {
+      return;
     }
-  }, [disableInitialRequest, fetchData, requestOption]);
+    initialRequestDone.current = true;
+    fetchData(requestOptionRef.current);
+  }, [disableInitialRequest, fetchData]);
 
   const authenticatedMakeRequest = useCallback(
     (newRequestOption: Partial<AxiosRequestConfig>) => {
