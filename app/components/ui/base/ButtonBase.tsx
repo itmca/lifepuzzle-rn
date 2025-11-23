@@ -1,16 +1,7 @@
 import styled, { css } from 'styled-components/native';
 import { Color, ColorType } from '../../../constants/color.constant';
-
-type SizeValue = number | 'auto' | `${number}%`;
-
-const formatSize = (
-  value: SizeValue | undefined,
-  defaultValue: string,
-): string => {
-  if (value === undefined) return defaultValue;
-  if (typeof value === 'number') return `${value}px`;
-  return value;
-};
+import { SizeValue } from '../../../types/ui/style.type';
+import { formatSize } from '../../../service/utils/style.service';
 
 type Props = {
   // Size

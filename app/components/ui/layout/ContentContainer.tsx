@@ -4,22 +4,13 @@ import React, { forwardRef, ReactNode, RefAttributes } from 'react';
 import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { NativeScrollEvent } from 'react-native/Libraries/Components/ScrollView/ScrollView';
 import { Color } from '../../../constants/color.constant.ts';
-
-type SizeValue = number | 'auto' | `${number}%`;
-
-const formatSize = (
-  value: SizeValue | undefined,
-  defaultValue: string,
-): string => {
-  if (value === undefined) return defaultValue;
-  if (typeof value === 'number') return `${value}px`;
-  return value;
-};
+import { SizeValue } from '../../../types/ui/style.type';
+import { formatSize } from '../../../service/utils/style.service';
 
 type ContentContainerProps = {
   // Size
-  width?: number | 'auto' | `${number}%`;
-  height?: number | 'auto' | `${number}%`;
+  width?: SizeValue;
+  height?: SizeValue;
   minHeight?: string;
   maxHeight?: string;
 
