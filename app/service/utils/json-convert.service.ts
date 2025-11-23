@@ -1,4 +1,4 @@
-import {parseISO} from 'date-fns';
+import dayjs from 'dayjs';
 
 const isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(Z)?$/;
 const dateFormat = /^\d{4}-\d{2}-\d{2}$/;
@@ -19,7 +19,7 @@ export function convertDateStringToDate(obj: any) {
   for (const key of Object.keys(obj)) {
     const value = obj[key];
     if (isIsoDateString(value)) {
-      obj[key] = parseISO(value);
+      obj[key] = dayjs(value).toDate();
     } else if (isDateFormat(value)) {
       obj[key] = new Date(value);
     } else if (typeof value === 'object') {
