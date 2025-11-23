@@ -58,6 +58,13 @@ export const ServicePolicyPage = (): React.ReactElement => {
         source={{ uri: 'https://itmca.io/terms/service' }}
         onLoadEnd={() => setIsWebViewLoaded(true)}
         onLoadStart={() => setIsWebViewLoaded(false)}
+        // Security configurations
+        originWhitelist={['https://itmca.io']}
+        allowUniversalAccessFromFileURLs={false}
+        allowFileAccessFromFileURLs={false}
+        allowFileAccess={false}
+        mixedContentMode="never"
+        javaScriptEnabled={true}
       />
     </>
   );

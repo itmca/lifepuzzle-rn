@@ -7,10 +7,44 @@ import {
   HERO_SETTING_SCREENS,
 } from '../../navigation/screens.constant';
 
+const TRUSTED_PREFIXES = ['https://lifepuzzle.itmca.io', 'lifepuzzle://'];
+
+/**
+ * Validate shareKey parameter for security
+ * - Must be alphanumeric with hyphens only
+ * - Maximum length of 255 characters
+ */
+const validateShareKey = (shareKey: string): string => {
+  if (!shareKey || typeof shareKey !== 'string') {
+    return '';
+  }
+
+  // Allow alphanumeric characters and hyphens only, max 255 chars
+  if (!/^[a-zA-Z0-9-]{1,255}$/.test(shareKey)) {
+    return '';
+  }
+
+  return shareKey;
+};
+
+/**
+ * Validate deep link URL is from trusted source
+ */
+const isValidDeepLinkUrl = (url: string): boolean => {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  return TRUSTED_PREFIXES.some(prefix => url.startsWith(prefix));
+};
+
 export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
   useEffect(() => {
     const handleDeepLink = ({ url }: { url: string }) => {
-      // 여기에 필요한 처리 로직 추가
+      // Validate URL is from trusted source
+      if (!isValidDeepLinkUrl(url)) {
+        return;
+      }
     };
 
     // 새로운 방식으로 이벤트 리스너 추가
@@ -23,7 +57,7 @@ export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
   }, []);
 
   return {
-    prefixes: ['https://lifepuzzle.itmca.io', 'lifepuzzle://'],
+    prefixes: TRUSTED_PREFIXES,
 
     config: {
       screens: {
@@ -34,7 +68,7 @@ export const useLinking = (): LinkingOptions<ReactNavigation.RootParamList> => {
                 [HERO_SETTING_SCREENS.HERO_SETTING]: {
                   path: 'share/hero',
                   parse: {
-                    shareKey: (shareKey: string) => `${shareKey}`,
+                    shareKey: (shareKey: string) => validateShareKey(shareKey),
                   },
                 },
               },
