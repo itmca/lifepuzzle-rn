@@ -7,11 +7,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import FastImage from '@d11/react-native-fast-image';
 import logger from '../../../utils/logger';
 import { SvgIcon } from '../display/SvgIcon';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
 import { Color } from '../../../constants/color.constant';
+
+const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
 type Props = {
   opened?: boolean;
@@ -132,8 +135,12 @@ export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
           <SvgIcon name={'closeWhite'} onPress={handleClose} />
         </ContentContainer>
         <GestureDetector gesture={composed}>
-          <Animated.Image
-            source={{ uri: imageUri }}
+          <AnimatedFastImage
+            source={{
+              uri: imageUri,
+              priority: FastImage.priority.high,
+              cache: FastImage.cacheControl.immutable,
+            }}
             style={[
               {
                 width: SCREEN_WIDTH,
@@ -142,7 +149,7 @@ export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
               },
               animatedStyle,
             ]}
-            resizeMode="contain"
+            resizeMode={FastImage.resizeMode.contain}
           />
         </GestureDetector>
       </ContentContainer>

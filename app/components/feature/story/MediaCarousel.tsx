@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import FastImage from '@d11/react-native-fast-image';
 import { Photo } from '../../ui/base/ImageBase';
 import { VideoPlayer } from './StoryVideoPlayer';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
@@ -108,6 +109,8 @@ export const MediaCarousel = ({
               resizeMode={'contain'}
               source={{
                 uri: mediaUrl,
+                priority: FastImage.priority.high,
+                cache: FastImage.cacheControl.immutable,
               }}
             />
           </TouchableOpacity>
@@ -131,7 +134,7 @@ export const MediaCarousel = ({
         height={carouselMaxHeight}
         data={data}
         mode="parallax"
-        windowSize={2}
+        windowSize={5}
         modeConfig={{
           parallaxScrollingScale: 0.91,
           parallaxAdjacentItemScale: 0.91,
