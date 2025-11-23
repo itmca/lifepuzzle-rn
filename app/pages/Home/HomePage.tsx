@@ -42,8 +42,7 @@ const HomePage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const { photoHero, isLoading, isError, hasInitialData, refetch } =
-    useHeroPhotos();
+  const { isLoading, isError, hasInitialData, refetch } = useHeroPhotos();
   const [submitGallery] = useUploadGalleryV2();
 
   // Custom functions (핸들러, 로직 함수 등)
@@ -180,15 +179,11 @@ const HomePage = (): React.ReactElement => {
           }
         >
           {/* 상단 프로필 영역 */}
-          <HeroSection
-            photoHero={photoHero}
-            onSharePress={handleHeroSharePress}
-          />
+          <HeroSection onSharePress={handleHeroSharePress} />
 
           {/* 중간 사진 영역 */}
           <ContentContainer flex={1}>
             <Gallery
-              hero={photoHero}
               ageGroups={ageGroups || {}}
               tags={tags || []}
               isError={isError}
