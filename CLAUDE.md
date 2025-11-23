@@ -39,6 +39,32 @@ LifePuzzle React Native 프로젝트 작업 가이드
 - 변수: camelCase, 상수: UPPER_SNAKE_CASE
 - 함수: 동사로 시작 (handle*, validate*, fetch\*)
 
+## 보안 가이드라인
+
+### 필수 준수사항
+
+- **인증 토큰**: `SecureStorage` 사용 필수 (LocalStorage 절대 금지)
+- **로깅**: `console.log` 대신 `logger` 사용 필수
+- **WebView**: 보안 속성 적용 필수 (`allowFileAccess={false}`, `mixedContentMode="never"`)
+- **Deep Link**: 파라미터 검증 필수
+
+### 저장소 구분
+
+| 저장소          | 용도                  | 암호화 |
+| --------------- | --------------------- | ------ |
+| `SecureStorage` | 인증 토큰, 민감 정보  | O      |
+| `LocalStorage`  | userNo, onboarding 등 | X      |
+
+### Logger 사용
+
+```typescript
+import logger from '../utils/logger';
+logger.debug('...'); // 개발만
+logger.error('...'); // 항상
+```
+
+자세한 내용: [Security Guidelines](./docs/SECURITY.md)
+
 ## 작업 효율성 가이드
 
 ### 컴포넌트 작업 시
@@ -65,3 +91,4 @@ LifePuzzle React Native 프로젝트 작업 가이드
 - [Naming](./docs/NAMING.md): 파일명, 변수명, 타입 네이밍
 - [Folder Structure](./docs/FOLDER_STRUCTURE.md): 페이지 그룹핑, 컴포넌트 배치
 - [Git Workflow](./docs/GIT_WORKFLOW.md): 브랜치 전략, 상세 커밋 가이드
+- [Security](./docs/SECURITY.md): 보안 가이드라인, 민감 데이터 처리
