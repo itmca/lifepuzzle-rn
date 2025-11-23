@@ -1,9 +1,9 @@
 import React from 'react';
-import { Image as RNImage, Platform, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FastImage from '@d11/react-native-fast-image';
 import { CheckCover, Container } from './styles';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
-import Image from '../../ui/base/ImageBase';
 import { Color } from '../../../constants/color.constant';
 import { PhotoIndex } from '../../ui/base/TextBase';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
@@ -45,20 +45,12 @@ const SelectablePhoto = ({
   return (
     <TouchableOpacity onPress={_onPress}>
       <Container style={{ width: size, height: size }}>
-        {Platform.OS === 'ios' && 'node' in photo ? (
-          <RNImage
-            style={{ width: size, height: size }}
-            source={{ uri: imageUri }}
-            resizeMode={'cover' as const}
-          />
-        ) : (
-          <Image
-            width={size}
-            height={size}
-            source={{ uri: imageUri }}
-            resizeMode="cover"
-          />
-        )}
+        <FastImage
+          style={{ width: size, height: size }}
+          source={{ uri: imageUri }}
+          resizeMode={FastImage.resizeMode.cover}
+          cacheControl={FastImage.cacheControl.immutable}
+        />
         {selected ? (
           <CheckCover style={{ height: '100%', width: '100%' }}>
             {order ? (
