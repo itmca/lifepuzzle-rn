@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import logger from '../../../../utils/logger';
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { IconName, SvgIcon } from '../../../../components/ui/display/SvgIcon';
@@ -144,7 +145,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
         return;
       }
 
-      console.error('Camera capture failed', error);
+      logger.error('Camera capture failed:', error);
       Alert.alert('촬영에 실패했습니다.', '다시 시도해주세요.');
     }
   };

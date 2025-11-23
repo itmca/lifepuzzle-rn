@@ -7,6 +7,7 @@ import {
 } from '../../../../service/auth/login.hook';
 import { Color } from '../../../../constants/color.constant';
 
+import logger from '../../../../utils/logger';
 import { useShareStore } from '../../../../stores/share.store';
 import { BasicButton } from '../../../../components/ui/form/Button';
 import { showErrorToast } from '../../../../components/ui/feedback/Toast';
@@ -38,7 +39,7 @@ const KaKaoSocialLoginButton = ({
     },
     onResponseSuccess: loginResponseHandler,
     onError: err => {
-      console.log(err);
+      logger.debug('Kakao login error:', err);
       onChangeLoading(false);
       showErrorToast('카카오 로그인에 실패했습니다');
     },

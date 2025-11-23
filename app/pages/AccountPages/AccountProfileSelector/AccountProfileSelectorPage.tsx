@@ -1,6 +1,7 @@
 import React from 'react';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
+import logger from '../../../utils/logger';
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
 import { useSelectionStore } from '../../../stores/selection.store';
 import {
@@ -32,7 +33,7 @@ const AccountProfileSelectorPage = (): React.ReactElement => {
         setSelectedPhoto(photo as PhotoIdentifier);
       } else {
         // It's a FacebookPhotoItem - convert or handle accordingly
-        console.warn(
+        logger.warn(
           'FacebookPhotoItem not supported in account profile selector',
         );
       }

@@ -10,6 +10,7 @@ import {
 import { ActivityIndicator } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
+import logger from '../../../utils/logger';
 
 import { useSelectionStore } from '../../../stores/selection.store';
 import Slider from '@react-native-community/slider';
@@ -86,7 +87,7 @@ async function loadSkiaImage(uri: string): Promise<SkImage | null> {
     const skImage = Skia.Image.MakeImageFromEncoded(skData);
     return skImage ?? null;
   } catch (err) {
-    console.warn('Skia image load error', err);
+    logger.warn('Skia image load error', err);
     return null;
   }
 }
@@ -159,7 +160,7 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
       setEditGalleryItems(updatedGallery);
       navigation.goBack();
     } catch (err) {
-      console.error('필터 저장 오류:', err);
+      logger.error('Filter save error:', err);
     }
   }, [
     canvasRef,

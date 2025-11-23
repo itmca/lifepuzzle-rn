@@ -1,10 +1,11 @@
-import {useMemo, useState} from 'react';
-import {HeroType, HeroUserType} from '../../types/core/hero.type';
-import {useAuthAxios} from '../core/auth-http.hook';
+import { useMemo, useState } from 'react';
+import { HeroType, HeroUserType } from '../../types/core/hero.type';
+import { useAuthAxios } from '../core/auth-http.hook';
 import {
   HeroesQueryResponse,
   HeroQueryResponse,
 } from '../../types/hooks/hero-query.type';
+import logger from '../../utils/logger';
 
 export const useHero = (heroNo: number) => {
   const [hero, setHero] = useState<HeroType>();
@@ -16,7 +17,7 @@ export const useHero = (heroNo: number) => {
       url: `/v1/heroes/${heroNo}`,
       method: 'get',
     },
-    onResponseSuccess: ({hero, puzzleCnt, users}) => {
+    onResponseSuccess: ({ hero, puzzleCnt, users }) => {
       setHero(hero);
       setPuzzleCnt(puzzleCnt);
       setUsers(users);
@@ -25,7 +26,7 @@ export const useHero = (heroNo: number) => {
   });
   const result = useMemo(
     () => ({
-      res: {hero, puzzleCnt, users, loading: isLoading},
+      res: { hero, puzzleCnt, users, loading: isLoading },
       fetchHero,
     }),
     [hero, puzzleCnt, users, isLoading, fetchHero],
@@ -49,13 +50,13 @@ export const useUploadHeroes = () => {
       }
     },
     onError: error => {
-      console.error(error);
+      logger.error('Heroes query error:', error);
     },
     disableInitialRequest: false,
   });
   const result = useMemo(
     () => ({
-      res: {heroes, loading: isLoading},
+      res: { heroes, loading: isLoading },
       fetchHeroes,
     }),
     [heroes, isLoading, fetchHeroes],
