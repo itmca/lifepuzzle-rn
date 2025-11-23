@@ -290,6 +290,16 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
           renderItem={renderPhoto}
           contentContainerStyle={{ flexGrow: 1 }}
           style={{ flex: 1 }}
+          // Performance optimizations
+          getItemLayout={(_, index) => ({
+            length: DeviceWidth / 3,
+            offset: (DeviceWidth / 3) * Math.floor(index / 3),
+            index,
+          })}
+          initialNumToRender={15}
+          maxToRenderPerBatch={12}
+          windowSize={5}
+          removeClippedSubviews={true}
         />
 
         {/* Confirm Button */}
