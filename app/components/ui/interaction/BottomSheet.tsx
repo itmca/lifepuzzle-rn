@@ -4,6 +4,7 @@ import {
   BottomSheetHandleProps,
   BottomSheetModal,
   BottomSheetModalProps,
+  BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import React, {
   forwardRef,
@@ -107,17 +108,19 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
         backdropComponent={renderBackdrop}
         onDismiss={handleClose}
       >
-        <ContentContainer
-          onLayout={e => {
-            const screenHeight = Dimensions.get('window').height;
-            const contentHeight = e.nativeEvent.layout.height;
-            setContentHeight(((contentHeight + 60) / screenHeight) * 100); // padding 고려
-          }}
-          paddingHorizontal={20}
-          paddingBottom={38}
-        >
-          {props.children}
-        </ContentContainer>
+        <BottomSheetView>
+          <ContentContainer
+            onLayout={e => {
+              const screenHeight = Dimensions.get('window').height;
+              const contentHeight = e.nativeEvent.layout.height;
+              setContentHeight(((contentHeight + 60) / screenHeight) * 100); // padding 고려
+            }}
+            paddingHorizontal={20}
+            paddingBottom={38}
+          >
+            {props.children}
+          </ContentContainer>
+        </BottomSheetView>
       </BottomSheetModal>
     );
   },
