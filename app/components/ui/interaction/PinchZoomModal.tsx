@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {Image, Modal, Pressable, StyleSheet} from 'react-native';
-import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { Image, Modal, Pressable, StyleSheet } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {SvgIcon} from '../display/SvgIcon';
-import {ContentContainer} from '../layout/ContentContainer';
-import {SCREEN_WIDTH} from '@gorhom/bottom-sheet';
-import {Color} from '../../../constants/color.constant';
+import logger from '../../../utils/logger';
+import { SvgIcon } from '../display/SvgIcon';
+import { ContentContainer } from '../layout/ContentContainer';
+import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
+import { Color } from '../../../constants/color.constant';
 
 type Props = {
   opened?: boolean;
@@ -18,7 +19,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export default function PinchZoomModal({opened, imageUri, onClose}: Props) {
+export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const lastTranslateX = useSharedValue(0);
@@ -40,7 +41,7 @@ export default function PinchZoomModal({opened, imageUri, onClose}: Props) {
           setImageHeight(SCREEN_WIDTH * ratio);
         },
         error => {
-          console.error('Image load failed', error);
+          logger.error('Image load failed:', error);
         },
       );
     }
@@ -98,9 +99,9 @@ export default function PinchZoomModal({opened, imageUri, onClose}: Props) {
   );
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
-      {translateX: translateX.value},
-      {translateY: translateY.value},
-      {scale: scale.value},
+      { translateX: translateX.value },
+      { translateY: translateY.value },
+      { scale: scale.value },
     ],
   }));
 
@@ -126,12 +127,13 @@ export default function PinchZoomModal({opened, imageUri, onClose}: Props) {
         <ContentContainer
           alignItems="flex-end"
           paddingRight={12}
-          withNoBackground>
+          withNoBackground
+        >
           <SvgIcon name={'closeWhite'} onPress={handleClose} />
         </ContentContainer>
         <GestureDetector gesture={composed}>
           <Animated.Image
-            source={{uri: imageUri}}
+            source={{ uri: imageUri }}
             style={[
               {
                 width: SCREEN_WIDTH,

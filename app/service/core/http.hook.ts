@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { HttpService } from './http.service';
 import { ApiHookParams } from '../../types/hooks/common.type';
+import logger from '../../utils/logger';
 
 type AxiosHookParams<TResponse> = ApiHookParams<TResponse>;
 type AxiosHookReturn = [
@@ -45,7 +46,7 @@ export const useAxios = <TResponse>({
     const preparedConfig = HttpService.prepareRequestConfig(axiosConfig);
     const client = HttpService.createAxiosInstance();
 
-    console.log('url - ', axiosConfig.url);
+    logger.debug('HTTP request URL:', axiosConfig.url);
     setLoading(true);
 
     client

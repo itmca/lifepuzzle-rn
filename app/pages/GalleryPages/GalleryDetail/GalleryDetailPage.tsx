@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 
+import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
@@ -43,7 +44,11 @@ const GalleryDetailPage = (): React.ReactElement => {
         height = size.height;
       }
       try {
-        console.log(image.node.image.width, image.node.image.height); // Log the final path
+        logger.debug(
+          'Image dimensions:',
+          image.node.image.width,
+          image.node.image.height,
+        );
 
         const croppedImage = await ImagePicker.openCropper({
           mediaType: 'photo',
@@ -83,7 +88,7 @@ const GalleryDetailPage = (): React.ReactElement => {
           setEditGalleryItems([...updatedGallery]);
         });
       } catch (cropError) {
-        console.log(`이미지 ${image.node.image.uri} 크롭 오류:`, cropError);
+        logger.debug('Image crop error:', image.node.image.uri, cropError);
         // 오류 처리 (예: 해당 이미지는 건너뛰기)
       }
     } else {
@@ -100,7 +105,7 @@ const GalleryDetailPage = (): React.ReactElement => {
   };
   const onContentContainerLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
-    // console.log('ContentContainer Height:', height); // 디버깅용
+    // logger.debug('ContentContainer Height:', height);
     setContentContainerHeight(height);
   };
   return (

@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import logger from '../../../utils/logger';
 import SelectablePhoto from './SelectablePhoto';
 import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
 
@@ -208,7 +209,7 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
         }
       }
     } catch (error) {
-      console.log('이미지 크롭 오류:', error);
+      logger.debug('Image crop error:', error);
     }
   };
 

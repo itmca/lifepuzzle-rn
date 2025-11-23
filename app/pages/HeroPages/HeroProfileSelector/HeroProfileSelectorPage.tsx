@@ -3,6 +3,7 @@ import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 import { useNavigation } from '@react-navigation/native';
 
+import logger from '../../../utils/logger';
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
 import { useSelectionStore } from '../../../stores/selection.store';
 import {
@@ -36,9 +37,7 @@ const HeroProfileSelectorPage = (): React.ReactElement => {
       if ('node' in photo) {
         setSelectedPhoto(photo as PhotoIdentifier);
       } else {
-        console.warn(
-          'FacebookPhotoItem not supported in hero profile selector',
-        );
+        logger.warn('FacebookPhotoItem not supported in hero profile selector');
       }
     },
     onPhotoDeselect: () => {

@@ -11,6 +11,7 @@ import {
 import FastImage from '@d11/react-native-fast-image';
 
 import { FlashList } from '@shopify/flash-list';
+import logger from '../../../utils/logger';
 
 import { GalleryType, TagKey } from '../../../types/core/media.type';
 
@@ -97,7 +98,7 @@ const GalleryListPage = () => {
         UIManager.measureLayout(
           nodeHandle,
           scrollNodeHandle,
-          () => console.warn('Failed to measure layout for scroll!'),
+          () => logger.warn('Failed to measure layout for scroll'),
           (_x, y) => {
             scrollRef.scrollTo({ y: y, animated: true });
           },
@@ -168,7 +169,7 @@ const GalleryListPage = () => {
                             muted={true}
                             controls={false}
                             onError={error => {
-                              console.log('Video thumbnail error:', error);
+                              logger.debug('Video thumbnail error:', error);
                             }}
                           />
                         </TouchableOpacity>

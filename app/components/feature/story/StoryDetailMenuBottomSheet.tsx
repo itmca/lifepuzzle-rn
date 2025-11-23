@@ -4,6 +4,7 @@ import { Color } from '../../../constants/color.constant.ts';
 
 import { useNavigation } from '@react-navigation/native';
 
+import logger from '../../../utils/logger';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import {
   useDeleteGallery,
@@ -120,7 +121,7 @@ export const StoryDetailMenuBottomSheet = ({
         setOpenModal(false);
       })
       .catch(err => {
-        console.log(err);
+        logger.debug('Share error:', err);
       });
   };
   return (

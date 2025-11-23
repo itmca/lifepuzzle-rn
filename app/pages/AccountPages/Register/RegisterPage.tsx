@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
+import logger from '../../../utils/logger';
 import { PolicyAgreeSwitch } from './PolicyAgreeSwitch';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -79,7 +80,7 @@ const RegisterPage = (): React.ReactElement => {
       );
     },
     onError: err => {
-      console.log(err);
+      logger.debug('Register error:', err);
       Alert.alert('회원가입에 실패했습니다.');
     },
     disableInitialRequest: true,
@@ -97,7 +98,7 @@ const RegisterPage = (): React.ReactElement => {
       setIdDuplicated(isDuplicated);
     },
     onError: err => {
-      console.log(err);
+      logger.debug('ID dupcheck error:', err);
       Alert.alert('아이디 중복 확인에 실패했습니다.');
     },
     disableInitialRequest: true,

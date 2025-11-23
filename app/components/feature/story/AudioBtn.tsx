@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import logger from '../../../utils/logger';
 import { BasicNavigationProps } from '../../../navigation/types';
 import Sound from 'react-native-sound';
 import { toMmSs, toMmSsSS } from '../../../service/utils/date-time.service';
@@ -45,7 +46,7 @@ export const AudioBtn = ({
       const audioSound = new Sound(audioUrl, undefined, error => {
         if (error) {
           // TODO: 예외 처리
-          console.log('error', error);
+          logger.debug('Audio play error:', error);
           return;
         }
         setAudio(audioSound);
