@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { LocalStorage } from '../core/local-storage.service';
+import { SecureStorage } from '../core/secure-storage.service';
 import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../../stores/auth.store';
 import { useUserStore } from '../../stores/user.store';
@@ -35,8 +36,8 @@ export const useLogout = (option?: Option) => {
     resetAgeGroups();
     resetTag();
 
-    // Remove local storage
-    LocalStorage.delete('authToken');
+    // Remove secure storage and local storage
+    SecureStorage.removeAuthTokens();
     LocalStorage.delete('userNo');
 
     if (customGoBackAction) {

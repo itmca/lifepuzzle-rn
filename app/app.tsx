@@ -14,7 +14,7 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { AppState } from 'react-native';
 import RootNavigator from './navigation/RootNavigator';
 import { useFetchLocalStorageUserHero } from './service/core/local-storage.hook';
-import { LocalStorage } from './service/core/local-storage.service';
+import { SecureStorage } from './service/core/secure-storage.service';
 import { useAuthStore } from './stores/auth.store';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { hideSplash, showSplash } from 'react-native-splash-view';
@@ -37,8 +37,8 @@ const theme = {
   },
 };
 
-function initializeZustandState(): void {
-  const authToken = LocalStorage.get('authToken', 'json');
+async function initializeZustandState(): Promise<void> {
+  const authToken = await SecureStorage.getAuthTokens();
   if (authToken) {
     useAuthStore.getState().setAuthTokens(authToken);
   }
@@ -101,14 +101,18 @@ const App = (): React.ReactElement => {
 
   // Side effects
   useEffect(() => {
-    showSplash();
+    const initialize = async () => {
+      showSplash();
 
-    // Initialize Zustand stores
-    initializeZustandState();
+      // Initialize Zustand stores from secure storage
+      await initializeZustandState();
 
-    setTimeout(() => {
-      hideSplash(); // Hide after some time
-    }, 2000);
+      setTimeout(() => {
+        hideSplash(); // Hide after some time
+      }, 2000);
+    };
+
+    initialize();
   }, []);
 
   return (
