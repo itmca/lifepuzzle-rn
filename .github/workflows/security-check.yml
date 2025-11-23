@@ -1,0 +1,123 @@
+# Security checks for PR validation
+# Detects common security violations in the codebase
+
+name: Security Check
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'app/**'
+      - '*.ts'
+      - '*.tsx'
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check for console.log usage
+        run: |
+          echo "Checking for console.log/warn/error usage in app/**..."
+
+          # Find console.log/warn/error usage (excluding logger.ts)
+          VIOLATIONS=$(grep -rn "console\.\(log\|warn\|error\|info\|debug\)" app/ \
+            --include="*.ts" --include="*.tsx" \
+            --exclude="logger.ts" \
+            2>/dev/null || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "::error::Found console.log/warn/error usage. Use logger instead."
+            echo ""
+            echo "Violations found:"
+            echo "$VIOLATIONS"
+            echo ""
+            echo "Please use 'import logger from \"../utils/logger\"' and use:"
+            echo "  - logger.debug() for debug messages"
+            echo "  - logger.info() for info messages"
+            echo "  - logger.warn() for warnings"
+            echo "  - logger.error() for errors"
+            exit 1
+          else
+            echo "✓ No console.log violations found"
+          fi
+
+      - name: Check for LocalStorage auth token usage
+        run: |
+          echo "Checking for auth token storage in LocalStorage..."
+
+          # Find LocalStorage usage with auth-related keys
+          VIOLATIONS=$(grep -rn "LocalStorage\.\(set\|get\).*\(authToken\|accessToken\|refreshToken\)" app/ \
+            --include="*.ts" --include="*.tsx" \
+            2>/dev/null || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "::error::Auth tokens must be stored in SecureStorage, not LocalStorage."
+            echo ""
+            echo "Violations found:"
+            echo "$VIOLATIONS"
+            echo ""
+            echo "Please use SecureStorage for auth tokens:"
+            echo "  import { SecureStorage } from '../core/secure-storage.service';"
+            echo "  await SecureStorage.setAuthTokens(tokens);"
+            exit 1
+          else
+            echo "✓ No LocalStorage auth token violations found"
+          fi
+
+      - name: Check for WebView security settings
+        run: |
+          echo "Checking WebView security settings..."
+
+          # Find WebView components
+          WEBVIEW_FILES=$(grep -rl "<WebView" app/ --include="*.tsx" 2>/dev/null || true)
+
+          if [ -n "$WEBVIEW_FILES" ]; then
+            VIOLATIONS=""
+            for file in $WEBVIEW_FILES; do
+              # Check if WebView has security settings
+              if ! grep -q "allowFileAccess={false}" "$file"; then
+                VIOLATIONS="$VIOLATIONS\n$file: missing allowFileAccess={false}"
+              fi
+              if ! grep -q "mixedContentMode" "$file"; then
+                VIOLATIONS="$VIOLATIONS\n$file: missing mixedContentMode=\"never\""
+              fi
+            done
+
+            if [ -n "$VIOLATIONS" ]; then
+              echo "::warning::Some WebView components may be missing security settings."
+              echo -e "Files to review:$VIOLATIONS"
+              echo ""
+              echo "Recommended WebView security settings:"
+              echo "  allowUniversalAccessFromFileURLs={false}"
+              echo "  allowFileAccessFromFileURLs={false}"
+              echo "  allowFileAccess={false}"
+              echo "  mixedContentMode=\"never\""
+            else
+              echo "✓ WebView security settings look good"
+            fi
+          else
+            echo "✓ No WebView components found"
+          fi
+
+      - name: Check for sensitive data in logs
+        run: |
+          echo "Checking for sensitive data in log statements..."
+
+          # Find potential sensitive data logging
+          VIOLATIONS=$(grep -rn "logger\.\(debug\|info\|warn\|error\).*\(password\|token\|secret\|apiKey\|credential\)" app/ \
+            --include="*.ts" --include="*.tsx" \
+            -i 2>/dev/null || true)
+
+          if [ -n "$VIOLATIONS" ]; then
+            echo "::warning::Potential sensitive data in log statements."
+            echo ""
+            echo "Please review these lines:"
+            echo "$VIOLATIONS"
+            echo ""
+            echo "Never log: passwords, tokens, API keys, secrets, or credentials"
+          else
+            echo "✓ No obvious sensitive data in logs"
+          fi
