@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
@@ -112,10 +112,15 @@ const StoryDetailPage = (): React.ReactElement => {
   };
 
   // Side effects
-  useFocusEffect(() => {
-    resetWritingStory();
-    setIsStory(currentGalleryItem?.story || false);
-  });
+  useFocusEffect(
+    useCallback(() => {
+      resetWritingStory();
+    }, [resetWritingStory]),
+  );
+
+  useEffect(() => {
+    setIsStory(!!currentGalleryItem?.story);
+  }, [currentGalleryItem?.story]);
   return (
     <LoadingContainer isLoading={false}>
       <ScreenContainer>
