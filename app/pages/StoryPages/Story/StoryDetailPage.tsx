@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
@@ -34,9 +34,22 @@ const StoryDetailPage = (): React.ReactElement => {
     currentGalleryIndex: allGalleryIndex,
     setCurrentGalleryIndex: setAllGalleryIndex,
   } = useSelectionStore();
-  const allGallery = useMediaStore(state => state.getGallery());
+  const ageGroups = useMediaStore(state => state.ageGroups);
+  const tags = useMediaStore(state => state.tags);
   const { resetWritingStory, setWritingStory, resetSelectedStoryKey } =
     useStoryStore();
+
+  // Memoized gallery to avoid infinite loop (getGallery creates new array each call)
+  const allGallery = useMemo(() => {
+    if (!ageGroups || !tags) return [];
+    return Object.entries(ageGroups)
+      .map(([key, value]) => {
+        const tag = tags.find(t => t.key === key);
+        if (!tag) return [];
+        return value.gallery.map(item => ({ ...item, tag }));
+      })
+      .flat();
+  }, [ageGroups, tags]);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -99,10 +112,15 @@ const StoryDetailPage = (): React.ReactElement => {
   };
 
   // Side effects
-  useFocusEffect(() => {
-    resetWritingStory();
-    setIsStory(currentGalleryItem?.story || false);
-  });
+  useFocusEffect(
+    useCallback(() => {
+      resetWritingStory();
+    }, [resetWritingStory]),
+  );
+
+  useEffect(() => {
+    setIsStory(!!currentGalleryItem?.story);
+  }, [currentGalleryItem?.story]);
   return (
     <LoadingContainer isLoading={false}>
       <ScreenContainer>
