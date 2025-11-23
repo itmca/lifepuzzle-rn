@@ -1,10 +1,12 @@
 import styled, { css } from 'styled-components/native';
 import { Color, ColorType } from '../../../constants/color.constant';
+import { SizeValue } from '../../../types/ui/style.type';
+import { formatSize } from '../../../service/utils/style.service';
 
 type Props = {
   // Size
-  height?: string;
-  width?: string;
+  height?: SizeValue;
+  width?: SizeValue;
 
   // Layout
   gap?: number;
@@ -27,8 +29,8 @@ type Props = {
 
 export const ButtonBase = styled.TouchableOpacity<Props>`
   /* Size */
-  height: ${props => props.height ?? '56px'};
-  width: ${props => props.width ?? '100%'};
+  height: ${props => formatSize(props.height, '56px')};
+  width: ${props => formatSize(props.width, '100%')};
 
   /* Layout */
   flex-direction: row;

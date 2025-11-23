@@ -4,11 +4,13 @@ import React, { forwardRef, ReactNode, RefAttributes } from 'react';
 import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { NativeScrollEvent } from 'react-native/Libraries/Components/ScrollView/ScrollView';
 import { Color } from '../../../constants/color.constant.ts';
+import { SizeValue } from '../../../types/ui/style.type';
+import { formatSize } from '../../../service/utils/style.service';
 
 type ContentContainerProps = {
   // Size
-  width?: number | 'auto' | `${number}%`;
-  height?: number | 'auto' | `${number}%`;
+  width?: SizeValue;
+  height?: SizeValue;
   minHeight?: string;
   maxHeight?: string;
 
@@ -57,8 +59,8 @@ type ContentContainerProps = {
 
 export const ContentContainer = styled.View<ContentContainerProps>`
   /* Size */
-  width: ${props => props.width ?? '100%'};
-  height: ${props => props.height ?? 'auto'};
+  width: ${props => formatSize(props.width, '100%')};
+  height: ${props => formatSize(props.height, 'auto')};
   ${props => props.minHeight && `min-height: ${props.minHeight};`}
   ${props => props.maxHeight && `max-height: ${props.maxHeight};`}
 
