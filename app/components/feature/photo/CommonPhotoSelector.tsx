@@ -290,6 +290,18 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
           renderItem={renderPhoto}
           contentContainerStyle={{ flexGrow: 1 }}
           style={{ flex: 1 }}
+          getItemLayout={(_, index) => ({
+            length: DeviceWidth / 3,
+            offset: (DeviceWidth / 3) * Math.floor(index / 3),
+            index,
+          })}
+          // 첫 화면에 6-7행이 보이므로 7행(21개)을 초기 렌더링하여 빈 공간 방지
+          initialNumToRender={21}
+          // 스크롤 시 4행(12개)씩 렌더링하여 60fps 유지와 반응성 균형
+          maxToRenderPerBatch={12}
+          // 기본값(21)의 절반 정도로 메모리 절약하되 빠른 스크롤에도 빈 공간 없도록 설정
+          windowSize={11}
+          removeClippedSubviews={true}
         />
 
         {/* Confirm Button */}

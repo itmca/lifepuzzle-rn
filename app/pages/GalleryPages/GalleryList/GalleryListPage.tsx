@@ -142,6 +142,7 @@ const GalleryListPage = () => {
                     data={ageGroup.gallery}
                     numColumns={2}
                     estimatedItemSize={200}
+                    keyExtractor={(item: any) => `ai-${item.id}`}
                     contentContainerStyle={{
                       padding: 20,
                     }}
@@ -181,6 +182,7 @@ const GalleryListPage = () => {
                     data={ageGroup.gallery}
                     numColumns={2}
                     estimatedItemSize={200}
+                    keyExtractor={(item: any) => `gallery-${item.id}`}
                     renderItem={({ item }: { item: any }) => {
                       const galleryItem = item as GalleryType;
                       return (
