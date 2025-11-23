@@ -1,4 +1,5 @@
 import { LocalStorage } from '../core/local-storage.service';
+import { SecureStorage } from '../core/secure-storage.service';
 import { AuthTokens } from '../../types/auth/auth.type';
 import { UserType } from '../../types/core/user.type';
 import { HeroType } from '../../types/core/hero.type';
@@ -33,7 +34,7 @@ export const useLoginResponseHandler = (option?: Option) => {
     setHero(hero);
     resetShareKey();
 
-    LocalStorage.set('authToken', JSON.stringify(tokens));
+    SecureStorage.setAuthTokens(tokens);
     LocalStorage.set('userNo', user.userNo);
 
     if (typeof option?.customGoBackAction === 'function') {

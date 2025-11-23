@@ -2,7 +2,7 @@ import { useAuthStore } from '../../stores/auth.store';
 import { SERVER_HOST } from '../../constants/url.constant';
 import axios, { AxiosError } from 'axios';
 import { convertDateStringToDate } from '../utils/json-convert.service';
-import { LocalStorage } from '../core/local-storage.service';
+import { SecureStorage } from '../core/secure-storage.service';
 import { Alert } from 'react-native';
 import { useLogout } from './logout.hook';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -56,7 +56,7 @@ export const useRefreshAuthTokens = () => {
         .then(r => r.data)
         .then(responseTokens => {
           setAuthTokens(responseTokens);
-          LocalStorage.set('authToken', JSON.stringify(responseTokens));
+          SecureStorage.setAuthTokens(responseTokens);
 
           onRefreshSuccess?.(responseTokens);
         })
