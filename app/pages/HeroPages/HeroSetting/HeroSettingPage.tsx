@@ -36,7 +36,7 @@ import {
   Title,
 } from '../../../components/ui/base/TextBase';
 import { toInternationalAge } from '../../../service/utils/date-time.service.ts';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';
 import { HeroAuthTypeByCode } from '../../../constants/auth.constant.ts';
@@ -206,7 +206,7 @@ const HeroSettingPage = (): React.ReactElement => {
                       {focusedHero.isLunar ? '음력' : '양력'}
                     </Caption>
                     <Caption color={Color.GREY_700}>
-                      {format(new Date(focusedHero.birthday), 'yyyy.MM.dd')}
+                      {dayjs(focusedHero.birthday).format('YYYY.MM.DD')}
                     </Caption>
                     <Caption color={Color.GREY_600}>
                       (만 {toInternationalAge(focusedHero.birthday)}세)

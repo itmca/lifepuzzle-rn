@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { HeroAvatar } from '../avatar/HeroAvatar';
 import {
@@ -47,7 +47,7 @@ const HeroOverview = ({ hero }: Props): React.ReactElement => {
               justifyContent="flex-start"
             >
               <Caption color={Color.GREY_600}>
-                {format(new Date(hero.birthdate), 'yyyy.MM.dd')}
+                {dayjs(hero.birthdate).format('YYYY.MM.DD')}
               </Caption>
               <Caption color={Color.GREY_700}>{`(${hero.age}세)`}</Caption>
             </ContentContainer>

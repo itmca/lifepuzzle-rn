@@ -8,7 +8,7 @@ import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../constants/password.constant';
-import { debounce } from 'lodash';
+import { debounce } from '../../../utils/debounce';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {
