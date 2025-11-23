@@ -2,42 +2,6 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "app/assets/fonts/Pretendard-Black.ttf",
-      "sha1": "69c876a7c2bedde4115259ee2da167a852859c2a"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-Bold.ttf",
-      "sha1": "ce90f236c12bd6c335e780b3df1dc83e520d4649"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-ExtraBold.ttf",
-      "sha1": "08ac75df594fa654758b5b256de7e2a56d397502"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-ExtraLight.ttf",
-      "sha1": "367f2c51d1748a8079bb4755cffb3e30fa6e7580"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-Light.ttf",
-      "sha1": "b1f95d7e5345258c2ca718db64ff14d6126ea6ea"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-Medium.ttf",
-      "sha1": "d20f40000daf0f1ab4bc461938c1ed412b611be3"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-Regular.ttf",
-      "sha1": "4b55f6be3f665d6d62081480d475c9fb3f2bea92"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-SemiBold.ttf",
-      "sha1": "17f11e7a57ba21e9d9a97a3bdb5637c70c0c6037"
-    },
-    {
-      "path": "app/assets/fonts/Pretendard-Thin.ttf",
-      "sha1": "7c681e74f385e06052a5bb560cdb0f7cf833f5fb"
-    },
-    {
       "path": "app/assets/fonts/SUIT-Bold.ttf",
       "sha1": "260f37817e53e956893d5444564685351c3f344d"
     },
@@ -46,32 +10,12 @@
       "sha1": "18142924cde92e4044145027170278d06556d017"
     },
     {
-      "path": "app/assets/fonts/SUIT-ExtraLight.ttf",
-      "sha1": "d6bf885fd51c079fde494231dcbf8de31ae9adda"
-    },
-    {
-      "path": "app/assets/fonts/SUIT-Heavy.ttf",
-      "sha1": "e9276c72058de1826ada980e6290c5f301610032"
-    },
-    {
-      "path": "app/assets/fonts/SUIT-Light.ttf",
-      "sha1": "1ec865181a4fbc45940ba1b6a17eebe51d8c1988"
-    },
-    {
       "path": "app/assets/fonts/SUIT-Medium.ttf",
       "sha1": "1f8cc07eb00d6117f6b3ca52763d367fd20581f2"
     },
     {
-      "path": "app/assets/fonts/SUIT-Regular.ttf",
-      "sha1": "cd14bef9e9e8e9cd81cff5ba720685eab860d754"
-    },
-    {
       "path": "app/assets/fonts/SUIT-SemiBold.ttf",
       "sha1": "ab1bd61b305551638ca9d8e9d870f6bcc2c0c1c5"
-    },
-    {
-      "path": "app/assets/fonts/SUIT-Thin.ttf",
-      "sha1": "3cb0fc31ddbd4664eacce7fedf2f26df6b58f587"
     }
   ]
 }
