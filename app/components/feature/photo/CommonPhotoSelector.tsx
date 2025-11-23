@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -150,38 +150,52 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
     }
   };
 
-  const handlePhotoSelect = (photo: PhotoIdentifier | FacebookPhotoItem) => {
-    if (config.mode === 'single') {
-      setSelectedPhotos([photo]);
-      callbacks.onPhotoSelect?.(photo);
-    } else {
-      const maxSelection = config.maxSelection || Infinity;
-      if (selectedPhotos.length < maxSelection) {
-        const newSelection = [...selectedPhotos, photo];
-        setSelectedPhotos(newSelection);
+  const handlePhotoSelect = useCallback(
+    (photo: PhotoIdentifier | FacebookPhotoItem) => {
+      if (config.mode === 'single') {
+        setSelectedPhotos([photo]);
         callbacks.onPhotoSelect?.(photo);
-        callbacks.onMultipleSelect?.(newSelection);
+      } else {
+        const maxSelection = config.maxSelection || Infinity;
+        if (selectedPhotos.length < maxSelection) {
+          const newSelection = [...selectedPhotos, photo];
+          setSelectedPhotos(newSelection);
+          callbacks.onPhotoSelect?.(photo);
+          callbacks.onMultipleSelect?.(newSelection);
+        }
       }
-    }
-  };
+    },
+    [
+      config.mode,
+      config.maxSelection,
+      selectedPhotos,
+      setSelectedPhotos,
+      callbacks,
+    ],
+  );
 
-  const handlePhotoDeselect = (photo: PhotoIdentifier | FacebookPhotoItem) => {
-    const newSelection = selectedPhotos.filter(p => {
-      if ('node' in photo && 'node' in p) {
-        return (
-          (p as PhotoIdentifier).node.image.uri !==
-          (photo as PhotoIdentifier).node.image.uri
-        );
-      } else if ('id' in photo && 'id' in p) {
-        return (p as FacebookPhotoItem).id !== (photo as FacebookPhotoItem).id;
-      }
-      return true;
-    });
+  const handlePhotoDeselect = useCallback(
+    (photo: PhotoIdentifier | FacebookPhotoItem) => {
+      const newSelection = selectedPhotos.filter(p => {
+        if ('node' in photo && 'node' in p) {
+          return (
+            (p as PhotoIdentifier).node.image.uri !==
+            (photo as PhotoIdentifier).node.image.uri
+          );
+        } else if ('id' in photo && 'id' in p) {
+          return (
+            (p as FacebookPhotoItem).id !== (photo as FacebookPhotoItem).id
+          );
+        }
+        return true;
+      });
 
-    setSelectedPhotos(newSelection);
-    callbacks.onPhotoDeselect?.(photo);
-    callbacks.onMultipleSelect?.(newSelection);
-  };
+      setSelectedPhotos(newSelection);
+      callbacks.onPhotoDeselect?.(photo);
+      callbacks.onMultipleSelect?.(newSelection);
+    },
+    [selectedPhotos, setSelectedPhotos, callbacks],
+  );
 
   const handleConfirmSelection = () => {
     if (selectedPhotos.length === 0) {
@@ -213,53 +227,61 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
     }
   };
 
-  const renderPhoto = ({
-    item,
-    index,
-  }: {
-    item: PhotoIdentifier | FacebookPhotoItem;
-    index: number;
-  }) => {
-    const isSelected = selectedPhotos.some(p => {
-      if ('node' in item && 'node' in p) {
-        return (
-          (p as PhotoIdentifier).node.image.uri ===
-          (item as PhotoIdentifier).node.image.uri
-        );
-      } else if ('id' in item && 'id' in p) {
-        return (p as FacebookPhotoItem).id === (item as FacebookPhotoItem).id;
-      }
-      return false;
-    });
+  const renderPhoto = useCallback(
+    ({
+      item,
+      index,
+    }: {
+      item: PhotoIdentifier | FacebookPhotoItem;
+      index: number;
+    }) => {
+      const isSelected = selectedPhotos.some(p => {
+        if ('node' in item && 'node' in p) {
+          return (
+            (p as PhotoIdentifier).node.image.uri ===
+            (item as PhotoIdentifier).node.image.uri
+          );
+        } else if ('id' in item && 'id' in p) {
+          return (p as FacebookPhotoItem).id === (item as FacebookPhotoItem).id;
+        }
+        return false;
+      });
 
-    const order = config.showOrderNumbers
-      ? selectedPhotos.findIndex(p => {
-          if ('node' in item && 'node' in p) {
-            return (
-              (p as PhotoIdentifier).node.image.uri ===
-              (item as PhotoIdentifier).node.image.uri
-            );
-          } else if ('id' in item && 'id' in p) {
-            return (
-              (p as FacebookPhotoItem).id === (item as FacebookPhotoItem).id
-            );
-          }
-          return false;
-        }) + 1
-      : undefined;
+      const order = config.showOrderNumbers
+        ? selectedPhotos.findIndex(p => {
+            if ('node' in item && 'node' in p) {
+              return (
+                (p as PhotoIdentifier).node.image.uri ===
+                (item as PhotoIdentifier).node.image.uri
+              );
+            } else if ('id' in item && 'id' in p) {
+              return (
+                (p as FacebookPhotoItem).id === (item as FacebookPhotoItem).id
+              );
+            }
+            return false;
+          }) + 1
+        : undefined;
 
-    return (
-      <SelectablePhoto
-        key={`${index}-${String(isSelected)}`}
-        onSelected={handlePhotoSelect}
-        onDeselected={handlePhotoDeselect}
-        size={DeviceWidth / 3}
-        photo={item}
-        selected={isSelected}
-        order={order}
-      />
-    );
-  };
+      return (
+        <SelectablePhoto
+          key={`${index}-${String(isSelected)}`}
+          onSelected={handlePhotoSelect}
+          onDeselected={handlePhotoDeselect}
+          size={DeviceWidth / 3}
+          photo={item}
+          selected={isSelected}
+          order={order}
+        />
+      );
+    },
+    [
+      selectedPhotos,
+      config.showOrderNumbers,
+      handlePhotoSelect,
+      handlePhotoDeselect,
+    ],
+  );
 
   const getPhotosData = (): (PhotoIdentifier | FacebookPhotoItem)[] => {
     if (config.source === 'device') {

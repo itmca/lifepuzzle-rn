@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { Image as RNImage, Platform, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { CheckCover, Container } from './styles';
@@ -17,60 +17,58 @@ type SelectablePhotoProps = {
   order?: number;
 };
 
-const SelectablePhoto = ({
-  onSelected,
-  onDeselected,
-  size,
-  photo,
-  selected = false,
-  order,
-}: SelectablePhotoProps): React.ReactElement => {
-  const _onPress = () => {
-    selected === true ? onDeselected(photo) : onSelected(photo);
-  };
+const SelectablePhoto = memo(
+  ({
+    onSelected,
+    onDeselected,
+    size,
+    photo,
+    selected = false,
+    order,
+  }: SelectablePhotoProps): React.ReactElement => {
+    const handlePress = useCallback(() => {
+      selected ? onDeselected(photo) : onSelected(photo);
+    }, [selected, onSelected, onDeselected, photo]);
 
-  // Determine image URI based on photo type
-  const getImageUri = (): string => {
-    if ('node' in photo) {
-      // PhotoIdentifier type
-      return (photo as PhotoIdentifier).node.image.uri;
-    } else {
-      // FacebookPhotoItem type
-      return (photo as FacebookPhotoItem).imageUrl;
-    }
-  };
+    // Determine image URI based on photo type
+    const imageUri = useMemo((): string => {
+      if ('node' in photo) {
+        return (photo as PhotoIdentifier).node.image.uri;
+      } else {
+        return (photo as FacebookPhotoItem).imageUrl;
+      }
+    }, [photo]);
 
-  const imageUri = getImageUri();
-
-  return (
-    <TouchableOpacity onPress={_onPress}>
-      <Container style={{ width: size, height: size }}>
-        {Platform.OS === 'ios' && 'node' in photo ? (
-          <RNImage
-            style={{ width: size, height: size }}
-            source={{ uri: imageUri }}
-            resizeMode={'cover' as const}
-          />
-        ) : (
-          <Image
-            width={size}
-            height={size}
-            source={{ uri: imageUri }}
-            resizeMode="cover"
-          />
-        )}
-        {selected ? (
-          <CheckCover style={{ height: '100%', width: '100%' }}>
-            {order ? (
-              <PhotoIndex color={Color.WHITE}>{order}</PhotoIndex>
-            ) : (
-              <Icon name="checkmark" size={70} color={'white'} />
-            )}
-          </CheckCover>
-        ) : null}
-      </Container>
-    </TouchableOpacity>
-  );
-};
+    return (
+      <TouchableOpacity onPress={handlePress}>
+        <Container style={{ width: size, height: size }}>
+          {Platform.OS === 'ios' && 'node' in photo ? (
+            <RNImage
+              style={{ width: size, height: size }}
+              source={{ uri: imageUri }}
+              resizeMode={'cover' as const}
+            />
+          ) : (
+            <Image
+              width={size}
+              height={size}
+              source={{ uri: imageUri }}
+              resizeMode="cover"
+            />
+          )}
+          {selected ? (
+            <CheckCover style={{ height: '100%', width: '100%' }}>
+              {order ? (
+                <PhotoIndex color={Color.WHITE}>{order}</PhotoIndex>
+              ) : (
+                <Icon name="checkmark" size={70} color={'white'} />
+              )}
+            </CheckCover>
+          ) : null}
+        </Container>
+      </TouchableOpacity>
+    );
+  },
+);
 
 export default SelectablePhoto;
