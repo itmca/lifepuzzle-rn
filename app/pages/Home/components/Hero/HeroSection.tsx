@@ -2,20 +2,15 @@ import React, { useCallback } from 'react';
 import { Keyboard } from 'react-native';
 
 import { useHeroStore } from '../../../../stores/hero.store';
-import { HeroType, PhotoHeroType } from '../../../../types/core/hero.type';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { ShareButton } from '../../../../components/feature/sharing/ShareButton';
 import HeroOverview from './HeroOverview';
 
 type Props = {
-  photoHero: PhotoHeroType | null;
   onSharePress: () => void;
 };
 
-const HeroSection = ({
-  photoHero,
-  onSharePress,
-}: Props): React.ReactElement => {
+const HeroSection = ({ onSharePress }: Props): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
 
@@ -25,13 +20,13 @@ const HeroSection = ({
     onSharePress();
   }, [onSharePress]);
 
-  if (!photoHero) {
+  if (!hero) {
     return <></>;
   }
 
   return (
     <ContentContainer withScreenPadding useHorizontalLayout>
-      <HeroOverview hero={photoHero} />
+      <HeroOverview hero={hero} />
       {(hero.auth === 'OWNER' || hero.auth === 'ADMIN') && (
         <ContentContainer width={'auto'}>
           <ShareButton onPress={handleSharePress} />

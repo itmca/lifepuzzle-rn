@@ -17,7 +17,6 @@ import {
   TagKey,
   TagType,
 } from '../../../../types/core/media.type';
-import { PhotoHeroType } from '../../../../types/core/hero.type';
 import { Color } from '../../../../constants/color.constant.ts';
 
 import { NotificationBar } from '../../../../components/ui/feedback/NotificationBar';
@@ -27,7 +26,6 @@ import GalleryTag from './GalleryTag.tsx';
 import { BasicButton } from '../../../../components/ui/form/Button';
 
 type props = {
-  hero: PhotoHeroType;
   ageGroups: AgeGroupsType;
   tags: TagType[];
   isError?: boolean;

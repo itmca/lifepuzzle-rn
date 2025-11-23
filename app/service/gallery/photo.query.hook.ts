@@ -2,7 +2,6 @@ import { useUpdateObserver } from '../common/update.hook';
 import { useEffect, useState } from 'react';
 import { useAuthAxios } from '../core/auth-http.hook';
 import { AgeGroupsType, TagKey, TagType } from '../../types/core/media.type';
-import { PhotoHeroType } from '../../types/core/hero.type';
 import { useHeroStore } from '../../stores/hero.store';
 import { useMediaStore } from '../../stores/media.store';
 import { useSelectionStore } from '../../stores/selection.store';
@@ -10,14 +9,12 @@ import { AxiosRequestConfig } from 'axios';
 import { toInternationalAge } from '../utils/date-time.service';
 
 type PhotoQueryResponse = {
-  hero: PhotoHeroType;
   ageGroups: AgeGroupsType;
   tags: TagType[];
   totalGallery: number;
 };
 
 type Response = {
-  photoHero: PhotoHeroType;
   ageGroups: AgeGroupsType;
   tags: TagType[];
 
@@ -31,14 +28,6 @@ export const useHeroPhotos = (): Response => {
   const hero = useHeroStore(state => state.currentHero);
   const heroUpdateObserver = useUpdateObserver('heroUpdate');
   const storyListUpdateObserver = useUpdateObserver('storyListUpdate');
-  const [photoHero, setPhotoHero] = useState<PhotoHeroType>({
-    id: hero?.heroNo || -1,
-    name: hero?.heroName || '',
-    nickname: hero?.heroNickName || '',
-    birthdate: hero?.birthday?.toDateString() || '',
-    age: hero ? toInternationalAge(hero.birthday) : 0,
-    image: hero?.imageUrl ?? '',
-  });
   const ageGroups = useMediaStore(state => state.ageGroups);
   const tags = useMediaStore(state => state.tags);
   const setAgeGroups = useMediaStore(state => state.setAgeGroups);
@@ -54,8 +43,7 @@ export const useHeroPhotos = (): Response => {
       },
     },
     onResponseSuccess: res => {
-      if (res && res.hero) {
-        setPhotoHero(res.hero);
+      if (res) {
         setAgeGroups(res.ageGroups);
         const newTags = [
           ...res.tags.map(item => ({
@@ -69,9 +57,10 @@ export const useHeroPhotos = (): Response => {
         ];
         setTags(newTags);
 
+        const heroAge = hero ? toInternationalAge(hero.birthday) : 0;
         if (res.totalGallery === 0) {
           const index =
-            Math.trunc((res.hero.age ?? 0) / 10) +
+            Math.trunc(heroAge / 10) +
             newTags.filter(item => item.key === 'AI_PHOTO').length;
           setSelectedTag({ ...res.tags[index ?? 0] });
         } else {
@@ -91,29 +80,15 @@ export const useHeroPhotos = (): Response => {
 
   useEffect(() => {
     if (!hero || hero.heroNo < 0) {
-      // TODO(border-line): hero 정보가 없을 때 처리 개선
-      setPhotoHero({
-        id: hero?.heroNo || -1,
-        name: hero?.heroName || '',
-        nickname: hero?.heroNickName || '',
-        birthdate: '',
-        age: -1,
-        image: '',
-      });
       return;
     }
 
     setIsError(false);
     fetchHeroStories({});
-  }, [
-    hero?.heroNo,
-    heroUpdateObserver,
-    storyListUpdateObserver,
-    fetchHeroStories,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hero?.heroNo, heroUpdateObserver, storyListUpdateObserver]);
 
   return {
-    photoHero,
     ageGroups: ageGroups || {},
     tags: tags || [],
     isLoading,
