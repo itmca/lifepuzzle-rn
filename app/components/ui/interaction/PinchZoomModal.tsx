@@ -14,8 +14,6 @@ import { ContentContainer } from '../layout/ContentContainer';
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
 import { Color } from '../../../constants/color.constant';
 
-const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
-
 type Props = {
   opened?: boolean;
   imageUri?: string;
@@ -135,22 +133,29 @@ export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
           <SvgIcon name={'closeWhite'} onPress={handleClose} />
         </ContentContainer>
         <GestureDetector gesture={composed}>
-          <AnimatedFastImage
-            source={{
-              uri: imageUri,
-              priority: FastImage.priority.high,
-              cache: FastImage.cacheControl.immutable,
-            }}
+          <Animated.View
             style={[
               {
                 width: SCREEN_WIDTH,
                 height: imageHeight,
-                backgroundColor: Color.GREY_700,
               },
               animatedStyle,
             ]}
-            resizeMode={FastImage.resizeMode.contain}
-          />
+          >
+            <FastImage
+              source={{
+                uri: imageUri,
+                priority: FastImage.priority.high,
+                cache: FastImage.cacheControl.immutable,
+              }}
+              style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: Color.GREY_700,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          </Animated.View>
         </GestureDetector>
       </ContentContainer>
     </Modal>
