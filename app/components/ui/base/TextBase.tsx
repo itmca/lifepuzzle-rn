@@ -6,16 +6,7 @@ type TextBaseProps = Pick<
   TextProps,
   'ellipsizeMode' | 'numberOfLines' | 'children'
 > & {
-  fontFamily:
-    | 'SUIT-Bold'
-    | 'SUIT-ExtraBold'
-    | 'SUIT-ExtraLight'
-    | 'SUIT-Heavy'
-    | 'SUIT-Light'
-    | 'SUIT-Medium'
-    | 'SUIT-Regular'
-    | 'SUIT-SemiBold'
-    | 'SUIT-Thin';
+  fontFamily: 'SUIT-Bold' | 'SUIT-ExtraBold' | 'SUIT-Medium' | 'SUIT-SemiBold';
   fontSize: number;
   lineHeightPercent: number;
   letterSpacing?: number;
