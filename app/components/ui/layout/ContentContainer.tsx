@@ -5,6 +5,17 @@ import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventType
 import { NativeScrollEvent } from 'react-native/Libraries/Components/ScrollView/ScrollView';
 import { Color } from '../../../constants/color.constant.ts';
 
+type SizeValue = number | 'auto' | `${number}%`;
+
+const formatSize = (
+  value: SizeValue | undefined,
+  defaultValue: string,
+): string => {
+  if (value === undefined) return defaultValue;
+  if (typeof value === 'number') return `${value}px`;
+  return value;
+};
+
 type ContentContainerProps = {
   // Size
   width?: number | 'auto' | `${number}%`;
@@ -57,8 +68,8 @@ type ContentContainerProps = {
 
 export const ContentContainer = styled.View<ContentContainerProps>`
   /* Size */
-  width: ${props => props.width ?? '100%'};
-  height: ${props => props.height ?? 'auto'};
+  width: ${props => formatSize(props.width, '100%')};
+  height: ${props => formatSize(props.height, 'auto')};
   ${props => props.minHeight && `min-height: ${props.minHeight};`}
   ${props => props.maxHeight && `max-height: ${props.maxHeight};`}
 
