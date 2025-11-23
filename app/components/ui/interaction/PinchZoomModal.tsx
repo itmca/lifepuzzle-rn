@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Modal, Pressable, StyleSheet } from 'react-native';
+import { Modal, Pressable, StyleSheet } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
@@ -8,7 +8,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import FastImage from '@d11/react-native-fast-image';
-import logger from '../../../utils/logger';
 import { SvgIcon } from '../display/SvgIcon';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
@@ -31,22 +30,25 @@ export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
   const scale = useDerivedValue(() => {
     return baseScale.value * pinchScale.value;
   });
-  const [imageHeight, setImageHeight] = useState(0);
+  // 기본 높이를 화면 너비로 설정 (정사각형), 이미지 로드 후 실제 비율로 업데이트
+  const [imageHeight, setImageHeight] = useState(SCREEN_WIDTH);
+
+  const handleImageLoad = (e: {
+    nativeEvent: { width: number; height: number };
+  }) => {
+    const { width, height } = e.nativeEvent;
+    if (width > 0) {
+      const ratio = height / width;
+      setImageHeight(SCREEN_WIDTH * ratio);
+    }
+  };
 
   useEffect(() => {
-    if (imageUri) {
-      Image.getSize(
-        imageUri,
-        (originalWidth, originalHeight) => {
-          const ratio = originalHeight / originalWidth;
-          setImageHeight(SCREEN_WIDTH * ratio);
-        },
-        error => {
-          logger.error('Image load failed:', error);
-        },
-      );
+    // 모달이 닫힐 때 높이 리셋
+    if (!opened) {
+      setImageHeight(SCREEN_WIDTH);
     }
-  }, [imageUri]);
+  }, [opened]);
   const panGesture = Gesture.Pan()
     .onStart(() => {
       // 제스처 시작 시 아무것도 안 함
@@ -154,6 +156,7 @@ export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
                 backgroundColor: Color.GREY_700,
               }}
               resizeMode={FastImage.resizeMode.contain}
+              onLoad={handleImageLoad}
             />
           </Animated.View>
         </GestureDetector>

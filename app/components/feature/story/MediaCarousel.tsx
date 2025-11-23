@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
 import { Photo } from '../../ui/base/ImageBase';
@@ -63,6 +63,20 @@ export const MediaCarousel = ({
     galleryId: galleryId || 0,
     drivingVideoId: drivingVideoId || 0,
   });
+
+  // 모든 이미지를 미리 캐시에 로드
+  useEffect(() => {
+    const imagesToPreload = data
+      .filter(item => item.type === 'IMAGE' && item.url)
+      .map(item => ({
+        uri: item.url,
+        priority: FastImage.priority.high,
+      }));
+
+    if (imagesToPreload.length > 0) {
+      FastImage.preload(imagesToPreload);
+    }
+  }, [data]);
 
   const handleAiPhotoPress = async () => {
     // API 호출에 필요한 데이터가 없으면 기존처럼 바로 이동
