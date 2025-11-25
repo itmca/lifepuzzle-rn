@@ -94,7 +94,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
     props.justifyContent && `justify-content: ${props.justifyContent};`}
     ${props => props.alignItems && `align-items: ${props.alignItems};`}
 
-  
+
   /* Padding */
   ${props => props.withScreenPadding && 'padding: 16px 20px 16px 20px;'}
   ${props => props.withContentPadding && 'padding: 16px;'}
@@ -119,7 +119,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
       padding-left: ${props.paddingHorizontal}px;
       padding-right: ${props.paddingHorizontal}px;
     `}
-  
+
   /* Border & Shadow */
   ${props =>
     props.withUpperShadow &&
@@ -132,7 +132,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
       android: `
         elevation: 4; /* Android shadow effect */
       `,
-    })} 
+    })}
   ${props => props.withBorder && `border: 1px solid ${Color.GREY};`}
   ${props => props.withDebugBorder && 'border: 1px solid red;'}
   ${props => props.borderColor && `border-color: ${props.borderColor};`}

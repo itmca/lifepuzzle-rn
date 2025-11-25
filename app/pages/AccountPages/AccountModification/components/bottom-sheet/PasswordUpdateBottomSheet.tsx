@@ -42,11 +42,13 @@ export const PasswordUpdateBottomSheet = ({ opened, onClose }: Props) => {
     disableInitialRequest: true,
   });
 
+  const snapPoints = useMemo(() => ['55%'], []);
+
   return (
     <BottomSheet
       opened={opened}
       title={'비밀번호 변경'}
-      snapPoints={useMemo(() => ['55%'], [])}
+      snapPoints={snapPoints}
       onClose={() => {
         onClose && onClose();
       }}

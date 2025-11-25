@@ -30,6 +30,8 @@ export const HeroAuthUpdateBottomSheet = ({
   onSuccess,
   onClose,
 }: Props) => {
+  const [newUserAuth, setNewUserAuth] = useState<HeroAuthTypeCode>();
+
   const [updateUserAuth, isAuthUpdating] = useUserAuthUpdate({
     onSuccess: () => {
       onSuccess && onSuccess();
@@ -39,8 +41,7 @@ export const HeroAuthUpdateBottomSheet = ({
     },
   });
 
-  var snapPoints = useMemo(() => ['58%'], []);
-  var [newUserAuth, setNewUserAuth] = useState<HeroAuthTypeCode>();
+  const snapPoints = useMemo(() => ['58%'], []);
 
   useEffect(() => {
     if (!user) {

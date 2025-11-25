@@ -55,8 +55,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
     },
   });
   const {
-    res: { heroes, loading },
-    fetchHeroes: fetchUploadHeroes,
+    res: { heroes },
   } = useUploadHeroes();
   // 카메라 촬영 후 상태가 업데이트되면 업로드 실행
   useEffect(() => {
@@ -83,7 +82,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
     <BottomSheet
       opened={visible}
       title={'공유된 이미지 업로드'}
-      onClose={isGalleryUploading ? () => {} : onClose}
+      onClose={isGalleryUploading ? undefined : onClose}
     >
       <ContentContainer gap={24}>
         <ScrollContentContainer useHorizontalLayout gap={6}>

@@ -57,21 +57,23 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
     const [contentHeight, setContentHeight] = useState(0);
 
     // Memoized 값
-    const _snapPoints =
-      snapPoints ?? useMemo(() => [`${contentHeight || 60}%`], [contentHeight]);
+    const defaultSnapPoints = useMemo(
+      () => [`${contentHeight || 60}%`],
+      [contentHeight],
+    );
+    const _snapPoints = snapPoints ?? defaultSnapPoints;
 
-    const renderBackdrop =
-      backdropComponent ??
-      useCallback(
-        (props: BottomSheetBackdropProps) => (
-          <BottomSheetBackdrop
-            {...props}
-            pressBehavior="none"
-            disappearsOnIndex={-1}
-          />
-        ),
-        [],
-      );
+    const defaultRenderBackdrop = useCallback(
+      (props: BottomSheetBackdropProps) => (
+        <BottomSheetBackdrop
+          {...props}
+          pressBehavior="none"
+          disappearsOnIndex={-1}
+        />
+      ),
+      [],
+    );
+    const renderBackdrop = backdropComponent ?? defaultRenderBackdrop;
 
     const handleClose = useCallback(() => {
       bottomSheetModalRef?.current?.close();

@@ -5,6 +5,7 @@ import { ButtonBase } from '../base/ButtonBase';
 import { Title } from '../base/TextBase';
 import { IconName, SvgIcon } from '../display/SvgIcon.tsx';
 import { ContentContainer } from '../layout/ContentContainer';
+import { SizeValue } from '../../../types/ui/style.type';
 
 type Props = {
   disabled?: boolean;
@@ -14,7 +15,7 @@ type Props = {
   backgroundColor?: ColorType;
   borderColor?: ColorType;
   textColor?: ColorType;
-  height?: string;
+  height?: SizeValue;
   onPress: () => void;
 };
 
@@ -25,7 +26,7 @@ export const BasicButton = ({
   backgroundColor = Color.MAIN_DARK,
   borderColor = Color.TRANSPARENT,
   textColor = Color.WHITE,
-  height = '56px',
+  height = 56,
   iconSize = 24,
   onPress,
 }: Props): React.ReactElement => {
