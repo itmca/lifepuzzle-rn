@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
-import { Photo } from '../../ui/base/ImageBase';
+import { AdaptiveImage } from '../../ui/base/ImageBase';
 import { VideoPlayer } from './StoryVideoPlayer';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
 import { Color } from '../../../constants/color.constant';
@@ -119,14 +119,7 @@ export const MediaCarousel = ({
               onPress && onPress(mediaUrl);
             }}
           >
-            <Photo
-              resizeMode={'contain'}
-              source={{
-                uri: mediaUrl,
-                priority: FastImage.priority.high,
-                cache: FastImage.cacheControl.immutable,
-              }}
-            />
+            <AdaptiveImage uri={mediaUrl} resizeMode="contain" />
           </TouchableOpacity>
         )}
         <MediaCarouselPagination

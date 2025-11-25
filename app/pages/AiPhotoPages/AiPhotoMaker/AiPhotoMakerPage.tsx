@@ -8,7 +8,7 @@ import {
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
 import { Title } from '../../../components/ui/base/TextBase';
-import { Photo } from '../../../components/ui/base/ImageBase';
+import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { AiPhotoMakerButton } from './components/AiPhotoMakerButton';
 import SelectableAiPhotoTemplate from './components/SelectableAiPhotoTemplate';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
@@ -66,11 +66,9 @@ const AiPhotoMakerPage = (): React.ReactElement => {
               borderRadius={6}
               height={376}
             >
-              <Photo
-                resizeMode={'contain'}
-                source={{
-                  uri: gallery[galleryIndex].url,
-                }}
+              <AdaptiveImage
+                uri={gallery[galleryIndex].url}
+                resizeMode="contain"
               />
             </ContentContainer>
             <ContentContainer flex={1} expandToEnd>

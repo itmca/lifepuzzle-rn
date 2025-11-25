@@ -13,7 +13,7 @@ import {
   Title,
 } from '../../../components/ui/base/TextBase';
 import { formatDateToTodayOrYYMMDD } from '../../../service/utils/date-time.service.ts';
-import { Photo } from '../../../components/ui/base/ImageBase';
+import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { useAiGalleries } from '../../../service/gallery/ai-photo.query.hook.ts';
 import { AiGallery } from '../../../types/external/ai-photo.type';
 
@@ -57,7 +57,7 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
             borderRadius={6}
             height={itemWidth * 0.85}
           >
-            <Photo source={{ uri: item.thumbnailUrl }} style={{ flex: 1 }} />
+            <AdaptiveImage uri={item.thumbnailUrl} style={{ flex: 1 }} />
           </ContentContainer>
           {item.status !== 'COMPLETED' ? (
             <ContentContainer
