@@ -1,13 +1,13 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import { useAxios } from '../../../service/core/auth-http.hook.ts';
+import { useAxios } from '../../../../service/core/auth-http.hook.ts';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../../service/auth/login.hook.ts';
+} from '../../../../service/auth/login.hook.ts';
 
-import { useShareStore } from '../../../stores/share.store';
-import { BasicButton } from '../../../components/ui/form/Button';
+import { useShareStore } from '../../../../stores/share.store';
+import { BasicButton } from '../../../../components/ui/form/Button';
 
 type Props = {
   userId: string;

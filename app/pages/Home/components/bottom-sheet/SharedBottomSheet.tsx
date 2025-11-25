@@ -18,7 +18,7 @@ import { TagType } from '../../../../types/core/media.type';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { BasicButton } from '../../../../components/ui/form/Button';
-import GallerySelect from '../Gallery/GallerySelect.tsx';
+import GallerySelect from '../gallery/GallerySelect.tsx';
 import { useUploadHeroes } from '../../../../service/hero/hero.query.hook.ts';
 import { HeroSelect } from './HeroSelect';
 import { toInternationalAge } from '../../../../service/utils/date-time.service.ts';

@@ -3,10 +3,9 @@ import React from 'react';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
-import { TagType } from '../../../../types/core/media.type';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Title } from '../../../../components/ui/base/TextBase';
-import { WritingButton } from '../Button/WritingButton.tsx';
+import { WritingButton } from '../button/WritingButton.tsx';
 import { ButtonBase } from '../../../../components/ui/base/ButtonBase';
 
 type props = { onPress: () => void };
