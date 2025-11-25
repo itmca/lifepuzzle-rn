@@ -1,7 +1,7 @@
-import {IMG_TYPE} from '../../constants/upload-file-type.constant';
-import {WritingHeroType} from '../../types/core/hero.type';
-import {PayloadBuilder} from '../utils/payload-builder.service';
-import {generateImagePath} from '../utils/file-path.service';
+import { IMG_TYPE } from '../../constants/upload-file-type.constant';
+import { WritingHeroType } from '../../types/core/hero.type';
+import { PayloadBuilder } from '../utils/payload-builder.service';
+import { generateImagePath } from '../utils/file-path.service';
 
 export class HeroPayloadService {
   static createHeroFormData(
@@ -37,9 +37,9 @@ export class HeroPayloadService {
       : writingHero?.imageUrl;
 
     const savedHero = {
-      heroNo: writingHeroKey,
-      heroName: writingHero?.heroName,
-      heroNickName: writingHero?.heroNickName,
+      id: writingHeroKey,
+      name: writingHero?.name,
+      nickName: writingHero?.nickName,
       birthday: writingHero?.birthday,
       isLunar: writingHero?.isLunar,
       title: writingHero?.title,

@@ -21,9 +21,9 @@ import { ProfileUpdateBottomSheet } from './components/BottomSheet/ProfileUpdate
 import { PasswordUpdateBottomSheet } from './components/BottomSheet/PasswordUpdateBottomSheet.tsx';
 
 type AccountQueryResponse = {
-  userNo: number;
-  userId: string;
-  userNickName: string;
+  id: number;
+  loginId: string;
+  nickName: string;
   imageUrl: string;
   recentHeroNo: number;
   userType: 'general' | 'kakao' | 'apple' | 'none';
@@ -39,7 +39,7 @@ const AccountModificationPage = (): React.ReactElement => {
   // Custom hooks
   const [isUserLoading] = useAuthAxios<AccountQueryResponse>({
     requestOption: {
-      url: `/v1/users/${String(user?.userNo)}`,
+      url: `/v1/users/${String(user?.id)}`,
       method: 'GET',
     },
     onResponseSuccess: responseUser => {
@@ -58,9 +58,9 @@ const AccountModificationPage = (): React.ReactElement => {
             <ContentContainer gap={8} alignCenter expandToEnd>
               <AccountAvatar imageUrl={user.imageUrl} size={100} />
               <ContentContainer gap={0} alignCenter>
-                <Head>{user.userNickName}</Head>
+                <Head>{user.nickName}</Head>
                 {user?.userType === 'general' && (
-                  <Title color={Color.GREY_500}>{user.userId}</Title>
+                  <Title color={Color.GREY_500}>{user.loginId}</Title>
                 )}
               </ContentContainer>
             </ContentContainer>

@@ -38,8 +38,8 @@ export const HeroSelect = ({
         </ContentContainer>
 
         <ContentContainer gap={0} alignCenter>
-          <BodyTextB color={Color.GREY_800}>{item.heroNickName}</BodyTextB>
-          <BodyTextM color={Color.GREY_400}>{item.heroName}</BodyTextM>
+          <BodyTextB color={Color.GREY_800}>{item.nickName}</BodyTextB>
+          <BodyTextM color={Color.GREY_400}>{item.name}</BodyTextM>
         </ContentContainer>
       </ContentContainer>
     </TouchableOpacity>

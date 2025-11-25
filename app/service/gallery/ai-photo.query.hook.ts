@@ -56,7 +56,7 @@ export const useAiGalleries = (): UseAiGalleriesReturn => {
   const [isLoading, fetchAiGalleries] = useAuthAxios<AiGalleriesQueryResponse>({
     requestOption: {
       method: 'GET',
-      url: `/v1/galleries/ai?heroId=${hero?.heroNo || 0}`,
+      url: `/v1/galleries/ai?heroId=${hero?.id || 0}`,
     },
     onResponseSuccess: res => {
       if (res && res.gallery) {

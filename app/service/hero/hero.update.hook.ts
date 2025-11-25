@@ -44,7 +44,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
       setWritingHeroKey(undefined);
       resetAllWritingHero();
       publishHeroUpdate();
-      if (currentHero?.heroNo === writingHeroKey) {
+      if (currentHero?.id === writingHeroKey) {
         publishCurrentHeroUpdate();
       }
       navigation.goBack();
@@ -68,10 +68,10 @@ export const useUpdateHero = (): [() => void, boolean] => {
   };
 
   function validate(): boolean {
-    if (!writingHero?.heroName) {
+    if (!writingHero?.name) {
       CustomAlert.simpleAlert('이름을 입력해주세요.');
       return false;
-    } else if (!writingHero?.heroNickName) {
+    } else if (!writingHero?.nickName) {
       CustomAlert.simpleAlert('닉네임을 입력해주세요.');
       return false;
     } else if (!writingHero?.birthday) {

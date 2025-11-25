@@ -113,7 +113,7 @@ export const useUploadGalleryV2 = (
         selectedGalleryItems: options?.request?.selectedGalleryItems,
       }
     : {
-        heroNo: currentHero?.heroNo,
+        heroNo: currentHero?.id,
         selectedTag: storeSelectedTag,
         selectedGalleryItems: storeSelectedGalleryItems,
       };

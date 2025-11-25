@@ -1,6 +1,6 @@
 export type StoryType = {
   id: string;
-  heroNo: number;
+  heroId: number;
   title: string;
   content: string;
   question: string;

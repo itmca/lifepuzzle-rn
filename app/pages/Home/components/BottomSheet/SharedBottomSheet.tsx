@@ -44,7 +44,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
   );
   const tags = useMediaStore(state => state.tags);
   const [uploadRequest, setUploadRequest] = useState<UploadRequest>({
-    heroNo: hero?.heroNo || 0,
+    heroNo: hero?.id || 0,
     selectedTag: selectedTag || undefined,
     selectedGalleryItems: [],
   });
@@ -71,14 +71,14 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
         return;
       }
       setUploadRequest({
-        heroNo: hero?.heroNo || 0,
+        heroNo: hero?.id || 0,
         selectedTag: selectedTag || undefined,
         selectedGalleryItems: validImages.map(item =>
           toPhotoIdentifier(item ?? ''),
         ),
       });
     }
-  }, [sharedImageData, hero?.heroNo, selectedTag, onClose]);
+  }, [sharedImageData, hero?.id, selectedTag, onClose]);
   return (
     <BottomSheet
       opened={visible}
@@ -98,11 +98,11 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
                 >
                   <HeroSelect
                     item={item}
-                    selected={uploadRequest?.heroNo === item.heroNo}
+                    selected={uploadRequest?.heroNo === item.id}
                     onSelect={() => {
                       setUploadRequest({
                         ...uploadRequest,
-                        heroNo: item.heroNo,
+                        heroNo: item.id,
                         selectedTag: undefined,
                       });
                       setHeroAge(toInternationalAge(item.birthday));

@@ -1,35 +1,35 @@
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
-import {useUpdatePublisher} from '../common/update.hook';
-import {useCallback, useEffect} from 'react';
-import {useHeroStore} from '../../stores/hero.store';
-import {useUIStore} from '../../stores/ui.store';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {HeroPayloadService} from './hero-payload.service';
-import {useAuthValidation, useFieldValidation} from '../auth/validation.hook';
-import {useErrorHandler} from '../common/error-handler.hook';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useUpdatePublisher } from '../common/update.hook';
+import { useCallback, useEffect } from 'react';
+import { useHeroStore } from '../../stores/hero.store';
+import { useUIStore } from '../../stores/ui.store';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { HeroPayloadService } from './hero-payload.service';
+import { useAuthValidation, useFieldValidation } from '../auth/validation.hook';
+import { useErrorHandler } from '../common/error-handler.hook';
 
 export const useCreateHero = (): [() => void, boolean] => {
   const navigation = useNavigation<BasicNavigationProps>();
   const publishHeroUpdate = useUpdatePublisher('heroUpdate');
 
-  const {writingHero, writingHeroKey, resetWritingHero} = useHeroStore();
-  const {setUploadState} = useUIStore();
+  const { writingHero, writingHeroKey, resetWritingHero } = useHeroStore();
+  const { setUploadState } = useUIStore();
   const setHeroUploading = useCallback(
-    (value: boolean) => setUploadState({hero: value}),
+    (value: boolean) => setUploadState({ hero: value }),
     [setUploadState],
   );
 
-  const {validateRequired} = useFieldValidation();
-  const {validateLogin} = useAuthValidation();
-  const {handleCreateError} = useErrorHandler();
+  const { validateRequired } = useFieldValidation();
+  const { validateLogin } = useAuthValidation();
+  const { handleCreateError } = useErrorHandler();
 
   const [isLoading, registerHero] = useAuthAxios({
     requestOption: {
       url: '/v1/heroes',
       method: 'post',
-      headers: {'Content-Type': 'multipart/form-data'},
+      headers: { 'Content-Type': 'multipart/form-data' },
     },
     onResponseSuccess: () => {
       CustomAlert.actionAlert({
@@ -52,7 +52,7 @@ export const useCreateHero = (): [() => void, boolean] => {
   }, [resetWritingHero, navigation, publishHeroUpdate]);
 
   const heroHttpPayLoad = HeroPayloadService.createHeroFormData(
-    writingHeroKey,
+    writingHeroKey ?? 0,
     writingHero,
   );
 
@@ -68,8 +68,8 @@ export const useCreateHero = (): [() => void, boolean] => {
 
   const validate = useCallback((): boolean => {
     return (
-      validateRequired(writingHero?.heroName, '이름') &&
-      validateRequired(writingHero?.heroNickName, '닉네임') &&
+      validateRequired(writingHero?.name, '이름') &&
+      validateRequired(writingHero?.nickName, '닉네임') &&
       validateRequired(writingHero?.birthday?.toString(), '태어난 날') &&
       validateLogin(navigation)
     );

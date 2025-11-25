@@ -1,16 +1,16 @@
-import {useNavigation} from '@react-navigation/native';
-import {BasicNavigationProps} from '../../navigation/types';
-import {useAuthAxios} from '../core/auth-http.hook';
-import {showErrorToast, showToast} from '../../components/ui/feedback/Toast';
-import {useUpdatePublisher} from '../common/update.hook';
+import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { showErrorToast, showToast } from '../../components/ui/feedback/Toast';
+import { useUpdatePublisher } from '../common/update.hook';
 import {
   HookProps,
   UserAuthRequestBody,
 } from '../../types/hooks/user-update.type';
-import {useFieldValidation} from '../auth/validation.hook';
-import {useErrorHandler} from '../common/error-handler.hook';
-import {useUserStore} from '../../stores/user.store';
-import {UserPayloadService} from './user-payload.service';
+import { useFieldValidation } from '../auth/validation.hook';
+import { useErrorHandler } from '../common/error-handler.hook';
+import { useUserStore } from '../../stores/user.store';
+import { UserPayloadService } from './user-payload.service';
 
 export const useUserProfileUpdate = ({
   onSuccess,
@@ -21,17 +21,17 @@ export const useUserProfileUpdate = ({
   const writingUser = useUserStore(state => state.writingUser);
   const resetWritingUser = useUserStore(state => state.resetWritingUser);
   const httpPayload = user
-    ? UserPayloadService.createUserFormData(user.userNo, writingUser)
+    ? UserPayloadService.createUserFormData(user.id, writingUser)
     : null;
 
-  const {validateNickname} = useFieldValidation();
-  const {handleUpdateError, showSuccessToast} = useErrorHandler();
+  const { validateNickname } = useFieldValidation();
+  const { handleUpdateError, showSuccessToast } = useErrorHandler();
 
   const [isUpdating, update] = useAuthAxios<void>({
     requestOption: {
       method: 'PUT',
-      url: `/v1/users/${String(writingUser?.userNo)}`,
-      headers: {'Content-Type': 'multipart/form-data'},
+      url: `/v1/users/${String(writingUser?.id)}`,
+      headers: { 'Content-Type': 'multipart/form-data' },
     },
     onResponseSuccess: () => {
       showSuccessToast('성공적으로 저장되었습니다.');
@@ -41,7 +41,7 @@ export const useUserProfileUpdate = ({
     onError: () => {
       handleUpdateError(
         '회원 정보',
-        () => httpPayload && update({data: httpPayload}),
+        () => httpPayload && update({ data: httpPayload }),
         () => {
           resetWritingUser();
           if (navigation.canGoBack()) {
@@ -54,7 +54,7 @@ export const useUserProfileUpdate = ({
   });
 
   function validate(): boolean {
-    return validateNickname(writingUser.userNickName);
+    return validateNickname(writingUser.nickName);
   }
 
   return [
@@ -63,7 +63,7 @@ export const useUserProfileUpdate = ({
         return;
       }
 
-      httpPayload && update({data: httpPayload});
+      httpPayload && update({ data: httpPayload });
     },
     isUpdating,
   ];
@@ -76,7 +76,7 @@ export const useUserAuthUpdate = ({
     requestOption: {
       method: 'PUT',
       url: '/v1/heroes/auth',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
     },
     onResponseSuccess: () => {
       showToast('권한 수정되었습니다.');
@@ -90,7 +90,7 @@ export const useUserAuthUpdate = ({
 
   return [
     (body: UserAuthRequestBody) => {
-      update({data: body});
+      update({ data: body });
     },
     isUpdating,
   ];

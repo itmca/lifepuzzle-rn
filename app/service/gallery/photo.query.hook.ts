@@ -39,7 +39,7 @@ export const useHeroPhotos = (): Response => {
     requestOption: {
       url: '/v1/galleries',
       params: {
-        heroNo: hero?.heroNo || -1,
+        heroNo: hero?.id || -1,
       },
     },
     onResponseSuccess: res => {
@@ -79,14 +79,14 @@ export const useHeroPhotos = (): Response => {
   });
 
   useEffect(() => {
-    if (!hero || hero.heroNo < 0) {
+    if (!hero || hero.id < 0) {
       return;
     }
 
     setIsError(false);
     fetchHeroStories({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hero?.heroNo, heroUpdateObserver, storyListUpdateObserver]);
+  }, [hero?.id, heroUpdateObserver, storyListUpdateObserver]);
 
   return {
     ageGroups: ageGroups || {},

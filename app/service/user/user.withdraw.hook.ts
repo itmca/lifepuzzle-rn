@@ -1,8 +1,8 @@
-import {useAuthAxios} from '../core/auth-http.hook';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {useLogout} from '../auth/logout.hook';
-import {useUserStore} from '../../stores/user.store';
-import {useAuthStore} from '../../stores/auth.store';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { useLogout } from '../auth/logout.hook';
+import { useUserStore } from '../../stores/user.store';
+import { useAuthStore } from '../../stores/auth.store';
 
 export const useUserWithdraw = (): [() => void, boolean] => {
   const user = useUserStore(state => state.user);
@@ -10,7 +10,7 @@ export const useUserWithdraw = (): [() => void, boolean] => {
   const tokens = useAuthStore(state => state.authTokens);
   const [withdrawLoading, withdraw] = useAuthAxios<void>({
     requestOption: {
-      url: `/v1/users/${String(user?.userNo)}`,
+      url: `/v1/users/${String(user?.id)}`,
       method: 'DELETE',
     },
     onResponseSuccess: () => {

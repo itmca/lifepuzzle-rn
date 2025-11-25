@@ -20,7 +20,7 @@ export const useFetchLocalStorageUserHero = (): void => {
   const currentHeroUpdateObserver = useUpdateObserver('currentHeroUpdate');
 
   // Use ref to store heroNo to avoid triggering useEffect when hero data changes
-  const heroNoRef = useRef(currentHero?.heroNo);
+  const heroNoRef = useRef(currentHero?.id);
 
   const [, fetchUser] = useAuthAxios<UserType>({
     requestOption: {},
@@ -56,10 +56,10 @@ export const useFetchLocalStorageUserHero = (): void => {
 
   // Update heroNo ref when currentHero changes
   useEffect(() => {
-    if (currentHero?.heroNo !== undefined) {
-      heroNoRef.current = currentHero.heroNo;
+    if (currentHero?.id !== undefined) {
+      heroNoRef.current = currentHero.id;
     }
-  }, [currentHero?.heroNo]);
+  }, [currentHero?.id]);
 
   // Only refetch when currentHeroUpdateObserver changes, not when hero data changes
   useEffect(() => {
