@@ -3,13 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useAuthAxios } from '../../../service/core/auth-http.hook';
 import {
-  HeroType,
   HeroUserType,
   HeroWithPuzzleCntType,
 } from '../../../types/core/hero.type';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { useUpdateObserver } from '../../../service/common/update.hook.ts';
-import { useCacheStore } from '../../../stores/cache.store';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   BasicNavigationProps,
@@ -134,7 +132,11 @@ const HeroSettingPage = (): React.ReactElement => {
   }, [heroes, currentHero]);
 
   if (focusedHero === undefined) {
-    return <></>;
+    return (
+      <LoadingContainer isLoading={isLoading}>
+        <></>
+      </LoadingContainer>
+    );
   }
 
   var currentUserAuth = focusedHero.users.find(

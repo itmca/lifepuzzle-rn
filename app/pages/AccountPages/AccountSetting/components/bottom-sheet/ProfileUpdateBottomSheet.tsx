@@ -34,7 +34,7 @@ export const ProfileUpdateBottomSheet = ({
     navigation.navigate('App', {
       screen: 'AccountSettingNavigator',
       params: {
-        screen: 'AccountSelectingPhoto',
+        screen: 'AccountProfileSelector',
       },
     });
   };

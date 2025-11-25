@@ -28,7 +28,7 @@ type AccountQueryResponse = {
   recentHeroNo: number;
   userType: 'general' | 'kakao' | 'apple' | 'none';
 };
-const AccountModificationPage = (): React.ReactElement => {
+const AccountSettingPage = (): React.ReactElement => {
   // React hooks
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
@@ -122,4 +122,4 @@ const AccountModificationPage = (): React.ReactElement => {
     </LoadingContainer>
   );
 };
-export default AccountModificationPage;
+export default AccountSettingPage;

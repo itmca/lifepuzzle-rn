@@ -19,7 +19,6 @@ import { useAuthStore } from './stores/auth.store';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { hideSplash, showSplash } from 'react-native-splash-view';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useLinking } from './service/device/linking.hook.ts';
 import { ToastComponent } from './components/ui/feedback/Toast.tsx';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
@@ -118,10 +117,8 @@ const App = (): React.ReactElement => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer linking={linking}>
-        <BottomSheetModalProvider>
-          <InternalApp />
-          <ToastComponent />
-        </BottomSheetModalProvider>
+        <InternalApp />
+        <ToastComponent />
       </NavigationContainer>
     </GestureHandlerRootView>
   );

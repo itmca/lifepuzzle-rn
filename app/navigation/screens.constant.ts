@@ -52,7 +52,7 @@ export const HERO_SETTING_SCREENS = {
   HERO_SETTING: 'HeroSetting',
   HERO_REGISTER: 'HeroRegister',
   HERO_MODIFICATION: 'HeroModification',
-  HERO_SELECTING_PHOTO: 'HeroSelectingPhoto',
+  HERO_PROFILE_SELECTOR: 'HeroProfileSelector',
   HERO_SHARE: 'HeroShare',
 } as const;
 
@@ -80,7 +80,7 @@ export const AI_PHOTO_SCREENS = {
 
 // AccountSetting Navigator Screens
 export const ACCOUNT_SETTING_SCREENS = {
-  ACCOUNT_MODIFICATION: 'AccountModification',
-  ACCOUNT_SELECTING_PHOTO: 'AccountSelectingPhoto',
+  ACCOUNT_SETTING: 'AccountSetting',
+  ACCOUNT_PROFILE_SELECTOR: 'AccountProfileSelector',
   ACCOUNT_PASSWORD_MODIFICATION: 'AccountPasswordModification',
 } as const;

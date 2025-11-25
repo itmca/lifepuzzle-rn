@@ -2,7 +2,6 @@ import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { HttpService } from './http.service';
 import { ApiHookParams } from '../../types/hooks/common.type';
-import logger from '../../utils/logger';
 
 type AxiosHookParams<TResponse> = ApiHookParams<TResponse>;
 type AxiosHookReturn = [
@@ -46,14 +45,15 @@ export const useAxios = <TResponse>({
     const preparedConfig = HttpService.prepareRequestConfig(axiosConfig);
     const client = HttpService.createAxiosInstance();
 
-    logger.debug('HTTP request URL:', axiosConfig.url);
     setLoading(true);
 
     client
       .request<TResponse>(preparedConfig)
       .then(r => r.data)
       .then(data => onResponseSuccessRef.current(data))
-      .catch(error => onErrorRef.current?.(error))
+      .catch(error => {
+        onErrorRef.current?.(error);
+      })
       .finally(() => {
         setLoading(false);
       });
