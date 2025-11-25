@@ -60,14 +60,14 @@ const HeroRegisterPage = (): React.ReactElement => {
             <ContentContainer>
               <BasicTextInput
                 label={'이름'}
-                text={writingHero.heroName ?? ''}
-                onChangeText={heroName => setWritingHero({ heroName })}
+                text={writingHero.name ?? ''}
+                onChangeText={name => setWritingHero({ name })}
                 placeholder="이름을 입력해 주세요"
               />
               <BasicTextInput
                 label={'닉네임'}
-                text={writingHero.heroNickName ?? ''}
-                onChangeText={heroNickName => setWritingHero({ heroNickName })}
+                text={writingHero.nickName ?? ''}
+                onChangeText={nickName => setWritingHero({ nickName })}
                 placeholder="닉네임을 입력해 주세요"
               />
               <CustomDateInput
@@ -82,8 +82,8 @@ const HeroRegisterPage = (): React.ReactElement => {
               text={'추가하기'}
               onPress={() => createHero()}
               disabled={
-                !writingHero?.heroName ||
-                !writingHero?.heroNickName ||
+                !writingHero?.name ||
+                !writingHero?.nickName ||
                 !writingHero?.birthday
               }
             />

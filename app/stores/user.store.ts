@@ -1,5 +1,5 @@
-import {create} from 'zustand';
-import {UserType} from '../types/core/user.type';
+import { create } from 'zustand';
+import { UserType } from '../types/core/user.type';
 
 interface UserState {
   user: UserType | null;
@@ -12,9 +12,9 @@ interface UserState {
 }
 
 const defaultWritingUser: UserType = {
-  userNo: -1,
-  userId: '',
-  userNickName: '게스트',
+  id: -1,
+  loginId: '',
+  nickName: '게스트',
   userType: 'none',
   recentHeroNo: -1,
   imageUrl: '',
@@ -26,16 +26,16 @@ export const useUserStore = create<UserState>((set, get) => ({
   user: null,
   writingUser: defaultWritingUser,
 
-  setUser: user => set({user}),
+  setUser: user => set({ user }),
 
-  setWritingUser: writingUser => set({writingUser}),
+  setWritingUser: writingUser => set({ writingUser }),
 
-  resetUser: () => set({user: null}),
+  resetUser: () => set({ user: null }),
 
-  resetWritingUser: () => set({writingUser: defaultWritingUser}),
+  resetWritingUser: () => set({ writingUser: defaultWritingUser }),
 
   getCurrentUserPhotoUri: () => {
-    const {writingUser} = get();
+    const { writingUser } = get();
 
     if (!writingUser) {
       return undefined;

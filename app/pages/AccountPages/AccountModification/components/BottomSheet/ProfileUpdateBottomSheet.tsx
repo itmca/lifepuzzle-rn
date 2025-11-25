@@ -79,9 +79,9 @@ export const ProfileUpdateBottomSheet = ({
         />
         <BasicTextInput
           label={'닉네임'}
-          text={writingUser.userNickName}
-          onChangeText={userNickName =>
-            setWritingUser({ ...writingUser, userNickName })
+          text={writingUser.nickName}
+          onChangeText={nickName =>
+            setWritingUser({ ...writingUser, nickName })
           }
           placeholder="변경하실 닉네임을 입력해 주세요"
           validations={[
@@ -100,8 +100,7 @@ export const ProfileUpdateBottomSheet = ({
           <BasicButton
             onPress={() => updateProfile()}
             disabled={
-              (user?.userNickName === writingUser.userNickName ||
-                newNicknameError) &&
+              (user?.nickName === writingUser.nickName || newNicknameError) &&
               !writingUser?.isProfileImageUpdate
             }
             text="저장하기"

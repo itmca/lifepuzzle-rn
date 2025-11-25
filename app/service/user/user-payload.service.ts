@@ -1,7 +1,7 @@
-import {IMG_TYPE} from '../../constants/upload-file-type.constant';
-import {UserType} from '../../types/core/user.type';
-import {PayloadBuilder} from '../utils/payload-builder.service';
-import {generateImagePath} from '../utils/file-path.service';
+import { IMG_TYPE } from '../../constants/upload-file-type.constant';
+import { UserType } from '../../types/core/user.type';
+import { PayloadBuilder } from '../utils/payload-builder.service';
+import { generateImagePath } from '../utils/file-path.service';
 
 export class UserPayloadService {
   static createUserFormData(userNo: number, modifyingUser: UserType): FormData {
@@ -33,10 +33,10 @@ export class UserPayloadService {
       ? generateImagePath(photo.node.image.uri, modifyingUser?.imageUrl)
       : modifyingUser?.imageUrl;
 
-    const savedUser: UserType = {
+    const savedUser = {
       ...modifyingUser,
-      userNo,
-      userNickName: modifyingUser.userNickName,
+      id: userNo,
+      nickName: modifyingUser.nickName,
       imageUrl: imgPath,
     };
 

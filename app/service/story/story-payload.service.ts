@@ -1,7 +1,7 @@
-import {AUDIO_TYPE} from '../../constants/upload-file-type.constant';
-import {WritingStoryType} from '../../types/core/writing-story.type';
-import {HeroType} from '../../types/core/hero.type';
-import {PayloadBuilder} from '../utils/payload-builder.service';
+import { AUDIO_TYPE } from '../../constants/upload-file-type.constant';
+import { WritingStoryType } from '../../types/core/writing-story.type';
+import { HeroType } from '../../types/core/hero.type';
+import { PayloadBuilder } from '../utils/payload-builder.service';
 
 export class StoryPayloadService {
   static createStoryFormData(
@@ -36,7 +36,7 @@ export class StoryPayloadService {
     hero: HeroType,
   ): void {
     const story = {
-      heroId: hero.heroNo,
+      heroId: hero.id,
       title: writingStory?.title,
       content: writingStory?.content,
       date: writingStory?.date || new Date(),

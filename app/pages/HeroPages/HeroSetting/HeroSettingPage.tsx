@@ -127,9 +127,9 @@ const HeroSettingPage = (): React.ReactElement => {
     if (!currentHero) return;
 
     const currentViewingHero = heroes.filter(
-      hero => hero.heroNo === currentHero.heroNo,
+      hero => hero.id === currentHero.id,
     );
-    const others = heroes.filter(hero => hero.heroNo !== currentHero.heroNo);
+    const others = heroes.filter(hero => hero.id !== currentHero.id);
     setDisplayHeroes([...currentViewingHero, ...others]);
   }, [heroes, currentHero]);
 
@@ -138,7 +138,7 @@ const HeroSettingPage = (): React.ReactElement => {
   }
 
   var currentUserAuth = focusedHero.users.find(
-    linkedUser => linkedUser.userNo === user?.userNo,
+    linkedUser => linkedUser.id === user?.id,
   )?.auth;
 
   return (
@@ -185,14 +185,14 @@ const HeroSettingPage = (): React.ReactElement => {
                     gap={4}
                   >
                     <Head>
-                      {focusedHero.heroName.length > 8
-                        ? focusedHero.heroName.substring(0, 8) + '...'
-                        : focusedHero.heroName}
+                      {focusedHero.name.length > 8
+                        ? focusedHero.name.substring(0, 8) + '...'
+                        : focusedHero.name}
                     </Head>
                     <BodyTextB color={Color.GREY_400}>
-                      {focusedHero.heroNickName.length > 8
-                        ? focusedHero.heroNickName.substring(0, 12) + '...'
-                        : focusedHero.heroNickName}
+                      {focusedHero.nickName.length > 8
+                        ? focusedHero.nickName.substring(0, 12) + '...'
+                        : focusedHero.nickName}
                     </BodyTextB>
                   </ContentContainer>
                   <ContentContainer
@@ -217,13 +217,13 @@ const HeroSettingPage = (): React.ReactElement => {
                   {focusedHero.auth !== 'VIEWER' && (
                     <TouchableOpacity
                       onPress={() => {
-                        setWritingHeroKey(focusedHero?.heroNo);
+                        setWritingHeroKey(focusedHero?.id);
                         navigation.navigate('App', {
                           screen: 'HeroSettingNavigator',
                           params: {
                             screen: 'HeroModification',
                             params: {
-                              heroNo: focusedHero?.heroNo,
+                              heroNo: focusedHero?.id,
                             },
                           },
                         });
@@ -240,15 +240,15 @@ const HeroSettingPage = (): React.ReactElement => {
                     setCurrentHero(focusedHero);
                     updateRecentHero({
                       data: {
-                        heroNo: focusedHero.heroNo,
+                        heroNo: focusedHero.id,
                       },
                     });
 
                     navigation.navigate('App', { screen: 'Home' });
                   }}
-                  disabled={currentHero?.heroNo === focusedHero.heroNo}
+                  disabled={currentHero?.id === focusedHero.id}
                   text={
-                    currentHero?.heroNo === focusedHero?.heroNo
+                    currentHero?.id === focusedHero?.id
                       ? '지금 보고 있어요'
                       : '보기'
                   }
@@ -300,7 +300,7 @@ const HeroSettingPage = (): React.ReactElement => {
                     {(currentUserAuth === 'OWNER' ||
                       currentUserAuth === 'ADMIN') &&
                       linkedUser.auth !== 'OWNER' &&
-                      linkedUser.userNo !== user?.userNo && (
+                      linkedUser.id !== user?.id && (
                         <SvgIcon
                           name={'setting'}
                           size={24}

@@ -13,9 +13,9 @@ interface HeroState {
 }
 
 const defaultWritingHero: WritingHeroType = {
-  heroNo: 0,
-  heroName: '',
-  heroNickName: '',
+  id: 0,
+  name: '',
+  nickName: '',
   birthday: new Date(1948, 1, 1),
   title: '',
   imageUrl: undefined,

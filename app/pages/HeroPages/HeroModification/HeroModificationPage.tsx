@@ -54,9 +54,9 @@ const HeroModificationPage = (): React.ReactElement => {
       ? toPhotoIdentifier(hero.imageUrl)
       : undefined;
     setWritingHero({
-      heroNo: heroNo,
-      heroName: hero.heroName ?? '',
-      heroNickName: hero.heroNickName,
+      id: heroNo,
+      name: hero.name ?? '',
+      nickName: hero.nickName,
       birthday: hero.birthday,
       isLunar: hero.isLunar,
       title: hero.title,
@@ -95,14 +95,14 @@ const HeroModificationPage = (): React.ReactElement => {
             <ContentContainer>
               <BasicTextInput
                 label={'이름'}
-                text={writingHero.heroName ?? ''}
-                onChangeText={heroName => setWritingHero({ heroName })}
+                text={writingHero.name ?? ''}
+                onChangeText={name => setWritingHero({ name })}
                 placeholder="이름을 입력해 주세요"
               />
               <BasicTextInput
                 label={'닉네임'}
-                text={writingHero.heroNickName ?? ''}
-                onChangeText={heroNickName => setWritingHero({ heroNickName })}
+                text={writingHero.nickName ?? ''}
+                onChangeText={nickName => setWritingHero({ nickName })}
                 placeholder="닉네임을 입력해 주세요"
               />
               <CustomDateInput
@@ -117,8 +117,8 @@ const HeroModificationPage = (): React.ReactElement => {
               text={'저장하기'}
               onPress={() => updateHero()}
               disabled={
-                hero?.heroName === writingHero.heroName &&
-                hero?.heroNickName === writingHero.heroNickName &&
+                hero?.name === writingHero.name &&
+                hero?.nickName === writingHero.nickName &&
                 hero?.birthday === writingHero.birthday &&
                 hero?.isLunar === writingHero.isLunar &&
                 !writingHero.isProfileImageUpdate

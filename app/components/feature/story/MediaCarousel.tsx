@@ -59,7 +59,7 @@ export const MediaCarousel = ({
     submitWithErrorHandling: createAiPhoto,
     isLoading: isCreatingAiPhoto,
   } = useCreateAiPhoto({
-    heroNo: heroNo || 0,
+    heroId: heroNo || 0,
     galleryId: galleryId || 0,
     drivingVideoId: drivingVideoId || 0,
   });

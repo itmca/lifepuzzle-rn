@@ -33,7 +33,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   // Custom hooks
   const { drivingVideos: aiPhotoTemplate } = useAiPhotoTemplate();
   const { submitWithParams: createAiPhoto } = useCreateAiPhoto({
-    heroNo: 0,
+    heroId: 0,
     galleryId: 0,
     drivingVideoId: 0,
   });
@@ -50,7 +50,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
 
     // 실제 값들을 파라미터로 전달
     createAiPhoto({
-      heroNo: 0, // TODO: heroNo 값 확인 필요
+      heroId: 0, // TODO: heroId 값 확인 필요
       galleryId: gallery[galleryIndex].id,
       drivingVideoId: selectedTemplateId,
     });

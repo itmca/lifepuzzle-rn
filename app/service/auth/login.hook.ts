@@ -35,7 +35,7 @@ export const useLoginResponseHandler = (option?: Option) => {
     resetShareKey();
 
     SecureStorage.setAuthTokens(tokens);
-    LocalStorage.set('userNo', user.userNo);
+    LocalStorage.set('userNo', user.id);
 
     if (typeof option?.customGoBackAction === 'function') {
       option?.customGoBackAction();

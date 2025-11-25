@@ -115,8 +115,8 @@ export const HeroAuthUpdateBottomSheet = ({
           <BasicButton
             onPress={() => {
               updateUserAuth({
-                userNo: user?.userNo,
-                heroNo: hero?.heroNo,
+                userId: user?.id,
+                heroId: hero?.id,
                 heroAuthStatus: newUserAuth || user?.auth,
               });
             }}

@@ -5,7 +5,7 @@ import { BasicNavigationProps } from '../../navigation/types';
 import { showErrorToast } from '../../components/ui/feedback/Toast';
 
 interface AiPhotoCreateRequest {
-  heroNo: number;
+  heroId: number;
   galleryId: number;
   drivingVideoId: number;
 }
@@ -25,7 +25,7 @@ export const useCreateAiPhoto = (
       method: 'post',
       url: '/v1/ai/videos',
       data: {
-        heroNo: request.heroNo,
+        heroId: request.heroId,
         galleryId: request.galleryId,
         drivingVideoId: request.drivingVideoId,
       },
@@ -48,7 +48,7 @@ export const useCreateAiPhoto = (
     if (validate()) {
       createAiPhoto({
         data: {
-          heroNo: request.heroNo,
+          heroId: request.heroId,
           galleryId: request.galleryId,
           drivingVideoId: request.drivingVideoId,
         },
@@ -64,7 +64,7 @@ export const useCreateAiPhoto = (
     try {
       await createAiPhoto({
         data: {
-          heroNo: request.heroNo,
+          heroId: request.heroId,
           galleryId: request.galleryId,
           drivingVideoId: request.drivingVideoId,
         },
@@ -88,7 +88,7 @@ export const useCreateAiPhoto = (
     if (validateParams(params)) {
       createAiPhoto({
         data: {
-          heroNo: params.heroNo,
+          heroId: params.heroId,
           galleryId: params.galleryId,
           drivingVideoId: params.drivingVideoId,
         },

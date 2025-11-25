@@ -1,22 +1,22 @@
-import React, {useMemo, useState} from 'react';
+import React, { useMemo, useState } from 'react';
 import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
-import {BasicButton} from '../../../../../components/ui/form/Button';
+import { BasicButton } from '../../../../../components/ui/form/Button';
 import BottomSheet from '../../../../../components/ui/interaction/BottomSheet';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../../../constants/password.constant.ts';
-import {useAuthAxios} from '../../../../../service/core/auth-http.hook.ts';
-import {CustomAlert} from '../../../../../components/ui/feedback/CustomAlert';
-import {useUserStore} from '../../../../../stores/user.store';
-import {useLogout} from '../../../../../service/auth/logout.hook.ts';
+import { useAuthAxios } from '../../../../../service/core/auth-http.hook.ts';
+import { CustomAlert } from '../../../../../components/ui/feedback/CustomAlert';
+import { useUserStore } from '../../../../../stores/user.store';
+import { useLogout } from '../../../../../service/auth/logout.hook.ts';
 
 type Props = {
   opened: boolean;
   onClose?: () => void;
 };
 
-export const PasswordUpdateBottomSheet = ({opened, onClose}: Props) => {
+export const PasswordUpdateBottomSheet = ({ opened, onClose }: Props) => {
   const user = useUserStore(state => state.user);
   const logout = useLogout();
 
@@ -30,7 +30,7 @@ export const PasswordUpdateBottomSheet = ({opened, onClose}: Props) => {
 
   const [_, changePassword] = useAuthAxios<void>({
     requestOption: {
-      url: `/v1/users/${String(user?.userNo)}/password`,
+      url: `/v1/users/${String(user?.id)}/password`,
       method: 'PUT',
     },
     onResponseSuccess: () => {
@@ -49,7 +49,8 @@ export const PasswordUpdateBottomSheet = ({opened, onClose}: Props) => {
       snapPoints={useMemo(() => ['55%'], [])}
       onClose={() => {
         onClose && onClose();
-      }}>
+      }}
+    >
       <BasicTextInput
         label={'기존 비밀번호'}
         text={oldPassword}

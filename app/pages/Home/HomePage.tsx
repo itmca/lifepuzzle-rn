@@ -63,27 +63,27 @@ const HomePage = (): React.ReactElement => {
   }, []);
 
   const handleRefetch = useCallback(() => {
-    if (refetch && hero?.heroNo && hero.heroNo >= 0) {
+    if (refetch && hero?.id && hero.id >= 0) {
       refetch({
         params: {
-          heroNo: hero.heroNo,
+          heroNo: hero.id,
         },
       });
     }
-  }, [refetch, hero?.heroNo]);
+  }, [refetch, hero?.id]);
 
   const handlePullToRefresh = useCallback(() => {
     if (!isRefreshing && scrollY <= 0) {
       setIsRefreshing(true);
-      if (refetch && hero?.heroNo && hero.heroNo >= 0) {
+      if (refetch && hero?.id && hero.id >= 0) {
         refetch({
           params: {
-            heroNo: hero.heroNo,
+            heroNo: hero.id,
           },
         });
       }
     }
-  }, [refetch, hero?.heroNo, isRefreshing, scrollY]);
+  }, [refetch, hero?.id, isRefreshing, scrollY]);
 
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
@@ -117,7 +117,7 @@ const HomePage = (): React.ReactElement => {
   useEffect(() => {
     if (
       sharedImageData?.type &&
-      hero?.heroName &&
+      hero?.name &&
       selectedTag?.key &&
       !receivedImageBottomSheetOpen
     ) {
@@ -125,7 +125,7 @@ const HomePage = (): React.ReactElement => {
     }
   }, [
     sharedImageData?.type,
-    hero?.heroName,
+    hero?.name,
     selectedTag?.key,
     receivedImageBottomSheetOpen,
   ]);

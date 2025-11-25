@@ -16,7 +16,7 @@ type Props = {
 };
 
 const HeroOverview = ({ hero }: Props): React.ReactElement => {
-  if (!hero || hero.heroNo === -1) {
+  if (!hero || hero.id === -1) {
     return <></>;
   }
 
@@ -33,14 +33,14 @@ const HeroOverview = ({ hero }: Props): React.ReactElement => {
             gap={4}
           >
             <Head>
-              {hero.heroName.length > 8
-                ? hero.heroName.substring(0, 8) + '...'
-                : hero.heroName}
+              {hero.name.length > 8
+                ? hero.name.substring(0, 8) + '...'
+                : hero.name}
             </Head>
             <BodyTextM color={Color.MAIN_DARK}>
-              {hero.heroNickName.length > 8
-                ? hero.heroNickName.substring(0, 12) + '...'
-                : hero.heroNickName}
+              {hero.nickName.length > 8
+                ? hero.nickName.substring(0, 12) + '...'
+                : hero.nickName}
             </BodyTextM>
           </ContentContainer>
 

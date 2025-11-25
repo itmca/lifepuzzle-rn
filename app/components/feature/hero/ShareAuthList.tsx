@@ -40,7 +40,7 @@ export const ShareAuthList = ({}: props): React.ReactElement => {
 
   const [updateLoading, refetch] = useAuthAxios<any>({
     requestOption: {
-      url: `/v1/users/hero/link?heroNo=${hero?.heroNo?.toString() || '0'}&auth=${auth}`,
+      url: `/v1/users/hero/link?heroNo=${hero?.id?.toString() || '0'}&auth=${auth}`,
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
