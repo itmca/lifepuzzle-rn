@@ -60,11 +60,13 @@ export const ProfileUpdateBottomSheet = ({
     ],
   });
 
+  const snapPoints = useMemo(() => ['55%'], []);
+
   return (
     <BottomSheet
       opened={opened}
       title={'프로필 수정'}
-      snapPoints={useMemo(() => ['55%'], [])}
+      snapPoints={snapPoints}
       onClose={() => {
         onClose && onClose();
         user && setWritingUser({ ...user, modifiedImage: undefined });
