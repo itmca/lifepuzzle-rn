@@ -78,15 +78,15 @@ app/pages/
 app/pages/Home/
 ├── HomePage.tsx
 └── components/
-    ├── BottomSheet/
+    ├── bottom-sheet/
     │   ├── SharedBottomSheet.tsx
     │   ├── MediaPickerBottomSheet.tsx
     │   └── BottomSheetSection.tsx
-    ├── Gallery/
+    ├── gallery/
     │   ├── Gallery.tsx
     │   ├── GallerySelect.tsx
     │   └── GalleryTag.tsx
-    └── Hero/
+    └── hero/
         ├── HeroOverview.tsx
         └── HeroSection.tsx
 ```
