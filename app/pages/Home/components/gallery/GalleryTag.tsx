@@ -1,10 +1,10 @@
-import {RefObject} from 'react';
+import { RefObject } from 'react';
 
-import {ICarouselInstance} from 'react-native-reanimated-carousel';
+import { ICarouselInstance } from 'react-native-reanimated-carousel';
 
-import {useSelectionStore} from '../../../../stores/selection.store';
-import {TagType} from '../../../../types/core/media.type';
-import {Color} from '../../../../constants/color.constant.ts';
+import { useSelectionStore } from '../../../../stores/selection.store';
+import { TagType } from '../../../../types/core/media.type';
+import { Color } from '../../../../constants/color.constant.ts';
 import Tag from '../../../../components/ui/display/Tag';
 
 type props = {
@@ -13,8 +13,8 @@ type props = {
   index: number;
 };
 
-const GalleryTag = ({carouselRef, item, index}: props) => {
-  const {selectedTag, setSelectedTag} = useSelectionStore();
+const GalleryTag = ({ carouselRef, item, index }: props) => {
+  const { selectedTag, setSelectedTag } = useSelectionStore();
   if (selectedTag && selectedTag.key === item.key) {
     if (item.key === 'AI_PHOTO') {
       return (
@@ -44,8 +44,8 @@ const GalleryTag = ({carouselRef, item, index}: props) => {
           iconColor={Color.AI_500}
           color={Color.GREY}
           onPress={() => {
-            carouselRef.current?.scrollTo({index});
-            setSelectedTag({...item});
+            carouselRef.current?.scrollTo({ index });
+            setSelectedTag({ ...item });
           }}
           text={`${item.label}`}
         />
@@ -56,8 +56,8 @@ const GalleryTag = ({carouselRef, item, index}: props) => {
           key={index}
           color={Color.GREY}
           onPress={() => {
-            carouselRef.current?.scrollTo({index});
-            setSelectedTag({...item});
+            carouselRef.current?.scrollTo({ index });
+            setSelectedTag({ ...item });
           }}
           text={`${item.label} (${item.count ?? 0})`}
         />

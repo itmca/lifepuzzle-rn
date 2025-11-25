@@ -17,8 +17,8 @@ import {
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { useUserWithdraw } from '../../../service/user/user.withdraw.hook.ts';
-import { ProfileUpdateBottomSheet } from './components/BottomSheet/ProfileUpdateBottomSheet.tsx';
-import { PasswordUpdateBottomSheet } from './components/BottomSheet/PasswordUpdateBottomSheet.tsx';
+import { ProfileUpdateBottomSheet } from './components/bottom-sheet/ProfileUpdateBottomSheet.tsx';
+import { PasswordUpdateBottomSheet } from './components/bottom-sheet/PasswordUpdateBottomSheet.tsx';
 
 type AccountQueryResponse = {
   id: number;
