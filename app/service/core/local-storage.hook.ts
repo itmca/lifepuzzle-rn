@@ -8,7 +8,6 @@ import { useUpdateObserver } from '../common/update.hook';
 import { LocalStorage } from './local-storage.service';
 import { getTokenState } from './auth.service';
 import { HeroQueryResponse } from '../../types/hooks/hero-query.type';
-import logger from '../../utils/logger';
 
 export const useFetchLocalStorageUserHero = (): void => {
   const tokens = useAuthStore(state => state.authTokens);
@@ -67,8 +66,6 @@ export const useFetchLocalStorageUserHero = (): void => {
     if (heroNo === undefined || heroNo < 0) {
       return;
     }
-
-    logger.debug('currentHeroUpdateObserver:', currentHeroUpdateObserver);
 
     fetchHero({ url: `/v1/heroes/${heroNo.toString()}` });
   }, [currentHeroUpdateObserver, fetchHero]);

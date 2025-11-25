@@ -13,7 +13,7 @@ import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer'
 import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
 import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
 import { ApiErrorFallback } from '../../components/ui/feedback/ApiErrorFallback';
-import { useHeroPhotos } from '../../service/gallery/photo.query.hook.ts';
+import { useHeroPhotos } from '../../service/gallery/gallery.query.hook.ts';
 import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
 import Gallery from './components/gallery/Gallery.tsx';
 import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';

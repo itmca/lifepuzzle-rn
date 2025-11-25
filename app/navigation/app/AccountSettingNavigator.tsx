@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { useSelectionStore } from '../../stores/selection.store';
 import { useUserStore } from '../../stores/user.store';
-import AccountModificationPage from '../../pages/AccountPages/AccountModification/AccountModificationPage';
+import AccountSettingPage from '../../pages/AccountPages/AccountSetting/AccountSettingPage.tsx';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { TouchableOpacity } from 'react-native';
 import { BodyTextM } from '../../components/ui/base/TextBase';
@@ -15,8 +15,8 @@ import { useLogout } from '../../service/auth/logout.hook.ts';
 import { ACCOUNT_SETTING_SCREENS } from '../screens.constant';
 
 export type AccountSettingParamList = {
-  [ACCOUNT_SETTING_SCREENS.ACCOUNT_MODIFICATION]: undefined;
-  [ACCOUNT_SETTING_SCREENS.ACCOUNT_SELECTING_PHOTO]: undefined;
+  [ACCOUNT_SETTING_SCREENS.ACCOUNT_SETTING]: undefined;
+  [ACCOUNT_SETTING_SCREENS.ACCOUNT_PROFILE_SELECTOR]: undefined;
   [ACCOUNT_SETTING_SCREENS.ACCOUNT_PASSWORD_MODIFICATION]: undefined;
 };
 
@@ -38,15 +38,15 @@ const AccountSettingNavigator = (): React.ReactElement => {
 
   return (
     <Stack.Navigator
-      initialRouteName={ACCOUNT_SETTING_SCREENS.ACCOUNT_MODIFICATION}
+      initialRouteName={ACCOUNT_SETTING_SCREENS.ACCOUNT_SETTING}
       screenOptions={{
         headerShadowVisible: false,
         headerTitleAlign: 'center',
       }}
     >
       <Stack.Screen
-        name={ACCOUNT_SETTING_SCREENS.ACCOUNT_MODIFICATION}
-        component={AccountModificationPage}
+        name={ACCOUNT_SETTING_SCREENS.ACCOUNT_SETTING}
+        component={AccountSettingPage}
         options={{
           header: () => (
             <TopBar
@@ -61,7 +61,7 @@ const AccountSettingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name={ACCOUNT_SETTING_SCREENS.ACCOUNT_SELECTING_PHOTO}
+        name={ACCOUNT_SETTING_SCREENS.ACCOUNT_PROFILE_SELECTOR}
         component={AccountProfileSelectorPage}
         options={{
           header: () => (
@@ -72,7 +72,7 @@ const AccountSettingNavigator = (): React.ReactElement => {
                   navigation.goBack();
                 }
               }}
-              title={'주인공 사진 선택'}
+              title={'프로필 사진 선택'}
               right={
                 <WritingHeaderRight
                   text="확인"

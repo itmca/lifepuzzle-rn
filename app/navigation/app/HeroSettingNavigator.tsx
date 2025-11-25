@@ -18,7 +18,7 @@ export type HeroSettingParamList = {
   [HERO_SETTING_SCREENS.HERO_SETTING]: { shareKey?: string } | undefined;
   [HERO_SETTING_SCREENS.HERO_REGISTER]: undefined;
   [HERO_SETTING_SCREENS.HERO_MODIFICATION]: { heroNo: number };
-  [HERO_SETTING_SCREENS.HERO_SELECTING_PHOTO]: undefined;
+  [HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR]: undefined;
   [HERO_SETTING_SCREENS.HERO_SHARE]: { hero: HeroType };
 };
 
@@ -86,7 +86,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name={HERO_SETTING_SCREENS.HERO_SELECTING_PHOTO}
+        name={HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR}
         component={HeroProfileSelectorPage}
         options={{
           header: () => (

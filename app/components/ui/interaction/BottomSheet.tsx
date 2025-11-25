@@ -4,6 +4,7 @@ import {
   BottomSheetHandleProps,
   BottomSheetModal,
   BottomSheetModalProps,
+  BottomSheetModalProvider,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import React, {
@@ -18,7 +19,7 @@ import React, {
 import { Title } from '../base/TextBase';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SvgIcon } from '../display/SvgIcon';
-import { Dimensions, TouchableOpacity } from 'react-native';
+import { Dimensions, LayoutChangeEvent, TouchableOpacity } from 'react-native';
 
 interface HandleProps extends BottomSheetHandleProps {
   title: string;
@@ -49,7 +50,10 @@ const HeaderHandleComponent: React.FC<HandleProps> = memo(
   },
 );
 const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
-  ({ title, opened, snapPoints, backdropComponent, ...props }, ref) => {
+  (
+    { title, opened, snapPoints, backdropComponent, onClose, ...props },
+    _ref,
+  ) => {
     // Refs
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -77,10 +81,10 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
 
     const handleClose = useCallback(() => {
       bottomSheetModalRef?.current?.close();
-      if (props.onClose) {
-        props.onClose();
+      if (onClose) {
+        onClose();
       }
-    }, [props.onClose, bottomSheetModalRef]);
+    }, [onClose, bottomSheetModalRef]);
 
     const renderCustomHandle = useCallback(
       (props: BottomSheetHandleProps) => (
@@ -102,28 +106,32 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
       }
     }, [opened]);
     return (
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={_snapPoints}
-        handleComponent={renderCustomHandle}
-        backdropComponent={renderBackdrop}
-        onDismiss={handleClose}
-      >
-        <BottomSheetView>
-          <ContentContainer
-            onLayout={e => {
-              const screenHeight = Dimensions.get('window').height;
-              const contentHeight = e.nativeEvent.layout.height;
-              setContentHeight(((contentHeight + 60) / screenHeight) * 100); // padding 고려
-            }}
-            paddingHorizontal={20}
-            paddingBottom={38}
-          >
-            {props.children}
-          </ContentContainer>
-        </BottomSheetView>
-      </BottomSheetModal>
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={0}
+          snapPoints={_snapPoints}
+          handleComponent={renderCustomHandle}
+          backdropComponent={renderBackdrop}
+          onDismiss={handleClose}
+        >
+          <BottomSheetView>
+            <ContentContainer
+              onLayout={(e: LayoutChangeEvent) => {
+                const screenHeight = Dimensions.get('window').height;
+                const contentHeightOfEvent = e.nativeEvent.layout.height;
+                setContentHeight(
+                  ((contentHeightOfEvent + 60) / screenHeight) * 100,
+                ); // padding 고려
+              }}
+              paddingHorizontal={20}
+              paddingBottom={38}
+            >
+              {props.children}
+            </ContentContainer>
+          </BottomSheetView>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     );
   },
 );
