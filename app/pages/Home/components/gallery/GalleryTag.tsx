@@ -8,7 +8,7 @@ import { Color } from '../../../../constants/color.constant.ts';
 import Tag from '../../../../components/ui/display/Tag';
 
 type props = {
-  carouselRef: RefObject<ICarouselInstance>;
+  carouselRef: RefObject<ICarouselInstance | null>;
   item: TagType;
   index: number;
 };

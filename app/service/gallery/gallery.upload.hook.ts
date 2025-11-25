@@ -82,7 +82,7 @@ export type UploadRequest = {
 
 interface UseUploadGalleryV2Options {
   request?: UploadRequest;
-  onClose?: () => {};
+  onClose?: () => void;
 }
 
 export const useUploadGalleryV2 = (

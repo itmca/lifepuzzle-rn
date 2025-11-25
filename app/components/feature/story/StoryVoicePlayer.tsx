@@ -8,7 +8,6 @@ import React, {
 import { ContentContainer } from '../../ui/layout/ContentContainer';
 
 import { Dimensions, View } from 'react-native';
-import { styles } from './styles.ts';
 
 import { useStoryStore } from '../../../stores/story.store';
 import {
@@ -109,20 +108,27 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
             {isRecording ? (
               <Waveform data={waveData} progress={progress} />
             ) : (
-              <View style={styles.viewBar}>
+              <View
+                style={{
+                  backgroundColor: Color.GREY,
+                  height: 6,
+                  alignSelf: 'stretch',
+                  borderRadius: 100,
+                }}
+              >
                 <View
-                  style={[
-                    styles.viewBarPlay,
-                    {
-                      width:
-                        playInfo.currentPositionSec &&
-                        playInfo.currentDurationSec
-                          ? (playInfo.currentPositionSec /
-                              playInfo.currentDurationSec) *
-                            DeviceWidth
-                          : 0,
-                    },
-                  ]}
+                  style={{
+                    backgroundColor: Color.MAIN,
+                    height: 6,
+                    alignSelf: 'stretch',
+                    borderRadius: 100,
+                    width:
+                      playInfo.currentPositionSec && playInfo.currentDurationSec
+                        ? (playInfo.currentPositionSec /
+                            playInfo.currentDurationSec) *
+                          DeviceWidth
+                        : 0,
+                  }}
                 />
               </View>
             )}

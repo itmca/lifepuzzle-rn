@@ -11,7 +11,7 @@ type Props = {
   onPress: () => void;
   disabled?: boolean;
 };
-export const WritingButton = ({
+export const GalleryUploadButton = ({
   onPress,
   disabled = false,
 }: Props): React.ReactElement => {

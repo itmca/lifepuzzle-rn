@@ -5,7 +5,7 @@ import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Title } from '../../../../components/ui/base/TextBase';
-import { WritingButton } from '../button/WritingButton.tsx';
+import { GalleryUploadButton } from '../button/GalleryUploadButton.tsx';
 import { ButtonBase } from '../../../../components/ui/base/ButtonBase';
 
 type props = { onPress: () => void };
@@ -43,7 +43,7 @@ const GalleryBottomButton = ({ onPress }: props) => {
         paddingBottom={37}
         backgroundColor="transparent"
       >
-        <WritingButton onPress={onPress} disabled={isGalleryError} />
+        <GalleryUploadButton onPress={onPress} disabled={isGalleryError} />
       </ContentContainer>
     );
   }
