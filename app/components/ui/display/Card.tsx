@@ -1,10 +1,10 @@
 import React from 'react';
-import {ContentContainer} from '../layout/ContentContainer';
-import {Color, ColorType} from '../../../constants/color.constant.ts';
-import {IconName, SvgIcon} from './SvgIcon.tsx';
-import {BodyTextB, Caption} from '../base/TextBase';
-import {Photo} from '../base/ImageBase';
-import {TouchableOpacity} from 'react-native';
+import { ContentContainer } from '../layout/ContentContainer';
+import { Color, ColorType } from '../../../constants/color.constant.ts';
+import { IconName, SvgIcon } from './SvgIcon.tsx';
+import { BodyTextB, Caption } from '../base/TextBase';
+import { AdaptiveImage } from '../base/ImageBase';
+import { TouchableOpacity } from 'react-native';
 
 type CardProps = {
   photoUrls?: string[];
@@ -40,7 +40,8 @@ export const BasicCard = ({
           borderRadius={20}
           withBorder
           width={width}
-          height={height}>
+          height={height}
+        >
           {fallbackIconName && <SvgIcon name={fallbackIconName} size={48} />}
           {fallbackText && (
             <BodyTextB color={Color.GREY_700}>{fallbackText}</BodyTextB>
@@ -57,7 +58,8 @@ export const BasicCard = ({
       alignCenter
       width={width}
       height={height}
-      borderRadius={20}>
+      borderRadius={20}
+    >
       <TouchableOpacity onPress={onPress}>
         {/* Photo Part */}
         <ContentContainer
@@ -65,16 +67,26 @@ export const BasicCard = ({
           width={'100%'}
           height={'100%'}
           gap={0}
-          borderRadius={20}>
+          borderRadius={20}
+        >
           <ContentContainer
             useHorizontalLayout
             flex={1}
             width={'100%'}
             height={'100%'}
-            gap={0}>
-            <Photo source={{uri: photoUrls[0]}} style={{flex: 1}} />
+            gap={0}
+          >
+            <AdaptiveImage
+              uri={photoUrls[0]}
+              style={{ flex: 1 }}
+              resizeMode="cover"
+            />
             {count > 2 && (
-              <Photo source={{uri: photoUrls[1]}} style={{flex: 1}} />
+              <AdaptiveImage
+                uri={photoUrls[1]}
+                style={{ flex: 1 }}
+                resizeMode="cover"
+              />
             )}
           </ContentContainer>
           {count > 1 && (
@@ -83,13 +95,19 @@ export const BasicCard = ({
               flex={1}
               width={'100%'}
               height={'100%'}
-              gap={0}>
-              <Photo
-                source={{uri: photoUrls[count === 2 ? 1 : 2]}}
-                style={{flex: 1}}
+              gap={0}
+            >
+              <AdaptiveImage
+                uri={photoUrls[count === 2 ? 1 : 2]}
+                style={{ flex: 1 }}
+                resizeMode="cover"
               />
               {count > 3 && (
-                <Photo source={{uri: photoUrls[3]}} style={{flex: 1}} />
+                <AdaptiveImage
+                  uri={photoUrls[3]}
+                  style={{ flex: 1 }}
+                  resizeMode="cover"
+                />
               )}
             </ContentContainer>
           )}
@@ -103,14 +121,16 @@ export const BasicCard = ({
             paddingVertical={8}
             backgroundColor="transparent"
             width={'auto'}
-            alignCenter>
+            alignCenter
+          >
             <ContentContainer
               borderRadius={16}
               paddingHorizontal={10}
               paddingVertical={10}
               alignCenter
               backgroundColor={Color.GREY_800}
-              opacity={0.8}>
+              opacity={0.8}
+            >
               <Caption color={Color.WHITE}>+{count - 4}</Caption>
             </ContentContainer>
           </ContentContainer>
@@ -122,7 +142,8 @@ export const BasicCard = ({
             absoluteBottomPosition
             absoluteRightPosition
             paddingBottom={16}
-            paddingRight={16}>
+            paddingRight={16}
+          >
             <SvgIcon name={'cameraCircle'} size={40} />
           </ContentContainer>
         )}

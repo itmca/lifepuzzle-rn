@@ -5,7 +5,7 @@ import { Profile } from '../../../../components/ui/display/Profile';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { HeroType } from '../../../../types/core/hero.type';
 import { BodyTextB, BodyTextM } from '../../../../components/ui/base/TextBase';
-import { Photo } from '../../../../components/ui/base/ImageBase';
+import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 
 type Props = {
   item: HeroType;
@@ -30,11 +30,7 @@ export const HeroSelect = ({
           borderRadius={20}
           backgroundColor={Color.GREY_100}
         >
-          {item.imageUrl ? (
-            <Photo source={{ uri: item.imageUrl }} />
-          ) : (
-            <Profile />
-          )}
+          {item.imageUrl ? <AdaptiveImage uri={item.imageUrl} /> : <Profile />}
         </ContentContainer>
 
         <ContentContainer gap={0} alignCenter>

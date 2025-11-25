@@ -13,7 +13,7 @@ import { LoadingContainer } from '../../../components/ui/feedback/LoadingContain
 import { useIsStoryUploading } from '../../../service/story/story.write.hook.ts';
 
 import { Color } from '../../../constants/color.constant.ts';
-import { MediumImage } from '../../../components/ui/base/ImageBase';
+import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { useStoryStore } from '../../../stores/story.store';
 import { useMediaStore } from '../../../stores/media.store';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -146,13 +146,13 @@ const StoryWritingPage = (): React.ReactElement => {
                       alignCenter
                       backgroundColor={Color.GREY_700}
                     >
-                      <MediumImage
+                      <AdaptiveImage
+                        uri={data.uri}
                         style={{
                           width: '100%',
                           height: '100%',
                         }}
-                        source={{ uri: data.uri }}
-                        resizeMode={'contain'}
+                        resizeMode="contain"
                       />
                     </ContentContainer>
                   );

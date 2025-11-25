@@ -50,6 +50,11 @@ const HeroModificationPage = (): React.ReactElement => {
       return;
     }
 
+    // 이미 이 hero에 대해 초기화되어 있으면 다시 초기화하지 않음 (사진 선택 후 돌아왔을 때 덮어쓰는 것 방지)
+    if (writingHero.id === heroNo) {
+      return;
+    }
+
     const currentPhoto = hero.imageUrl
       ? toPhotoIdentifier(hero.imageUrl)
       : undefined;
@@ -63,7 +68,7 @@ const HeroModificationPage = (): React.ReactElement => {
       imageUrl: hero.imageUrl,
       modifiedImage: currentPhoto,
     });
-  }, [hero, heroNo, setWritingHero]);
+  }, [hero, heroNo, setWritingHero, writingHero.id]);
 
   const navigateToSelectingPhoto = () => {
     navigation.navigate('App', {

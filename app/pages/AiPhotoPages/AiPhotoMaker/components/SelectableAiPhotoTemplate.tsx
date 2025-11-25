@@ -7,7 +7,7 @@ import { SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import { Color } from '../../../../constants/color.constant';
 import { BasicNavigationProps } from '../../../../navigation/types';
 import { AiPhotoTemplate } from '../../../../types/external/ai-photo.type';
-import { Photo } from '../../../../components/ui/base/ImageBase';
+import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 
 type SelectableAiPhotoTemplateProps = {
   onSelected: (item: AiPhotoTemplate) => void;
@@ -70,7 +70,7 @@ const SelectableAiPhotoTemplate = ({
       >
         {selected || (
           <ContentContainer absoluteTopPosition height={'100%'} zIndex={1}>
-            <Photo source={{ uri: data.thumbnailUrl }} />
+            <AdaptiveImage uri={data.thumbnailUrl} />
           </ContentContainer>
         )}
         <Video

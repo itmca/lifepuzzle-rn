@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  Image as RNImage,
-  Platform,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
-import Image from '../../ui/base/ImageBase';
+import { AdaptiveImage } from '../../ui/base/ImageBase';
 import { Color } from '../../../constants/color.constant';
 import { PhotoIndex } from '../../ui/base/TextBase';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
@@ -49,20 +44,12 @@ const SelectablePhoto = ({
   return (
     <TouchableOpacity onPress={_onPress}>
       <View style={{ width: size, height: size }}>
-        {Platform.OS === 'ios' && 'node' in photo ? (
-          <RNImage
-            style={{ width: size, height: size }}
-            source={{ uri: imageUri }}
-            resizeMode={'cover' as const}
-          />
-        ) : (
-          <Image
-            width={size}
-            height={size}
-            source={{ uri: imageUri }}
-            resizeMode="cover"
-          />
-        )}
+        <AdaptiveImage
+          uri={imageUri}
+          width={size}
+          height={size}
+          resizeMode="cover"
+        />
         {selected ? (
           <View
             style={{
