@@ -3,8 +3,8 @@ import { ContentContainer } from '../layout/ContentContainer';
 import { Color, ColorType } from '../../../constants/color.constant.ts';
 import { IconName, SvgIcon } from './SvgIcon.tsx';
 import { BodyTextB, Caption } from '../base/TextBase';
-import { Photo } from '../base/ImageBase';
-import { Image as RNImage, Platform, TouchableOpacity } from 'react-native';
+import { AdaptiveImage } from '../base/ImageBase';
+import { TouchableOpacity } from 'react-native';
 
 type CardProps = {
   photoUrls?: string[];
@@ -30,27 +30,6 @@ export const BasicCard = ({
   onPress = () => {},
   editable = false,
 }: CardProps) => {
-  // ph:// URI를 렌더링하기 위한 헬퍼 함수
-  const renderImage = (uri: string, style: any) => {
-    // iOS에서 ph:// URI인 경우 React Native의 기본 Image 사용
-    if (Platform.OS === 'ios' && uri.startsWith('ph://')) {
-      return (
-        <RNImage
-          source={{ uri }}
-          style={{
-            flex: style.flex || 1,
-            width: '100%',
-            height: '100%',
-            borderRadius: 0,
-          }}
-          resizeMode="cover"
-        />
-      );
-    }
-    // 그 외의 경우 FastImage 기반의 Photo 컴포넌트 사용
-    return <Photo source={{ uri }} style={style} />;
-  };
-
   if (!photoUrls || photoUrls.length === 0) {
     return (
       <TouchableOpacity onPress={onPress}>
@@ -97,8 +76,18 @@ export const BasicCard = ({
             height={'100%'}
             gap={0}
           >
-            {renderImage(photoUrls[0], { flex: 1 })}
-            {count > 2 && renderImage(photoUrls[1], { flex: 1 })}
+            <AdaptiveImage
+              uri={photoUrls[0]}
+              style={{ flex: 1 }}
+              resizeMode="cover"
+            />
+            {count > 2 && (
+              <AdaptiveImage
+                uri={photoUrls[1]}
+                style={{ flex: 1 }}
+                resizeMode="cover"
+              />
+            )}
           </ContentContainer>
           {count > 1 && (
             <ContentContainer
@@ -108,8 +97,18 @@ export const BasicCard = ({
               height={'100%'}
               gap={0}
             >
-              {renderImage(photoUrls[count === 2 ? 1 : 2], { flex: 1 })}
-              {count > 3 && renderImage(photoUrls[3], { flex: 1 })}
+              <AdaptiveImage
+                uri={photoUrls[count === 2 ? 1 : 2]}
+                style={{ flex: 1 }}
+                resizeMode="cover"
+              />
+              {count > 3 && (
+                <AdaptiveImage
+                  uri={photoUrls[3]}
+                  style={{ flex: 1 }}
+                  resizeMode="cover"
+                />
+              )}
             </ContentContainer>
           )}
         </ContentContainer>
