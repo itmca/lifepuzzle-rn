@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import { useSaveStory } from '../../service/story/story.write.hook';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
-import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelector.tsx';
+import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelectorPage.tsx';
 
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';

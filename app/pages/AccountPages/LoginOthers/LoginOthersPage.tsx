@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import GeneralLoginButton from './GeneralLoginButton.tsx';
+import GeneralLoginButton from './components/GeneralLoginButton.tsx';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';

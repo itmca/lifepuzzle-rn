@@ -15,10 +15,10 @@ import { ContentContainer } from '../../components/ui/layout/ContentContainer.ts
 import { ApiErrorFallback } from '../../components/ui/feedback/ApiErrorFallback';
 import { useHeroPhotos } from '../../service/gallery/photo.query.hook.ts';
 import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
-import Gallery from './components/Gallery/Gallery.tsx';
-import GalleryBottomButton from './components/Gallery/GalleryBottomButton.tsx';
-import HeroSection from './components/Hero/HeroSection.tsx';
-import BottomSheetSection from './components/BottomSheet/BottomSheetSection.tsx';
+import Gallery from './components/gallery/Gallery.tsx';
+import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';
+import HeroSection from './components/hero/HeroSection.tsx';
+import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx';
 
 const HomePage = (): React.ReactElement => {
   // React hooks

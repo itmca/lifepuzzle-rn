@@ -1,17 +1,16 @@
 import React from 'react';
 
-import {ContentContainer} from '../../../../components/ui/layout/ContentContainer.tsx';
-import {useMediaStore} from '../../../../stores/media.store';
-import {useSelectionStore} from '../../../../stores/selection.store';
-import {TagType} from '../../../../types/core/media.type';
-import {Color} from '../../../../constants/color.constant.ts';
-import {Title} from '../../../../components/ui/base/TextBase';
-import {WritingButton} from '../Button/WritingButton.tsx';
-import {ButtonBase} from '../../../../components/ui/base/ButtonBase';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
+import { useMediaStore } from '../../../../stores/media.store';
+import { useSelectionStore } from '../../../../stores/selection.store';
+import { Color } from '../../../../constants/color.constant.ts';
+import { Title } from '../../../../components/ui/base/TextBase';
+import { WritingButton } from '../button/WritingButton.tsx';
+import { ButtonBase } from '../../../../components/ui/base/ButtonBase';
 
-type props = {onPress: () => void};
+type props = { onPress: () => void };
 
-const GalleryBottomButton = ({onPress}: props) => {
+const GalleryBottomButton = ({ onPress }: props) => {
   const selectedTag = useSelectionStore(state => state.selectedTag);
   const isGalleryError = useMediaStore(state => state.galleryError);
   if (selectedTag?.key === 'AI_PHOTO') {
@@ -19,7 +18,8 @@ const GalleryBottomButton = ({onPress}: props) => {
       <ContentContainer
         paddingHorizontal={20}
         paddingBottom={37}
-        backgroundColor="transparent">
+        backgroundColor="transparent"
+      >
         <ButtonBase
           height={'56px'}
           width={'100%'}
@@ -28,7 +28,8 @@ const GalleryBottomButton = ({onPress}: props) => {
           borderInside
           borderWidth={1}
           borderRadius={6}
-          onPress={isGalleryError ? undefined : onPress}>
+          onPress={isGalleryError ? undefined : onPress}
+        >
           <Title color={isGalleryError ? Color.GREY_300 : Color.AI_500}>
             작업 내역
           </Title>
@@ -40,7 +41,8 @@ const GalleryBottomButton = ({onPress}: props) => {
       <ContentContainer
         paddingHorizontal={20}
         paddingBottom={37}
-        backgroundColor="transparent">
+        backgroundColor="transparent"
+      >
         <WritingButton onPress={onPress} disabled={isGalleryError} />
       </ContentContainer>
     );

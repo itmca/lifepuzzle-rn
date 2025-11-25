@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 import logger from '../../../utils/logger';
-import { PolicyAgreeSwitch } from './PolicyAgreeSwitch';
+import { PolicyAgreeSwitch } from './components/PolicyAgreeSwitch';
 import { useNavigation } from '@react-navigation/native';
 import {
   PASSWORD_REGEXP,

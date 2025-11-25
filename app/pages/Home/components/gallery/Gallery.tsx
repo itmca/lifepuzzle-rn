@@ -58,7 +58,7 @@ const Gallery = ({
   const { width: windowWidth } = useWindowDimensions();
 
   // Custom functions (핸들러, 로직 함수 등)
-  const moveToStoryListPage = (index: GalleryType['index']) => {
+  const moveToStoryListPage = (_: GalleryType['index']) => {
     if (!isScrolling) {
       navigation.navigate('App', {
         screen: 'StoryViewNavigator',
