@@ -35,7 +35,7 @@ const HeroRegisterPage = (): React.ReactElement => {
     navigation.navigate('App', {
       screen: 'HeroSettingNavigator',
       params: {
-        screen: 'HeroSelectingPhoto',
+        screen: 'HeroProfileSelector',
       },
     });
   };

@@ -99,7 +99,7 @@ export const MainTopBar = ({
                   navigation.navigate('App', {
                     screen: 'AccountSettingNavigator',
                     params: {
-                      screen: 'AccountModification',
+                      screen: 'AccountSetting',
                     },
                   });
                 } else {

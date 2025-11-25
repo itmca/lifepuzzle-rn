@@ -5,8 +5,6 @@ import HeroRegisterPage from '../../pages/HeroPages/HeroRegister/HeroRegisterPag
 import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroModificationPage';
 import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
-
-import { useNavigation } from '@react-navigation/native';
 import { useHeroStore } from '../../stores/hero.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { HeroType } from '../../types/core/hero.type';
@@ -34,9 +32,6 @@ const HeroSettingNavigator = (): React.ReactElement => {
     state => state.resetSelectedHeroPhoto,
   );
 
-  // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation();
-
   return (
     <Stack.Navigator
       initialRouteName={HERO_SETTING_SCREENS.HERO_SETTING}
@@ -54,7 +49,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
       <Stack.Screen
         name={HERO_SETTING_SCREENS.HERO_REGISTER}
         component={HeroRegisterPage}
-        options={{
+        options={({ navigation }) => ({
           header: () => (
             <TopBar
               customGoBackAction={() => {
@@ -66,12 +61,12 @@ const HeroSettingNavigator = (): React.ReactElement => {
               title={'주인공 추가'}
             />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name={HERO_SETTING_SCREENS.HERO_MODIFICATION}
         component={HeroModificationPage}
-        options={{
+        options={({ navigation }) => ({
           header: () => (
             <TopBar
               customGoBackAction={() => {
@@ -83,12 +78,12 @@ const HeroSettingNavigator = (): React.ReactElement => {
               title={'주인공 수정'}
             />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name={HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR}
         component={HeroProfileSelectorPage}
-        options={{
+        options={({ navigation }) => ({
           header: () => (
             <TopBar
               customGoBackAction={() => {
@@ -108,13 +103,15 @@ const HeroSettingNavigator = (): React.ReactElement => {
                       isProfileImageUpdate: true,
                     });
                     resetSelectedHeroPhoto();
-                    navigation.goBack();
+                    if (navigation.canGoBack()) {
+                      navigation.goBack();
+                    }
                   }}
                 />
               }
             />
           ),
-        }}
+        })}
       />
     </Stack.Navigator>
   );

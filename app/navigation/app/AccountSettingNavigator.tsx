@@ -2,8 +2,6 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
-import { useNavigation } from '@react-navigation/native';
-
 import { useSelectionStore } from '../../stores/selection.store';
 import { useUserStore } from '../../stores/user.store';
 import AccountSettingPage from '../../pages/AccountPages/AccountSetting/AccountSettingPage.tsx';
@@ -27,9 +25,6 @@ const AccountSettingNavigator = (): React.ReactElement => {
   const selectedUserPhoto = useSelectionStore(state => state.selectedUserPhoto);
   const modifyingUser = useUserStore(state => state.writingUser);
   const setModifyingUser = useUserStore(state => state.setWritingUser);
-
-  // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation();
 
   // Custom hooks
   const logout = useLogout();
@@ -63,7 +58,7 @@ const AccountSettingNavigator = (): React.ReactElement => {
       <Stack.Screen
         name={ACCOUNT_SETTING_SCREENS.ACCOUNT_PROFILE_SELECTOR}
         component={AccountProfileSelectorPage}
-        options={{
+        options={({ navigation }) => ({
           header: () => (
             <TopBar
               customGoBackAction={() => {
@@ -83,13 +78,15 @@ const AccountSettingNavigator = (): React.ReactElement => {
                       isProfileImageUpdate: true,
                     });
                     resetSelectedUserPhoto();
-                    navigation.goBack();
+                    if (navigation.canGoBack()) {
+                      navigation.goBack();
+                    }
                   }}
                 />
               }
             />
           ),
-        }}
+        })}
       />
     </Stack.Navigator>
   );
