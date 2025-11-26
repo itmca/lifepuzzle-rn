@@ -4,11 +4,7 @@ import { LoadingContainer } from '../../../components/ui/feedback/LoadingContain
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
 import { StoryItemContents } from '../../../components/feature/story/StoryItemContents.tsx';
-import {
-  useFocusEffect,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useStoryStore } from '../../../stores/story.store';
 import {
   ContentContainer,
@@ -40,7 +36,6 @@ const StoryDetailPage = (): React.ReactElement => {
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
-  const isFocused = useIsFocused();
 
   // Memoized 값
   const filteredGallery = useMemo(
@@ -60,15 +55,30 @@ const StoryDetailPage = (): React.ReactElement => {
   // Derived value or local variables
   const currentGalleryItem = filteredGallery[filteredIndex];
 
+  // Memoized carousel data to prevent unnecessary re-renders
+  const carouselData = useMemo(
+    () =>
+      filteredGallery.map((item, index) => ({
+        type: item.type,
+        url: item.url,
+        index: index,
+      })),
+    [filteredGallery],
+  );
+
   // Custom functions
-  const handleIndexChange = (filteredIdx: number) => {
-    const selectedItem = filteredGallery[filteredIdx % filteredGallery.length];
-    const originalIndex = allGallery.findIndex(
-      item => item.id === selectedItem.id,
-    );
-    setAllGalleryIndex(originalIndex);
-    setIsStory(!!selectedItem.story);
-  };
+  const handleIndexChange = useCallback(
+    (filteredIdx: number) => {
+      const selectedItem =
+        filteredGallery[filteredIdx % filteredGallery.length];
+      const originalIndex = allGallery.findIndex(
+        item => item.id === selectedItem.id,
+      );
+      setAllGalleryIndex(originalIndex);
+      setIsStory(!!selectedItem.story);
+    },
+    [filteredGallery, allGallery, setAllGalleryIndex],
+  );
 
   const onClickWrite = () => {
     if (!currentGalleryItem) {
@@ -122,13 +132,8 @@ const StoryDetailPage = (): React.ReactElement => {
           </ContentContainer>
           <ContentContainer>
             <MediaCarousel
-              data={filteredGallery.map((item, index) => ({
-                type: item.type,
-                url: item.url,
-                index: index,
-              }))}
+              data={carouselData}
               activeIndex={filteredIndex}
-              isFocused={isFocused}
               carouselWidth={Dimensions.get('window').width}
               onScroll={handleIndexChange}
               onPress={openPinchZoomModal}
