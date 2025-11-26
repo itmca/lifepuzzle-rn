@@ -80,7 +80,7 @@ const StoryDetailPage = (): React.ReactElement => {
       item => item.id === selectedItem.id,
     );
     setAllGalleryIndex(originalIndex);
-    setIsStory(selectedItem.story);
+    setIsStory(!!selectedItem.story);
   };
 
   const onClickWrite = () => {
