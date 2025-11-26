@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { ScrollView } from 'react-native';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
@@ -27,27 +27,8 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(-1);
 
   // 글로벌 상태 관리 (Zustand)
-  const ageGroups = useMediaStore(state => state.ageGroups);
-  const tags = useMediaStore(state => state.tags);
+  const gallery = useMediaStore(state => state.gallery);
   const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
-
-  // Memoized values
-  const gallery = useMemo(() => {
-    if (!ageGroups || !tags) {
-      return [];
-    }
-
-    return Object.entries(ageGroups)
-      .map(([key, value]) => {
-        const tag = tags.find(tag => tag.key === key);
-        if (!tag) return [];
-        return value.gallery.map(item => ({
-          ...item,
-          tag,
-        }));
-      })
-      .flat();
-  }, [ageGroups, tags]);
 
   // Custom hooks
   const { drivingVideos: aiPhotoTemplate } = useAiPhotoTemplate();
