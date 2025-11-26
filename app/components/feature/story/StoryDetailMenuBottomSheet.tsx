@@ -134,56 +134,64 @@ export const StoryDetailMenuBottomSheet = ({
     >
       <ContentContainer gap={0} paddingBottom={16}>
         {isStory && (
-          <TouchableOpacity onPress={onEditStory}>
-            <ContentContainer
-              gap={6}
-              height={48}
-              useHorizontalLayout
-              justifyContent="flex-start"
-            >
-              <SvgIcon name={'pencil'} />
-              <Title color={Color.GREY_800}>이야기 수정하기</Title>
+          <ContentContainer gap={4}>
+            <Title>이야기</Title>
+            <ContentContainer gap={0}>
+              <TouchableOpacity onPress={onEditStory}>
+                <ContentContainer
+                  gap={6}
+                  height={48}
+                  useHorizontalLayout
+                  justifyContent="flex-start"
+                >
+                  <SvgIcon name={'pencil'} />
+                  <Title color={Color.GREY_800}>이야기 수정하기</Title>
+                </ContentContainer>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={onDeleteStory}>
+                <ContentContainer
+                  gap={6}
+                  height={48}
+                  useHorizontalLayout
+                  justifyContent="flex-start"
+                >
+                  <SvgIcon name={'trash'} />
+                  <Title color={Color.GREY_800}>이야기 삭제하기</Title>
+                </ContentContainer>
+              </TouchableOpacity>
             </ContentContainer>
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity onPress={onShareGallery}>
-          <ContentContainer
-            gap={2}
-            height={48}
-            useHorizontalLayout
-            justifyContent="flex-start"
-          >
-            <SvgIcon name={'link'} size={28} />
-            <Title color={Color.GREY_800}>사진 공유하기</Title>
+
+            <Divider />
           </ContentContainer>
-        </TouchableOpacity>
-        <ContentContainer height={20} alignCenter>
-          <Divider />
+        )}
+        <ContentContainer gap={8}>
+          <Title>사진</Title>
+          <ContentContainer gap={0}>
+            <TouchableOpacity onPress={onShareGallery}>
+              <ContentContainer
+                gap={2}
+                height={48}
+                useHorizontalLayout
+                justifyContent="flex-start"
+              >
+                <SvgIcon name={'link'} size={28} />
+                <Title color={Color.GREY_800}>사진 공유하기</Title>
+              </ContentContainer>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={onDeleteGallery}>
+              <ContentContainer
+                gap={6}
+                height={48}
+                useHorizontalLayout
+                justifyContent="flex-start"
+              >
+                <SvgIcon name={'trash'} />
+                <Title color={Color.GREY_800}>사진 삭제하기</Title>
+              </ContentContainer>
+            </TouchableOpacity>
+          </ContentContainer>
         </ContentContainer>
-        {isStory && (
-          <TouchableOpacity onPress={onDeleteStory}>
-            <ContentContainer
-              gap={6}
-              height={48}
-              useHorizontalLayout
-              justifyContent="flex-start"
-            >
-              <SvgIcon name={'trash'} />
-              <Title color={Color.GREY_800}>이야기 삭제하기</Title>
-            </ContentContainer>
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity onPress={onDeleteGallery}>
-          <ContentContainer
-            gap={6}
-            height={48}
-            useHorizontalLayout
-            justifyContent="flex-start"
-          >
-            <SvgIcon name={'trash'} />
-            <Title color={Color.GREY_800}>사진 삭제하기</Title>
-          </ContentContainer>
-        </TouchableOpacity>
       </ContentContainer>
     </BottomSheet>
   );
