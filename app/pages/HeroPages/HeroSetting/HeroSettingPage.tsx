@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useAuthAxios } from '../../../service/core/auth-http.hook';
@@ -47,6 +53,7 @@ import { useUserStore } from '../../../stores/user.store';
 const HeroSettingPage = (): React.ReactElement => {
   // Refs
   const carouselRef = useRef<ICarouselInstance>(null);
+  const lastProgressChangeRef = useRef<number>(0);
 
   // React hooks
   const [authSettingModalOpen, setAuthSettingModalOpen] =
@@ -131,6 +138,41 @@ const HeroSettingPage = (): React.ReactElement => {
     setDisplayHeroes([...currentViewingHero, ...others]);
   }, [heroes, currentHero]);
 
+  // Memoized values
+  const carouselHeight = useMemo(() => windowWidth * 1.14, [windowWidth]);
+
+  const currentUserAuth = useMemo(
+    () =>
+      focusedHero?.users.find(linkedUser => linkedUser.id === user?.id)?.auth,
+    [focusedHero?.users, user?.id],
+  );
+
+  // Memoized callbacks
+  const handleProgressChange = useCallback(
+    (_: number, absoluteProgress: number) => {
+      const now = Date.now();
+      if (now - lastProgressChangeRef.current >= 100) {
+        lastProgressChangeRef.current = now;
+        setFocusedHero(displayHeroes[Math.floor(absoluteProgress)]);
+      }
+    },
+    [displayHeroes],
+  );
+
+  const renderCarouselItem = useCallback(
+    ({ item }: any) => {
+      return (
+        <BasicCard
+          photoUrls={[item.imageUrl]}
+          height={carouselHeight}
+          width={windowWidth}
+          onPress={() => {}}
+        />
+      );
+    },
+    [carouselHeight, windowWidth],
+  );
+
   if (focusedHero === undefined) {
     return (
       <LoadingContainer isLoading={isLoading}>
@@ -139,20 +181,16 @@ const HeroSettingPage = (): React.ReactElement => {
     );
   }
 
-  var currentUserAuth = focusedHero.users.find(
-    linkedUser => linkedUser.id === user?.id,
-  )?.auth;
-
   return (
     <LoadingContainer isLoading={isLoading}>
       <ScreenContainer>
         <ScrollContentContainer>
           <ContentContainer gap={0}>
             {/* 상단 사진 영역 */}
-            <ContentContainer alignCenter height={windowWidth * 1.14}>
+            <ContentContainer alignCenter height={carouselHeight}>
               <Carousel
                 ref={carouselRef}
-                data={[...displayHeroes]}
+                data={displayHeroes}
                 mode={'parallax'}
                 modeConfig={{
                   parallaxScrollingScale: 0.9,
@@ -161,19 +199,8 @@ const HeroSettingPage = (): React.ReactElement => {
                 }}
                 width={windowWidth}
                 loop={false}
-                onProgressChange={(_: number, absoluteProgress: number) => {
-                  setFocusedHero(displayHeroes[Math.floor(absoluteProgress)]);
-                }}
-                renderItem={({ item }: any) => {
-                  return (
-                    <BasicCard
-                      photoUrls={[item.imageUrl]}
-                      height={windowWidth * 1.14}
-                      width={windowWidth}
-                      onPress={() => {}}
-                    />
-                  );
-                }}
+                onProgressChange={handleProgressChange}
+                renderItem={renderCarouselItem}
               />
             </ContentContainer>
             {/* 중간 주인공 정보 영역 */}
