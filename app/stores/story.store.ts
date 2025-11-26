@@ -1,5 +1,5 @@
-import {create} from 'zustand';
-import {PlayInfo, WritingStoryType} from '../types/core/writing-story.type';
+import { create } from 'zustand';
+import { PlayInfo, WritingStoryType } from '../types/core/writing-story.type';
 
 interface StoryState {
   selectedStoryKey: string;
@@ -21,20 +21,23 @@ export const useStoryStore = create<StoryState>(set => ({
   playInfo: {},
   postStoryKey: '',
 
-  setSelectedStoryKey: selectedStoryKey => set({selectedStoryKey}),
+  setSelectedStoryKey: selectedStoryKey => set({ selectedStoryKey }),
 
-  resetSelectedStoryKey: () => set({selectedStoryKey: ''}),
+  resetSelectedStoryKey: () => set({ selectedStoryKey: '' }),
 
-  setWritingStory: writingStory => set({writingStory}),
+  setWritingStory: writingStory =>
+    set(state => ({
+      writingStory: { ...state.writingStory, ...writingStory },
+    })),
 
-  resetWritingStory: () => set({writingStory: {}}),
+  resetWritingStory: () => set({ writingStory: {} }),
 
   setPlayInfo: playInfo =>
     set(state => ({
-      playInfo: {...state.playInfo, ...playInfo},
+      playInfo: { ...state.playInfo, ...playInfo },
     })),
 
-  resetPlayInfo: () => set({playInfo: {}}),
+  resetPlayInfo: () => set({ playInfo: {} }),
 
-  setPostStoryKey: postStoryKey => set({postStoryKey}),
+  setPostStoryKey: postStoryKey => set({ postStoryKey }),
 }));
