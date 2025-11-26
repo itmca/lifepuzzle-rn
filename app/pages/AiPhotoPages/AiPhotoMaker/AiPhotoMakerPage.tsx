@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { ScrollView } from 'react-native';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
@@ -27,7 +27,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(-1);
 
   // 글로벌 상태 관리 (Zustand)
-  const gallery = useMediaStore(state => state.getGallery());
+  const gallery = useMediaStore(state => state.gallery);
   const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
 
   // Custom hooks
@@ -37,6 +37,11 @@ const AiPhotoMakerPage = (): React.ReactElement => {
     galleryId: 0,
     drivingVideoId: 0,
   });
+
+  // Handlers
+  const handleTemplateSelect = useCallback((item: AiPhotoTemplate) => {
+    setSelectedTemplateId(item.id);
+  }, []);
 
   const onClickMake = () => {
     if (!gallery[galleryIndex].id) {
@@ -55,6 +60,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
       drivingVideoId: selectedTemplateId,
     });
   };
+
   return (
     <LoadingContainer isLoading={false}>
       <ScreenContainer>
@@ -82,9 +88,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
                   return (
                     <SelectableAiPhotoTemplate
                       key={item.id}
-                      onSelected={(item: AiPhotoTemplate) => {
-                        setSelectedTemplateId(item.id);
-                      }}
+                      onSelected={handleTemplateSelect}
                       size={90}
                       data={item}
                       selected={

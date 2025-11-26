@@ -46,14 +46,14 @@ const GalleryListPage = () => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
   const { selectedTag, setCurrentGalleryIndex, currentGalleryIndex } =
     useSelectionStore();
-  const { tags, ageGroups, getGallery } = useMediaStore();
+  const { tags, ageGroups, gallery } = useMediaStore();
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Derived value or local variables
   const screenHeight = Dimensions.get('window').height;
-  const allGallery = getGallery();
+  const allGallery = gallery;
   const ageGroupsArray = ageGroups ? Object.entries(ageGroups) : [];
 
   // Custom functions
