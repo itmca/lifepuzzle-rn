@@ -111,7 +111,6 @@ const GalleryListPage = () => {
     <ScreenContainer>
       <ScrollContentContainer
         ref={scrollContainerRef}
-        paddingVertical={16}
         onLayout={handleScrollViewLayout}
         scrollEventThrottle={50}
       >
@@ -129,8 +128,12 @@ const GalleryListPage = () => {
                 isLastAgeGroup ? `${screenHeight}px` : `${screenHeight / 3}px`
               }
             >
-              <ContentContainer gap={0}>
-                <ContentContainer paddingHorizontal={20}>
+              <ContentContainer
+                gap={16}
+                paddingHorizontal={14}
+                paddingVertical={8}
+              >
+                <ContentContainer paddingHorizontal={6}>
                   <Head>
                     {tags?.filter(item => item.key === ageKey)[0]?.label ||
                       ageKey}{' '}
@@ -141,11 +144,10 @@ const GalleryListPage = () => {
                   <FlashList
                     data={ageGroup.gallery}
                     numColumns={2}
-                    estimatedItemSize={200}
+                    ItemSeparatorComponent={() => (
+                      <View style={{ height: 12 }} />
+                    )}
                     keyExtractor={(item: any) => `ai-${item.id}`}
-                    contentContainerStyle={{
-                      padding: 20,
-                    }}
                     renderItem={({ item }: { item: any }) => {
                       const galleryItem = item as GalleryType;
                       return (
@@ -154,7 +156,7 @@ const GalleryListPage = () => {
                           style={{
                             borderRadius: 12,
                             overflow: 'hidden',
-                            marginBottom: 4,
+                            marginHorizontal: 6,
                             flex: 1,
                           }}
                         >
@@ -181,7 +183,9 @@ const GalleryListPage = () => {
                   <FlashList
                     data={ageGroup.gallery}
                     numColumns={2}
-                    estimatedItemSize={200}
+                    ItemSeparatorComponent={() => (
+                      <View style={{ height: 12 }} />
+                    )}
                     keyExtractor={(item: any) => `gallery-${item.id}`}
                     renderItem={({ item }: { item: any }) => {
                       const galleryItem = item as GalleryType;
@@ -191,14 +195,15 @@ const GalleryListPage = () => {
                           style={{
                             borderRadius: 12,
                             overflow: 'hidden',
-                            marginBottom: 4,
-                            margin: 2,
+                            marginHorizontal: 6,
                           }}
                         >
                           <FastImage
                             source={{ uri: galleryItem.url }}
-                            style={{ width: '100%', aspectRatio: 1 }}
-                            cacheControl={FastImage.cacheControl.immutable}
+                            style={{
+                              width: '100%',
+                              aspectRatio: 1,
+                            }}
                             resizeMode={FastImage.resizeMode.cover}
                           />
                         </TouchableOpacity>
