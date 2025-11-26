@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
 
 import FastImage from '@d11/react-native-fast-image';
@@ -107,10 +113,32 @@ const HomePage = (): React.ReactElement => {
     );
   }, [ageGroups]);
 
+  // Memoized onScroll handler to prevent unnecessary re-renders
+  const handleScroll = useCallback((event: any) => {
+    setScrollY(event.nativeEvent.contentOffset.y);
+  }, []);
+
+  // Memoized default values for Gallery props
+  const galleryAgeGroups = useMemo(() => ageGroups || {}, [ageGroups]);
+  const galleryTags = useMemo(() => tags || [], [tags]);
+
+  // Ref to track previous image URLs for optimized preloading
+  const prevImageUrlsRef = useRef<{ uri: string }[]>([]);
+
   // Side effects (useEffect 등)
+  // Optimized FastImage.preload - only preload when URLs actually change
   useEffect(() => {
-    if (imageUrls.length > 0) {
+    if (imageUrls.length === 0) return;
+
+    // Compare with previous URLs to avoid unnecessary preloading
+    const prevUrls = prevImageUrlsRef.current;
+    const isSame =
+      prevUrls.length === imageUrls.length &&
+      prevUrls.every((prev, idx) => prev.uri === imageUrls[idx]?.uri);
+
+    if (!isSame) {
       FastImage.preload(imageUrls);
+      prevImageUrlsRef.current = imageUrls;
     }
   }, [imageUrls]);
 
@@ -164,10 +192,8 @@ const HomePage = (): React.ReactElement => {
           style={{ flex: 1, width: '100%' }}
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
-          onScroll={event => {
-            setScrollY(event.nativeEvent.contentOffset.y);
-          }}
-          scrollEventThrottle={16}
+          onScroll={handleScroll}
+          scrollEventThrottle={50}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
@@ -184,8 +210,8 @@ const HomePage = (): React.ReactElement => {
           {/* 중간 사진 영역 */}
           <ContentContainer flex={1}>
             <Gallery
-              ageGroups={ageGroups || {}}
-              tags={tags || []}
+              ageGroups={galleryAgeGroups}
+              tags={galleryTags}
               isError={isError}
               hasInitialData={hasInitialData}
               onRetry={handleRefetch}

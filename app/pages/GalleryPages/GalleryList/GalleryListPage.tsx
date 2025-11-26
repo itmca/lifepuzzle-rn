@@ -1,5 +1,11 @@
 // 1. React
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import {
   Dimensions,
@@ -54,7 +60,12 @@ const GalleryListPage = () => {
   // Derived value or local variables
   const screenHeight = Dimensions.get('window').height;
   const allGallery = gallery;
-  const ageGroupsArray = ageGroups ? Object.entries(ageGroups) : [];
+
+  // Memoized values
+  const ageGroupsArray = useMemo(
+    () => (ageGroups ? Object.entries(ageGroups) : []),
+    [ageGroups],
+  );
 
   // Custom functions
   const handleScrollViewLayout = (event: any) => {
@@ -64,25 +75,89 @@ const GalleryListPage = () => {
     }
   };
 
-  const moveToStoryDetailPage = (gallery: GalleryType) => {
-    // 전체 갤러리에서 해당 아이템의 인덱스 찾기
-    const allGalleryIndex = allGallery.findIndex(
-      item => item.id === gallery.id,
-    );
+  const moveToStoryDetailPage = useCallback(
+    (gallery: GalleryType) => {
+      // 전체 갤러리에서 해당 아이템의 인덱스 찾기
+      const allGalleryIndex = allGallery.findIndex(
+        item => item.id === gallery.id,
+      );
 
-    if (allGalleryIndex !== -1) {
-      setCurrentGalleryIndex(allGalleryIndex);
-    } else {
-      setCurrentGalleryIndex(0);
-    }
+      if (allGalleryIndex !== -1) {
+        setCurrentGalleryIndex(allGalleryIndex);
+      } else {
+        setCurrentGalleryIndex(0);
+      }
 
-    navigation.navigate('App', {
-      screen: 'StoryViewNavigator',
-      params: {
-        screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
-      },
-    });
-  };
+      navigation.navigate('App', {
+        screen: 'StoryViewNavigator',
+        params: {
+          screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+        },
+      });
+    },
+    [allGallery, setCurrentGalleryIndex, navigation, isLoggedIn],
+  );
+
+  // Memoized render functions for FlashList
+  const renderAiPhotoItem = useCallback(
+    ({ item }: { item: any }) => {
+      const galleryItem = item as GalleryType;
+      return (
+        <TouchableOpacity
+          onPress={() => setVideoModalOpen(true)}
+          style={{
+            borderRadius: 12,
+            overflow: 'hidden',
+            marginHorizontal: 6,
+            flex: 1,
+          }}
+        >
+          <Video
+            source={{ uri: galleryItem.url }}
+            style={{
+              width: '100%',
+              aspectRatio: 0.75,
+              backgroundColor: 'black',
+            }}
+            paused={true}
+            resizeMode="cover"
+            muted={true}
+            controls={false}
+            onError={error => {
+              logger.debug('Video thumbnail error:', error);
+            }}
+          />
+        </TouchableOpacity>
+      );
+    },
+    [setVideoModalOpen],
+  );
+
+  const renderGalleryItem = useCallback(
+    ({ item }: { item: any }) => {
+      const galleryItem = item as GalleryType;
+      return (
+        <TouchableOpacity
+          onPress={() => moveToStoryDetailPage(galleryItem)}
+          style={{
+            borderRadius: 12,
+            overflow: 'hidden',
+            marginHorizontal: 6,
+          }}
+        >
+          <FastImage
+            source={{ uri: galleryItem.url }}
+            style={{
+              width: '100%',
+              aspectRatio: 1,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        </TouchableOpacity>
+      );
+    },
+    [moveToStoryDetailPage],
+  );
 
   // Side effects
   useEffect(() => {
@@ -148,36 +223,7 @@ const GalleryListPage = () => {
                       <View style={{ height: 12 }} />
                     )}
                     keyExtractor={(item: any) => `ai-${item.id}`}
-                    renderItem={({ item }: { item: any }) => {
-                      const galleryItem = item as GalleryType;
-                      return (
-                        <TouchableOpacity
-                          onPress={() => setVideoModalOpen(true)}
-                          style={{
-                            borderRadius: 12,
-                            overflow: 'hidden',
-                            marginHorizontal: 6,
-                            flex: 1,
-                          }}
-                        >
-                          <Video
-                            source={{ uri: galleryItem.url }}
-                            style={{
-                              width: '100%',
-                              aspectRatio: 0.75,
-                              backgroundColor: 'black',
-                            }}
-                            paused={false}
-                            resizeMode="cover"
-                            muted={true}
-                            controls={false}
-                            onError={error => {
-                              logger.debug('Video thumbnail error:', error);
-                            }}
-                          />
-                        </TouchableOpacity>
-                      );
-                    }}
+                    renderItem={renderAiPhotoItem}
                   />
                 ) : (
                   <FlashList
@@ -187,28 +233,7 @@ const GalleryListPage = () => {
                       <View style={{ height: 12 }} />
                     )}
                     keyExtractor={(item: any) => `gallery-${item.id}`}
-                    renderItem={({ item }: { item: any }) => {
-                      const galleryItem = item as GalleryType;
-                      return (
-                        <TouchableOpacity
-                          onPress={() => moveToStoryDetailPage(galleryItem)}
-                          style={{
-                            borderRadius: 12,
-                            overflow: 'hidden',
-                            marginHorizontal: 6,
-                          }}
-                        >
-                          <FastImage
-                            source={{ uri: galleryItem.url }}
-                            style={{
-                              width: '100%',
-                              aspectRatio: 1,
-                            }}
-                            resizeMode={FastImage.resizeMode.cover}
-                          />
-                        </TouchableOpacity>
-                      );
-                    }}
+                    renderItem={renderGalleryItem}
                   />
                 )}
               </ContentContainer>
