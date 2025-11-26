@@ -1,7 +1,6 @@
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
-  BottomSheetHandleProps,
   BottomSheetModal,
   BottomSheetModalProps,
   BottomSheetModalProvider,
@@ -9,7 +8,6 @@ import {
 } from '@gorhom/bottom-sheet';
 import React, {
   forwardRef,
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -20,38 +18,28 @@ import { Title } from '../base/TextBase';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SvgIcon } from '../display/SvgIcon';
 import { Dimensions, LayoutChangeEvent, TouchableOpacity } from 'react-native';
+import { SizeValue } from '../../../types/ui/style.type.ts';
 
-interface HandleProps extends BottomSheetHandleProps {
-  title: string;
-  onClose: () => void;
-}
 interface ModalProps extends Omit<BottomSheetModalProps, 'children'> {
   title?: string;
   opened?: boolean;
   onClose?: () => void;
   children?: React.ReactNode;
+  headerPaddingBottom?: SizeValue;
+  paddingBottom?: SizeValue;
 }
-const HeaderHandleComponent: React.FC<HandleProps> = memo(
-  ({ title, onClose }) => {
-    return (
-      <ContentContainer
-        borderTopRadius={20}
-        useHorizontalLayout
-        paddingHorizontal={20}
-        paddingVertical={20}
-      >
-        <ContentContainer width={20} />
-        <Title>{title}</Title>
-        <TouchableOpacity onPress={onClose}>
-          <SvgIcon name={'close'} />
-        </TouchableOpacity>
-      </ContentContainer>
-    );
-  },
-);
 const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
   (
-    { title, opened, snapPoints, backdropComponent, onClose, ...props },
+    {
+      title,
+      opened,
+      snapPoints,
+      backdropComponent,
+      onClose,
+      paddingBottom,
+      headerPaddingBottom,
+      ...props
+    },
     _ref,
   ) => {
     // Refs
@@ -68,9 +56,9 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
     const _snapPoints = snapPoints ?? defaultSnapPoints;
 
     const defaultRenderBackdrop = useCallback(
-      (props: BottomSheetBackdropProps) => (
+      (backdropProps: BottomSheetBackdropProps) => (
         <BottomSheetBackdrop
-          {...props}
+          {...backdropProps}
           pressBehavior="none"
           disappearsOnIndex={-1}
         />
@@ -84,18 +72,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
       if (onClose) {
         onClose();
       }
-    }, [onClose, bottomSheetModalRef]);
-
-    const renderCustomHandle = useCallback(
-      (props: BottomSheetHandleProps) => (
-        <HeaderHandleComponent
-          title={title ?? ''}
-          onClose={handleClose}
-          {...props}
-        />
-      ),
-      [handleClose, title],
-    );
+    }, [onClose]);
 
     // Side effects
     useEffect(() => {
@@ -111,11 +88,28 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
           ref={bottomSheetModalRef}
           index={0}
           snapPoints={_snapPoints}
-          handleComponent={renderCustomHandle}
+          handleComponent={null}
           backdropComponent={renderBackdrop}
           onDismiss={handleClose}
         >
           <BottomSheetView>
+            <ContentContainer
+              borderTopRadius={20}
+              useHorizontalLayout
+              paddingHorizontal={20}
+              paddingTop={20}
+              paddingBottom={headerPaddingBottom ?? 20}
+            >
+              <ContentContainer width={20} />
+              <Title>{title}</Title>
+              <TouchableOpacity
+                onPress={() => {
+                  handleClose();
+                }}
+              >
+                <SvgIcon name={'close'} />
+              </TouchableOpacity>
+            </ContentContainer>
             <ContentContainer
               onLayout={(e: LayoutChangeEvent) => {
                 const screenHeight = Dimensions.get('window').height;
@@ -125,7 +119,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
                 ); // padding 고려
               }}
               paddingHorizontal={20}
-              paddingBottom={38}
+              paddingBottom={paddingBottom ?? 38}
             >
               {props.children}
             </ContentContainer>
