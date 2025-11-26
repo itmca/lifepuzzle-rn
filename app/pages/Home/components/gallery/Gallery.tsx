@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
@@ -57,17 +63,81 @@ const Gallery = ({
   // Memoized 값
   const { width: windowWidth } = useWindowDimensions();
 
-  // Custom functions (핸들러, 로직 함수 등)
-  const moveToStoryListPage = (_: GalleryType['index']) => {
-    if (!isScrolling) {
-      navigation.navigate('App', {
-        screen: 'StoryViewNavigator',
-        params: {
-          screen: 'StoryList',
-        },
-      });
+  // Memoized carousel default index calculation
+  const carouselDefaultIndex = useMemo(() => {
+    if (!tags || !selectedTag || tags.length === 0) {
+      return 0;
     }
-  };
+    const index = tags.findIndex(item => item.key === selectedTag.key);
+    return index < 0 ? 0 : index;
+  }, [tags, selectedTag]);
+
+  // Custom functions (핸들러, 로직 함수 등)
+  const moveToStoryListPage = useCallback(
+    (_: GalleryType['index']) => {
+      if (!isScrolling) {
+        navigation.navigate('App', {
+          screen: 'StoryViewNavigator',
+          params: {
+            screen: 'StoryList',
+          },
+        });
+      }
+    },
+    [isScrolling, navigation],
+  );
+
+  // Memoized carousel callbacks
+  const handleSnapToItem = useCallback(
+    (index: number) => {
+      if (!tags) return;
+      setSelectedTag({ ...tags[index] });
+    },
+    [tags, setSelectedTag],
+  );
+
+  const handleProgressChange = useCallback(
+    (_: number, absoluteProgress: number) => {
+      setIsScrolling(absoluteProgress % 1 !== 0);
+    },
+    [],
+  );
+
+  // Memoized renderItem for Carousel
+  const renderCarouselItem = useCallback(
+    ({ item: tag }: any) => {
+      return (
+        <ContentContainer
+          key={tag.key}
+          style={{
+            transform: [{ translateY: -20 }],
+          }}
+        >
+          <BasicCard
+            photoUrls={
+              (ageGroups &&
+                ageGroups[tag.key as TagKey]?.gallery.map(g => g.url)) ??
+              []
+            }
+            fallbackBackgroundColor={Color.WHITE}
+            fallbackBorderColor={Color.GREY_100}
+            fallbackIconName={'pictureNone'}
+            fallbackText={'사진이 없습니다'}
+            height={'100%'}
+            width={windowWidth}
+            onPress={() => {
+              const index =
+                ageGroups && ageGroups[tag.key as TagKey]?.gallery[0].index;
+              if (index) {
+                moveToStoryListPage(index);
+              }
+            }}
+          />
+        </ContentContainer>
+      );
+    },
+    [ageGroups, windowWidth, moveToStoryListPage],
+  );
 
   // Side effects (useEffect 등)
   useEffect(() => {
@@ -156,13 +226,7 @@ const Gallery = ({
           ref={carouselRef}
           data={tags || []}
           mode={'parallax'}
-          defaultIndex={
-            !tags ||
-            !selectedTag ||
-            tags.findIndex(item => item.key === selectedTag.key) < 0
-              ? 0
-              : tags.findIndex(item => item.key === selectedTag.key)
-          }
+          defaultIndex={carouselDefaultIndex}
           modeConfig={{
             parallaxScrollingScale: 0.88,
             parallaxScrollingOffset: 70,
@@ -171,47 +235,9 @@ const Gallery = ({
           loop={!tags || tags?.length <= 2 ? false : true}
           width={windowWidth}
           height={'100%'}
-          onSnapToItem={index => {
-            if (!tags) {
-              return;
-            }
-            setSelectedTag({ ...tags[index] });
-          }}
-          onProgressChange={(_: number, absoluteProgress: number) => {
-            setIsScrolling(absoluteProgress % 1 !== 0);
-          }}
-          renderItem={({ item: tag }: any) => {
-            return (
-              <ContentContainer
-                key={tag.key}
-                style={{
-                  transform: [{ translateY: -20 }],
-                }}
-              >
-                <BasicCard
-                  photoUrls={
-                    (ageGroups &&
-                      ageGroups[tag.key as TagKey]?.gallery.map(g => g.url)) ??
-                    []
-                  }
-                  fallbackBackgroundColor={Color.WHITE}
-                  fallbackBorderColor={Color.GREY_100}
-                  fallbackIconName={'pictureNone'}
-                  fallbackText={'사진이 없습니다'}
-                  height={'100%'}
-                  width={windowWidth}
-                  onPress={() => {
-                    const index =
-                      ageGroups &&
-                      ageGroups[tag.key as TagKey]?.gallery[0].index;
-                    if (index) {
-                      moveToStoryListPage(index);
-                    }
-                  }}
-                />
-              </ContentContainer>
-            );
-          }}
+          onSnapToItem={handleSnapToItem}
+          onProgressChange={handleProgressChange}
+          renderItem={renderCarouselItem}
         />
       </ContentContainer>
     </ContentContainer>
