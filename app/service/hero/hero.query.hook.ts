@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { HeroType, HeroUserType } from '../../types/core/hero.type';
+import { useEffect, useMemo, useState } from 'react';
+import { HeroType } from '../../types/core/hero.type';
 import { useAuthAxios } from '../core/auth-http.hook';
 import {
   HeroesQueryResponse,
@@ -7,32 +7,31 @@ import {
 } from '../../types/hooks/hero-query.type';
 import logger from '../../utils/logger';
 
-export const useHero = (heroNo: number) => {
+export const useHero = (
+  heroNo: number,
+): [HeroType | undefined, isLoading: boolean] => {
   const [hero, setHero] = useState<HeroType>();
-  const [puzzleCnt, setPuzzleCnt] = useState<number>(0);
-  const [users, setUsers] = useState<HeroUserType[]>([]);
 
-  const [isLoading, fetchHero] = useAuthAxios<HeroQueryResponse>({
+  const [isLoading, refetch] = useAuthAxios<HeroQueryResponse>({
     requestOption: {
       url: `/v1/heroes/${heroNo}`,
       method: 'get',
     },
-    onResponseSuccess: ({ hero, puzzleCnt, users }) => {
+    onResponseSuccess: ({ hero }) => {
       setHero(hero);
-      setPuzzleCnt(puzzleCnt);
-      setUsers(users);
     },
-    disableInitialRequest: false,
+    onError: err => {
+      logger.error(err);
+    },
+    disableInitialRequest: true,
   });
-  const result = useMemo(
-    () => ({
-      res: { hero, puzzleCnt, users, loading: isLoading },
-      fetchHero,
-    }),
-    [hero, puzzleCnt, users, isLoading, fetchHero],
-  );
 
-  return result;
+  // heroNo가 변경될 때마다 요청
+  useEffect(() => {
+    refetch({ url: `/v1/heroes/${heroNo}` });
+  }, [heroNo, refetch]);
+
+  return [hero, isLoading];
 };
 
 export const useUploadHeroes = () => {

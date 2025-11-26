@@ -24,6 +24,7 @@ import { useDeleteHero } from '../../../service/hero/hero.delete.hook.ts';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
+import logger from '../../../utils/logger';
 
 const HeroModificationPage = (): React.ReactElement => {
   // 글로벌 상태 관리
@@ -39,21 +40,17 @@ const HeroModificationPage = (): React.ReactElement => {
 
   // Custom hooks
   //주인공 조회
-  const { res } = useHero(heroNo);
-  const { hero } = res;
+  const [hero, isLoading] = useHero(heroNo);
   const [updateHero, isUpdating] = useUpdateHero();
   const [deleteHero, isDeleting] = useDeleteHero();
 
   // Side effects
   useEffect(() => {
-    if (!hero) {
+    if (!hero || writingHero.id === heroNo) {
       return;
     }
 
-    // 이미 이 hero에 대해 초기화되어 있으면 다시 초기화하지 않음 (사진 선택 후 돌아왔을 때 덮어쓰는 것 방지)
-    if (writingHero.id === heroNo) {
-      return;
-    }
+    logger.debug(`Initializing writingHero for heroNo: ${heroNo}`);
 
     const currentPhoto = hero.imageUrl
       ? toPhotoIdentifier(hero.imageUrl)
@@ -70,19 +67,11 @@ const HeroModificationPage = (): React.ReactElement => {
     });
   }, [hero, heroNo, setWritingHero, writingHero.id]);
 
-  const navigateToSelectingPhoto = () => {
-    navigation.navigate('App', {
-      screen: 'HeroSettingNavigator',
-      params: {
-        screen: 'HeroProfileSelector',
-      },
-    });
-  };
   const heroProfileImage = getHeroImageUri(writingHero);
 
   return (
     <ScreenContainer>
-      <LoadingContainer isLoading={isUpdating || isDeleting}>
+      <LoadingContainer isLoading={isLoading || isUpdating || isDeleting}>
         <ScrollContentContainer alignCenter withScreenPadding gap={32}>
           <ContentContainer
             aspectRatio={0.8701} //0.8701 =  335 / 385
@@ -93,7 +82,14 @@ const HeroModificationPage = (): React.ReactElement => {
               fallbackIconName={'cameraAdd'}
               fallbackText={'클릭하여 프로필 이미지 추가'}
               fallbackBackgroundColor={Color.GREY_100}
-              onPress={navigateToSelectingPhoto}
+              onPress={() => {
+                navigation.navigate('App', {
+                  screen: 'HeroSettingNavigator',
+                  params: {
+                    screen: 'HeroProfileSelector',
+                  },
+                });
+              }}
             />
           </ContentContainer>
           <ContentContainer alignCenter>
