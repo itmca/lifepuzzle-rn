@@ -80,14 +80,9 @@ export const ShareAuthList = ({}: props): React.ReactElement => {
     <ContentContainer gap={20}>
       <ScrollContentContainer gap={0}>
         {authList.map((i, index) => (
-          <>
+          <React.Fragment key={i.value}>
             {index !== 0 && <Divider marginVertical={0} />}
-            <ContentContainer
-              key={'share-auth-' + index}
-              paddingVertical={14}
-              gap={0}
-              alignCenter
-            >
+            <ContentContainer paddingVertical={14} gap={0} alignCenter>
               <Radio
                 selected={auth === i.value}
                 label={i.label}
@@ -96,7 +91,7 @@ export const ShareAuthList = ({}: props): React.ReactElement => {
                 onSelect={onSelectAuth}
               />
             </ContentContainer>
-          </>
+          </React.Fragment>
         ))}
       </ScrollContentContainer>
       <ButtonBase
