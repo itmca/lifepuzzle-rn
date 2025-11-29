@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TextInput } from 'react-native';
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { Color } from '../../../constants/color.constant';
@@ -34,11 +34,21 @@ const BasicTextInput = ({
 }: Props): React.ReactElement => {
   const [focused, setFocused] = useState(false);
   const [changed, setChanged] = useState<boolean>(false);
+  const [localValue, setLocalValue] = useState(text);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const violated = validations.find(v => !v.condition(text));
+  const violated = validations.find(v => !v.condition(localValue));
   const isError = changed && !!violated;
 
   const [visible, setVisible] = useState(!secureTextEntry);
+
+  // Choose the appropriate TextInput component
+  const InputComponent = useInBottomSheet ? BottomSheetTextInput : TextInput;
+
+  // Sync local value with external text prop when it changes externally
+  useEffect(() => {
+    setLocalValue(text);
+  }, [text]);
 
   useEffect(() => {
     if (onIsErrorChanged && changed) {
@@ -46,7 +56,22 @@ const BasicTextInput = ({
     }
   }, [isError]);
 
-  const InputComponent = useInBottomSheet ? BottomSheetTextInput : TextInput;
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Flush pending update immediately
+  const flushUpdate = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    onChangeText(localValue);
+  };
 
   return (
     <ContentContainer gap={6}>
@@ -66,12 +91,28 @@ const BasicTextInput = ({
         borderRadius={6}
       >
         <InputComponent
-          value={text}
-          onChangeText={(text: string) => {
-            onChangeText(text);
+          value={localValue}
+          onChangeText={(newText: string) => {
+            setLocalValue(newText);
             setChanged(true);
+
+            // Clear existing timeout
+            if (timeoutRef.current) {
+              clearTimeout(timeoutRef.current);
+            }
+
+            // Set new timeout to update parent after 300ms (debounced)
+            timeoutRef.current = setTimeout(() => {
+              onChangeText(newText);
+            }, 300);
           }}
-          onBlur={() => setFocused(false)}
+          onEndEditing={() => {
+            flushUpdate();
+          }}
+          onBlur={() => {
+            setFocused(false);
+            flushUpdate();
+          }}
           onFocus={() => setFocused(true)}
           placeholder={placeholder}
           placeholderTextColor={Color.GREY_400}
@@ -92,12 +133,13 @@ const BasicTextInput = ({
           paddingHorizontal={8}
           gap={8}
         >
-          {text && (
+          {localValue && (
             <SvgIcon
               name={'closeFilled'}
               size={24}
               color={Color.GREY_600}
               onPress={() => {
+                setLocalValue('');
                 onChangeText('');
               }}
             />
@@ -123,7 +165,7 @@ const BasicTextInput = ({
           <SvgIcon name={'error'} size={16} />
           <Caption color={Color.ERROR_300}>
             {typeof violated?.errorText === 'function'
-              ? violated?.errorText(text)
+              ? violated?.errorText(localValue)
               : violated?.errorText}
           </Caption>
         </ContentContainer>
