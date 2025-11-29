@@ -120,7 +120,7 @@ const StoryDetailPage = (): React.ReactElement => {
   }, [currentGalleryItem?.story]);
   return (
     <LoadingContainer isLoading={false}>
-      <ScreenContainer>
+      <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ScrollContentContainer gap={0}>
           <ContentContainer paddingHorizontal={20} paddingTop={20}>
             <Title color={Color.GREY_700}>

@@ -54,7 +54,7 @@ const AccountSettingPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={isUserLoading || isWithdrawing}>
-      <ScreenContainer>
+      <ScreenContainer edges={['left', 'right', 'bottom']}>
         {user && (
           <>
             <ContentContainer gap={8} alignCenter expandToEnd>

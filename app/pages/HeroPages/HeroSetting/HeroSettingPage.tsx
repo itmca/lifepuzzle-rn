@@ -183,7 +183,7 @@ const HeroSettingPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <ScreenContainer>
+      <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ScrollContentContainer>
           <ContentContainer gap={0}>
             {/* 상단 사진 영역 */}

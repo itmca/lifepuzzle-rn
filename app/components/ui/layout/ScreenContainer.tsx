@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Color } from '../../../constants/color.constant';
+import { Edge } from 'react-native-safe-area-context';
 
 type ScreenContainerProps = {
   flexDirections?: string;
@@ -13,9 +14,16 @@ type ScreenContainerProps = {
   withBorder?: boolean;
   withDebugBorder?: boolean;
   borderRadius?: number;
+
+  // Safe Area
+  edges?: ReadonlyArray<Edge>;
 };
 
-export const ScreenContainer = styled(SafeAreaView)<ScreenContainerProps>`
+export const ScreenContainer = styled(SafeAreaView).attrs<ScreenContainerProps>(
+  props => ({
+    edges: props.edges,
+  }),
+)<ScreenContainerProps>`
   width: 100%;
   height: 100%;
   display: flex;
