@@ -97,6 +97,7 @@ export const ProfileUpdateBottomSheet = ({
             },
           ]}
           onIsErrorChanged={setNewNicknameError}
+          useInBottomSheet={true}
         />
         <LoadingContainer isLoading={isProfileUpdating}>
           <BasicButton
