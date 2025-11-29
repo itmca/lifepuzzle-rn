@@ -19,7 +19,7 @@ const GalleryBottomButton = ({ onPress }: props) => {
     return (
       <ContentContainer
         paddingHorizontal={20}
-        paddingBottom={insets.bottom + 20}
+        paddingBottom={insets.bottom + 16}
         backgroundColor="transparent"
       >
         <ButtonBase
@@ -42,7 +42,7 @@ const GalleryBottomButton = ({ onPress }: props) => {
     return (
       <ContentContainer
         paddingHorizontal={20}
-        paddingBottom={insets.bottom + 20}
+        paddingBottom={insets.bottom + 16}
         backgroundColor="transparent"
       >
         <GalleryUploadButton onPress={onPress} disabled={isGalleryError} />

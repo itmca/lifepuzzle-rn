@@ -19,15 +19,14 @@ import { Title } from '../base/TextBase';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SvgIcon } from '../display/SvgIcon';
 import { Dimensions, LayoutChangeEvent, TouchableOpacity } from 'react-native';
-import { SizeValue } from '../../../types/ui/style.type.ts';
 
 interface ModalProps extends Omit<BottomSheetModalProps, 'children'> {
   title?: string;
   opened?: boolean;
   onClose?: () => void;
   children?: React.ReactNode;
-  headerPaddingBottom?: SizeValue;
-  paddingBottom?: SizeValue;
+  headerPaddingBottom?: number;
+  paddingBottom?: number;
 }
 const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
   (
@@ -84,6 +83,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
         bottomSheetModalRef.current?.close();
       }
     }, [opened]);
+
     return (
       <BottomSheetModalProvider>
         <BottomSheetModal
