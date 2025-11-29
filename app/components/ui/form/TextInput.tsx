@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native';
+import { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { Color } from '../../../constants/color.constant';
 import { ContentContainer } from '../layout/ContentContainer';
 import { BodyTextM, Caption } from '../base/TextBase';
@@ -13,6 +14,7 @@ type Props = {
   placeholder?: string;
   secureTextEntry?: boolean;
   onIsErrorChanged?: (isError: boolean) => void;
+  useInBottomSheet?: boolean;
 };
 
 type TextValidation = {
@@ -28,6 +30,7 @@ const BasicTextInput = ({
   secureTextEntry,
   validations = [],
   onIsErrorChanged,
+  useInBottomSheet = false,
 }: Props): React.ReactElement => {
   const [focused, setFocused] = useState(false);
   const [changed, setChanged] = useState<boolean>(false);
@@ -42,6 +45,8 @@ const BasicTextInput = ({
       onIsErrorChanged(isError);
     }
   }, [isError]);
+
+  const InputComponent = useInBottomSheet ? BottomSheetTextInput : TextInput;
 
   return (
     <ContentContainer gap={6}>
@@ -60,7 +65,7 @@ const BasicTextInput = ({
         }
         borderRadius={6}
       >
-        <TextInput
+        <InputComponent
           value={text}
           onChangeText={(text: string) => {
             onChangeText(text);

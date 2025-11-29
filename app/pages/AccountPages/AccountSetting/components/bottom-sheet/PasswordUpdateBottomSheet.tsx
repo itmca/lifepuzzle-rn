@@ -70,6 +70,7 @@ export const PasswordUpdateBottomSheet = ({ opened, onClose }: Props) => {
           },
         ]}
         onIsErrorChanged={setOldPasswordError}
+        useInBottomSheet={true}
       />
       <BasicTextInput
         label={'새로운 비밀번호'}
@@ -92,6 +93,7 @@ export const PasswordUpdateBottomSheet = ({ opened, onClose }: Props) => {
           },
         ]}
         onIsErrorChanged={setNewPasswordError}
+        useInBottomSheet={true}
       />
       <BasicTextInput
         label={'새로운 비밀번호 확인'}
@@ -106,6 +108,7 @@ export const PasswordUpdateBottomSheet = ({ opened, onClose }: Props) => {
           },
         ]}
         onIsErrorChanged={setNewPasswordConfirmError}
+        useInBottomSheet={true}
       />
       <BasicButton
         text="저장하기"
