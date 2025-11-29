@@ -252,7 +252,7 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={false}>
-      <ScreenContainer gap={0}>
+      <ScreenContainer edges={['left', 'right', 'bottom']} gap={0}>
         <ContentContainer alignCenter flex={1}>
           {!skiaImage ? (
             <View

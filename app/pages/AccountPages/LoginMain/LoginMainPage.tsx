@@ -18,7 +18,7 @@ const LoginMainPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={loading}>
-      <ScreenContainer gap={0}>
+      <ScreenContainer edges={['left', 'right', 'bottom']} gap={0}>
         <ContentContainer
           withScreenPadding
           justifyContent={'flex-end'}

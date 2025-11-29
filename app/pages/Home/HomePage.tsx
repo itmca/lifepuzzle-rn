@@ -198,7 +198,11 @@ const HomePage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={isLoading || isGalleryUploading}>
-      <ScreenContainer gap={0} alignItems="stretch">
+      <ScreenContainer
+        gap={0}
+        alignItems="stretch"
+        edges={['left', 'right', 'bottom']}
+      >
         <ScrollView
           style={{ flex: 1, width: '100%' }}
           contentContainerStyle={{ flexGrow: 1 }}

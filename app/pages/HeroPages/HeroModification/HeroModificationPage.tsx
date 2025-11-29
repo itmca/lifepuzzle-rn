@@ -70,7 +70,7 @@ const HeroModificationPage = (): React.ReactElement => {
   const heroProfileImage = getHeroImageUri(writingHero);
 
   return (
-    <ScreenContainer>
+    <ScreenContainer edges={['left', 'right', 'bottom']}>
       <LoadingContainer isLoading={isLoading || isUpdating || isDeleting}>
         <ScrollContentContainer alignCenter withScreenPadding gap={32}>
           <ContentContainer

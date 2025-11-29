@@ -183,7 +183,7 @@ const GalleryListPage = () => {
   }, [scrollViewHeight, selectedTag]);
 
   return (
-    <ScreenContainer>
+    <ScreenContainer edges={['left', 'right', 'bottom']}>
       <ScrollContentContainer
         ref={scrollContainerRef}
         onLayout={handleScrollViewLayout}

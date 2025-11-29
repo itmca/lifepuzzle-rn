@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { useMediaStore } from '../../../../stores/media.store';
@@ -11,13 +12,14 @@ import { ButtonBase } from '../../../../components/ui/base/ButtonBase';
 type props = { onPress: () => void };
 
 const GalleryBottomButton = ({ onPress }: props) => {
+  const insets = useSafeAreaInsets();
   const selectedTag = useSelectionStore(state => state.selectedTag);
   const isGalleryError = useMediaStore(state => state.galleryError);
   if (selectedTag?.key === 'AI_PHOTO') {
     return (
       <ContentContainer
         paddingHorizontal={20}
-        paddingBottom={37}
+        paddingBottom={insets.bottom + 16}
         backgroundColor="transparent"
       >
         <ButtonBase
@@ -40,7 +42,7 @@ const GalleryBottomButton = ({ onPress }: props) => {
     return (
       <ContentContainer
         paddingHorizontal={20}
-        paddingBottom={37}
+        paddingBottom={insets.bottom + 16}
         backgroundColor="transparent"
       >
         <GalleryUploadButton onPress={onPress} disabled={isGalleryError} />

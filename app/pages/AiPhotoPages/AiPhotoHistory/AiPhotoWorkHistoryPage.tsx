@@ -97,7 +97,7 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
   }, [gallery]);
 
   return (
-    <ScreenContainer>
+    <ScreenContainer edges={['left', 'right', 'bottom']}>
       <ScrollContentContainer>
         <ContentContainer withContentPadding paddingVertical={24} gap={32}>
           <ContentContainer paddingTop={8}>

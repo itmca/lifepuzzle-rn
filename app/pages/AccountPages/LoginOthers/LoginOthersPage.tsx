@@ -17,7 +17,10 @@ const LoginOthersPage = (): React.ReactElement => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <ScreenContainer justifyContent="flex-start">
+    <ScreenContainer
+      edges={['left', 'right', 'bottom']}
+      justifyContent="flex-start"
+    >
       <LoadingContainer isLoading={loading}>
         <ContentContainer
           withScreenPadding

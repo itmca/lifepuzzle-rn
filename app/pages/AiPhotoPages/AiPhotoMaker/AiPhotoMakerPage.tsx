@@ -63,7 +63,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={false}>
-      <ScreenContainer>
+      <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ScrollContentContainer>
           <ContentContainer withScreenPadding gap={20}>
             <ContentContainer

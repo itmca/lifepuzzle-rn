@@ -14,19 +14,19 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Title } from '../base/TextBase';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SvgIcon } from '../display/SvgIcon';
 import { Dimensions, LayoutChangeEvent, TouchableOpacity } from 'react-native';
-import { SizeValue } from '../../../types/ui/style.type.ts';
 
 interface ModalProps extends Omit<BottomSheetModalProps, 'children'> {
   title?: string;
   opened?: boolean;
   onClose?: () => void;
   children?: React.ReactNode;
-  headerPaddingBottom?: SizeValue;
-  paddingBottom?: SizeValue;
+  headerPaddingBottom?: number;
+  paddingBottom?: number;
 }
 const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
   (
@@ -47,6 +47,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
 
     // React hooks
     const [contentHeight, setContentHeight] = useState(0);
+    const insets = useSafeAreaInsets();
 
     // Memoized 값
     const defaultSnapPoints = useMemo(
@@ -82,6 +83,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
         bottomSheetModalRef.current?.close();
       }
     }, [opened]);
+
     return (
       <BottomSheetModalProvider>
         <BottomSheetModal
@@ -122,7 +124,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
                 ); // padding 고려
               }}
               paddingHorizontal={20}
-              paddingBottom={paddingBottom ?? 38}
+              paddingBottom={(paddingBottom ?? 20) + insets.bottom}
             >
               {props.children}
             </ContentContainer>

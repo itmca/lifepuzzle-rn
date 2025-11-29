@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useUserStore } from '../../../stores/user.store';
 import { useAuthAxios } from '../../../service/core/auth-http.hook';
@@ -32,6 +33,7 @@ const AccountSettingPage = (): React.ReactElement => {
   // React hooks
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
+  const insets = useSafeAreaInsets();
 
   // 글로벌 상태 관리
   const { user, setWritingUser } = useUserStore();
@@ -52,7 +54,7 @@ const AccountSettingPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={isUserLoading || isWithdrawing}>
-      <ScreenContainer>
+      <ScreenContainer edges={['left', 'right', 'bottom']}>
         {user && (
           <>
             <ContentContainer gap={8} alignCenter expandToEnd>
@@ -99,7 +101,8 @@ const AccountSettingPage = (): React.ReactElement => {
                 gap={0}
                 alignCenter
                 absoluteBottomPosition
-                paddingVertical={16}
+                paddingTop={16}
+                paddingBottom={insets.bottom + 16}
               >
                 <Caption color={Color.GREY_300}>designed by 박유나</Caption>
                 <Caption color={Color.GREY_300}>

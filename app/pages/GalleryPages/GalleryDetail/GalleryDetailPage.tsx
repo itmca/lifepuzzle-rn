@@ -110,7 +110,7 @@ const GalleryDetailPage = (): React.ReactElement => {
   };
   return (
     <LoadingContainer isLoading={false}>
-      <ScreenContainer>
+      <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ContentContainer
           flex={1}
           alignItems="center"

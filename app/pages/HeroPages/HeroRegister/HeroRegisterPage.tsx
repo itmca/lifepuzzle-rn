@@ -41,7 +41,7 @@ const HeroRegisterPage = (): React.ReactElement => {
   };
 
   return (
-    <ScreenContainer>
+    <ScreenContainer edges={['left', 'right', 'bottom']}>
       <LoadingContainer isLoading={isLoading}>
         <ScrollContentContainer alignCenter withScreenPadding gap={32}>
           <ContentContainer

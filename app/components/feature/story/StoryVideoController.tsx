@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bar } from 'react-native-progress';
 import { Color } from '../../../constants/color.constant';
 import { toMmSs } from '../../../service/utils/date-time.service.ts';
@@ -30,6 +31,7 @@ export const VideoController = ({
   handleProgress,
 }: Props) => {
   const [isControlPadShown, setControlPadShown] = useState<boolean>(true);
+  const insets = useSafeAreaInsets();
   useEffect(() => {
     if (isPaused === undefined) {
       return;
@@ -74,7 +76,12 @@ export const VideoController = ({
                 )}
               </TouchableWithoutFeedback>
             </ContentContainer>
-            <ContentContainer absoluteBottomPosition gap={6} withNoBackground>
+            <ContentContainer
+              absoluteBottomPosition
+              gap={6}
+              withNoBackground
+              paddingBottom={insets.bottom + 8}
+            >
               <ContentContainer
                 useHorizontalLayout
                 withNoBackground

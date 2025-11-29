@@ -6,6 +6,7 @@ import {
   NativeSyntheticEvent,
   ScrollView,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BodyTextM, Head } from '../../components/ui/base/TextBase';
 import PageIndicator from '../../components/ui/display/PageIndicator';
 import { BasicButton } from '../../components/ui/form/Button';
@@ -55,6 +56,7 @@ const OnboardingPage = ({ navigation }: any) => {
 
   // React hooks
   const [currentIndex, setCurrentIndex] = useState(0);
+  const insets = useSafeAreaInsets();
 
   const handleNext = async () => {
     if (currentIndex < slides.length - 1) {
@@ -141,7 +143,7 @@ const OnboardingPage = ({ navigation }: any) => {
         <ContentContainer
           absoluteBottomPosition
           paddingHorizontal={20}
-          paddingBottom={50}
+          paddingBottom={insets.bottom + 30}
         >
           {currentIndex === slides.length - 1 && (
             <BasicButton

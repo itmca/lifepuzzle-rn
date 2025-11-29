@@ -1,7 +1,10 @@
 import styled from 'styled-components/native';
-import {Color} from '../../../constants/color.constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Color } from '../../../constants/color.constant';
 
-export const TopNavigationContainer = styled.SafeAreaView`
+export const TopNavigationContainer = styled(SafeAreaView).attrs({
+  edges: ['top', 'left', 'right'],
+})`
   width: 100%;
   display: flex;
   flex-direction: row;

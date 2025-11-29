@@ -150,7 +150,7 @@ const RegisterPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={registerLoading}>
-      <ScreenContainer>
+      <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ScrollContentContainer withScreenPadding>
           <ContentContainer>
             <BasicTextInput
