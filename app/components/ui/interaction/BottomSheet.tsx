@@ -14,6 +14,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Title } from '../base/TextBase';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SvgIcon } from '../display/SvgIcon';
@@ -47,6 +48,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
 
     // React hooks
     const [contentHeight, setContentHeight] = useState(0);
+    const insets = useSafeAreaInsets();
 
     // Memoized 값
     const defaultSnapPoints = useMemo(
@@ -122,7 +124,7 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
                 ); // padding 고려
               }}
               paddingHorizontal={20}
-              paddingBottom={paddingBottom ?? 38}
+              paddingBottom={(paddingBottom ?? 20) + insets.bottom}
             >
               {props.children}
             </ContentContainer>

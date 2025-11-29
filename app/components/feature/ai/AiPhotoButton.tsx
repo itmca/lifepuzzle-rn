@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Color } from '../../../constants/color.constant.ts';
 import { ButtonBase } from '../../ui/base/ButtonBase';
@@ -12,12 +13,14 @@ type Props = {
 };
 
 export const AiPhotoButton = ({ onPress }: Props): React.ReactElement => {
+  const insets = useSafeAreaInsets();
+
   return (
     <ContentContainer
       width={'auto'}
       absoluteBottomPosition
       absoluteRightPosition
-      paddingBottom={10}
+      paddingBottom={insets.bottom + 10}
       paddingRight={10}
       withNoBackground
     >

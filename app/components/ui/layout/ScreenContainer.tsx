@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
-import {Color} from '../../../constants/color.constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Color } from '../../../constants/color.constant';
 
 type ScreenContainerProps = {
   flexDirections?: string;
@@ -14,7 +15,7 @@ type ScreenContainerProps = {
   borderRadius?: number;
 };
 
-export const ScreenContainer = styled.SafeAreaView<ScreenContainerProps>`
+export const ScreenContainer = styled(SafeAreaView)<ScreenContainerProps>`
   width: 100%;
   height: 100%;
   display: flex;
