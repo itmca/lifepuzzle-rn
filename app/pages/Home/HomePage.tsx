@@ -8,7 +8,7 @@ import React, {
 import { RefreshControl, ScrollView } from 'react-native';
 
 import FastImage from '@d11/react-native-fast-image';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useHeroStore } from '../../stores/hero.store';
 import { useMediaStore } from '../../stores/media.store';
 import { useUIStore } from '../../stores/ui.store';
@@ -163,6 +163,17 @@ const HomePage = (): React.ReactElement => {
       setIsRefreshing(false);
     }
   }, [isLoading, isRefreshing]);
+
+  // Close all bottom sheets when navigating away from this screen
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setHeroShareModalOpen(false);
+        setReceivedImageBottomSheetOpen(false);
+        setMediaPickerBottomSheetOpen(false);
+      };
+    }, []),
+  );
 
   // Hero 데이터가 없는 경우 로딩 화면 표시 (초기 로딩 대기)
   if (!hero) {
