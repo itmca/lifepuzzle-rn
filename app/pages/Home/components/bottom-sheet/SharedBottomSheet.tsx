@@ -83,6 +83,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
       opened={visible}
       title={'공유된 이미지 업로드'}
       onClose={isGalleryUploading ? undefined : onClose}
+      paddingBottom={12}
     >
       <ContentContainer gap={24}>
         <ScrollContentContainer useHorizontalLayout gap={6}>
@@ -136,7 +137,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
           </ScrollContentContainer>
         </ContentContainer>
       </ContentContainer>
-      <ContentContainer paddingTop={28}>
+      <ContentContainer paddingTop={16}>
         <BasicButton
           onPress={() => {
             if (!uploadRequest.heroNo) {
