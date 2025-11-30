@@ -14,14 +14,12 @@ import {
   UIManager,
   View,
 } from 'react-native';
-import FastImage from '@d11/react-native-fast-image';
-
 import { FlashList } from '@shopify/flash-list';
 import logger from '../../../utils/logger';
 
 import { GalleryType, TagKey } from '../../../types/core/media.type';
 
-import { Caption, Head } from '../../../components/ui/base/TextBase';
+import { Head } from '../../../components/ui/base/TextBase';
 
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {
@@ -38,51 +36,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import Video from 'react-native-video';
 import VideoModal from '../../../components/ui/interaction/VideoModal';
-import { Color } from '../../../constants/color.constant';
-
-type GalleryThumbnailProps = {
-  galleryItem: GalleryType;
-  onPress: () => void;
-};
-
-const GalleryThumbnail = ({ galleryItem, onPress }: GalleryThumbnailProps) => {
-  const [loadFailed, setLoadFailed] = useState(false);
-
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        borderRadius: 12,
-        overflow: 'hidden',
-        marginHorizontal: 6,
-      }}
-    >
-      {loadFailed ? (
-        <View
-          style={{
-            width: '100%',
-            aspectRatio: 1,
-            backgroundColor: Color.GREY_900,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Caption color={Color.GREY_400}>이미지를 불러올 수 없어요</Caption>
-        </View>
-      ) : (
-        <FastImage
-          source={{ uri: galleryItem.url }}
-          style={{
-            width: '100%',
-            aspectRatio: 1,
-          }}
-          resizeMode={FastImage.resizeMode.cover}
-          onError={() => setLoadFailed(true)}
-        />
-      )}
-    </TouchableOpacity>
-  );
-};
+import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 
 const GalleryListPage = () => {
   // Refs
@@ -182,10 +136,22 @@ const GalleryListPage = () => {
     ({ item }: { item: any }) => {
       const galleryItem = item as GalleryType;
       return (
-        <GalleryThumbnail
-          galleryItem={galleryItem}
+        <TouchableOpacity
           onPress={() => moveToStoryDetailPage(galleryItem)}
-        />
+          style={{
+            borderRadius: 12,
+            overflow: 'hidden',
+            marginHorizontal: 6,
+          }}
+        >
+          <AdaptiveImage
+            uri={galleryItem.url}
+            style={{
+              width: '100%',
+              aspectRatio: 1,
+            }}
+          />
+        </TouchableOpacity>
       );
     },
     [moveToStoryDetailPage],
