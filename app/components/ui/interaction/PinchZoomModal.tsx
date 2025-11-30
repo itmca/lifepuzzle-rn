@@ -12,6 +12,7 @@ import { SvgIcon } from '../display/SvgIcon';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
 import { Color } from '../../../constants/color.constant';
+import { AdaptiveImage } from '../base/ImageBase';
 
 type Props = {
   opened?: boolean;
@@ -144,19 +145,20 @@ export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
               animatedStyle,
             ]}
           >
-            <FastImage
-              source={{
-                uri: imageUri,
-                priority: FastImage.priority.high,
-                cache: FastImage.cacheControl.immutable,
-              }}
+            <AdaptiveImage
+              uri={imageUri}
               style={{
                 width: '100%',
                 height: '100%',
                 backgroundColor: Color.GREY_700,
               }}
-              resizeMode={FastImage.resizeMode.contain}
+              resizeMode="contain"
               onLoad={handleImageLoad}
+              fallbackBackgroundColor={Color.GREY_700}
+              sourceOptions={{
+                priority: FastImage.priority.high,
+                cache: FastImage.cacheControl.immutable,
+              }}
             />
           </Animated.View>
         </GestureDetector>
