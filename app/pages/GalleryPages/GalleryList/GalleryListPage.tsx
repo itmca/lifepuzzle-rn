@@ -142,6 +142,7 @@ const GalleryListPage = () => {
             borderRadius: 12,
             overflow: 'hidden',
             marginHorizontal: 6,
+            marginBottom: 12,
           }}
         >
           <AdaptiveImage
