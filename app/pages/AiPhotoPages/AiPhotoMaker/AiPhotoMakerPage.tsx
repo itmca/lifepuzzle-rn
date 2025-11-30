@@ -7,7 +7,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
+import { Title } from '../../../components/ui/base/TextBase';
 import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { AiPhotoMakerButton } from './components/AiPhotoMakerButton';
 import SelectableAiPhotoTemplate from './components/SelectableAiPhotoTemplate';
@@ -18,7 +18,7 @@ import { useSelectionStore } from '../../../stores/selection.store';
 import { AiPhotoTemplate } from '../../../types/external/ai-photo.type';
 import { useAiPhotoTemplate } from '../../../service/gallery/ai-photo.query.hook.ts';
 import { useCreateAiPhoto } from '../../../service/gallery/ai-photo.create.hook.ts';
-import { SvgIcon } from '../../../components/ui/display/SvgIcon';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const AiPhotoMakerPage = (): React.ReactElement => {
   // Refs
@@ -43,6 +43,10 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   // Handlers
   const handleTemplateSelect = useCallback((item: AiPhotoTemplate) => {
     setSelectedTemplateId(item.id);
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    setIsMuted(prev => !prev);
   }, []);
 
   const onClickMake = () => {
@@ -90,17 +94,13 @@ const AiPhotoMakerPage = (): React.ReactElement => {
                   <ContentContainer
                     useHorizontalLayout
                     alignItems="center"
-                    gap={6}
                     backgroundColor="transparent"
                   >
-                    <SvgIcon
-                      name={isMuted ? 'volumeOff' : 'volumeOn'}
-                      size={20}
+                    <Icon
+                      name={isMuted ? 'volume-off' : 'volume-up'}
+                      size={24}
                       color={Color.GREY_900}
                     />
-                    <BodyTextM color={Color.GREY_900}>
-                      {isMuted ? '음소거' : '소리 켜짐'}
-                    </BodyTextM>
                   </ContentContainer>
                 </TouchableOpacity>
               </ContentContainer>
@@ -136,6 +136,3 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   );
 };
 export default AiPhotoMakerPage;
-const toggleMute = useCallback(() => {
-  setIsMuted(prev => !prev);
-}, []);
