@@ -178,8 +178,9 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
       opened={visible}
       title="사진/동영상 추가하기"
       onClose={isGalleryUploading ? () => {} : onClose}
+      paddingBottom={12}
     >
-      <ContentContainer gap={0} paddingBottom={32}>
+      <ContentContainer gap={0} paddingBottom={12}>
         {isGalleryUploading ? (
           <ContentContainer paddingVertical={40} alignCenter>
             <ContentContainer paddingBottom={8}>

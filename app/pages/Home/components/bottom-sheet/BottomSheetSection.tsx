@@ -53,6 +53,7 @@ const BottomSheetSection = ({
         opened={heroShareModalOpen}
         title={'공유하기'}
         onClose={onCloseHeroShareModal}
+        paddingBottom={12}
       >
         <ShareAuthList />
       </BottomSheet>
