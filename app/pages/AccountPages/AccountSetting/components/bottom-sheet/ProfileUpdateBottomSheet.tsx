@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer.tsx';
 import { AccountAvatar } from '../../../../../components/ui/display/Avatar';
 import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
@@ -30,34 +30,46 @@ export const ProfileUpdateBottomSheet = ({
 
   const currentUserPhotoUri = getCurrentUserPhotoUri();
 
-  const openAlbum = () => {
+  const openAlbum = useCallback(() => {
     navigation.navigate('App', {
       screen: 'AccountSettingNavigator',
       params: {
         screen: 'AccountProfileSelector',
       },
     });
-  };
+  }, [navigation]);
 
   const [updateProfile, isProfileUpdating] = useUserProfileUpdate({
     onSuccess: () => onSuccess && onSuccess(),
   });
 
-  const { showActionSheet } = useCommonActionSheet({
-    options: [
-      { label: '앨범에서 선택', value: 'gallery', onSelect: () => openAlbum() },
-      {
+  const handleRemoveProfilePhoto = useCallback(() => {
+    setWritingUser({
+      ...writingUser,
+      imageUrl: undefined,
+      modifiedImage: undefined,
+      isProfileImageUpdate: true,
+    });
+  }, [setWritingUser, writingUser]);
+
+  const actionSheetOptions = useMemo(() => {
+    const options = [
+      { label: '앨범에서 선택', value: 'gallery', onSelect: openAlbum },
+    ];
+
+    if (currentUserPhotoUri) {
+      options.push({
         label: '프로필 사진 삭제',
         value: 'delete',
-        onSelect: () =>
-          setWritingUser({
-            ...writingUser,
-            imageUrl: undefined,
-            modifiedImage: undefined,
-            isProfileImageUpdate: true,
-          }),
-      },
-    ],
+        onSelect: handleRemoveProfilePhoto,
+      });
+    }
+
+    return options;
+  }, [currentUserPhotoUri, handleRemoveProfilePhoto, openAlbum]);
+
+  const { showActionSheet } = useCommonActionSheet({
+    options: actionSheetOptions,
   });
 
   const snapPoints = useMemo(() => ['55%'], []);
