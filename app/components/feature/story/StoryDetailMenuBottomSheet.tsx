@@ -41,6 +41,7 @@ export const StoryDetailMenuBottomSheet = ({
   const isStory = type === 'story';
   const [deleteStory] = useDeleteStory({
     storyKey: gallery.story ? gallery.story.id : '',
+    galleryId: gallery.id,
   });
   const [deleteGallery] = useDeleteGallery({ galleryId: gallery.id });
 
