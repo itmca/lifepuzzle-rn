@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
@@ -7,7 +7,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import { Title } from '../../../components/ui/base/TextBase';
+import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
 import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { AiPhotoMakerButton } from './components/AiPhotoMakerButton';
 import SelectableAiPhotoTemplate from './components/SelectableAiPhotoTemplate';
@@ -18,6 +18,7 @@ import { useSelectionStore } from '../../../stores/selection.store';
 import { AiPhotoTemplate } from '../../../types/external/ai-photo.type';
 import { useAiPhotoTemplate } from '../../../service/gallery/ai-photo.query.hook.ts';
 import { useCreateAiPhoto } from '../../../service/gallery/ai-photo.create.hook.ts';
+import { SvgIcon } from '../../../components/ui/display/SvgIcon';
 
 const AiPhotoMakerPage = (): React.ReactElement => {
   // Refs
@@ -25,6 +26,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
 
   // React hooks
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(-1);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
 
   // 글로벌 상태 관리 (Zustand)
   const gallery = useMediaStore(state => state.gallery);
@@ -78,7 +80,30 @@ const AiPhotoMakerPage = (): React.ReactElement => {
               />
             </ContentContainer>
             <ContentContainer flex={1} expandToEnd>
-              <Title color={Color.GREY_900}>움직임을 선택해 주세요</Title>
+              <ContentContainer
+                useHorizontalLayout
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Title color={Color.GREY_900}>움직임을 선택해 주세요</Title>
+                <TouchableOpacity onPress={toggleMute} activeOpacity={0.7}>
+                  <ContentContainer
+                    useHorizontalLayout
+                    alignItems="center"
+                    gap={6}
+                    backgroundColor="transparent"
+                  >
+                    <SvgIcon
+                      name={isMuted ? 'volumeOff' : 'volumeOn'}
+                      size={20}
+                      color={Color.GREY_900}
+                    />
+                    <BodyTextM color={Color.GREY_900}>
+                      {isMuted ? '음소거' : '소리 켜짐'}
+                    </BodyTextM>
+                  </ContentContainer>
+                </TouchableOpacity>
+              </ContentContainer>
               <ScrollContentContainer
                 useHorizontalLayout
                 gap={6}
@@ -95,6 +120,7 @@ const AiPhotoMakerPage = (): React.ReactElement => {
                         selectedTemplateId !== -1 &&
                         item.id === selectedTemplateId
                       }
+                      muted={isMuted}
                     />
                   );
                 })}
@@ -110,3 +136,6 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   );
 };
 export default AiPhotoMakerPage;
+const toggleMute = useCallback(() => {
+  setIsMuted(prev => !prev);
+}, []);

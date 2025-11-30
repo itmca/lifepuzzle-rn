@@ -75,6 +75,8 @@ import PreviewPlay from '../assets/icons/preview_play.svg';
 import Folder32 from '../assets/icons/folder_32.svg';
 import Camera32 from '../assets/icons/camera_32.svg';
 import FacebookIcon from '../assets/icons/facebook_icon.svg';
+import VolumeOn from '../assets/icons/volume_on.svg';
+import VolumeOff from '../assets/icons/volume_off.svg';
 
 export const Svgs = {
   logo: Logo,
@@ -145,4 +147,6 @@ export const Svgs = {
   folder32: Folder32,
   camera32: Camera32,
   facebookIcon: FacebookIcon,
+  volumeOn: VolumeOn,
+  volumeOff: VolumeOff,
 } as const;

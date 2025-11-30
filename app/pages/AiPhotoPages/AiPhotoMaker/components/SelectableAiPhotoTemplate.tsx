@@ -14,6 +14,7 @@ type SelectableAiPhotoTemplateProps = {
   size: number;
   data: AiPhotoTemplate;
   selected: boolean;
+  muted: boolean;
 };
 
 const SelectableAiPhotoTemplate = ({
@@ -21,6 +22,7 @@ const SelectableAiPhotoTemplate = ({
   size,
   data,
   selected,
+  muted,
 }: SelectableAiPhotoTemplateProps): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
   const player = useRef<any>(null);
@@ -86,7 +88,7 @@ const SelectableAiPhotoTemplate = ({
           resizeMode={'contain'}
           fullscreen={false}
           controls={false}
-          muted={false}
+          muted={muted}
           repeat={false}
           playInBackground={false}
           playWhenInactive={false}
