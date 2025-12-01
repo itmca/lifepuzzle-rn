@@ -140,7 +140,7 @@ const MediaCarouselComponent = ({
       );
     },
     [
-      activeMediaIndexNo,
+      safeActiveIndex,
       carouselWidth,
       isPaginationShown,
       data.length,

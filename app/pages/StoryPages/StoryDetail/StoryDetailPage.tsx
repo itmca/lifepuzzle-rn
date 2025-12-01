@@ -45,12 +45,16 @@ const StoryDetailPage = (): React.ReactElement => {
 
   // 전체 갤러리 인덱스를 필터링된 갤러리 인덱스로 변환
   const filteredIndex = useMemo(() => {
-    const currentItem = allGallery[allGalleryIndex];
-    if (!currentItem || currentItem.tag?.key === 'AI_PHOTO') {
+    if (filteredGallery.length === 0) {
       return 0;
     }
-    const idx = filteredGallery.findIndex(item => item.id === currentItem.id);
-    return idx < 0 ? 0 : idx;
+    const currentItem = allGallery[allGalleryIndex];
+    const idx =
+      currentItem && currentItem.tag?.key !== 'AI_PHOTO'
+        ? filteredGallery.findIndex(item => item.id === currentItem.id)
+        : -1;
+    const safeIdx = idx < 0 ? 0 : idx;
+    return Math.min(safeIdx, filteredGallery.length - 1);
   }, [allGallery, filteredGallery, allGalleryIndex]);
 
   // Derived value or local variables
@@ -126,6 +130,36 @@ const StoryDetailPage = (): React.ReactElement => {
 
   useEffect(() => {
     if (filteredGallery.length === 0) {
+      return;
+    }
+
+    const currentItem = allGallery[allGalleryIndex];
+    const currentExists =
+      currentItem && currentItem.tag?.key !== 'AI_PHOTO'
+        ? filteredGallery.some(item => item.id === currentItem.id)
+        : false;
+
+    if (!currentExists || allGalleryIndex >= allGallery.length) {
+      const fallbackItem =
+        filteredGallery[Math.min(filteredIndex, filteredGallery.length - 1)] ??
+        filteredGallery[filteredGallery.length - 1];
+      const nextIndex = allGallery.findIndex(
+        item => item.id === fallbackItem.id,
+      );
+      if (nextIndex >= 0 && nextIndex !== allGalleryIndex) {
+        setAllGalleryIndex(nextIndex);
+      }
+    }
+  }, [
+    allGallery,
+    allGalleryIndex,
+    filteredGallery,
+    filteredIndex,
+    setAllGalleryIndex,
+  ]);
+
+  useEffect(() => {
+    if (filteredGallery.length === 0) {
       navigation.navigate('App', { screen: 'Home' });
     }
   }, [filteredGallery.length, navigation]);
@@ -136,12 +170,13 @@ const StoryDetailPage = (): React.ReactElement => {
           <ContentContainer paddingHorizontal={20} paddingTop={20}>
             {currentGalleryItem && (
               <Title color={Color.GREY_700}>
-                {`${currentGalleryItem.tag?.label ?? ''}(${currentGalleryItem.tag?.count ?? 0})`}
+                {`${currentGalleryItem.tag?.label ?? ''}(${filteredGallery.length})`}
               </Title>
             )}
           </ContentContainer>
           <ContentContainer>
             <MediaCarousel
+              key={`carousel-${filteredGallery.length}-${filteredGallery[0]?.id ?? 'empty'}`}
               data={carouselData}
               activeIndex={filteredIndex}
               carouselWidth={Dimensions.get('window').width}
