@@ -73,7 +73,13 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
     onResponseSuccess: () => {
       const mediaState = useMediaStore.getState();
       const allGalleryBefore = mediaState.gallery;
+      const filteredGalleryBefore = allGalleryBefore.filter(
+        item => item.tag?.key !== 'AI_PHOTO',
+      );
       const removedIndex = allGalleryBefore.findIndex(
+        item => item.id === galleryId,
+      );
+      const removedFilteredIndex = filteredGalleryBefore.findIndex(
         item => item.id === galleryId,
       );
 
@@ -88,18 +94,25 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
         return;
       }
 
-      const nextTarget =
-        updatedGallery.find(
-          (item, index) =>
-            index >= removedIndex && item.tag?.key !== 'AI_PHOTO',
-        ) ?? filteredGallery[filteredGallery.length - 1];
-
-      const nextIndex = updatedGallery.findIndex(
-        item => item.id === nextTarget.id,
-      );
-      if (nextIndex >= 0) {
-        selectionStore.setCurrentGalleryIndex(nextIndex);
+      // 필터링된 갤러리 기준으로 인덱스 계산
+      // 마지막 사진 삭제 시 이전 인덱스로, 그 외는 동일한 위치 유지
+      let targetFilteredIndex =
+        removedFilteredIndex >= 0
+          ? removedFilteredIndex
+          : filteredGallery.length - 1;
+      if (targetFilteredIndex >= filteredGallery.length) {
+        targetFilteredIndex = filteredGallery.length - 1;
       }
+      const targetItem = filteredGallery[targetFilteredIndex];
+      const nextIndex = updatedGallery.findIndex(
+        item => item.id === targetItem.id,
+      );
+      const clampedIndex =
+        nextIndex >= 0
+          ? nextIndex
+          : Math.max(Math.min(removedIndex, filteredGallery.length - 1), 0);
+
+      selectionStore.setCurrentGalleryIndex(clampedIndex);
 
       setOpenDetailBottomSheet(false);
     },
