@@ -92,7 +92,7 @@ async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   }
 }
 
-const GalleryDetailFilterPage = (): React.ReactElement => {
+const PhotoFilterPage = (): React.ReactElement => {
   // Refs
   const canvasRef = useCanvasRef();
 
@@ -360,4 +360,4 @@ const GalleryDetailFilterPage = (): React.ReactElement => {
   );
 };
 
-export default GalleryDetailFilterPage;
+export default PhotoFilterPage;

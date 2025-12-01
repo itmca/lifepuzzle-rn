@@ -8,8 +8,8 @@ import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySel
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
 import { TopBar } from '../../components/ui/navigation/TopBar';
-import GalleryDetail from '../../pages/GalleryPages/GalleryDetail/GalleryDetailPage.tsx';
-import GalleryDetailFilter from '../../pages/GalleryPages/GalleryDetailFilter/GalleryDetailFilterPage.tsx';
+import PhotoEditor from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
+import PhotoFilter from '../../pages/GalleryPages/PhotoFilter/PhotoFilterPage.tsx';
 import { useStoryStore } from '../../stores/story.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { STORY_WRITING_SCREENS } from '../screens.constant';
@@ -18,8 +18,8 @@ export type StoryWritingParamList = {
   [STORY_WRITING_SCREENS.STORY_WRITING_MAIN]: undefined;
   [STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR]: undefined;
   [STORY_WRITING_SCREENS.FACEBOOK_GALLERY_SELECTOR]: undefined;
-  [STORY_WRITING_SCREENS.GALLERY_DETAIL]: undefined;
-  [STORY_WRITING_SCREENS.GALLERY_DETAIL_FILTER]: undefined;
+  [STORY_WRITING_SCREENS.PHOTO_EDITOR]: undefined;
+  [STORY_WRITING_SCREENS.PHOTO_FILTER]: undefined;
 };
 
 const Stack = createNativeStackNavigator<StoryWritingParamList>();
@@ -83,8 +83,8 @@ const StoryWritingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name={STORY_WRITING_SCREENS.GALLERY_DETAIL}
-        component={GalleryDetail}
+        name={STORY_WRITING_SCREENS.PHOTO_EDITOR}
+        component={PhotoEditor}
         options={{
           header: () => (
             <TopBar
@@ -103,8 +103,8 @@ const StoryWritingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name={STORY_WRITING_SCREENS.GALLERY_DETAIL_FILTER}
-        component={GalleryDetailFilter}
+        name={STORY_WRITING_SCREENS.PHOTO_FILTER}
+        component={PhotoFilter}
         options={{
           header: () => <TopBar title={'사진 편집'} />,
         }}

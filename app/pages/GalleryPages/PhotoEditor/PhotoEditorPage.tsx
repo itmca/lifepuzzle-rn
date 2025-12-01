@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { Title } from '../../../components/ui/base/TextBase';
 
-const GalleryDetailPage = (): React.ReactElement => {
+const PhotoEditorPage = (): React.ReactElement => {
   // React hooks
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
 
@@ -99,7 +99,7 @@ const GalleryDetailPage = (): React.ReactElement => {
     navigation.navigate('App', {
       screen: 'StoryWritingNavigator',
       params: {
-        screen: 'GalleryDetailFilter',
+        screen: 'PhotoFilter',
       },
     });
   };
@@ -121,17 +121,14 @@ const GalleryDetailPage = (): React.ReactElement => {
             data={editGalleryItems.map((item, index) => ({
               type: 'IMAGE',
               url: item.node.image.uri,
-              index: index + 1,
+              index: index,
             }))}
             activeIndex={galleryIndex}
             carouselWidth={Dimensions.get('window').width}
             carouselMaxHeight={contentContainerHeight}
             onScroll={index => {
               setGalleryIndex(index % editGalleryItems.length);
-              //setGalleryIndex(index % gallery.length);
-              //setIsStory(gallery[index % gallery.length].story);
             }}
-            // onPress={openPinchZoomModal}
           />
         </ContentContainer>
         <ContentContainer
@@ -175,4 +172,4 @@ const GalleryDetailPage = (): React.ReactElement => {
     </LoadingContainer>
   );
 };
-export default GalleryDetailPage;
+export default PhotoEditorPage;
