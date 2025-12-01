@@ -113,7 +113,7 @@ export const useSaveStory = (): [() => void] => {
 
   useEffect(() => {
     setStoryUploading(isLoading);
-  }, [isLoading, setStoryUploading]);
+  }, [isLoading]);
 
   const submit = function () {
     if (!storyHttpPayLoad) {

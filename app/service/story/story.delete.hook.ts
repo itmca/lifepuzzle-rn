@@ -45,7 +45,7 @@ export const useDeleteStory = ({
 
   useEffect(() => {
     setStoryloading(isLoading);
-  }, [isLoading, setStoryloading]);
+  }, [isLoading]);
 
   const submit = function () {
     deleteStory({
@@ -113,7 +113,7 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
 
   useEffect(() => {
     setStoryloading(isLoading);
-  }, [isLoading, setStoryloading]);
+  }, [isLoading]);
 
   const submit = function () {
     deleteStory({
