@@ -20,14 +20,14 @@ export const ApiErrorFallback = ({
   retryText = '다시 시도',
 }: Props): React.ReactElement => {
   return (
-    <ScreenContainer>
+    <ScreenContainer edges={[]}>
       <ContentContainer
         flex={1}
-        /** TODO: alignCenter 속성을 주는 것과 justifyContent, alignItems 개별 속성을 center로 하는 것이 차이가 있어 확인 필요. */
         justifyContent="center"
         alignItems="center"
         gap={24}
         paddingHorizontal={20}
+        marginTop={-80}
       >
         <ContentContainer alignItems="center" gap={12}>
           <SvgIcon name="error" size={48} color={Color.GREY_400} />
