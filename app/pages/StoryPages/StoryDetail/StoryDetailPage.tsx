@@ -49,7 +49,8 @@ const StoryDetailPage = (): React.ReactElement => {
     if (!currentItem || currentItem.tag?.key === 'AI_PHOTO') {
       return 0;
     }
-    return filteredGallery.findIndex(item => item.id === currentItem.id);
+    const idx = filteredGallery.findIndex(item => item.id === currentItem.id);
+    return idx < 0 ? 0 : idx;
   }, [allGallery, filteredGallery, allGalleryIndex]);
 
   // Derived value or local variables
@@ -69,6 +70,10 @@ const StoryDetailPage = (): React.ReactElement => {
   // Custom functions
   const handleIndexChange = useCallback(
     (filteredIdx: number) => {
+      if (filteredGallery.length === 0) {
+        return;
+      }
+
       const selectedItem =
         filteredGallery[filteredIdx % filteredGallery.length];
       const originalIndex = allGallery.findIndex(
@@ -118,17 +123,22 @@ const StoryDetailPage = (): React.ReactElement => {
   useEffect(() => {
     setIsStory(!!currentGalleryItem?.story);
   }, [currentGalleryItem?.story]);
+
+  useEffect(() => {
+    if (filteredGallery.length === 0) {
+      navigation.navigate('App', { screen: 'Home' });
+    }
+  }, [filteredGallery.length, navigation]);
   return (
     <LoadingContainer isLoading={false}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ScrollContentContainer gap={0}>
           <ContentContainer paddingHorizontal={20} paddingTop={20}>
-            <Title color={Color.GREY_700}>
-              {currentGalleryItem?.tag?.label +
-                '(' +
-                currentGalleryItem?.tag?.count +
-                ')'}
-            </Title>
+            {currentGalleryItem && (
+              <Title color={Color.GREY_700}>
+                {`${currentGalleryItem.tag?.label ?? ''}(${currentGalleryItem.tag?.count ?? 0})`}
+              </Title>
+            )}
           </ContentContainer>
           <ContentContainer>
             <MediaCarousel
@@ -156,10 +166,12 @@ const StoryDetailPage = (): React.ReactElement => {
         </ScrollContentContainer>
       </ScreenContainer>
 
-      <StoryDetailMenuBottomSheet
-        type={isStory ? 'story' : 'photo'}
-        gallery={currentGalleryItem}
-      />
+      {currentGalleryItem && (
+        <StoryDetailMenuBottomSheet
+          type={isStory ? 'story' : 'photo'}
+          gallery={currentGalleryItem}
+        />
+      )}
       <PinchZoomModal
         opened={pinchZoomModalOpen}
         imageUri={pinchZoomImage}
