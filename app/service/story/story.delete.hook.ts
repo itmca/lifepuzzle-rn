@@ -2,8 +2,6 @@ import { useUIStore } from '../../stores/ui.store';
 import { useAuthAxios } from '../core/auth-http.hook';
 import { Alert } from 'react-native';
 import { useUpdatePublisher } from '../common/update.hook';
-import { useNavigation } from '@react-navigation/native';
-import { BasicNavigationProps } from '../../navigation/types';
 import { useEffect } from 'react';
 import { useMediaStore } from '../../stores/media.store';
 import { useSelectionStore } from '../../stores/selection.store';
@@ -19,11 +17,11 @@ export const useDeleteStory = ({
   storyKey,
   galleryId,
 }: Props): [() => void] => {
-  const navigation = useNavigation<BasicNavigationProps>();
   const setUploadState = useUIStore(state => state.setUploadState);
   const setStoryloading = (value: boolean) => setUploadState({ story: value });
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
   const { updateGalleryStory } = useMediaStore.getState();
+  const { setOpenDetailBottomSheet } = useUIStore.getState();
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
@@ -35,7 +33,7 @@ export const useDeleteStory = ({
         updateGalleryStory(galleryId, null);
       }
       publishStoryListUpdate();
-      navigation.goBack();
+      setOpenDetailBottomSheet(false);
     },
     onError: err => {
       Alert.alert('스토리 삭제를 실패했습니다. 재시도 부탁드립니다.');
@@ -62,10 +60,10 @@ export const useDeleteStory = ({
   ];
 };
 export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
-  const navigation = useNavigation<BasicNavigationProps>();
   const setUploadState = useUIStore(state => state.setUploadState);
   const setStoryloading = (value: boolean) => setUploadState({ story: value });
   const selectionStore = useSelectionStore.getState();
+  const { setOpenDetailBottomSheet } = useUIStore.getState();
 
   const [isLoading, deleteStory] = useAuthAxios<any>({
     requestOption: {
@@ -86,7 +84,7 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
       );
 
       if (filteredGallery.length === 0) {
-        navigation.navigate('App', { screen: 'Home' });
+        setOpenDetailBottomSheet(false);
         return;
       }
 
@@ -103,7 +101,7 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
         selectionStore.setCurrentGalleryIndex(nextIndex);
       }
 
-      navigation.goBack();
+      setOpenDetailBottomSheet(false);
     },
     onError: err => {
       Alert.alert('사진 삭제를 실패했습니다. 재시도 부탁드립니다.');
