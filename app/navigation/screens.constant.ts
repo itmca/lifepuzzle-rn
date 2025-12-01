@@ -61,8 +61,8 @@ export const STORY_WRITING_SCREENS = {
   STORY_WRITING_MAIN: 'StoryWritingMain',
   STORY_GALLERY_SELECTOR: 'StoryGallerySelector',
   FACEBOOK_GALLERY_SELECTOR: 'FacebookGallerySelector',
-  GALLERY_DETAIL: 'GalleryDetail',
-  GALLERY_DETAIL_FILTER: 'GalleryDetailFilter',
+  PHOTO_EDITOR: 'PhotoEditor',
+  PHOTO_FILTER: 'PhotoFilter',
 } as const;
 
 // StoryView Navigator Screens
