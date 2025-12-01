@@ -49,7 +49,8 @@ const StoryDetailPage = (): React.ReactElement => {
     if (!currentItem || currentItem.tag?.key === 'AI_PHOTO') {
       return 0;
     }
-    return filteredGallery.findIndex(item => item.id === currentItem.id);
+    const idx = filteredGallery.findIndex(item => item.id === currentItem.id);
+    return idx < 0 ? 0 : idx;
   }, [allGallery, filteredGallery, allGalleryIndex]);
 
   // Derived value or local variables

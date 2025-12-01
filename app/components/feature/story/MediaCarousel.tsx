@@ -43,11 +43,14 @@ const MediaCarouselComponent = ({
   drivingVideoId,
 }: Props): React.ReactElement => {
   // React hooks
-  const [activeMediaIndexNo] = useState<number>(activeIndex ?? 0);
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
+  const safeActiveIndex = Math.min(
+    Math.max(activeIndex ?? 0, 0),
+    Math.max(data.length - 1, 0),
+  );
 
   // Custom hooks
   const { submitWithErrorHandling: createAiPhoto } = useCreateAiPhoto({
@@ -114,7 +117,7 @@ const MediaCarouselComponent = ({
             <VideoPlayer
               videoUrl={mediaUrl}
               width={carouselWidth}
-              activeMediaIndexNo={activeMediaIndexNo}
+              activeMediaIndexNo={safeActiveIndex}
               setPaginationShown={setIsPaginationShown}
             />
           )}
@@ -175,7 +178,7 @@ const MediaCarouselComponent = ({
           parallaxAdjacentItemScale: 0.91,
           parallaxScrollingOffset: 25,
         }}
-        defaultIndex={activeMediaIndexNo}
+        defaultIndex={safeActiveIndex}
         renderItem={renderItem}
         onProgressChange={handleProgressChange}
       />
