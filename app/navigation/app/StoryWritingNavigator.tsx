@@ -4,12 +4,12 @@ import WritingHeaderRight from '../../components/ui/navigation/header/WritingHea
 import { useSaveStory } from '../../service/story/story.write.hook';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelectorPage.tsx';
+import PhotoEditor from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
+import PhotoFilter from '../../pages/GalleryPages/PhotoFilter/PhotoFilterPage.tsx';
 
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
 import { TopBar } from '../../components/ui/navigation/TopBar';
-import PhotoEditor from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
-import PhotoFilter from '../../pages/GalleryPages/PhotoFilter/PhotoFilterPage.tsx';
 import { useStoryStore } from '../../stores/story.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { STORY_WRITING_SCREENS } from '../screens.constant';
@@ -27,9 +27,18 @@ const Stack = createNativeStackNavigator<StoryWritingParamList>();
 const StoryWritingNavigator = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const selectedStoryKey = useStoryStore(state => state.selectedStoryKey);
+  const selectedGalleryItems = useSelectionStore(
+    state => state.selectedGalleryItems,
+  );
   const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
   const setSelectedGalleryItems = useSelectionStore(
     state => state.setSelectedGalleryItems,
+  );
+  const setEditGalleryItems = useSelectionStore(
+    state => state.setEditGalleryItems,
+  );
+  const setCurrentGalleryIndex = useSelectionStore(
+    state => state.setCurrentGalleryIndex,
   );
 
   // Custom hooks
@@ -59,21 +68,23 @@ const StoryWritingNavigator = (): React.ReactElement => {
       <Stack.Screen
         name={STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR}
         component={StorySelectingGallery}
-        options={{
+        options={({ navigation }) => ({
           header: () => (
             <TopBar
               title={'사진/비디오'}
               right={
                 <WritingHeaderRight
-                  text={'업로드'}
+                  text={'다음'}
                   customAction={() => {
-                    uploadGallery();
+                    setCurrentGalleryIndex(0);
+                    setEditGalleryItems([...selectedGalleryItems]);
+                    navigation.navigate(STORY_WRITING_SCREENS.PHOTO_EDITOR);
                   }}
                 />
               }
             />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name={STORY_WRITING_SCREENS.FACEBOOK_GALLERY_SELECTOR}

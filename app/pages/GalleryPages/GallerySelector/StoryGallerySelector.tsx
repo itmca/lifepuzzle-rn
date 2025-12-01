@@ -4,9 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 
-import { TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
 import {
@@ -14,19 +11,11 @@ import {
   PhotoSelectorConfig,
 } from '../../../types/ui/photo-selector.type';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { Color } from '../../../constants/color.constant.ts';
 import { useUIStore } from '../../../stores/ui.store';
 
 const StoryGallerySelector = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const {
-    currentGalleryIndex: galleryIndex,
-    selectedGalleryItems,
-    editGalleryItems,
-    setCurrentGalleryIndex: setGalleryIndex,
-    setSelectedGalleryItems,
-    setEditGalleryItems,
-  } = useSelectionStore();
+  const { selectedGalleryItems, setSelectedGalleryItems } = useSelectionStore();
   const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
 
   const config: PhotoSelectorConfig = {
@@ -36,7 +25,7 @@ const StoryGallerySelector = (): React.ReactElement => {
     loadMoreCount: 50,
     assetType: 'All',
     showOrderNumbers: true,
-    showCropButton: true,
+    showCropButton: false,
   };
 
   const callbacks: PhotoSelectorCallbacks = {
@@ -50,21 +39,10 @@ const StoryGallerySelector = (): React.ReactElement => {
     },
   };
 
-  const handleNavigateToPhotoEditor = () => {
-    setGalleryIndex(0);
-    setEditGalleryItems([...selectedGalleryItems]);
-    navigation.navigate('App', {
-      screen: 'StoryWritingNavigator',
-      params: {
-        screen: 'PhotoEditor',
-      },
-    });
-  };
-
   // Clear selection on mount
   React.useEffect(() => {
     setSelectedGalleryItems([]);
-  }, []);
+  }, [setSelectedGalleryItems]);
 
   const state = {
     selectedPhotos: selectedGalleryItems,
@@ -76,33 +54,11 @@ const StoryGallerySelector = (): React.ReactElement => {
       <CommonPhotoSelector
         config={{
           ...config,
-          showConfirmButton: false, // We use custom navigation instead
+          showConfirmButton: false,
         }}
         callbacks={callbacks}
         state={state}
       />
-
-      {/* Custom navigation button */}
-      {selectedGalleryItems.length > 0 ? (
-        <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: Color.MAIN_DARK,
-            borderRadius: 50,
-            width: 50,
-            height: 50,
-            position: 'absolute',
-            bottom: 25,
-            right: 25,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: Color.WHITE,
-          }}
-          onPress={handleNavigateToPhotoEditor}
-        >
-          <Icon name="magic" size={25} color={Color.MAIN_DARK} />
-        </TouchableOpacity>
-      ) : null}
     </LoadingContainer>
   );
 };
