@@ -50,13 +50,13 @@ const StoryGallerySelector = (): React.ReactElement => {
     },
   };
 
-  const handleNavigateToGalleryDetail = () => {
+  const handleNavigateToPhotoEditor = () => {
     setGalleryIndex(0);
     setEditGalleryItems([...selectedGalleryItems]);
     navigation.navigate('App', {
       screen: 'StoryWritingNavigator',
       params: {
-        screen: 'GalleryDetail',
+        screen: 'PhotoEditor',
       },
     });
   };
@@ -98,7 +98,7 @@ const StoryGallerySelector = (): React.ReactElement => {
             justifyContent: 'center',
             backgroundColor: Color.WHITE,
           }}
-          onPress={handleNavigateToGalleryDetail}
+          onPress={handleNavigateToPhotoEditor}
         >
           <Icon name="magic" size={25} color={Color.MAIN_DARK} />
         </TouchableOpacity>
