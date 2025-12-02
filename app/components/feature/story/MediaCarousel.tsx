@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
 import { AdaptiveImage } from '../../ui/base/ImageBase';
 import { VideoPlayer } from './StoryVideoPlayer';
@@ -129,20 +129,12 @@ const MediaCarouselComponent = ({
               style={{ flex: 1 }}
               activeOpacity={0.9}
             >
-              <View
-                style={{
-                  flex: 1,
-                  borderRadius: 16,
-                  overflow: 'hidden',
-                  backgroundColor: Color.BLACK,
-                }}
-              >
-                <AdaptiveImage
-                  uri={mediaUrl}
-                  resizeMode="contain"
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </View>
+              <AdaptiveImage
+                uri={mediaUrl}
+                resizeMode="contain"
+                borderRadius={16}
+                style={{ width: '100%', height: '100%' }}
+              />
             </TouchableOpacity>
           )}
           {showPagination && (
