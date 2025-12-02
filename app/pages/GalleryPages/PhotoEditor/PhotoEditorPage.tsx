@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 
 import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
+import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
 import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import { Color } from '../../../constants/color.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
+import { useUIStore } from '../../../stores/ui.store';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
@@ -27,6 +29,7 @@ const PhotoEditorPage = (): React.ReactElement => {
     currentGalleryIndex: galleryIndex,
     setCurrentGalleryIndex: setGalleryIndex,
   } = useSelectionStore();
+  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -114,8 +117,26 @@ const PhotoEditorPage = (): React.ReactElement => {
     // logger.debug('ContentContainer Height:', height);
     setContentContainerHeight(height);
   };
+
+  const handleScroll = useCallback(
+    (index: number) => {
+      logger.debug(
+        'PhotoEditor onScroll called:',
+        index,
+        'current:',
+        galleryIndex,
+      );
+      setGalleryIndex(index % editGalleryItems.length);
+    },
+    [editGalleryItems.length, setGalleryIndex, galleryIndex],
+  );
+
+  useEffect(() => {
+    logger.debug('PhotoEditor galleryIndex changed to:', galleryIndex);
+  }, [galleryIndex]);
+
   return (
-    <LoadingContainer isLoading={false}>
+    <LoadingContainer isLoading={isGalleryUploading}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ContentContainer
           flex={1}
@@ -125,17 +146,33 @@ const PhotoEditorPage = (): React.ReactElement => {
         >
           <MediaCarousel
             data={editGalleryItems.map((item, index) => ({
-              type: 'IMAGE',
+              type:
+                item.node.image.playableDuration &&
+                item.node.image.playableDuration > 0
+                  ? 'VIDEO'
+                  : 'IMAGE',
               url: item.node.image.uri,
               index: index,
             }))}
             activeIndex={galleryIndex}
             carouselWidth={Dimensions.get('window').width}
             carouselMaxHeight={contentContainerHeight}
-            onScroll={index => {
-              setGalleryIndex(index % editGalleryItems.length);
-            }}
+            onScroll={handleScroll}
             showAiPhotoButton={false}
+            showPagination={false}
+          />
+        </ContentContainer>
+        <ContentContainer
+          height={48}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <MediaCarouselPagination
+            key={`pagination-${galleryIndex}`}
+            visible={true}
+            activeMediaIndexNo={galleryIndex}
+            mediaCount={editGalleryItems.length}
+            containerStyle={{ position: 'relative', top: 0, left: 0 }}
           />
         </ContentContainer>
         <ContentContainer
