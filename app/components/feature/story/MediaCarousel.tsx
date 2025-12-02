@@ -126,12 +126,13 @@ const MediaCarouselComponent = ({
               onPress={() => {
                 onPress && onPress(mediaUrl);
               }}
+              style={{
+                flex: 1,
+                borderRadius: 16,
+                overflow: 'hidden',
+              }}
             >
-              <AdaptiveImage
-                uri={mediaUrl}
-                resizeMode="contain"
-                borderRadius={16}
-              />
+              <AdaptiveImage uri={mediaUrl} resizeMode="cover" />
             </TouchableOpacity>
           )}
           {showPagination && (

@@ -165,7 +165,15 @@ const PhotoEditorPage = (): React.ReactElement => {
             showPagination={false}
           />
         </ContentContainer>
-        <Divider />
+        <ContentContainer paddingHorizontal={16}>
+          <Divider
+            style={{
+              height: 2,
+              marginTop: 8,
+              marginBottom: 8,
+            }}
+          />
+        </ContentContainer>
         <ContentContainer
           height={48}
           alignItems="center"
