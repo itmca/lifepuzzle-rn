@@ -4,10 +4,11 @@ import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
-import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
+import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
 import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
 import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { Divider } from '../../../components/ui/base/Divider';
 
 import { Color } from '../../../constants/color.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
@@ -142,9 +143,11 @@ const PhotoEditorPage = (): React.ReactElement => {
           flex={1}
           alignItems="center"
           justifyContent="center"
+          paddingHorizontal={16}
+          paddingVertical={16}
           onLayout={onContentContainerLayout}
         >
-          <MediaCarousel
+          <PhotoEditorMediaCarousel
             data={editGalleryItems.map((item, index) => ({
               type:
                 item.node.image.playableDuration &&
@@ -155,11 +158,18 @@ const PhotoEditorPage = (): React.ReactElement => {
               index: index,
             }))}
             activeIndex={galleryIndex}
-            carouselWidth={Dimensions.get('window').width}
-            carouselMaxHeight={contentContainerHeight}
+            carouselWidth={Dimensions.get('window').width - 32}
+            carouselMaxHeight={contentContainerHeight - 32}
             onScroll={handleScroll}
-            showAiPhotoButton={false}
-            showPagination={false}
+          />
+        </ContentContainer>
+        <ContentContainer paddingHorizontal={16}>
+          <Divider
+            style={{
+              height: 2,
+              marginTop: 8,
+              marginBottom: 8,
+            }}
           />
         </ContentContainer>
         <ContentContainer
@@ -176,10 +186,11 @@ const PhotoEditorPage = (): React.ReactElement => {
           />
         </ContentContainer>
         <ContentContainer
-          height={60}
+          height={80}
           useHorizontalLayout
           withBorder
           withContentPadding
+          gap={8}
           style={{
             alignItems: 'center',
             justifyContent: 'space-evenly',
@@ -195,11 +206,11 @@ const PhotoEditorPage = (): React.ReactElement => {
             onPress={onCrop}
             disabled={isCurrentItemVideo}
           >
-            <ContentContainer useHorizontalLayout justifyContent={'center'}>
+            <ContentContainer alignItems={'center'} gap={4}>
               <Icon
                 name="crop"
-                size={20}
-                color={isCurrentItemVideo ? Color.GREY_300 : 'black'}
+                size={24}
+                color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}
               />
               <Title color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}>
                 자르기
@@ -216,11 +227,11 @@ const PhotoEditorPage = (): React.ReactElement => {
             onPress={onFilter}
             disabled={isCurrentItemVideo}
           >
-            <ContentContainer useHorizontalLayout justifyContent={'center'}>
+            <ContentContainer alignItems={'center'} gap={4}>
               <Icon
                 name="layers"
-                size={20}
-                color={isCurrentItemVideo ? Color.GREY_300 : 'black'}
+                size={24}
+                color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}
               />
               <Title color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}>
                 필터
