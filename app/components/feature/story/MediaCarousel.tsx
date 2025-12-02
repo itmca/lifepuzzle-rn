@@ -171,6 +171,16 @@ const MediaCarouselComponent = ({
     [onScroll],
   );
 
+  // 스냅 완료 시 호출되는 핸들러
+  const handleSnapToItem = useCallback(
+    (index: number) => {
+      if (onScroll) {
+        onScroll(index);
+      }
+    },
+    [onScroll],
+  );
+
   return (
     <>
       <Carousel
@@ -189,6 +199,7 @@ const MediaCarouselComponent = ({
         defaultIndex={safeActiveIndex}
         renderItem={renderItem}
         onProgressChange={handleProgressChange}
+        onSnapToItem={handleSnapToItem}
       />
     </>
   );

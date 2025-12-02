@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 
 import logger from '../../../utils/logger';
@@ -120,10 +120,20 @@ const PhotoEditorPage = (): React.ReactElement => {
 
   const handleScroll = useCallback(
     (index: number) => {
+      logger.debug(
+        'PhotoEditor onScroll called:',
+        index,
+        'current:',
+        galleryIndex,
+      );
       setGalleryIndex(index % editGalleryItems.length);
     },
-    [editGalleryItems.length, setGalleryIndex],
+    [editGalleryItems.length, setGalleryIndex, galleryIndex],
   );
+
+  useEffect(() => {
+    logger.debug('PhotoEditor galleryIndex changed to:', galleryIndex);
+  }, [galleryIndex]);
 
   return (
     <LoadingContainer isLoading={isGalleryUploading}>
