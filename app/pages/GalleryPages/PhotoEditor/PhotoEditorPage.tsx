@@ -135,6 +135,7 @@ const PhotoEditorPage = (): React.ReactElement => {
             onScroll={index => {
               setGalleryIndex(index % editGalleryItems.length);
             }}
+            showAiPhotoButton={false}
           />
         </ContentContainer>
         <ContentContainer
