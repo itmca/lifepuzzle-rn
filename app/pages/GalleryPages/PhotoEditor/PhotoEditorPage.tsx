@@ -31,6 +31,12 @@ const PhotoEditorPage = (): React.ReactElement => {
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
 
+  // Memoized values
+  const currentItem = editGalleryItems[galleryIndex];
+  const isCurrentItemVideo =
+    currentItem?.node?.image?.playableDuration &&
+    currentItem.node.image.playableDuration > 0;
+
   const onCrop = async () => {
     const image = editGalleryItems.find((e, idx) => idx === galleryIndex);
 
@@ -129,6 +135,7 @@ const PhotoEditorPage = (): React.ReactElement => {
             onScroll={index => {
               setGalleryIndex(index % editGalleryItems.length);
             }}
+            showAiPhotoButton={false}
           />
         </ContentContainer>
         <ContentContainer
@@ -146,12 +153,20 @@ const PhotoEditorPage = (): React.ReactElement => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
+              opacity: isCurrentItemVideo ? 0.3 : 1,
             }}
             onPress={onCrop}
+            disabled={isCurrentItemVideo}
           >
             <ContentContainer useHorizontalLayout justifyContent={'center'}>
-              <Icon name="crop" size={20} color={'black'} />
-              <Title>자르기</Title>
+              <Icon
+                name="crop"
+                size={20}
+                color={isCurrentItemVideo ? Color.GREY_300 : 'black'}
+              />
+              <Title color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}>
+                자르기
+              </Title>
             </ContentContainer>
           </TouchableOpacity>
           <TouchableOpacity
@@ -159,12 +174,20 @@ const PhotoEditorPage = (): React.ReactElement => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
+              opacity: isCurrentItemVideo ? 0.3 : 1,
             }}
             onPress={onFilter}
+            disabled={isCurrentItemVideo}
           >
             <ContentContainer useHorizontalLayout justifyContent={'center'}>
-              <Icon name="layers" size={20} color={'black'} />
-              <Title>필터</Title>
+              <Icon
+                name="layers"
+                size={20}
+                color={isCurrentItemVideo ? Color.GREY_300 : 'black'}
+              />
+              <Title color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}>
+                필터
+              </Title>
             </ContentContainer>
           </TouchableOpacity>
         </ContentContainer>

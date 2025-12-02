@@ -22,6 +22,7 @@ type Props = {
   heroNo?: number;
   galleryId?: number;
   drivingVideoId?: number;
+  showAiPhotoButton?: boolean;
 };
 
 type MediaItem = {
@@ -41,6 +42,7 @@ const MediaCarouselComponent = ({
   heroNo,
   galleryId,
   drivingVideoId,
+  showAiPhotoButton = true,
 }: Props): React.ReactElement => {
   // React hooks
   const [isPaginationShown, setIsPaginationShown] = useState<boolean>(true);
@@ -135,7 +137,7 @@ const MediaCarouselComponent = ({
             activeMediaIndexNo={index}
             mediaCount={data.length}
           />
-          <AiPhotoButton onPress={handleAiPhotoPress} />
+          {showAiPhotoButton && <AiPhotoButton onPress={handleAiPhotoPress} />}
         </ContentContainer>
       );
     },
@@ -146,6 +148,7 @@ const MediaCarouselComponent = ({
       data.length,
       onPress,
       handleAiPhotoPress,
+      showAiPhotoButton,
     ],
   );
 
@@ -200,7 +203,8 @@ export const MediaCarousel = React.memo(
       prevProps.onPress === nextProps.onPress &&
       prevProps.heroNo === nextProps.heroNo &&
       prevProps.galleryId === nextProps.galleryId &&
-      prevProps.drivingVideoId === nextProps.drivingVideoId
+      prevProps.drivingVideoId === nextProps.drivingVideoId &&
+      prevProps.showAiPhotoButton === nextProps.showAiPhotoButton
     );
   },
 );

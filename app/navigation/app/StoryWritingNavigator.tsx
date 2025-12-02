@@ -43,7 +43,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
 
   // Custom hooks
   const [saveStory] = useSaveStory();
-  const [uploadGallery] = useUploadGalleryV2();
+  const [uploadGallery, isUploading] = useUploadGalleryV2();
   return (
     <Stack.Navigator
       screenOptions={{ headerShadowVisible: false, headerTitleAlign: 'center' }}
@@ -103,6 +103,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
               right={
                 <WritingHeaderRight
                   text={'업로드'}
+                  disable={isUploading}
                   customAction={() => {
                     setSelectedGalleryItems([...editGalleryItems]);
                     uploadGallery();
