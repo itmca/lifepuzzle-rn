@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Dimensions, Image, TouchableOpacity } from 'react-native';
 
 import logger from '../../../utils/logger';
@@ -117,6 +117,14 @@ const PhotoEditorPage = (): React.ReactElement => {
     // logger.debug('ContentContainer Height:', height);
     setContentContainerHeight(height);
   };
+
+  const handleScroll = useCallback(
+    (index: number) => {
+      setGalleryIndex(index % editGalleryItems.length);
+    },
+    [editGalleryItems.length, setGalleryIndex],
+  );
+
   return (
     <LoadingContainer isLoading={isGalleryUploading}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
@@ -128,16 +136,18 @@ const PhotoEditorPage = (): React.ReactElement => {
         >
           <MediaCarousel
             data={editGalleryItems.map((item, index) => ({
-              type: 'IMAGE',
+              type:
+                item.node.image.playableDuration &&
+                item.node.image.playableDuration > 0
+                  ? 'VIDEO'
+                  : 'IMAGE',
               url: item.node.image.uri,
               index: index,
             }))}
             activeIndex={galleryIndex}
             carouselWidth={Dimensions.get('window').width}
             carouselMaxHeight={contentContainerHeight}
-            onScroll={index => {
-              setGalleryIndex(index % editGalleryItems.length);
-            }}
+            onScroll={handleScroll}
             showAiPhotoButton={false}
             showPagination={false}
           />
@@ -148,6 +158,7 @@ const PhotoEditorPage = (): React.ReactElement => {
           justifyContent="center"
         >
           <MediaCarouselPagination
+            key={`pagination-${galleryIndex}`}
             visible={true}
             activeMediaIndexNo={galleryIndex}
             mediaCount={editGalleryItems.length}
