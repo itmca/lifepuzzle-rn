@@ -4,7 +4,7 @@ import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
-import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
+import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
 import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
 import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -147,7 +147,7 @@ const PhotoEditorPage = (): React.ReactElement => {
           paddingVertical={16}
           onLayout={onContentContainerLayout}
         >
-          <MediaCarousel
+          <PhotoEditorMediaCarousel
             data={editGalleryItems.map((item, index) => ({
               type:
                 item.node.image.playableDuration &&
@@ -161,8 +161,6 @@ const PhotoEditorPage = (): React.ReactElement => {
             carouselWidth={Dimensions.get('window').width - 32}
             carouselMaxHeight={contentContainerHeight - 32}
             onScroll={handleScroll}
-            showAiPhotoButton={false}
-            showPagination={false}
           />
         </ContentContainer>
         <ContentContainer paddingHorizontal={16}>
