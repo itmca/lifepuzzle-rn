@@ -115,7 +115,8 @@ const MediaCarouselComponent = ({
         <ContentContainer
           flex={1}
           backgroundColor={Color.GREY_700}
-          borderRadius={6}
+          borderRadius={16}
+          overflow="hidden"
         >
           {type === 'VIDEO' && (
             <VideoPlayer
