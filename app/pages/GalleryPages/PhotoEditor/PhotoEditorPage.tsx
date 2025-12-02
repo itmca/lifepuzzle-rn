@@ -5,12 +5,14 @@ import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
+import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
 import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import { Color } from '../../../constants/color.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
+import { useUIStore } from '../../../stores/ui.store';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
@@ -27,6 +29,7 @@ const PhotoEditorPage = (): React.ReactElement => {
     currentGalleryIndex: galleryIndex,
     setCurrentGalleryIndex: setGalleryIndex,
   } = useSelectionStore();
+  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -115,7 +118,7 @@ const PhotoEditorPage = (): React.ReactElement => {
     setContentContainerHeight(height);
   };
   return (
-    <LoadingContainer isLoading={false}>
+    <LoadingContainer isLoading={isGalleryUploading}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ContentContainer
           flex={1}
@@ -136,6 +139,19 @@ const PhotoEditorPage = (): React.ReactElement => {
               setGalleryIndex(index % editGalleryItems.length);
             }}
             showAiPhotoButton={false}
+            showPagination={false}
+          />
+        </ContentContainer>
+        <ContentContainer
+          height={48}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <MediaCarouselPagination
+            visible={true}
+            activeMediaIndexNo={galleryIndex}
+            mediaCount={editGalleryItems.length}
+            containerStyle={{ position: 'relative', top: 0, left: 0 }}
           />
         </ContentContainer>
         <ContentContainer
