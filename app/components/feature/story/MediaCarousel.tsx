@@ -112,12 +112,7 @@ const MediaCarouselComponent = ({
       const index = item.index ?? -1;
 
       return (
-        <ContentContainer
-          flex={1}
-          backgroundColor={Color.GREY_700}
-          borderRadius={16}
-          overflow="hidden"
-        >
+        <ContentContainer flex={1} borderRadius={16} overflow="hidden">
           {type === 'VIDEO' && (
             <VideoPlayer
               videoUrl={mediaUrl}
@@ -132,7 +127,11 @@ const MediaCarouselComponent = ({
                 onPress && onPress(mediaUrl);
               }}
             >
-              <AdaptiveImage uri={mediaUrl} resizeMode="contain" />
+              <AdaptiveImage
+                uri={mediaUrl}
+                resizeMode="contain"
+                borderRadius={16}
+              />
             </TouchableOpacity>
           )}
           {showPagination && (

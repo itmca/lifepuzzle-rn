@@ -8,6 +8,7 @@ import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.t
 import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
 import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { Divider } from '../../../components/ui/base/Divider';
 
 import { Color } from '../../../constants/color.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
@@ -164,6 +165,7 @@ const PhotoEditorPage = (): React.ReactElement => {
             showPagination={false}
           />
         </ContentContainer>
+        <Divider />
         <ContentContainer
           height={48}
           alignItems="center"
