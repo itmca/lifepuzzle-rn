@@ -18,6 +18,7 @@ type MediaItem = {
   type: string;
   url: string;
   index?: number;
+  width?: number;
   height?: number;
 };
 
@@ -72,22 +73,49 @@ const PhotoEditorMediaCarouselComponent = ({
     prevDataRef.current = data;
   }, [data, isLocalAssetUri]);
 
-  const renderItem = useCallback(({ item }: { item: MediaItem }) => {
-    const mediaUrl = item.url;
+  const renderItem = useCallback(
+    ({ item }: { item: MediaItem }) => {
+      const mediaUrl = item.url;
 
-    return (
-      <ContentContainer flex={1} alignItems="center" justifyContent="center">
-        <ContentContainer width="100%" borderRadius={16} showOverflow={false}>
-          <AdaptiveImage
-            uri={mediaUrl}
-            style={styles.image}
-            resizeMode="cover"
-            borderRadius={16}
-          />
+      // 이미지 실제 표시 크기 계산
+      let displayWidth = carouselWidth;
+      let displayHeight = resolvedCarouselHeight;
+
+      if (item.width && item.height) {
+        const aspectRatio = item.width / item.height;
+        const containerAspectRatio = carouselWidth / resolvedCarouselHeight;
+
+        if (aspectRatio > containerAspectRatio) {
+          // 가로가 더 긴 이미지 - width를 기준으로 맞춤
+          displayWidth = carouselWidth;
+          displayHeight = carouselWidth / aspectRatio;
+        } else {
+          // 세로가 더 긴 이미지 - height를 기준으로 맞춤
+          displayHeight = resolvedCarouselHeight;
+          displayWidth = resolvedCarouselHeight * aspectRatio;
+        }
+      }
+
+      return (
+        <ContentContainer flex={1} alignItems="center" justifyContent="center">
+          <ContentContainer
+            width={displayWidth}
+            height={displayHeight}
+            borderRadius={8}
+            showOverflow={false}
+          >
+            <AdaptiveImage
+              uri={mediaUrl}
+              style={styles.image}
+              resizeMode="contain"
+              borderRadius={0}
+            />
+          </ContentContainer>
         </ContentContainer>
-      </ContentContainer>
-    );
-  }, []);
+      );
+    },
+    [carouselWidth, resolvedCarouselHeight],
+  );
 
   // 쓰로틀된 onScroll 핸들러 (100ms)
   const handleProgressChange = useCallback(
@@ -141,7 +169,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    borderRadius: 16,
     backgroundColor: 'transparent',
   },
 });
