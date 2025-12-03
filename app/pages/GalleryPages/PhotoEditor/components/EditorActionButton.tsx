@@ -19,32 +19,34 @@ export const EditorActionButton = ({
   disabled,
   onPress,
 }: EditorActionButtonProps): React.ReactElement => {
-  const contentColor = disabled ? Color.GREY_300 : Color.WHITE;
+  const iconColor = disabled ? Color.GREY_400 : Color.BLACK;
+  const textColor = disabled ? Color.GREY_400 : Color.BLACK;
 
   return (
     <TouchableOpacity
       style={{
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: disabled ? 0.3 : 1,
+        opacity: disabled ? 0.5 : 1,
       }}
       onPress={onPress}
       disabled={disabled}
     >
       <ContentContainer
+        useHorizontalLayout
         justifyContent={'center'}
         alignItems={'center'}
-        gap={4}
+        gap={12}
         withBorder
-        backgroundColor={Color.GREY_800}
-        paddingHorizontal={8}
-        paddingVertical={8}
-        width={80}
-        height={64}
+        backgroundColor={Color.WHITE}
+        paddingHorizontal={20}
+        paddingVertical={14}
+        width={168}
+        height={62}
         borderRadius={16}
       >
-        <Icon name={icon} size={20} color={contentColor} />
-        <BodyTextB color={contentColor}>{label}</BodyTextB>
+        <Icon name={icon} size={20} color={iconColor} />
+        <BodyTextB color={textColor}>{label}</BodyTextB>
       </ContentContainer>
     </TouchableOpacity>
   );

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
 import Carousel from 'react-native-reanimated-carousel';
 
@@ -98,11 +98,18 @@ const PhotoEditorMediaCarouselComponent = ({
 
       return (
         <ContentContainer flex={1} alignItems="center" justifyContent="center">
-          <ContentContainer
-            width={displayWidth}
-            height={displayHeight}
-            borderRadius={8}
-            showOverflow={false}
+          <View
+            style={{
+              width: displayWidth,
+              height: displayHeight,
+              borderRadius: 8,
+              overflow: 'hidden',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 8,
+              elevation: 3,
+            }}
           >
             <AdaptiveImage
               uri={mediaUrl}
@@ -110,7 +117,7 @@ const PhotoEditorMediaCarouselComponent = ({
               resizeMode="contain"
               borderRadius={0}
             />
-          </ContentContainer>
+          </View>
         </ContentContainer>
       );
     },

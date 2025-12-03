@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Dimensions, Image } from 'react-native';
+import { Dimensions, Image, Platform } from 'react-native';
 
 import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
@@ -23,7 +23,7 @@ const PhotoEditorPage = (): React.ReactElement => {
   const [imageDimensions, setImageDimensions] = useState<
     { width: number; height: number }[]
   >([]);
-  const MAX_CAROUSEL_HEIGHT = 400;
+  const MAX_CAROUSEL_HEIGHT = 480;
   const CAROUSEL_WIDTH = Dimensions.get('window').width - 32;
 
   // 글로벌 상태 관리 (Zustand)
@@ -197,43 +197,58 @@ const PhotoEditorPage = (): React.ReactElement => {
     <LoadingContainer isLoading={isGalleryUploading}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ContentContainer
-          flex={0.9}
+          flex={1}
           alignItems="center"
           justifyContent="center"
-          paddingHorizontal={16}
           paddingVertical={10}
           onLayout={onContentContainerLayout}
         >
-          <PhotoEditorMediaCarousel
-            data={editGalleryItems.map((item, index) => ({
-              type:
-                item.node.image.playableDuration &&
-                item.node.image.playableDuration > 0
-                  ? 'VIDEO'
-                  : 'IMAGE',
-              url: item.node.image.uri,
-              index: index,
-              width: imageDimensions[index]?.width,
-              height: imageDimensions[index]?.height,
-            }))}
-            activeIndex={galleryIndex}
-            carouselWidth={CAROUSEL_WIDTH}
-            carouselMaxHeight={Math.min(
-              Math.max(contentContainerHeight - 32, 0),
-              optimalCarouselHeight,
-            )}
-            onScroll={handleScroll}
-          />
           <ContentContainer
-            useHorizontalLayout
-            paddingHorizontal={16}
-            alignItems={'flex-start'}
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
+            paddingTop={24}
           >
+            <PhotoEditorMediaCarousel
+              data={editGalleryItems.map((item, index) => ({
+                type:
+                  item.node.image.playableDuration &&
+                  item.node.image.playableDuration > 0
+                    ? 'VIDEO'
+                    : 'IMAGE',
+                url: item.node.image.uri,
+                index: index,
+                width: imageDimensions[index]?.width,
+                height: imageDimensions[index]?.height,
+              }))}
+              activeIndex={galleryIndex}
+              carouselWidth={CAROUSEL_WIDTH}
+              carouselMaxHeight={Math.min(
+                Math.max(contentContainerHeight - 32, 0),
+                optimalCarouselHeight,
+              )}
+              onScroll={handleScroll}
+            />
+          </ContentContainer>
+          <ContentContainer
+            alignItems="center"
+            paddingBottom={Platform.OS === 'android' ? 56 : 40}
+            gap={16}
+          >
+            {editGalleryItems.length > 1 && (
+              <MediaCarouselPagination
+                key={`pagination-${galleryIndex}`}
+                visible={true}
+                activeMediaIndexNo={galleryIndex}
+                mediaCount={editGalleryItems.length}
+                containerStyle={{ position: 'relative', top: 0, left: 0 }}
+              />
+            )}
             <ContentContainer
-              width={'auto'}
               useHorizontalLayout
-              alignCenter
-              gap={4}
+              alignItems={'center'}
+              justifyContent={'center'}
+              gap={12}
             >
               <EditorActionButton
                 icon="crop"
@@ -248,21 +263,6 @@ const PhotoEditorPage = (): React.ReactElement => {
                 onPress={onFilter}
               />
             </ContentContainer>
-            {editGalleryItems.length > 1 && (
-              <ContentContainer
-                width={'auto'}
-                paddingVertical={8}
-                paddingHorizontal={8}
-              >
-                <MediaCarouselPagination
-                  key={`pagination-${galleryIndex}`}
-                  visible={true}
-                  activeMediaIndexNo={galleryIndex}
-                  mediaCount={editGalleryItems.length}
-                  containerStyle={{ position: 'relative', top: 0, left: 0 }}
-                />
-              </ContentContainer>
-            )}
           </ContentContainer>
         </ContentContainer>
       </ScreenContainer>
