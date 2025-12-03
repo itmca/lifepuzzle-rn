@@ -1,4 +1,4 @@
-import {TagKey} from './media.type';
+import { TagKey } from './media.type';
 
 export type WritingStoryType = {
   title?: string;
@@ -12,6 +12,8 @@ export type GalleryItem = {
   id: number;
   uri: string;
   tagKey: TagKey;
+  width?: number;
+  height?: number;
 };
 
 export type PlayInfo = {

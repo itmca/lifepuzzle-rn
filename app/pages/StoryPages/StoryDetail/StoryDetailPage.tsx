@@ -121,12 +121,15 @@ const StoryDetailPage = (): React.ReactElement => {
     }
 
     resetSelectedStoryKey();
+    const dimensions = imageDimensions[filteredIndex];
     setWritingStory({
       gallery: [
         {
           id: currentGalleryItem.id,
           uri: currentGalleryItem.url,
           tagKey: currentGalleryItem.tag.key,
+          width: dimensions?.width,
+          height: dimensions?.height,
         },
       ],
     });

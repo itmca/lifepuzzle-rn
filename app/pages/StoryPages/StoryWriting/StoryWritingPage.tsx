@@ -32,13 +32,31 @@ import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
 import { Divider } from '../../../components/ui/base/Divider';
 import logger from '../../../utils/logger';
 
+// Helper function to calculate display dimensions
+const calculateDisplayDimensions = (
+  width: number,
+  height: number,
+  containerWidth: number,
+  maxHeight: number,
+): { width: number; height: number } => {
+  const aspectRatio = height / width;
+
+  let displayWidth = containerWidth;
+  let displayHeight = containerWidth * aspectRatio;
+
+  // 높이가 MAX_IMAGE_HEIGHT를 초과하면 높이 기준으로 조정
+  if (displayHeight > maxHeight) {
+    displayHeight = maxHeight;
+    displayWidth = maxHeight / aspectRatio;
+  }
+
+  return { width: displayWidth, height: displayHeight };
+};
+
 const StoryWritingPage = (): React.ReactElement => {
-  // React hooks
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [imageDimensions, setImageDimensions] = useState<{
-    width: number;
-    height: number;
-  } | null>(null);
+  // Constants
+  const MAX_IMAGE_HEIGHT = 280;
+  const CONTAINER_WIDTH = Dimensions.get('window').width - 40;
 
   // 글로벌 상태 관리 (Zustand)
   const writingStory = useStoryStore(state => state.writingStory);
@@ -50,18 +68,42 @@ const StoryWritingPage = (): React.ReactElement => {
   const isStoryUploading = useIsStoryUploading();
   const insets = useSafeAreaInsets();
 
-  // Constants
-  const MAX_IMAGE_HEIGHT = 280;
-  const CONTAINER_WIDTH = Dimensions.get('window').width - 40;
+  // Calculate initial dimensions from writingStory if available
+  const initialDimensions = (() => {
+    const galleryItem = writingStory.gallery?.[0];
+    if (galleryItem?.width && galleryItem?.height) {
+      return calculateDisplayDimensions(
+        galleryItem.width,
+        galleryItem.height,
+        CONTAINER_WIDTH,
+        MAX_IMAGE_HEIGHT,
+      );
+    }
+    return null;
+  })();
 
-  // 이미지 크기를 가져와서 최적의 너비와 높이 계산
+  // React hooks
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(initialDimensions);
+
+  // 이미지 크기를 가져와서 최적의 너비와 높이 계산 (초기값이 없을 경우에만)
   useEffect(() => {
     const loadImageDimension = async () => {
       if (!writingStory.gallery || writingStory.gallery.length === 0) {
         return;
       }
 
-      const uri = writingStory.gallery[0].uri;
+      const galleryItem = writingStory.gallery[0];
+
+      // 이미 초기값이 있으면 Image.getSize 호출 불필요
+      if (galleryItem.width && galleryItem.height) {
+        return;
+      }
+
+      const uri = galleryItem.uri;
 
       try {
         const dimension = await new Promise<{ width: number; height: number }>(
@@ -74,21 +116,14 @@ const StoryWritingPage = (): React.ReactElement => {
           },
         );
 
-        const aspectRatio = dimension.height / dimension.width;
+        const displayDimensions = calculateDisplayDimensions(
+          dimension.width,
+          dimension.height,
+          CONTAINER_WIDTH,
+          MAX_IMAGE_HEIGHT,
+        );
 
-        let displayWidth = CONTAINER_WIDTH;
-        let displayHeight = CONTAINER_WIDTH * aspectRatio;
-
-        // 높이가 MAX_IMAGE_HEIGHT를 초과하면 높이 기준으로 조정
-        if (displayHeight > MAX_IMAGE_HEIGHT) {
-          displayHeight = MAX_IMAGE_HEIGHT;
-          displayWidth = MAX_IMAGE_HEIGHT / aspectRatio;
-        }
-
-        setImageDimensions({
-          width: displayWidth,
-          height: displayHeight,
-        });
+        setImageDimensions(displayDimensions);
       } catch (error) {
         logger.debug('Failed to get image size:', uri, error);
         setImageDimensions({
@@ -185,12 +220,12 @@ const StoryWritingPage = (): React.ReactElement => {
                 />
               </ContentContainer>
 
-              {imageDimensions && (
-                <ContentContainer
-                  paddingVertical={8}
-                  paddingHorizontal={20}
-                  alignItems="center"
-                >
+              <ContentContainer
+                paddingVertical={8}
+                paddingHorizontal={20}
+                alignItems="center"
+              >
+                {imageDimensions ? (
                   <View
                     style={{
                       width: imageDimensions.width,
@@ -206,8 +241,17 @@ const StoryWritingPage = (): React.ReactElement => {
                       style={{ width: '100%', height: '100%' }}
                     />
                   </View>
-                </ContentContainer>
-              )}
+                ) : (
+                  <View
+                    style={{
+                      width: CONTAINER_WIDTH,
+                      height: MAX_IMAGE_HEIGHT,
+                      borderRadius: 16,
+                      backgroundColor: Color.GREY_200,
+                    }}
+                  />
+                )}
+              </ContentContainer>
 
               <ContentContainer
                 flex={1}
