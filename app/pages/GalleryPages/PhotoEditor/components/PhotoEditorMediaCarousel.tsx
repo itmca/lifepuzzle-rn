@@ -77,12 +77,19 @@ const PhotoEditorMediaCarouselComponent = ({
 
     return (
       <ContentContainer flex={1} alignItems="center" justifyContent="center">
-        <ContentContainer width="100%" borderRadius={16} showOverflow={false}>
+        <ContentContainer
+          width="100%"
+          height="100%"
+          alignItems="center"
+          justifyContent="center"
+          borderRadius={16}
+          showOverflow={false}
+        >
           <AdaptiveImage
             uri={mediaUrl}
             style={styles.image}
-            resizeMode="cover"
-            borderRadius={16}
+            resizeMode="contain"
+            borderRadius={0}
           />
         </ContentContainer>
       </ContentContainer>
@@ -141,7 +148,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    borderRadius: 16,
     backgroundColor: 'transparent',
   },
 });
