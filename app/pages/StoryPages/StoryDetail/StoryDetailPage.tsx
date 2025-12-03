@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Image } from 'react-native';
+import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
@@ -24,6 +25,11 @@ const StoryDetailPage = (): React.ReactElement => {
   const [isStory, setIsStory] = useState<boolean>(false);
   const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
+  const [imageDimensions, setImageDimensions] = useState<
+    { width: number; height: number }[]
+  >([]);
+  const MAX_CAROUSEL_HEIGHT = 500;
+  const CAROUSEL_WIDTH = Dimensions.get('window').width;
 
   // 글로벌 상태 관리
   const {
@@ -67,9 +73,28 @@ const StoryDetailPage = (): React.ReactElement => {
         type: item.type,
         url: item.url,
         index: index,
+        width: imageDimensions[index]?.width,
+        height: imageDimensions[index]?.height,
       })),
-    [filteredGallery],
+    [filteredGallery, imageDimensions],
   );
+
+  // 이미지 비율에 맞는 최적의 캐러셀 높이 계산
+  const optimalCarouselHeight = useMemo(() => {
+    if (imageDimensions.length === 0) {
+      return MAX_CAROUSEL_HEIGHT;
+    }
+
+    // 각 이미지가 CAROUSEL_WIDTH에 맞춰졌을 때의 높이 계산
+    const heights = imageDimensions.map(dim => {
+      const aspectRatio = dim.height / dim.width;
+      return CAROUSEL_WIDTH * aspectRatio;
+    });
+
+    // 모든 이미지의 최대 높이 (하지만 MAX_CAROUSEL_HEIGHT를 초과하지 않음)
+    const maxHeight = Math.max(...heights);
+    return Math.min(maxHeight, MAX_CAROUSEL_HEIGHT);
+  }, [imageDimensions, CAROUSEL_WIDTH, MAX_CAROUSEL_HEIGHT]);
 
   // Custom functions
   const handleIndexChange = useCallback(
@@ -163,6 +188,48 @@ const StoryDetailPage = (): React.ReactElement => {
       navigation.navigate('App', { screen: 'Home' });
     }
   }, [filteredGallery.length, navigation]);
+
+  // 이미지 크기를 가져와서 최적의 캐러셀 높이 계산
+  useEffect(() => {
+    const loadImageDimensions = async () => {
+      const dimensions = await Promise.all(
+        filteredGallery.map(async item => {
+          const uri = item.url;
+          const width = item.width;
+          const height = item.height;
+
+          // 이미 width/height가 있으면 사용
+          if (width && height) {
+            return { width, height };
+          }
+
+          // 없으면 Image.getSize로 가져오기 (IMAGE 타입만)
+          if (item.type === 'IMAGE') {
+            try {
+              return await new Promise<{ width: number; height: number }>(
+                (resolve, reject) => {
+                  Image.getSize(
+                    uri,
+                    (w, h) => resolve({ width: w, height: h }),
+                    reject,
+                  );
+                },
+              );
+            } catch (error) {
+              logger.debug('Failed to get image size:', uri, error);
+              return { width: CAROUSEL_WIDTH, height: MAX_CAROUSEL_HEIGHT };
+            }
+          }
+
+          // VIDEO는 기본값 사용
+          return { width: CAROUSEL_WIDTH, height: MAX_CAROUSEL_HEIGHT };
+        }),
+      );
+      setImageDimensions(dimensions);
+    };
+
+    loadImageDimensions();
+  }, [filteredGallery, CAROUSEL_WIDTH, MAX_CAROUSEL_HEIGHT]);
   return (
     <LoadingContainer isLoading={false}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
@@ -179,7 +246,8 @@ const StoryDetailPage = (): React.ReactElement => {
               key={`carousel-${filteredGallery.length}-${filteredGallery[0]?.id ?? 'empty'}`}
               data={carouselData}
               activeIndex={filteredIndex}
-              carouselWidth={Dimensions.get('window').width}
+              carouselWidth={CAROUSEL_WIDTH}
+              carouselMaxHeight={optimalCarouselHeight}
               onScroll={handleIndexChange}
               onPress={openPinchZoomModal}
             />
