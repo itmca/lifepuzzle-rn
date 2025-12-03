@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -167,10 +167,14 @@ const StoryWritingPage = (): React.ReactElement => {
                 />
               </ContentContainer>
 
-              <ContentContainer paddingVertical={4} alignItems="center">
+              <ContentContainer
+                paddingVertical={4}
+                paddingHorizontal={20}
+                alignItems="center"
+              >
                 <View
                   style={{
-                    width: IMAGE_WIDTH,
+                    width: IMAGE_WIDTH - 40,
                     height: imageHeight,
                     borderRadius: 16,
                     overflow: 'hidden',
@@ -187,7 +191,7 @@ const StoryWritingPage = (): React.ReactElement => {
 
               <ContentContainer paddingHorizontal={20} paddingTop={4} gap={0}>
                 <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-                <ContentContainer paddingTop={24}>
+                <ContentContainer paddingTop={24} paddingBottom={24}>
                   <PlainTextInput
                     text={writingStory.title ?? ''}
                     onChangeText={text => {
@@ -224,6 +228,7 @@ const StoryWritingPage = (): React.ReactElement => {
 
               <ContentContainer
                 paddingHorizontal={20}
+                paddingTop={36}
                 paddingBottom={insets.bottom + 20}
               >
                 {writingStory.voice ? (
