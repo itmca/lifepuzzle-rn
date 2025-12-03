@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
 import { AdaptiveImage } from '../../ui/base/ImageBase';
 import { VideoPlayer } from './StoryVideoPlayer';
@@ -30,6 +30,7 @@ type MediaItem = {
   type: string;
   url: string;
   index?: number;
+  width?: number;
   height?: number;
 };
 
@@ -111,30 +112,59 @@ const MediaCarouselComponent = ({
       const mediaUrl = item.url;
       const index = item.index ?? -1;
 
+      // 이미지 실제 표시 크기 계산 (contain 모드)
+      let displayWidth = carouselWidth;
+      let displayHeight = carouselMaxHeight;
+
+      if (type === 'IMAGE' && item.width && item.height) {
+        const aspectRatio = item.width / item.height;
+        const containerAspectRatio = carouselWidth / carouselMaxHeight;
+
+        if (aspectRatio > containerAspectRatio) {
+          // 가로가 더 긴 이미지 - width를 기준으로 맞춤
+          displayWidth = carouselWidth;
+          displayHeight = carouselWidth / aspectRatio;
+        } else {
+          // 세로가 더 긴 이미지 - height를 기준으로 맞춤
+          displayHeight = carouselMaxHeight;
+          displayWidth = carouselMaxHeight * aspectRatio;
+        }
+      }
+
       return (
-        <ContentContainer flex={1} borderRadius={16} overflow="hidden">
+        <ContentContainer flex={1} alignItems="center" justifyContent="center">
           {type === 'VIDEO' && (
-            <VideoPlayer
-              videoUrl={mediaUrl}
-              width={carouselWidth}
-              activeMediaIndexNo={safeActiveIndex}
-              setPaginationShown={setIsPaginationShown}
-            />
+            <ContentContainer borderRadius={16} overflow="hidden">
+              <VideoPlayer
+                videoUrl={mediaUrl}
+                width={carouselWidth}
+                activeMediaIndexNo={safeActiveIndex}
+                setPaginationShown={setIsPaginationShown}
+              />
+            </ContentContainer>
           )}
           {type === 'IMAGE' && (
             <TouchableOpacity
               onPress={() => {
                 onPress && onPress(mediaUrl);
               }}
-              style={{ flex: 1 }}
               activeOpacity={0.9}
             >
-              <AdaptiveImage
-                uri={mediaUrl}
-                resizeMode="contain"
-                borderRadius={16}
-                style={{ width: '100%', height: '100%' }}
-              />
+              <View
+                style={{
+                  width: displayWidth,
+                  height: displayHeight,
+                  borderRadius: 16,
+                  overflow: 'hidden',
+                }}
+              >
+                <AdaptiveImage
+                  uri={mediaUrl}
+                  resizeMode="contain"
+                  borderRadius={0}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </View>
             </TouchableOpacity>
           )}
           {showPagination && (
@@ -144,13 +174,16 @@ const MediaCarouselComponent = ({
               mediaCount={data.length}
             />
           )}
-          {showAiPhotoButton && <AiPhotoButton onPress={handleAiPhotoPress} />}
+          {showAiPhotoButton && (
+            <AiPhotoButton onPress={handleAiPhotoPress} bottomPadding={8} />
+          )}
         </ContentContainer>
       );
     },
     [
       safeActiveIndex,
       carouselWidth,
+      carouselMaxHeight,
       isPaginationShown,
       data.length,
       onPress,

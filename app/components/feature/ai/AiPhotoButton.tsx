@@ -10,9 +10,13 @@ import { ContentContainer } from '../../ui/layout/ContentContainer';
 
 type Props = {
   onPress: () => void;
+  bottomPadding?: number;
 };
 
-export const AiPhotoButton = ({ onPress }: Props): React.ReactElement => {
+export const AiPhotoButton = ({
+  onPress,
+  bottomPadding,
+}: Props): React.ReactElement => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -20,7 +24,7 @@ export const AiPhotoButton = ({ onPress }: Props): React.ReactElement => {
       width={'auto'}
       absoluteBottomPosition
       absoluteRightPosition
-      paddingBottom={insets.bottom + 10}
+      paddingBottom={bottomPadding ?? insets.bottom + 10}
       paddingRight={10}
       withNoBackground
     >
