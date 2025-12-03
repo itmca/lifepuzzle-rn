@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dimensions, Image } from 'react-native';
 
 import logger from '../../../utils/logger';
@@ -20,7 +20,11 @@ import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 const PhotoEditorPage = (): React.ReactElement => {
   // React hooks
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
+  const [imageDimensions, setImageDimensions] = useState<
+    { width: number; height: number }[]
+  >([]);
   const MAX_CAROUSEL_HEIGHT = 400;
+  const CAROUSEL_WIDTH = Dimensions.get('window').width - 32;
 
   // 글로벌 상태 관리 (Zustand)
   const {
@@ -131,6 +135,60 @@ const PhotoEditorPage = (): React.ReactElement => {
     [editGalleryItems.length, setGalleryIndex, galleryIndex],
   );
 
+  // 이미지 크기를 가져와서 최적의 캐러셀 높이 계산
+  useEffect(() => {
+    const loadImageDimensions = async () => {
+      const dimensions = await Promise.all(
+        editGalleryItems.map(async item => {
+          const uri = item.node.image.uri;
+          const width = item.node.image.width;
+          const height = item.node.image.height;
+
+          // 이미 width/height가 있으면 사용
+          if (width && height) {
+            return { width, height };
+          }
+
+          // 없으면 Image.getSize로 가져오기
+          try {
+            return await new Promise<{ width: number; height: number }>(
+              (resolve, reject) => {
+                Image.getSize(
+                  uri,
+                  (w, h) => resolve({ width: w, height: h }),
+                  reject,
+                );
+              },
+            );
+          } catch (error) {
+            logger.debug('Failed to get image size:', uri, error);
+            return { width: CAROUSEL_WIDTH, height: MAX_CAROUSEL_HEIGHT };
+          }
+        }),
+      );
+      setImageDimensions(dimensions);
+    };
+
+    loadImageDimensions();
+  }, [editGalleryItems, CAROUSEL_WIDTH, MAX_CAROUSEL_HEIGHT]);
+
+  // 이미지 비율에 맞는 최적의 캐러셀 높이 계산
+  const optimalCarouselHeight = useMemo(() => {
+    if (imageDimensions.length === 0) {
+      return MAX_CAROUSEL_HEIGHT;
+    }
+
+    // 각 이미지가 CAROUSEL_WIDTH에 맞춰졌을 때의 높이 계산
+    const heights = imageDimensions.map(dim => {
+      const aspectRatio = dim.height / dim.width;
+      return CAROUSEL_WIDTH * aspectRatio;
+    });
+
+    // 모든 이미지의 최대 높이 (하지만 MAX_CAROUSEL_HEIGHT를 초과하지 않음)
+    const maxHeight = Math.max(...heights);
+    return Math.min(maxHeight, MAX_CAROUSEL_HEIGHT);
+  }, [imageDimensions, CAROUSEL_WIDTH, MAX_CAROUSEL_HEIGHT]);
+
   useEffect(() => {
     logger.debug('PhotoEditor galleryIndex changed to:', galleryIndex);
   }, [galleryIndex]);
@@ -139,7 +197,7 @@ const PhotoEditorPage = (): React.ReactElement => {
     <LoadingContainer isLoading={isGalleryUploading}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ContentContainer
-          flex={0.8}
+          flex={0.9}
           alignItems="center"
           justifyContent="center"
           paddingHorizontal={16}
@@ -157,10 +215,10 @@ const PhotoEditorPage = (): React.ReactElement => {
               index: index,
             }))}
             activeIndex={galleryIndex}
-            carouselWidth={Dimensions.get('window').width - 32}
+            carouselWidth={CAROUSEL_WIDTH}
             carouselMaxHeight={Math.min(
               Math.max(contentContainerHeight - 32, 0),
-              MAX_CAROUSEL_HEIGHT,
+              optimalCarouselHeight,
             )}
             onScroll={handleScroll}
           />
@@ -188,19 +246,21 @@ const PhotoEditorPage = (): React.ReactElement => {
                 onPress={onFilter}
               />
             </ContentContainer>
-            <ContentContainer
-              width={'auto'}
-              paddingVertical={8}
-              paddingHorizontal={8}
-            >
-              <MediaCarouselPagination
-                key={`pagination-${galleryIndex}`}
-                visible={true}
-                activeMediaIndexNo={galleryIndex}
-                mediaCount={editGalleryItems.length}
-                containerStyle={{ position: 'relative', top: 0, left: 0 }}
-              />
-            </ContentContainer>
+            {editGalleryItems.length > 1 && (
+              <ContentContainer
+                width={'auto'}
+                paddingVertical={8}
+                paddingHorizontal={8}
+              >
+                <MediaCarouselPagination
+                  key={`pagination-${galleryIndex}`}
+                  visible={true}
+                  activeMediaIndexNo={galleryIndex}
+                  mediaCount={editGalleryItems.length}
+                  containerStyle={{ position: 'relative', top: 0, left: 0 }}
+                />
+              </ContentContainer>
+            )}
           </ContentContainer>
         </ContentContainer>
       </ScreenContainer>
