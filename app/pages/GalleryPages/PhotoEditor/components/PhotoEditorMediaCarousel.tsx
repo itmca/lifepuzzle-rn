@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
-import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 import Carousel from 'react-native-reanimated-carousel';
+
+import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 
 type Props = {
   data: MediaItem[];
@@ -26,6 +28,8 @@ const PhotoEditorMediaCarouselComponent = ({
   carouselMaxHeight = 376,
   onScroll,
 }: Props): React.ReactElement => {
+  const resolvedCarouselHeight =
+    carouselMaxHeight && carouselMaxHeight > 0 ? carouselMaxHeight : 376;
   const safeActiveIndex = Math.min(
     Math.max(activeIndex ?? 0, 0),
     Math.max(data.length - 1, 0),
@@ -36,6 +40,16 @@ const PhotoEditorMediaCarouselComponent = ({
   // 쓰로틀링을 위한 ref
   const lastScrollTimeRef = useRef<number>(0);
 
+  const isLocalAssetUri = useCallback((uri: string): boolean => {
+    if (Platform.OS === 'ios' && uri.startsWith('ph://')) {
+      return true;
+    }
+    if (Platform.OS === 'android' && uri.startsWith('content://')) {
+      return true;
+    }
+    return false;
+  }, []);
+
   // 모든 이미지를 미리 캐시에 로드 (데이터가 실제로 변경된 경우에만)
   useEffect(() => {
     if (JSON.stringify(prevDataRef.current) === JSON.stringify(data)) {
@@ -43,7 +57,9 @@ const PhotoEditorMediaCarouselComponent = ({
     }
 
     const imagesToPreload = data
-      .filter(item => item.type === 'IMAGE' && item.url)
+      .filter(
+        item => item.type === 'IMAGE' && item.url && !isLocalAssetUri(item.url),
+      )
       .map(item => ({
         uri: item.url,
         priority: FastImage.priority.high,
@@ -54,18 +70,21 @@ const PhotoEditorMediaCarouselComponent = ({
     }
 
     prevDataRef.current = data;
-  }, [data]);
+  }, [data, isLocalAssetUri]);
 
   const renderItem = useCallback(({ item }: { item: MediaItem }) => {
     const mediaUrl = item.url;
 
     return (
       <ContentContainer flex={1} alignItems="center" justifyContent="center">
-        <FastImage
-          source={{ uri: mediaUrl }}
-          style={styles.image}
-          resizeMode="contain"
-        />
+        <ContentContainer width="100%" borderRadius={16} showOverflow={false}>
+          <AdaptiveImage
+            uri={mediaUrl}
+            style={styles.image}
+            resizeMode="cover"
+            borderRadius={16}
+          />
+        </ContentContainer>
       </ContentContainer>
     );
   }, []);
@@ -100,7 +119,7 @@ const PhotoEditorMediaCarouselComponent = ({
         style={{ alignSelf: 'center' }}
         loop={false}
         width={carouselWidth}
-        height={carouselMaxHeight}
+        height={resolvedCarouselHeight}
         data={data}
         mode="parallax"
         windowSize={3}
@@ -123,6 +142,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 16,
+    backgroundColor: 'transparent',
   },
 });
 
