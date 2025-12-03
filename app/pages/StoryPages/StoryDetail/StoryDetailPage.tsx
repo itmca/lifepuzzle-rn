@@ -19,6 +19,7 @@ import { useSelectionStore } from '../../../stores/selection.store';
 import { Title } from '../../../components/ui/base/TextBase';
 import { StoryWritingButton } from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
+import { Divider } from '../../../components/ui/base/Divider';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks
@@ -255,11 +256,14 @@ const StoryDetailPage = (): React.ReactElement => {
               <StoryItemContents story={currentGalleryItem.story} />
             ) : (
               <>
-                <Title color={Color.GREY_400}>
-                  사진에 담겨있는 당신의 이야기를 작성해 주세요
-                </Title>
-                <ContentContainer alignCenter paddingTop={36}>
-                  <StoryWritingButton onPress={onClickWrite} />
+                <Divider marginVertical={0} />
+                <ContentContainer paddingTop={24}>
+                  <Title color={Color.GREY_400}>
+                    사진에 담겨있는 당신의 이야기를 작성해 주세요
+                  </Title>
+                  <ContentContainer alignCenter paddingTop={36}>
+                    <StoryWritingButton onPress={onClickWrite} />
+                  </ContentContainer>
                 </ContentContainer>
               </>
             )}
