@@ -168,7 +168,7 @@ const StoryWritingPage = (): React.ReactElement => {
               </ContentContainer>
 
               <ContentContainer
-                paddingVertical={4}
+                paddingVertical={8}
                 paddingHorizontal={20}
                 alignItems="center"
               >
