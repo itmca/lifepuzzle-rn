@@ -213,6 +213,8 @@ const PhotoEditorPage = (): React.ReactElement => {
                   : 'IMAGE',
               url: item.node.image.uri,
               index: index,
+              width: imageDimensions[index]?.width,
+              height: imageDimensions[index]?.height,
             }))}
             activeIndex={galleryIndex}
             carouselWidth={CAROUSEL_WIDTH}
