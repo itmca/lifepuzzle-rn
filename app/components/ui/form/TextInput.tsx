@@ -226,6 +226,7 @@ export const PlainTextInput = ({
             fontFamily: 'SUIT-SemiBold',
             letterSpacing: -0.25,
             width: '100%',
+            paddingVertical: 0,
           }}
         />
         <ContentContainer

@@ -1,11 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import StoryDateInput from './StoryDateInput.tsx';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -24,16 +27,18 @@ import { PlainTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import TextAreaInput from '../../../components/ui/form/TextAreaInput';
 import { ScrollView } from 'react-native-gesture-handler';
-import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
+import { Divider } from '../../../components/ui/base/Divider';
+import logger from '../../../utils/logger';
 
 const StoryWritingPage = (): React.ReactElement => {
-  // Refs
-  const carouselRef = useRef<ICarouselInstance>(null);
-
   // React hooks
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
 
   // 글로벌 상태 관리 (Zustand)
   const writingStory = useStoryStore(state => state.writingStory);
@@ -43,6 +48,60 @@ const StoryWritingPage = (): React.ReactElement => {
 
   // Custom hooks
   const isStoryUploading = useIsStoryUploading();
+  const insets = useSafeAreaInsets();
+
+  // Constants
+  const MAX_IMAGE_HEIGHT = 280;
+  const CONTAINER_WIDTH = Dimensions.get('window').width - 40;
+
+  // 이미지 크기를 가져와서 최적의 너비와 높이 계산
+  useEffect(() => {
+    const loadImageDimension = async () => {
+      if (!writingStory.gallery || writingStory.gallery.length === 0) {
+        return;
+      }
+
+      const uri = writingStory.gallery[0].uri;
+
+      try {
+        const dimension = await new Promise<{ width: number; height: number }>(
+          (resolve, reject) => {
+            Image.getSize(
+              uri,
+              (w, h) => resolve({ width: w, height: h }),
+              reject,
+            );
+          },
+        );
+
+        const aspectRatio = dimension.height / dimension.width;
+
+        let displayWidth = CONTAINER_WIDTH;
+        let displayHeight = CONTAINER_WIDTH * aspectRatio;
+
+        // 높이가 MAX_IMAGE_HEIGHT를 초과하면 높이 기준으로 조정
+        if (displayHeight > MAX_IMAGE_HEIGHT) {
+          displayHeight = MAX_IMAGE_HEIGHT;
+          displayWidth = MAX_IMAGE_HEIGHT / aspectRatio;
+        }
+
+        setImageDimensions({
+          width: displayWidth,
+          height: displayHeight,
+        });
+      } catch (error) {
+        logger.debug('Failed to get image size:', uri, error);
+        setImageDimensions({
+          width: CONTAINER_WIDTH,
+          height: MAX_IMAGE_HEIGHT,
+        });
+      }
+    };
+
+    loadImageDimension();
+  }, [writingStory.gallery, CONTAINER_WIDTH, MAX_IMAGE_HEIGHT]);
+
+  // Early return after all hooks
   if (!writingStory.gallery || writingStory.gallery.length === 0) {
     return <></>;
   }
@@ -126,72 +185,78 @@ const StoryWritingPage = (): React.ReactElement => {
                 />
               </ContentContainer>
 
-              <Carousel
-                ref={carouselRef}
-                data={[galleryItem]}
-                mode={'parallax'}
-                loop={false}
-                defaultIndex={0}
-                modeConfig={{
-                  parallaxScrollingScale: 0.91,
-                  parallaxAdjacentItemScale: 0.91,
-                  parallaxScrollingOffset: 25,
-                }}
-                width={Dimensions.get('window').width}
-                height={Dimensions.get('window').height * 0.52}
-                renderItem={({ item: data }: any) => {
-                  return (
-                    <ContentContainer
-                      borderRadius={6}
-                      alignCenter
-                      backgroundColor={Color.GREY_700}
-                    >
-                      <AdaptiveImage
-                        uri={data.uri}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                        }}
-                        resizeMode="contain"
-                      />
-                    </ContentContainer>
-                  );
-                }}
-              />
-
-              <ContentContainer flex={1} paddingHorizontal={20}>
-                <PlainTextInput
-                  text={writingStory.title ?? ''}
-                  onChangeText={text => {
-                    setWritingStory({ title: text });
-                  }}
-                  placeholder={'제목을 입력해주세요'}
-                  validations={[
-                    {
-                      condition: (text: string) => !!text,
-                      errorText: '제목을 입력해주세요',
-                    },
-                  ]}
-                />
+              {imageDimensions && (
                 <ContentContainer
-                  flex={1}
-                  minHeight="100px"
-                  backgroundColor={Color.GREY}
+                  paddingVertical={8}
+                  paddingHorizontal={20}
+                  alignItems="center"
                 >
-                  <TextAreaInput
-                    text={writingStory.content ?? ''}
-                    onChangeText={text => {
-                      setWritingStory({ content: text });
+                  <View
+                    style={{
+                      width: imageDimensions.width,
+                      height: imageDimensions.height,
+                      borderRadius: 16,
+                      overflow: 'hidden',
                     }}
-                    placeholder={'내용을 입력해주세요'}
+                  >
+                    <AdaptiveImage
+                      uri={galleryItem.uri}
+                      resizeMode="contain"
+                      borderRadius={0}
+                      style={{ width: '100%', height: '100%' }}
+                    />
+                  </View>
+                </ContentContainer>
+              )}
+
+              <ContentContainer
+                flex={1}
+                paddingHorizontal={20}
+                paddingTop={4}
+                gap={0}
+              >
+                <Divider marginVertical={0} paddingHorizontal={16} height={3} />
+                <ContentContainer flex={1} paddingTop={24}>
+                  <PlainTextInput
+                    text={writingStory.title ?? ''}
+                    onChangeText={text => {
+                      setWritingStory({ title: text });
+                    }}
+                    placeholder={'제목을 입력해주세요'}
                     validations={[
                       {
                         condition: (text: string) => !!text,
-                        errorText: '내용을 입력해주세요',
+                        errorText: '제목을 입력해주세요',
                       },
                     ]}
                   />
+                  <ContentContainer
+                    flex={1}
+                    minHeight="120px"
+                    backgroundColor={Color.GREY}
+                  >
+                    <TextAreaInput
+                      text={writingStory.content ?? ''}
+                      onChangeText={text => {
+                        setWritingStory({ content: text });
+                      }}
+                      placeholder={'내용을 입력해주세요'}
+                      validations={[
+                        {
+                          condition: (text: string) => !!text,
+                          errorText: '내용을 입력해주세요',
+                        },
+                      ]}
+                    />
+                  </ContentContainer>
                 </ContentContainer>
+              </ContentContainer>
+
+              <ContentContainer
+                paddingHorizontal={20}
+                paddingTop={24}
+                paddingBottom={insets.bottom + 20}
+              >
                 {writingStory.voice ? (
                   <AudioBtn
                     audioUrl={writingStory.voice}
