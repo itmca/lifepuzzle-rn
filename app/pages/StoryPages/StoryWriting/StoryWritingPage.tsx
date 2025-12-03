@@ -72,7 +72,7 @@ const StoryWritingPage = (): React.ReactElement => {
         );
 
         const aspectRatio = dimension.height / dimension.width;
-        const calculatedHeight = IMAGE_WIDTH * aspectRatio;
+        const calculatedHeight = (IMAGE_WIDTH - 40) * aspectRatio;
         setImageHeight(Math.min(calculatedHeight, MAX_IMAGE_HEIGHT));
       } catch (error) {
         logger.debug('Failed to get image size:', uri, error);
@@ -208,6 +208,7 @@ const StoryWritingPage = (): React.ReactElement => {
                   <ContentContainer
                     minHeight="120px"
                     backgroundColor={Color.GREY}
+                    expandToEnd
                   >
                     <TextAreaInput
                       text={writingStory.content ?? ''}
