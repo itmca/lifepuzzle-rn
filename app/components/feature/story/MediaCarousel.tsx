@@ -174,7 +174,9 @@ const MediaCarouselComponent = ({
               mediaCount={data.length}
             />
           )}
-          {showAiPhotoButton && <AiPhotoButton onPress={handleAiPhotoPress} />}
+          {showAiPhotoButton && (
+            <AiPhotoButton onPress={handleAiPhotoPress} bottomPadding={8} />
+          )}
         </ContentContainer>
       );
     },

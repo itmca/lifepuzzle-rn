@@ -28,7 +28,7 @@ const StoryDetailPage = (): React.ReactElement => {
   const [imageDimensions, setImageDimensions] = useState<
     { width: number; height: number }[]
   >([]);
-  const MAX_CAROUSEL_HEIGHT = 500;
+  const MAX_CAROUSEL_HEIGHT = 320;
   const CAROUSEL_WIDTH = Dimensions.get('window').width;
 
   // 글로벌 상태 관리
@@ -195,15 +195,8 @@ const StoryDetailPage = (): React.ReactElement => {
       const dimensions = await Promise.all(
         filteredGallery.map(async item => {
           const uri = item.url;
-          const width = item.width;
-          const height = item.height;
 
-          // 이미 width/height가 있으면 사용
-          if (width && height) {
-            return { width, height };
-          }
-
-          // 없으면 Image.getSize로 가져오기 (IMAGE 타입만)
+          // IMAGE 타입만 Image.getSize로 가져오기
           if (item.type === 'IMAGE') {
             try {
               return await new Promise<{ width: number; height: number }>(
@@ -252,7 +245,12 @@ const StoryDetailPage = (): React.ReactElement => {
               onPress={openPinchZoomModal}
             />
           </ContentContainer>
-          <ContentContainer paddingHorizontal={20} flex={1} expandToEnd>
+          <ContentContainer
+            paddingHorizontal={20}
+            paddingTop={24}
+            flex={1}
+            expandToEnd
+          >
             {currentGalleryItem?.story ? (
               <StoryItemContents story={currentGalleryItem.story} />
             ) : (
