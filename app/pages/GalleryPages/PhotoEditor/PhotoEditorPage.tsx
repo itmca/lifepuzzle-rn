@@ -1,27 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dimensions, Image, TouchableOpacity } from 'react-native';
+import { Dimensions, Image } from 'react-native';
 
 import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
+import { EditorActionButton } from './components/EditorActionButton';
 import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
 import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
-import { Divider } from '../../../components/ui/base/Divider';
 
 import { Color } from '../../../constants/color.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
 import { useUIStore } from '../../../stores/ui.store';
 import ImagePicker from 'react-native-image-crop-picker';
-import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
-import { Title } from '../../../components/ui/base/TextBase';
 
 const PhotoEditorPage = (): React.ReactElement => {
   // React hooks
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
+  const MAX_CAROUSEL_HEIGHT = 400;
 
   // 글로벌 상태 관리 (Zustand)
   const {
@@ -140,11 +139,11 @@ const PhotoEditorPage = (): React.ReactElement => {
     <LoadingContainer isLoading={isGalleryUploading}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
         <ContentContainer
-          flex={1}
+          flex={0.8}
           alignItems="center"
           justifyContent="center"
           paddingHorizontal={16}
-          paddingVertical={16}
+          paddingVertical={10}
           onLayout={onContentContainerLayout}
         >
           <PhotoEditorMediaCarousel
@@ -159,85 +158,50 @@ const PhotoEditorPage = (): React.ReactElement => {
             }))}
             activeIndex={galleryIndex}
             carouselWidth={Dimensions.get('window').width - 32}
-            carouselMaxHeight={contentContainerHeight - 32}
+            carouselMaxHeight={Math.min(
+              Math.max(contentContainerHeight - 32, 0),
+              MAX_CAROUSEL_HEIGHT,
+            )}
             onScroll={handleScroll}
           />
-        </ContentContainer>
-        <ContentContainer paddingHorizontal={16}>
-          <Divider
-            style={{
-              height: 2,
-              marginTop: 8,
-              marginBottom: 8,
-            }}
-          />
-        </ContentContainer>
-        <ContentContainer
-          height={48}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <MediaCarouselPagination
-            key={`pagination-${galleryIndex}`}
-            visible={true}
-            activeMediaIndexNo={galleryIndex}
-            mediaCount={editGalleryItems.length}
-            containerStyle={{ position: 'relative', top: 0, left: 0 }}
-          />
-        </ContentContainer>
-        <ContentContainer
-          height={80}
-          useHorizontalLayout
-          withBorder
-          withContentPadding
-          gap={8}
-          style={{
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              opacity: isCurrentItemVideo ? 0.3 : 1,
-            }}
-            onPress={onCrop}
-            disabled={isCurrentItemVideo}
+          <ContentContainer
+            useHorizontalLayout
+            paddingHorizontal={16}
+            alignItems={'flex-start'}
           >
-            <ContentContainer alignItems={'center'} gap={4}>
-              <Icon
-                name="crop"
-                size={24}
-                color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}
+            <ContentContainer
+              width={'auto'}
+              useHorizontalLayout
+              alignCenter
+              gap={4}
+            >
+              <EditorActionButton
+                icon="crop"
+                label="자르기"
+                disabled={isCurrentItemVideo}
+                onPress={onCrop}
               />
-              <Title color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}>
-                자르기
-              </Title>
-            </ContentContainer>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              opacity: isCurrentItemVideo ? 0.3 : 1,
-            }}
-            onPress={onFilter}
-            disabled={isCurrentItemVideo}
-          >
-            <ContentContainer alignItems={'center'} gap={4}>
-              <Icon
-                name="layers"
-                size={24}
-                color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}
+              <EditorActionButton
+                icon="layers"
+                label="필터"
+                disabled={isCurrentItemVideo}
+                onPress={onFilter}
               />
-              <Title color={isCurrentItemVideo ? Color.GREY_300 : Color.BLACK}>
-                필터
-              </Title>
             </ContentContainer>
-          </TouchableOpacity>
+            <ContentContainer
+              width={'auto'}
+              paddingVertical={8}
+              paddingHorizontal={8}
+            >
+              <MediaCarouselPagination
+                key={`pagination-${galleryIndex}`}
+                visible={true}
+                activeMediaIndexNo={galleryIndex}
+                mediaCount={editGalleryItems.length}
+                containerStyle={{ position: 'relative', top: 0, left: 0 }}
+              />
+            </ContentContainer>
+          </ContentContainer>
         </ContentContainer>
       </ScreenContainer>
     </LoadingContainer>
