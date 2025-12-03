@@ -39,13 +39,14 @@ const MediaCarouselPagination = ({
         alignCenter
         gap={0}
         width="auto"
-        paddingHorizontal={8}
+        paddingHorizontal={7}
+        paddingVertical={2}
         borderRadius={4}
-        opacity={0.5}
-        backgroundColor={Color.BLACK}
+        opacity={0.8}
+        backgroundColor={Color.GREY_700}
         zIndex={100}
       >
-        <Caption color={Color.GREY}>{`${
+        <Caption color={Color.GREY_100}>{`${
           activeMediaIndexNo + 1
         } / ${mediaCount}`}</Caption>
       </ContentContainer>
