@@ -189,9 +189,14 @@ const StoryWritingPage = (): React.ReactElement => {
                 </View>
               </ContentContainer>
 
-              <ContentContainer paddingHorizontal={20} paddingTop={4} gap={0}>
+              <ContentContainer
+                flex={1}
+                paddingHorizontal={20}
+                paddingTop={4}
+                gap={0}
+              >
                 <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-                <ContentContainer paddingTop={24} paddingBottom={24}>
+                <ContentContainer flex={1} paddingTop={24}>
                   <PlainTextInput
                     text={writingStory.title ?? ''}
                     onChangeText={text => {
@@ -206,9 +211,9 @@ const StoryWritingPage = (): React.ReactElement => {
                     ]}
                   />
                   <ContentContainer
+                    flex={1}
                     minHeight="120px"
                     backgroundColor={Color.GREY}
-                    expandToEnd
                   >
                     <TextAreaInput
                       text={writingStory.content ?? ''}
@@ -229,7 +234,7 @@ const StoryWritingPage = (): React.ReactElement => {
 
               <ContentContainer
                 paddingHorizontal={20}
-                paddingTop={36}
+                paddingTop={24}
                 paddingBottom={insets.bottom + 20}
               >
                 {writingStory.voice ? (
