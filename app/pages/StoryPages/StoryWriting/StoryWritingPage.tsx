@@ -35,7 +35,10 @@ import logger from '../../../utils/logger';
 const StoryWritingPage = (): React.ReactElement => {
   // React hooks
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [imageHeight, setImageHeight] = useState<number>(280);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
 
   // 글로벌 상태 관리 (Zustand)
   const writingStory = useStoryStore(state => state.writingStory);
@@ -49,9 +52,9 @@ const StoryWritingPage = (): React.ReactElement => {
 
   // Constants
   const MAX_IMAGE_HEIGHT = 280;
-  const IMAGE_WIDTH = Dimensions.get('window').width;
+  const CONTAINER_WIDTH = Dimensions.get('window').width - 40;
 
-  // 이미지 크기를 가져와서 최적의 높이 계산
+  // 이미지 크기를 가져와서 최적의 너비와 높이 계산
   useEffect(() => {
     const loadImageDimension = async () => {
       if (!writingStory.gallery || writingStory.gallery.length === 0) {
@@ -72,16 +75,31 @@ const StoryWritingPage = (): React.ReactElement => {
         );
 
         const aspectRatio = dimension.height / dimension.width;
-        const calculatedHeight = (IMAGE_WIDTH - 40) * aspectRatio;
-        setImageHeight(Math.min(calculatedHeight, MAX_IMAGE_HEIGHT));
+
+        let displayWidth = CONTAINER_WIDTH;
+        let displayHeight = CONTAINER_WIDTH * aspectRatio;
+
+        // 높이가 MAX_IMAGE_HEIGHT를 초과하면 높이 기준으로 조정
+        if (displayHeight > MAX_IMAGE_HEIGHT) {
+          displayHeight = MAX_IMAGE_HEIGHT;
+          displayWidth = MAX_IMAGE_HEIGHT / aspectRatio;
+        }
+
+        setImageDimensions({
+          width: displayWidth,
+          height: displayHeight,
+        });
       } catch (error) {
         logger.debug('Failed to get image size:', uri, error);
-        setImageHeight(MAX_IMAGE_HEIGHT);
+        setImageDimensions({
+          width: CONTAINER_WIDTH,
+          height: MAX_IMAGE_HEIGHT,
+        });
       }
     };
 
     loadImageDimension();
-  }, [writingStory.gallery, IMAGE_WIDTH, MAX_IMAGE_HEIGHT]);
+  }, [writingStory.gallery, CONTAINER_WIDTH, MAX_IMAGE_HEIGHT]);
 
   // Early return after all hooks
   if (!writingStory.gallery || writingStory.gallery.length === 0) {
@@ -167,27 +185,29 @@ const StoryWritingPage = (): React.ReactElement => {
                 />
               </ContentContainer>
 
-              <ContentContainer
-                paddingVertical={8}
-                paddingHorizontal={20}
-                alignItems="center"
-              >
-                <View
-                  style={{
-                    width: IMAGE_WIDTH - 40,
-                    height: imageHeight,
-                    borderRadius: 16,
-                    overflow: 'hidden',
-                  }}
+              {imageDimensions && (
+                <ContentContainer
+                  paddingVertical={8}
+                  paddingHorizontal={20}
+                  alignItems="center"
                 >
-                  <AdaptiveImage
-                    uri={galleryItem.uri}
-                    resizeMode="contain"
-                    borderRadius={0}
-                    style={{ width: '100%', height: '100%' }}
-                  />
-                </View>
-              </ContentContainer>
+                  <View
+                    style={{
+                      width: imageDimensions.width,
+                      height: imageDimensions.height,
+                      borderRadius: 16,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <AdaptiveImage
+                      uri={galleryItem.uri}
+                      resizeMode="contain"
+                      borderRadius={0}
+                      style={{ width: '100%', height: '100%' }}
+                    />
+                  </View>
+                </ContentContainer>
+              )}
 
               <ContentContainer
                 flex={1}
