@@ -1,23 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  Dimensions,
-  Image,
-  Platform,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
-import logger from '../../../../utils/logger';
+import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button } from 'react-native-paper';
 import RNFS, { writeFile } from 'react-native-fs';
 import { encode as encodeBase64 } from 'base64-arraybuffer';
-import PhotoManipulator from 'react-native-photo-manipulator';
 import { ExtendedPhotoIdentifier } from '../../../../types/ui/photo-selector.type';
 import {
   Canvas,
   ColorMatrix,
   Image as SkiaImage,
-  Skia,
   SkImage,
   useCanvasRef,
 } from '@shopify/react-native-skia';
@@ -25,17 +15,22 @@ import { ContentContainer } from '../../../../components/ui/layout/ContentContai
 import { Title } from '../../../../components/ui/base/TextBase';
 import { CustomAlert } from '../../../../components/ui/feedback/CustomAlert';
 import { Color } from '../../../../constants/color.constant.ts';
+import { MAX_BOTTOM_SHEET_IMAGE_HEIGHT } from '../../../../constants/carousel.constant.ts';
 import {
   FILTER_EFFECTS,
   FILTER_LABELS,
   FilterType,
 } from '../../../../constants/filter.constant.ts';
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet.tsx';
-import { Button } from 'react-native-paper';
+import { loadSkiaImage } from '../../../../services/image/skia-image-loader.service';
+import {
+  copyContentUriToFile,
+  getImageSizeAsync,
+} from '../../../../services/image/platform-image.service';
+import logger from '../../../../utils/logger';
 
 const { width: screenWidth } = Dimensions.get('window');
 const displaySize = screenWidth - 40; // 패딩 고려
-const MAX_IMAGE_HEIGHT = 340; // 버튼 영역 확보를 위해 줄임
 
 type Props = {
   opened: boolean;
@@ -43,77 +38,6 @@ type Props = {
   onClose: () => void;
   onApply: (filteredUri: string) => void;
 };
-
-const getImageSizeAsync = (
-  uri: string,
-): Promise<{ width: number; height: number }> =>
-  new Promise((resolve, reject) => {
-    Image.getSize(
-      uri,
-      (width, height) => resolve({ width, height }),
-      error => reject(error),
-    );
-  });
-
-async function copyContentUriToFile(
-  selectedImage: ExtendedPhotoIdentifier,
-): Promise<string> {
-  const uri = selectedImage.node.image.uri;
-
-  if (Platform.OS === 'android' && uri.startsWith('content://')) {
-    const dest = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.jpg`;
-    try {
-      await RNFS.copyFile(uri, dest);
-      return `file://${dest}`;
-    } catch (error) {
-      logger.error('Failed to copy Android content URI:', error);
-      throw error;
-    }
-  }
-  if (Platform.OS === 'ios' && uri.startsWith('ph://')) {
-    const { width = 1000, height = 1000 } = selectedImage?.node.image ?? {};
-    const manipulatedPath = await PhotoManipulator.crop(uri, {
-      x: 0,
-      y: 0,
-      width,
-      height,
-    });
-    return manipulatedPath;
-  }
-  return uri;
-}
-
-async function loadSkiaImage(uri: string): Promise<SkImage | null> {
-  try {
-    let buffer: ArrayBuffer;
-
-    // Android file:// URIs cannot be fetched, use RNFS
-    if (Platform.OS === 'android' && uri.startsWith('file://')) {
-      const filePath = uri.replace('file://', '');
-      const base64Data = await RNFS.readFile(filePath, 'base64');
-
-      // Convert base64 to ArrayBuffer
-      const binaryString = atob(base64Data);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      buffer = bytes.buffer;
-    } else {
-      // iOS or network URLs use fetch
-      const response = await fetch(uri);
-      buffer = await response.arrayBuffer();
-    }
-
-    const skData = Skia.Data.fromBytes(new Uint8Array(buffer));
-    const skImage = Skia.Image.MakeImageFromEncoded(skData);
-
-    return skImage ?? null;
-  } catch (err) {
-    logger.error('Failed to load Skia image:', err);
-    return null;
-  }
-}
 
 export const PhotoFilterBottomSheet = ({
   opened,
@@ -200,7 +124,10 @@ export const PhotoFilterBottomSheet = ({
 
         const aspectRatio = width / height;
         const calculatedHeight = displaySize / aspectRatio;
-        const finalHeight = Math.min(calculatedHeight, MAX_IMAGE_HEIGHT);
+        const finalHeight = Math.min(
+          calculatedHeight,
+          MAX_BOTTOM_SHEET_IMAGE_HEIGHT,
+        );
         const finalWidth = finalHeight * aspectRatio;
         setImageSize({ width: finalWidth, height: finalHeight });
       } else {
@@ -265,7 +192,7 @@ export const PhotoFilterBottomSheet = ({
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: MAX_IMAGE_HEIGHT,
+                height: MAX_BOTTOM_SHEET_IMAGE_HEIGHT,
               }}
             >
               <ActivityIndicator size="large" color={Color.GREY} />
@@ -282,7 +209,7 @@ export const PhotoFilterBottomSheet = ({
                 style={{
                   width: imageSize.width,
                   height: imageSize.height,
-                  maxHeight: MAX_IMAGE_HEIGHT,
+                  maxHeight: MAX_BOTTOM_SHEET_IMAGE_HEIGHT,
                 }}
               >
                 <SkiaImage

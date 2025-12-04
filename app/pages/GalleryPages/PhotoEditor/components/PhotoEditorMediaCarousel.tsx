@@ -5,6 +5,13 @@ import Carousel from 'react-native-reanimated-carousel';
 
 import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
+import {
+  DEFAULT_CAROUSEL_HEIGHT,
+  CAROUSEL_MODE_CONFIG,
+  CAROUSEL_WINDOW_SIZE,
+  CAROUSEL_SCROLL_THROTTLE_MS,
+} from '../../../../constants/carousel.constant';
+import { calculateContainDimensions } from '../../../../utils/carousel-dimension.util';
 
 type Props = {
   data: MediaItem[];
@@ -26,11 +33,13 @@ const PhotoEditorMediaCarouselComponent = ({
   data,
   activeIndex,
   carouselWidth,
-  carouselMaxHeight = 376,
+  carouselMaxHeight = DEFAULT_CAROUSEL_HEIGHT,
   onScroll,
 }: Props): React.ReactElement => {
   const resolvedCarouselHeight =
-    carouselMaxHeight && carouselMaxHeight > 0 ? carouselMaxHeight : 376;
+    carouselMaxHeight && carouselMaxHeight > 0
+      ? carouselMaxHeight
+      : DEFAULT_CAROUSEL_HEIGHT;
   const safeActiveIndex = Math.min(
     Math.max(activeIndex ?? 0, 0),
     Math.max(data.length - 1, 0),
@@ -53,7 +62,11 @@ const PhotoEditorMediaCarouselComponent = ({
 
   // 모든 이미지를 미리 캐시에 로드 (데이터가 실제로 변경된 경우에만)
   useEffect(() => {
-    if (JSON.stringify(prevDataRef.current) === JSON.stringify(data)) {
+    // Check if data has actually changed by comparing URLs
+    const prevUrls = prevDataRef.current.map(item => item.url).join(',');
+    const currentUrls = data.map(item => item.url).join(',');
+
+    if (prevUrls === currentUrls) {
       return;
     }
 
@@ -77,24 +90,19 @@ const PhotoEditorMediaCarouselComponent = ({
     ({ item }: { item: MediaItem }) => {
       const mediaUrl = item.url;
 
-      // 이미지 실제 표시 크기 계산
-      let displayWidth = carouselWidth;
-      let displayHeight = resolvedCarouselHeight;
+      // 이미지 실제 표시 크기 계산 (contain mode)
+      const displayDimensions =
+        item.width && item.height
+          ? calculateContainDimensions(
+              item.width,
+              item.height,
+              carouselWidth,
+              resolvedCarouselHeight,
+            )
+          : { width: carouselWidth, height: resolvedCarouselHeight };
 
-      if (item.width && item.height) {
-        const aspectRatio = item.width / item.height;
-        const containerAspectRatio = carouselWidth / resolvedCarouselHeight;
-
-        if (aspectRatio > containerAspectRatio) {
-          // 가로가 더 긴 이미지 - width를 기준으로 맞춤
-          displayWidth = carouselWidth;
-          displayHeight = carouselWidth / aspectRatio;
-        } else {
-          // 세로가 더 긴 이미지 - height를 기준으로 맞춤
-          displayHeight = resolvedCarouselHeight;
-          displayWidth = resolvedCarouselHeight * aspectRatio;
-        }
-      }
+      const displayWidth = displayDimensions.width;
+      const displayHeight = displayDimensions.height;
 
       return (
         <ContentContainer flex={1} alignItems="center" justifyContent="center">
@@ -124,13 +132,13 @@ const PhotoEditorMediaCarouselComponent = ({
     [carouselWidth, resolvedCarouselHeight],
   );
 
-  // 쓰로틀된 onScroll 핸들러 (100ms)
+  // 쓰로틀된 onScroll 핸들러
   const handleProgressChange = useCallback(
     (_: number, absoluteProgress: number) => {
       if (!onScroll) return;
 
       const now = Date.now();
-      if (now - lastScrollTimeRef.current >= 100) {
+      if (now - lastScrollTimeRef.current >= CAROUSEL_SCROLL_THROTTLE_MS) {
         lastScrollTimeRef.current = now;
         onScroll(Math.floor(absoluteProgress));
       }
@@ -157,12 +165,8 @@ const PhotoEditorMediaCarouselComponent = ({
         height={resolvedCarouselHeight}
         data={data}
         mode="parallax"
-        windowSize={3}
-        modeConfig={{
-          parallaxScrollingScale: 0.91,
-          parallaxAdjacentItemScale: 0.91,
-          parallaxScrollingOffset: 25,
-        }}
+        windowSize={CAROUSEL_WINDOW_SIZE}
+        modeConfig={CAROUSEL_MODE_CONFIG}
         defaultIndex={safeActiveIndex}
         renderItem={renderItem}
         onProgressChange={handleProgressChange}
