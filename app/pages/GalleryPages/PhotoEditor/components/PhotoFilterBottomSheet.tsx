@@ -59,23 +59,18 @@ async function copyContentUriToFile(
   selectedImage: ExtendedPhotoIdentifier,
 ): Promise<string> {
   const uri = selectedImage.node.image.uri;
-  logger.debug('[copyContentUriToFile] Start - URI:', uri);
-  logger.debug('[copyContentUriToFile] Platform:', Platform.OS);
 
   if (Platform.OS === 'android' && uri.startsWith('content://')) {
     const dest = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.jpg`;
-    logger.debug('[copyContentUriToFile] Android - Copying to:', dest);
     try {
       await RNFS.copyFile(uri, dest);
-      logger.debug('[copyContentUriToFile] Android - Copy success');
       return `file://${dest}`;
     } catch (error) {
-      logger.error('[copyContentUriToFile] Android - Copy failed:', error);
+      logger.error('Failed to copy Android content URI:', error);
       throw error;
     }
   }
   if (Platform.OS === 'ios' && uri.startsWith('ph://')) {
-    logger.debug('[copyContentUriToFile] iOS - Using PhotoManipulator');
     const { width = 1000, height = 1000 } = selectedImage?.node.image ?? {};
     const manipulatedPath = await PhotoManipulator.crop(uri, {
       x: 0,
@@ -83,28 +78,19 @@ async function copyContentUriToFile(
       width,
       height,
     });
-    logger.debug('[copyContentUriToFile] iOS - Success:', manipulatedPath);
     return manipulatedPath;
   }
-  logger.debug('[copyContentUriToFile] Direct URI return');
   return uri;
 }
 
 async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   try {
-    logger.debug('[loadSkiaImage] Loading:', uri);
-
     let buffer: ArrayBuffer;
 
     // Android file:// URIs cannot be fetched, use RNFS
     if (Platform.OS === 'android' && uri.startsWith('file://')) {
-      logger.debug('[loadSkiaImage] Android - Using RNFS.readFile');
       const filePath = uri.replace('file://', '');
       const base64Data = await RNFS.readFile(filePath, 'base64');
-      logger.debug(
-        '[loadSkiaImage] Android - Base64 length:',
-        base64Data.length,
-      );
 
       // Convert base64 to ArrayBuffer
       const binaryString = atob(base64Data);
@@ -113,25 +99,18 @@ async function loadSkiaImage(uri: string): Promise<SkImage | null> {
         bytes[i] = binaryString.charCodeAt(i);
       }
       buffer = bytes.buffer;
-      logger.debug('[loadSkiaImage] Android - Buffer size:', buffer.byteLength);
     } else {
       // iOS or network URLs use fetch
-      logger.debug('[loadSkiaImage] Using fetch');
       const response = await fetch(uri);
-      logger.debug('[loadSkiaImage] Fetch status:', response.status);
       buffer = await response.arrayBuffer();
-      logger.debug('[loadSkiaImage] Buffer size:', buffer.byteLength);
     }
 
     const skData = Skia.Data.fromBytes(new Uint8Array(buffer));
-    logger.debug('[loadSkiaImage] Skia data created');
-
     const skImage = Skia.Image.MakeImageFromEncoded(skData);
-    logger.debug('[loadSkiaImage] Skia image:', skImage ? 'success' : 'null');
 
     return skImage ?? null;
   } catch (err) {
-    logger.error('[loadSkiaImage] Error:', err);
+    logger.error('Failed to load Skia image:', err);
     return null;
   }
 }
@@ -237,11 +216,6 @@ export const PhotoFilterBottomSheet = ({
       if (selectedImage?.node.image.uri && opened) {
         try {
           // 원본 이미지 URI를 우선 사용 (필터가 적용된 경우 originalUri 사용)
-          const imageUri =
-            selectedImage.originalUri ?? selectedImage.node.image.uri;
-          logger.debug('Loading image for filter:', imageUri);
-
-          // 원본 URI를 사용하도록 임시 객체 생성
           const imageToLoad = selectedImage.originalUri
             ? {
                 ...selectedImage,
@@ -256,9 +230,7 @@ export const PhotoFilterBottomSheet = ({
             : selectedImage;
 
           const path = await copyContentUriToFile(imageToLoad);
-          logger.debug('Copied to path:', path);
           const img = await loadSkiaImage(path);
-          logger.debug('Skia image loaded:', img ? 'success' : 'failed');
           setSkiaImage(img);
         } catch (error) {
           logger.error('Failed to load image for filter:', error);
