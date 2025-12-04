@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Dimensions, Image, Platform } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Image, Platform } from 'react-native';
 
-import logger from '../../../utils/logger';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
@@ -11,22 +10,24 @@ import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import { Color } from '../../../constants/color.constant.ts';
+import {
+  CAROUSEL_WIDTH_PADDED,
+  MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
+} from '../../../constants/carousel.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
 import { useUIStore } from '../../../stores/ui.store';
 import ImagePicker from 'react-native-image-crop-picker';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { PhotoFilterBottomSheet } from './components/PhotoFilterBottomSheet';
+import { useImageDimensions } from '../../../hooks/useImageDimensions';
+import { calculateOptimalCarouselHeight } from '../../../utils/carousel-dimension.util';
+import logger from '../../../utils/logger';
 
 const PhotoEditorPage = (): React.ReactElement => {
   // React hooks
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
-  const [imageDimensions, setImageDimensions] = useState<
-    { width: number; height: number }[]
-  >([]);
   const [filterBottomSheetOpen, setFilterBottomSheetOpen] = useState(false);
-  const MAX_CAROUSEL_HEIGHT = 400;
-  const CAROUSEL_WIDTH = Dimensions.get('window').width - 32;
 
   // 글로벌 상태 관리 (Zustand)
   const {
@@ -39,6 +40,19 @@ const PhotoEditorPage = (): React.ReactElement => {
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
+
+  // Custom hooks
+  const imageDimensions = useImageDimensions(
+    editGalleryItems.map(item => ({
+      uri: item.node.image.uri,
+      width: item.node.image.width,
+      height: item.node.image.height,
+    })),
+    {
+      defaultWidth: CAROUSEL_WIDTH_PADDED,
+      defaultHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
+    },
+  );
 
   // Memoized values
   const currentItem = editGalleryItems[galleryIndex];
@@ -162,63 +176,16 @@ const PhotoEditorPage = (): React.ReactElement => {
     [editGalleryItems.length, setGalleryIndex, galleryIndex],
   );
 
-  // 이미지 크기를 가져와서 최적의 캐러셀 높이 계산
-  useEffect(() => {
-    const loadImageDimensions = async () => {
-      const dimensions = await Promise.all(
-        editGalleryItems.map(async item => {
-          const uri = item.node.image.uri;
-          const width = item.node.image.width;
-          const height = item.node.image.height;
-
-          // 이미 width/height가 있으면 사용
-          if (width && height) {
-            return { width, height };
-          }
-
-          // 없으면 Image.getSize로 가져오기
-          try {
-            return await new Promise<{ width: number; height: number }>(
-              (resolve, reject) => {
-                Image.getSize(
-                  uri,
-                  (w, h) => resolve({ width: w, height: h }),
-                  reject,
-                );
-              },
-            );
-          } catch (error) {
-            logger.debug('Failed to get image size:', uri, error);
-            return { width: CAROUSEL_WIDTH, height: MAX_CAROUSEL_HEIGHT };
-          }
-        }),
-      );
-      setImageDimensions(dimensions);
-    };
-
-    loadImageDimensions();
-  }, [editGalleryItems, CAROUSEL_WIDTH, MAX_CAROUSEL_HEIGHT]);
-
   // 이미지 비율에 맞는 최적의 캐러셀 높이 계산
-  const optimalCarouselHeight = useMemo(() => {
-    if (imageDimensions.length === 0) {
-      return MAX_CAROUSEL_HEIGHT;
-    }
-
-    // 각 이미지가 CAROUSEL_WIDTH에 맞춰졌을 때의 높이 계산
-    const heights = imageDimensions.map(dim => {
-      const aspectRatio = dim.height / dim.width;
-      return CAROUSEL_WIDTH * aspectRatio;
-    });
-
-    // 모든 이미지의 최대 높이 (하지만 MAX_CAROUSEL_HEIGHT를 초과하지 않음)
-    const maxHeight = Math.max(...heights);
-    return Math.min(maxHeight, MAX_CAROUSEL_HEIGHT);
-  }, [imageDimensions, CAROUSEL_WIDTH, MAX_CAROUSEL_HEIGHT]);
-
-  useEffect(() => {
-    logger.debug('PhotoEditor galleryIndex changed to:', galleryIndex);
-  }, [galleryIndex]);
+  const optimalCarouselHeight = useMemo(
+    () =>
+      calculateOptimalCarouselHeight(
+        imageDimensions,
+        CAROUSEL_WIDTH_PADDED,
+        MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
+      ),
+    [imageDimensions],
+  );
 
   return (
     <LoadingContainer isLoading={isGalleryUploading}>
@@ -249,7 +216,7 @@ const PhotoEditorPage = (): React.ReactElement => {
                 height: imageDimensions[index]?.height,
               }))}
               activeIndex={galleryIndex}
-              carouselWidth={CAROUSEL_WIDTH}
+              carouselWidth={CAROUSEL_WIDTH_PADDED}
               carouselMaxHeight={Math.min(
                 Math.max(contentContainerHeight - 32, 0),
                 optimalCarouselHeight,

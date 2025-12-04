@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 import { Color } from '../../../../constants/color.constant';
 import { BodyTextB } from '../../../../components/ui/base/TextBase.tsx';
+import { EDITOR_ACTION_BUTTON } from '../constants/editor.constant';
 
 type EditorActionButtonProps = {
   icon: string;
@@ -27,7 +28,9 @@ export const EditorActionButton = ({
       style={{
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled
+          ? EDITOR_ACTION_BUTTON.DISABLED_OPACITY
+          : EDITOR_ACTION_BUTTON.ENABLED_OPACITY,
       }}
       onPress={onPress}
       disabled={disabled}
@@ -36,16 +39,20 @@ export const EditorActionButton = ({
         useHorizontalLayout
         justifyContent={'center'}
         alignItems={'center'}
-        gap={12}
+        gap={EDITOR_ACTION_BUTTON.GAP}
         withBorder
         backgroundColor={Color.WHITE}
-        paddingHorizontal={20}
-        paddingVertical={14}
-        width={168}
-        height={62}
-        borderRadius={16}
+        paddingHorizontal={EDITOR_ACTION_BUTTON.PADDING_HORIZONTAL}
+        paddingVertical={EDITOR_ACTION_BUTTON.PADDING_VERTICAL}
+        width={EDITOR_ACTION_BUTTON.WIDTH}
+        height={EDITOR_ACTION_BUTTON.HEIGHT}
+        borderRadius={EDITOR_ACTION_BUTTON.BORDER_RADIUS}
       >
-        <Icon name={icon} size={20} color={iconColor} />
+        <Icon
+          name={icon}
+          size={EDITOR_ACTION_BUTTON.ICON_SIZE}
+          color={iconColor}
+        />
         <BodyTextB color={textColor}>{label}</BodyTextB>
       </ContentContainer>
     </TouchableOpacity>
