@@ -249,12 +249,12 @@ export const PhotoFilterBottomSheet = ({
       snapPoints={['80%']}
       opened={opened}
       onClose={handleClose}
-      headerPaddingBottom={12}
+      headerPaddingBottom={8}
       paddingBottom={12}
     >
-      <ContentContainer gap={12} flex={1}>
+      <ContentContainer gap={8} flex={1}>
         {/* 이미지 프리뷰 영역 */}
-        <ContentContainer alignCenter flex={1}>
+        <ContentContainer alignCenter flex={1} paddingTop={16}>
           {!skiaImage ? (
             <View
               style={{
@@ -321,7 +321,7 @@ export const PhotoFilterBottomSheet = ({
         </ContentContainer>
 
         {/* 슬라이더 영역 */}
-        <ContentContainer minHeight={40}>
+        <ContentContainer minHeight={40} paddingBottom={4}>
           {isSliderNeeded && currentSliderConfig && (
             <Slider
               minimumValue={currentSliderConfig.min}
@@ -337,7 +337,7 @@ export const PhotoFilterBottomSheet = ({
         </ContentContainer>
 
         {/* 필터 선택 영역 */}
-        <ContentContainer style={{ paddingVertical: 10 }}>
+        <ContentContainer paddingVertical={8}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {Object.keys(FILTER_LABELS).map(filterName => (
               <TouchableOpacity
