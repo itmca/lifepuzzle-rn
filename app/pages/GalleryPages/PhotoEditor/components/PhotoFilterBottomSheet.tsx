@@ -15,7 +15,6 @@ import { encode as encodeBase64 } from 'base64-arraybuffer';
 import PhotoManipulator from 'react-native-photo-manipulator';
 import { ExtendedPhotoIdentifier } from '../../../../types/ui/photo-selector.type';
 import {
-  Blur,
   Canvas,
   ColorMatrix,
   Image as SkiaImage,
@@ -288,9 +287,7 @@ export const PhotoFilterBottomSheet = ({
                   height={imageSize.height}
                   fit="contain"
                 >
-                  {activeFilter === 'blur' && <Blur blur={filterAmount} />}
                   {Object.keys(FILTER_EFFECTS).includes(activeFilter) &&
-                    activeFilter !== 'blur' &&
                     typeof FILTER_EFFECTS[
                       activeFilter as keyof typeof FILTER_EFFECTS
                     ] !== 'function' && (
@@ -302,15 +299,10 @@ export const PhotoFilterBottomSheet = ({
                         )}
                       />
                     )}
-                  {(activeFilter === 'brightness' ||
-                    activeFilter === 'contrast' ||
-                    activeFilter === 'saturation' ||
-                    activeFilter === 'exposure') && (
+                  {activeFilter === 'exposure' && (
                     <ColorMatrix
                       matrix={(
-                        FILTER_EFFECTS[activeFilter] as (
-                          amount: number,
-                        ) => number[]
+                        FILTER_EFFECTS.exposure as (amount: number) => number[]
                       )(filterAmount)}
                     />
                   )}
@@ -339,27 +331,89 @@ export const PhotoFilterBottomSheet = ({
         {/* 필터 선택 영역 */}
         <ContentContainer paddingVertical={8}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {Object.keys(FILTER_LABELS).map(filterName => (
-              <TouchableOpacity
-                key={filterName}
-                style={[
-                  {
-                    width: 80,
-                    height: 80,
-                    marginRight: 10,
-                    borderColor:
-                      activeFilter === filterName ? Color.MAIN : Color.GREY,
-                    borderWidth: 2,
-                    borderRadius: 5,
-                  },
-                ]}
-                onPress={() => applyFilter(filterName as FilterType)}
-              >
-                <ContentContainer borderRadius={5} alignCenter flex={1}>
-                  <Title>{FILTER_LABELS[filterName as FilterType]}</Title>
-                </ContentContainer>
-              </TouchableOpacity>
-            ))}
+            {Object.keys(FILTER_LABELS).map(filterName => {
+              const filter = filterName as FilterType;
+              const isActive = activeFilter === filter;
+
+              return (
+                <TouchableOpacity
+                  key={filterName}
+                  style={{
+                    marginRight: 12,
+                    alignItems: 'center',
+                  }}
+                  onPress={() => applyFilter(filter)}
+                >
+                  <View
+                    style={{
+                      width: 70,
+                      height: 70,
+                      borderRadius: 8,
+                      overflow: 'hidden',
+                      borderWidth: 2,
+                      borderColor: isActive ? Color.MAIN : Color.GREY_300,
+                    }}
+                  >
+                    {skiaImage ? (
+                      <Canvas
+                        style={{
+                          width: 70,
+                          height: 70,
+                        }}
+                      >
+                        <SkiaImage
+                          image={skiaImage}
+                          x={0}
+                          y={0}
+                          width={70}
+                          height={70}
+                          fit="cover"
+                        >
+                          {Object.keys(FILTER_EFFECTS).includes(filter) &&
+                            typeof FILTER_EFFECTS[
+                              filter as keyof typeof FILTER_EFFECTS
+                            ] !== 'function' && (
+                              <ColorMatrix
+                                matrix={Array.from(
+                                  FILTER_EFFECTS[
+                                    filter as keyof typeof FILTER_EFFECTS
+                                  ] as readonly number[],
+                                )}
+                              />
+                            )}
+                          {filter === 'exposure' && (
+                            <ColorMatrix
+                              matrix={(
+                                FILTER_EFFECTS.exposure as (
+                                  amount: number,
+                                ) => number[]
+                              )(0)}
+                            />
+                          )}
+                        </SkiaImage>
+                      </Canvas>
+                    ) : (
+                      <View
+                        style={{
+                          width: 70,
+                          height: 70,
+                          backgroundColor: Color.GREY_100,
+                        }}
+                      />
+                    )}
+                  </View>
+                  <Title
+                    style={{
+                      marginTop: 4,
+                      fontSize: 12,
+                      color: isActive ? Color.MAIN : Color.GREY_700,
+                    }}
+                  >
+                    {FILTER_LABELS[filter]}
+                  </Title>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </ContentContainer>
 
