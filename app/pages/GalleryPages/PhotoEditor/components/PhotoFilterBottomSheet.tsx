@@ -55,6 +55,9 @@ export const PhotoFilterBottomSheet = ({
     height: displaySize,
   });
   const [activeFilter, setActiveFilter] = useState<FilterType>('original');
+  const appliedFilter = selectedImage?.appliedFilter ?? 'original';
+  const isApplyDisabled =
+    !skiaImage || activeFilter === appliedFilter || !selectedImage;
 
   const handleClose = useCallback(() => {
     setActiveFilter('original');
@@ -335,7 +338,7 @@ export const PhotoFilterBottomSheet = ({
               mode="contained"
               onPress={handleApply}
               buttonColor={Color.MAIN}
-              disabled={activeFilter === 'original'}
+              disabled={isApplyDisabled}
             >
               적용
             </Button>
