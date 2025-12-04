@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import logger from '../../../../utils/logger';
-import Slider from '@react-native-community/slider';
 import RNFS, { writeFile } from 'react-native-fs';
 import { encode as encodeBase64 } from 'base64-arraybuffer';
 import PhotoManipulator from 'react-native-photo-manipulator';
@@ -29,7 +28,6 @@ import { Color } from '../../../../constants/color.constant.ts';
 import {
   FILTER_EFFECTS,
   FILTER_LABELS,
-  FILTER_SETTINGS,
   FilterType,
 } from '../../../../constants/filter.constant.ts';
 import BottomSheet from '../../../../components/ui/interaction/BottomSheet.tsx';
@@ -108,15 +106,9 @@ export const PhotoFilterBottomSheet = ({
     height: displaySize,
   });
   const [activeFilter, setActiveFilter] = useState<FilterType>('original');
-  const [filterAmount, setFilterAmount] = useState(1);
-
-  // Memoized 값
-  const isSliderNeeded = FILTER_SETTINGS[activeFilter] !== undefined;
-  const currentSliderConfig = FILTER_SETTINGS[activeFilter];
 
   const handleClose = useCallback(() => {
     setActiveFilter('original');
-    setFilterAmount(1);
     onClose();
   }, [onClose]);
 
@@ -158,9 +150,6 @@ export const PhotoFilterBottomSheet = ({
       return;
     }
     setActiveFilter(filterName);
-
-    const config = FILTER_SETTINGS[filterName];
-    setFilterAmount(config ? config.initial : 1);
   };
 
   // Side effects
@@ -237,7 +226,6 @@ export const PhotoFilterBottomSheet = ({
   useEffect(() => {
     if (!opened) {
       setActiveFilter('original');
-      setFilterAmount(1);
       setSkiaImage(null);
     }
   }, [opened]);
@@ -251,9 +239,9 @@ export const PhotoFilterBottomSheet = ({
       headerPaddingBottom={8}
       paddingBottom={12}
     >
-      <ContentContainer gap={8} flex={1}>
+      <ContentContainer gap={12} flex={1}>
         {/* 이미지 프리뷰 영역 */}
-        <ContentContainer alignCenter flex={1} paddingTop={16}>
+        <ContentContainer alignCenter flex={1} paddingTop={12}>
           {!skiaImage ? (
             <View
               style={{
@@ -287,44 +275,16 @@ export const PhotoFilterBottomSheet = ({
                   height={imageSize.height}
                   fit="contain"
                 >
-                  {Object.keys(FILTER_EFFECTS).includes(activeFilter) &&
-                    typeof FILTER_EFFECTS[
-                      activeFilter as keyof typeof FILTER_EFFECTS
-                    ] !== 'function' && (
-                      <ColorMatrix
-                        matrix={Array.from(
-                          FILTER_EFFECTS[
-                            activeFilter as keyof typeof FILTER_EFFECTS
-                          ] as readonly number[],
-                        )}
-                      />
-                    )}
-                  {activeFilter === 'exposure' && (
+                  {activeFilter !== 'original' && (
                     <ColorMatrix
-                      matrix={(
-                        FILTER_EFFECTS.exposure as (amount: number) => number[]
-                      )(filterAmount)}
+                      matrix={Array.from(
+                        FILTER_EFFECTS[activeFilter] as readonly number[],
+                      )}
                     />
                   )}
                 </SkiaImage>
               </Canvas>
             </View>
-          )}
-        </ContentContainer>
-
-        {/* 슬라이더 영역 */}
-        <ContentContainer minHeight={40} paddingBottom={4}>
-          {isSliderNeeded && currentSliderConfig && (
-            <Slider
-              minimumValue={currentSliderConfig.min}
-              maximumValue={currentSliderConfig.max}
-              step={currentSliderConfig.step}
-              value={filterAmount}
-              onValueChange={setFilterAmount}
-              minimumTrackTintColor={Color.MAIN}
-              maximumTrackTintColor={Color.GREY}
-              thumbTintColor={Color.MAIN}
-            />
           )}
         </ContentContainer>
 
@@ -369,25 +329,11 @@ export const PhotoFilterBottomSheet = ({
                           height={70}
                           fit="cover"
                         >
-                          {Object.keys(FILTER_EFFECTS).includes(filter) &&
-                            typeof FILTER_EFFECTS[
-                              filter as keyof typeof FILTER_EFFECTS
-                            ] !== 'function' && (
-                              <ColorMatrix
-                                matrix={Array.from(
-                                  FILTER_EFFECTS[
-                                    filter as keyof typeof FILTER_EFFECTS
-                                  ] as readonly number[],
-                                )}
-                              />
-                            )}
-                          {filter === 'exposure' && (
+                          {filter !== 'original' && (
                             <ColorMatrix
-                              matrix={(
-                                FILTER_EFFECTS.exposure as (
-                                  amount: number,
-                                ) => number[]
-                              )(0)}
+                              matrix={Array.from(
+                                FILTER_EFFECTS[filter] as readonly number[],
+                              )}
                             />
                           )}
                         </SkiaImage>
