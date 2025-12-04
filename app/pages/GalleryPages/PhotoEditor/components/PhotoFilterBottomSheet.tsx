@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -8,16 +8,12 @@ import {
   View,
 } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { BasicNavigationProps } from '../../../navigation/types.tsx';
-import logger from '../../../utils/logger';
-
-import { useSelectionStore } from '../../../stores/selection.store';
+import logger from '../../../../utils/logger';
 import Slider from '@react-native-community/slider';
 import RNFS, { writeFile } from 'react-native-fs';
 import { encode as encodeBase64 } from 'base64-arraybuffer';
 import PhotoManipulator from 'react-native-photo-manipulator';
-import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
+import { ExtendedPhotoIdentifier } from '../../../../types/ui/photo-selector.type';
 import {
   Blur,
   Canvas,
@@ -27,25 +23,29 @@ import {
   SkImage,
   useCanvasRef,
 } from '@shopify/react-native-skia';
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
-import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
-import { TopBar } from '../../../components/ui/navigation/TopBar';
-import WritingHeaderRight from '../../../components/ui/navigation/header/WritingHeaderRight.tsx';
-import { Title } from '../../../components/ui/base/TextBase';
-import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
-import { Color } from '../../../constants/color.constant.ts';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
+import { Title } from '../../../../components/ui/base/TextBase';
+import { CustomAlert } from '../../../../components/ui/feedback/CustomAlert';
+import { Color } from '../../../../constants/color.constant.ts';
 import {
   FILTER_EFFECTS,
   FILTER_LABELS,
   FILTER_SETTINGS,
   FilterType,
-} from '../../../constants/filter.constant.ts';
+} from '../../../../constants/filter.constant.ts';
+import BottomSheet from '../../../../components/ui/interaction/BottomSheet.tsx';
+import { Button } from 'react-native-paper';
 
 const { width: screenWidth } = Dimensions.get('window');
-const displaySize = screenWidth;
+const displaySize = screenWidth - 40; // 패딩 고려
 
-//TODO: 리팩터링 필요
+type Props = {
+  opened: boolean;
+  selectedImage: ExtendedPhotoIdentifier | undefined;
+  onClose: () => void;
+  onApply: (filteredUri: string) => void;
+};
+
 const getImageSizeAsync = (
   uri: string,
 ): Promise<{ width: number; height: number }> =>
@@ -58,7 +58,7 @@ const getImageSizeAsync = (
   });
 
 async function copyContentUriToFile(
-  selectedImage: PhotoIdentifier,
+  selectedImage: ExtendedPhotoIdentifier,
 ): Promise<string> {
   const uri = selectedImage.node.image.uri;
   if (Platform.OS === 'android' && uri.startsWith('content://')) {
@@ -92,7 +92,12 @@ async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   }
 }
 
-const PhotoFilterPage = (): React.ReactElement => {
+export const PhotoFilterBottomSheet = ({
+  opened,
+  selectedImage,
+  onClose,
+  onApply,
+}: Props): React.ReactElement => {
   // Refs
   const canvasRef = useCanvasRef();
 
@@ -104,26 +109,19 @@ const PhotoFilterPage = (): React.ReactElement => {
   });
   const [activeFilter, setActiveFilter] = useState<FilterType>('original');
   const [filterAmount, setFilterAmount] = useState(1);
-  const [selectedImage, setSelectedImage] = useState<
-    PhotoIdentifier | undefined
-  >(undefined);
 
-  // 글로벌 상태 관리
-  const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
-  const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
-  const setEditGalleryItems = useSelectionStore(
-    state => state.setEditGalleryItems,
-  );
-
-  // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation<BasicNavigationProps>();
+  // Memoized 값
   const isSliderNeeded = FILTER_SETTINGS[activeFilter] !== undefined;
   const currentSliderConfig = FILTER_SETTINGS[activeFilter];
 
-  // Memoized 값
-  const saveFilteredImage = useCallback(async () => {
+  const handleApply = useCallback(async () => {
     if (!canvasRef.current || !skiaImage) {
       CustomAlert.simpleAlert('저장할 사진이 없습니다.');
+      return;
+    }
+
+    if (activeFilter === 'original') {
+      CustomAlert.simpleAlert('필터를 선택해주세요.');
       return;
     }
 
@@ -139,38 +137,19 @@ const PhotoFilterPage = (): React.ReactElement => {
         'base64',
       );
 
-      const newImageObject = {
-        ...selectedImage!,
-        node: {
-          ...selectedImage!.node,
-          image: {
-            ...selectedImage!.node.image,
-            uri: 'file://' + filePath,
-            width: skiaImage.width(),
-            height: skiaImage.height(),
-            size: bytes.length,
-            filename: fileName,
-          },
-        },
-      };
-
-      const updatedGallery = editGalleryItems.map((e, idx) =>
-        idx === galleryIndex ? newImageObject : e,
-      );
-      setEditGalleryItems(updatedGallery);
-      navigation.goBack();
+      onApply('file://' + filePath);
+      handleClose();
     } catch (err) {
       logger.error('Filter save error:', err);
+      CustomAlert.simpleAlert('필터 적용 중 오류가 발생했습니다.');
     }
-  }, [
-    canvasRef,
-    skiaImage,
-    selectedImage,
-    editGalleryItems,
-    galleryIndex,
-    setEditGalleryItems,
-    navigation,
-  ]);
+  }, [canvasRef, skiaImage, activeFilter, onApply]);
+
+  const handleClose = useCallback(() => {
+    setActiveFilter('original');
+    setFilterAmount(1);
+    onClose();
+  }, [onClose]);
 
   // Custom functions
   const applyFilter = (filterName: FilterType) => {
@@ -185,17 +164,6 @@ const PhotoFilterPage = (): React.ReactElement => {
   };
 
   // Side effects
-  useEffect(() => {
-    if (editGalleryItems && editGalleryItems.length > galleryIndex) {
-      setSelectedImage(editGalleryItems[galleryIndex]);
-    } else if (editGalleryItems) {
-      setSelectedImage(undefined);
-      CustomAlert.simpleAlert(
-        '이미지를 불러올 수 없습니다. 갤러리 항목을 확인해주세요.',
-      );
-    }
-  }, [editGalleryItems, galleryIndex]);
-
   useEffect(() => {
     const fetchImageSize = async () => {
       if (selectedImage?.node.image.uri) {
@@ -225,34 +193,34 @@ const PhotoFilterPage = (): React.ReactElement => {
 
   useEffect(() => {
     (async () => {
-      if (selectedImage?.node.image.uri) {
+      if (selectedImage?.node.image.uri && opened) {
         const path = await copyContentUriToFile(selectedImage);
         const img = await loadSkiaImage(path);
         setSkiaImage(img);
       }
     })();
-  }, [selectedImage]);
+  }, [selectedImage, opened]);
 
+  // 바텀시트 닫힐 때 상태 초기화
   useEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <TopBar
-          title={'사진 편집'}
-          right={
-            <WritingHeaderRight
-              text={'완료'}
-              customAction={saveFilteredImage}
-              disable={!selectedImage || activeFilter === 'original'}
-            />
-          }
-        />
-      ),
-    });
-  }, [navigation, saveFilteredImage, selectedImage, activeFilter]);
+    if (!opened) {
+      setActiveFilter('original');
+      setFilterAmount(1);
+      setSkiaImage(null);
+    }
+  }, [opened]);
 
   return (
-    <LoadingContainer isLoading={false}>
-      <ScreenContainer edges={['left', 'right', 'bottom']} gap={0}>
+    <BottomSheet
+      title="필터"
+      snapPoints={['80%']}
+      opened={opened}
+      onClose={handleClose}
+      headerPaddingBottom={12}
+      paddingBottom={12}
+    >
+      <ContentContainer gap={12} flex={1}>
+        {/* 이미지 프리뷰 영역 */}
         <ContentContainer alignCenter flex={1}>
           {!skiaImage ? (
             <View
@@ -311,7 +279,8 @@ const PhotoFilterPage = (): React.ReactElement => {
           )}
         </ContentContainer>
 
-        <ContentContainer minHeight="40px">
+        {/* 슬라이더 영역 */}
+        <ContentContainer minHeight={40}>
           {isSliderNeeded && currentSliderConfig && (
             <Slider
               minimumValue={currentSliderConfig.min}
@@ -326,11 +295,8 @@ const PhotoFilterPage = (): React.ReactElement => {
           )}
         </ContentContainer>
 
-        <ContentContainer
-          useHorizontalLayout
-          withContentPadding
-          style={{ paddingVertical: 10 }}
-        >
+        {/* 필터 선택 영역 */}
+        <ContentContainer style={{ paddingVertical: 10 }}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {Object.keys(FILTER_LABELS).map(filterName => (
               <TouchableOpacity
@@ -355,9 +321,36 @@ const PhotoFilterPage = (): React.ReactElement => {
             ))}
           </ScrollView>
         </ContentContainer>
-      </ScreenContainer>
-    </LoadingContainer>
+
+        {/* 버튼 영역 */}
+        <ContentContainer
+          useHorizontalLayout
+          gap={12}
+          paddingTop={8}
+          paddingBottom={8}
+        >
+          <ContentContainer flex={1}>
+            <Button
+              mode="outlined"
+              onPress={handleClose}
+              textColor={Color.GREY_700}
+              style={{ borderColor: Color.GREY_300 }}
+            >
+              취소
+            </Button>
+          </ContentContainer>
+          <ContentContainer flex={1}>
+            <Button
+              mode="contained"
+              onPress={handleApply}
+              buttonColor={Color.MAIN}
+              disabled={activeFilter === 'original'}
+            >
+              적용
+            </Button>
+          </ContentContainer>
+        </ContentContainer>
+      </ContentContainer>
+    </BottomSheet>
   );
 };
-
-export default PhotoFilterPage;

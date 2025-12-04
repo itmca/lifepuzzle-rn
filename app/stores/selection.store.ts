@@ -1,16 +1,17 @@
 import { create } from 'zustand';
 import { TagType } from '../types/core/media.type';
+import { ExtendedPhotoIdentifier } from '../types/ui/photo-selector.type';
 
 interface SelectionState {
   selectedTag: TagType | null;
   selectedGalleryItems: any[];
-  editGalleryItems: any[];
+  editGalleryItems: ExtendedPhotoIdentifier[];
   currentGalleryIndex: number;
   selectedHeroPhoto: any;
   selectedUserPhoto: any;
   setSelectedTag: (tag: TagType | null) => void;
   setSelectedGalleryItems: (items: any[]) => void;
-  setEditGalleryItems: (items: any[]) => void;
+  setEditGalleryItems: (items: ExtendedPhotoIdentifier[]) => void;
   setCurrentGalleryIndex: (index: number) => void;
   setSelectedHeroPhoto: (photo: any) => void;
   setSelectedUserPhoto: (photo: any) => void;
