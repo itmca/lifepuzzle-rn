@@ -209,6 +209,37 @@ const PhotoEditorPage = (): React.ReactElement => {
     [editGalleryItems.length, setGalleryIndex, galleryIndex],
   );
 
+  const handleRemoveItem = useCallback(
+    (index: number) => {
+      if (editGalleryItems.length <= 1) {
+        CustomAlert.simpleAlert('사진은 최소 1장 이상 남겨주세요.');
+        return;
+      }
+
+      CustomAlert.actionAlert({
+        title: '사진을 삭제할까요?',
+        desc: '삭제 후에는 복구할 수 없습니다.',
+        actionBtnText: '삭제',
+        action: () => {
+          const updatedGallery = editGalleryItems.filter(
+            (_, idx) => idx !== index,
+          );
+
+          let nextIndex = galleryIndex;
+          if (index < galleryIndex) {
+            nextIndex = galleryIndex - 1;
+          } else if (galleryIndex >= updatedGallery.length) {
+            nextIndex = Math.max(updatedGallery.length - 1, 0);
+          }
+
+          setEditGalleryItems(updatedGallery);
+          setGalleryIndex(nextIndex);
+        },
+      });
+    },
+    [editGalleryItems, galleryIndex, setEditGalleryItems, setGalleryIndex],
+  );
+
   // 이미지 비율에 맞는 최적의 캐러셀 높이 계산
   const optimalCarouselHeight = useMemo(
     () =>
@@ -255,6 +286,7 @@ const PhotoEditorPage = (): React.ReactElement => {
                 optimalCarouselHeight,
               )}
               onScroll={handleScroll}
+              onRemove={handleRemoveItem}
             />
           </ContentContainer>
           <ContentContainer

@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
 import Carousel from 'react-native-reanimated-carousel';
 
 import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
+import { SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import {
   DEFAULT_CAROUSEL_HEIGHT,
   CAROUSEL_MODE_CONFIG,
   CAROUSEL_WINDOW_SIZE,
   CAROUSEL_SCROLL_THROTTLE_MS,
 } from '../../../../constants/carousel.constant';
+import { Color } from '../../../../constants/color.constant';
 import { calculateContainDimensions } from '../../../../utils/carousel-dimension.util';
 
 type Props = {
@@ -19,6 +21,7 @@ type Props = {
   carouselMaxHeight?: number;
   carouselWidth: number;
   onScroll?: (index: number) => void;
+  onRemove?: (index: number) => void;
 };
 
 type MediaItem = {
@@ -35,6 +38,7 @@ const PhotoEditorMediaCarouselComponent = ({
   carouselWidth,
   carouselMaxHeight = DEFAULT_CAROUSEL_HEIGHT,
   onScroll,
+  onRemove,
 }: Props): React.ReactElement => {
   const resolvedCarouselHeight =
     carouselMaxHeight && carouselMaxHeight > 0
@@ -119,6 +123,14 @@ const PhotoEditorMediaCarouselComponent = ({
               elevation: 3,
             }}
           >
+            {onRemove && typeof item.index === 'number' && (
+              <TouchableOpacity
+                style={styles.removeButton}
+                onPress={() => onRemove(item.index as number)}
+              >
+                <SvgIcon name="closeWhite" size={16} color={Color.WHITE} />
+              </TouchableOpacity>
+            )}
             <AdaptiveImage
               uri={mediaUrl}
               style={styles.image}
@@ -182,6 +194,15 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'transparent',
   },
+  removeButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    zIndex: 1,
+    padding: 6,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+  },
 });
 
 // React.memo로 불필요한 재렌더링 방지
@@ -193,7 +214,8 @@ export const PhotoEditorMediaCarousel = React.memo(
       prevProps.activeIndex === nextProps.activeIndex &&
       prevProps.carouselWidth === nextProps.carouselWidth &&
       prevProps.carouselMaxHeight === nextProps.carouselMaxHeight &&
-      prevProps.onScroll === nextProps.onScroll
+      prevProps.onScroll === nextProps.onScroll &&
+      prevProps.onRemove === nextProps.onRemove
     );
   },
 );
