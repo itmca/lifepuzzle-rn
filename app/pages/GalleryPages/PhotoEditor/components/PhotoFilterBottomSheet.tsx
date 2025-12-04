@@ -38,7 +38,7 @@ import { Button } from 'react-native-paper';
 
 const { width: screenWidth } = Dimensions.get('window');
 const displaySize = screenWidth - 40; // 패딩 고려
-const MAX_IMAGE_HEIGHT = 400;
+const MAX_IMAGE_HEIGHT = 340; // 버튼 영역 확보를 위해 줄임
 
 type Props = {
   opened: boolean;
@@ -115,6 +115,12 @@ export const PhotoFilterBottomSheet = ({
   const isSliderNeeded = FILTER_SETTINGS[activeFilter] !== undefined;
   const currentSliderConfig = FILTER_SETTINGS[activeFilter];
 
+  const handleClose = useCallback(() => {
+    setActiveFilter('original');
+    setFilterAmount(1);
+    onClose();
+  }, [onClose]);
+
   const handleApply = useCallback(async () => {
     if (!canvasRef.current || !skiaImage) {
       CustomAlert.simpleAlert('저장할 사진이 없습니다.');
@@ -144,13 +150,7 @@ export const PhotoFilterBottomSheet = ({
       logger.error('Filter save error:', err);
       CustomAlert.simpleAlert('필터 적용 중 오류가 발생했습니다.');
     }
-  }, [canvasRef, skiaImage, activeFilter, onApply]);
-
-  const handleClose = useCallback(() => {
-    setActiveFilter('original');
-    setFilterAmount(1);
-    onClose();
-  }, [onClose]);
+  }, [canvasRef, skiaImage, activeFilter, onApply, handleClose]);
 
   // Custom functions
   const applyFilter = (filterName: FilterType) => {
@@ -266,50 +266,57 @@ export const PhotoFilterBottomSheet = ({
               <ActivityIndicator size="large" color={Color.GREY} />
             </View>
           ) : (
-            <Canvas
-              ref={canvasRef}
+            <View
               style={{
-                width: imageSize.width,
-                height: imageSize.height,
-                maxHeight: MAX_IMAGE_HEIGHT,
+                borderRadius: 12,
+                overflow: 'hidden',
               }}
             >
-              <SkiaImage
-                image={skiaImage}
-                x={0}
-                y={0}
-                width={imageSize.width}
-                height={imageSize.height}
-                fit="contain"
+              <Canvas
+                ref={canvasRef}
+                style={{
+                  width: imageSize.width,
+                  height: imageSize.height,
+                  maxHeight: MAX_IMAGE_HEIGHT,
+                }}
               >
-                {activeFilter === 'blur' && <Blur blur={filterAmount} />}
-                {Object.keys(FILTER_EFFECTS).includes(activeFilter) &&
-                  activeFilter !== 'blur' &&
-                  typeof FILTER_EFFECTS[
-                    activeFilter as keyof typeof FILTER_EFFECTS
-                  ] !== 'function' && (
+                <SkiaImage
+                  image={skiaImage}
+                  x={0}
+                  y={0}
+                  width={imageSize.width}
+                  height={imageSize.height}
+                  fit="contain"
+                >
+                  {activeFilter === 'blur' && <Blur blur={filterAmount} />}
+                  {Object.keys(FILTER_EFFECTS).includes(activeFilter) &&
+                    activeFilter !== 'blur' &&
+                    typeof FILTER_EFFECTS[
+                      activeFilter as keyof typeof FILTER_EFFECTS
+                    ] !== 'function' && (
+                      <ColorMatrix
+                        matrix={Array.from(
+                          FILTER_EFFECTS[
+                            activeFilter as keyof typeof FILTER_EFFECTS
+                          ] as readonly number[],
+                        )}
+                      />
+                    )}
+                  {(activeFilter === 'brightness' ||
+                    activeFilter === 'contrast' ||
+                    activeFilter === 'saturation' ||
+                    activeFilter === 'exposure') && (
                     <ColorMatrix
-                      matrix={Array.from(
-                        FILTER_EFFECTS[
-                          activeFilter as keyof typeof FILTER_EFFECTS
-                        ] as readonly number[],
-                      )}
+                      matrix={(
+                        FILTER_EFFECTS[activeFilter] as (
+                          amount: number,
+                        ) => number[]
+                      )(filterAmount)}
                     />
                   )}
-                {(activeFilter === 'brightness' ||
-                  activeFilter === 'contrast' ||
-                  activeFilter === 'saturation' ||
-                  activeFilter === 'exposure') && (
-                  <ColorMatrix
-                    matrix={(
-                      FILTER_EFFECTS[activeFilter] as (
-                        amount: number,
-                      ) => number[]
-                    )(filterAmount)}
-                  />
-                )}
-              </SkiaImage>
-            </Canvas>
+                </SkiaImage>
+              </Canvas>
+            </View>
           )}
         </ContentContainer>
 
@@ -360,7 +367,7 @@ export const PhotoFilterBottomSheet = ({
         <ContentContainer
           useHorizontalLayout
           gap={12}
-          paddingTop={8}
+          paddingTop={16}
           paddingBottom={8}
         >
           <ContentContainer flex={1}>
