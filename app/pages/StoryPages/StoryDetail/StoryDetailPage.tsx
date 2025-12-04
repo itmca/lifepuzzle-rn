@@ -257,18 +257,20 @@ const StoryDetailPage = (): React.ReactElement => {
             gap={0}
           >
             <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-            {currentGalleryItem?.story ? (
-              <StoryItemContents story={currentGalleryItem.story} />
-            ) : (
-              <ContentContainer paddingTop={24}>
-                <Title color={Color.GREY_400}>
-                  사진에 담겨있는 당신의 이야기를 작성해 주세요
-                </Title>
-                <ContentContainer alignCenter paddingTop={36}>
-                  <StoryWritingButton onPress={onClickWrite} />
-                </ContentContainer>
-              </ContentContainer>
-            )}
+            <ContentContainer paddingTop={24}>
+              {currentGalleryItem?.story ? (
+                <StoryItemContents story={currentGalleryItem.story} />
+              ) : (
+                <>
+                  <Title color={Color.GREY_400}>
+                    사진에 담겨있는 당신의 이야기를 작성해 주세요
+                  </Title>
+                  <ContentContainer alignCenter paddingTop={36}>
+                    <StoryWritingButton onPress={onClickWrite} />
+                  </ContentContainer>
+                </>
+              )}
+            </ContentContainer>
           </ContentContainer>
         </ScrollContentContainer>
       </ScreenContainer>
