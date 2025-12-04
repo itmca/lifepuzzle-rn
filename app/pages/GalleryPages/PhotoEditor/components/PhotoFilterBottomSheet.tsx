@@ -92,12 +92,36 @@ async function copyContentUriToFile(
 
 async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   try {
-    logger.debug('[loadSkiaImage] Fetching:', uri);
-    const response = await fetch(uri);
-    logger.debug('[loadSkiaImage] Fetch response status:', response.status);
+    logger.debug('[loadSkiaImage] Loading:', uri);
 
-    const buffer = await response.arrayBuffer();
-    logger.debug('[loadSkiaImage] Buffer size:', buffer.byteLength);
+    let buffer: ArrayBuffer;
+
+    // Android file:// URIs cannot be fetched, use RNFS
+    if (Platform.OS === 'android' && uri.startsWith('file://')) {
+      logger.debug('[loadSkiaImage] Android - Using RNFS.readFile');
+      const filePath = uri.replace('file://', '');
+      const base64Data = await RNFS.readFile(filePath, 'base64');
+      logger.debug(
+        '[loadSkiaImage] Android - Base64 length:',
+        base64Data.length,
+      );
+
+      // Convert base64 to ArrayBuffer
+      const binaryString = atob(base64Data);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      buffer = bytes.buffer;
+      logger.debug('[loadSkiaImage] Android - Buffer size:', buffer.byteLength);
+    } else {
+      // iOS or network URLs use fetch
+      logger.debug('[loadSkiaImage] Using fetch');
+      const response = await fetch(uri);
+      logger.debug('[loadSkiaImage] Fetch status:', response.status);
+      buffer = await response.arrayBuffer();
+      logger.debug('[loadSkiaImage] Buffer size:', buffer.byteLength);
+    }
 
     const skData = Skia.Data.fromBytes(new Uint8Array(buffer));
     logger.debug('[loadSkiaImage] Skia data created');
