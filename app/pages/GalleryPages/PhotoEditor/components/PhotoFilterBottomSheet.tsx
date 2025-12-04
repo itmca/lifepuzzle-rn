@@ -167,12 +167,15 @@ export const PhotoFilterBottomSheet = ({
   useEffect(() => {
     const fetchImageSize = async () => {
       if (selectedImage?.node.image.uri) {
+        // 원본 이미지 URI 우선 사용
+        const imageUri =
+          selectedImage.originalUri ?? selectedImage.node.image.uri;
         let width = selectedImage.node.image.width;
         let height = selectedImage.node.image.height;
 
         if (!width || !height) {
           try {
-            const size = await getImageSizeAsync(selectedImage.node.image.uri);
+            const size = await getImageSizeAsync(imageUri);
             width = size.width;
             height = size.height;
           } catch {
@@ -194,9 +197,35 @@ export const PhotoFilterBottomSheet = ({
   useEffect(() => {
     (async () => {
       if (selectedImage?.node.image.uri && opened) {
-        const path = await copyContentUriToFile(selectedImage);
-        const img = await loadSkiaImage(path);
-        setSkiaImage(img);
+        try {
+          // 원본 이미지 URI를 우선 사용 (필터가 적용된 경우 originalUri 사용)
+          const imageUri =
+            selectedImage.originalUri ?? selectedImage.node.image.uri;
+          logger.debug('Loading image for filter:', imageUri);
+
+          // 원본 URI를 사용하도록 임시 객체 생성
+          const imageToLoad = selectedImage.originalUri
+            ? {
+                ...selectedImage,
+                node: {
+                  ...selectedImage.node,
+                  image: {
+                    ...selectedImage.node.image,
+                    uri: selectedImage.originalUri,
+                  },
+                },
+              }
+            : selectedImage;
+
+          const path = await copyContentUriToFile(imageToLoad);
+          logger.debug('Copied to path:', path);
+          const img = await loadSkiaImage(path);
+          logger.debug('Skia image loaded:', img ? 'success' : 'failed');
+          setSkiaImage(img);
+        } catch (error) {
+          logger.error('Failed to load image for filter:', error);
+          CustomAlert.simpleAlert('이미지를 불러오는데 실패했습니다.');
+        }
       }
     })();
   }, [selectedImage, opened]);
