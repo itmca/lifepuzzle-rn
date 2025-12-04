@@ -59,12 +59,23 @@ async function copyContentUriToFile(
   selectedImage: ExtendedPhotoIdentifier,
 ): Promise<string> {
   const uri = selectedImage.node.image.uri;
+  logger.debug('[copyContentUriToFile] Start - URI:', uri);
+  logger.debug('[copyContentUriToFile] Platform:', Platform.OS);
+
   if (Platform.OS === 'android' && uri.startsWith('content://')) {
     const dest = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.jpg`;
-    await RNFS.copyFile(uri, dest);
-    return `file://${dest}`;
+    logger.debug('[copyContentUriToFile] Android - Copying to:', dest);
+    try {
+      await RNFS.copyFile(uri, dest);
+      logger.debug('[copyContentUriToFile] Android - Copy success');
+      return `file://${dest}`;
+    } catch (error) {
+      logger.error('[copyContentUriToFile] Android - Copy failed:', error);
+      throw error;
+    }
   }
   if (Platform.OS === 'ios' && uri.startsWith('ph://')) {
+    logger.debug('[copyContentUriToFile] iOS - Using PhotoManipulator');
     const { width = 1000, height = 1000 } = selectedImage?.node.image ?? {};
     const manipulatedPath = await PhotoManipulator.crop(uri, {
       x: 0,
@@ -72,20 +83,31 @@ async function copyContentUriToFile(
       width,
       height,
     });
+    logger.debug('[copyContentUriToFile] iOS - Success:', manipulatedPath);
     return manipulatedPath;
   }
+  logger.debug('[copyContentUriToFile] Direct URI return');
   return uri;
 }
 
 async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   try {
+    logger.debug('[loadSkiaImage] Fetching:', uri);
     const response = await fetch(uri);
+    logger.debug('[loadSkiaImage] Fetch response status:', response.status);
+
     const buffer = await response.arrayBuffer();
+    logger.debug('[loadSkiaImage] Buffer size:', buffer.byteLength);
+
     const skData = Skia.Data.fromBytes(new Uint8Array(buffer));
+    logger.debug('[loadSkiaImage] Skia data created');
+
     const skImage = Skia.Image.MakeImageFromEncoded(skData);
+    logger.debug('[loadSkiaImage] Skia image:', skImage ? 'success' : 'null');
+
     return skImage ?? null;
   } catch (err) {
-    logger.warn('Skia image load error', err);
+    logger.error('[loadSkiaImage] Error:', err);
     return null;
   }
 }
