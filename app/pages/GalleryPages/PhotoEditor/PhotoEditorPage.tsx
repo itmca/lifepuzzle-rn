@@ -42,17 +42,19 @@ const PhotoEditorPage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const imageDimensions = useImageDimensions(
-    editGalleryItems.map(item => ({
-      uri: item.node.image.uri,
-      width: item.node.image.width,
-      height: item.node.image.height,
-    })),
-    {
-      defaultWidth: CAROUSEL_WIDTH_PADDED,
-      defaultHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
-    },
+  const imageSources = useMemo(
+    () =>
+      editGalleryItems.map(item => ({
+        uri: item.node.image.uri,
+        width: item.node.image.width,
+        height: item.node.image.height,
+      })),
+    [editGalleryItems],
   );
+  const imageDimensions = useImageDimensions(imageSources, {
+    defaultWidth: CAROUSEL_WIDTH_PADDED,
+    defaultHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
+  });
 
   // Memoized values
   const currentItem = editGalleryItems[galleryIndex];
