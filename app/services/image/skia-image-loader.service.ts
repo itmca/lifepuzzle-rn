@@ -24,11 +24,11 @@ export async function loadSkiaImage(uri: string): Promise<SkImage | null> {
   try {
     let buffer: ArrayBuffer;
 
-    // Android file:// URIs cannot be fetched, use RNFS
-    if (Platform.OS === 'android' && uri.startsWith('file://')) {
-      buffer = await loadAndroidFileUri(uri);
+    // Both Android and iOS file:// URIs need RNFS (fetch doesn't work on iOS for file://)
+    if (uri.startsWith('file://')) {
+      buffer = await loadFileUri(uri);
     } else {
-      // iOS or network URLs use fetch
+      // Network URLs use fetch
       buffer = await loadWithFetch(uri);
     }
 
@@ -37,19 +37,19 @@ export async function loadSkiaImage(uri: string): Promise<SkImage | null> {
 
     return skImage ?? null;
   } catch (err) {
-    logger.error('Failed to load Skia image:', err);
+    logger.error('[skia-image-loader] Failed to load Skia image:', err);
     return null;
   }
 }
 
 /**
- * Load Android file:// URI using RNFS and convert to ArrayBuffer
- * This is necessary because Android cannot fetch file:// URIs directly
+ * Load file:// URI using RNFS and convert to ArrayBuffer
+ * This is necessary because both iOS and Android cannot fetch file:// URIs directly
  *
  * @param uri - File URI starting with 'file://'
  * @returns ArrayBuffer containing image data
  */
-async function loadAndroidFileUri(uri: string): Promise<ArrayBuffer> {
+async function loadFileUri(uri: string): Promise<ArrayBuffer> {
   const filePath = uri.replace('file://', '');
   const base64Data = await RNFS.readFile(filePath, 'base64');
 
@@ -64,9 +64,9 @@ async function loadAndroidFileUri(uri: string): Promise<ArrayBuffer> {
 }
 
 /**
- * Load image using fetch API (for iOS and network URLs)
+ * Load image using fetch API (for network URLs only)
  *
- * @param uri - Image URI
+ * @param uri - Network image URI (http:// or https://)
  * @returns ArrayBuffer containing image data
  */
 async function loadWithFetch(uri: string): Promise<ArrayBuffer> {

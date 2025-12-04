@@ -11,8 +11,8 @@ import { ContentContainer } from '../../../components/ui/layout/ContentContainer
 
 import { Color } from '../../../constants/color.constant.ts';
 import {
-  MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
   CAROUSEL_WIDTH_PADDED,
+  MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
@@ -186,10 +186,6 @@ const PhotoEditorPage = (): React.ReactElement => {
       ),
     [imageDimensions],
   );
-
-  useEffect(() => {
-    logger.debug('PhotoEditor galleryIndex changed to:', galleryIndex);
-  }, [galleryIndex]);
 
   return (
     <LoadingContainer isLoading={isGalleryUploading}>

@@ -21,7 +21,7 @@ import {
   FILTER_LABELS,
   FilterType,
 } from '../../../../constants/filter.constant.ts';
-import BottomSheet from '../../../../components/ui/interaction/BottomSheet.tsx';
+import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import { loadSkiaImage } from '../../../../services/image/skia-image-loader.service';
 import {
   copyContentUriToFile,
@@ -158,9 +158,13 @@ export const PhotoFilterBottomSheet = ({
 
           const path = await copyContentUriToFile(imageToLoad);
           const img = await loadSkiaImage(path);
+
           setSkiaImage(img);
         } catch (error) {
-          logger.error('Failed to load image for filter:', error);
+          logger.error(
+            '[PhotoFilterBottomSheet] Failed to load image for filter:',
+            error,
+          );
           CustomAlert.simpleAlert('이미지를 불러오는데 실패했습니다.');
         }
       }
