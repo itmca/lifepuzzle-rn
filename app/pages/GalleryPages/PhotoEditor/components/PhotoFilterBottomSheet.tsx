@@ -36,7 +36,7 @@ type Props = {
   opened: boolean;
   selectedImage: ExtendedPhotoIdentifier | undefined;
   onClose: () => void;
-  onApply: (filteredUri: string) => void;
+  onApply: (filter: FilterType, filteredUri?: string) => void;
 };
 
 export const PhotoFilterBottomSheet = ({
@@ -55,6 +55,9 @@ export const PhotoFilterBottomSheet = ({
     height: displaySize,
   });
   const [activeFilter, setActiveFilter] = useState<FilterType>('original');
+  const appliedFilter = selectedImage?.appliedFilter ?? 'original';
+  const isApplyDisabled =
+    !skiaImage || activeFilter === appliedFilter || !selectedImage;
 
   const handleClose = useCallback(() => {
     setActiveFilter('original');
@@ -62,13 +65,14 @@ export const PhotoFilterBottomSheet = ({
   }, [onClose]);
 
   const handleApply = useCallback(async () => {
-    if (!canvasRef.current || !skiaImage) {
-      CustomAlert.simpleAlert('저장할 사진이 없습니다.');
+    if (activeFilter === 'original') {
+      onApply('original');
+      handleClose();
       return;
     }
 
-    if (activeFilter === 'original') {
-      CustomAlert.simpleAlert('필터를 선택해주세요.');
+    if (!canvasRef.current || !skiaImage) {
+      CustomAlert.simpleAlert('저장할 사진이 없습니다.');
       return;
     }
 
@@ -84,13 +88,13 @@ export const PhotoFilterBottomSheet = ({
         'base64',
       );
 
-      onApply('file://' + filePath);
+      onApply(activeFilter, 'file://' + filePath);
       handleClose();
     } catch (err) {
       logger.error('Filter save error:', err);
       CustomAlert.simpleAlert('필터 적용 중 오류가 발생했습니다.');
     }
-  }, [canvasRef, skiaImage, activeFilter, onApply, handleClose]);
+  }, [activeFilter, canvasRef, skiaImage, onApply, handleClose]);
 
   // Custom functions
   const applyFilter = (filterName: FilterType) => {
@@ -171,13 +175,13 @@ export const PhotoFilterBottomSheet = ({
     })();
   }, [selectedImage, opened]);
 
-  // 바텀시트 닫힐 때 상태 초기화
   useEffect(() => {
-    if (!opened) {
-      setActiveFilter('original');
-      setSkiaImage(null);
+    if (opened) {
+      setActiveFilter(selectedImage?.appliedFilter ?? 'original');
+      return;
     }
-  }, [opened]);
+    setSkiaImage(null);
+  }, [opened, selectedImage]);
 
   return (
     <BottomSheet
@@ -334,7 +338,7 @@ export const PhotoFilterBottomSheet = ({
               mode="contained"
               onPress={handleApply}
               buttonColor={Color.MAIN}
-              disabled={activeFilter === 'original'}
+              disabled={isApplyDisabled}
             >
               적용
             </Button>

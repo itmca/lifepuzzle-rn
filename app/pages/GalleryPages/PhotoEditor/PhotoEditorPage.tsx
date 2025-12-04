@@ -14,6 +14,7 @@ import {
   CAROUSEL_WIDTH_PADDED,
   MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant.ts';
+import { FilterType } from '../../../constants/filter.constant.ts';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
 import { useUIStore } from '../../../stores/ui.store';
@@ -42,17 +43,19 @@ const PhotoEditorPage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const imageDimensions = useImageDimensions(
-    editGalleryItems.map(item => ({
-      uri: item.node.image.uri,
-      width: item.node.image.width,
-      height: item.node.image.height,
-    })),
-    {
-      defaultWidth: CAROUSEL_WIDTH_PADDED,
-      defaultHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
-    },
+  const imageSources = useMemo(
+    () =>
+      editGalleryItems.map(item => ({
+        uri: item.node.image.uri,
+        width: item.node.image.width,
+        height: item.node.image.height,
+      })),
+    [editGalleryItems],
   );
+  const imageDimensions = useImageDimensions(imageSources, {
+    defaultWidth: CAROUSEL_WIDTH_PADDED,
+    defaultHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
+  });
 
   // Memoized values
   const currentItem = editGalleryItems[galleryIndex];
@@ -129,7 +132,7 @@ const PhotoEditorPage = (): React.ReactElement => {
   };
 
   const handleApplyFilter = useCallback(
-    (filteredUri: string) => {
+    (filter: FilterType, filteredUri?: string) => {
       const currentItem = editGalleryItems[galleryIndex];
       if (!currentItem) {
         return;
@@ -138,9 +141,39 @@ const PhotoEditorPage = (): React.ReactElement => {
       // 원본 URI 보존 (처음 적용 시에만)
       const originalUri = currentItem.originalUri ?? currentItem.node.image.uri;
 
+      // 원본 복원
+      if (filter === 'original') {
+        const restoredImageObject = {
+          ...currentItem,
+          originalUri,
+          appliedFilter: 'original',
+          node: {
+            ...currentItem.node,
+            image: {
+              ...currentItem.node.image,
+              uri: originalUri,
+            },
+          },
+        };
+
+        const updatedGallery = editGalleryItems.map((e, idx) =>
+          idx === galleryIndex ? restoredImageObject : e,
+        );
+        setEditGalleryItems(updatedGallery);
+        return;
+      }
+
+      if (!filteredUri) {
+        logger.warn(
+          '[PhotoEditor] Filter apply requested without filtered URI',
+        );
+        return;
+      }
+
       const newImageObject = {
         ...currentItem,
         originalUri, // 원본 보존
+        appliedFilter: filter,
         node: {
           ...currentItem.node,
           image: {

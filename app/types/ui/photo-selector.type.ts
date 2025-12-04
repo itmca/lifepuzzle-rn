@@ -1,6 +1,7 @@
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { FacebookPhotoItem } from '../external/facebook.type';
 import { AgeType } from '../core/media.type';
+import { FilterType } from '../../constants/filter.constant';
 
 export type PhotoSource = 'device' | 'custom';
 export type SelectionMode = 'single' | 'multiple';
@@ -8,6 +9,7 @@ export type SelectionMode = 'single' | 'multiple';
 // Extended PhotoIdentifier with original URI for filter preservation
 export type ExtendedPhotoIdentifier = PhotoIdentifier & {
   originalUri?: string;
+  appliedFilter?: FilterType;
 };
 
 export interface PhotoSelectorConfig {
