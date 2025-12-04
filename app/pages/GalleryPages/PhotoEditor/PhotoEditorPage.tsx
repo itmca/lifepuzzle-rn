@@ -16,6 +16,7 @@ import { useSelectionStore } from '../../../stores/selection.store';
 import { useUIStore } from '../../../stores/ui.store';
 import ImagePicker from 'react-native-image-crop-picker';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
+import { PhotoFilterBottomSheet } from './components/PhotoFilterBottomSheet';
 
 const PhotoEditorPage = (): React.ReactElement => {
   // React hooks
@@ -23,7 +24,8 @@ const PhotoEditorPage = (): React.ReactElement => {
   const [imageDimensions, setImageDimensions] = useState<
     { width: number; height: number }[]
   >([]);
-  const MAX_CAROUSEL_HEIGHT = 480;
+  const [filterBottomSheetOpen, setFilterBottomSheetOpen] = useState(false);
+  const MAX_CAROUSEL_HEIGHT = 400;
   const CAROUSEL_WIDTH = Dimensions.get('window').width - 32;
 
   // 글로벌 상태 관리 (Zustand)
@@ -109,13 +111,38 @@ const PhotoEditorPage = (): React.ReactElement => {
     }
   };
   const onFilter = () => {
-    navigation.navigate('App', {
-      screen: 'StoryWritingNavigator',
-      params: {
-        screen: 'PhotoFilter',
-      },
-    });
+    setFilterBottomSheetOpen(true);
   };
+
+  const handleApplyFilter = useCallback(
+    (filteredUri: string) => {
+      const currentItem = editGalleryItems[galleryIndex];
+      if (!currentItem) {
+        return;
+      }
+
+      // 원본 URI 보존 (처음 적용 시에만)
+      const originalUri = currentItem.originalUri ?? currentItem.node.image.uri;
+
+      const newImageObject = {
+        ...currentItem,
+        originalUri, // 원본 보존
+        node: {
+          ...currentItem.node,
+          image: {
+            ...currentItem.node.image,
+            uri: filteredUri,
+          },
+        },
+      };
+
+      const updatedGallery = editGalleryItems.map((e, idx) =>
+        idx === galleryIndex ? newImageObject : e,
+      );
+      setEditGalleryItems([...updatedGallery]);
+    },
+    [editGalleryItems, galleryIndex, setEditGalleryItems],
+  );
   const onContentContainerLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
     // logger.debug('ContentContainer Height:', height);
@@ -266,6 +293,13 @@ const PhotoEditorPage = (): React.ReactElement => {
           </ContentContainer>
         </ContentContainer>
       </ScreenContainer>
+
+      <PhotoFilterBottomSheet
+        opened={filterBottomSheetOpen}
+        selectedImage={currentItem}
+        onClose={() => setFilterBottomSheetOpen(false)}
+        onApply={handleApplyFilter}
+      />
     </LoadingContainer>
   );
 };

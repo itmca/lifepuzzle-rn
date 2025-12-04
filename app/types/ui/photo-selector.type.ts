@@ -5,6 +5,11 @@ import { AgeType } from '../core/media.type';
 export type PhotoSource = 'device' | 'custom';
 export type SelectionMode = 'single' | 'multiple';
 
+// Extended PhotoIdentifier with original URI for filter preservation
+export type ExtendedPhotoIdentifier = PhotoIdentifier & {
+  originalUri?: string;
+};
+
 export interface PhotoSelectorConfig {
   mode: SelectionMode;
   source: PhotoSource;

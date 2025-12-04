@@ -5,7 +5,6 @@ import { useSaveStory } from '../../service/story/story.write.hook';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelectorPage.tsx';
 import PhotoEditor from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
-import PhotoFilter from '../../pages/GalleryPages/PhotoFilter/PhotoFilterPage.tsx';
 
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
@@ -19,7 +18,6 @@ export type StoryWritingParamList = {
   [STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR]: undefined;
   [STORY_WRITING_SCREENS.FACEBOOK_GALLERY_SELECTOR]: undefined;
   [STORY_WRITING_SCREENS.PHOTO_EDITOR]: undefined;
-  [STORY_WRITING_SCREENS.PHOTO_FILTER]: undefined;
 };
 
 const Stack = createNativeStackNavigator<StoryWritingParamList>();
@@ -112,13 +110,6 @@ const StoryWritingNavigator = (): React.ReactElement => {
               }
             />
           ),
-        }}
-      />
-      <Stack.Screen
-        name={STORY_WRITING_SCREENS.PHOTO_FILTER}
-        component={PhotoFilter}
-        options={{
-          header: () => <TopBar title={'사진 편집'} />,
         }}
       />
     </Stack.Navigator>
