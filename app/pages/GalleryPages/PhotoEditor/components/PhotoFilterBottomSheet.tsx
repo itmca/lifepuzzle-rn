@@ -38,6 +38,7 @@ import { Button } from 'react-native-paper';
 
 const { width: screenWidth } = Dimensions.get('window');
 const displaySize = screenWidth - 40; // 패딩 고려
+const MAX_IMAGE_HEIGHT = 400;
 
 type Props = {
   opened: boolean;
@@ -185,7 +186,10 @@ export const PhotoFilterBottomSheet = ({
         }
 
         const aspectRatio = width / height;
-        setImageSize({ width: displaySize, height: displaySize / aspectRatio });
+        const calculatedHeight = displaySize / aspectRatio;
+        const finalHeight = Math.min(calculatedHeight, MAX_IMAGE_HEIGHT);
+        const finalWidth = finalHeight * aspectRatio;
+        setImageSize({ width: finalWidth, height: finalHeight });
       } else {
         setImageSize({ width: displaySize, height: displaySize });
       }
@@ -256,7 +260,7 @@ export const PhotoFilterBottomSheet = ({
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: displaySize,
+                height: MAX_IMAGE_HEIGHT,
               }}
             >
               <ActivityIndicator size="large" color={Color.GREY} />
@@ -267,6 +271,7 @@ export const PhotoFilterBottomSheet = ({
               style={{
                 width: imageSize.width,
                 height: imageSize.height,
+                maxHeight: MAX_IMAGE_HEIGHT,
               }}
             >
               <SkiaImage

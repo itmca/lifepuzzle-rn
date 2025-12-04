@@ -25,7 +25,7 @@ const PhotoEditorPage = (): React.ReactElement => {
     { width: number; height: number }[]
   >([]);
   const [filterBottomSheetOpen, setFilterBottomSheetOpen] = useState(false);
-  const MAX_CAROUSEL_HEIGHT = 480;
+  const MAX_CAROUSEL_HEIGHT = 400;
   const CAROUSEL_WIDTH = Dimensions.get('window').width - 32;
 
   // 글로벌 상태 관리 (Zustand)
