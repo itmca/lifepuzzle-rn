@@ -217,8 +217,8 @@ const PhotoEditorPage = (): React.ReactElement => {
       }
 
       CustomAlert.actionAlert({
-        title: '사진을 삭제할까요?',
-        desc: '삭제 후에는 복구할 수 없습니다.',
+        title: '사진을 업로드 목록에서 삭제할까요?',
+        desc: '',
         actionBtnText: '삭제',
         action: () => {
           const updatedGallery = editGalleryItems.filter(

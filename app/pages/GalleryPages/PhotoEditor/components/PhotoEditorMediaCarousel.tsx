@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
 import Carousel from 'react-native-reanimated-carousel';
+import type { ICarouselInstance } from 'react-native-reanimated-carousel';
 
 import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
@@ -49,6 +50,8 @@ const PhotoEditorMediaCarouselComponent = ({
     Math.max(data.length - 1, 0),
   );
 
+  const carouselRef = useRef<ICarouselInstance>(null);
+
   // 이전 데이터 참조를 저장하여 불필요한 preload 방지
   const prevDataRef = useRef<MediaItem[]>([]);
   // 쓰로틀링을 위한 ref
@@ -89,6 +92,19 @@ const PhotoEditorMediaCarouselComponent = ({
 
     prevDataRef.current = data;
   }, [data, isLocalAssetUri]);
+
+  // 외부 인덱스 변경 시 캐러셀 위치 동기화 (삭제 등으로 인덱스 보정)
+  useEffect(() => {
+    if (!carouselRef.current) return;
+
+    const currentIndex = carouselRef.current.getCurrentIndex?.();
+    if (typeof currentIndex === 'number' && currentIndex !== safeActiveIndex) {
+      carouselRef.current.scrollTo?.({
+        index: safeActiveIndex,
+        animated: false,
+      });
+    }
+  }, [safeActiveIndex, data.length]);
 
   const renderItem = useCallback(
     ({ item }: { item: MediaItem }) => {
@@ -171,6 +187,7 @@ const PhotoEditorMediaCarouselComponent = ({
   return (
     <>
       <Carousel
+        ref={carouselRef}
         style={{ alignSelf: 'center' }}
         loop={false}
         width={carouselWidth}
