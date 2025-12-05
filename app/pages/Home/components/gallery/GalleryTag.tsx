@@ -11,10 +11,23 @@ type props = {
   carouselRef: RefObject<ICarouselInstance | null>;
   item: TagType;
   index: number;
+  showCount?: boolean;
+  compact?: boolean;
 };
 
-const GalleryTag = ({ carouselRef, item, index }: props) => {
+const GalleryTag = ({
+  carouselRef,
+  item,
+  index,
+  showCount = true,
+  compact = false,
+}: props) => {
   const { selectedTag, setSelectedTag } = useSelectionStore();
+  const paddingHorizontal = compact ? 11 : undefined;
+  const paddingVertical = compact ? 5.5 : undefined;
+  const getLabel = () =>
+    showCount ? `${item.label} (${item.count ?? 0})` : item.label;
+
   if (selectedTag && selectedTag.key === item.key) {
     if (item.key === 'AI_PHOTO') {
       return (
@@ -23,6 +36,8 @@ const GalleryTag = ({ carouselRef, item, index }: props) => {
           icon={'aiWhite'}
           iconColor={Color.WHITE}
           color={Color.AI_500}
+          paddingHorizontal={paddingHorizontal}
+          paddingVertical={paddingVertical}
           text={`${item.label}`}
         />
       );
@@ -31,7 +46,9 @@ const GalleryTag = ({ carouselRef, item, index }: props) => {
         <Tag
           key={index}
           color={Color.MAIN_DARK}
-          text={`${item.label} (${item.count ?? 0})`}
+          paddingHorizontal={paddingHorizontal}
+          paddingVertical={paddingVertical}
+          text={getLabel()}
         />
       );
     }
@@ -43,6 +60,8 @@ const GalleryTag = ({ carouselRef, item, index }: props) => {
           icon={'aiSmall'}
           iconColor={Color.AI_500}
           color={Color.GREY}
+          paddingHorizontal={paddingHorizontal}
+          paddingVertical={paddingVertical}
           onPress={() => {
             carouselRef.current?.scrollTo({ index });
             setSelectedTag({ ...item });
@@ -55,11 +74,13 @@ const GalleryTag = ({ carouselRef, item, index }: props) => {
         <Tag
           key={index}
           color={Color.GREY}
+          paddingHorizontal={paddingHorizontal}
+          paddingVertical={paddingVertical}
           onPress={() => {
             carouselRef.current?.scrollTo({ index });
             setSelectedTag({ ...item });
           }}
-          text={`${item.label} (${item.count ?? 0})`}
+          text={getLabel()}
         />
       );
     }

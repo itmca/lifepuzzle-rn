@@ -12,6 +12,8 @@ type Props = {
   onPress?: () => void;
   icon?: IconName;
   iconColor?: ColorType;
+  paddingHorizontal?: number;
+  paddingVertical?: number;
 };
 function getTxColor(color: string) {
   return color === Color.GREY ? Color.GREY_400 : Color.WHITE;
@@ -19,23 +21,39 @@ function getTxColor(color: string) {
 export const StyledTag = styled(TouchableOpacity)<Props>`
   width: 'auto';
   height: 'auto';
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   background-color: ${props => props.color};
   border-radius: 16px;
   border-width: ${props => (props.color === Color.GREY ? '1px' : '0px')};
   border-color: ${props =>
     props.color === Color.GREY ? Color.GREY_200 : 'transparent'};
-  padding: 5.5px 10px;
+  padding: ${props => props.paddingVertical ?? 6.5}px
+    ${props => props.paddingHorizontal ?? 11}px;
 `;
-function Tag({ icon, iconColor, text, color = 'grey', onPress }: Props) {
+function Tag({
+  icon,
+  iconColor,
+  text,
+  color = 'grey',
+  onPress,
+  paddingHorizontal,
+  paddingVertical,
+}: Props) {
   return (
-    <StyledTag onPress={onPress} color={color}>
+    <StyledTag
+      onPress={onPress}
+      color={color}
+      paddingHorizontal={paddingHorizontal}
+      paddingVertical={paddingVertical}
+    >
       <ContentContainer
         useHorizontalLayout
         width={'auto'}
         gap={0}
         withNoBackground
         alignCenter
-        paddingRight={color ? 4 : 0}
       >
         {icon && <SvgIcon name={icon} color={iconColor} size={16} />}
         <Caption color={iconColor ? iconColor : getTxColor(color)}>
