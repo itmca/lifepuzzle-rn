@@ -196,7 +196,6 @@ const PhotoEditorMediaCarouselComponent = ({
   return (
     <>
       <Carousel
-        key={`${data.length}-${safeActiveIndex}`}
         ref={carouselRef}
         style={{ alignSelf: 'center' }}
         loop={false}
