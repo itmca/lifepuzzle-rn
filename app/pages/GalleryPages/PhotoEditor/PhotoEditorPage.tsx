@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Image, Platform } from 'react-native';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
@@ -29,6 +35,7 @@ const PhotoEditorPage = (): React.ReactElement => {
   // React hooks
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
   const [filterBottomSheetOpen, setFilterBottomSheetOpen] = useState(false);
+  const isDeletingRef = useRef(false);
 
   // 글로벌 상태 관리 (Zustand)
   const {
@@ -198,16 +205,111 @@ const PhotoEditorPage = (): React.ReactElement => {
 
   const handleScroll = useCallback(
     (index: number) => {
+      if (editGalleryItems.length === 0) {
+        return;
+      }
+
+      // 삭제 중일 때는 onScroll 무시 (Carousel 리마운트 시 잘못된 인덱스 설정 방지)
+      if (isDeletingRef.current) {
+        logger.debug('PhotoEditor onScroll ignored during deletion:', index);
+        return;
+      }
+
       logger.debug(
         'PhotoEditor onScroll called:',
         index,
         'current:',
         galleryIndex,
       );
-      setGalleryIndex(index % editGalleryItems.length);
+      const safeIndex = index % editGalleryItems.length;
+      setGalleryIndex(safeIndex);
     },
     [editGalleryItems.length, setGalleryIndex, galleryIndex],
   );
+
+  const handleRemoveItem = useCallback(
+    (index: number) => {
+      if (editGalleryItems.length <= 1) {
+        CustomAlert.simpleAlert('사진은 최소 1장 이상 남겨주세요.');
+        return;
+      }
+
+      CustomAlert.actionAlert({
+        title: '사진을 업로드 목록에서 삭제할까요?',
+        desc: '',
+        actionBtnText: '삭제',
+        action: () => {
+          // 삭제 시작 플래그 설정
+          isDeletingRef.current = true;
+
+          const updatedGallery = editGalleryItems.filter(
+            (_, idx) => idx !== index,
+          );
+
+          // StoryDetailPage 방식: store를 동기적으로 직접 수정
+          const selectionStore = useSelectionStore.getState();
+
+          logger.debug('[PhotoEditor] Before delete:', {
+            deletingIndex: index,
+            currentIndex: galleryIndex,
+            arrayLength: editGalleryItems.length,
+          });
+
+          // 1. 먼저 갤러리 업데이트 (동기적)
+          selectionStore.setEditGalleryItems(updatedGallery);
+
+          // 2. 업데이트된 배열로 인덱스 계산 (StoryDetailPage와 동일한 로직)
+          let targetIndex = index; // 삭제되는 항목의 인덱스를 기준으로
+
+          // 범위를 벗어나면 조정
+          if (targetIndex >= updatedGallery.length) {
+            targetIndex = updatedGallery.length - 1;
+          }
+
+          // 삭제 전 인덱스가 삭제되는 항목보다 앞에 있었다면 조정
+          if (index < galleryIndex) {
+            targetIndex = galleryIndex - 1;
+          }
+
+          logger.debug('[PhotoEditor] After delete - setting targetIndex:', {
+            targetIndex,
+            newArrayLength: updatedGallery.length,
+          });
+
+          // 3. 마지막에 인덱스 설정 (동기적)
+          selectionStore.setCurrentGalleryIndex(targetIndex);
+
+          // Carousel 리마운트 완료 후 플래그 해제
+          setTimeout(() => {
+            isDeletingRef.current = false;
+          }, 100);
+        },
+      });
+    },
+    [editGalleryItems, galleryIndex, setEditGalleryItems, setGalleryIndex],
+  );
+
+  // Side effects
+  // 갤러리 아이템 변경 시 인덱스 검증 및 조정
+  useEffect(() => {
+    if (editGalleryItems.length === 0) {
+      return;
+    }
+
+    // 현재 인덱스가 범위를 벗어나면 조정
+    if (galleryIndex >= editGalleryItems.length) {
+      const nextIndex = Math.max(editGalleryItems.length - 1, 0);
+      if (nextIndex !== galleryIndex) {
+        logger.debug(
+          'PhotoEditor index out of bounds, adjusting:',
+          galleryIndex,
+          '->',
+          nextIndex,
+        );
+        setGalleryIndex(nextIndex);
+      }
+    }
+  }, [editGalleryItems, galleryIndex, setGalleryIndex]);
 
   // 이미지 비율에 맞는 최적의 캐러셀 높이 계산
   const optimalCarouselHeight = useMemo(
@@ -237,6 +339,7 @@ const PhotoEditorPage = (): React.ReactElement => {
             paddingTop={24}
           >
             <PhotoEditorMediaCarousel
+              key={`carousel-${editGalleryItems.length}-${editGalleryItems[0]?.node?.image?.uri ?? 'empty'}`}
               data={editGalleryItems.map((item, index) => ({
                 type:
                   item.node.image.playableDuration &&
@@ -255,6 +358,7 @@ const PhotoEditorPage = (): React.ReactElement => {
                 optimalCarouselHeight,
               )}
               onScroll={handleScroll}
+              onRemove={handleRemoveItem}
             />
           </ContentContainer>
           <ContentContainer
