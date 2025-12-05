@@ -4,6 +4,7 @@ import { StoryType } from './story.type';
 export type { StoryType };
 
 export type AgeType =
+  | 'UNCATEGORIZED'
   | 'UNDER_TEENAGER'
   | 'TEENAGER'
   | 'TWENTIES'
