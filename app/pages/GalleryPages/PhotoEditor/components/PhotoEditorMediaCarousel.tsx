@@ -93,28 +93,6 @@ const PhotoEditorMediaCarouselComponent = ({
     prevDataRef.current = data;
   }, [data, isLocalAssetUri]);
 
-  // 외부 인덱스 변경 시 캐러셀 위치 동기화 (삭제 등으로 인덱스 보정)
-  useEffect(() => {
-    if (!carouselRef.current) {
-      return;
-    }
-
-    const frameId = requestAnimationFrame(() => {
-      const currentIndex = carouselRef.current?.getCurrentIndex?.();
-      if (
-        typeof currentIndex === 'number' &&
-        currentIndex !== safeActiveIndex
-      ) {
-        carouselRef.current?.scrollTo?.({
-          index: safeActiveIndex,
-          animated: false,
-        });
-      }
-    });
-
-    return () => cancelAnimationFrame(frameId);
-  }, [safeActiveIndex, data.length]);
-
   const renderItem = useCallback(
     ({ item }: { item: MediaItem }) => {
       const mediaUrl = item.url;
