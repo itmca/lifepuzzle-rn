@@ -95,7 +95,9 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
       }
 
       // 필터링된 갤러리 기준으로 인덱스 계산
-      // 마지막 사진 삭제 시 이전 인덱스로, 그 외는 동일한 위치 유지
+      // 1. 삭제된 아이템의 필터링된 인덱스를 기준으로 시작
+      // 2. 범위를 벗어나면 마지막 인덱스로 조정
+      // 3. 필터링된 갤러리의 해당 아이템을 찾아 전체 갤러리 인덱스로 변환
       let targetFilteredIndex =
         removedFilteredIndex >= 0
           ? removedFilteredIndex
