@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native';
-
-import { SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Title } from '../../../../components/ui/base/TextBase';
+import Icon from '../../../../components/ui/display/Icon.tsx';
 
 type Variant = 'upload' | 'aiHistory';
 type Props = { onPress: () => void };
@@ -56,8 +55,9 @@ const GalleryBottomButton = ({ onPress }: Props) => {
     <ContentContainer
       absoluteBottomPosition
       absoluteRightPosition
-      paddingBottom={insets.bottom + 20}
-      paddingRight={20}
+      width={'auto'}
+      paddingBottom={insets.bottom + 40}
+      paddingRight={32}
       backgroundColor="transparent"
       zIndex={10}
     >
@@ -73,8 +73,6 @@ const GalleryBottomButton = ({ onPress }: Props) => {
           borderColor: config.borderColor,
           alignItems: 'center',
           justifyContent: 'center',
-          flexDirection: 'row',
-          paddingHorizontal: config.icon ? 0 : 16,
           shadowColor: '#000',
           shadowOpacity: 0.15,
           shadowOffset: { width: 0, height: 4 },
@@ -83,16 +81,11 @@ const GalleryBottomButton = ({ onPress }: Props) => {
         }}
         disabled={isDisabled}
       >
-        {config.icon ? (
-          <SvgIcon
-            name={config.icon}
-            size={24}
-            color={config.iconColor ?? Color.WHITE}
-          />
-        ) : null}
         {variant === 'aiHistory' ? (
           <Title color={config.textColor}>{config.text}</Title>
-        ) : null}
+        ) : (
+          <Icon name={'add'} size={40} color={Color.WHITE} />
+        )}
       </TouchableOpacity>
     </ContentContainer>
   );

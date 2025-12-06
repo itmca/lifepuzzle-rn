@@ -150,20 +150,6 @@ const Gallery = ({
     });
   }, [ageGroups, selectedTag?.key]);
 
-  const handleHorizontalMomentumEnd = useCallback(
-    (event: any) => {
-      if (!tags || tags.length === 0) {
-        return;
-      }
-      const index = Math.round(event.nativeEvent.contentOffset.x / windowWidth);
-      const nextTag = tags[index];
-      if (nextTag) {
-        setSelectedTag({ ...nextTag });
-      }
-    },
-    [tags, windowWidth, setSelectedTag],
-  );
-
   const handleTagPress = useCallback(
     (index: number) => {
       if (!tags?.[index]) {
@@ -183,6 +169,20 @@ const Gallery = ({
       onScrollYChange?.(event.nativeEvent.contentOffset.y);
     },
     [onScrollYChange],
+  );
+
+  const handleHorizontalMomentumEnd = useCallback(
+    (event: any) => {
+      if (!tags || tags.length === 0) {
+        return;
+      }
+      const index = Math.round(event.nativeEvent.contentOffset.x / windowWidth);
+      const nextTag = tags[index];
+      if (nextTag) {
+        setSelectedTag({ ...nextTag });
+      }
+    },
+    [tags, windowWidth, setSelectedTag],
   );
 
   const handleGalleryItemPress = useCallback(
@@ -330,10 +330,6 @@ const Gallery = ({
         </ContentContainer>
       </ContentContainer>
     );
-  }
-
-  if (!tags || tags.length === 0) {
-    return null;
   }
 
   return (
