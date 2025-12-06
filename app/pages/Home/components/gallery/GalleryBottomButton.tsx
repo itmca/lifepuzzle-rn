@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TouchableOpacity } from 'react-native';
 
 import { SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
@@ -7,7 +8,6 @@ import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Title } from '../../../../components/ui/base/TextBase';
-import { ButtonBase } from '../../../../components/ui/base/ButtonBase';
 
 type Variant = 'upload' | 'aiHistory';
 type Props = { onPress: () => void };
@@ -19,8 +19,6 @@ const getVariantConfig = (variant: Variant, disabled: boolean) => {
       textColor: disabled ? Color.GREY_300 : Color.AI_500,
       backgroundColor: disabled ? Color.GREY_100 : Color.WHITE,
       borderColor: disabled ? Color.GREY_200 : Color.AI_500,
-      borderInside: true as const,
-      borderWidth: 1,
       icon: undefined as const,
       iconColor: undefined as const,
     };
@@ -30,11 +28,9 @@ const getVariantConfig = (variant: Variant, disabled: boolean) => {
     text: '사진/동영상 추가하기',
     textColor: disabled ? Color.GREY_300 : Color.WHITE,
     backgroundColor: disabled ? Color.GREY_100 : Color.MAIN_DARK,
-    borderColor: undefined as const,
-    borderInside: undefined as const,
-    borderWidth: undefined as const,
-    icon: 'camera' as const,
+    icon: 'plus' as const,
     iconColor: disabled ? Color.GREY_300 : Color.WHITE,
+    borderColor: undefined as const,
   };
 };
 
@@ -47,39 +43,57 @@ const GalleryBottomButton = ({ onPress }: Props) => {
     selectedTag?.key === 'AI_PHOTO' ? 'aiHistory' : 'upload';
   const isDisabled = Boolean(isGalleryError);
   const config = getVariantConfig(variant, isDisabled);
+  const sizeConfig = useMemo(
+    () => ({
+      width: variant === 'aiHistory' ? 140 : 56,
+      height: 56,
+      borderRadius: 28,
+    }),
+    [variant],
+  );
 
   return (
     <ContentContainer
-      paddingHorizontal={20}
-      paddingBottom={insets.bottom + 16}
+      absoluteBottomPosition
+      absoluteRightPosition
+      paddingBottom={insets.bottom + 20}
+      paddingRight={20}
       backgroundColor="transparent"
+      zIndex={10}
     >
-      <ButtonBase
-        height={'56px'}
-        width={'100%'}
-        backgroundColor={config.backgroundColor}
-        borderColor={config.borderColor}
-        borderInside={config.borderInside}
-        borderWidth={config.borderWidth}
-        borderRadius={6}
+      <TouchableOpacity
         onPress={isDisabled ? undefined : onPress}
+        activeOpacity={0.9}
+        style={{
+          width: sizeConfig.width,
+          height: sizeConfig.height,
+          borderRadius: sizeConfig.borderRadius,
+          backgroundColor: config.backgroundColor,
+          borderWidth: config.borderColor ? 1 : 0,
+          borderColor: config.borderColor,
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          paddingHorizontal: config.icon ? 0 : 16,
+          shadowColor: '#000',
+          shadowOpacity: 0.15,
+          shadowOffset: { width: 0, height: 4 },
+          shadowRadius: 8,
+          elevation: 5,
+        }}
+        disabled={isDisabled}
       >
-        <ContentContainer
-          gap={config.icon ? 8 : 0}
-          useHorizontalLayout={!!config.icon}
-          backgroundColor="transparent"
-          alignCenter
-        >
-          {config.icon ? (
-            <SvgIcon
-              name={config.icon}
-              size={24}
-              color={config.iconColor ?? Color.WHITE}
-            />
-          ) : null}
+        {config.icon ? (
+          <SvgIcon
+            name={config.icon}
+            size={24}
+            color={config.iconColor ?? Color.WHITE}
+          />
+        ) : null}
+        {variant === 'aiHistory' ? (
           <Title color={config.textColor}>{config.text}</Title>
-        </ContentContainer>
-      </ButtonBase>
+        ) : null}
+      </TouchableOpacity>
     </ContentContainer>
   );
 };

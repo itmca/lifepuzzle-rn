@@ -13,20 +13,22 @@ import { toInternationalAge } from '../../../../service/utils/date-time.service'
 
 type Props = {
   hero: HeroType;
+  compact?: boolean;
 };
 
-const HeroOverview = ({ hero }: Props): React.ReactElement => {
+const HeroOverview = ({ hero, compact = false }: Props): React.ReactElement => {
   if (!hero || hero.id === -1) {
     return <></>;
   }
 
   const age = toInternationalAge(hero.birthday);
+  const avatarSize = compact ? 40 : 52;
 
   return (
-    <ContentContainer gap={20} flex={1}>
-      <ContentContainer useHorizontalLayout gap={8}>
-        <HeroAvatar imageUrl={hero.imageUrl} size={52} />
-        <ContentContainer gap={4}>
+    <ContentContainer gap={compact ? 10 : 20} flex={1}>
+      <ContentContainer useHorizontalLayout gap={8} alignItems="center">
+        <HeroAvatar imageUrl={hero.imageUrl} size={avatarSize} />
+        <ContentContainer gap={compact ? 2 : 4}>
           <ContentContainer
             useHorizontalLayout
             justifyContent={'flex-start'}
@@ -44,7 +46,7 @@ const HeroOverview = ({ hero }: Props): React.ReactElement => {
             </BodyTextM>
           </ContentContainer>
 
-          {hero.birthday ? (
+          {!compact && hero.birthday ? (
             <ContentContainer
               useHorizontalLayout
               gap={0}
@@ -55,9 +57,7 @@ const HeroOverview = ({ hero }: Props): React.ReactElement => {
               </Caption>
               <Caption color={Color.GREY_700}>{`(${age}세)`}</Caption>
             </ContentContainer>
-          ) : (
-            ''
-          )}
+          ) : null}
         </ContentContainer>
       </ContentContainer>
     </ContentContainer>

@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
-import { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 
@@ -31,7 +30,6 @@ const StoryGallerySelector = (): React.ReactElement => {
     setSelectedTag,
   } = useSelectionStore();
   const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
-  const tagCarouselRef = useRef<ICarouselInstance | null>(null);
 
   const config: PhotoSelectorConfig = {
     mode: 'multiple',
@@ -89,7 +87,6 @@ const StoryGallerySelector = (): React.ReactElement => {
               {tagList.map((item, index) => (
                 <GalleryTag
                   key={item.key || index}
-                  carouselRef={tagCarouselRef}
                   item={item}
                   index={index}
                   showCount={false}
