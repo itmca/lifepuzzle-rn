@@ -8,9 +8,13 @@ import HeroOverview from './HeroOverview';
 
 type Props = {
   onSharePress: () => void;
+  isCollapsed?: boolean;
 };
 
-const HeroSection = ({ onSharePress }: Props): React.ReactElement => {
+const HeroSection = ({
+  onSharePress,
+  isCollapsed = false,
+}: Props): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
 
@@ -25,8 +29,14 @@ const HeroSection = ({ onSharePress }: Props): React.ReactElement => {
   }
 
   return (
-    <ContentContainer withScreenPadding useHorizontalLayout>
-      <HeroOverview hero={hero} />
+    <ContentContainer
+      withScreenPadding
+      useHorizontalLayout
+      alignItems="center"
+      gap={12}
+      paddingVertical={isCollapsed ? 8 : undefined}
+    >
+      <HeroOverview hero={hero} compact={isCollapsed} />
       {(hero.auth === 'OWNER' || hero.auth === 'ADMIN') && (
         <ContentContainer width={'auto'}>
           <ShareButton onPress={handleSharePress} />

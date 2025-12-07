@@ -5,8 +5,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { RefreshControl, ScrollView } from 'react-native';
-
 import FastImage from '@d11/react-native-fast-image';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useHeroStore } from '../../stores/hero.store';
@@ -25,6 +23,8 @@ import Gallery from './components/gallery/Gallery.tsx';
 import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';
 import HeroSection from './components/hero/HeroSection.tsx';
 import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx';
+import { GalleryType } from '../../types/core/media.type.ts';
+import { useAuthStore } from '../../stores/auth.store';
 
 const HomePage = (): React.ReactElement => {
   // React hooks
@@ -35,14 +35,21 @@ const HomePage = (): React.ReactElement => {
     useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState<number>(0);
+  const [isHeroCollapsed, setIsHeroCollapsed] = useState<boolean>(false);
 
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
   const ageGroups = useMediaStore(state => state.ageGroups);
+  const gallery = useMediaStore(state => state.gallery);
   const tags = useMediaStore(state => state.tags);
   const selectedTag = useSelectionStore(state => state.selectedTag);
+  const setCurrentGalleryIndex = useSelectionStore(
+    state => state.setCurrentGalleryIndex,
+  );
+  const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
   const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
   const sharedImageData = useShareStore(state => state.sharedImageData);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -91,6 +98,25 @@ const HomePage = (): React.ReactElement => {
     }
   }, [refetch, hero?.id, isRefreshing, scrollY]);
 
+  const handleGalleryItemPress = useCallback(
+    (galleryItem: GalleryType) => {
+      const allGallery = gallery ?? [];
+      const allGalleryIndex = allGallery.findIndex(
+        item => item.id === galleryItem.id,
+      );
+
+      setCurrentGalleryIndex(allGalleryIndex !== -1 ? allGalleryIndex : 0);
+
+      navigation.navigate('App', {
+        screen: 'StoryViewNavigator',
+        params: {
+          screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+        },
+      });
+    },
+    [gallery, isLoggedIn, navigation, setCurrentGalleryIndex],
+  );
+
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
       navigation.navigate('App', {
@@ -113,14 +139,20 @@ const HomePage = (): React.ReactElement => {
     );
   }, [ageGroups]);
 
-  // Memoized onScroll handler to prevent unnecessary re-renders
-  const handleScroll = useCallback((event: any) => {
-    setScrollY(event.nativeEvent.contentOffset.y);
+  const handleGalleryScrollYChange = useCallback((offsetY: number) => {
+    setScrollY(offsetY);
+    setIsHeroCollapsed(offsetY > 20);
   }, []);
 
   // Memoized default values for Gallery props
   const galleryAgeGroups = useMemo(() => ageGroups || {}, [ageGroups]);
-  const galleryTags = useMemo(() => tags || [], [tags]);
+  const galleryTags = useMemo(() => {
+    if (!tags) return [];
+    return tags.filter(tag => {
+      const group = ageGroups?.[tag.key as keyof typeof ageGroups];
+      return group && (group.gallery?.length ?? 0) > 0;
+    });
+  }, [ageGroups, tags]);
 
   // Ref to track previous image URLs for optimized preloading
   const prevImageUrlsRef = useRef<{ uri: string }[]>([]);
@@ -157,6 +189,19 @@ const HomePage = (): React.ReactElement => {
     selectedTag?.key,
     receivedImageBottomSheetOpen,
   ]);
+
+  useEffect(() => {
+    if (!galleryTags.length) {
+      return;
+    }
+
+    const isSelectedValid = galleryTags.some(
+      tag => tag.key === selectedTag?.key,
+    );
+    if (!isSelectedValid) {
+      setSelectedTag({ ...galleryTags[0] });
+    }
+  }, [galleryTags, selectedTag?.key, setSelectedTag]);
 
   useEffect(() => {
     if (!isLoading && isRefreshing) {
@@ -203,24 +248,12 @@ const HomePage = (): React.ReactElement => {
         alignItems="stretch"
         edges={['left', 'right', 'bottom']}
       >
-        <ScrollView
-          style={{ flex: 1, width: '100%' }}
-          contentContainerStyle={{ flexGrow: 1 }}
-          showsVerticalScrollIndicator={false}
-          onScroll={handleScroll}
-          scrollEventThrottle={50}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={handlePullToRefresh}
-              progressBackgroundColor="#ffffff"
-              colors={['#007AFF']}
-              tintColor="#007AFF"
-            />
-          }
-        >
+        <ContentContainer flex={1} gap={12}>
           {/* 상단 프로필 영역 */}
-          <HeroSection onSharePress={handleHeroSharePress} />
+          <HeroSection
+            onSharePress={handleHeroSharePress}
+            isCollapsed={isHeroCollapsed}
+          />
 
           {/* 중간 사진 영역 */}
           <ContentContainer flex={1}>
@@ -230,9 +263,13 @@ const HomePage = (): React.ReactElement => {
               isError={isError}
               hasInitialData={hasInitialData}
               onRetry={handleRefetch}
+              onScrollYChange={handleGalleryScrollYChange}
+              isRefreshing={isRefreshing}
+              onRefresh={handlePullToRefresh}
+              onItemPress={handleGalleryItemPress}
             />
           </ContentContainer>
-        </ScrollView>
+        </ContentContainer>
 
         {/* 하단 버튼 영역 */}
         {hero && hero.auth !== 'VIEWER' && (

@@ -1,24 +1,20 @@
-import { RefObject } from 'react';
-
-import { ICarouselInstance } from 'react-native-reanimated-carousel';
-
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { TagType } from '../../../../types/core/media.type';
 import { Color } from '../../../../constants/color.constant.ts';
 import Tag from '../../../../components/ui/display/Tag';
 
 type props = {
-  carouselRef: RefObject<ICarouselInstance | null>;
   item: TagType;
   index: number;
+  onPress?: (index: number) => void;
   showCount?: boolean;
   compact?: boolean;
 };
 
 const GalleryTag = ({
-  carouselRef,
   item,
   index,
+  onPress,
   showCount = true,
   compact = false,
 }: props) => {
@@ -63,7 +59,7 @@ const GalleryTag = ({
           paddingHorizontal={paddingHorizontal}
           paddingVertical={paddingVertical}
           onPress={() => {
-            carouselRef.current?.scrollTo({ index });
+            onPress?.(index);
             setSelectedTag({ ...item });
           }}
           text={`${item.label}`}
@@ -77,7 +73,7 @@ const GalleryTag = ({
           paddingHorizontal={paddingHorizontal}
           paddingVertical={paddingVertical}
           onPress={() => {
-            carouselRef.current?.scrollTo({ index });
+            onPress?.(index);
             setSelectedTag({ ...item });
           }}
           text={getLabel()}
