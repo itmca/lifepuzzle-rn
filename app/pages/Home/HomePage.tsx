@@ -148,11 +148,8 @@ const HomePage = (): React.ReactElement => {
   const galleryAgeGroups = useMemo(() => ageGroups || {}, [ageGroups]);
   const galleryTags = useMemo(() => {
     if (!tags) return [];
-    return tags.filter(tag => {
-      const group = ageGroups?.[tag.key as keyof typeof ageGroups];
-      return group && (group.gallery?.length ?? 0) > 0;
-    });
-  }, [ageGroups, tags]);
+    return tags;
+  }, [tags]);
 
   // Ref to track previous image URLs for optimized preloading
   const prevImageUrlsRef = useRef<{ uri: string }[]>([]);
