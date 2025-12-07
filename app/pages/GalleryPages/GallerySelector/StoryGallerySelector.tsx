@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types';
@@ -68,6 +68,16 @@ const StoryGallerySelector = (): React.ReactElement => {
     }
   }, [selectedTag, setSelectedTag, tagList]);
 
+  const handleTagPress = useCallback(
+    (index: number) => {
+      if (!tagList?.[index]) {
+        return;
+      }
+      setSelectedTag({ ...tagList[index] });
+    },
+    [setSelectedTag, tagList],
+  );
+
   const state = {
     selectedPhotos: selectedGalleryItems,
     setSelectedPhotos: setSelectedGalleryItems,
@@ -89,6 +99,7 @@ const StoryGallerySelector = (): React.ReactElement => {
                   key={item.key || index}
                   item={item}
                   index={index}
+                  onPress={handleTagPress}
                   showCount={false}
                   compact
                 />

@@ -178,11 +178,11 @@ const Gallery = ({
       }
       const index = Math.round(event.nativeEvent.contentOffset.x / windowWidth);
       const nextTag = tags[index];
-      if (nextTag) {
+      if (nextTag && nextTag.key !== selectedTag?.key) {
         setSelectedTag({ ...nextTag });
       }
     },
-    [tags, windowWidth, setSelectedTag],
+    [tags, windowWidth, setSelectedTag, selectedTag?.key],
   );
 
   const handleGalleryItemPress = useCallback(
