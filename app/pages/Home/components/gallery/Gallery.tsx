@@ -207,7 +207,7 @@ const Gallery = ({
           <TouchableOpacity
             onPress={() => handleGalleryItemPress(item, isAiTag)}
             style={{
-              borderRadius: 10,
+              borderRadius: 12,
               overflow: 'hidden',
               marginBottom: 12,
               marginHorizontal: 2,
@@ -234,7 +234,7 @@ const Gallery = ({
                   width: '100%',
                   aspectRatio: 4 / 3,
                 }}
-                borderRadius={10}
+                borderRadius={12}
                 resizeMode="cover"
               />
             )}
