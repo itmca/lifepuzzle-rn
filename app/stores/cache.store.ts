@@ -1,4 +1,4 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 interface CacheState {
   heroUpdate: number;
@@ -21,7 +21,7 @@ export const useCacheStore = create<CacheState>((set, get) => ({
     set(state => {
       const newValue =
         state.heroUpdate >= 10000000000000 ? 0 : state.heroUpdate + 1;
-      return {heroUpdate: newValue};
+      return { heroUpdate: newValue };
     }),
 
   incrementCurrentHeroUpdate: () =>
@@ -30,14 +30,14 @@ export const useCacheStore = create<CacheState>((set, get) => ({
         state.currentHeroUpdate >= 10000000000000
           ? 0
           : state.currentHeroUpdate + 1;
-      return {currentHeroUpdate: newValue};
+      return { currentHeroUpdate: newValue };
     }),
 
   incrementStoryListUpdate: () =>
     set(state => {
       const newValue =
         state.storyListUpdate >= 10000000000000 ? 0 : state.storyListUpdate + 1;
-      return {storyListUpdate: newValue};
+      return { storyListUpdate: newValue };
     }),
 
   incrementCurrentUserUpdate: () =>
@@ -46,6 +46,6 @@ export const useCacheStore = create<CacheState>((set, get) => ({
         state.currentUserUpdate >= 10000000000000
           ? 0
           : state.currentUserUpdate + 1;
-      return {currentUserUpdate: newValue};
+      return { currentUserUpdate: newValue };
     }),
 }));

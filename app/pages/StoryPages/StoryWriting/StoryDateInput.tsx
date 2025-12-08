@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {Color} from '../../../constants/color.constant.ts';
-import {Caption} from '../../../components/ui/base/TextBase';
-import {SvgIcon} from '../../../components/ui/display/SvgIcon';
-import {ButtonBase} from '../../../components/ui/base/ButtonBase';
+import { Color } from '../../../constants/color.constant.ts';
+import { Caption } from '../../../components/ui/base/TextBase';
+import { SvgIcon } from '../../../components/ui/display/SvgIcon';
+import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 
 const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
-function StoryDateInput({...props}) {
+function StoryDateInput({ ...props }) {
   const [visible, setVisible] = useState(false);
   const [date, onChangeDate] = useState<Date | undefined>(
     props.value ? new Date(props.value) : undefined,
@@ -56,7 +56,8 @@ function StoryDateInput({...props}) {
         onPress={() => {
           void showPicker();
         }}
-        borderInside>
+        borderInside
+      >
         <SvgIcon name={'calendar'} size={24} />
         {date ? (
           <Caption color={Color.GREY_600}>{formatDate(date)}</Caption>

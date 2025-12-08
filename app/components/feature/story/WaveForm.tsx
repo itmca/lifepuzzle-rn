@@ -1,12 +1,13 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Color} from '../../../constants/color.constant';
+import { StyleSheet, View } from 'react-native';
+import { Color } from '../../../constants/color.constant';
+
 interface WaveformProps {
   data: number[];
   progress: number;
 }
 
-export default function Waveform({data, progress}: WaveformProps) {
+export default function Waveform({ data, progress }: WaveformProps) {
   const activeIndex = Math.floor(progress * data.length);
 
   return (

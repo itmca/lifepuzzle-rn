@@ -1,6 +1,6 @@
 import React from 'react';
-import {Svgs} from '../../../constants/icon.constant';
-import {TouchableOpacity} from 'react-native';
+import { Svgs } from '../../../constants/icon.constant';
+import { TouchableOpacity } from 'react-native';
 
 export type IconName = keyof typeof Svgs;
 

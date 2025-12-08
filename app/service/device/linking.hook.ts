@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { Linking } from 'react-native';
 import type { LinkingOptions } from '@react-navigation/native';
 import {
-  ROOT_SCREENS,
   APP_SCREENS,
   HERO_SETTING_SCREENS,
+  ROOT_SCREENS,
 } from '../../navigation/screens.constant';
 
 const TRUSTED_PREFIXES = ['https://lifepuzzle.itmca.io', 'lifepuzzle://'];

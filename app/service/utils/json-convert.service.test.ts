@@ -1,4 +1,4 @@
-import {isDateFormat, isIsoDateString} from './json-convert.service';
+import { isDateFormat, isIsoDateString } from './json-convert.service';
 
 test('date 판단 테스트', () => {
   expect(isDateFormat('1970-01-01')).toBe(true);

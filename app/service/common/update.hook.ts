@@ -1,4 +1,4 @@
-import {useCacheStore} from '../../stores/cache.store';
+import { useCacheStore } from '../../stores/cache.store';
 
 type UpdateFunctionMap = {
   heroUpdate: () => void;

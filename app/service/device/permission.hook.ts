@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import {
   check,
   checkMultiple,
@@ -7,7 +7,7 @@ import {
   requestMultiple,
   RESULTS,
 } from 'react-native-permissions';
-import {Alert, PermissionsAndroid, Platform} from 'react-native';
+import { Alert, PermissionsAndroid, Platform } from 'react-native';
 
 type PermissionTarget = 'voice' | 'photo' | 'camera';
 

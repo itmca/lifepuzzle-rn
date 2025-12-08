@@ -1,9 +1,9 @@
 import React from 'react';
-import {ContentContainer} from '../layout/ContentContainer';
-import {Color} from '../../../constants/color.constant.ts';
+import { ContentContainer } from '../layout/ContentContainer';
+import { Color } from '../../../constants/color.constant.ts';
 import SelectDropdown from 'react-native-select-dropdown';
-import {SvgIcon} from '../display/SvgIcon.tsx';
-import {BodyTextM} from '../base/TextBase';
+import { SvgIcon } from '../display/SvgIcon.tsx';
+import { BodyTextM } from '../base/TextBase';
 
 type DropdownOption = {
   label: string;
@@ -45,7 +45,8 @@ export const Dropdown = ({
               gap={0}
               backgroundColor={
                 mode === 'white' ? Color.WHITE : Color.TRANSPARENT
-              }>
+              }
+            >
               <ContentContainer flex={1} alignCenter expandToEnd>
                 <BodyTextM>{selectedItem && selectedItem.label}</BodyTextM>
               </ContentContainer>
@@ -64,7 +65,7 @@ export const Dropdown = ({
         borderBottomLeftRadius: 6,
         borderBottomRightRadius: 6,
         shadowColor: Color.BLACK,
-        shadowOffset: {width: 0, height: 8},
+        shadowOffset: { width: 0, height: 8 },
         shadowRadius: 8,
         shadowOpacity: 0.04,
         width: width,
@@ -79,7 +80,8 @@ export const Dropdown = ({
               paddingVertical={10}
               backgroundColor={
                 mode === 'white' ? Color.WHITE : Color.TRANSPARENT
-              }>
+              }
+            >
               <BodyTextM>{item.label}</BodyTextM>
             </ContentContainer>
           </ContentContainer>

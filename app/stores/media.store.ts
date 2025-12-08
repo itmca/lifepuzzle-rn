@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import {
   AgeGroupsType,
-  TagKey,
-  TagType,
   GalleryType,
   StoryType,
+  TagKey,
+  TagType,
 } from '../types/core/media.type';
 
 interface MediaState {

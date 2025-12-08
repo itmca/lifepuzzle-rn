@@ -1,8 +1,8 @@
 import React from 'react';
-import {Dimensions, Modal, Pressable, StyleSheet} from 'react-native';
-import {SvgIcon} from '../display/SvgIcon';
-import {ContentContainer} from '../layout/ContentContainer';
-import {VideoPlayer} from '../../feature/story/StoryVideoPlayer';
+import { Dimensions, Modal, Pressable, StyleSheet } from 'react-native';
+import { SvgIcon } from '../display/SvgIcon';
+import { ContentContainer } from '../layout/ContentContainer';
+import { VideoPlayer } from '../../feature/story/StoryVideoPlayer';
 
 type Props = {
   opened?: boolean;
@@ -11,7 +11,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export default function VideoModal({opened, videoUri, onClose}: Props) {
+export default function VideoModal({ opened, videoUri, onClose }: Props) {
   const DeviceWidth = Dimensions.get('window').width;
   const handleClose = () => {
     onClose && onClose();
@@ -28,7 +28,8 @@ export default function VideoModal({opened, videoUri, onClose}: Props) {
         <ContentContainer
           alignItems="flex-end"
           paddingRight={12}
-          withNoBackground>
+          withNoBackground
+        >
           <SvgIcon name={'closeWhite'} onPress={handleClose} />
         </ContentContainer>
         <ContentContainer height={500}>

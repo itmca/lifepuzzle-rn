@@ -1,4 +1,4 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 export type UploadStateType = {
   story: boolean;
@@ -37,21 +37,21 @@ export const useUIStore = create<UiState>((set, get) => ({
 
   setUploadState: newState =>
     set(state => ({
-      uploadState: {...state.uploadState, ...newState},
+      uploadState: { ...state.uploadState, ...newState },
     })),
 
-  resetUploadState: () => set({uploadState: defaultUploadState}),
+  resetUploadState: () => set({ uploadState: defaultUploadState }),
 
-  setModalOpen: isModalOpening => set({isModalOpening}),
+  setModalOpen: isModalOpening => set({ isModalOpening }),
 
-  setSelectedPhotos: selectedPhotos => set({selectedPhotos}),
+  setSelectedPhotos: selectedPhotos => set({ selectedPhotos }),
 
-  resetSelectedPhotos: () => set({selectedPhotos: []}),
+  resetSelectedPhotos: () => set({ selectedPhotos: [] }),
 
   setOpenDetailBottomSheet: openDetailBottomSheet =>
-    set({openDetailBottomSheet}),
+    set({ openDetailBottomSheet }),
 
-  setShareKey: shareKey => set({shareKey}),
+  setShareKey: shareKey => set({ shareKey }),
 
-  resetShareKey: () => set({shareKey: ''}),
+  resetShareKey: () => set({ shareKey: '' }),
 }));

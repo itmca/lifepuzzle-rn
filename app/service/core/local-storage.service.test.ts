@@ -1,4 +1,4 @@
-import {LocalStorage, ValueType} from './local-storage.service';
+import { LocalStorage, ValueType } from './local-storage.service';
 
 const TEST_KEY = 'test-key';
 

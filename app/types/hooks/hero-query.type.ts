@@ -1,4 +1,4 @@
-import {HeroType, HeroUserType} from '../core/hero.type';
+import { HeroType, HeroUserType } from '../core/hero.type';
 
 export type HeroesQueryResponse = {
   heroes: HeroQueryResponse[];
