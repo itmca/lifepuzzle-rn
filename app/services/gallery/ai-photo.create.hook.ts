@@ -3,12 +3,19 @@ import { useNavigation } from '@react-navigation/native';
 
 import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { showErrorToast } from '../../components/ui/feedback/Toast.tsx';
+import logger from '../../utils/logger.util';
 
 interface AiPhotoCreateRequest {
   heroId: number;
   galleryId: number;
   drivingVideoId: number;
 }
+
+interface AiPhotoCreateResponse {
+  videoId: string;
+  status: 'pending' | 'processing' | 'completed';
+}
+
 interface UseCreateAiPhotoReturn {
   submit: () => void;
   submitWithErrorHandling: () => Promise<boolean>;
@@ -20,7 +27,7 @@ export const useCreateAiPhoto = (
 ): UseCreateAiPhotoReturn => {
   const navigation = useNavigation<BasicNavigationProps>();
   //TODO: 임시 API
-  const [isLoading, createAiPhoto] = useAuthAxios<any>({
+  const [isLoading, createAiPhoto] = useAuthAxios<AiPhotoCreateResponse>({
     requestOption: {
       method: 'post',
       url: '/v1/ai/videos',
@@ -38,7 +45,8 @@ export const useCreateAiPhoto = (
         },
       });
     },
-    onError: _err => {
+    onError: err => {
+      logger.error('Failed to create AI photo', { error: err, request });
       showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,
@@ -79,6 +87,10 @@ export const useCreateAiPhoto = (
 
       return true;
     } catch (error) {
+      logger.error('Failed to create AI photo with error handling', {
+        error,
+        request,
+      });
       showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
       return false;
     }

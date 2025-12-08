@@ -6,6 +6,7 @@ import {
   AiPhotoTemplate,
 } from '../../types/external/ai-photo.type.ts';
 import { useHeroStore } from '../../stores/hero.store.ts';
+import logger from '../../utils/logger.util';
 
 interface AiPhotoTemplateQueryResponse {
   drivingVideos: AiPhotoTemplate[];
@@ -40,8 +41,8 @@ export const useAiPhotoTemplate = (): UseAiPhotoTemplateReturn => {
           setAiPhotoTemplate(res.drivingVideos);
         }
       },
-      onError: () => {
-        // TODO: 예외 처리
+      onError: err => {
+        logger.error('Failed to fetch AI photo templates', { error: err });
       },
       disableInitialRequest: false,
     });
@@ -66,7 +67,12 @@ export const useAiGalleries = (): UseAiGalleriesReturn => {
         setGallery(res.gallery);
       }
     },
-    onError: err => {},
+    onError: err => {
+      logger.error('Failed to fetch AI galleries', {
+        error: err,
+        heroId: hero?.id,
+      });
+    },
     disableInitialRequest: false,
   });
 

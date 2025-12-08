@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useAuthAxios } from '../core/auth-http.hook.ts';
 import { FacebookPhotosResponse } from '../../types/external/facebook.type.ts';
 import { UseFacebookPhotosProps } from '../../types/hooks/facebook.type.ts';
-import logger from '../../utils/logger.ts';
+import logger from '../../utils/logger.util.ts';
 
 export const useFacebookPhotos = ({
   onSuccess,

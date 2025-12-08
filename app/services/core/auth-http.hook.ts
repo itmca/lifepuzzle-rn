@@ -7,6 +7,7 @@ import { useLogout } from '../auth/logout.hook.ts';
 import { AuthTokens } from '../../types/auth/auth.type.ts';
 import { useAxios } from './http.hook.ts';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRefSync } from '../../hooks/useRefSync.hook.ts';
 
 // Re-export useAxios for convenience
 export { useAxios };
@@ -39,27 +40,10 @@ export const useAuthAxios = <R>({
   const [loading, setLoading] = useState(false);
 
   // Use refs to store latest values to avoid dependency changes
-  const authTokensRef = useRef(authTokens);
-  const requestOptionRef = useRef(requestOption);
-  const onTokenExpireRef = useRef(onTokenExpire);
-  const onLoadingStatusChangeRef = useRef(onLoadingStatusChange);
-
-  // Update refs when values change
-  useEffect(() => {
-    authTokensRef.current = authTokens;
-  }, [authTokens]);
-
-  useEffect(() => {
-    requestOptionRef.current = requestOption;
-  }, [requestOption]);
-
-  useEffect(() => {
-    onTokenExpireRef.current = onTokenExpire;
-  }, [onTokenExpire]);
-
-  useEffect(() => {
-    onLoadingStatusChangeRef.current = onLoadingStatusChange;
-  }, [onLoadingStatusChange]);
+  const authTokensRef = useRefSync(authTokens);
+  const requestOptionRef = useRefSync(requestOption);
+  const onTokenExpireRef = useRefSync(onTokenExpire);
+  const onLoadingStatusChangeRef = useRefSync(onLoadingStatusChange);
 
   const handleLoadingStatusChange = useCallback((isLoading: boolean) => {
     setLoading(isLoading);

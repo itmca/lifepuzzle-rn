@@ -4,7 +4,7 @@ import { Color } from '../../../constants/color.constant.ts';
 
 import { useNavigation } from '@react-navigation/native';
 
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import {
   useDeleteGallery,

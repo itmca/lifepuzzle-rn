@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from 'react';
 import { useImageDimensions } from './useImageDimensions';
 import { calculateOptimalCarouselHeight } from '../utils/carousel-dimension.util';
-import logger from '../utils/logger';
+import logger from '../utils/logger.util';
 
 export interface CarouselItem {
   uri: string;

@@ -7,7 +7,7 @@ import {
 } from '../../../../services/auth/login.hook';
 import { Color } from '../../../../constants/color.constant';
 
-import logger from '../../../../utils/logger';
+import logger from '../../../../utils/logger.util';
 import { useShareStore } from '../../../../stores/share.store';
 import { BasicButton } from '../../../../components/ui/form/Button';
 import { showErrorToast } from '../../../../components/ui/feedback/Toast';

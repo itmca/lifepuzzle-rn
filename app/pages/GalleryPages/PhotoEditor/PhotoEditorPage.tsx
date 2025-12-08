@@ -22,7 +22,7 @@ import { PhotoFilterBottomSheet } from './components/PhotoFilterBottomSheet';
 import { useCarouselManagement } from '../../../hooks/useCarouselManagement';
 import { useGalleryIndexValidation } from '../../../hooks/useGalleryIndexValidation';
 import { calculateNextIndexAfterDeletion } from '../../../utils/carousel-index.util';
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 
 const PhotoEditorPage = (): React.ReactElement => {
   // React hooks

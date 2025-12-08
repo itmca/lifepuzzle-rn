@@ -27,7 +27,7 @@ import {
   copyContentUriToFile,
   getImageSizeAsync,
 } from '../../../../services/image/platform-image.service';
-import logger from '../../../../utils/logger';
+import logger from '../../../../utils/logger.util';
 
 const { width: screenWidth } = Dimensions.get('window');
 const displaySize = screenWidth - 40; // 패딩 고려

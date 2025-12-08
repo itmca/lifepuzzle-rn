@@ -1,6 +1,6 @@
 import RNFS from 'react-native-fs';
 import { Skia, SkImage } from '@shopify/react-native-skia';
-import logger from '../../utils/logger';
+import logger from '../../utils/logger.util';
 
 /**
  * Service for loading images into Skia format

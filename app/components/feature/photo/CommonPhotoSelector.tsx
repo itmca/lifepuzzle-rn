@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 import SelectablePhoto from './SelectablePhoto';
 import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
 
