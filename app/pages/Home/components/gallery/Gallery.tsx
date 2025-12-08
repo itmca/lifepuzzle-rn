@@ -328,7 +328,6 @@ const Gallery = ({
             data={galleryItems}
             numColumns={2}
             renderItem={renderGalleryItem(tagKey, galleryItems.length)}
-            estimatedItemSize={200}
             onScroll={handleScroll}
             scrollEventThrottle={16}
             keyExtractor={(item: GalleryType) => `${tagKey}-${item.id}`}
@@ -344,14 +343,16 @@ const Gallery = ({
                 tintColor="#007AFF"
               />
             }
-            ListEmptyComponent={() => (
-              <ContentContainer alignCenter paddingVertical={60} gap={8}>
-                <Title color={Color.GREY_400}>사진이 없습니다</Title>
-                <BodyTextM color={Color.GREY_300}>
-                  새로운 추억을 추가해보세요
-                </BodyTextM>
-              </ContentContainer>
-            )}
+            ListEmptyComponent={
+              (() => (
+                <ContentContainer alignCenter paddingVertical={60} gap={8}>
+                  <Title color={Color.GREY_400}>사진이 없습니다</Title>
+                  <BodyTextM color={Color.GREY_300}>
+                    새로운 추억을 추가해보세요
+                  </BodyTextM>
+                </ContentContainer>
+              )) as React.ComponentType<any>
+            }
           />
         </ContentContainer>
       );

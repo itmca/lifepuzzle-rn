@@ -18,8 +18,8 @@ const getVariantConfig = (variant: Variant, disabled: boolean) => {
       textColor: disabled ? Color.GREY_300 : Color.AI_500,
       backgroundColor: disabled ? Color.GREY_100 : Color.WHITE,
       borderColor: disabled ? Color.GREY_200 : Color.AI_500,
-      icon: undefined as const,
-      iconColor: undefined as const,
+      icon: undefined,
+      iconColor: undefined,
     };
   }
 
@@ -29,7 +29,7 @@ const getVariantConfig = (variant: Variant, disabled: boolean) => {
     backgroundColor: disabled ? Color.GREY_100 : Color.MAIN_DARK,
     icon: 'plus' as const,
     iconColor: disabled ? Color.GREY_300 : Color.WHITE,
-    borderColor: undefined as const,
+    borderColor: undefined,
   };
 };
 

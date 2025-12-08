@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Image, Platform } from 'react-native';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
@@ -12,7 +6,6 @@ import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
 import { EditorActionButton } from './components/EditorActionButton';
 import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
-import { useNavigation } from '@react-navigation/native';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import { Color } from '../../../constants/color.constant.ts';
@@ -21,7 +14,6 @@ import {
   MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant.ts';
 import { FilterType } from '../../../constants/filter.constant.ts';
-import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
 import { useUIStore } from '../../../stores/ui.store';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -46,9 +38,6 @@ const PhotoEditorPage = (): React.ReactElement => {
     setCurrentGalleryIndex: setGalleryIndex,
   } = useSelectionStore();
   const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
-
-  // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
   const { carouselKey, optimalCarouselHeight, imageDimensions, handleScroll } =
@@ -81,9 +70,10 @@ const PhotoEditorPage = (): React.ReactElement => {
 
   // Memoized values
   const currentItem = editGalleryItems[galleryIndex];
-  const isCurrentItemVideo =
+  const isCurrentItemVideo = Boolean(
     currentItem?.node?.image?.playableDuration &&
-    currentItem.node.image.playableDuration > 0;
+      currentItem.node.image.playableDuration > 0,
+  );
 
   const onCrop = async () => {
     const image = editGalleryItems.find((e, idx) => idx === galleryIndex);
@@ -104,7 +94,7 @@ const PhotoEditorPage = (): React.ReactElement => {
           image.node.image.height,
         );
 
-        const croppedImage = await ImagePicker.openCropper({
+        await ImagePicker.openCropper({
           mediaType: 'photo',
           path: image.node.image.uri, // Use the potentially downloaded path
           width: width,
@@ -180,7 +170,7 @@ const PhotoEditorPage = (): React.ReactElement => {
 
         const updatedGallery = editGalleryItems.map((e, idx) =>
           idx === galleryIndex ? restoredImageObject : e,
-        );
+        ) as typeof editGalleryItems;
         setEditGalleryItems(updatedGallery);
         return;
       }
@@ -207,8 +197,8 @@ const PhotoEditorPage = (): React.ReactElement => {
 
       const updatedGallery = editGalleryItems.map((e, idx) =>
         idx === galleryIndex ? newImageObject : e,
-      );
-      setEditGalleryItems([...updatedGallery]);
+      ) as typeof editGalleryItems;
+      setEditGalleryItems(updatedGallery);
     },
     [editGalleryItems, galleryIndex, setEditGalleryItems],
   );
