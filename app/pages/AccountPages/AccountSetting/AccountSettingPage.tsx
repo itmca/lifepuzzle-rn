@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useUserStore } from '../../../stores/user.store';
-import { useAuthAxios } from '../../../service/core/auth-http.hook';
+import { useAuthAxios } from '../../../services/core/auth-http.hook';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -17,7 +17,7 @@ import {
 } from '../../../components/ui/base/TextBase';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { BasicButton } from '../../../components/ui/form/Button';
-import { useUserWithdraw } from '../../../service/user/user.withdraw.hook.ts';
+import { useUserWithdraw } from '../../../services/user/user.withdraw.hook.ts';
 import { ProfileUpdateBottomSheet } from './components/bottom-sheet/ProfileUpdateBottomSheet.tsx';
 import { PasswordUpdateBottomSheet } from './components/bottom-sheet/PasswordUpdateBottomSheet.tsx';
 

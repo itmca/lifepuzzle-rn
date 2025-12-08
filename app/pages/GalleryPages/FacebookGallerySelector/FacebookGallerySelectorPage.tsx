@@ -18,8 +18,8 @@ import {
   PhotoSelectorConfig,
   PhotoSelectorState,
 } from '../../../types/ui/photo-selector.type';
-import { toPhotoIdentifierFromFacebookPhoto } from '../../../service/utils/photo-identifier.service';
-import { useFacebookPhotos } from '../../../service/gallery/facebook.photos.hook';
+import { toPhotoIdentifierFromFacebookPhoto } from '../../../utils/photo-identifier.util.ts';
+import { useFacebookPhotos } from '../../../services/gallery/facebook.photos.hook';
 import { Color } from '../../../constants/color.constant';
 import { useSelectionStore } from '../../../stores/selection.store.ts';
 import { useUIStore } from '../../../stores';

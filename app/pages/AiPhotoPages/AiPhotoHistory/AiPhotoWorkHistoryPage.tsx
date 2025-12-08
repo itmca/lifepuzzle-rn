@@ -12,9 +12,9 @@ import {
   Caption,
   Title,
 } from '../../../components/ui/base/TextBase';
-import { formatDateToTodayOrYYMMDD } from '../../../service/utils/date-time.service.ts';
+import { formatDateToTodayOrYYMMDD } from '../../../utils/date-time.util.ts';
 import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
-import { useAiGalleries } from '../../../service/gallery/ai-photo.query.hook.ts';
+import { useAiGalleries } from '../../../services/gallery/ai-photo.query.hook.ts';
 import { AiGallery } from '../../../types/external/ai-photo.type';
 
 interface WorkItem {

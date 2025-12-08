@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
-import { useSaveStory } from '../../service/story/story.write.hook';
+import { useSaveStory } from '../../services/story/story.write.hook';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelectorPage.tsx';
 import PhotoEditor from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
 
 import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
-import { useUploadGalleryV2 } from '../../service/gallery/gallery.upload.hook.ts';
+import { useUploadGalleryV2 } from '../../services/gallery/gallery.upload.hook.ts';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { useStoryStore } from '../../stores/story.store';
 import { useSelectionStore } from '../../stores/selection.store';

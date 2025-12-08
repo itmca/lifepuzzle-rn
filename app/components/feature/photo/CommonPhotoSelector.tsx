@@ -23,7 +23,7 @@ import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
 import {
   hasAndroidPermission,
   usePhotoPermission,
-} from '../../../service/device/permission.hook';
+} from '../../../services/device/permission.hook';
 
 import {
   PhotoSelectorCallbacks,

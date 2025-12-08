@@ -16,7 +16,7 @@ import MediaCarouselPagination from './MediaCarouselPagination';
 import { AiPhotoButton } from '../ai/AiPhotoButton';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { useNavigation } from '@react-navigation/native';
-import { useCreateAiPhoto } from '../../../service/gallery/ai-photo.create.hook';
+import { useCreateAiPhoto } from '../../../services/gallery/ai-photo.create.hook';
 
 type Props = {
   data: MediaItem[];

@@ -5,7 +5,7 @@ import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventType
 import { NativeScrollEvent } from 'react-native/Libraries/Components/ScrollView/ScrollView';
 import { Color } from '../../../constants/color.constant.ts';
 import { SizeValue } from '../../../types/ui/style.type';
-import { formatSize } from '../../../service/utils/style.service';
+import { formatSize } from '../../../utils/style.util.ts';
 
 type ContentContainerProps = {
   // Size

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
-import { useAxios } from '../../../../service/core/auth-http.hook';
+import { useAxios } from '../../../../services/core/auth-http.hook';
 import {
   LoginResponse,
   useLoginResponseHandler,
-} from '../../../../service/auth/login.hook';
+} from '../../../../services/auth/login.hook';
 import { Color } from '../../../../constants/color.constant';
 
 import logger from '../../../../utils/logger';

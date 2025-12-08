@@ -3,7 +3,7 @@ import { ContentContainer } from '../../../components/ui/layout/ContentContainer
 import { AccountAvatar } from '../../../components/ui/display/Avatar';
 import { BasicButton } from '../../../components/ui/form/Button';
 import BottomSheet from '../../../components/ui/interaction/BottomSheet';
-import { useUserAuthUpdate } from '../../../service/user/user.update.hook.ts';
+import { useUserAuthUpdate } from '../../../services/user/user.update.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { HeroType, HeroUserType } from '../../../types/core/hero.type';
 import { Divider } from '../../../components/ui/base/Divider';
