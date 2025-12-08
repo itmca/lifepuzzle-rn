@@ -12,7 +12,7 @@ import {
   Caption,
   Title,
 } from '../../../components/ui/base/TextBase';
-import { formatDateToTodayOrYYMMDD } from '../../../utils/date-time.util.ts';
+import { formatDateToTodayOrYYMMDD } from '../../../utils/date-formatter.util.ts';
 import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { useAiGalleries } from '../../../services/gallery/ai-photo.query.hook.ts';
 import { AiGallery } from '../../../types/external/ai-photo.type';

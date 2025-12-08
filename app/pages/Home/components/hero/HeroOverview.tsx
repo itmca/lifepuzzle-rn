@@ -9,7 +9,7 @@ import {
 } from '../../../../components/ui/base/TextBase';
 import { Color } from '../../../../constants/color.constant.ts';
 import { HeroType } from '../../../../types/core/hero.type';
-import { toInternationalAge } from '../../../../utils/date-time.util.ts';
+import { toInternationalAge } from '../../../../utils/age-calculator.util.ts';
 
 type Props = {
   hero: HeroType;
