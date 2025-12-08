@@ -18,7 +18,7 @@ import { useSelectionStore } from '../../../stores/selection.store';
 import { AiPhotoTemplate } from '../../../types/external/ai-photo.type';
 import { useAiPhotoTemplate } from '../../../services/gallery/ai-photo.query.hook.ts';
 import { useCreateAiPhoto } from '../../../services/gallery/ai-photo.create.hook.ts';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from '@react-native-vector-icons/material-icons';
 
 const AiPhotoMakerPage = (): React.ReactElement => {
   // Refs

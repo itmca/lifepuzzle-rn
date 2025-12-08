@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from '@react-native-vector-icons/ionicons';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { AdaptiveImage } from '../../ui/base/ImageBase';
 import { Color } from '../../../constants/color.constant';
