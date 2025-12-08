@@ -195,6 +195,14 @@ const Gallery = ({
         // Full-width: 1개 항목이거나, 홀수 개수의 마지막 항목
         const isFullWidth = isSingleItem || (isOddCount && isLastItem);
 
+        // paddingHorizontal: 16, marginHorizontal: 6
+        const containerPadding = 16 * 2;
+        const itemMargin = 6 * 2;
+        const availableWidth = windowWidth - containerPadding;
+        const itemWidth = isFullWidth
+          ? availableWidth - itemMargin
+          : availableWidth / 2 - itemMargin;
+
         return (
           <TouchableOpacity
             onPress={() => handleGalleryItemPress(item, isAiTag)}
@@ -203,8 +211,7 @@ const Gallery = ({
               overflow: 'hidden',
               marginBottom: 12,
               marginHorizontal: 6,
-              // Full-width 아이템은 2배 너비를 차지
-              flex: isFullWidth ? 2 : 1,
+              width: itemWidth,
             }}
           >
             {isAiTag ? (
@@ -233,7 +240,7 @@ const Gallery = ({
           </TouchableOpacity>
         );
       },
-    [handleGalleryItemPress],
+    [handleGalleryItemPress, windowWidth],
   );
 
   const renderGridList = useCallback(
