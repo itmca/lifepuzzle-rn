@@ -259,16 +259,16 @@ const Gallery = ({
         // Full-width: 1개 항목일 때만
         const isFullWidth = isSingleItem;
 
-        // Spacing refinements: paddingHorizontal: 16, marginHorizontal: 2 (reduced by 4dp)
-        const containerPadding = 16 * 2;
-        const itemMargin = 2 * 2;
+        // Spacing refinements: paddingHorizontal: 12, marginHorizontal: 6 (12px gap between columns)
+        const containerPadding = 12 * 2;
+        const itemMargin = 6;
         const availableWidth = windowWidth - containerPadding;
         const itemWidth = isFullWidth
-          ? availableWidth - itemMargin
-          : availableWidth / 2 - itemMargin;
+          ? availableWidth - itemMargin * 2
+          : (availableWidth - itemMargin * 4) / 2;
 
-        // Height calculation: all items use 4:3 ratio
-        const itemHeight = (itemWidth * 3) / 4;
+        // Height calculation: all items use 1:1 ratio
+        const itemHeight = itemWidth;
 
         return (
           <TouchableOpacity
@@ -287,7 +287,7 @@ const Gallery = ({
                 source={{ uri: item.url }}
                 style={{
                   width: '100%',
-                  aspectRatio: 4 / 3,
+                  aspectRatio: 1,
                   backgroundColor: 'black',
                 }}
                 paused
@@ -299,7 +299,7 @@ const Gallery = ({
                 uri={item.url}
                 style={{
                   width: '100%',
-                  aspectRatio: 4 / 3,
+                  aspectRatio: 1,
                 }}
                 borderRadius={12}
                 resizeMode="cover"
@@ -317,7 +317,7 @@ const Gallery = ({
       return (
         <ContentContainer
           style={{ width: windowWidth }}
-          paddingHorizontal={16}
+          paddingHorizontal={12}
           paddingVertical={8}
           gap={12}
         >
