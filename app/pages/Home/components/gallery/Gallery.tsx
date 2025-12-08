@@ -195,13 +195,16 @@ const Gallery = ({
         // Full-width: 1개 항목이거나, 홀수 개수의 마지막 항목
         const isFullWidth = isSingleItem || (isOddCount && isLastItem);
 
-        // paddingHorizontal: 16, marginHorizontal: 6
+        // Spacing refinements: paddingHorizontal: 16, marginHorizontal: 2 (reduced by 4dp)
         const containerPadding = 16 * 2;
-        const itemMargin = 6 * 2;
+        const itemMargin = 2 * 2;
         const availableWidth = windowWidth - containerPadding;
         const itemWidth = isFullWidth
           ? availableWidth - itemMargin
           : availableWidth / 2 - itemMargin;
+
+        // Height calculation: full-width uses 0.6 ratio, regular uses 4:3 ratio
+        const itemHeight = isFullWidth ? itemWidth * 0.6 : (itemWidth * 3) / 4;
 
         return (
           <TouchableOpacity
@@ -209,9 +212,10 @@ const Gallery = ({
             style={{
               borderRadius: 12,
               overflow: 'hidden',
-              marginBottom: 12,
-              marginHorizontal: 6,
+              marginBottom: 10,
+              marginHorizontal: 2,
               width: itemWidth,
+              height: itemHeight,
             }}
           >
             {isAiTag ? (
@@ -265,7 +269,7 @@ const Gallery = ({
             scrollEventThrottle={16}
             keyExtractor={(item: GalleryType) => `${tagKey}-${item.id}`}
             contentContainerStyle={{
-              paddingBottom: 60,
+              paddingBottom: 84,
             }}
             refreshControl={
               <RefreshControl
