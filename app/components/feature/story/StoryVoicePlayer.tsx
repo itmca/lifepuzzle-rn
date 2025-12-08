@@ -19,7 +19,7 @@ import {
   StopButton,
 } from '../voice/AudioController';
 import { Caption } from '../../ui/base/TextBase';
-import { useVoiceRecorder } from '../../../service/common/voice-record.hook.ts';
+import { useVoiceRecorder } from '../../../services/common/voice-record.hook.ts';
 import Waveform from './WaveForm.tsx';
 
 const initWaveData = [

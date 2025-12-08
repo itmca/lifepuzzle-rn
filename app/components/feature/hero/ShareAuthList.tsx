@@ -5,7 +5,7 @@ import {
   ScrollContentContainer,
 } from '../../ui/layout/ContentContainer.tsx';
 import { SortedHeroAuthTypes } from '../../../constants/auth.constant';
-import { useAuthAxios } from '../../../service/core/auth-http.hook';
+import { useAuthAxios } from '../../../services/core/auth-http.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Radio } from '../../ui/form/Radio';
 

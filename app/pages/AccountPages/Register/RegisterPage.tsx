@@ -21,7 +21,7 @@ import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Color } from '../../../constants/color.constant.ts';
 import { Divider } from '../../../components/ui/base/Divider';
-import { useAxios } from '../../../service/core/auth-http.hook.ts';
+import { useAxios } from '../../../services/core/auth-http.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 
 const RegisterPage = (): React.ReactElement => {

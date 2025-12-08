@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import StoryDateInput from './StoryDateInput.tsx';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { useIsStoryUploading } from '../../../service/story/story.write.hook.ts';
+import { useIsStoryUploading } from '../../../services/story/story.write.hook.ts';
 
 import { Color } from '../../../constants/color.constant.ts';
 import {

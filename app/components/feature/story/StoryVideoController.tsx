@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bar } from 'react-native-progress';
 import { Color } from '../../../constants/color.constant';
-import { toMmSs } from '../../../service/utils/date-time.service.ts';
+import { toMmSs } from '../../../utils/date-time.util.ts';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
 import { Caption } from '../../ui/base/TextBase';
 import { SvgIcon } from '../../ui/display/SvgIcon.tsx';

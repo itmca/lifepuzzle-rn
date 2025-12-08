@@ -6,10 +6,10 @@ import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../../../constants/password.constant.ts';
-import { useAuthAxios } from '../../../../../service/core/auth-http.hook.ts';
+import { useAuthAxios } from '../../../../../services/core/auth-http.hook.ts';
 import { CustomAlert } from '../../../../../components/ui/feedback/CustomAlert';
 import { useUserStore } from '../../../../../stores/user.store';
-import { useLogout } from '../../../../../service/auth/logout.hook.ts';
+import { useLogout } from '../../../../../services/auth/logout.hook.ts';
 
 type Props = {
   opened: boolean;

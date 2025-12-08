@@ -11,16 +11,16 @@ import {
   HeroSettingRouteProps,
 } from '../../../navigation/types';
 import { useHeroStore } from '../../../stores/hero.store';
-import { useHero } from '../../../service/hero/hero.query.hook';
-import { toPhotoIdentifier } from '../../../service/utils/photo-identifier.service';
-import { useUpdateHero } from '../../../service/hero/hero.update.hook.ts';
+import { useHero } from '../../../services/hero/hero.query.hook';
+import { toPhotoIdentifier } from '../../../utils/photo-identifier.util.ts';
+import { useUpdateHero } from '../../../services/hero/hero.update.hook.ts';
 import { Divider } from '../../../components/ui/base/Divider';
 import { BasicCard } from '../../../components/ui/display/Card';
 import { Color } from '../../../constants/color.constant.ts';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
-import { useDeleteHero } from '../../../service/hero/hero.delete.hook.ts';
+import { useDeleteHero } from '../../../services/hero/hero.delete.hook.ts';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { getHeroImageUri } from '../../../utils/hero-image.util';

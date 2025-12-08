@@ -7,13 +7,13 @@ import React, {
 } from 'react';
 
 import { TouchableOpacity, useWindowDimensions } from 'react-native';
-import { useAuthAxios } from '../../../service/core/auth-http.hook';
+import { useAuthAxios } from '../../../services/core/auth-http.hook';
 import {
   HeroUserType,
   HeroWithPuzzleCntType,
 } from '../../../types/core/hero.type';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { useUpdateObserver } from '../../../service/common/update.hook.ts';
+import { useUpdateObserver } from '../../../services/common/update.hook.ts';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   BasicNavigationProps,
@@ -29,7 +29,7 @@ import {
 import { Color } from '../../../constants/color.constant.ts';
 import { useHeroStore } from '../../../stores/hero.store';
 import { AccountAvatar } from '../../../components/ui/display/Avatar';
-import { useRegisterSharedHero } from '../../../service/hero/share.hero.hook.ts';
+import { useRegisterSharedHero } from '../../../services/hero/share.hero.hook.ts';
 import { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
 import { BasicCard } from '../../../components/ui/display/Card';
 import {
@@ -39,7 +39,7 @@ import {
   Head,
   Title,
 } from '../../../components/ui/base/TextBase';
-import { toInternationalAge } from '../../../service/utils/date-time.service.ts';
+import { toInternationalAge } from '../../../utils/date-time.util.ts';
 import dayjs from 'dayjs';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';

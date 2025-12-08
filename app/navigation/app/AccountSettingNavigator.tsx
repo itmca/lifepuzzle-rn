@@ -9,7 +9,7 @@ import { TopBar } from '../../components/ui/navigation/TopBar';
 import { TouchableOpacity } from 'react-native';
 import { BodyTextM } from '../../components/ui/base/TextBase';
 import { Color } from '../../constants/color.constant.ts';
-import { useLogout } from '../../service/auth/logout.hook.ts';
+import { useLogout } from '../../services/auth/logout.hook.ts';
 import { ACCOUNT_SETTING_SCREENS } from '../screens.constant';
 
 export type AccountSettingParamList = {

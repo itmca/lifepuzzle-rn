@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components/native';
 import { Color, ColorType } from '../../../constants/color.constant';
 import { SizeValue } from '../../../types/ui/style.type';
-import { formatSize } from '../../../service/utils/style.service';
+import { formatSize } from '../../../utils/style.util.ts';
 
 type Props = {
   // Size

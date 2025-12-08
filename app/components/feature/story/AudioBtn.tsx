@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import logger from '../../../utils/logger';
 import { BasicNavigationProps } from '../../../navigation/types';
 import Sound from 'react-native-sound';
-import { toMmSs, toMmSsSS } from '../../../service/utils/date-time.service';
+import { toMmSs, toMmSsSS } from '../../../utils/date-time.util.ts';
 import { VoicePlayButton } from '../voice/VoicePlayButton';
 
 import { useStoryStore } from '../../../stores/story.store';

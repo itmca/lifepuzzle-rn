@@ -12,7 +12,7 @@ import { useHeroStore } from '../../../stores/hero.store';
 import { BasicCard } from '../../../components/ui/display/Card';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
-import { useCreateHero } from '../../../service/hero/hero.create.hook.ts';
+import { useCreateHero } from '../../../services/hero/hero.create.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
