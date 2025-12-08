@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
-import Carousel from 'react-native-reanimated-carousel';
 import type { ICarouselInstance } from 'react-native-reanimated-carousel';
+import Carousel from 'react-native-reanimated-carousel';
 
 import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 import { SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import {
-  DEFAULT_CAROUSEL_HEIGHT,
   CAROUSEL_MODE_CONFIG,
-  CAROUSEL_WINDOW_SIZE,
   CAROUSEL_SCROLL_THROTTLE_MS,
+  CAROUSEL_WINDOW_SIZE,
+  DEFAULT_CAROUSEL_HEIGHT,
 } from '../../../../constants/carousel.constant';
 import { Color } from '../../../../constants/color.constant';
 import { calculateContainDimensions } from '../../../../utils/carousel-dimension.util';

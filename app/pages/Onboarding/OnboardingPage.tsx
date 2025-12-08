@@ -15,9 +15,9 @@ import { Color } from '../../constants/color.constant.ts';
 import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
 import { LocalStorage } from '../../service/core/local-storage.service.ts';
 import {
-  ROOT_SCREENS,
   AUTH_SCREENS,
   LOGIN_REGISTER_SCREENS,
+  ROOT_SCREENS,
 } from '../../navigation/screens.constant';
 
 const DeviceWidth = Dimensions.get('window').width;

@@ -4,12 +4,11 @@ import FastImage from '@d11/react-native-fast-image';
 import { AdaptiveImage } from '../../ui/base/ImageBase';
 import { VideoPlayer } from './StoryVideoPlayer';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
-import { Color } from '../../../constants/color.constant';
 import {
-  DEFAULT_CAROUSEL_HEIGHT,
   CAROUSEL_MODE_CONFIG,
-  CAROUSEL_WINDOW_SIZE,
   CAROUSEL_SCROLL_THROTTLE_MS,
+  CAROUSEL_WINDOW_SIZE,
+  DEFAULT_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant';
 import { calculateContainDimensions } from '../../../utils/carousel-dimension.util';
 import Carousel from 'react-native-reanimated-carousel';

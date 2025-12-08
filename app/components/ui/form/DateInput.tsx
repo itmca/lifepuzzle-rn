@@ -1,10 +1,10 @@
-import {TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import RNDateTimePicker from 'react-native-modal-datetime-picker';
-import {ContentContainer} from '../layout/ContentContainer.tsx';
-import {BodyTextM} from '../base/TextBase.tsx';
-import {Dropdown} from './Dropdown.tsx';
-import {SvgIcon} from '../display/SvgIcon.tsx';
+import { ContentContainer } from '../layout/ContentContainer.tsx';
+import { BodyTextM } from '../base/TextBase.tsx';
+import { Dropdown } from './Dropdown.tsx';
+import { SvgIcon } from '../display/SvgIcon.tsx';
 
 type Props = {
   label?: string;
@@ -68,18 +68,20 @@ function DateInput({
         paddingHorizontal={16}
         height={48}
         withBorder
-        borderRadius={6}>
+        borderRadius={6}
+      >
         <ContentContainer
           gap={0}
           useHorizontalLayout
           width={'auto'}
-          alignCenter>
+          alignCenter
+        >
           <SvgIcon name={'calendar'} size={24} />
           <Dropdown
             mode={'transparent'}
             options={[
-              {label: '양력', value: 'SOLAR'},
-              {label: '음력', value: 'LUNAR'},
+              { label: '양력', value: 'SOLAR' },
+              { label: '음력', value: 'LUNAR' },
             ]}
             defaultValue={isLunar ? 'LUNAR' : 'SOLAR'}
             onSelect={selectedItem => {

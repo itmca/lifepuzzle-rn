@@ -1,7 +1,7 @@
-import {ActiveDot, Dot} from '../base/Dot';
-import {TouchableOpacity} from 'react-native';
-import {ContentContainer} from '../layout/ContentContainer';
-import {useEffect, useState} from 'react';
+import { ActiveDot, Dot } from '../base/Dot';
+import { TouchableOpacity } from 'react-native';
+import { ContentContainer } from '../layout/ContentContainer';
+import { useEffect, useState } from 'react';
 
 type Props = {
   page?: number;
@@ -9,7 +9,7 @@ type Props = {
   onChange?: (page: number) => void;
 };
 
-function PageIndicator({page = 1, size, onChange}: Props) {
+function PageIndicator({ page = 1, size, onChange }: Props) {
   const [curPage, setCurPage] = useState<number>(page);
   const pages = [];
 
@@ -21,7 +21,8 @@ function PageIndicator({page = 1, size, onChange}: Props) {
           onPress={() => {
             setCurPage(i);
             onChange && onChange(i);
-          }}>
+          }}
+        >
           <ActiveDot />
         </TouchableOpacity>,
       );
@@ -35,7 +36,8 @@ function PageIndicator({page = 1, size, onChange}: Props) {
           }}
           style={{
             padding: 1,
-          }}>
+          }}
+        >
           <Dot />
         </TouchableOpacity>,
       );

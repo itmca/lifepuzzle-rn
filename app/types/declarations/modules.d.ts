@@ -11,7 +11,7 @@ declare module '*.svg' {
 // React Native Masonry List
 declare module 'react-native-masonry-list' {
   import { Component } from 'react';
-  import { ViewStyle, ImageStyle } from 'react-native';
+  import { ImageStyle, ViewStyle } from 'react-native';
 
   export interface MasonryImage {
     uri: string;

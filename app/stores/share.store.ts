@@ -1,5 +1,5 @@
-import {create} from 'zustand';
-import {SharePhoto} from '../types/core/media.type';
+import { create } from 'zustand';
+import { SharePhoto } from '../types/core/media.type';
 
 interface ShareState {
   shareKey: string;
@@ -19,9 +19,9 @@ export const useShareStore = create<ShareState>(set => ({
   shareKey: '',
   sharedImageData: defaultSharedImageData,
 
-  setShareKey: shareKey => set({shareKey}),
+  setShareKey: shareKey => set({ shareKey }),
 
-  setSharedImageData: sharedImageData => set({sharedImageData}),
+  setSharedImageData: sharedImageData => set({ sharedImageData }),
 
   resetShare: () =>
     set({

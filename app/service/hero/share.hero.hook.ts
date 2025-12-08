@@ -1,8 +1,8 @@
-import {useAuthAxios} from '../core/auth-http.hook';
-import {CustomAlert} from '../../components/ui/feedback/CustomAlert';
-import {useEffect} from 'react';
-import {useAuthStore} from '../../stores/auth.store';
-import {useShareStore} from '../../stores/share.store';
+import { useAuthAxios } from '../core/auth-http.hook';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { useEffect } from 'react';
+import { useAuthStore } from '../../stores/auth.store';
+import { useShareStore } from '../../stores/share.store';
 
 type Params = {
   shareKey?: string;

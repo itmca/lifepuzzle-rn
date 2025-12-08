@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {Color} from '../../../constants/color.constant';
+import { Color } from '../../../constants/color.constant';
 
 type Props = {
   color?: string;

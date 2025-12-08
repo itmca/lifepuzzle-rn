@@ -1,6 +1,6 @@
-import {create} from 'zustand';
-import {AuthTokens} from '../types/auth/auth.type';
-import {getTokenState} from '../service/core/auth.service';
+import { create } from 'zustand';
+import { AuthTokens } from '../types/auth/auth.type';
+import { getTokenState } from '../service/core/auth.service';
 
 interface AuthState {
   authTokens: AuthTokens;
@@ -15,7 +15,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     refreshToken: '',
   },
 
-  setAuthTokens: tokens => set({authTokens: tokens}),
+  setAuthTokens: tokens => set({ authTokens: tokens }),
 
   clearAuth: () =>
     set({
@@ -26,7 +26,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }),
 
   isLoggedIn: () => {
-    const {authTokens} = get();
+    const { authTokens } = get();
     if (!authTokens || !authTokens.accessToken) {
       return false;
     }

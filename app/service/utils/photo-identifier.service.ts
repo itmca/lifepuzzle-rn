@@ -1,7 +1,4 @@
-import {
-  PhotoIdentifier,
-  SubTypes,
-} from '@react-native-camera-roll/camera-roll';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { ImageOrVideo } from 'react-native-image-crop-picker';
 import { FacebookPhotoItem } from '../../types/external/facebook.type';
 import { AgeType } from '../../types/core/media.type';

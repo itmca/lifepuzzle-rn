@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import FastImage from '@d11/react-native-fast-image';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useHeroStore } from '../../stores/hero.store';
 import { useMediaStore } from '../../stores/media.store';
 import { useUIStore } from '../../stores/ui.store';

@@ -11,8 +11,8 @@ import {
 } from '../../../components/ui/layout/ContentContainer.tsx';
 import { Color } from '../../../constants/color.constant.ts';
 import {
-  MAX_CAROUSEL_HEIGHT,
   CAROUSEL_WIDTH_FULL,
+  MAX_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';

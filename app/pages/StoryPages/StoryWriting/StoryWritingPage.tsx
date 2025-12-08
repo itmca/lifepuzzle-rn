@@ -15,8 +15,8 @@ import { useIsStoryUploading } from '../../../service/story/story.write.hook.ts'
 
 import { Color } from '../../../constants/color.constant.ts';
 import {
-  MAX_CAROUSEL_HEIGHT,
   CONTAINER_WIDTH_STANDARD,
+  MAX_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant.ts';
 import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { useStoryStore } from '../../../stores/story.store';

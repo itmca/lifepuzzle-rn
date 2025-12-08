@@ -1,4 +1,4 @@
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 
 export const CustomAlert = {
   simpleAlert: (title: string) => {

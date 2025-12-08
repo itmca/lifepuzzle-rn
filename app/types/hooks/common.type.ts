@@ -1,4 +1,4 @@
-import {AxiosError, AxiosRequestConfig} from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 
 // Generic hook return type for API operations
 export type ApiHookReturn<T = void> = [

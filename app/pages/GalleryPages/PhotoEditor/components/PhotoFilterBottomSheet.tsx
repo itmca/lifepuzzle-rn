@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native';
 import { ActivityIndicator, Button } from 'react-native-paper';
 import RNFS, { writeFile } from 'react-native-fs';

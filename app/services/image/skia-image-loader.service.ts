@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 import { Skia, SkImage } from '@shopify/react-native-skia';
 import logger from '../../utils/logger';
