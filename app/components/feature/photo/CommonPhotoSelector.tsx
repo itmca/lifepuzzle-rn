@@ -13,7 +13,7 @@ import {
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from '@react-native-vector-icons/fontawesome';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import logger from '../../../utils/logger.util';

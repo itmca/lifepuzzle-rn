@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 type Color = '#000000' | '#FFFFFF' | '#010440' | 'transparent' | 'white';
 type Props = {

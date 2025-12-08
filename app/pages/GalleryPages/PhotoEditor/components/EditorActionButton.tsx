@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
+import Icon from '@react-native-vector-icons/simple-line-icons';
 
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 import { Color } from '../../../../constants/color.constant';
