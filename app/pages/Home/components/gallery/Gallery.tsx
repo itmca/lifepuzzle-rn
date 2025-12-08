@@ -7,13 +7,15 @@ import React, {
 } from 'react';
 import {
   FlatList,
-  Image,
-  ListRenderItemInfo,
   RefreshControl,
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
+import {
+  FlashList,
+  FlashListRef,
+  ListRenderItemInfo as FlashListRenderItemInfo,
+} from '@shopify/flash-list';
 
 import {
   ContentContainer,
@@ -61,13 +63,11 @@ const Gallery = ({
   onItemPress,
 }: props): React.ReactElement => {
   // Refs
-  const horizontalListRef = useRef<FlatList<TagType>>(null);
-  const masonryRefs = useRef<
-    Partial<Record<TagKey, FlashList<GalleryType> | null>>
+  const horizontalListRef = useRef<FlatList<TagKey>>(null);
+  const gridRefs = useRef<
+    Partial<Record<TagKey, FlashListRef<GalleryType> | null>>
   >({});
-  const aspectRatioRef = useRef<Record<number, number>>({});
   const isTagClickScrolling = useRef(false);
-  const [aspectRatiosVersion, setAspectRatiosVersion] = useState(0);
 
   // React hooks
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -115,11 +115,11 @@ const Gallery = ({
         index,
         animated: true,
       });
-    } catch (error) {
+    } catch {
       // ignore occasional out of range errors while list is mounting
     }
 
-    const targetList = masonryRefs.current[tags[index].key as TagKey];
+    const targetList = gridRefs.current[tags[index].key as TagKey];
     targetList?.scrollToOffset({ offset: 0, animated: false });
   }, [selectedTag?.key, tags?.length, tags]);
 
@@ -130,39 +130,12 @@ const Gallery = ({
     setGalleryError(shouldShowError);
   }, [shouldShowError, setGalleryError]);
 
-  useEffect(() => {
-    const targetKey = selectedTag?.key as TagKey | undefined;
-    if (!targetKey || !ageGroups?.[targetKey]) {
-      return;
-    }
-
-    ageGroups[targetKey].gallery.forEach(item => {
-      if (item.type === 'VIDEO') {
-        return;
-      }
-      if (aspectRatioRef.current[item.id]) {
-        return;
-      }
-      Image.getSize(
-        item.url,
-        (width, height) => {
-          if (!width || !height) {
-            return;
-          }
-          aspectRatioRef.current[item.id] = width / height;
-          setAspectRatiosVersion(prev => prev + 1);
-        },
-        () => {},
-      );
-    });
-  }, [ageGroups, selectedTag?.key]);
-
   const handleTagPress = useCallback(
     (index: number) => {
       isTagClickScrolling.current = true;
       handleTagPressBase(index);
       horizontalListRef.current?.scrollToIndex({ index, animated: true });
-      const list = masonryRefs.current[tags[index].key as TagKey];
+      const list = gridRefs.current[tags[index].key as TagKey];
       list?.scrollToOffset({ offset: 0, animated: true });
       onScrollYChange?.(0);
     },
@@ -211,14 +184,24 @@ const Gallery = ({
   );
 
   const renderGalleryItem = useCallback(
-    (tagKey: TagKey) =>
-      ({ item }: ListRenderItemInfo<GalleryType>) => {
+    (tagKey: TagKey, totalItems: number) =>
+      ({ item }: FlashListRenderItemInfo<GalleryType>) => {
         const isAiTag = tagKey === 'AI_PHOTO';
-        const aspectRatio =
-          aspectRatioRef.current[item.id] &&
-          isFinite(aspectRatioRef.current[item.id])
-            ? aspectRatioRef.current[item.id]
-            : 1;
+        const isSingleItem = totalItems === 1;
+
+        // Full-width: 1개 항목일 때만
+        const isFullWidth = isSingleItem;
+
+        // Spacing refinements: paddingHorizontal: 16, marginHorizontal: 2 (reduced by 4dp)
+        const containerPadding = 16 * 2;
+        const itemMargin = 2 * 2;
+        const availableWidth = windowWidth - containerPadding;
+        const itemWidth = isFullWidth
+          ? availableWidth - itemMargin
+          : availableWidth / 2 - itemMargin;
+
+        // Height calculation: all items use 4:3 ratio
+        const itemHeight = (itemWidth * 3) / 4;
 
         return (
           <TouchableOpacity
@@ -227,7 +210,9 @@ const Gallery = ({
               borderRadius: 12,
               overflow: 'hidden',
               marginBottom: 12,
-              marginHorizontal: 6,
+              marginHorizontal: 2,
+              width: itemWidth,
+              height: itemHeight,
             }}
           >
             {isAiTag ? (
@@ -235,7 +220,7 @@ const Gallery = ({
                 source={{ uri: item.url }}
                 style={{
                   width: '100%',
-                  aspectRatio,
+                  aspectRatio: 4 / 3,
                   backgroundColor: 'black',
                 }}
                 paused
@@ -247,7 +232,7 @@ const Gallery = ({
                 uri={item.url}
                 style={{
                   width: '100%',
-                  aspectRatio,
+                  aspectRatio: 4 / 3,
                 }}
                 borderRadius={12}
                 resizeMode="cover"
@@ -256,10 +241,10 @@ const Gallery = ({
           </TouchableOpacity>
         );
       },
-    [handleGalleryItemPress],
+    [handleGalleryItemPress, windowWidth],
   );
 
-  const renderMasonryList = useCallback(
+  const renderGridList = useCallback(
     ({ item: tagKey }: { item: TagKey }) => {
       const galleryItems = ageGroups?.[tagKey]?.gallery ?? [];
       return (
@@ -271,19 +256,17 @@ const Gallery = ({
         >
           <FlashList
             ref={ref => {
-              masonryRefs.current[tagKey as TagKey] = ref;
+              gridRefs.current[tagKey as TagKey] = ref;
             }}
             data={galleryItems}
             numColumns={2}
-            masonry
-            renderItem={renderGalleryItem(tagKey)}
-            estimatedItemSize={220}
-            extraData={aspectRatiosVersion}
+            renderItem={renderGalleryItem(tagKey, galleryItems.length)}
+            estimatedItemSize={200}
             onScroll={handleScroll}
             scrollEventThrottle={16}
             keyExtractor={(item: GalleryType) => `${tagKey}-${item.id}`}
             contentContainerStyle={{
-              paddingBottom: 60,
+              paddingBottom: 84,
             }}
             refreshControl={
               <RefreshControl
@@ -312,7 +295,6 @@ const Gallery = ({
       isRefreshing,
       onRefresh,
       renderGalleryItem,
-      tags,
       windowWidth,
     ],
   );
@@ -379,7 +361,7 @@ const Gallery = ({
             length: windowWidth,
             offset: windowWidth * index,
           })}
-          renderItem={renderMasonryList}
+          renderItem={renderGridList}
           keyExtractor={(item, index) => `${item}-${index}`}
         />
       </ContentContainer>
