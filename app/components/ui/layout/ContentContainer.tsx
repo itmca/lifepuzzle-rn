@@ -59,61 +59,71 @@ type ContentContainerProps = {
 
 export const ContentContainer = styled.View<ContentContainerProps>`
   /* Size */
-  width: ${props => formatSize(props.width, '100%')};
-  height: ${props => formatSize(props.height, 'auto')};
-  ${props => props.minHeight && `min-height: ${props.minHeight};`}
-  ${props => props.maxHeight && `max-height: ${props.maxHeight};`}
+  width: ${(props: ContentContainerProps) => formatSize(props.width, '100%')};
+  height: ${(props: ContentContainerProps) => formatSize(props.height, 'auto')};
+  ${(props: ContentContainerProps) =>
+    props.minHeight && `min-height: ${props.minHeight};`}
+  ${(props: ContentContainerProps) =>
+    props.maxHeight && `max-height: ${props.maxHeight};`}
 
   /* Flex Basic */
   display: flex;
-  ${props => props.expandToEnd && 'flex-grow: 1;'}
-  ${props => props.flex && `flex: ${props.flex};`}
+  ${(props: ContentContainerProps) => props.expandToEnd && 'flex-grow: 1;'}
+  ${(props: ContentContainerProps) => props.flex && `flex: ${props.flex};`}
 
   /* Layout */
-  flex-direction: ${props => (props.useHorizontalLayout ? 'row' : 'column')};
-  justify-content: ${props =>
+  flex-direction: ${(props: ContentContainerProps) =>
+    props.useHorizontalLayout ? 'row' : 'column'};
+  justify-content: ${(props: ContentContainerProps) =>
     props.useHorizontalLayout ? 'space-between' : 'flex-start'};
-  align-items: ${props => (props.useHorizontalLayout ? 'center' : 'stretch')};
-  gap: ${props => props.gap ?? 16}px;
-  ${props =>
+  align-items: ${(props: ContentContainerProps) =>
+    props.useHorizontalLayout ? 'center' : 'stretch'};
+  gap: ${(props: ContentContainerProps) => props.gap ?? 16}px;
+  ${(props: ContentContainerProps) =>
     (props.absoluteTopPosition ||
       props.absoluteBottomPosition ||
       props.absoluteLeftPosition ||
       props.absoluteRightPosition) &&
     'position: absolute;'}
-  ${props => props.absoluteTopPosition && 'top: 0;'}
-  ${props => props.absoluteBottomPosition && 'bottom: 0;'}
-  ${props => props.absoluteLeftPosition && 'left: 0;'}
-  ${props => props.absoluteRightPosition && 'right: 0;'}
-  ${props => props.aspectRatio && `aspect-ratio: ${props.aspectRatio};`};
+  ${(props: ContentContainerProps) => props.absoluteTopPosition && 'top: 0;'}
+  ${(props: ContentContainerProps) =>
+    props.absoluteBottomPosition && 'bottom: 0;'}
+  ${(props: ContentContainerProps) => props.absoluteLeftPosition && 'left: 0;'}
+  ${(props: ContentContainerProps) =>
+    props.absoluteRightPosition && 'right: 0;'}
+  ${(props: ContentContainerProps) =>
+    props.aspectRatio && `aspect-ratio: ${props.aspectRatio};`};
 
   /* Align */
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.alignCenter && 'align-items: center; justify-content: center;'}
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.justifyContent && `justify-content: ${props.justifyContent};`}
-    ${props => props.alignItems && `align-items: ${props.alignItems};`}
+    ${(props: ContentContainerProps) =>
+    props.alignItems && `align-items: ${props.alignItems};`}
 
 
   /* Padding */
-  ${props => props.withScreenPadding && 'padding: 16px 20px 16px 20px;'}
-  ${props => props.withContentPadding && 'padding: 16px;'}
-  ${props =>
+  ${(props: ContentContainerProps) =>
+    props.withScreenPadding && 'padding: 16px 20px 16px 20px;'}
+  ${(props: ContentContainerProps) =>
+    props.withContentPadding && 'padding: 16px;'}
+  ${(props: ContentContainerProps) =>
     props.paddingVertical !== undefined &&
     css`
       padding-top: ${props.paddingVertical}px;
       padding-bottom: ${props.paddingVertical}px;
     `}
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.paddingTop !== undefined &&
     `padding-top: ${props.paddingTop}px;
     `}
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.paddingBottom !== undefined &&
     css`
       padding-bottom: ${props.paddingBottom}px;
     `}
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.paddingHorizontal !== undefined &&
     css`
       padding-left: ${props.paddingHorizontal}px;
@@ -121,7 +131,7 @@ export const ContentContainer = styled.View<ContentContainerProps>`
     `}
 
   /* Border & Shadow */
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.withUpperShadow &&
     Platform.select({
       ios: `
@@ -133,30 +143,36 @@ export const ContentContainer = styled.View<ContentContainerProps>`
         elevation: 4; /* Android shadow effect */
       `,
     })}
-  ${props => props.withBorder && `border: 1px solid ${Color.GREY};`}
-  ${props => props.withDebugBorder && 'border: 1px solid red;'}
-  ${props => props.borderColor && `border-color: ${props.borderColor};`}
-  border-radius: ${props => props.borderRadius ?? 0}px;
+  ${(props: ContentContainerProps) =>
+    props.withBorder && `border: 1px solid ${Color.GREY};`}
+  ${(props: ContentContainerProps) =>
+    props.withDebugBorder && 'border: 1px solid red;'}
+  ${(props: ContentContainerProps) =>
+    props.borderColor && `border-color: ${props.borderColor};`}
+  border-radius: ${(props: ContentContainerProps) => props.borderRadius ?? 0}px;
 
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.borderTopRadius &&
     `border-top-left-radius: ${props.borderTopRadius}px;`};
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.borderTopRadius &&
     `border-top-right-radius: ${props.borderTopRadius}px;`};
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.borderBottomRadius &&
     `border-bottom-left-radius: ${props.borderBottomRadius}px;`};
-  ${props =>
+  ${(props: ContentContainerProps) =>
     props.borderBottomRadius &&
     `border-bottom-right-radius: ${props.borderBottomRadius}px;`};
 
   /* ETC */
-  background-color: ${props => props.backgroundColor ?? Color.WHITE};
-  ${props => props.withNoBackground && 'background-color: transparent;'}
-  opacity: ${props => props.opacity ?? 100};
-  z-index: ${props => props.zIndex ?? 0};
-  overflow: ${props => (props.showOverflow ? 'auto' : 'hidden')};
+  background-color: ${(props: ContentContainerProps) =>
+    props.backgroundColor ?? Color.WHITE};
+  ${(props: ContentContainerProps) =>
+    props.withNoBackground && 'background-color: transparent;'}
+  opacity: ${(props: ContentContainerProps) => props.opacity ?? 100};
+  z-index: ${(props: ContentContainerProps) => props.zIndex ?? 0};
+  overflow: ${(props: ContentContainerProps) =>
+    props.showOverflow ? 'auto' : 'hidden'};
 `;
 
 type ScrollContentContainerProps = ContentContainerProps &

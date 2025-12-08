@@ -20,7 +20,7 @@ type ScreenContainerProps = {
 };
 
 export const ScreenContainer = styled(SafeAreaView).attrs<ScreenContainerProps>(
-  props => ({
+  (props: ScreenContainerProps) => ({
     edges: props.edges,
   }),
 )<ScreenContainerProps>`
@@ -29,15 +29,18 @@ export const ScreenContainer = styled(SafeAreaView).attrs<ScreenContainerProps>(
   display: flex;
   flex: 1;
   background-color: ${Color.WHITE};
-  gap: ${props => props.gap ?? 16}px;
+  gap: ${(props: ScreenContainerProps) => props.gap ?? 16}px;
   flex-direction: ${'column'};
   justify-content: ${'stretch'};
   align-items: ${'center'};
   align-content: space-around;
 
   /* Border & Shadow */
-  ${props => props.withUpperShadow && 'box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);'}
-  ${props => props.withBorder && `border: 1px solid ${Color.GREY};`}
-  ${props => props.withDebugBorder && 'border: 1px solid red;'}
-  border-radius: ${props => props.borderRadius ?? 0}px;
+  ${(props: ScreenContainerProps) =>
+    props.withUpperShadow && 'box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);'}
+  ${(props: ScreenContainerProps) =>
+    props.withBorder && `border: 1px solid ${Color.GREY};`}
+  ${(props: ScreenContainerProps) =>
+    props.withDebugBorder && 'border: 1px solid red;'}
+  border-radius: ${(props: ScreenContainerProps) => props.borderRadius ?? 0}px;
 `;

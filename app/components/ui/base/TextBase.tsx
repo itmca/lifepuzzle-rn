@@ -23,14 +23,15 @@ type CustomTextProps = Pick<
 > & { color?: ColorType; underline?: boolean };
 
 const TextBase = styled.Text<TextBaseProps>`
-  font-family: ${props => props.fontFamily};
-  font-size: ${props => props.fontSize}px;
-  line-height: ${props => (props.fontSize * props.lineHeightPercent) / 100}px;
-  ${props =>
+  font-family: ${(props: TextBaseProps) => props.fontFamily};
+  font-size: ${(props: TextBaseProps) => props.fontSize}px;
+  line-height: ${(props: TextBaseProps) =>
+    (props.fontSize * props.lineHeightPercent) / 100}px;
+  ${(props: TextBaseProps) =>
     props.letterSpacing !== undefined &&
     `letter-spacing: ${props.letterSpacing}px;`}
-  color: ${props => (props.color ? props.color : 'black')};
-  ${props =>
+  color: ${(props: TextBaseProps) => (props.color ? props.color : 'black')};
+  ${(props: TextBaseProps) =>
     props.underline
       ? css`
           border-bottom-width: 1px;

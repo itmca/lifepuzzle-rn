@@ -11,8 +11,8 @@ type Props = {
 };
 
 const StyledIcon = styled(MaterialIcons)<Props>`
-  color: ${props => (props.color ? props.color : '#000000')};
-  backgroundcolor: ${props =>
+  color: ${(props: Props) => (props.color ? props.color : '#000000')};
+  backgroundcolor: ${(props: Props) =>
     props.backgroundColor ? props.backgroundColor : 'transparent'};
 `;
 
