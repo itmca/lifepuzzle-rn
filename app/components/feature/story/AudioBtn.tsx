@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import logger from '../../../utils/logger.util';
-import { BasicNavigationProps } from '../../../navigation/types';
-import Sound from 'react-native-sound';
+import { createSound } from 'react-native-nitro-sound';
 import { toMmSs, toMmSsSS } from '../../../utils/time-formatter.util.ts';
 import { VoicePlayButton } from '../voice/VoicePlayButton';
 
@@ -20,64 +18,97 @@ export const AudioBtn = ({
   onPlay,
 }: AudioBtnProps): React.ReactElement => {
   const setPlayInfo = useStoryStore(state => state.setPlayInfo);
-  const [audio, setAudio] = useState<Sound>();
+  const soundRef = useRef<ReturnType<typeof createSound> | null>(null);
+  const listenersAttached = useRef<boolean>(false);
   const [currTime, setCurrTime] = useState<number>();
   const [durationTime, setDurationTime] = useState<number>();
   const [isPlaying, setPlaying] = useState<boolean>(false);
-  const navigation = useNavigation<BasicNavigationProps>();
 
-  useEffect(() => {
-    return () => {
-      audio?.stop();
-      audio?.release();
-    };
-  }, [navigation, audio]);
-
-  useEffect(() => {
-    if (isPlaying) {
-      audio?.stop();
-      setPlaying(false);
-    }
-    if (!audioUrl) {
+  const attachListeners = useCallback(() => {
+    if (listenersAttached.current) {
       return;
     }
     try {
-      Sound.setCategory('Playback');
-      const audioSound = new Sound(audioUrl, undefined, error => {
-        if (error) {
-          // TODO: 예외 처리
-          logger.debug('Audio play error:', error);
-          return;
-        }
-        setAudio(audioSound);
-        setPlaying(false);
-        setDurationTime(audioSound.getDuration());
+      const sound = soundRef.current ?? createSound();
+      soundRef.current = sound;
+
+      sound.addPlayBackListener(event => {
+        const currentSeconds = event.currentPosition / 1000;
+        const durationSeconds = event.duration / 1000;
+
+        setCurrTime(currentSeconds);
+        setDurationTime(durationSeconds);
+        setPlayInfo({
+          currentPositionSec: currentSeconds,
+          currentDurationSec: durationSeconds,
+          playTime: toMmSs(currentSeconds ?? 0),
+          duration: toMmSs(durationSeconds ?? 0),
+          isPlay: true,
+        });
       });
-    } catch (e) {
-      // TODO: 예외 처리
+
+      sound.addPlaybackEndListener(event => {
+        setPlaying(false);
+        const currentSeconds = event.currentPosition / 1000;
+        const durationSeconds = event.duration / 1000;
+        setCurrTime(currentSeconds);
+        setDurationTime(durationSeconds);
+        setPlayInfo({
+          currentPositionSec: currentSeconds,
+          currentDurationSec: durationSeconds,
+          playTime: toMmSs(currentSeconds ?? 0),
+          duration: toMmSs(durationSeconds ?? 0),
+          isPlay: false,
+        });
+      });
+
+      listenersAttached.current = true;
+    } catch (error) {
+      logger.debug('Failed to attach sound listeners:', error);
+    }
+  }, [setPlayInfo]);
+
+  const ensureSound = useCallback(() => {
+    if (!soundRef.current) {
+      soundRef.current = createSound();
+    }
+    attachListeners();
+    return soundRef.current;
+  }, [attachListeners]);
+
+  useEffect(() => {
+    return () => {
+      try {
+        soundRef.current?.stopPlayer();
+        soundRef.current?.removePlayBackListener();
+        soundRef.current?.removePlaybackEndListener();
+        // dispose is available on Nitro HybridObjects
+        (soundRef.current as any)?.dispose?.();
+      } catch (error) {
+        logger.debug('Error cleaning up sound instance:', error);
+      } finally {
+        soundRef.current = null;
+        listenersAttached.current = false;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    setPlaying(false);
+    setCurrTime(undefined);
+    setDurationTime(undefined);
+    try {
+      soundRef.current?.stopPlayer();
+      soundRef.current?.removePlayBackListener();
+      soundRef.current?.removePlaybackEndListener();
+    } catch (error) {
+      logger.debug('Error resetting sound instance:', error);
+    } finally {
+      listenersAttached.current = false;
     }
   }, [audioUrl]);
 
-  useEffect(() => {
-    if (isPlaying) {
-      const timer = setInterval(() => {
-        audio?.getCurrentTime((seconds, isPlaying) => {
-          if (isPlaying) {
-            setCurrTime(seconds);
-            setDurationTime(audio.getDuration());
-          } else {
-            if (seconds >= audio.getDuration()) {
-              setCurrTime(audio.getDuration());
-              setDurationTime(audio.getDuration());
-            }
-            clearInterval(timer);
-          }
-        });
-      }, 500);
-    }
-  }, [isPlaying]);
-
-  const onPress = () => {
+  const onPress = async () => {
     if (disabled) {
       return;
     }
@@ -86,9 +117,17 @@ export const AudioBtn = ({
         currentDurationSec: durationTime,
         duration: toMmSsSS(durationTime ?? 0),
       });
+      const sound = ensureSound();
+      if (!audioUrl) {
+        return;
+      }
+      await sound.stopPlayer();
+      await sound.startPlayer(audioUrl);
+      setPlaying(true);
       onPlay && onPlay();
     } catch (e) {
-      // TODO: 예외 처리
+      setPlaying(false);
+      logger.debug('Audio play error:', e);
     }
   };
 
