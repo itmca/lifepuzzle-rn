@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types';
@@ -18,18 +18,17 @@ import {
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
 import GalleryTag from '../../Home/components/gallery/GalleryTag.tsx';
+import { useTagSelection } from '../../../hooks/useTagSelection';
 
 const StoryGallerySelector = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
   const { tags } = useMediaStore();
-  const tagList = useMemo(() => tags ?? [], [tags]);
-  const {
-    selectedGalleryItems,
-    selectedTag,
-    setSelectedGalleryItems,
-    setSelectedTag,
-  } = useSelectionStore();
+  const tagList = tags ?? [];
+  const { selectedGalleryItems, setSelectedGalleryItems } = useSelectionStore();
   const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
+
+  // Custom hooks
+  const { selectedTag, handleTagPress } = useTagSelection({ tags: tagList });
 
   const config: PhotoSelectorConfig = {
     mode: 'multiple',
@@ -57,27 +56,6 @@ const StoryGallerySelector = (): React.ReactElement => {
     setSelectedGalleryItems([]);
   }, [setSelectedGalleryItems]);
 
-  // Keep home-selected tag as default, but ensure a tag is selected
-  useEffect(() => {
-    const isSelectedTagValid = tagList.some(
-      tag => tag.key === selectedTag?.key,
-    );
-
-    if (!isSelectedTagValid && tagList.length > 0) {
-      setSelectedTag({ ...tagList[0] });
-    }
-  }, [selectedTag, setSelectedTag, tagList]);
-
-  const handleTagPress = useCallback(
-    (index: number) => {
-      if (!tagList?.[index]) {
-        return;
-      }
-      setSelectedTag({ ...tagList[index] });
-    },
-    [setSelectedTag, tagList],
-  );
-
   const state = {
     selectedPhotos: selectedGalleryItems,
     setSelectedPhotos: setSelectedGalleryItems,
@@ -99,6 +77,7 @@ const StoryGallerySelector = (): React.ReactElement => {
                   key={item.key || index}
                   item={item}
                   index={index}
+                  selectedTag={selectedTag}
                   onPress={handleTagPress}
                   showCount={false}
                   compact

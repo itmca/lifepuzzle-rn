@@ -146,10 +146,7 @@ const HomePage = (): React.ReactElement => {
 
   // Memoized default values for Gallery props
   const galleryAgeGroups = useMemo(() => ageGroups || {}, [ageGroups]);
-  const galleryTags = useMemo(() => {
-    if (!tags) return [];
-    return tags;
-  }, [tags]);
+  const galleryTags = useMemo(() => tags ?? [], [tags]);
 
   // Ref to track previous image URLs for optimized preloading
   const prevImageUrlsRef = useRef<{ uri: string }[]>([]);

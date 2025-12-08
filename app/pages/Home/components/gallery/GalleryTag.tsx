@@ -1,4 +1,3 @@
-import { useSelectionStore } from '../../../../stores/selection.store';
 import { TagType } from '../../../../types/core/media.type';
 import { Color } from '../../../../constants/color.constant.ts';
 import Tag from '../../../../components/ui/display/Tag';
@@ -6,6 +5,7 @@ import Tag from '../../../../components/ui/display/Tag';
 type props = {
   item: TagType;
   index: number;
+  selectedTag: TagType | null;
   onPress?: (index: number) => void;
   showCount?: boolean;
   compact?: boolean;
@@ -14,11 +14,11 @@ type props = {
 const GalleryTag = ({
   item,
   index,
+  selectedTag,
   onPress,
   showCount = true,
   compact = false,
 }: props) => {
-  const { selectedTag, setSelectedTag } = useSelectionStore();
   const paddingHorizontal = compact ? 11 : undefined;
   const paddingVertical = compact ? 5.5 : undefined;
   const getLabel = () =>
@@ -58,10 +58,7 @@ const GalleryTag = ({
           color={Color.GREY}
           paddingHorizontal={paddingHorizontal}
           paddingVertical={paddingVertical}
-          onPress={() => {
-            onPress?.(index);
-            setSelectedTag({ ...item });
-          }}
+          onPress={() => onPress?.(index)}
           text={`${item.label}`}
         />
       );
@@ -72,10 +69,7 @@ const GalleryTag = ({
           color={Color.GREY}
           paddingHorizontal={paddingHorizontal}
           paddingVertical={paddingVertical}
-          onPress={() => {
-            onPress?.(index);
-            setSelectedTag({ ...item });
-          }}
+          onPress={() => onPress?.(index)}
           text={getLabel()}
         />
       );
