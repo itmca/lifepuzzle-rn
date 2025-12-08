@@ -27,6 +27,7 @@ import {
   TagKey,
   TagType,
 } from '../../../../types/core/media.type';
+import { useTagSelection } from '../../../../hooks/useTagSelection';
 import { Color } from '../../../../constants/color.constant.ts';
 
 import { BodyTextM, Title } from '../../../../components/ui/base/TextBase';
@@ -72,8 +73,13 @@ const Gallery = ({
   const [videoUri, setVideoUri] = useState<string>('');
 
   // 글로벌 상태 관리 (Zustand)
-  const { selectedTag, setSelectedTag } = useSelectionStore();
   const setGalleryError = useMediaStore(state => state.setGalleryError);
+  const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
+
+  // Custom hooks
+  const { selectedTag, handleTagPress: handleTagPressBase } = useTagSelection({
+    tags,
+  });
 
   // Memoized 값
   const { width: windowWidth } = useWindowDimensions();
@@ -152,16 +158,13 @@ const Gallery = ({
 
   const handleTagPress = useCallback(
     (index: number) => {
-      if (!tags?.[index]) {
-        return;
-      }
-      setSelectedTag({ ...tags[index] });
+      handleTagPressBase(index);
       horizontalListRef.current?.scrollToIndex({ index, animated: true });
       const list = masonryRefs.current[tags[index].key as TagKey];
       list?.scrollToOffset({ offset: 0, animated: true });
       onScrollYChange?.(0);
     },
-    [onScrollYChange, setSelectedTag, tags],
+    [handleTagPressBase, onScrollYChange, tags],
   );
 
   const handleScroll = useCallback(
@@ -343,6 +346,7 @@ const Gallery = ({
                   key={item.key || index}
                   item={item}
                   index={index}
+                  selectedTag={selectedTag}
                   onPress={handleTagPress}
                 />
               );
