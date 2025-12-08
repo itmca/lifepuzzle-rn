@@ -126,7 +126,7 @@ const PhotoEditorMediaCarouselComponent = ({
               elevation: 3,
             }}
           >
-            {onRemove && typeof item.index === 'number' && (
+            {onRemove && typeof item.index === 'number' && data.length > 1 && (
               <TouchableOpacity
                 style={styles.removeButton}
                 onPress={() => onRemove(item.index as number)}
@@ -144,7 +144,7 @@ const PhotoEditorMediaCarouselComponent = ({
         </ContentContainer>
       );
     },
-    [carouselWidth, resolvedCarouselHeight],
+    [carouselWidth, resolvedCarouselHeight, data.length, onRemove],
   );
 
   // 쓰로틀된 onScroll 핸들러
