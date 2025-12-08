@@ -1,12 +1,14 @@
 import { TagType } from '../../../../types/core/media.type';
 import { Color } from '../../../../constants/color.constant.ts';
 import Tag from '../../../../components/ui/display/Tag';
+import { LayoutChangeEvent } from 'react-native';
 
 type props = {
   item: TagType;
   index: number;
   selectedTag: TagType | null;
   onPress?: (index: number) => void;
+  onLayout?: (event: LayoutChangeEvent) => void;
   showCount?: boolean;
   compact?: boolean;
 };
@@ -16,6 +18,7 @@ const GalleryTag = ({
   index,
   selectedTag,
   onPress,
+  onLayout,
   showCount = true,
   compact = false,
 }: props) => {
@@ -35,6 +38,7 @@ const GalleryTag = ({
           paddingHorizontal={paddingHorizontal}
           paddingVertical={paddingVertical}
           text={`${item.label}`}
+          onLayout={onLayout}
         />
       );
     } else {
@@ -45,6 +49,7 @@ const GalleryTag = ({
           paddingHorizontal={paddingHorizontal}
           paddingVertical={paddingVertical}
           text={getLabel()}
+          onLayout={onLayout}
         />
       );
     }
@@ -60,6 +65,7 @@ const GalleryTag = ({
           paddingVertical={paddingVertical}
           onPress={() => onPress?.(index)}
           text={`${item.label}`}
+          onLayout={onLayout}
         />
       );
     } else {
@@ -71,6 +77,7 @@ const GalleryTag = ({
           paddingVertical={paddingVertical}
           onPress={() => onPress?.(index)}
           text={getLabel()}
+          onLayout={onLayout}
         />
       );
     }

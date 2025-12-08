@@ -8,6 +8,7 @@ import React, {
 import {
   FlatList,
   RefreshControl,
+  ScrollView,
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
@@ -63,11 +64,15 @@ const Gallery = ({
   onItemPress,
 }: props): React.ReactElement => {
   // Refs
+  const tagScrollRef = useRef<ScrollView>(null);
   const horizontalListRef = useRef<FlatList<TagKey>>(null);
   const gridRefs = useRef<
     Partial<Record<TagKey, FlashListRef<GalleryType> | null>>
   >({});
   const isTagClickScrolling = useRef(false);
+  const tagWidthsRef = useRef<number[]>([]);
+  const tagOffsetsRef = useRef<number[]>([]);
+  const layoutCompletedRef = useRef<boolean>(false);
 
   // React hooks
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -106,17 +111,31 @@ const Gallery = ({
     }
 
     const index = tags.findIndex(item => item.key === selectedTag.key);
-    if (index === -1 || !horizontalListRef.current) {
+    if (index === -1) {
       return;
     }
 
-    try {
-      horizontalListRef.current.scrollToIndex({
-        index,
-        animated: true,
-      });
-    } catch {
-      // ignore occasional out of range errors while list is mounting
+    // Scroll tag ScrollView to selected tag
+    if (tagScrollRef.current && tagOffsetsRef.current.length > 0) {
+      const offset = tagOffsetsRef.current[index];
+      if (offset !== undefined) {
+        tagScrollRef.current.scrollTo({
+          x: offset,
+          animated: true,
+        });
+      }
+    }
+
+    // Scroll horizontal gallery FlatList
+    if (horizontalListRef.current) {
+      try {
+        horizontalListRef.current.scrollToIndex({
+          index,
+          animated: true,
+        });
+      } catch {
+        // ignore occasional out of range errors while list is mounting
+      }
     }
 
     const targetList = gridRefs.current[tags[index].key as TagKey];
@@ -134,12 +153,60 @@ const Gallery = ({
     (index: number) => {
       isTagClickScrolling.current = true;
       handleTagPressBase(index);
+
+      // Scroll tag ScrollView to selected tag
+      if (tagScrollRef.current && tagOffsetsRef.current.length > 0) {
+        const offset = tagOffsetsRef.current[index];
+        if (offset !== undefined) {
+          tagScrollRef.current.scrollTo({
+            x: offset,
+            animated: true,
+          });
+        }
+      }
+
       horizontalListRef.current?.scrollToIndex({ index, animated: true });
       const list = gridRefs.current[tags[index].key as TagKey];
       list?.scrollToOffset({ offset: 0, animated: true });
       onScrollYChange?.(0);
     },
     [handleTagPressBase, onScrollYChange, tags],
+  );
+
+  const handleTagLayout = useCallback(
+    (index: number, event: any) => {
+      const { x, width } = event.nativeEvent.layout;
+      tagWidthsRef.current[index] = width;
+      tagOffsetsRef.current[index] = x;
+
+      // Check if all layouts are complete
+      if (
+        !layoutCompletedRef.current &&
+        tagOffsetsRef.current.length === tags.length &&
+        tagOffsetsRef.current.every(offset => offset !== undefined)
+      ) {
+        layoutCompletedRef.current = true;
+
+        // Scroll to selected tag after layout is complete
+        if (selectedTag?.key) {
+          const selectedIndex = tags.findIndex(
+            item => item.key === selectedTag.key,
+          );
+          if (selectedIndex !== -1 && tagScrollRef.current) {
+            setTimeout(() => {
+              const offset = tagOffsetsRef.current[selectedIndex];
+              if (offset !== undefined) {
+                tagScrollRef.current?.scrollTo({
+                  x: offset,
+                  animated: false,
+                });
+              }
+            }, 100);
+          }
+        }
+      }
+    },
+    [tags, selectedTag],
   );
 
   const handleScroll = useCallback(
@@ -331,7 +398,12 @@ const Gallery = ({
     <>
       <ContentContainer flex={1} gap={12}>
         <ContentContainer paddingLeft={20}>
-          <ScrollContentContainer useHorizontalLayout gap={6} paddingRight={20}>
+          <ScrollContentContainer
+            ref={tagScrollRef}
+            useHorizontalLayout
+            gap={6}
+            paddingRight={20}
+          >
             {tags?.map((item: TagType, index) => {
               return (
                 <GalleryTag
@@ -340,6 +412,7 @@ const Gallery = ({
                   index={index}
                   selectedTag={selectedTag}
                   onPress={handleTagPress}
+                  onLayout={event => handleTagLayout(index, event)}
                 />
               );
             })}

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, LayoutChangeEvent } from 'react-native';
 import { Color, ColorType } from '../../../constants/color.constant.ts';
 import { Caption } from '../base/TextBase.tsx';
 import { IconName, SvgIcon } from './SvgIcon.tsx';
@@ -10,6 +10,7 @@ type Props = {
   text?: string;
   color: string; //TODO ColorType으로 변경 예정
   onPress?: () => void;
+  onLayout?: (event: LayoutChangeEvent) => void;
   icon?: IconName;
   iconColor?: ColorType;
   paddingHorizontal?: number;
@@ -38,12 +39,14 @@ function Tag({
   text,
   color = 'grey',
   onPress,
+  onLayout,
   paddingHorizontal,
   paddingVertical,
 }: Props) {
   return (
     <StyledTag
       onPress={onPress}
+      onLayout={onLayout}
       color={color}
       paddingHorizontal={paddingHorizontal}
       paddingVertical={paddingVertical}
