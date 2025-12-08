@@ -66,6 +66,7 @@ const Gallery = ({
     Partial<Record<TagKey, FlashList<GalleryType> | null>>
   >({});
   const aspectRatioRef = useRef<Record<number, number>>({});
+  const isTagClickScrolling = useRef(false);
   const [aspectRatiosVersion, setAspectRatiosVersion] = useState(0);
 
   // React hooks
@@ -158,6 +159,7 @@ const Gallery = ({
 
   const handleTagPress = useCallback(
     (index: number) => {
+      isTagClickScrolling.current = true;
       handleTagPressBase(index);
       horizontalListRef.current?.scrollToIndex({ index, animated: true });
       const list = masonryRefs.current[tags[index].key as TagKey];
@@ -179,6 +181,14 @@ const Gallery = ({
       if (!tags || tags.length === 0) {
         return;
       }
+
+      // 태그 클릭으로 인한 스크롤인 경우 무시
+      if (isTagClickScrolling.current) {
+        isTagClickScrolling.current = false;
+        return;
+      }
+
+      // 사용자 스와이프인 경우만 상태 업데이트
       const index = Math.round(event.nativeEvent.contentOffset.x / windowWidth);
       const nextTag = tags[index];
       if (nextTag && nextTag.key !== selectedTag?.key) {
