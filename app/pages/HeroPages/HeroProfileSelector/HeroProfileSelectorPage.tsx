@@ -3,7 +3,7 @@ import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 import { useNavigation } from '@react-navigation/native';
 
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
 import { useSelectionStore } from '../../../stores/selection.store';
 import {

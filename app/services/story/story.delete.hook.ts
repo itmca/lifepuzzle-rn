@@ -5,6 +5,7 @@ import { useUpdatePublisher } from '../common/update.hook.ts';
 import { useEffect } from 'react';
 import { useMediaStore } from '../../stores/media.store.ts';
 import { useSelectionStore } from '../../stores/selection.store.ts';
+import logger from '../../utils/logger.util';
 
 type Props = {
   storyKey: string;
@@ -23,7 +24,7 @@ export const useDeleteStory = ({
   const { updateGalleryStory } = useMediaStore.getState();
   const { setOpenDetailBottomSheet } = useUIStore.getState();
 
-  const [isLoading, deleteStory] = useAuthAxios<any>({
+  const [isLoading, deleteStory] = useAuthAxios<void>({
     requestOption: {
       method: 'DELETE',
       url: `/v1/galleries/stories/${storyKey}`,
@@ -36,6 +37,11 @@ export const useDeleteStory = ({
       setOpenDetailBottomSheet(false);
     },
     onError: err => {
+      logger.error('Failed to delete story', {
+        error: err,
+        storyKey,
+        galleryId,
+      });
       Alert.alert('스토리 삭제를 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,
@@ -65,7 +71,7 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
   const selectionStore = useSelectionStore.getState();
   const { setOpenDetailBottomSheet } = useUIStore.getState();
 
-  const [isLoading, deleteStory] = useAuthAxios<any>({
+  const [isLoading, deleteStory] = useAuthAxios<void>({
     requestOption: {
       method: 'DELETE',
       url: `/v1/galleries/${galleryId}`,
@@ -119,6 +125,7 @@ export const useDeleteGallery = ({ galleryId }: GalleryProps): [() => void] => {
       setOpenDetailBottomSheet(false);
     },
     onError: err => {
+      logger.error('Failed to delete gallery', { error: err, galleryId });
       Alert.alert('사진 삭제를 실패했습니다. 재시도 부탁드립니다.');
     },
     disableInitialRequest: true,

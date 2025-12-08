@@ -105,7 +105,7 @@ export const imageConversionUtil = {
       Image.getSize(
         imageUri,
         (width: number, height: number) => resolve({ width, height }),
-        (error: any) => reject(error),
+        (error: Error) => reject(error),
       );
     });
   },

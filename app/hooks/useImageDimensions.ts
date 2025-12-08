@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Image } from 'react-native';
-import logger from '../utils/logger';
+import logger from '../utils/logger.util';
 
 export type ImageDimension = {
   width: number;

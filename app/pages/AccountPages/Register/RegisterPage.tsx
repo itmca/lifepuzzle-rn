@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 import { PolicyAgreeSwitch } from './components/PolicyAgreeSwitch';
 import { useNavigation } from '@react-navigation/native';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../constants/password.constant';
-import { debounce } from '../../../utils/debounce';
+import { debounce } from '../../../utils/debounce.util';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import {

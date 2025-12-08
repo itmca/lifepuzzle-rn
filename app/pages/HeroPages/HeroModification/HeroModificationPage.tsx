@@ -24,7 +24,7 @@ import { useDeleteHero } from '../../../services/hero/hero.delete.hook.ts';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 
 const HeroModificationPage = (): React.ReactElement => {
   // 글로벌 상태 관리

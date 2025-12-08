@@ -7,6 +7,7 @@ import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { useHeroStore } from '../../stores/hero.store.ts';
 import { HeroPayloadService } from './hero-payload.service.ts';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
+import logger from '../../utils/logger.util';
 
 export const useResetAllWritingHero = () => {
   const resetWritingHero = useHeroStore(state => state.resetWritingHero);
@@ -33,7 +34,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
 
   const currentHero = useHeroStore(state => state.currentHero);
 
-  const [isLoading, saveHero] = useAuthAxios<any>({
+  const [isLoading, saveHero] = useAuthAxios<void>({
     requestOption: {
       method: 'put',
       url: `/v1/heroes/${writingHeroKey}`,
@@ -49,7 +50,12 @@ export const useUpdateHero = (): [() => void, boolean] => {
       }
       navigation.goBack();
     },
-    onError: () => {
+    onError: err => {
+      logger.error('Failed to update hero', {
+        error: err,
+        writingHeroKey,
+        writingHero,
+      });
       CustomAlert.retryAlert(
         '주인공 수정 실패했습니다.',
         submit,

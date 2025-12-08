@@ -18,6 +18,7 @@ import {
 import { useAuthAxios } from '../core/auth-http.hook.ts';
 import { useUpdatePublisher } from '../common/update.hook.ts';
 import { useUIStore } from '../../stores/ui.store.ts';
+import logger from '../../utils/logger.util';
 
 interface UploadItem {
   originalImage: PhotoIdentifier;
@@ -127,22 +128,25 @@ export const useUploadGalleryV2 = (
     failed: 0,
   });
 
-  const [, requestPresignedUrls] = useAuthAxios<any>({
+  const [, requestPresignedUrls] = useAuthAxios<{
+    presignedUrls: PresignedUrlDto[];
+  }>({
     requestOption: {
       method: 'post',
       url: '/v1/galleries/presigned-urls',
     },
-    onResponseSuccess: (response: { presignedUrls: PresignedUrlDto[] }) => {
+    onResponseSuccess: response => {
       handlePresignedUrlsReceived(response.presignedUrls);
     },
-    onError: () => {
+    onError: err => {
+      logger.error('Failed to request presigned URLs', { error: err });
       Alert.alert('업로드 준비에 실패했습니다. 재시도 부탁드립니다.');
       resetUpload();
     },
     disableInitialRequest: true,
   });
 
-  const [, completeUpload] = useAuthAxios<any>({
+  const [, completeUpload] = useAuthAxios<void>({
     requestOption: {
       method: 'post',
       url: '/v1/galleries/upload-complete',
@@ -161,7 +165,8 @@ export const useUploadGalleryV2 = (
       publishStoryListUpdate(); // 갤러리 업로드 완료 후 홈화면 갱신 트리거
       resetUpload();
     },
-    onError: () => {
+    onError: err => {
+      logger.error('Failed to complete upload', { error: err });
       Alert.alert('업로드 완료 처리에 실패했습니다. 재시도 부탁드립니다.');
       resetUpload();
     },
@@ -249,6 +254,10 @@ export const useUploadGalleryV2 = (
             return updated;
           });
         } catch (error) {
+          logger.error('Failed to convert image', {
+            error,
+            imageUri: item.originalImage.node.image.uri,
+          });
           setUploadItems(currentItems => {
             const updated = [...currentItems];
             updated[itemIndex] = {
@@ -357,6 +366,11 @@ export const useUploadGalleryV2 = (
             return updated;
           });
         } catch (error) {
+          logger.error('Failed to upload image', {
+            error,
+            fileKey: currentItem.fileKey,
+            imageUri: currentItem.originalImage.node.image.uri,
+          });
           setUploadItems(currentItems => {
             const updated = [...currentItems];
             updated[itemIndex] = {

@@ -15,7 +15,7 @@ import {
   View,
 } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 
 import { GalleryType, TagKey } from '../../../types/core/media.type';
 

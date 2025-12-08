@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import logger from '../../../utils/logger';
+import logger from '../../../utils/logger.util';
 import { BasicNavigationProps } from '../../../navigation/types';
 import Sound from 'react-native-sound';
 import { toMmSs, toMmSsSS } from '../../../utils/date-time.util.ts';

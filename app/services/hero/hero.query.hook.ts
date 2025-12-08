@@ -5,7 +5,7 @@ import {
   HeroesQueryResponse,
   HeroQueryResponse,
 } from '../../types/hooks/hero-query.type.ts';
-import logger from '../../utils/logger.ts';
+import logger from '../../utils/logger.util.ts';
 
 export const useHero = (
   heroNo: number,

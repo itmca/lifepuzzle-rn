@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import logger from '../utils/logger';
+import logger from '../utils/logger.util';
 
 /**
  * 갤러리 아이템 배열 변경 시 현재 인덱스가 유효한지 검증하고 자동으로 조정합니다.

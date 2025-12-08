@@ -2,6 +2,23 @@ import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { extractFileName } from './file-path.util.ts';
 
 /**
+ * FormData에 추가할 파일 정보 타입
+ */
+interface FormDataFile {
+  uri: string;
+  type: string;
+  name?: string;
+}
+
+/**
+ * FormData에 추가할 JSON 정보 타입
+ */
+interface FormDataJson {
+  string: string;
+  type: 'application/json';
+}
+
+/**
  * FormData 생성을 위한 공통 유틸리티 클래스
  */
 export class PayloadBuilder {
@@ -22,25 +39,27 @@ export class PayloadBuilder {
     fileName: string | undefined,
     mimeType: string,
   ): void {
-    formData.append(fieldName, {
+    const fileData: FormDataFile = {
       uri,
       type: mimeType,
       name: fileName,
-    } as any);
+    };
+    formData.append(fieldName, fileData as any);
   }
 
   /**
    * FormData에 JSON 데이터를 추가합니다.
    */
-  static addJsonToFormData(
+  static addJsonToFormData<T = unknown>(
     formData: FormData,
     fieldName: string,
-    data: any,
+    data: T,
   ): void {
-    formData.append(fieldName, {
+    const jsonData: FormDataJson = {
       string: JSON.stringify(data),
       type: 'application/json',
-    } as any);
+    };
+    formData.append(fieldName, jsonData as any);
   }
 
   /**
