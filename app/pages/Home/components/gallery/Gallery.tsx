@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import {
   FlatList,
-  ListRenderItemInfo,
   RefreshControl,
   TouchableOpacity,
   useWindowDimensions,
@@ -186,14 +185,12 @@ const Gallery = ({
 
   const renderGalleryItem = useCallback(
     (tagKey: TagKey, totalItems: number) =>
-      ({ item, index }: FlashListRenderItemInfo<GalleryType>) => {
+      ({ item }: FlashListRenderItemInfo<GalleryType>) => {
         const isAiTag = tagKey === 'AI_PHOTO';
-        const isLastItem = index === totalItems - 1;
-        const isOddCount = totalItems % 2 === 1;
         const isSingleItem = totalItems === 1;
 
-        // Full-width: 1개 항목이거나, 홀수 개수의 마지막 항목
-        const isFullWidth = isSingleItem || (isOddCount && isLastItem);
+        // Full-width: 1개 항목일 때만
+        const isFullWidth = isSingleItem;
 
         // Spacing refinements: paddingHorizontal: 16, marginHorizontal: 2 (reduced by 4dp)
         const containerPadding = 16 * 2;
@@ -203,16 +200,16 @@ const Gallery = ({
           ? availableWidth - itemMargin
           : availableWidth / 2 - itemMargin;
 
-        // Height calculation: full-width uses 0.6 ratio, regular uses 4:3 ratio
-        const itemHeight = isFullWidth ? itemWidth * 0.6 : (itemWidth * 3) / 4;
+        // Height calculation: all items use 4:3 ratio
+        const itemHeight = (itemWidth * 3) / 4;
 
         return (
           <TouchableOpacity
             onPress={() => handleGalleryItemPress(item, isAiTag)}
             style={{
-              borderRadius: 12,
+              borderRadius: 10,
               overflow: 'hidden',
-              marginBottom: 10,
+              marginBottom: 12,
               marginHorizontal: 2,
               width: itemWidth,
               height: itemHeight,
@@ -237,7 +234,7 @@ const Gallery = ({
                   width: '100%',
                   aspectRatio: 4 / 3,
                 }}
-                borderRadius={12}
+                borderRadius={10}
                 resizeMode="cover"
               />
             )}
