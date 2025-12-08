@@ -39,7 +39,7 @@ import {
   Head,
   Title,
 } from '../../../components/ui/base/TextBase';
-import { toInternationalAge } from '../../../utils/date-time.util.ts';
+import { toInternationalAge } from '../../../utils/age-calculator.util.ts';
 import dayjs from 'dayjs';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';

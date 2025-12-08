@@ -6,7 +6,7 @@ import { useHeroStore } from '../../stores/hero.store.ts';
 import { useMediaStore } from '../../stores/media.store.ts';
 import { useSelectionStore } from '../../stores/selection.store.ts';
 import { AxiosRequestConfig } from 'axios';
-import { toInternationalAge } from '../../utils/date-time.util.ts';
+import { toInternationalAge } from '../../utils/age-calculator.util.ts';
 
 type PhotoQueryResponse = {
   ageGroups: AgeGroupsType;

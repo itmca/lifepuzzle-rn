@@ -21,7 +21,7 @@ import { BasicButton } from '../../../../components/ui/form/Button';
 import GallerySelect from '../gallery/GallerySelect.tsx';
 import { useUploadHeroes } from '../../../../services/hero/hero.query.hook.ts';
 import { HeroSelect } from './HeroSelect';
-import { toInternationalAge } from '../../../../utils/date-time.util.ts';
+import { toInternationalAge } from '../../../../utils/age-calculator.util.ts';
 import { CustomAlert } from '../../../../components/ui/feedback/CustomAlert';
 
 interface SharedBottomSheetProps {

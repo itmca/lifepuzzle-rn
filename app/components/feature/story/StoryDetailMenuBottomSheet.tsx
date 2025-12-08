@@ -20,7 +20,7 @@ import { Divider } from '../../ui/base/Divider.tsx';
 import BottomSheet from '../../ui/interaction/BottomSheet.tsx';
 import { showToast } from '../../ui/feedback/Toast.tsx';
 import ReactNativeBlobUtil from 'react-native-blob-util';
-import { getFormattedDateTime } from '../../../utils/date-time.util.ts';
+import { getFormattedDateTime } from '../../../utils/date-formatter.util.ts';
 import Share from 'react-native-share';
 
 type Props = {

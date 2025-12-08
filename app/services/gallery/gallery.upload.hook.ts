@@ -2,12 +2,10 @@ import { useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
-import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { useHeroStore } from '../../stores/hero.store.ts';
 import { useSelectionStore } from '../../stores/selection.store.ts';
-import { TagType } from '../../types/core/media.type.ts';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
 import { imageConversionUtil } from '../../utils/image-conversion.util.ts';
 import {
@@ -19,72 +17,23 @@ import { useAuthAxios } from '../core/auth-http.hook.ts';
 import { useUpdatePublisher } from '../common/update.hook.ts';
 import { useUIStore } from '../../stores/ui.store.ts';
 import logger from '../../utils/logger.util';
+import {
+  UploadItem,
+  UploadProgress,
+  UploadRequest,
+  UseUploadGalleryV2Options,
+  CONCURRENT_UPLOADS,
+  IMAGE_CONVERSION_OPTIONS,
+} from './gallery-upload-types';
+import {
+  createInitialUploadItems,
+  calculateProgress,
+  getSuccessfulItems,
+  getReadyForUploadItems,
+} from './gallery-upload-helpers.util';
 
-interface UploadItem {
-  originalImage: PhotoIdentifier;
-  convertedUri?: string;
-  fileName?: string;
-  fileKey?: string;
-  presignedUrl?: string;
-  uploadHeaders?: Record<string, string>;
-  uploadStatus: 'pending' | 'converting' | 'uploading' | 'completed' | 'failed';
-  error?: string;
-}
-interface UploadProgress {
-  total: number;
-  completed: number;
-  converting: number;
-  uploading: number;
-  failed: number;
-}
-
-const CONCURRENT_UPLOADS = 3;
-const IMAGE_CONVERSION_OPTIONS = {
-  quality: 80,
-  maxWidth: 1920,
-  maxHeight: 1080,
-  format: 'JPEG' as const,
-};
-
-// Helper functions
-const createInitialUploadItems = (items: PhotoIdentifier[]): UploadItem[] =>
-  items.map(item => ({
-    originalImage: item,
-    uploadStatus: 'pending' as const,
-  }));
-
-const calculateProgress = (items: UploadItem[]): UploadProgress => ({
-  total: items.length,
-  completed: items.filter(item => item.uploadStatus === 'completed').length,
-  converting: items.filter(item => item.uploadStatus === 'converting').length,
-  uploading: items.filter(item => item.uploadStatus === 'uploading').length,
-  failed: items.filter(item => item.uploadStatus === 'failed').length,
-});
-
-const getSuccessfulItems = (items: UploadItem[]): UploadItem[] =>
-  items.filter(
-    item =>
-      item.uploadStatus === 'pending' && item.convertedUri && item.fileName,
-  );
-
-const getReadyForUploadItems = (items: UploadItem[]): UploadItem[] =>
-  items.filter(
-    item =>
-      item.convertedUri &&
-      item.presignedUrl &&
-      item.uploadHeaders &&
-      item.fileKey,
-  );
-export type UploadRequest = {
-  heroNo?: number;
-  selectedTag?: TagType;
-  selectedGalleryItems?: PhotoIdentifier[];
-};
-
-interface UseUploadGalleryV2Options {
-  request?: UploadRequest;
-  onClose?: () => void;
-}
+// Re-export types for external use
+export type { UploadRequest, UploadProgress } from './gallery-upload-types';
 
 export const useUploadGalleryV2 = (
   options?: UseUploadGalleryV2Options,
