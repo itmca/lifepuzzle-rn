@@ -10,12 +10,12 @@ type Props = {
 
 export const Divider = styled.View<Props>`
   width: 100%;
-  height: ${props => props.height ?? 1}px;
-  margin-top: ${props => props.marginVertical ?? 16}px;
-  margin-bottom: ${props => props.marginVertical ?? 16}px;
-  padding-left: ${props => props.paddingHorizontal ?? 0}px;
-  padding-right: ${props => props.paddingHorizontal ?? 0}px;
+  height: ${(props: Props) => props.height ?? 1}px;
+  margin-top: ${(props: Props) => props.marginVertical ?? 16}px;
+  margin-bottom: ${(props: Props) => props.marginVertical ?? 16}px;
+  padding-left: ${(props: Props) => props.paddingHorizontal ?? 0}px;
+  padding-right: ${(props: Props) => props.paddingHorizontal ?? 0}px;
   background-color: ${Color.GREY};
   border-radius: 16px;
-  ${props => props.color && `background-color: ${props.color};`}
+  ${(props: Props) => props.color && `background-color: ${props.color};`}
 `;

@@ -25,13 +25,14 @@ export const StyledTag = styled(TouchableOpacity)<Props>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.color};
+  background-color: ${(props: Props) => props.color};
   border-radius: 16px;
-  border-width: ${props => (props.color === Color.GREY ? '1px' : '0px')};
-  border-color: ${props =>
+  border-width: ${(props: Props) =>
+    props.color === Color.GREY ? '1px' : '0px'};
+  border-color: ${(props: Props) =>
     props.color === Color.GREY ? Color.GREY_200 : 'transparent'};
-  padding: ${props => props.paddingVertical ?? 6.5}px
-    ${props => props.paddingHorizontal ?? 11}px;
+  padding: ${(props: Props) => props.paddingVertical ?? 6.5}px
+    ${(props: Props) => props.paddingHorizontal ?? 11}px;
 `;
 function Tag({
   icon,

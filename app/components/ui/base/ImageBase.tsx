@@ -27,11 +27,12 @@ type Props = {
  * 외부에서는 AdaptiveImage를 사용하세요
  */
 const FastImagePhoto = styled(FastImage)<Props>`
-  width: ${({ width }) => (width ? `${width}px` : '100%')};
-  height: ${({ height }) => (height ? `${height}px` : '100%')};
-  border-radius: ${({ borderRadius }) =>
+  width: ${({ width }: Props) => (width ? `${width}px` : '100%')};
+  height: ${({ height }: Props) => (height ? `${height}px` : '100%')};
+  border-radius: ${({ borderRadius }: Props) =>
     borderRadius ? `${borderRadius}px` : '0px'};
-  resize-mode: ${({ resizeMode }) => (resizeMode ? `${resizeMode}` : 'cover')};
+  resize-mode: ${({ resizeMode }: Props) =>
+    resizeMode ? `${resizeMode}` : 'cover'};
 `;
 
 /**

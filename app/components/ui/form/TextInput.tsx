@@ -35,7 +35,7 @@ const BasicTextInput = ({
   const [focused, setFocused] = useState(false);
   const [changed, setChanged] = useState<boolean>(false);
   const [localValue, setLocalValue] = useState(text);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const violated = validations.find(v => !v.condition(localValue));
   const isError = changed && !!violated;
