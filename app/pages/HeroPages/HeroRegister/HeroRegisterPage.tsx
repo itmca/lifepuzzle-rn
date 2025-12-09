@@ -4,11 +4,9 @@ import { Color } from '../../../constants/color.constant';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
-import {
-  ContentContainer,
-  ScrollContentContainer,
-} from '../../../components/ui/layout/ContentContainer.tsx';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { useHeroStore } from '../../../stores/hero.store';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { BasicCard } from '../../../components/ui/display/Card';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
@@ -43,52 +41,58 @@ const HeroRegisterPage = (): React.ReactElement => {
   return (
     <ScreenContainer edges={['left', 'right', 'bottom']}>
       <LoadingContainer isLoading={isLoading}>
-        <ScrollContentContainer alignCenter withScreenPadding gap={32}>
-          <ContentContainer
-            aspectRatio={0.8701} //0.8701 =  335 / 385
-          >
-            <BasicCard
-              photoUrls={heroProfileImage ? [heroProfileImage] : []}
-              editable={true}
-              fallbackIconName={'cameraAdd'}
-              fallbackText={'클릭하여 프로필 이미지 추가'}
-              fallbackBackgroundColor={Color.GREY_100}
-              onPress={navigateToSelectingPhoto}
-            />
-          </ContentContainer>
-          <ContentContainer alignCenter>
-            <ContentContainer>
-              <BasicTextInput
-                label={'이름'}
-                text={writingHero.name ?? ''}
-                onChangeText={name => setWritingHero({ name })}
-                placeholder="이름을 입력해 주세요"
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          bottomOffset={20}
+        >
+          <ContentContainer alignCenter withScreenPadding gap={32}>
+            <ContentContainer
+              aspectRatio={0.8701} //0.8701 =  335 / 385
+            >
+              <BasicCard
+                photoUrls={heroProfileImage ? [heroProfileImage] : []}
+                editable={true}
+                fallbackIconName={'cameraAdd'}
+                fallbackText={'클릭하여 프로필 이미지 추가'}
+                fallbackBackgroundColor={Color.GREY_100}
+                onPress={navigateToSelectingPhoto}
               />
-              <BasicTextInput
-                label={'닉네임'}
-                text={writingHero.nickName ?? ''}
-                onChangeText={nickName => setWritingHero({ nickName })}
-                placeholder="닉네임을 입력해 주세요"
-              />
-              <CustomDateInput
-                label={'태어난 날'}
-                date={writingHero.birthday}
-                onDateChange={birthday => setWritingHero({ birthday })}
+            </ContentContainer>
+            <ContentContainer alignCenter>
+              <ContentContainer>
+                <BasicTextInput
+                  label={'이름'}
+                  text={writingHero.name ?? ''}
+                  onChangeText={name => setWritingHero({ name })}
+                  placeholder="이름을 입력해 주세요"
+                />
+                <BasicTextInput
+                  label={'닉네임'}
+                  text={writingHero.nickName ?? ''}
+                  onChangeText={nickName => setWritingHero({ nickName })}
+                  placeholder="닉네임을 입력해 주세요"
+                />
+                <CustomDateInput
+                  label={'태어난 날'}
+                  date={writingHero.birthday}
+                  onDateChange={birthday => setWritingHero({ birthday })}
+                />
+              </ContentContainer>
+            </ContentContainer>
+            <ContentContainer alignCenter>
+              <BasicButton
+                text={'추가하기'}
+                onPress={() => createHero()}
+                disabled={
+                  !writingHero?.name ||
+                  !writingHero?.nickName ||
+                  !writingHero?.birthday
+                }
               />
             </ContentContainer>
           </ContentContainer>
-          <ContentContainer alignCenter>
-            <BasicButton
-              text={'추가하기'}
-              onPress={() => createHero()}
-              disabled={
-                !writingHero?.name ||
-                !writingHero?.nickName ||
-                !writingHero?.birthday
-              }
-            />
-          </ContentContainer>
-        </ScrollContentContainer>
+        </KeyboardAwareScrollView>
       </LoadingContainer>
     </ScreenContainer>
   );

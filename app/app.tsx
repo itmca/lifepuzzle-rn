@@ -26,6 +26,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import ShareModule from '../src/NativeLPShareModule';
 import { useShareStore } from './stores/share.store';
 import { BasicNavigationProps } from './navigation/types.tsx';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 const theme = {
   ...DefaultTheme,
@@ -118,10 +119,12 @@ const App = (): React.ReactElement => {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer linking={linking}>
-          <InternalApp />
-          <ToastComponent />
-        </NavigationContainer>
+        <KeyboardProvider>
+          <NavigationContainer linking={linking}>
+            <InternalApp />
+            <ToastComponent />
+          </NavigationContainer>
+        </KeyboardProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );

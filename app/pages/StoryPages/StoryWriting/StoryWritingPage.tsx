@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import StoryDateInput from './StoryDateInput.tsx';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -25,7 +20,6 @@ import { GalleryItem } from '../../../types/core/writing-story.type';
 import { PlainTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import TextAreaInput from '../../../components/ui/form/TextAreaInput';
-import { ScrollView } from 'react-native-gesture-handler';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
 import { Divider } from '../../../components/ui/base/Divider';
@@ -69,145 +63,138 @@ const StoryWritingPage = (): React.ReactElement => {
 
   return (
     <LoadingContainer isLoading={isStoryUploading}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{
-          backgroundColor: 'transparent',
-          flex: 1,
-        }}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ContentContainer height={'100%'} paddingBottom={15}>
-            <ScrollView
-              contentContainerStyle={{
-                flexGrow: 1,
-                paddingTop: 15,
-              }}
-              keyboardShouldPersistTaps={'handled'}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ContentContainer height={'100%'} paddingBottom={15}>
+          <KeyboardAwareScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingTop: 15,
+            }}
+            keyboardShouldPersistTaps={'handled'}
+            bottomOffset={20}
+          >
+            <ContentContainer paddingHorizontal={20}>
+              <TagSelector
+                tags={tags || []}
+                defaultIndex={defaultTagIndex}
+                onSelect={selectedItem => {
+                  const gallery: GalleryItem[] =
+                    writingStory.gallery?.map(i => ({
+                      ...i,
+                      tagKey: selectedItem.key,
+                    })) ?? [];
+                  setWritingStory({ gallery });
+                }}
+              />
+            </ContentContainer>
+
+            <ContentContainer
+              paddingVertical={8}
+              paddingHorizontal={20}
+              alignItems="center"
             >
-              <ContentContainer paddingHorizontal={20}>
-                <TagSelector
-                  tags={tags || []}
-                  defaultIndex={defaultTagIndex}
-                  onSelect={selectedItem => {
-                    const gallery: GalleryItem[] =
-                      writingStory.gallery?.map(i => ({
-                        ...i,
-                        tagKey: selectedItem.key,
-                      })) ?? [];
-                    setWritingStory({ gallery });
+              {imageDimensions ? (
+                <View
+                  style={{
+                    width: imageDimensions.width,
+                    height: imageDimensions.height,
+                    borderRadius: 16,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <AdaptiveImage
+                    uri={galleryItem.uri}
+                    resizeMode="contain"
+                    borderRadius={0}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    width: CONTAINER_WIDTH_STANDARD,
+                    height: MAX_CAROUSEL_HEIGHT,
+                    borderRadius: 16,
+                    backgroundColor: Color.GREY_200,
                   }}
                 />
-              </ContentContainer>
+              )}
+            </ContentContainer>
 
-              <ContentContainer
-                paddingVertical={8}
-                paddingHorizontal={20}
-                alignItems="center"
-              >
-                {imageDimensions ? (
-                  <View
-                    style={{
-                      width: imageDimensions.width,
-                      height: imageDimensions.height,
-                      borderRadius: 16,
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <AdaptiveImage
-                      uri={galleryItem.uri}
-                      resizeMode="contain"
-                      borderRadius={0}
-                      style={{ width: '100%', height: '100%' }}
-                    />
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      width: CONTAINER_WIDTH_STANDARD,
-                      height: MAX_CAROUSEL_HEIGHT,
-                      borderRadius: 16,
-                      backgroundColor: Color.GREY_200,
-                    }}
-                  />
-                )}
-              </ContentContainer>
-
-              <ContentContainer
-                flex={1}
-                paddingHorizontal={20}
-                paddingTop={4}
-                gap={0}
-              >
-                <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-                <ContentContainer flex={1} paddingTop={24}>
-                  <PlainTextInput
-                    text={writingStory.title ?? ''}
+            <ContentContainer
+              flex={1}
+              paddingHorizontal={20}
+              paddingTop={4}
+              gap={0}
+            >
+              <Divider marginVertical={0} paddingHorizontal={16} height={3} />
+              <ContentContainer flex={1} paddingTop={24}>
+                <PlainTextInput
+                  text={writingStory.title ?? ''}
+                  onChangeText={text => {
+                    setWritingStory({ title: text });
+                  }}
+                  placeholder={'제목을 입력해주세요'}
+                  validations={[
+                    {
+                      condition: (text: string) => !!text,
+                      errorText: '제목을 입력해주세요',
+                    },
+                  ]}
+                />
+                <ContentContainer
+                  flex={1}
+                  minHeight="120px"
+                  backgroundColor={Color.GREY}
+                >
+                  <TextAreaInput
+                    text={writingStory.content ?? ''}
                     onChangeText={text => {
-                      setWritingStory({ title: text });
+                      setWritingStory({ content: text });
                     }}
-                    placeholder={'제목을 입력해주세요'}
+                    placeholder={'내용을 입력해주세요'}
                     validations={[
                       {
                         condition: (text: string) => !!text,
-                        errorText: '제목을 입력해주세요',
+                        errorText: '내용을 입력해주세요',
                       },
                     ]}
                   />
-                  <ContentContainer
-                    flex={1}
-                    minHeight="120px"
-                    backgroundColor={Color.GREY}
-                  >
-                    <TextAreaInput
-                      text={writingStory.content ?? ''}
-                      onChangeText={text => {
-                        setWritingStory({ content: text });
-                      }}
-                      placeholder={'내용을 입력해주세요'}
-                      validations={[
-                        {
-                          condition: (text: string) => !!text,
-                          errorText: '내용을 입력해주세요',
-                        },
-                      ]}
-                    />
-                  </ContentContainer>
                 </ContentContainer>
               </ContentContainer>
+            </ContentContainer>
 
-              <ContentContainer
-                paddingHorizontal={20}
-                paddingTop={24}
-                paddingBottom={insets.bottom + 20}
-              >
-                {writingStory.voice ? (
-                  <AudioBtn
-                    audioUrl={writingStory.voice}
-                    onPlay={() => {
-                      setOpenModal(true);
-                    }}
-                  />
-                ) : (
-                  <VoiceAddButton
-                    onPress={() => {
-                      setOpenModal(true);
-                    }}
-                  />
-                )}
-                <StoryDateInput
-                  startDate={ageGroupStartDate}
-                  endDate={ageGroupEndDate}
-                  value={writingStory.date || ageGroupStartDate}
-                  onChange={(date: Date) => {
-                    setWritingStory({ date });
+            <ContentContainer
+              paddingHorizontal={20}
+              paddingTop={24}
+              paddingBottom={insets.bottom + 20}
+            >
+              {writingStory.voice ? (
+                <AudioBtn
+                  audioUrl={writingStory.voice}
+                  onPlay={() => {
+                    setOpenModal(true);
                   }}
                 />
-              </ContentContainer>
-            </ScrollView>
-          </ContentContainer>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+              ) : (
+                <VoiceAddButton
+                  onPress={() => {
+                    setOpenModal(true);
+                  }}
+                />
+              )}
+              <StoryDateInput
+                startDate={ageGroupStartDate}
+                endDate={ageGroupEndDate}
+                value={writingStory.date || ageGroupStartDate}
+                onChange={(date: Date) => {
+                  setWritingStory({ date });
+                }}
+              />
+            </ContentContainer>
+          </KeyboardAwareScrollView>
+        </ContentContainer>
+      </TouchableWithoutFeedback>
       <VoiceBottomSheet
         opened={openModal}
         editable

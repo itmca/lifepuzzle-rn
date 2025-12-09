@@ -2,14 +2,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import {
-  ContentContainer,
-  ScrollContentContainer,
-} from '../../../components/ui/layout/ContentContainer.tsx';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import {
   HeroSettingNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useHeroStore } from '../../../stores/hero.store';
 import { useHero } from '../../../services/hero/hero.query.hook';
 import { toPhotoIdentifier } from '../../../utils/photo-identifier.util.ts';
@@ -72,80 +70,86 @@ const HeroModificationPage = (): React.ReactElement => {
   return (
     <ScreenContainer edges={['left', 'right', 'bottom']}>
       <LoadingContainer isLoading={isLoading || isUpdating || isDeleting}>
-        <ScrollContentContainer alignCenter withScreenPadding gap={32}>
-          <ContentContainer
-            aspectRatio={0.8701} //0.8701 =  335 / 385
-          >
-            <BasicCard
-              photoUrls={heroProfileImage ? [heroProfileImage] : []}
-              editable={true}
-              fallbackIconName={'cameraAdd'}
-              fallbackText={'클릭하여 프로필 이미지 추가'}
-              fallbackBackgroundColor={Color.GREY_100}
-              onPress={() => {
-                navigation.navigate('App', {
-                  screen: 'HeroSettingNavigator',
-                  params: {
-                    screen: 'HeroProfileSelector',
-                  },
-                });
-              }}
-            />
-          </ContentContainer>
-          <ContentContainer alignCenter>
-            <ContentContainer>
-              <BasicTextInput
-                label={'이름'}
-                text={writingHero.name ?? ''}
-                onChangeText={name => setWritingHero({ name })}
-                placeholder="이름을 입력해 주세요"
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          bottomOffset={20}
+        >
+          <ContentContainer alignCenter withScreenPadding gap={32}>
+            <ContentContainer
+              aspectRatio={0.8701} //0.8701 =  335 / 385
+            >
+              <BasicCard
+                photoUrls={heroProfileImage ? [heroProfileImage] : []}
+                editable={true}
+                fallbackIconName={'cameraAdd'}
+                fallbackText={'클릭하여 프로필 이미지 추가'}
+                fallbackBackgroundColor={Color.GREY_100}
+                onPress={() => {
+                  navigation.navigate('App', {
+                    screen: 'HeroSettingNavigator',
+                    params: {
+                      screen: 'HeroProfileSelector',
+                    },
+                  });
+                }}
               />
-              <BasicTextInput
-                label={'닉네임'}
-                text={writingHero.nickName ?? ''}
-                onChangeText={nickName => setWritingHero({ nickName })}
-                placeholder="닉네임을 입력해 주세요"
+            </ContentContainer>
+            <ContentContainer alignCenter>
+              <ContentContainer>
+                <BasicTextInput
+                  label={'이름'}
+                  text={writingHero.name ?? ''}
+                  onChangeText={name => setWritingHero({ name })}
+                  placeholder="이름을 입력해 주세요"
+                />
+                <BasicTextInput
+                  label={'닉네임'}
+                  text={writingHero.nickName ?? ''}
+                  onChangeText={nickName => setWritingHero({ nickName })}
+                  placeholder="닉네임을 입력해 주세요"
+                />
+                <CustomDateInput
+                  label={'태어난 날'}
+                  date={writingHero.birthday}
+                  onDateChange={birthday => setWritingHero({ birthday })}
+                />
+              </ContentContainer>
+            </ContentContainer>
+            <ContentContainer alignCenter>
+              <BasicButton
+                text={'저장하기'}
+                onPress={() => updateHero()}
+                disabled={
+                  hero?.name === writingHero.name &&
+                  hero?.nickName === writingHero.nickName &&
+                  hero?.birthday === writingHero.birthday &&
+                  hero?.isLunar === writingHero.isLunar &&
+                  !writingHero.isProfileImageUpdate
+                }
               />
-              <CustomDateInput
-                label={'태어난 날'}
-                date={writingHero.birthday}
-                onDateChange={birthday => setWritingHero({ birthday })}
+            </ContentContainer>
+            <Divider />
+            <ContentContainer alignCenter>
+              <BasicButton
+                text={'삭제하기'}
+                backgroundColor={Color.WHITE}
+                textColor={Color.MAIN_DARK}
+                borderColor={Color.MAIN_DARK}
+                onPress={() =>
+                  CustomAlert.actionAlert({
+                    title: '주인공을 삭제하시겠습니까?',
+                    desc: '삭제 후 복원이 불가능합니다.',
+                    actionBtnText: '삭제',
+                    action: () => {
+                      deleteHero();
+                    },
+                  })
+                }
               />
             </ContentContainer>
           </ContentContainer>
-          <ContentContainer alignCenter>
-            <BasicButton
-              text={'저장하기'}
-              onPress={() => updateHero()}
-              disabled={
-                hero?.name === writingHero.name &&
-                hero?.nickName === writingHero.nickName &&
-                hero?.birthday === writingHero.birthday &&
-                hero?.isLunar === writingHero.isLunar &&
-                !writingHero.isProfileImageUpdate
-              }
-            />
-          </ContentContainer>
-          <Divider />
-          <ContentContainer alignCenter>
-            <BasicButton
-              text={'삭제하기'}
-              backgroundColor={Color.WHITE}
-              textColor={Color.MAIN_DARK}
-              borderColor={Color.MAIN_DARK}
-              onPress={() =>
-                CustomAlert.actionAlert({
-                  title: '주인공을 삭제하시겠습니까?',
-                  desc: '삭제 후 복원이 불가능합니다.',
-                  actionBtnText: '삭제',
-                  action: () => {
-                    deleteHero();
-                  },
-                })
-              }
-            />
-          </ContentContainer>
-        </ScrollContentContainer>
+        </KeyboardAwareScrollView>
       </LoadingContainer>
     </ScreenContainer>
   );

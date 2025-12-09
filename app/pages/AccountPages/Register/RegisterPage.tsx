@@ -11,11 +11,9 @@ import {
 import { debounce } from '../../../utils/debounce.util';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
-import {
-  ContentContainer,
-  ScrollContentContainer,
-} from '../../../components/ui/layout/ContentContainer.tsx';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { useShareStore } from '../../../stores/share.store';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
@@ -151,103 +149,109 @@ const RegisterPage = (): React.ReactElement => {
   return (
     <LoadingContainer isLoading={registerLoading}>
       <ScreenContainer edges={['left', 'right', 'bottom']}>
-        <ScrollContentContainer withScreenPadding>
-          <ContentContainer>
-            <BasicTextInput
-              label={'아이디'}
-              text={id}
-              onChangeText={setId}
-              placeholder={'아이디를 입력해주세요'}
-              validations={[
-                {
-                  condition: id => id.length > 0,
-                  errorText: '아이디를 입력해주세요.',
-                },
-                {
-                  condition: id => id?.length >= 3 && id?.length <= 30,
-                  errorText: '3자 이상 31자 미만으로 입력해주세요.',
-                },
-                {
-                  condition: () => !idDuplicated,
-                  errorText: '이미 존재하는 아이디입니다',
-                },
-              ]}
-              onIsErrorChanged={setIdError}
-            />
-            <BasicTextInput
-              label={'비밀번호'}
-              text={password}
-              onChangeText={setPassword}
-              placeholder="8~16자 영문+숫자+특수문자"
-              secureTextEntry
-              validations={[
-                {
-                  condition: password => password.length > 0,
-                  errorText: '8글자, 영문+숫자+특수문자를 입력해주세요.',
-                },
-                {
-                  condition: password => PASSWORD_REGEXP.test(password),
-                  errorText: `${PASSWORD_REGEXP_DISPLAY}`,
-                },
-              ]}
-              onIsErrorChanged={setPasswordError}
-            />
-            <BasicTextInput
-              label={'비밀번호 확인'}
-              text={passwordConfirm}
-              onChangeText={setPasswordConfirm}
-              placeholder="8~16자 영문+숫자+특수문자"
-              secureTextEntry
-              validations={[
-                {
-                  condition: passwordConfirm => password === passwordConfirm,
-                  errorText: '비밀번호와 비밀번호 확인이 다릅니다.',
-                },
-              ]}
-              onIsErrorChanged={setPasswordConfirmError}
-            />
-            <BasicTextInput
-              label={'닉네임(선택)'}
-              text={nickname}
-              onChangeText={setNickname}
-              placeholder="미입력 시 랜덤으로 설정"
-              validations={[
-                {
-                  condition: nickname => !nickname || nickname.length <= 8,
-                  errorText: '닉네임은 8자 이하로 입력해주세요.',
-                },
-              ]}
-              onIsErrorChanged={setNickNameError}
-            />
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          bottomOffset={20}
+        >
+          <ContentContainer withScreenPadding>
+            <ContentContainer>
+              <BasicTextInput
+                label={'아이디'}
+                text={id}
+                onChangeText={setId}
+                placeholder={'아이디를 입력해주세요'}
+                validations={[
+                  {
+                    condition: id => id.length > 0,
+                    errorText: '아이디를 입력해주세요.',
+                  },
+                  {
+                    condition: id => id?.length >= 3 && id?.length <= 30,
+                    errorText: '3자 이상 31자 미만으로 입력해주세요.',
+                  },
+                  {
+                    condition: () => !idDuplicated,
+                    errorText: '이미 존재하는 아이디입니다',
+                  },
+                ]}
+                onIsErrorChanged={setIdError}
+              />
+              <BasicTextInput
+                label={'비밀번호'}
+                text={password}
+                onChangeText={setPassword}
+                placeholder="8~16자 영문+숫자+특수문자"
+                secureTextEntry
+                validations={[
+                  {
+                    condition: password => password.length > 0,
+                    errorText: '8글자, 영문+숫자+특수문자를 입력해주세요.',
+                  },
+                  {
+                    condition: password => PASSWORD_REGEXP.test(password),
+                    errorText: `${PASSWORD_REGEXP_DISPLAY}`,
+                  },
+                ]}
+                onIsErrorChanged={setPasswordError}
+              />
+              <BasicTextInput
+                label={'비밀번호 확인'}
+                text={passwordConfirm}
+                onChangeText={setPasswordConfirm}
+                placeholder="8~16자 영문+숫자+특수문자"
+                secureTextEntry
+                validations={[
+                  {
+                    condition: passwordConfirm => password === passwordConfirm,
+                    errorText: '비밀번호와 비밀번호 확인이 다릅니다.',
+                  },
+                ]}
+                onIsErrorChanged={setPasswordConfirmError}
+              />
+              <BasicTextInput
+                label={'닉네임(선택)'}
+                text={nickname}
+                onChangeText={setNickname}
+                placeholder="미입력 시 랜덤으로 설정"
+                validations={[
+                  {
+                    condition: nickname => !nickname || nickname.length <= 8,
+                    errorText: '닉네임은 8자 이하로 입력해주세요.',
+                  },
+                ]}
+                onIsErrorChanged={setNickNameError}
+              />
+            </ContentContainer>
+            <Divider color={Color.GREY} marginVertical={4} />
+            <ContentContainer gap={4}>
+              <PolicyAgreeSwitch
+                type={'service'}
+                checked={isServicePolicyChecked}
+                onCheckedChange={setServicePolicyChecked}
+              />
+              <PolicyAgreeSwitch
+                type={'privacy'}
+                checked={isPrivacyPolicyChecked}
+                onCheckedChange={setPrivacyPolicyChecked}
+              />
+            </ContentContainer>
+            <ContentContainer paddingTop={8}>
+              <BasicButton
+                onPress={onSubmit}
+                disabled={
+                  idError ||
+                  nickNameError ||
+                  passwordError ||
+                  passwordConfirmError ||
+                  !isServicePolicyChecked ||
+                  !isPrivacyPolicyChecked
+                }
+                text="회원가입"
+              />
+            </ContentContainer>
           </ContentContainer>
-          <Divider color={Color.GREY} marginVertical={4} />
-          <ContentContainer gap={4}>
-            <PolicyAgreeSwitch
-              type={'service'}
-              checked={isServicePolicyChecked}
-              onCheckedChange={setServicePolicyChecked}
-            />
-            <PolicyAgreeSwitch
-              type={'privacy'}
-              checked={isPrivacyPolicyChecked}
-              onCheckedChange={setPrivacyPolicyChecked}
-            />
-          </ContentContainer>
-          <ContentContainer paddingTop={8}>
-            <BasicButton
-              onPress={onSubmit}
-              disabled={
-                idError ||
-                nickNameError ||
-                passwordError ||
-                passwordConfirmError ||
-                !isServicePolicyChecked ||
-                !isPrivacyPolicyChecked
-              }
-              text="회원가입"
-            />
-          </ContentContainer>
-        </ScrollContentContainer>
+        </KeyboardAwareScrollView>
       </ScreenContainer>
     </LoadingContainer>
   );
