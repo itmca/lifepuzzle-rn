@@ -39,6 +39,47 @@ LifePuzzle React Native 프로젝트 작업 가이드
 - 변수: camelCase, 상수: UPPER_SNAKE_CASE
 - 함수: 동사로 시작 (handle*, validate*, fetch\*)
 
+### Navigation
+
+**매직 스트링 사용 (권장)**
+
+- `navigate`, `reset` 등 실제 네비게이션 호출 시 매직 스트링 사용
+- TypeScript가 전역 타입 체크로 안전성 보장
+- 코드 간결성 유지
+
+```typescript
+// ✅ 권장: 매직 스트링 사용
+navigation.navigate('App', {
+  screen: 'StoryViewNavigator',
+  params: {
+    screen: 'Story',
+  },
+});
+
+// ❌ 비권장: 상수 사용 (불필요한 import, 코드 복잡도 증가)
+import { APP_SCREENS, STORY_VIEW_SCREENS } from '...';
+navigation.navigate(ROOT_SCREENS.APP, {
+  screen: APP_SCREENS.STORY_VIEW_NAVIGATOR,
+  params: {
+    screen: STORY_VIEW_SCREENS.STORY,
+  },
+});
+```
+
+**상수 사용 예외**
+
+- Navigator 타입 정의 시에만 상수 사용 (오타 방지)
+- Deep linking 설정에서 상수 사용
+
+```typescript
+// ✅ Navigator 정의: 상수 사용
+export type AppParamList = {
+  [APP_SCREENS.HOME]: undefined;
+};
+```
+
+자세한 내용: [Navigation Guidelines](./docs/NAVIGATION.md)
+
 ## 보안 가이드라인
 
 ### 필수 준수사항
@@ -90,5 +131,6 @@ logger.error('...'); // 항상
 - [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트 구조
 - [Naming](./docs/NAMING.md): 파일명, 변수명, 타입 네이밍
 - [Folder Structure](./docs/FOLDER_STRUCTURE.md): 페이지 그룹핑, 컴포넌트 배치
+- [Navigation](./docs/NAVIGATION.md): 네비게이션 사용 가이드, 매직 스트링 vs 상수
 - [Git Workflow](./docs/GIT_WORKFLOW.md): 브랜치 전략, 상세 커밋 가이드
 - [Security](./docs/SECURITY.md): 보안 가이드라인, 민감 데이터 처리

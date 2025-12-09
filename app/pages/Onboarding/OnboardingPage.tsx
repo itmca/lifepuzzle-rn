@@ -14,11 +14,6 @@ import { ContentContainer } from '../../components/ui/layout/ContentContainer.ts
 import { Color } from '../../constants/color.constant.ts';
 import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
 import { LocalStorage } from '../../services/core/local-storage.service.ts';
-import {
-  AUTH_SCREENS,
-  LOGIN_REGISTER_SCREENS,
-  ROOT_SCREENS,
-} from '../../navigation/screens.constant';
 
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -72,11 +67,11 @@ const OnboardingPage = ({ navigation }: any) => {
         index: 0,
         routes: [
           {
-            name: ROOT_SCREENS.AUTH,
+            name: 'Auth',
             params: {
-              screen: AUTH_SCREENS.LOGIN_REGISTER_NAVIGATOR,
+              screen: 'LoginRegisterNavigator',
               params: {
-                screen: LOGIN_REGISTER_SCREENS.LOGIN_MAIN,
+                screen: 'LoginMain',
               },
             },
           },
