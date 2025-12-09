@@ -80,6 +80,54 @@ export type AppParamList = {
 
 자세한 내용: [Navigation Guidelines](./docs/NAVIGATION.md)
 
+### Services
+
+**객체 네임스페이스 사용 (권장)**
+
+- React/React Native에서는 클래스 대신 함수형 패턴 권장
+- 순수 함수 모음은 객체 리터럴로 구현
+- Tree-shaking 및 번들 크기 최적화
+
+```typescript
+// ✅ 권장: 객체 네임스페이스
+export const MyService = {
+  method1(param: string): string {
+    return param.toUpperCase();
+  },
+  method2(value: number): number {
+    return value * 2;
+  },
+} as const;
+
+// ❌ 비권장: static 클래스
+export class MyService {
+  static method1(param: string): string {
+    return param.toUpperCase();
+  }
+  static method2(value: number): number {
+    return value * 2;
+  }
+}
+```
+
+**클래스 사용 예외**
+
+- 내부 상태를 가진 Storage 계층 (`LocalStorage`, `SecureStorage`)
+- 인스턴스 생성이 필요한 경우
+
+```typescript
+// ✅ 내부 상태를 가진 경우: 클래스 사용
+export class LocalStorage {
+  private static storage = new MMKV();
+
+  static get(key: string) {
+    return this.storage.getString(key);
+  }
+}
+```
+
+자세한 내용: [Service Layer Guidelines](./docs/SERVICES.md)
+
 ## 보안 가이드라인
 
 ### 필수 준수사항
@@ -132,5 +180,6 @@ logger.error('...'); // 항상
 - [Naming](./docs/NAMING.md): 파일명, 변수명, 타입 네이밍
 - [Folder Structure](./docs/FOLDER_STRUCTURE.md): 페이지 그룹핑, 컴포넌트 배치
 - [Navigation](./docs/NAVIGATION.md): 네비게이션 사용 가이드, 매직 스트링 vs 상수
+- [Services](./docs/SERVICES.md): 서비스 레이어 가이드, 객체 네임스페이스 vs 클래스
 - [Git Workflow](./docs/GIT_WORKFLOW.md): 브랜치 전략, 상세 커밋 가이드
 - [Security](./docs/SECURITY.md): 보안 가이드라인, 민감 데이터 처리

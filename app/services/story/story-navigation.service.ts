@@ -8,7 +8,7 @@ import { StoryFormFactory } from './story-form.factory';
  * Service for story-related navigation
  * Centralizes navigation logic and story initialization
  */
-export class StoryNavigationService {
+export const StoryNavigationService = {
   /**
    * Navigate to story writing page for creating a new story
    *
@@ -16,7 +16,7 @@ export class StoryNavigationService {
    * @param galleryItem - Gallery item to create story from
    * @param dimensions - Optional image dimensions
    */
-  static navigateToWrite(
+  navigateToWrite(
     navigation: BasicNavigationProps,
     galleryItem: GalleryType,
     dimensions?: ImageDimension,
@@ -36,7 +36,7 @@ export class StoryNavigationService {
         screen: 'StoryWritingMain',
       },
     });
-  }
+  },
 
   /**
    * Navigate to story writing page for editing an existing story
@@ -45,7 +45,7 @@ export class StoryNavigationService {
    * @param galleryItem - Gallery item containing the story
    * @param dimensions - Optional image dimensions
    */
-  static navigateToEdit(
+  navigateToEdit(
     navigation: BasicNavigationProps,
     galleryItem: GalleryType,
     dimensions?: ImageDimension,
@@ -65,5 +65,5 @@ export class StoryNavigationService {
         screen: 'StoryWritingMain',
       },
     });
-  }
-}
+  },
+} as const;
