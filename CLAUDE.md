@@ -31,7 +31,14 @@ LifePuzzle React Native 프로젝트 작업 가이드
 - **페이지 컴포넌트**: `app/pages/[Domain]/[PageName]/`
 - **단일 페이지 전용 컴포넌트**: `app/pages/[Page]/components/`
 - **공통 컴포넌트**: `app/components/` (2개 이상 페이지에서 사용)
+- **서비스 계층**: `app/services/[domain]/` (도메인별 분리)
 - **파일명**: TSX는 PascalCase, TS는 kebab-case.category.ts
+
+**폴더 구조 변경 시 문서 업데이트 필수:**
+
+- 새 페이지/컴포넌트/서비스 추가 시 → `docs/FOLDER_STRUCTURE.md` 업데이트
+- 기존 구조 변경 시 → 해당 섹션 수정
+- 새로운 폴더 패턴 도입 시 → 가이드라인 추가
 
 ### 코딩 스타일
 

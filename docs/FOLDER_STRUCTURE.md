@@ -2,6 +2,54 @@
 
 프로젝트의 폴더 구조를 체계적으로 관리하기 위한 가이드라인입니다.
 
+## 전체 프로젝트 구조 개요
+
+```
+lifepuzzle-rn/
+├── app/
+│   ├── components/        # 공통 컴포넌트
+│   │   ├── ui/           # UI 컴포넌트 (base, layout, form, feedback, display, navigation, interaction)
+│   │   └── feature/      # Feature 컴포넌트 (auth, ai, story, photo, voice, sharing, hero)
+│   ├── pages/            # 페이지 컴포넌트
+│   │   ├── AccountPages/ # 계정 관련 (5개)
+│   │   ├── AiPhotoPages/ # AI 사진 (2개)
+│   │   ├── GalleryPages/ # 갤러리 (4개)
+│   │   ├── HeroPages/    # 히어로 (4개)
+│   │   ├── PolicyPages/  # 정책 (2개)
+│   │   ├── StoryPages/   # 스토리 (2개)
+│   │   ├── Home/         # 홈 (단일)
+│   │   └── Onboarding/   # 온보딩 (단일)
+│   ├── services/         # 서비스 레이어
+│   │   ├── auth/         # 인증 서비스
+│   │   ├── common/       # 공통 서비스
+│   │   ├── core/         # 핵심 인프라
+│   │   ├── device/       # 디바이스
+│   │   ├── gallery/      # 갤러리
+│   │   ├── hero/         # 히어로
+│   │   ├── image/        # 이미지 처리
+│   │   ├── story/        # 스토리
+│   │   └── user/         # 사용자
+│   ├── navigation/       # 네비게이션 설정
+│   ├── stores/           # 전역 상태 관리 (Zustand)
+│   ├── hooks/            # 커스텀 Hooks
+│   ├── utils/            # 유틸리티 함수
+│   ├── types/            # TypeScript 타입 정의
+│   ├── constants/        # 상수 정의
+│   └── assets/           # 정적 자산 (이미지, 폰트 등)
+├── docs/                 # 프로젝트 문서
+│   ├── FOLDER_STRUCTURE.md
+│   ├── CODE_STYLE.md
+│   ├── NAMING.md
+│   ├── NAVIGATION.md
+│   ├── SERVICES.md
+│   ├── GIT_WORKFLOW.md
+│   └── SECURITY.md
+└── CLAUDE.md            # 프로젝트 작업 가이드
+
+```
+
+> **중요**: 폴더 구조가 변경되면 이 문서를 반드시 업데이트해야 합니다.
+
 ## 페이지 그룹핑 기준
 
 ### 기본 원칙
@@ -59,10 +107,9 @@ app/pages/
 
 ### 그룹핑 적용 현황
 
-- **6개**: StoryPages (스토리 작성, 상세, 목록, 갤러리 등)
-- **4개**: HeroPages (수정, 등록, 사진선택, 설정)
-- **3개**: AccountPages, GalleryPages
-- **2개**: PolicyPages (개인정보, 서비스), AiPhotoPages
+- **5개**: AccountPages (계정 설정, 프로필 선택, 로그인, 회원가입 등)
+- **4개**: HeroPages (히어로 설정, 등록, 수정, 프로필 선택), GalleryPages (갤러리 목록, 선택, Facebook, 사진 편집)
+- **2개**: StoryPages (스토리 작성, 상세), PolicyPages (개인정보, 서비스), AiPhotoPages (AI 사진 이력, 생성)
 - **1개**: Home, Onboarding (단일 페이지 유지)
 
 ## 컴포넌트 구조 가이드라인
@@ -185,8 +232,96 @@ app/components/
 2. 네비게이션 설정 확인
 3. 테스트 파일 경로 확인
 
+## Services 폴더 구조
+
+### 기본 원칙
+
+- 도메인별로 폴더 분리
+- 각 도메인은 관련된 서비스 파일들을 포함
+- 파일명: `{domain}-{category}.service.ts` 또는 `{domain}.{category}.ts`
+
+### 현재 구조
+
+```
+app/services/
+├── auth/              # 인증 관련
+│   ├── login.hook.ts
+│   ├── logout.hook.ts
+│   ├── refresh.hook.ts
+│   └── validation.hook.ts
+├── common/            # 공통 서비스
+│   ├── error-handler.hook.ts
+│   ├── form-validation.service.ts
+│   ├── update.hook.ts
+│   └── voice-record.hook.ts
+├── core/              # 핵심 인프라
+│   ├── auth.service.ts
+│   ├── auth-http.hook.ts
+│   ├── http.hook.ts
+│   ├── http.service.ts
+│   ├── local-storage.hook.ts
+│   ├── local-storage.service.ts
+│   └── secure-storage.service.ts
+├── device/            # 디바이스 관련
+│   ├── keyboard.hook.ts
+│   ├── linking.hook.ts
+│   ├── permission.hook.ts
+│   └── screen.hook.ts
+├── gallery/           # 갤러리 관련
+│   ├── ai-photo.create.hook.ts
+│   ├── ai-photo.query.hook.ts
+│   ├── facebook.photos.hook.ts
+│   ├── gallery.api.service.ts
+│   ├── gallery.query.hook.ts
+│   ├── gallery.upload.hook.ts
+│   └── gallery-upload-*.ts
+├── hero/              # 히어로 관련
+│   ├── hero.create.hook.ts
+│   ├── hero.delete.hook.ts
+│   ├── hero.query.hook.ts
+│   ├── hero.update.hook.ts
+│   ├── hero-payload.service.ts
+│   └── share.hero.hook.ts
+├── image/             # 이미지 처리
+│   ├── platform-image.service.ts
+│   └── skia-image-loader.service.ts
+├── story/             # 스토리 관련
+│   ├── story.delete.hook.ts
+│   ├── story.write.hook.ts
+│   ├── story-form.factory.ts
+│   ├── story-navigation.service.ts
+│   ├── story-payload.service.ts
+│   └── story-validation.hook.ts
+└── user/              # 사용자 관련
+    ├── user.update.hook.ts
+    ├── user.withdraw.hook.ts
+    └── user-payload.service.ts
+```
+
+### 파일 네이밍 규칙
+
+**Hook 파일** (`*.hook.ts`)
+
+- React Hooks를 사용하는 파일
+- 예: `login.hook.ts`, `gallery.query.hook.ts`
+
+**Service 파일** (`*.service.ts`)
+
+- 순수 함수 모음 (객체 네임스페이스 또는 클래스)
+- 예: `http.service.ts`, `form-validation.service.ts`
+
+**Factory 파일** (`*.factory.ts`)
+
+- 객체 생성 로직
+- 예: `story-form.factory.ts`
+
+**Util 파일** (`*.util.ts`)
+
+- 유틸리티 함수 모음
+- 예: `gallery-upload-helpers.util.ts`
+
 ## 참고사항
 
 - 이 가이드라인은 코드의 가독성과 유지보수성을 위한 것입니다
 - 프로젝트 규모와 팀의 선호에 따라 조정 가능합니다
-- 새로운 패턴이 발견되면 이 문서를 업데이트해야 합니다
+- **새로운 패턴이 발견되거나 폴더 구조가 변경되면 이 문서를 반드시 업데이트해야 합니다**
