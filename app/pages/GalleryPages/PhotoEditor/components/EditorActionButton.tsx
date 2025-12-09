@@ -8,7 +8,7 @@ import { BodyTextB } from '../../../../components/ui/base/TextBase.tsx';
 import { EDITOR_ACTION_BUTTON } from '../constants/editor.constant';
 
 type EditorActionButtonProps = {
-  icon: string;
+  icon: React.ComponentProps<typeof Icon>['name'];
   label: string;
   disabled?: boolean;
   onPress: () => void;

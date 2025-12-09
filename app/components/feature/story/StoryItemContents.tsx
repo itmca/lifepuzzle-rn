@@ -32,7 +32,7 @@ export const StoryItemContents = ({
       {story.audios && story.audios.length > 0 && (
         <AudioBtn audioUrl={story.audios[0]} onPlay={() => {}} />
       )}
-      <StoryDateInput disabled value={story.date} />
+      <StoryDateInput disabled value={story.date} onChange={() => {}} />
     </ContentContainer>
   );
 };
