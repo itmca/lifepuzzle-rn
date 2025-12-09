@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import FastImage from '@d11/react-native-fast-image';
 import { AdaptiveImage } from '../../ui/base/ImageBase';
 import { VideoPlayer } from './StoryVideoPlayer';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
@@ -17,6 +16,7 @@ import { AiPhotoButton } from '../ai/AiPhotoButton';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { useNavigation } from '@react-navigation/native';
 import { useCreateAiPhoto } from '../../../services/gallery/ai-photo.create.hook';
+import { useImagePreloader } from '../../../hooks/useImagePreloader';
 
 type Props = {
   data: MediaItem[];
@@ -70,34 +70,11 @@ const MediaCarouselComponent = ({
     drivingVideoId: drivingVideoId || 0,
   });
 
-  // 이전 데이터 참조를 저장하여 불필요한 preload 방지
-  const prevDataRef = useRef<MediaItem[]>([]);
   // 쓰로틀링을 위한 ref
   const lastScrollTimeRef = useRef<number>(0);
 
-  // 모든 이미지를 미리 캐시에 로드 (데이터가 실제로 변경된 경우에만)
-  useEffect(() => {
-    // Check if data has actually changed by comparing URLs
-    const prevUrls = prevDataRef.current.map(item => item.url).join(',');
-    const currentUrls = data.map(item => item.url).join(',');
-
-    if (prevUrls === currentUrls) {
-      return;
-    }
-
-    const imagesToPreload = data
-      .filter(item => item.type === 'IMAGE' && item.url)
-      .map(item => ({
-        uri: item.url,
-        priority: FastImage.priority.high,
-      }));
-
-    if (imagesToPreload.length > 0) {
-      FastImage.preload(imagesToPreload);
-    }
-
-    prevDataRef.current = data;
-  }, [data]);
+  // Use custom hook for image preloading
+  useImagePreloader(data);
 
   const handleAiPhotoPress = useCallback(async () => {
     // API 호출에 필요한 데이터가 없으면 기존처럼 바로 이동
