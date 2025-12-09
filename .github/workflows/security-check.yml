@@ -25,7 +25,7 @@ jobs:
           # Find console.log/warn/error usage (excluding logger.ts)
           VIOLATIONS=$(grep -rn "console\.\(log\|warn\|error\|info\|debug\)" app/ \
             --include="*.ts" --include="*.tsx" \
-            --exclude="logger.ts" \
+            --exclude="logger.util.ts" \
             2>/dev/null || true)
 
           if [ -n "$VIOLATIONS" ]; then
