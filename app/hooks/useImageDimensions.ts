@@ -20,6 +20,9 @@ type UseImageDimensionsOptions = {
   skipVideoTypes?: boolean;
 };
 
+// Cache for failed image URLs to prevent repeated failed requests
+const failedImageUrlsCache = new Set<string>();
+
 /**
  * Custom hook to load image dimensions from an array of image sources
  *
@@ -65,6 +68,11 @@ export const useImageDimensions = (
             return { width: defaultWidth, height: defaultHeight };
           }
 
+          // Skip if this URL has already failed before
+          if (failedImageUrlsCache.has(source.uri)) {
+            return { width: defaultWidth, height: defaultHeight };
+          }
+
           // Load dimensions using Image.getSize
           try {
             return await new Promise<ImageDimension>((resolve, reject) => {
@@ -75,7 +83,12 @@ export const useImageDimensions = (
               );
             });
           } catch (error) {
-            logger.debug('Failed to get image size:', source.uri, error);
+            // Add to cache to prevent repeated failed requests
+            failedImageUrlsCache.add(source.uri);
+            logger.debug(
+              'Failed to get image size (cached for future skips):',
+              source.uri,
+            );
             return { width: defaultWidth, height: defaultHeight };
           }
         }),
@@ -127,6 +140,12 @@ export const useSingleImageDimension = (
         return;
       }
 
+      // Skip if this URL has already failed before
+      if (failedImageUrlsCache.has(source.uri)) {
+        setDimension({ width: defaultWidth, height: defaultHeight });
+        return;
+      }
+
       // Load dimensions using Image.getSize
       try {
         const loadedDimension = await new Promise<ImageDimension>(
@@ -140,7 +159,12 @@ export const useSingleImageDimension = (
         );
         setDimension(loadedDimension);
       } catch (error) {
-        logger.debug('Failed to get image size:', source.uri, error);
+        // Add to cache to prevent repeated failed requests
+        failedImageUrlsCache.add(source.uri);
+        logger.debug(
+          'Failed to get image size (cached for future skips):',
+          source.uri,
+        );
         setDimension({ width: defaultWidth, height: defaultHeight });
       }
     };
