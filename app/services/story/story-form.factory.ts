@@ -9,7 +9,7 @@ import { ImageDimension } from '../../hooks/useImageDimensions';
  * Factory for creating WritingStoryType objects
  * Centralizes story form initialization logic
  */
-export class StoryFormFactory {
+export const StoryFormFactory = {
   /**
    * Create WritingStory from a gallery item (for new story creation)
    *
@@ -17,7 +17,7 @@ export class StoryFormFactory {
    * @param dimensions - Optional image dimensions
    * @returns WritingStoryType object
    */
-  static fromGalleryItem(
+  fromGalleryItem(
     galleryItem: GalleryType,
     dimensions?: ImageDimension,
   ): WritingStoryType {
@@ -35,7 +35,7 @@ export class StoryFormFactory {
       gallery,
       date: galleryItem.story?.date,
     };
-  }
+  },
 
   /**
    * Create WritingStory from existing story data (for editing)
@@ -44,7 +44,7 @@ export class StoryFormFactory {
    * @param dimensions - Optional image dimensions
    * @returns WritingStoryType object with all story fields populated
    */
-  static fromExistingStory(
+  fromExistingStory(
     galleryItem: GalleryType,
     dimensions?: ImageDimension,
   ): WritingStoryType {
@@ -67,7 +67,7 @@ export class StoryFormFactory {
       gallery,
       voice: story?.audios && story.audios.length > 0 ? story.audios[0] : '',
     };
-  }
+  },
 
   /**
    * Create WritingStory from story data and separate gallery item
@@ -78,7 +78,7 @@ export class StoryFormFactory {
    * @param dimensions - Optional image dimensions
    * @returns WritingStoryType object
    */
-  static fromStoryAndGallery(
+  fromStoryAndGallery(
     story: StoryType,
     galleryItem: GalleryType,
     dimensions?: ImageDimension,
@@ -100,5 +100,5 @@ export class StoryFormFactory {
       gallery,
       voice: story.audios && story.audios.length > 0 ? story.audios[0] : '',
     };
-  }
-}
+  },
+} as const;

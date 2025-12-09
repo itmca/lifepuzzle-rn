@@ -3,50 +3,50 @@ import { WritingHeroType } from '../../types/core/hero.type.ts';
 import { PayloadBuilder } from '../../utils/payload-builder.util.ts';
 import { generateImagePath } from '../../utils/file-path.util.ts';
 
-export class HeroPayloadService {
-  static createHeroFormData(
+const addHeroPhoto = (
+  formData: FormData,
+  writingHero: WritingHeroType | undefined,
+): void => {
+  const photo = writingHero?.modifiedImage;
+  if (photo?.node?.image?.uri) {
+    PayloadBuilder.addPhotoToFormData(formData, 'photo', photo, IMG_TYPE);
+  }
+};
+
+const addHeroData = (
+  formData: FormData,
+  writingHeroKey: number,
+  writingHero: WritingHeroType | undefined,
+): void => {
+  const photo = writingHero?.modifiedImage;
+  const imgPath = photo?.node?.image?.uri
+    ? generateImagePath(photo.node.image.uri, writingHero?.imageUrl)
+    : writingHero?.imageUrl;
+
+  const savedHero = {
+    id: writingHeroKey,
+    name: writingHero?.name,
+    nickName: writingHero?.nickName,
+    birthday: writingHero?.birthday,
+    isLunar: writingHero?.isLunar,
+    title: writingHero?.title,
+    imageUrl: imgPath ?? '',
+    isProfileImageUpdate: writingHero?.isProfileImageUpdate ?? false,
+  };
+
+  PayloadBuilder.addJsonToFormData(formData, 'toWrite', savedHero);
+};
+
+export const HeroPayloadService = {
+  createHeroFormData(
     writingHeroKey: number,
     writingHero: WritingHeroType | undefined,
   ): FormData {
     const formData = PayloadBuilder.createFormData();
 
-    this.addHeroPhoto(formData, writingHero);
-    this.addHeroData(formData, writingHeroKey, writingHero);
+    addHeroPhoto(formData, writingHero);
+    addHeroData(formData, writingHeroKey, writingHero);
 
     return formData;
-  }
-
-  private static addHeroPhoto(
-    formData: FormData,
-    writingHero: WritingHeroType | undefined,
-  ): void {
-    const photo = writingHero?.modifiedImage;
-    if (photo?.node?.image?.uri) {
-      PayloadBuilder.addPhotoToFormData(formData, 'photo', photo, IMG_TYPE);
-    }
-  }
-
-  private static addHeroData(
-    formData: FormData,
-    writingHeroKey: number,
-    writingHero: WritingHeroType | undefined,
-  ): void {
-    const photo = writingHero?.modifiedImage;
-    const imgPath = photo?.node?.image?.uri
-      ? generateImagePath(photo.node.image.uri, writingHero?.imageUrl)
-      : writingHero?.imageUrl;
-
-    const savedHero = {
-      id: writingHeroKey,
-      name: writingHero?.name,
-      nickName: writingHero?.nickName,
-      birthday: writingHero?.birthday,
-      isLunar: writingHero?.isLunar,
-      title: writingHero?.title,
-      imageUrl: imgPath ?? '',
-      isProfileImageUpdate: writingHero?.isProfileImageUpdate ?? false,
-    };
-
-    PayloadBuilder.addJsonToFormData(formData, 'toWrite', savedHero);
-  }
-}
+  },
+} as const;
