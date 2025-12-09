@@ -76,7 +76,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
                   customAction={() => {
                     setCurrentGalleryIndex(0);
                     setEditGalleryItems([...selectedGalleryItems]);
-                    navigation.navigate(STORY_WRITING_SCREENS.PHOTO_EDITOR);
+                    navigation.navigate('PhotoEditor');
                   }}
                 />
               }
