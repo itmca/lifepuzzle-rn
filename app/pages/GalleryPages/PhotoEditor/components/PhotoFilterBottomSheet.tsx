@@ -301,15 +301,11 @@ export const PhotoFilterBottomSheet = ({
                       />
                     )}
                   </View>
-                  <Title
-                    style={{
-                      marginTop: 4,
-                      fontSize: 12,
-                      color: isActive ? Color.MAIN : Color.GREY_700,
-                    }}
-                  >
-                    {FILTER_LABELS[filter]}
-                  </Title>
+                  <View style={{ marginTop: 4 }}>
+                    <Title color={isActive ? Color.MAIN : Color.GREY_700}>
+                      {FILTER_LABELS[filter]}
+                    </Title>
+                  </View>
                 </TouchableOpacity>
               );
             })}

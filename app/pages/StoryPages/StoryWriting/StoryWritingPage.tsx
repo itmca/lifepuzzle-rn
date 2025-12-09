@@ -39,8 +39,8 @@ const StoryWritingPage = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const writingStory = useStoryStore(state => state.writingStory);
   const setWritingStory = useStoryStore(state => state.setWritingStory);
-  const ageGroups = useMediaStore(state => state.ageGroups);
-  const tags = useMediaStore(state => state.tags);
+  const ageGroups = useMediaStore(state => state.ageGroups ?? undefined);
+  const tags = useMediaStore(state => state.tags ?? undefined);
 
   // Custom hooks
   const isStoryUploading = useIsStoryUploading();

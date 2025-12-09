@@ -57,7 +57,11 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
             borderRadius={6}
             height={itemWidth * 0.85}
           >
-            <AdaptiveImage uri={item.thumbnailUrl} style={{ flex: 1 }} />
+            {item.thumbnailUrl ? (
+              <AdaptiveImage uri={item.thumbnailUrl} style={{ flex: 1 }} />
+            ) : (
+              <View style={{ flex: 1, backgroundColor: Color.GREY_600 }} />
+            )}
           </ContentContainer>
           {item.status !== 'COMPLETED' ? (
             <ContentContainer
@@ -72,7 +76,9 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
             </ContentContainer>
           ) : (
             <>
-              <BodyTextB color={Color.GREY_700}>by {item.createdBy}</BodyTextB>
+              <BodyTextB color={Color.GREY_700}>
+                by {item.createdBy ?? ''}
+              </BodyTextB>
               <ContentContainer gap={0}>
                 <Caption color={Color.GREY_300}>
                   {formatDateToTodayOrYYMMDD(item.requestedAt)} 요청
