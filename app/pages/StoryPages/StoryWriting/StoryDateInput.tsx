@@ -6,7 +6,16 @@ import { SvgIcon } from '../../../components/ui/display/SvgIcon';
 import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 
 const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
-function StoryDateInput({ ...props }) {
+
+export interface StoryDateInputProps {
+  value?: Date;
+  startDate?: Date;
+  endDate?: Date;
+  disabled?: boolean;
+  onChange: (date: Date) => void;
+}
+
+function StoryDateInput(props: StoryDateInputProps) {
   const [visible, setVisible] = useState(false);
   const [date, onChangeDate] = useState<Date | undefined>(
     props.value ? new Date(props.value) : undefined,

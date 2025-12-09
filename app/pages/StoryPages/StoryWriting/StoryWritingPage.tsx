@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -21,10 +21,7 @@ import {
 import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
 import { useStoryStore } from '../../../stores/story.store';
 import { useMediaStore } from '../../../stores/media.store';
-import SelectDropdown from 'react-native-select-dropdown';
 import { GalleryItem } from '../../../types/core/writing-story.type';
-import { SvgIcon } from '../../../components/ui/display/SvgIcon';
-import { Title } from '../../../components/ui/base/TextBase';
 import { PlainTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import TextAreaInput from '../../../components/ui/form/TextAreaInput';
@@ -32,8 +29,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
 import { Divider } from '../../../components/ui/base/Divider';
-import { useSingleImageDimension } from '../../../hooks/useImageDimensions';
-import { calculateDisplayDimensions } from '../../../utils/carousel-dimension.util';
+import { useStoryWritingDimensions } from '../../../hooks/useStoryWritingDimensions';
+import { TagSelector } from './components/TagSelector';
 
 const StoryWritingPage = (): React.ReactElement => {
   // React hooks
@@ -51,54 +48,19 @@ const StoryWritingPage = (): React.ReactElement => {
 
   const galleryItem = writingStory.gallery?.[0];
 
-  // Memoize image source to prevent infinite re-renders in useSingleImageDimension
-  const imageSource = useMemo(() => {
-    if (!galleryItem) return null;
-    return {
-      uri: galleryItem.uri,
-      width: galleryItem.width,
-      height: galleryItem.height,
-    };
-  }, [galleryItem?.uri, galleryItem?.width, galleryItem?.height]);
-
-  // Load image dimensions using custom hook
-  const loadedDimension = useSingleImageDimension(imageSource, {
-    defaultWidth: CONTAINER_WIDTH_STANDARD,
-    defaultHeight: MAX_CAROUSEL_HEIGHT,
+  // Use consolidated hook for all dimension and age group calculations
+  const {
+    imageDimensions,
+    ageGroupStartDate,
+    ageGroupEndDate,
+    defaultTagIndex,
+  } = useStoryWritingDimensions({
+    galleryItem,
+    ageGroups,
+    tags,
+    containerWidth: CONTAINER_WIDTH_STANDARD,
+    maxHeight: MAX_CAROUSEL_HEIGHT,
   });
-
-  // Calculate display dimensions from loaded dimensions
-  const imageDimensions =
-    loadedDimension &&
-    calculateDisplayDimensions(
-      loadedDimension.width,
-      loadedDimension.height,
-      CONTAINER_WIDTH_STANDARD,
-      MAX_CAROUSEL_HEIGHT,
-    );
-
-  // Memoize age group calculations to prevent infinite re-renders
-  const currentAgeGroup = useMemo(() => {
-    return galleryItem ? ageGroups?.[galleryItem.tagKey] : undefined;
-  }, [galleryItem?.tagKey, ageGroups]);
-
-  const ageGroupStartDate = useMemo(() => {
-    return currentAgeGroup
-      ? new Date(currentAgeGroup.startYear, 0, 1)
-      : undefined;
-  }, [currentAgeGroup]);
-
-  const ageGroupEndDate = useMemo(() => {
-    return currentAgeGroup
-      ? new Date(currentAgeGroup.endYear, 11, 31)
-      : undefined;
-  }, [currentAgeGroup]);
-
-  // Find the index of the current tag for default selection
-  const defaultTagIndex = useMemo(() => {
-    if (!galleryItem || !tags) return undefined;
-    return tags.findIndex(tag => tag.key === galleryItem.tagKey);
-  }, [galleryItem?.tagKey, tags]);
 
   // Early return after all hooks
   if (!galleryItem) {
@@ -124,14 +86,10 @@ const StoryWritingPage = (): React.ReactElement => {
               keyboardShouldPersistTaps={'handled'}
             >
               <ContentContainer paddingHorizontal={20}>
-                <SelectDropdown
-                  data={tags || []}
-                  defaultValueByIndex={
-                    defaultTagIndex !== undefined && defaultTagIndex >= 0
-                      ? defaultTagIndex
-                      : undefined
-                  }
-                  onSelect={(selectedItem, _) => {
+                <TagSelector
+                  tags={tags || []}
+                  defaultIndex={defaultTagIndex}
+                  onSelect={selectedItem => {
                     const gallery: GalleryItem[] =
                       writingStory.gallery?.map(i => ({
                         ...i,
@@ -139,46 +97,6 @@ const StoryWritingPage = (): React.ReactElement => {
                       })) ?? [];
                     setWritingStory({ gallery });
                   }}
-                  renderButton={(selectedItem, isOpened) => {
-                    return (
-                      <ContentContainer
-                        gap={8}
-                        style={{
-                          height: 24,
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          alignSelf: 'flex-start',
-                        }}
-                      >
-                        <Title
-                          color={
-                            selectedItem && selectedItem.label
-                              ? Color.GREY_700
-                              : Color.GREY_400
-                          }
-                        >
-                          {(selectedItem && selectedItem.label) || '나이대'}
-                        </Title>
-                        <SvgIcon
-                          name={isOpened ? 'chevronUp' : 'chevronDown'}
-                        />
-                      </ContentContainer>
-                    );
-                  }}
-                  dropdownStyle={{
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: 2,
-                    width: 70,
-                  }}
-                  dropdownOverlayColor={'transparent'}
-                  renderItem={(item, _index, _isSelected) => {
-                    return (
-                      <ContentContainer withContentPadding gap={8}>
-                        <Title color={Color.GREY_700}>{item.label}</Title>
-                      </ContentContainer>
-                    );
-                  }}
-                  showsVerticalScrollIndicator={false}
                 />
               </ContentContainer>
 

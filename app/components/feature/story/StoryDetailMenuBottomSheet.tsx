@@ -22,6 +22,7 @@ import { showToast } from '../../ui/feedback/Toast.tsx';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import { getFormattedDateTime } from '../../../utils/date-formatter.util.ts';
 import Share from 'react-native-share';
+import { StoryNavigationService } from '../../../services/story/story-navigation.service';
 
 type Props = {
   type: 'story' | 'photo';
@@ -34,8 +35,6 @@ export const StoryDetailMenuBottomSheet = ({
 }: Props): React.ReactElement => {
   const openModal = useUIStore(state => state.openDetailBottomSheet);
   const setOpenModal = useUIStore(state => state.setOpenDetailBottomSheet);
-  const setWritingStory = useStoryStore(state => state.setWritingStory);
-  const setEditStoryKey = useStoryStore(state => state.setSelectedStoryKey);
 
   const navigation = useNavigation<BasicNavigationProps>();
   const isStory = type === 'story';
@@ -46,25 +45,8 @@ export const StoryDetailMenuBottomSheet = ({
   const [deleteGallery] = useDeleteGallery({ galleryId: gallery.id });
 
   const onEditStory = () => {
-    setWritingStory({
-      title: gallery.story?.title ?? '',
-      content: gallery.story?.content ?? '',
-      date: gallery.story?.date ? new Date(gallery.story?.date) : new Date(),
-      gallery: [{ id: gallery.id, uri: gallery.url, tagKey: gallery.tag.key }],
-      voice:
-        gallery.story?.audios && gallery.story?.audios.length > 0
-          ? gallery.story?.audios[0]
-          : '',
-    });
-
-    setEditStoryKey(gallery.story?.id ?? '');
+    StoryNavigationService.navigateToEdit(navigation, gallery);
     setOpenModal(false);
-    navigation.navigate('App', {
-      screen: 'StoryWritingNavigator',
-      params: {
-        screen: 'StoryWritingMain',
-      },
-    });
   };
   const onDeleteStory = () => {
     //TODO 이야기 삭제 확인

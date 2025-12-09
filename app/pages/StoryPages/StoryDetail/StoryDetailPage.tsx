@@ -24,6 +24,8 @@ import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 import { Divider } from '../../../components/ui/base/Divider';
 import { useImageDimensions } from '../../../hooks/useImageDimensions';
 import { calculateOptimalCarouselHeight } from '../../../utils/carousel-dimension.util';
+import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
+import { StoryNavigationService } from '../../../services/story/story-navigation.service';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks
@@ -37,8 +39,7 @@ const StoryDetailPage = (): React.ReactElement => {
     setCurrentGalleryIndex: setAllGalleryIndex,
   } = useSelectionStore();
   const allGallery = useMediaStore(state => state.gallery);
-  const { resetWritingStory, setWritingStory, resetSelectedStoryKey } =
-    useStoryStore();
+  const { resetWritingStory } = useStoryStore();
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -63,18 +64,11 @@ const StoryDetailPage = (): React.ReactElement => {
   );
 
   // 전체 갤러리 인덱스를 필터링된 갤러리 인덱스로 변환
-  const filteredIndex = useMemo(() => {
-    if (filteredGallery.length === 0) {
-      return 0;
-    }
-    const currentItem = allGallery[allGalleryIndex];
-    const idx =
-      currentItem && currentItem.tag?.key !== 'AI_PHOTO'
-        ? filteredGallery.findIndex(item => item.id === currentItem.id)
-        : -1;
-    const safeIdx = idx < 0 ? 0 : idx;
-    return Math.min(safeIdx, filteredGallery.length - 1);
-  }, [allGallery, filteredGallery, allGalleryIndex]);
+  const filteredIndex = useGalleryIndexMapping(
+    allGallery,
+    filteredGallery,
+    allGalleryIndex,
+  );
 
   // Derived value or local variables
   const currentGalleryItem = filteredGallery[filteredIndex];
@@ -126,26 +120,12 @@ const StoryDetailPage = (): React.ReactElement => {
       return;
     }
 
-    resetSelectedStoryKey();
     const dimensions = imageDimensions[filteredIndex];
-    setWritingStory({
-      gallery: [
-        {
-          id: currentGalleryItem.id,
-          uri: currentGalleryItem.url,
-          tagKey: currentGalleryItem.tag.key,
-          width: dimensions?.width,
-          height: dimensions?.height,
-        },
-      ],
-      date: currentGalleryItem.story?.date,
-    });
-    navigation.navigate('App', {
-      screen: 'StoryWritingNavigator',
-      params: {
-        screen: 'StoryWritingMain',
-      },
-    });
+    StoryNavigationService.navigateToWrite(
+      navigation,
+      currentGalleryItem,
+      dimensions,
+    );
   };
 
   const openPinchZoomModal = (img: string) => {
