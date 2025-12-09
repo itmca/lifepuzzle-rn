@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -51,20 +51,21 @@ const StoryWritingPage = (): React.ReactElement => {
 
   const galleryItem = writingStory.gallery?.[0];
 
+  // Memoize image source to prevent infinite re-renders in useSingleImageDimension
+  const imageSource = useMemo(() => {
+    if (!galleryItem) return null;
+    return {
+      uri: galleryItem.uri,
+      width: galleryItem.width,
+      height: galleryItem.height,
+    };
+  }, [galleryItem?.uri, galleryItem?.width, galleryItem?.height]);
+
   // Load image dimensions using custom hook
-  const loadedDimension = useSingleImageDimension(
-    galleryItem
-      ? {
-          uri: galleryItem.uri,
-          width: galleryItem.width,
-          height: galleryItem.height,
-        }
-      : null,
-    {
-      defaultWidth: CONTAINER_WIDTH_STANDARD,
-      defaultHeight: MAX_CAROUSEL_HEIGHT,
-    },
-  );
+  const loadedDimension = useSingleImageDimension(imageSource, {
+    defaultWidth: CONTAINER_WIDTH_STANDARD,
+    defaultHeight: MAX_CAROUSEL_HEIGHT,
+  });
 
   // Calculate display dimensions from loaded dimensions
   const imageDimensions =
@@ -76,15 +77,33 @@ const StoryWritingPage = (): React.ReactElement => {
       MAX_CAROUSEL_HEIGHT,
     );
 
+  // Memoize age group calculations to prevent infinite re-renders
+  const currentAgeGroup = useMemo(() => {
+    return galleryItem ? ageGroups?.[galleryItem.tagKey] : undefined;
+  }, [galleryItem?.tagKey, ageGroups]);
+
+  const ageGroupStartDate = useMemo(() => {
+    return currentAgeGroup
+      ? new Date(currentAgeGroup.startYear, 0, 1)
+      : undefined;
+  }, [currentAgeGroup]);
+
+  const ageGroupEndDate = useMemo(() => {
+    return currentAgeGroup
+      ? new Date(currentAgeGroup.endYear, 11, 31)
+      : undefined;
+  }, [currentAgeGroup]);
+
+  // Find the index of the current tag for default selection
+  const defaultTagIndex = useMemo(() => {
+    if (!galleryItem || !tags) return undefined;
+    return tags.findIndex(tag => tag.key === galleryItem.tagKey);
+  }, [galleryItem?.tagKey, tags]);
+
   // Early return after all hooks
   if (!galleryItem) {
     return <></>;
   }
-  const currentAgeGroup = ageGroups?.[galleryItem.tagKey];
-  const ageGroupStartDate =
-    currentAgeGroup && new Date(Date.UTC(currentAgeGroup.startYear, 0, 1));
-  const ageGroupEndDate =
-    currentAgeGroup && new Date(Date.UTC(currentAgeGroup.endYear, 11, 31));
 
   return (
     <LoadingContainer isLoading={isStoryUploading}>
@@ -107,6 +126,11 @@ const StoryWritingPage = (): React.ReactElement => {
               <ContentContainer paddingHorizontal={20}>
                 <SelectDropdown
                   data={tags || []}
+                  defaultValueByIndex={
+                    defaultTagIndex !== undefined && defaultTagIndex >= 0
+                      ? defaultTagIndex
+                      : undefined
+                  }
                   onSelect={(selectedItem, _) => {
                     const gallery: GalleryItem[] =
                       writingStory.gallery?.map(i => ({
@@ -256,7 +280,7 @@ const StoryWritingPage = (): React.ReactElement => {
                 <StoryDateInput
                   startDate={ageGroupStartDate}
                   endDate={ageGroupEndDate}
-                  value={''}
+                  value={writingStory.date || ageGroupStartDate}
                   onChange={(date: Date) => {
                     setWritingStory({ date });
                   }}

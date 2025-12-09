@@ -138,6 +138,7 @@ const StoryDetailPage = (): React.ReactElement => {
           height: dimensions?.height,
         },
       ],
+      date: currentGalleryItem.story?.date,
     });
     navigation.navigate('App', {
       screen: 'StoryWritingNavigator',
