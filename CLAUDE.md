@@ -181,11 +181,53 @@ logger.error('...'); // 항상
 3. 성능 고려 (useMemo, useCallback 적절히 활용)
 4. 접근성 및 UX 일관성
 
+### Container 사용
+
+**계층 구조**
+
+```
+PageContainer (최상위)
+└── ScrollContainer (스크롤 필요시)
+    └── ContentContainer (레이아웃)
+```
+
+**기본 사용 패턴**
+
+```typescript
+// 기본 페이지
+<PageContainer isLoading={isLoading}>
+  <ContentContainer withScreenPadding>
+    {/* 내용 */}
+  </ContentContainer>
+</PageContainer>
+
+// 스크롤 페이지
+<PageContainer isLoading={isLoading}>
+  <ScrollContainer>
+    <ContentContainer withScreenPadding>
+      {/* 내용 */}
+    </ContentContainer>
+  </ScrollContainer>
+</PageContainer>
+
+// 폼 페이지 (키보드 처리)
+<PageContainer isLoading={isLoading}>
+  <ScrollContainer keyboardAware>
+    <ContentContainer withScreenPadding>
+      <TextInput />
+    </ContentContainer>
+  </ScrollContainer>
+</PageContainer>
+```
+
+자세한 내용: [Container Guidelines](./docs/CONTAINER.md)
+
 ## 문서 참조
 
 - [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트 구조
 - [Naming](./docs/NAMING.md): 파일명, 변수명, 타입 네이밍
 - [Folder Structure](./docs/FOLDER_STRUCTURE.md): 페이지 그룹핑, 컴포넌트 배치
+- [Container](./docs/CONTAINER.md): Container 계층 구조 및 사용 가이드
 - [Navigation](./docs/NAVIGATION.md): 네비게이션 사용 가이드, 매직 스트링 vs 상수
 - [Services](./docs/SERVICES.md): 서비스 레이어 가이드, 객체 네임스페이스 vs 클래스
 - [Git Workflow](./docs/GIT_WORKFLOW.md): 브랜치 전략, 상세 커밋 가이드

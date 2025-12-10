@@ -6,9 +6,8 @@ import { Platform } from 'react-native';
 import KaKaoSocialLoginButton from './components/KaKaoSocialLoginButton';
 import AppleSocialLoginButton from './components/AppleSocialLoginButton';
 import OtherLoginButton from '../../../components/feature/auth/OtherLoginButton.tsx';
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
-import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { BodyTextM } from '../../../components/ui/base/TextBase';
 import { Color } from '../../../constants/color.constant.ts';
 
@@ -17,55 +16,57 @@ const LoginMainPage = (): React.ReactElement => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <LoadingContainer isLoading={loading}>
-      <ScreenContainer edges={['left', 'right', 'bottom']} gap={0}>
+    <PageContainer
+      edges={['left', 'right', 'bottom']}
+      gap={0}
+      isLoading={loading}
+    >
+      <ContentContainer
+        withScreenPadding
+        justifyContent={'flex-end'}
+        height={'100%'}
+        gap={0}
+      >
+        {/* Top Part */}
         <ContentContainer
-          withScreenPadding
-          justifyContent={'flex-end'}
-          height={'100%'}
-          gap={0}
+          paddingTop={40}
+          expandToEnd
+          gap={80}
+          justifyContent={'flex-start'}
         >
-          {/* Top Part */}
-          <ContentContainer
-            paddingTop={40}
-            expandToEnd
-            gap={80}
-            justifyContent={'flex-start'}
-          >
-            <ContentContainer>
-              <LoginMainText />
-            </ContentContainer>
-            <ContentContainer alignCenter>
-              <LoginMainIcon />
-            </ContentContainer>
+          <ContentContainer>
+            <LoginMainText />
           </ContentContainer>
-          {/* Login Button & Contact Part */}
-          <ContentContainer
-            gap={40}
-            alignCenter
-            showOverflow
-            justifyContent={'flex-end'}
-          >
-            <ContentContainer>
-              <ContentContainer gap={12} alignCenter>
-                <KaKaoSocialLoginButton onChangeLoading={setLoading} />
-                {Platform.OS === 'ios' && (
-                  <AppleSocialLoginButton onChangeLoading={setLoading} />
-                )}
-                <ContentContainer paddingTop={8}>
-                  <OtherLoginButton />
-                </ContentContainer>
-              </ContentContainer>
-            </ContentContainer>
-            <ContentContainer alignCenter>
-              <BodyTextM color={Color.GREY_400}>
-                문의: lord1229@gmail.com
-              </BodyTextM>
-            </ContentContainer>
+          <ContentContainer alignCenter>
+            <LoginMainIcon />
           </ContentContainer>
         </ContentContainer>
-      </ScreenContainer>
-    </LoadingContainer>
+        {/* Login Button & Contact Part */}
+        <ContentContainer
+          gap={40}
+          alignCenter
+          showOverflow
+          justifyContent={'flex-end'}
+        >
+          <ContentContainer>
+            <ContentContainer gap={12} alignCenter>
+              <KaKaoSocialLoginButton onChangeLoading={setLoading} />
+              {Platform.OS === 'ios' && (
+                <AppleSocialLoginButton onChangeLoading={setLoading} />
+              )}
+              <ContentContainer paddingTop={8}>
+                <OtherLoginButton />
+              </ContentContainer>
+            </ContentContainer>
+          </ContentContainer>
+          <ContentContainer alignCenter>
+            <BodyTextM color={Color.GREY_400}>
+              문의: lord1229@gmail.com
+            </BodyTextM>
+          </ContentContainer>
+        </ContentContainer>
+      </ContentContainer>
+    </PageContainer>
   );
 };
 

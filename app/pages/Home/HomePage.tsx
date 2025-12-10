@@ -13,8 +13,7 @@ import { useUIStore } from '../../stores/ui.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { useShareStore } from '../../stores/share.store';
 import { BasicNavigationProps } from '../../navigation/types.tsx';
-import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
-import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
+import { PageContainer } from '../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
 import { ApiErrorFallback } from '../../components/ui/feedback/ApiErrorFallback';
 import { useHeroPhotos } from '../../services/gallery/gallery.query.hook.ts';
@@ -25,6 +24,7 @@ import HeroSection from './components/hero/HeroSection.tsx';
 import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx';
 import { GalleryType } from '../../types/core/media.type.ts';
 import { useAuthStore } from '../../stores/auth.store';
+import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
 
 const HomePage = (): React.ReactElement => {
   // React hooks
@@ -236,40 +236,39 @@ const HomePage = (): React.ReactElement => {
   }
 
   return (
-    <LoadingContainer isLoading={isLoading || isGalleryUploading}>
-      <ScreenContainer
-        gap={0}
-        alignItems="stretch"
-        edges={['left', 'right', 'bottom']}
-      >
-        <ContentContainer flex={1} gap={12}>
-          {/* 상단 프로필 영역 */}
-          <HeroSection
-            onSharePress={handleHeroSharePress}
-            isCollapsed={isHeroCollapsed}
+    <PageContainer
+      gap={0}
+      alignItems="stretch"
+      edges={['left', 'right', 'bottom']}
+      isLoading={isLoading || isGalleryUploading}
+    >
+      <ContentContainer flex={1} gap={12}>
+        {/* 상단 프로필 영역 */}
+        <HeroSection
+          onSharePress={handleHeroSharePress}
+          isCollapsed={isHeroCollapsed}
+        />
+
+        {/* 중간 사진 영역 */}
+        <ContentContainer flex={1}>
+          <Gallery
+            ageGroups={galleryAgeGroups}
+            tags={galleryTags}
+            isError={isError}
+            hasInitialData={hasInitialData}
+            onRetry={handleRefetch}
+            onScrollYChange={handleGalleryScrollYChange}
+            isRefreshing={isRefreshing}
+            onRefresh={handlePullToRefresh}
+            onItemPress={handleGalleryItemPress}
           />
-
-          {/* 중간 사진 영역 */}
-          <ContentContainer flex={1}>
-            <Gallery
-              ageGroups={galleryAgeGroups}
-              tags={galleryTags}
-              isError={isError}
-              hasInitialData={hasInitialData}
-              onRetry={handleRefetch}
-              onScrollYChange={handleGalleryScrollYChange}
-              isRefreshing={isRefreshing}
-              onRefresh={handlePullToRefresh}
-              onItemPress={handleGalleryItemPress}
-            />
-          </ContentContainer>
         </ContentContainer>
+      </ContentContainer>
 
-        {/* 하단 버튼 영역 */}
-        {hero && hero.auth !== 'VIEWER' && (
-          <GalleryBottomButton onPress={handleGalleryButtonPress} />
-        )}
-      </ScreenContainer>
+      {/* 하단 버튼 영역 */}
+      {hero && hero.auth !== 'VIEWER' && (
+        <GalleryBottomButton onPress={handleGalleryButtonPress} />
+      )}
 
       {/* 바텀 시트 영역 */}
       <BottomSheetSection
@@ -283,7 +282,7 @@ const HomePage = (): React.ReactElement => {
         onSubmitGallery={submitGallery}
         onRefetch={handleRefetch}
       />
-    </LoadingContainer>
+    </PageContainer>
   );
 };
 

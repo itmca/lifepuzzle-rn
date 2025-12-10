@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import StoryDateInput from './StoryDateInput.tsx';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
+import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { useIsStoryUploading } from '../../../services/story/story.write.hook.ts';
 
 import { Color } from '../../../constants/color.constant.ts';
@@ -62,16 +62,15 @@ const StoryWritingPage = (): React.ReactElement => {
   }
 
   return (
-    <LoadingContainer isLoading={isStoryUploading}>
+    <PageContainer isLoading={isStoryUploading}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ContentContainer height={'100%'} paddingBottom={15}>
-          <KeyboardAwareScrollView
+          <ScrollContainer
+            keyboardAware
             contentContainerStyle={{
               flexGrow: 1,
               paddingTop: 15,
             }}
-            keyboardShouldPersistTaps={'handled'}
-            bottomOffset={20}
           >
             <ContentContainer paddingHorizontal={20}>
               <TagSelector
@@ -192,7 +191,7 @@ const StoryWritingPage = (): React.ReactElement => {
                 }}
               />
             </ContentContainer>
-          </KeyboardAwareScrollView>
+          </ScrollContainer>
         </ContentContainer>
       </TouchableWithoutFeedback>
       <VoiceBottomSheet
@@ -202,7 +201,7 @@ const StoryWritingPage = (): React.ReactElement => {
           setOpenModal(false);
         }}
       />
-    </LoadingContainer>
+    </PageContainer>
   );
 };
 

@@ -6,7 +6,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { BodyTextB } from '../../../components/ui/base/TextBase';
 
@@ -182,7 +182,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
   };
 
   return (
-    <LoadingContainer
+    <PageContainer
       isLoading={isLoading || facebookLoading || isGalleryUploading}
     >
       <ContentContainer flex={1} paddingTop={16}>
@@ -223,7 +223,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
           state={state}
         />
       </ContentContainer>
-    </LoadingContainer>
+    </PageContainer>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
 import { StoryItemContents } from '../../../components/feature/story/StoryItemContents.tsx';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -180,52 +179,50 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   }, [filteredGallery.length, navigation]);
   return (
-    <LoadingContainer isLoading={false}>
-      <ScreenContainer edges={['left', 'right', 'bottom']}>
-        <ScrollContentContainer gap={0}>
-          <ContentContainer paddingHorizontal={20} paddingTop={20}>
-            {currentGalleryItem && (
-              <Title color={Color.GREY_700}>
-                {`${currentGalleryItem.tag?.label ?? ''}(${filteredGallery.length})`}
-              </Title>
+    <PageContainer edges={['left', 'right', 'bottom']} isLoading={false}>
+      <ScrollContentContainer gap={0}>
+        <ContentContainer paddingHorizontal={20} paddingTop={20}>
+          {currentGalleryItem && (
+            <Title color={Color.GREY_700}>
+              {`${currentGalleryItem.tag?.label ?? ''}(${filteredGallery.length})`}
+            </Title>
+          )}
+        </ContentContainer>
+        <ContentContainer paddingVertical={4}>
+          <MediaCarousel
+            key={`carousel-${filteredGallery.length}-${filteredGallery[0]?.id ?? 'empty'}`}
+            data={carouselData}
+            activeIndex={filteredIndex}
+            carouselWidth={CAROUSEL_WIDTH_FULL}
+            carouselMaxHeight={optimalCarouselHeight}
+            onScroll={handleIndexChange}
+            onPress={openPinchZoomModal}
+          />
+        </ContentContainer>
+        <ContentContainer
+          paddingHorizontal={20}
+          paddingTop={4}
+          flex={1}
+          expandToEnd
+          gap={0}
+        >
+          <Divider marginVertical={0} paddingHorizontal={16} height={3} />
+          <ContentContainer paddingTop={24}>
+            {currentGalleryItem?.story ? (
+              <StoryItemContents story={currentGalleryItem.story} />
+            ) : (
+              <>
+                <Title color={Color.GREY_400}>
+                  사진에 담겨있는 당신의 이야기를 작성해 주세요
+                </Title>
+                <ContentContainer alignCenter paddingTop={36}>
+                  <StoryWritingButton onPress={onClickWrite} />
+                </ContentContainer>
+              </>
             )}
           </ContentContainer>
-          <ContentContainer paddingVertical={4}>
-            <MediaCarousel
-              key={`carousel-${filteredGallery.length}-${filteredGallery[0]?.id ?? 'empty'}`}
-              data={carouselData}
-              activeIndex={filteredIndex}
-              carouselWidth={CAROUSEL_WIDTH_FULL}
-              carouselMaxHeight={optimalCarouselHeight}
-              onScroll={handleIndexChange}
-              onPress={openPinchZoomModal}
-            />
-          </ContentContainer>
-          <ContentContainer
-            paddingHorizontal={20}
-            paddingTop={4}
-            flex={1}
-            expandToEnd
-            gap={0}
-          >
-            <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-            <ContentContainer paddingTop={24}>
-              {currentGalleryItem?.story ? (
-                <StoryItemContents story={currentGalleryItem.story} />
-              ) : (
-                <>
-                  <Title color={Color.GREY_400}>
-                    사진에 담겨있는 당신의 이야기를 작성해 주세요
-                  </Title>
-                  <ContentContainer alignCenter paddingTop={36}>
-                    <StoryWritingButton onPress={onClickWrite} />
-                  </ContentContainer>
-                </>
-              )}
-            </ContentContainer>
-          </ContentContainer>
-        </ScrollContentContainer>
-      </ScreenContainer>
+        </ContentContainer>
+      </ScrollContentContainer>
 
       {currentGalleryItem && (
         <StoryDetailMenuBottomSheet
@@ -238,7 +235,7 @@ const StoryDetailPage = (): React.ReactElement => {
         imageUri={pinchZoomImage}
         onClose={() => setPinchZoomModalOpen(false)}
       />
-    </LoadingContainer>
+    </PageContainer>
   );
 };
 export default StoryDetailPage;

@@ -12,7 +12,7 @@ import PageIndicator from '../../components/ui/display/PageIndicator';
 import { BasicButton } from '../../components/ui/form/Button';
 import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
 import { Color } from '../../constants/color.constant.ts';
-import { ScreenContainer } from '../../components/ui/layout/ScreenContainer';
+import { PageContainer } from '../../components/ui/layout/PageContainer';
 import { LocalStorage } from '../../services/core/local-storage.service.ts';
 
 const DeviceWidth = Dimensions.get('window').width;
@@ -89,7 +89,7 @@ const OnboardingPage = ({ navigation }: any) => {
   };
 
   return (
-    <ScreenContainer>
+    <PageContainer>
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -148,7 +148,7 @@ const OnboardingPage = ({ navigation }: any) => {
           )}
         </ContentContainer>
       </ContentContainer>
-    </ScreenContainer>
+    </PageContainer>
   );
 };
 
