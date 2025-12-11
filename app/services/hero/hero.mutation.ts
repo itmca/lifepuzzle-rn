@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuthMutation } from '../core/auth-mutation.hook';
-import { useUpdatePublisher } from '../common/update.hook';
+import { useUpdatePublisher } from '../common/cache-observer.hook';
 import { BasicNavigationProps } from '../../navigation/types';
 import { useHeroStore } from '../../stores/hero.store';
 import { useUIStore } from '../../stores/ui.store';

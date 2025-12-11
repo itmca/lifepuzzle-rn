@@ -18,10 +18,6 @@ export const performAuthenticatedRequest = async <TResponse>(
   const tokens = useAuthStore.getState().authTokens;
   const tokenState = getTokenState(tokens);
 
-  logger.debug(
-    `[auth-request] tokenState=${tokenState} for ${axiosConfig.url ?? ''}`,
-  );
-
   if (tokenState === 'Expire') {
     logout();
     throw new Error('Token expired');
@@ -66,10 +62,6 @@ export const performAuthenticatedRequest = async <TResponse>(
       ...axiosConfig.headers,
     },
   });
-
-  logger.debug(
-    `[auth-request] Requesting ${preparedConfig.method?.toUpperCase() || 'GET'} ${preparedConfig.url}`,
-  );
 
   return client.request<TResponse>(preparedConfig).then(r => r.data);
 };

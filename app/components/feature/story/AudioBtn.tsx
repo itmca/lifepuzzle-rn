@@ -63,9 +63,7 @@ export const AudioBtn = ({
       });
 
       listenersAttached.current = true;
-    } catch (error) {
-      logger.debug('Failed to attach sound listeners:', error);
-    }
+    } catch (error) {}
   }, [setPlayInfo]);
 
   const ensureSound = useCallback(() => {
@@ -85,7 +83,6 @@ export const AudioBtn = ({
         // dispose is available on Nitro HybridObjects
         (soundRef.current as any)?.dispose?.();
       } catch (error) {
-        logger.debug('Error cleaning up sound instance:', error);
       } finally {
         soundRef.current = null;
         listenersAttached.current = false;
@@ -102,7 +99,6 @@ export const AudioBtn = ({
       soundRef.current?.removePlayBackListener();
       soundRef.current?.removePlaybackEndListener();
     } catch (error) {
-      logger.debug('Error resetting sound instance:', error);
     } finally {
       listenersAttached.current = false;
     }

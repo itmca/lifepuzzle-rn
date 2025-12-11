@@ -72,7 +72,7 @@ const PhotoEditorPage = (): React.ReactElement => {
   const currentItem = editGalleryItems[galleryIndex];
   const isCurrentItemVideo = Boolean(
     currentItem?.node?.image?.playableDuration &&
-      currentItem.node.image.playableDuration > 0,
+    currentItem.node.image.playableDuration > 0,
   );
 
   const onCrop = async () => {
@@ -204,7 +204,6 @@ const PhotoEditorPage = (): React.ReactElement => {
   );
   const onContentContainerLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
-    // logger.debug('ContentContainer Height:', height);
     setContentContainerHeight(height);
   };
 

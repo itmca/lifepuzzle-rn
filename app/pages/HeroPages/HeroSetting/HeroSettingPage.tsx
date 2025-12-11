@@ -12,7 +12,7 @@ import {
   HeroWithPuzzleCntType,
 } from '../../../types/core/hero.type';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { useUpdateObserver } from '../../../services/common/update.hook.ts';
+import { useUpdateObserver } from '../../../services/common/cache-observer.hook.ts';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   BasicNavigationProps,

@@ -4,7 +4,7 @@ import { BasicNavigationProps } from '../../navigation/types';
 import { useAuthMutation } from '../core/auth-mutation.hook';
 import { showErrorToast, showToast } from '../../components/ui/feedback/Toast';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
-import { useUpdatePublisher } from '../common/update.hook';
+import { useUpdatePublisher } from '../common/cache-observer.hook';
 import {
   HookProps,
   UserAuthRequestBody,

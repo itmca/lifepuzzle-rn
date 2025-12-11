@@ -8,7 +8,7 @@ import { useHeroStore } from '../../stores/hero.store';
 import { useMediaStore } from '../../stores/media.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { useAuthMutation } from '../core/auth-mutation.hook';
-import { useUpdatePublisher } from '../common/update.hook';
+import { useUpdatePublisher } from '../common/cache-observer.hook';
 import { BasicNavigationProps } from '../../navigation/types';
 import { StoryPayloadService } from './story-payload.service';
 import { useAuthValidation } from '../auth/validation.hook';
