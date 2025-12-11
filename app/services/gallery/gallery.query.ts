@@ -6,7 +6,7 @@ import { useMediaStore } from '../../stores/media.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { toInternationalAge } from '../../utils/age-calculator.util';
 import { useAuthQuery } from '../core/auth-query.hook';
-import { useUpdateObserver } from '../common/update.hook';
+import { useUpdateObserver } from '../common/cache-observer.hook';
 import { queryKeys } from '../core/query-keys';
 import logger from '../../utils/logger.util';
 

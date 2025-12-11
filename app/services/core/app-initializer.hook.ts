@@ -3,7 +3,7 @@ import { useUserStore } from '../../stores/user.store.ts';
 import { UserType } from '../../types/core/user.type.ts';
 import { useEffect, useRef } from 'react';
 import { useHeroStore } from '../../stores/hero.store.ts';
-import { useUpdateObserver } from '../common/update.hook.ts';
+import { useUpdateObserver } from '../common/cache-observer.hook.ts';
 import { LocalStorage } from './local-storage.service.ts';
 import { getTokenState } from './auth.service.ts';
 import { HeroQueryResponse } from '../../types/hooks/hero-query.type.ts';

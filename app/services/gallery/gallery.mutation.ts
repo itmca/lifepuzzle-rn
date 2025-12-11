@@ -15,7 +15,7 @@ import {
   PresignedUrlDto,
 } from './gallery.api.service';
 import { useAuthMutation } from '../core/auth-mutation.hook';
-import { useUpdatePublisher } from '../common/update.hook';
+import { useUpdatePublisher } from '../common/cache-observer.hook';
 import { queryKeys } from '../core/query-keys';
 import logger from '../../utils/logger.util';
 import {

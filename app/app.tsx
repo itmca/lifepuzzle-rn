@@ -13,7 +13,7 @@ import React, { useEffect } from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { AppState } from 'react-native';
 import RootNavigator from './navigation/RootNavigator';
-import { useFetchLocalStorageUserHero } from './services/core/local-storage.hook';
+import { useFetchLocalStorageUserHero } from './services/core/app-initializer.hook';
 import { SecureStorage } from './services/core/secure-storage.service';
 import { useAuthStore } from './stores/auth.store';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
