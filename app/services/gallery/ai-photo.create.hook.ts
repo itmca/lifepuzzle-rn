@@ -1,4 +1,4 @@
-import { useAuthAxios } from '../core/auth-http.hook.ts';
+import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import { useNavigation } from '@react-navigation/native';
 
 import { BasicNavigationProps } from '../../navigation/types.tsx';
@@ -27,8 +27,8 @@ export const useCreateAiPhoto = (
 ): UseCreateAiPhotoReturn => {
   const navigation = useNavigation<BasicNavigationProps>();
   //TODO: 임시 API
-  const [isLoading, createAiPhoto] = useAuthAxios<AiPhotoCreateResponse>({
-    requestOption: {
+  const [isLoading, createAiPhoto] = useAuthMutation<AiPhotoCreateResponse>({
+    axiosConfig: {
       method: 'post',
       url: '/v1/ai/videos',
       data: {
@@ -37,7 +37,7 @@ export const useCreateAiPhoto = (
         drivingVideoId: request.drivingVideoId,
       },
     },
-    onResponseSuccess: _res => {
+    onSuccess: _res => {
       navigation.navigate('App', {
         screen: 'AiPhotoNavigator',
         params: {
@@ -49,12 +49,11 @@ export const useCreateAiPhoto = (
       logger.error('Failed to create AI photo', { error: err, request });
       showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
     },
-    disableInitialRequest: true,
   });
 
   const submit = function () {
     if (validate()) {
-      createAiPhoto({
+      void createAiPhoto({
         data: {
           heroId: request.heroId,
           galleryId: request.galleryId,
@@ -98,7 +97,7 @@ export const useCreateAiPhoto = (
 
   const submitWithParams = (params: AiPhotoCreateRequest) => {
     if (validateParams(params)) {
-      createAiPhoto({
+      void createAiPhoto({
         data: {
           heroId: params.heroId,
           galleryId: params.galleryId,

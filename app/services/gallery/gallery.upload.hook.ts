@@ -13,7 +13,7 @@ import {
   galleryApiService,
   PresignedUrlDto,
 } from './gallery.api.service.ts';
-import { useAuthAxios } from '../core/auth-http.hook.ts';
+import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import { useUpdatePublisher } from '../common/update.hook.ts';
 import { useUIStore } from '../../stores/ui.store.ts';
 import logger from '../../utils/logger.util';
@@ -68,7 +68,7 @@ export const useUploadGalleryV2 = (
         selectedGalleryItems: storeSelectedGalleryItems,
       };
 
-  const [_, setUploadItems] = useState<UploadItem[]>([]);
+  const [, setUploadItems] = useState<UploadItem[]>([]);
   const [progress, setProgress] = useState<UploadProgress>({
     total: 0,
     completed: 0,
@@ -77,14 +77,14 @@ export const useUploadGalleryV2 = (
     failed: 0,
   });
 
-  const [, requestPresignedUrls] = useAuthAxios<{
+  const [, requestPresignedUrls] = useAuthMutation<{
     presignedUrls: PresignedUrlDto[];
   }>({
-    requestOption: {
+    axiosConfig: {
       method: 'post',
       url: '/v1/galleries/presigned-urls',
     },
-    onResponseSuccess: response => {
+    onSuccess: response => {
       handlePresignedUrlsReceived(response.presignedUrls);
     },
     onError: err => {
@@ -92,15 +92,14 @@ export const useUploadGalleryV2 = (
       Alert.alert('업로드 준비에 실패했습니다. 재시도 부탁드립니다.');
       resetUpload();
     },
-    disableInitialRequest: true,
   });
 
-  const [, completeUpload] = useAuthAxios<void>({
-    requestOption: {
+  const [, completeUpload] = useAuthMutation<void>({
+    axiosConfig: {
       method: 'post',
       url: '/v1/galleries/upload-complete',
     },
-    onResponseSuccess: () => {
+    onSuccess: () => {
       if (!options?.request) {
         resetSelectedGalleryItems();
         CustomAlert.simpleAlert('업로드 되었습니다.');
@@ -119,7 +118,6 @@ export const useUploadGalleryV2 = (
       Alert.alert('업로드 완료 처리에 실패했습니다. 재시도 부탁드립니다.');
       resetUpload();
     },
-    disableInitialRequest: true,
   });
 
   const resetUpload = () => {
@@ -358,7 +356,7 @@ export const useUploadGalleryV2 = (
           .map(item => item.fileKey)
           .filter(Boolean) as string[];
 
-        completeUpload({ data: { fileKeys } });
+        void completeUpload({ data: { fileKeys } });
       } else {
         Alert.alert('업로드할 이미지가 없습니다.');
         resetUpload();
@@ -376,7 +374,7 @@ export const useUploadGalleryV2 = (
       contentType: 'image/jpeg',
     }));
 
-    requestPresignedUrls({
+    void requestPresignedUrls({
       data: {
         heroId: heroNo,
         ageGroup: selectedTag?.key || '',

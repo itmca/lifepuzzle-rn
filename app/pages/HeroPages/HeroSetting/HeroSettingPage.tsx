@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 
 import { TouchableOpacity, useWindowDimensions } from 'react-native';
-import { useAuthAxios } from '../../../services/core/auth-http.hook';
 import {
   HeroUserType,
   HeroWithPuzzleCntType,
@@ -49,6 +48,8 @@ import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { SvgIcon } from '../../../components/ui/display/SvgIcon';
 import { HeroAuthUpdateBottomSheet } from './HeroAuthUpdateBottomSheet.tsx';
 import { useUserStore } from '../../../stores/user.store';
+import { useAuthQuery } from '../../../services/core/auth-query.hook.ts';
+import { useAuthMutation } from '../../../services/core/auth-mutation.hook.ts';
 
 const HeroSettingPage = (): React.ReactElement => {
   // Refs
@@ -81,39 +82,38 @@ const HeroSettingPage = (): React.ReactElement => {
   // Custom hooks
   const heroUpdateObserver = useUpdateObserver('heroUpdate');
 
-  const [_, updateRecentHero] = useAuthAxios<void>({
-    requestOption: {
+  const [, updateRecentHero] = useAuthMutation<void>({
+    axiosConfig: {
       method: 'POST',
       url: '/v1/users/hero/recent',
     },
-    onResponseSuccess: () => {},
-    disableInitialRequest: true,
   });
 
-  const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
-    requestOption: {
-      url: '/v1/heroes',
-    },
-    onResponseSuccess: res => {
-      let resHeroes = res.heroes.map((item: any) => ({
-        ...item.hero,
-        puzzleCount: item.puzzleCnt,
-        users: item.users,
-      }));
-      setHeroes(resHeroes);
-      setDisplayHeroes(resHeroes);
-      setFocusedHero(resHeroes[0]);
-    },
-    onError: error => {
-      // TODO: 에러 처리
-    },
-    disableInitialRequest: false,
-  });
+  const { isFetching: isLoading, refetch: fetchHeroes } =
+    useAuthQuery<HeroesQueryResponse>({
+      queryKey: ['heroes'],
+      axiosConfig: {
+        url: '/v1/heroes',
+      },
+      onSuccess: res => {
+        let resHeroes = res.heroes.map((item: any) => ({
+          ...item.hero,
+          puzzleCount: item.puzzleCnt,
+          users: item.users,
+        }));
+        setHeroes(resHeroes);
+        setDisplayHeroes(resHeroes);
+        setFocusedHero(resHeroes[0]);
+      },
+      onError: error => {
+        // TODO: 에러 처리
+      },
+    });
 
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,
     onRegisterSuccess: () => {
-      fetchHeroes({});
+      void fetchHeroes();
       showToast('주인공을 추가하였습니다.');
 
       if (carouselRef && carouselRef.current) {
@@ -125,8 +125,8 @@ const HeroSettingPage = (): React.ReactElement => {
 
   // Side effects
   useEffect(() => {
-    fetchHeroes({});
-  }, [heroUpdateObserver]);
+    void fetchHeroes();
+  }, [fetchHeroes, heroUpdateObserver]);
 
   useEffect(() => {
     if (!currentHero) return;
@@ -267,7 +267,7 @@ const HeroSettingPage = (): React.ReactElement => {
                 <BasicButton
                   onPress={() => {
                     setCurrentHero(focusedHero);
-                    updateRecentHero({
+                    void updateRecentHero({
                       data: {
                         heroNo: focusedHero.id,
                       },

@@ -77,26 +77,18 @@ const HomePage = (): React.ReactElement => {
 
   const handleRefetch = useCallback(() => {
     if (refetch && hero?.id && hero.id >= 0) {
-      refetch({
-        params: {
-          heroNo: hero.id,
-        },
-      });
+      refetch();
     }
-  }, [refetch, hero?.id]);
+  }, [hero?.id, refetch]);
 
   const handlePullToRefresh = useCallback(() => {
     if (!isRefreshing && scrollY <= 0) {
       setIsRefreshing(true);
       if (refetch && hero?.id && hero.id >= 0) {
-        refetch({
-          params: {
-            heroNo: hero.id,
-          },
-        });
+        refetch();
       }
     }
-  }, [refetch, hero?.id, isRefreshing, scrollY]);
+  }, [hero?.id, isRefreshing, refetch, scrollY]);
 
   const handleGalleryItemPress = useCallback(
     (galleryItem: GalleryType) => {

@@ -19,7 +19,7 @@ import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Color } from '../../../constants/color.constant.ts';
 import { Divider } from '../../../components/ui/base/Divider';
-import { useAxios } from '../../../services/core/auth-http.hook.ts';
+import { useHttpMutation } from '../../../services/core/http-mutation.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 
 const RegisterPage = (): React.ReactElement => {
@@ -48,12 +48,12 @@ const RegisterPage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const [registerLoading, register] = useAxios({
-    requestOption: {
+  const [registerLoading, register] = useHttpMutation({
+    axiosConfig: {
       url: '/v1/users',
       method: 'post',
     },
-    onResponseSuccess: () => {
+    onSuccess: () => {
       resetShare();
       Alert.alert(
         '회원가입이 완료되었습니다.',
@@ -81,15 +81,14 @@ const RegisterPage = (): React.ReactElement => {
       logger.debug('Register error:', err);
       Alert.alert('회원가입에 실패했습니다.');
     },
-    disableInitialRequest: true,
   });
 
-  const [_, idDupcheck] = useAxios<{ isDuplicated: boolean }>({
-    requestOption: {
+  const [, idDupcheck] = useHttpMutation<{ isDuplicated: boolean }>({
+    axiosConfig: {
       url: '/v1/users/dupcheck/id',
       method: 'get',
     },
-    onResponseSuccess: ({ isDuplicated }) => {
+    onSuccess: ({ isDuplicated }) => {
       if (isDuplicated) {
         Alert.alert('이미 존재하는 아이디입니다.');
       }
@@ -99,7 +98,6 @@ const RegisterPage = (): React.ReactElement => {
       logger.debug('ID dupcheck error:', err);
       Alert.alert('아이디 중복 확인에 실패했습니다.');
     },
-    disableInitialRequest: true,
   });
 
   // Memoized 값

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../navigation/types.tsx';
-import { useAuthAxios } from '../core/auth-http.hook.ts';
+import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import {
   showErrorToast,
   showToast,
@@ -30,13 +30,13 @@ export const useUserProfileUpdate = ({
   const { validateNickname } = useFieldValidation();
   const { handleUpdateError, showSuccessToast } = useErrorHandler();
 
-  const [isUpdating, update] = useAuthAxios<void>({
-    requestOption: {
+  const [isUpdating, update] = useAuthMutation<void>({
+    axiosConfig: {
       method: 'PUT',
       url: `/v1/users/${String(writingUser?.id)}`,
       headers: { 'Content-Type': 'multipart/form-data' },
     },
-    onResponseSuccess: () => {
+    onSuccess: () => {
       showSuccessToast('성공적으로 저장되었습니다.');
       publishUserUpdate();
       onSuccess && onSuccess();
@@ -44,7 +44,7 @@ export const useUserProfileUpdate = ({
     onError: () => {
       handleUpdateError(
         '회원 정보',
-        () => httpPayload && update({ data: httpPayload }),
+        () => httpPayload && void update({ data: httpPayload }),
         () => {
           resetWritingUser();
           if (navigation.canGoBack()) {
@@ -53,7 +53,6 @@ export const useUserProfileUpdate = ({
         },
       );
     },
-    disableInitialRequest: true,
   });
 
   function validate(): boolean {
@@ -66,7 +65,7 @@ export const useUserProfileUpdate = ({
         return;
       }
 
-      httpPayload && update({ data: httpPayload });
+      httpPayload && void update({ data: httpPayload });
     },
     isUpdating,
   ];
@@ -75,25 +74,24 @@ export const useUserProfileUpdate = ({
 export const useUserAuthUpdate = ({
   onSuccess,
 }: HookProps): [(body: UserAuthRequestBody) => void, boolean] => {
-  const [isUpdating, update] = useAuthAxios<void>({
-    requestOption: {
+  const [isUpdating, update] = useAuthMutation<void>({
+    axiosConfig: {
       method: 'PUT',
       url: '/v1/heroes/auth',
       headers: { 'Content-Type': 'application/json' },
     },
-    onResponseSuccess: () => {
+    onSuccess: () => {
       showToast('권한 수정되었습니다.');
       onSuccess && onSuccess();
     },
     onError: () => {
       showErrorToast('권한 수정에 실패했습니다');
     },
-    disableInitialRequest: true,
   });
 
   return [
     (body: UserAuthRequestBody) => {
-      update({ data: body });
+      void update({ data: body });
     },
     isUpdating,
   ];
