@@ -15,7 +15,7 @@ import MediaCarouselPagination from './MediaCarouselPagination';
 import { AiPhotoButton } from '../ai/AiPhotoButton';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { useNavigation } from '@react-navigation/native';
-import { useCreateAiPhoto } from '../../../services/gallery/ai-photo.create.hook';
+import { useCreateAiPhoto } from '../../../services/gallery/gallery.mutation';
 import { useImagePreloader } from '../../../hooks/useImagePreloader';
 
 type Props = {
@@ -64,7 +64,7 @@ const MediaCarouselComponent = ({
   );
 
   // Custom hooks
-  const { submitWithErrorHandling: createAiPhoto } = useCreateAiPhoto({
+  const { createAiPhotoWithErrorHandling: createAiPhoto } = useCreateAiPhoto({
     heroId: heroNo || 0,
     galleryId: galleryId || 0,
     drivingVideoId: drivingVideoId || 0,

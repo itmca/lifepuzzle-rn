@@ -10,7 +10,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { BasicCard } from '../../../components/ui/display/Card';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
-import { useCreateHero } from '../../../services/hero/hero.create.hook.ts';
+import { useCreateHero } from '../../../services/hero/hero.mutation';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
@@ -26,7 +26,7 @@ const HeroRegisterPage = (): React.ReactElement => {
   const heroProfileImage = getHeroImageUri(writingHero);
 
   // Custom hooks
-  const [createHero, isLoading] = useCreateHero();
+  const { createHero, isPending: isLoading } = useCreateHero();
 
   // Custom functions
   const navigateToSelectingPhoto = () => {

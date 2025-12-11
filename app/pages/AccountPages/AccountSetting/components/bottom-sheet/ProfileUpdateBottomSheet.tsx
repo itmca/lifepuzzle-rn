@@ -9,7 +9,7 @@ import { useUserStore } from '../../../../../stores/user.store';
 import { useCommonActionSheet } from '../../../../../components/ui/interaction/ActionSheet.tsx';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../../../navigation/types.tsx';
-import { useUserProfileUpdate } from '../../../../../services/user/user.update.hook.ts';
+import { useUpdateUserProfile } from '../../../../../services/user/user.mutation';
 import { LoadingContainer } from '../../../../../components/ui/feedback/LoadingContainer';
 
 type Props = {
@@ -39,9 +39,10 @@ export const ProfileUpdateBottomSheet = ({
     });
   }, [navigation]);
 
-  const [updateProfile, isProfileUpdating] = useUserProfileUpdate({
-    onSuccess: () => onSuccess && onSuccess(),
-  });
+  const { updateUserProfile: updateProfile, isPending: isProfileUpdating } =
+    useUpdateUserProfile({
+      onSuccess: () => onSuccess && onSuccess(),
+    });
 
   const handleRemoveProfilePhoto = useCallback(() => {
     setWritingUser({
