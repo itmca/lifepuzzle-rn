@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
-import { useAxios } from '../../../../services/core/auth-http.hook';
+import { useHttpMutation } from '../../../../services/core/http-mutation.hook.ts';
 import {
   LoginResponse,
   useLoginResponseHandler,
@@ -29,30 +29,32 @@ const KaKaoSocialLoginButton = ({
 
   const loginResponseHandler = useLoginResponseHandler();
 
-  const [_, kakaoLogin] = useAxios<LoginResponse>({
-    requestOption: {
+  const [isLoading, kakaoLogin] = useHttpMutation<LoginResponse>({
+    axiosConfig: {
       method: 'post',
       url: '/v1/auth/login/kakao',
       headers: {
         'kakao-access-token': kakaoAccessToken,
       },
     },
-    onResponseSuccess: loginResponseHandler,
+    onSuccess: loginResponseHandler,
     onError: err => {
       logger.debug('Kakao login error:', err);
       onChangeLoading(false);
       showErrorToast('카카오 로그인에 실패했습니다');
     },
-    onLoadingStatusChange: onChangeLoading,
-    disableInitialRequest: true,
   });
+
+  useEffect(() => {
+    onChangeLoading(isLoading);
+  }, [isLoading, onChangeLoading]);
 
   useEffect(() => {
     if (!kakaoAccessToken) {
       return;
     }
 
-    kakaoLogin({
+    void kakaoLogin({
       headers: {
         'kakao-access-token': kakaoAccessToken,
       },
@@ -60,7 +62,7 @@ const KaKaoSocialLoginButton = ({
         shareKey,
       },
     });
-  }, [kakaoAccessToken]);
+  }, [kakaoAccessToken, kakaoLogin, shareKey]);
 
   return (
     <BasicButton

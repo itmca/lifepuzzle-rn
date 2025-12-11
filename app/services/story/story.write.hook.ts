@@ -1,7 +1,7 @@
 import { useStoryStore } from '../../stores/story.store.ts';
 import { useUIStore } from '../../stores/ui.store.ts';
 import { useHeroStore } from '../../stores/hero.store.ts';
-import { useAuthAxios } from '../core/auth-http.hook.ts';
+import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import { useUpdatePublisher } from '../common/update.hook.ts';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../navigation/types.tsx';
@@ -81,8 +81,8 @@ export const useSaveStory = (): [() => void] => {
     updateGalleryStory(targetGalleryId, updatedStory);
   };
 
-  const [isLoading, saveStory] = useAuthAxios<any>({
-    requestOption: {
+  const [isLoading, saveStory] = useAuthMutation<any>({
+    axiosConfig: {
       method: editStoryKey ? 'put' : 'post',
       url: editStoryKey
         ? `/v3/galleries/stories/${editStoryKey}`
@@ -90,7 +90,7 @@ export const useSaveStory = (): [() => void] => {
       headers: { 'Content-Type': 'multipart/form-data' },
       timeout: 30_000, // speech to text 시 10~20초가 걸려 30초로 하며 관련 처리 시간 단축 시 timeout 조정 필요
     },
-    onResponseSuccess: ({ storyKey }) => {
+    onSuccess: ({ storyKey }) => {
       if (!editStoryKey) {
         setPostStoryKey(storyKey);
         setModalOpen(true);
@@ -108,7 +108,6 @@ export const useSaveStory = (): [() => void] => {
         : '이야기 등록에 실패했습니다. 재시도 부탁드립니다.';
       showSimpleAlert(errorMessage);
     },
-    disableInitialRequest: true,
   });
 
   useEffect(() => {
@@ -121,7 +120,7 @@ export const useSaveStory = (): [() => void] => {
       return;
     }
 
-    saveStory({
+    void saveStory({
       data: storyHttpPayLoad,
     });
   };

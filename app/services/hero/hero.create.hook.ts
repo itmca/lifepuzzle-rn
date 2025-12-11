@@ -4,7 +4,7 @@ import { useUpdatePublisher } from '../common/update.hook.ts';
 import { useCallback, useEffect } from 'react';
 import { useHeroStore } from '../../stores/hero.store.ts';
 import { useUIStore } from '../../stores/ui.store.ts';
-import { useAuthAxios } from '../core/auth-http.hook.ts';
+import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
 import { HeroPayloadService } from './hero-payload.service.ts';
 import {
@@ -28,13 +28,13 @@ export const useCreateHero = (): [() => void, boolean] => {
   const { validateLogin } = useAuthValidation();
   const { handleCreateError } = useErrorHandler();
 
-  const [isLoading, registerHero] = useAuthAxios({
-    requestOption: {
+  const [isLoading, registerHero] = useAuthMutation({
+    axiosConfig: {
       url: '/v1/heroes',
       method: 'post',
       headers: { 'Content-Type': 'multipart/form-data' },
     },
-    onResponseSuccess: () => {
+    onSuccess: () => {
       CustomAlert.actionAlert({
         title: '주인공 생성',
         desc: '주인공이 생성되었습니다.',
@@ -45,7 +45,6 @@ export const useCreateHero = (): [() => void, boolean] => {
     onError: () => {
       handleCreateError('주인공', submit, goBack);
     },
-    disableInitialRequest: true,
   });
 
   const goBack = useCallback(() => {
@@ -64,7 +63,7 @@ export const useCreateHero = (): [() => void, boolean] => {
   }, [isLoading, setHeroUploading]);
 
   const submit = useCallback(() => {
-    registerHero({
+    void registerHero({
       data: heroHttpPayLoad,
     });
   }, [registerHero]);

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useUserStore } from '../../../stores/user.store';
-import { useAuthAxios } from '../../../services/core/auth-http.hook';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -20,6 +19,7 @@ import { BasicButton } from '../../../components/ui/form/Button';
 import { useUserWithdraw } from '../../../services/user/user.withdraw.hook.ts';
 import { ProfileUpdateBottomSheet } from './components/bottom-sheet/ProfileUpdateBottomSheet.tsx';
 import { PasswordUpdateBottomSheet } from './components/bottom-sheet/PasswordUpdateBottomSheet.tsx';
+import { useAuthQuery } from '../../../services/core/auth-query.hook.ts';
 
 type AccountQueryResponse = {
   id: number;
@@ -39,15 +39,16 @@ const AccountSettingPage = (): React.ReactElement => {
   const { user, setWritingUser } = useUserStore();
 
   // Custom hooks
-  const [isUserLoading] = useAuthAxios<AccountQueryResponse>({
-    requestOption: {
+  const { isFetching: isUserLoading } = useAuthQuery<AccountQueryResponse>({
+    queryKey: ['user', user?.id],
+    axiosConfig: {
       url: `/v1/users/${String(user?.id)}`,
       method: 'GET',
     },
-    onResponseSuccess: responseUser => {
+    enabled: Boolean(user?.id),
+    onSuccess: responseUser => {
       setWritingUser({ ...responseUser, isProfileImageUpdate: false });
     },
-    disableInitialRequest: false,
   });
 
   const [withdraw, isWithdrawing] = useUserWithdraw();

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-import { useAxios } from '../../../../services/core/auth-http.hook';
+import { useHttpMutation } from '../../../../services/core/http-mutation.hook.ts';
 import {
   LoginResponse,
   useLoginResponseHandler,
@@ -21,15 +21,17 @@ const AppleSocialLoginButton = ({
   const shareKey = useShareStore(state => state.shareKey);
   const loginResponseHandler = useLoginResponseHandler();
 
-  const [_, appleLogin] = useAxios<LoginResponse>({
-    requestOption: {
+  const [isLoading, appleLogin] = useHttpMutation<LoginResponse>({
+    axiosConfig: {
       method: 'post',
       url: '/v1/auth/login/apple',
     },
-    onResponseSuccess: loginResponseHandler,
-    onLoadingStatusChange: onChangeLoading,
-    disableInitialRequest: true,
+    onSuccess: loginResponseHandler,
   });
+
+  useEffect(() => {
+    onChangeLoading(isLoading);
+  }, [isLoading, onChangeLoading]);
 
   async function onAppleButtonPress() {
     // performs login request
@@ -47,7 +49,7 @@ const AppleSocialLoginButton = ({
 
     // use credentialState response to ensure the user is authenticated
     if (credentialState === appleAuth.State.AUTHORIZED) {
-      appleLogin({
+      void appleLogin({
         data: {
           appleUserId: appleAuthRequestResponse.user,
           email: appleAuthRequestResponse.email,

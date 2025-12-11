@@ -27,6 +27,8 @@ import ShareModule from '../src/NativeLPShareModule';
 import { useShareStore } from './stores/share.store';
 import { BasicNavigationProps } from './navigation/types.tsx';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { QueryClientProvider, focusManager } from '@tanstack/react-query';
+import { queryClient } from './services/core/query-client.ts';
 
 const theme = {
   ...DefaultTheme,
@@ -102,6 +104,14 @@ const App = (): React.ReactElement => {
 
   // Side effects
   useEffect(() => {
+    const subscription = AppState.addEventListener('change', state => {
+      focusManager.setFocused(state === 'active');
+    });
+
+    return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
     const initialize = async () => {
       showSplash();
 
@@ -120,10 +130,12 @@ const App = (): React.ReactElement => {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <KeyboardProvider>
-          <NavigationContainer linking={linking}>
-            <InternalApp />
-            <ToastComponent />
-          </NavigationContainer>
+          <QueryClientProvider client={queryClient}>
+            <NavigationContainer linking={linking}>
+              <InternalApp />
+              <ToastComponent />
+            </NavigationContainer>
+          </QueryClientProvider>
         </KeyboardProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

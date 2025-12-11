@@ -1,6 +1,5 @@
 import { useAuthStore } from '../../stores/auth.store.ts';
 import { useUserStore } from '../../stores/user.store.ts';
-import { useAuthAxios } from './auth-http.hook.ts';
 import { UserType } from '../../types/core/user.type.ts';
 import { useEffect, useRef } from 'react';
 import { useHeroStore } from '../../stores/hero.store.ts';
@@ -8,6 +7,7 @@ import { useUpdateObserver } from '../common/update.hook.ts';
 import { LocalStorage } from './local-storage.service.ts';
 import { getTokenState } from './auth.service.ts';
 import { HeroQueryResponse } from '../../types/hooks/hero-query.type.ts';
+import { useAuthMutation } from './auth-mutation.hook.ts';
 
 export const useFetchLocalStorageUserHero = (): void => {
   const tokens = useAuthStore(state => state.authTokens);
@@ -21,23 +21,32 @@ export const useFetchLocalStorageUserHero = (): void => {
   // Use ref to store heroNo to avoid triggering useEffect when hero data changes
   const heroNoRef = useRef(currentHero?.id);
 
-  const [, fetchUser] = useAuthAxios<UserType>({
-    requestOption: {},
-    onResponseSuccess: user => {
+  const [, fetchUser] = useAuthMutation<UserType>({
+    axiosConfig: {},
+    onSuccess: user => {
       const heroNo = user.recentHeroNo;
       setUser(user);
-      fetchHero({ url: `/v1/heroes/${heroNo.toString()}` });
+      fetchHeroRef.current?.({ url: `/v1/heroes/${heroNo.toString()}` });
     },
-    disableInitialRequest: true,
   });
 
-  const [, fetchHero] = useAuthAxios<HeroQueryResponse>({
-    requestOption: {},
-    onResponseSuccess: res => {
+  const [, fetchHero] = useAuthMutation<HeroQueryResponse>({
+    axiosConfig: {},
+    onSuccess: res => {
       setHero(res.hero);
     },
-    disableInitialRequest: true,
   });
+
+  const fetchUserRef = useRef(fetchUser);
+  const fetchHeroRef = useRef(fetchHero);
+
+  useEffect(() => {
+    fetchUserRef.current = fetchUser;
+  }, [fetchUser]);
+
+  useEffect(() => {
+    fetchHeroRef.current = fetchHero;
+  }, [fetchHero]);
 
   useEffect(() => {
     const tokenState = getTokenState(tokens);
@@ -50,8 +59,8 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
-    fetchUser({ url: `/v1/users/${userNo}` });
-  }, [tokens, currentUserUpdateObserver, fetchUser]);
+    fetchUserRef.current?.({ url: `/v1/users/${userNo}` });
+  }, [tokens, currentUserUpdateObserver]);
 
   // Update heroNo ref when currentHero changes
   useEffect(() => {
@@ -67,6 +76,6 @@ export const useFetchLocalStorageUserHero = (): void => {
       return;
     }
 
-    fetchHero({ url: `/v1/heroes/${heroNo.toString()}` });
-  }, [currentHeroUpdateObserver, fetchHero]);
+    fetchHeroRef.current?.({ url: `/v1/heroes/${heroNo.toString()}` });
+  }, [currentHeroUpdateObserver]);
 };

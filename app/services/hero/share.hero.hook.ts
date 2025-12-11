@@ -1,4 +1,4 @@
-import { useAuthAxios } from '../core/auth-http.hook.ts';
+import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
 import { useEffect } from 'react';
 import { useAuthStore } from '../../stores/auth.store.ts';
@@ -16,12 +16,12 @@ export const useRegisterSharedHero = ({
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
   const setShareKey = useShareStore(state => state.setShareKey);
 
-  const [_, registerHero] = useAuthAxios<any>({
-    requestOption: {
+  const [, registerHero] = useAuthMutation<any>({
+    axiosConfig: {
       url: '/v1/heroes/auth',
       method: 'post',
     },
-    onResponseSuccess: res => {
+    onSuccess: res => {
       if (onRegisterSuccess) {
         onRegisterSuccess();
       }
@@ -37,7 +37,7 @@ export const useRegisterSharedHero = ({
           desc: '잠시 후 다시 시도하거나 새로 접속해주세요',
           actionBtnText: '재시도',
           action: () => {
-            registerHero({
+            void registerHero({
               params: {
                 shareKey,
               },
@@ -46,7 +46,6 @@ export const useRegisterSharedHero = ({
         });
       }
     },
-    disableInitialRequest: true,
   });
 
   useEffect(() => {
@@ -63,14 +62,12 @@ export const useRegisterSharedHero = ({
           setShareKey(shareKey);
         },
       });
-    } else {
-      if (shareKey) {
-        registerHero({
-          params: {
-            shareKey,
-          },
-        });
-      }
+    } else if (shareKey) {
+      void registerHero({
+        params: {
+          shareKey,
+        },
+      });
     }
-  }, [shareKey]);
+  }, [isLoggedIn, registerHero, setShareKey, shareKey]);
 };

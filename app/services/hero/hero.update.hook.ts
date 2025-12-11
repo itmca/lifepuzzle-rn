@@ -1,4 +1,4 @@
-import { useAuthAxios } from '../core/auth-http.hook.ts';
+import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import { Alert } from 'react-native';
 import { useUpdatePublisher } from '../common/update.hook.ts';
 import { useNavigation } from '@react-navigation/native';
@@ -34,13 +34,13 @@ export const useUpdateHero = (): [() => void, boolean] => {
 
   const currentHero = useHeroStore(state => state.currentHero);
 
-  const [isLoading, saveHero] = useAuthAxios<void>({
-    requestOption: {
+  const [isLoading, saveHero] = useAuthMutation<void>({
+    axiosConfig: {
       method: 'put',
       url: `/v1/heroes/${writingHeroKey}`,
       headers: { 'Content-Type': 'multipart/form-data' },
     },
-    onResponseSuccess: () => {
+    onSuccess: () => {
       CustomAlert.simpleAlert('주인공이 수정되었습니다.');
       setWritingHeroKey(undefined);
       resetAllWritingHero();
@@ -62,7 +62,6 @@ export const useUpdateHero = (): [() => void, boolean] => {
         navigation.goBack,
       );
     },
-    disableInitialRequest: true,
   });
 
   const submit = function () {
@@ -70,7 +69,7 @@ export const useUpdateHero = (): [() => void, boolean] => {
       return;
     }
 
-    saveHero({ data: heroHttpPayLoad });
+    void saveHero({ data: heroHttpPayLoad });
   };
 
   function validate(): boolean {
