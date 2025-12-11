@@ -28,7 +28,7 @@ import {
 import { Color } from '../../../constants/color.constant.ts';
 import { useHeroStore } from '../../../stores/hero.store';
 import { AccountAvatar } from '../../../components/ui/display/Avatar';
-import { useRegisterSharedHero } from '../../../services/hero/share.hero.hook.ts';
+import { useRegisterSharedHero } from '../../../services/hero/hero.mutation';
 import { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
 import { BasicCard } from '../../../components/ui/display/Card';
 import {
@@ -89,26 +89,29 @@ const HeroSettingPage = (): React.ReactElement => {
     },
   });
 
-  const { isFetching: isLoading, refetch: fetchHeroes } =
-    useAuthQuery<HeroesQueryResponse>({
-      queryKey: ['heroes'],
-      axiosConfig: {
-        url: '/v1/heroes',
-      },
-      onSuccess: res => {
-        let resHeroes = res.heroes.map((item: any) => ({
-          ...item.hero,
-          puzzleCount: item.puzzleCnt,
-          users: item.users,
-        }));
-        setHeroes(resHeroes);
-        setDisplayHeroes(resHeroes);
-        setFocusedHero(resHeroes[0]);
-      },
-      onError: error => {
-        // TODO: 에러 처리
-      },
-    });
+  const {
+    data: heroesData,
+    isFetching: isLoading,
+    refetch: fetchHeroes,
+  } = useAuthQuery<HeroesQueryResponse>({
+    queryKey: ['heroes'],
+    axiosConfig: {
+      url: '/v1/heroes',
+    },
+  });
+
+  useEffect(() => {
+    if (heroesData) {
+      let resHeroes = heroesData.heroes.map((item: any) => ({
+        ...item.hero,
+        puzzleCount: item.puzzleCnt,
+        users: item.users,
+      }));
+      setHeroes(resHeroes);
+      setDisplayHeroes(resHeroes);
+      setFocusedHero(resHeroes[0]);
+    }
+  }, [heroesData]);
 
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,

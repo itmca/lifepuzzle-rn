@@ -6,7 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import StoryDateInput from './StoryDateInput.tsx';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { useIsStoryUploading } from '../../../services/story/story.write.hook.ts';
+import { useIsStoryUploading } from '../../../services/story/story.mutation';
 
 import { Color } from '../../../constants/color.constant.ts';
 import {

@@ -1,21 +1,22 @@
 import { useState } from 'react';
-
-import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
-
-import { BasicNavigationProps } from '../../navigation/types.tsx';
-import { useHeroStore } from '../../stores/hero.store.ts';
-import { useSelectionStore } from '../../stores/selection.store.ts';
-import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
-import { imageConversionUtil } from '../../utils/image-conversion.util.ts';
+import { useNavigation } from '@react-navigation/native';
+import { useQueryClient } from '@tanstack/react-query';
+import { BasicNavigationProps } from '../../navigation/types';
+import { useHeroStore } from '../../stores/hero.store';
+import { useSelectionStore } from '../../stores/selection.store';
+import { useUIStore } from '../../stores/ui.store';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { showErrorToast } from '../../components/ui/feedback/Toast';
+import { imageConversionUtil } from '../../utils/image-conversion.util';
 import {
   FileUploadDto,
   galleryApiService,
   PresignedUrlDto,
-} from './gallery.api.service.ts';
-import { useAuthMutation } from '../core/auth-mutation.hook.ts';
-import { useUpdatePublisher } from '../common/update.hook.ts';
-import { useUIStore } from '../../stores/ui.store.ts';
+} from './gallery.api.service';
+import { useAuthMutation } from '../core/auth-mutation.hook';
+import { useUpdatePublisher } from '../common/update.hook';
+import { queryKeys } from '../core/query-keys';
 import logger from '../../utils/logger.util';
 import {
   UploadItem,
@@ -35,10 +36,17 @@ import {
 // Re-export types for external use
 export type { UploadRequest, UploadProgress } from './gallery-upload-types';
 
-export const useUploadGalleryV2 = (
+export type UseUploadGalleryReturn = {
+  uploadGallery: () => void;
+  isUploading: boolean;
+  progress: UploadProgress;
+};
+
+export const useUploadGallery = (
   options?: UseUploadGalleryV2Options,
-): [() => void, boolean, UploadProgress] => {
+): UseUploadGalleryReturn => {
   const navigation = useNavigation<BasicNavigationProps>();
+  const queryClient = useQueryClient();
 
   const currentHero = useHeroStore(state => state.currentHero);
   const storeSelectedTag = useSelectionStore(state => state.selectedTag);
@@ -110,8 +118,10 @@ export const useUploadGalleryV2 = (
         CustomAlert.simpleAlert('추가 되었습니다.');
         options.onClose && options.onClose();
       }
-      publishStoryListUpdate(); // 갤러리 업로드 완료 후 홈화면 갱신 트리거
+      publishStoryListUpdate();
       resetUpload();
+      // 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
     },
     onError: err => {
       logger.error('Failed to complete upload', { error: err });
@@ -163,6 +173,7 @@ export const useUploadGalleryV2 = (
       return updatedItems;
     });
   };
+
   const startImageConversionFirst = async (items: UploadItem[]) => {
     const semaphore = new Array(CONCURRENT_UPLOADS).fill(null);
     let currentIndex = 0;
@@ -420,5 +431,133 @@ export const useUploadGalleryV2 = (
     startImageConversionFirst(initialItems);
   };
 
-  return [submit, isUploading, progress];
+  return {
+    uploadGallery: submit,
+    isUploading,
+    progress,
+  };
+};
+
+interface AiPhotoCreateRequest {
+  heroId: number;
+  galleryId: number;
+  drivingVideoId: number;
+}
+
+interface AiPhotoCreateResponse {
+  videoId: string;
+  status: 'pending' | 'processing' | 'completed';
+}
+
+export type UseCreateAiPhotoReturn = {
+  createAiPhoto: () => void;
+  createAiPhotoWithErrorHandling: () => Promise<boolean>;
+  createAiPhotoWithParams: (params: AiPhotoCreateRequest) => void;
+  isPending: boolean;
+};
+
+export const useCreateAiPhoto = (
+  request: AiPhotoCreateRequest,
+): UseCreateAiPhotoReturn => {
+  const navigation = useNavigation<BasicNavigationProps>();
+  const queryClient = useQueryClient();
+
+  const [isPending, trigger] = useAuthMutation<AiPhotoCreateResponse>({
+    axiosConfig: {
+      method: 'post',
+      url: '/v1/ai/videos',
+      data: {
+        heroId: request.heroId,
+        galleryId: request.galleryId,
+        drivingVideoId: request.drivingVideoId,
+      },
+    },
+    onSuccess: () => {
+      navigation.navigate('App', {
+        screen: 'AiPhotoNavigator',
+        params: {
+          screen: 'AiPhotoWorkHistory',
+        },
+      });
+      // 캐시 무효화
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.ai.galleries(request.heroId),
+      });
+    },
+    onError: err => {
+      logger.error('Failed to create AI photo', { error: err, request });
+      showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
+    },
+  });
+
+  const validate = (params: AiPhotoCreateRequest): boolean => {
+    if (!params.drivingVideoId) {
+      showErrorToast('움직임을 선택해 주세요.');
+      return false;
+    }
+    return true;
+  };
+
+  const submit = () => {
+    if (validate(request)) {
+      void trigger({
+        data: {
+          heroId: request.heroId,
+          galleryId: request.galleryId,
+          drivingVideoId: request.drivingVideoId,
+        },
+      });
+    }
+  };
+
+  const submitWithErrorHandling = async (): Promise<boolean> => {
+    if (!validate(request)) {
+      return false;
+    }
+
+    try {
+      await trigger({
+        data: {
+          heroId: request.heroId,
+          galleryId: request.galleryId,
+          drivingVideoId: request.drivingVideoId,
+        },
+      });
+
+      navigation.navigate('App', {
+        screen: 'AiPhotoNavigator',
+        params: {
+          screen: 'AiPhotoWorkHistory',
+        },
+      });
+
+      return true;
+    } catch (error) {
+      logger.error('Failed to create AI photo with error handling', {
+        error,
+        request,
+      });
+      showErrorToast('AI 포토 생성을 실패했습니다. 재시도 부탁드립니다.');
+      return false;
+    }
+  };
+
+  const submitWithParams = (params: AiPhotoCreateRequest) => {
+    if (validate(params)) {
+      void trigger({
+        data: {
+          heroId: params.heroId,
+          galleryId: params.galleryId,
+          drivingVideoId: params.drivingVideoId,
+        },
+      });
+    }
+  };
+
+  return {
+    createAiPhoto: submit,
+    createAiPhotoWithErrorHandling: submitWithErrorHandling,
+    createAiPhotoWithParams: submitWithParams,
+    isPending,
+  };
 };

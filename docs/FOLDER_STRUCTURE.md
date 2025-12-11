@@ -256,59 +256,70 @@ app/services/
 │   └── voice-record.hook.ts
 ├── core/              # 핵심 인프라
 │   ├── auth.service.ts
-│   ├── auth-http.hook.ts
-│   ├── http.hook.ts
+│   ├── auth-mutation.hook.ts
+│   ├── auth-query.hook.ts
+│   ├── auth-request.helper.ts
+│   ├── http-mutation.hook.ts
 │   ├── http.service.ts
 │   ├── local-storage.hook.ts
 │   ├── local-storage.service.ts
-│   └── secure-storage.service.ts
+│   ├── secure-storage.service.ts
+│   ├── query-client.ts      # TanStack Query 설정
+│   └── query-keys.ts         # Query key 중앙 관리
 ├── device/            # 디바이스 관련
 │   ├── keyboard.hook.ts
 │   ├── linking.hook.ts
 │   ├── permission.hook.ts
 │   └── screen.hook.ts
 ├── gallery/           # 갤러리 관련
-│   ├── ai-photo.create.hook.ts
-│   ├── ai-photo.query.hook.ts
+│   ├── gallery.query.ts       # Query hooks (useGalleries, useAiPhotoTemplates, useAiGalleries)
+│   ├── gallery.mutation.ts    # Mutation hooks (useUploadGallery, useCreateAiPhoto)
 │   ├── facebook.photos.hook.ts
 │   ├── gallery.api.service.ts
-│   ├── gallery.query.hook.ts
-│   ├── gallery.upload.hook.ts
 │   └── gallery-upload-*.ts
 ├── hero/              # 히어로 관련
-│   ├── hero.create.hook.ts
-│   ├── hero.delete.hook.ts
-│   ├── hero.query.hook.ts
-│   ├── hero.update.hook.ts
-│   ├── hero-payload.service.ts
-│   └── share.hero.hook.ts
+│   ├── hero.query.ts          # Query hooks (useHero, useHeroes, useSharedHero)
+│   ├── hero.mutation.ts       # Mutation hooks (useCreateHero, useUpdateHero, useDeleteHero, useRegisterSharedHero)
+│   └── hero-payload.service.ts
 ├── image/             # 이미지 처리
 │   ├── platform-image.service.ts
 │   └── skia-image-loader.service.ts
 ├── story/             # 스토리 관련
-│   ├── story.delete.hook.ts
-│   ├── story.write.hook.ts
+│   ├── story.mutation.ts      # Mutation hooks (useSaveStory, useDeleteStory, useDeleteGallery)
 │   ├── story-form.factory.ts
 │   ├── story-navigation.service.ts
 │   ├── story-payload.service.ts
 │   └── story-validation.hook.ts
 └── user/              # 사용자 관련
-    ├── user.update.hook.ts
-    ├── user.withdraw.hook.ts
+    ├── user.mutation.ts       # Mutation hooks (useUpdateUserProfile, useUpdateUserAuth, useWithdrawUser)
     └── user-payload.service.ts
 ```
 
 ### 파일 네이밍 규칙
 
-**Hook 파일** (`*.hook.ts`)
+**TanStack Query 파일** (TanStack Query 전환 이후)
 
-- React Hooks를 사용하는 파일
-- 예: `login.hook.ts`, `gallery.query.hook.ts`
+- **Query 파일** (`*.query.ts`): 모든 query hooks 통합
+  - 예: `hero.query.ts` (useHero, useHeroes, useSharedHero)
+  - 예: `gallery.query.ts` (useGalleries, useAiPhotoTemplates, useAiGalleries)
+- **Mutation 파일** (`*.mutation.ts`): 모든 mutation hooks 통합
+  - 예: `hero.mutation.ts` (useCreateHero, useUpdateHero, useDeleteHero)
+  - 예: `gallery.mutation.ts` (useUploadGallery, useCreateAiPhoto)
+
+**레거시 Hook 파일** (`*.hook.ts`)
+
+- TanStack Query를 사용하지 않는 기존 React Hooks
+- 예: `login.hook.ts`, `validation.hook.ts`
 
 **Service 파일** (`*.service.ts`)
 
 - 순수 함수 모음 (객체 네임스페이스 또는 클래스)
 - 예: `http.service.ts`, `form-validation.service.ts`
+
+**Helper 파일** (`*.helper.ts`)
+
+- 특정 기능을 지원하는 헬퍼 함수
+- 예: `auth-request.helper.ts`
 
 **Factory 파일** (`*.factory.ts`)
 

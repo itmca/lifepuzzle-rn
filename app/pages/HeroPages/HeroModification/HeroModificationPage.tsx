@@ -9,16 +9,16 @@ import {
 } from '../../../navigation/types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useHeroStore } from '../../../stores/hero.store';
-import { useHero } from '../../../services/hero/hero.query.hook';
+import { useHero } from '../../../services/hero/hero.query';
 import { toPhotoIdentifier } from '../../../utils/photo-identifier.util.ts';
-import { useUpdateHero } from '../../../services/hero/hero.update.hook.ts';
+import { useUpdateHero } from '../../../services/hero/hero.mutation';
 import { Divider } from '../../../components/ui/base/Divider';
 import { BasicCard } from '../../../components/ui/display/Card';
 import { Color } from '../../../constants/color.constant.ts';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
-import { useDeleteHero } from '../../../services/hero/hero.delete.hook.ts';
+import { useDeleteHero } from '../../../services/hero/hero.mutation';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
@@ -38,9 +38,9 @@ const HeroModificationPage = (): React.ReactElement => {
 
   // Custom hooks
   //주인공 조회
-  const [hero, isLoading] = useHero(heroNo);
-  const [updateHero, isUpdating] = useUpdateHero();
-  const [deleteHero, isDeleting] = useDeleteHero();
+  const { hero, isLoading } = useHero(heroNo);
+  const { updateHero, isPending: isUpdating } = useUpdateHero();
+  const { deleteHero, isPending: isDeleting } = useDeleteHero();
 
   // Side effects
   useEffect(() => {

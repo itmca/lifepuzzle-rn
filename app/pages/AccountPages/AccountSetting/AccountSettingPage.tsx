@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useUserStore } from '../../../stores/user.store';
@@ -16,7 +16,7 @@ import {
 } from '../../../components/ui/base/TextBase';
 import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
 import { BasicButton } from '../../../components/ui/form/Button';
-import { useUserWithdraw } from '../../../services/user/user.withdraw.hook.ts';
+import { useWithdrawUser } from '../../../services/user/user.mutation';
 import { ProfileUpdateBottomSheet } from './components/bottom-sheet/ProfileUpdateBottomSheet.tsx';
 import { PasswordUpdateBottomSheet } from './components/bottom-sheet/PasswordUpdateBottomSheet.tsx';
 import { useAuthQuery } from '../../../services/core/auth-query.hook.ts';
@@ -39,19 +39,23 @@ const AccountSettingPage = (): React.ReactElement => {
   const { user, setWritingUser } = useUserStore();
 
   // Custom hooks
-  const { isFetching: isUserLoading } = useAuthQuery<AccountQueryResponse>({
-    queryKey: ['user', user?.id],
-    axiosConfig: {
-      url: `/v1/users/${String(user?.id)}`,
-      method: 'GET',
-    },
-    enabled: Boolean(user?.id),
-    onSuccess: responseUser => {
-      setWritingUser({ ...responseUser, isProfileImageUpdate: false });
-    },
-  });
+  const { data: responseUser, isFetching: isUserLoading } =
+    useAuthQuery<AccountQueryResponse>({
+      queryKey: ['user', user?.id],
+      axiosConfig: {
+        url: `/v1/users/${String(user?.id)}`,
+        method: 'GET',
+      },
+      enabled: Boolean(user?.id),
+    });
 
-  const [withdraw, isWithdrawing] = useUserWithdraw();
+  const { withdrawUser, isPending: isWithdrawing } = useWithdrawUser();
+
+  useEffect(() => {
+    if (responseUser) {
+      setWritingUser({ ...responseUser, isProfileImageUpdate: false });
+    }
+  }, [responseUser, setWritingUser]);
 
   return (
     <LoadingContainer isLoading={isUserLoading || isWithdrawing}>
@@ -87,7 +91,7 @@ const AccountSettingPage = (): React.ReactElement => {
                         desc: '기록하셨던 주인공의 이야기를 포함하여 모든 데이터가 삭제됩니다. 탈퇴하시겠습니까?',
                         actionBtnText: '탈퇴',
                         action: () => {
-                          withdraw();
+                          withdrawUser();
                         },
                       });
                     }}
