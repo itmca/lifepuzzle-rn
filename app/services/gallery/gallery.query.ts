@@ -55,7 +55,6 @@ export const useGalleries = (): UseGalleriesReturn => {
       return;
     }
 
-    logger.debug('[useGalleries] Data loaded successfully');
     setAgeGroups(query.data.ageGroups);
     const newTags = [
       ...query.data.tags.map(item => ({

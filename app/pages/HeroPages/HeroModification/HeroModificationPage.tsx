@@ -48,8 +48,6 @@ const HeroModificationPage = (): React.ReactElement => {
       return;
     }
 
-    logger.debug(`Initializing writingHero for heroNo: ${heroNo}`);
-
     const currentPhoto = hero.imageUrl
       ? toPhotoIdentifier(hero.imageUrl)
       : undefined;
