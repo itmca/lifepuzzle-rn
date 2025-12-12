@@ -42,7 +42,7 @@ const RootNavigator = (): React.ReactElement => {
     };
 
     checkOnboarding();
-  }, []);
+  }, [isLoggedIn]);
 
   if (!initialRoute) {
     return <></>;

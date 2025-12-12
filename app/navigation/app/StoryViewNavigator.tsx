@@ -12,6 +12,11 @@ export type StoryViewParamList = {
 
 const Stack = createNativeStackNavigator<StoryViewParamList>();
 
+// 공통 헤더 컴포넌트
+const defaultHeader = () => (
+  <TopBar title={'자세히 보기'} right={<DetailViewHeaderRight />} />
+);
+
 const StoryViewNavigator = (): React.ReactElement => {
   return (
     <Stack.Navigator
@@ -19,25 +24,16 @@ const StoryViewNavigator = (): React.ReactElement => {
       screenOptions={{
         headerShadowVisible: true,
         headerTitleAlign: 'center',
+        header: defaultHeader,
       }}
     >
       <Stack.Screen
         name={STORY_VIEW_SCREENS.STORY}
         component={StoryDetailPage}
-        options={{
-          header: () => (
-            <TopBar title={'자세히 보기'} right={<DetailViewHeaderRight />} />
-          ),
-        }}
       />
       <Stack.Screen
         name={STORY_VIEW_SCREENS.STORY_DETAIL_WITHOUT_LOGIN}
         component={StoryDetailPage}
-        options={{
-          header: () => (
-            <TopBar title={'자세히 보기'} right={<DetailViewHeaderRight />} />
-          ),
-        }}
       />
     </Stack.Navigator>
   );

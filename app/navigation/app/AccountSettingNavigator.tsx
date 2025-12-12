@@ -21,15 +21,14 @@ export type AccountSettingParamList = {
 const Stack = createNativeStackNavigator<AccountSettingParamList>();
 
 const AccountSettingNavigator = (): React.ReactElement => {
-  // 글로벌 상태 관리 (Zustand)
-  const selectedUserPhoto = useSelectionStore(state => state.selectedUserPhoto);
-  const modifyingUser = useUserStore(state => state.writingUser);
+  // 글로벌 상태 관리 (Zustand) - 액션 함수만 구독
   const setModifyingUser = useUserStore(state => state.setWritingUser);
+  const resetSelectedUserPhoto = useSelectionStore(
+    state => state.resetSelectedUserPhoto,
+  );
 
   // Custom hooks
   const logout = useLogout();
-
-  const { resetSelectedUserPhoto } = useSelectionStore();
 
   return (
     <Stack.Navigator
@@ -59,33 +58,39 @@ const AccountSettingNavigator = (): React.ReactElement => {
         name={ACCOUNT_SETTING_SCREENS.ACCOUNT_PROFILE_SELECTOR}
         component={AccountProfileSelectorPage}
         options={({ navigation }) => ({
-          header: () => (
-            <TopBar
-              customGoBackAction={() => {
-                resetSelectedUserPhoto();
-                if (navigation.canGoBack()) {
-                  navigation.goBack();
+          header: () => {
+            // 헤더 렌더링 시점에 값 읽기
+            const modifyingUser = useUserStore.getState().writingUser;
+            const selectedUserPhoto =
+              useSelectionStore.getState().selectedUserPhoto;
+            return (
+              <TopBar
+                customGoBackAction={() => {
+                  resetSelectedUserPhoto();
+                  if (navigation.canGoBack()) {
+                    navigation.goBack();
+                  }
+                }}
+                title={'프로필 사진 선택'}
+                right={
+                  <WritingHeaderRight
+                    text="확인"
+                    customAction={() => {
+                      setModifyingUser({
+                        ...modifyingUser,
+                        modifiedImage: selectedUserPhoto,
+                        isProfileImageUpdate: true,
+                      });
+                      resetSelectedUserPhoto();
+                      if (navigation.canGoBack()) {
+                        navigation.goBack();
+                      }
+                    }}
+                  />
                 }
-              }}
-              title={'프로필 사진 선택'}
-              right={
-                <WritingHeaderRight
-                  text="확인"
-                  customAction={() => {
-                    setModifyingUser({
-                      ...modifyingUser,
-                      modifiedImage: selectedUserPhoto,
-                      isProfileImageUpdate: true,
-                    });
-                    resetSelectedUserPhoto();
-                    if (navigation.canGoBack()) {
-                      navigation.goBack();
-                    }
-                  }}
-                />
-              }
-            />
-          ),
+              />
+            );
+          },
         })}
       />
     </Stack.Navigator>

@@ -23,12 +23,7 @@ export type StoryWritingParamList = {
 const Stack = createNativeStackNavigator<StoryWritingParamList>();
 
 const StoryWritingNavigator = (): React.ReactElement => {
-  // 글로벌 상태 관리 (Zustand)
-  const selectedStoryKey = useStoryStore(state => state.selectedStoryKey);
-  const selectedGalleryItems = useSelectionStore(
-    state => state.selectedGalleryItems,
-  );
-  const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
+  // 글로벌 상태 관리 (Zustand) - 액션 함수만 구독
   const setSelectedGalleryItems = useSelectionStore(
     state => state.setSelectedGalleryItems,
   );
@@ -42,6 +37,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
   // Custom hooks
   const { saveStory } = useSaveStory();
   const { uploadGallery, isUploading } = useUploadGallery();
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShadowVisible: false, headerTitleAlign: 'center' }}
@@ -50,38 +46,47 @@ const StoryWritingNavigator = (): React.ReactElement => {
         name={STORY_WRITING_SCREENS.STORY_WRITING_MAIN}
         component={StoryWritingPage}
         options={{
-          header: () => (
-            <TopBar
-              title={selectedStoryKey ? '수정하기' : '작성하기'}
-              right={
-                <WritingHeaderRight
-                  text={selectedStoryKey ? '완료' : '등록'}
-                  customAction={saveStory}
-                />
-              }
-            />
-          ),
+          header: () => {
+            // 헤더 렌더링 시점에 값 읽기
+            const selectedStoryKey = useStoryStore.getState().selectedStoryKey;
+            return (
+              <TopBar
+                title={selectedStoryKey ? '수정하기' : '작성하기'}
+                right={
+                  <WritingHeaderRight
+                    text={selectedStoryKey ? '완료' : '등록'}
+                    customAction={saveStory}
+                  />
+                }
+              />
+            );
+          },
         }}
       />
       <Stack.Screen
         name={STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR}
         component={StorySelectingGallery}
         options={({ navigation }) => ({
-          header: () => (
-            <TopBar
-              title={'사진/비디오'}
-              right={
-                <WritingHeaderRight
-                  text={'다음'}
-                  customAction={() => {
-                    setCurrentGalleryIndex(0);
-                    setEditGalleryItems([...selectedGalleryItems]);
-                    navigation.navigate('PhotoEditor');
-                  }}
-                />
-              }
-            />
-          ),
+          header: () => {
+            // 헤더 렌더링 시점에 값 읽기
+            const selectedGalleryItems =
+              useSelectionStore.getState().selectedGalleryItems;
+            return (
+              <TopBar
+                title={'사진/비디오'}
+                right={
+                  <WritingHeaderRight
+                    text={'다음'}
+                    customAction={() => {
+                      setCurrentGalleryIndex(0);
+                      setEditGalleryItems([...selectedGalleryItems]);
+                      navigation.navigate('PhotoEditor');
+                    }}
+                  />
+                }
+              />
+            );
+          },
         })}
       />
       <Stack.Screen
@@ -95,21 +100,26 @@ const StoryWritingNavigator = (): React.ReactElement => {
         name={STORY_WRITING_SCREENS.PHOTO_EDITOR}
         component={PhotoEditor}
         options={{
-          header: () => (
-            <TopBar
-              title={'사진 편집'}
-              right={
-                <WritingHeaderRight
-                  text={'업로드'}
-                  disable={isUploading}
-                  customAction={() => {
-                    setSelectedGalleryItems([...editGalleryItems]);
-                    uploadGallery();
-                  }}
-                />
-              }
-            />
-          ),
+          header: () => {
+            // 헤더 렌더링 시점에 값 읽기
+            const editGalleryItems =
+              useSelectionStore.getState().editGalleryItems;
+            return (
+              <TopBar
+                title={'사진 편집'}
+                right={
+                  <WritingHeaderRight
+                    text={'업로드'}
+                    disable={isUploading}
+                    customAction={() => {
+                      setSelectedGalleryItems([...editGalleryItems]);
+                      uploadGallery();
+                    }}
+                  />
+                }
+              />
+            );
+          },
         }}
       />
     </Stack.Navigator>
