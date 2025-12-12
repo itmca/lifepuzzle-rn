@@ -3,7 +3,6 @@ import { getTokenState } from './auth.service.ts';
 import { useLogout } from '../auth/logout.hook.ts';
 import { useRefreshAuthTokens } from '../auth/refresh.hook.ts';
 import { HttpService } from './http.service.ts';
-import logger from '../../utils/logger.util.ts';
 import { useAuthStore } from '../../stores/auth.store.ts';
 
 type RequestDeps = {

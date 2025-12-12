@@ -5,7 +5,6 @@ import {
   HeroesQueryResponse,
   HeroQueryResponse,
 } from '../../types/hooks/hero-query.type';
-import logger from '../../utils/logger.util';
 import { useAuthQuery } from '../core/auth-query.hook';
 import { queryKeys } from '../core/query-keys';
 

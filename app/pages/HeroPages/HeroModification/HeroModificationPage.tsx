@@ -11,17 +11,18 @@ import {
 import { useHeroStore } from '../../../stores/hero.store';
 import { useHero } from '../../../services/hero/hero.query';
 import { toPhotoIdentifier } from '../../../utils/photo-identifier.util.ts';
-import { useUpdateHero } from '../../../services/hero/hero.mutation';
+import {
+  useDeleteHero,
+  useUpdateHero,
+} from '../../../services/hero/hero.mutation';
 import { Divider } from '../../../components/ui/base/Divider';
 import { BasicCard } from '../../../components/ui/display/Card';
 import { Color } from '../../../constants/color.constant.ts';
 import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
-import { useDeleteHero } from '../../../services/hero/hero.mutation';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
-import logger from '../../../utils/logger.util';
 
 const HeroModificationPage = (): React.ReactElement => {
   // 글로벌 상태 관리

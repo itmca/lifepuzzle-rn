@@ -27,7 +27,7 @@ import ShareModule from '../src/NativeLPShareModule';
 import { useShareStore } from './stores/share.store';
 import { BasicNavigationProps } from './navigation/types.tsx';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
-import { QueryClientProvider, focusManager } from '@tanstack/react-query';
+import { focusManager, QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './services/core/query-client.ts';
 
 const theme = {

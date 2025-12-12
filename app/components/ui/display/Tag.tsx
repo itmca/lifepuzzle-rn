@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { TouchableOpacity, LayoutChangeEvent } from 'react-native';
+import { LayoutChangeEvent, TouchableOpacity } from 'react-native';
 import { Color, ColorType } from '../../../constants/color.constant.ts';
 import { Caption } from '../base/TextBase.tsx';
 import { IconName, SvgIcon } from './SvgIcon.tsx';
