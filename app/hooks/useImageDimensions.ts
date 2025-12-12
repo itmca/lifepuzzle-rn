@@ -27,20 +27,34 @@ const failedImageUrlsCache = new Set<string>();
  * Custom hook to load image dimensions from an array of image sources
  *
  * @param sources - Array of image sources with optional pre-loaded dimensions
+ *                  ⚠️ **IMPORTANT**: Must be a stable reference (use useMemo)
+ *                  Passing an unstable array (e.g., `data.map()` directly) will cause infinite re-renders
  * @param options - Configuration options for default dimensions and behavior
  * @returns Array of loaded image dimensions
  *
  * @example
- * // For gallery items
+ * // ❌ BAD: Unstable reference causes infinite loop
  * const dimensions = useImageDimensions(
- *   gallery.map(item => ({
+ *   gallery.map(item => ({ uri: item.url, type: item.type })),
+ *   { defaultWidth: 400, defaultHeight: 300 }
+ * );
+ *
+ * @example
+ * // ✅ GOOD: Stable reference using useMemo
+ * const stableSources = useMemo(
+ *   () => gallery.map(item => ({
  *     uri: item.url,
  *     width: item.width,
  *     height: item.height,
  *     type: item.type
  *   })),
- *   { defaultWidth: 400, defaultHeight: 300, skipVideoTypes: true }
+ *   [gallery]
  * );
+ * const dimensions = useImageDimensions(stableSources, {
+ *   defaultWidth: 400,
+ *   defaultHeight: 300,
+ *   skipVideoTypes: true
+ * });
  */
 export const useImageDimensions = (
   sources: ImageSource[],
@@ -110,15 +124,28 @@ export const useImageDimensions = (
  * Custom hook to load a single image dimension
  *
  * @param source - Single image source with optional pre-loaded dimensions
+ *                 ⚠️ **IMPORTANT**: Must be a stable reference (use useMemo)
+ *                 Passing an unstable object will cause infinite re-renders
  * @param options - Configuration options for default dimensions
  * @returns Loaded image dimension or null if not loaded
  *
  * @example
- * // For a single image
+ * // ❌ BAD: Unstable reference
  * const dimension = useSingleImageDimension(
  *   { uri: imageUri, width: preloadedWidth, height: preloadedHeight },
  *   { defaultWidth: 400, defaultHeight: 300 }
  * );
+ *
+ * @example
+ * // ✅ GOOD: Stable reference using useMemo
+ * const stableSource = useMemo(
+ *   () => ({ uri: imageUri, width: preloadedWidth, height: preloadedHeight }),
+ *   [imageUri, preloadedWidth, preloadedHeight]
+ * );
+ * const dimension = useSingleImageDimension(stableSource, {
+ *   defaultWidth: 400,
+ *   defaultHeight: 300
+ * });
  */
 export const useSingleImageDimension = (
   source: ImageSource | null | undefined,

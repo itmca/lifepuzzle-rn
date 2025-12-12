@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Image, Platform } from 'react-native';
 
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
@@ -262,6 +262,23 @@ const PhotoEditorPage = (): React.ReactElement => {
     [editGalleryItems, galleryIndex, setEditGalleryItems, setGalleryIndex],
   );
 
+  // Memoize carousel data to prevent unnecessary re-renders
+  const carouselData = useMemo(
+    () =>
+      editGalleryItems.map((item, index) => ({
+        type:
+          item.node.image.playableDuration &&
+          item.node.image.playableDuration > 0
+            ? 'VIDEO'
+            : 'IMAGE',
+        url: item.node.image.uri,
+        index: index,
+        width: imageDimensions[index]?.width,
+        height: imageDimensions[index]?.height,
+      })),
+    [editGalleryItems, imageDimensions],
+  );
+
   return (
     <PageContainer
       edges={['left', 'right', 'bottom']}
@@ -282,17 +299,7 @@ const PhotoEditorPage = (): React.ReactElement => {
         >
           <PhotoEditorMediaCarousel
             key={carouselKey}
-            data={editGalleryItems.map((item, index) => ({
-              type:
-                item.node.image.playableDuration &&
-                item.node.image.playableDuration > 0
-                  ? 'VIDEO'
-                  : 'IMAGE',
-              url: item.node.image.uri,
-              index: index,
-              width: imageDimensions[index]?.width,
-              height: imageDimensions[index]?.height,
-            }))}
+            data={carouselData}
             activeIndex={galleryIndex}
             carouselWidth={CAROUSEL_WIDTH_PADDED}
             carouselMaxHeight={Math.min(

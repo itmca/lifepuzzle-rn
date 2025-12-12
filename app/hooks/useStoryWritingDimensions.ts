@@ -39,7 +39,19 @@ type UseStoryWritingDimensionsParams = {
  * Consolidates complex memoization chains
  *
  * @param params - Configuration object
+ *                 ⚠️ **IMPORTANT**: This hook internally handles reference stability
+ *                 The params object itself does NOT need to be memoized
  * @returns Object containing all calculated dimensions and indices
+ *
+ * @example
+ * // ✅ GOOD: Can pass object directly (hook handles memoization internally)
+ * const dimensions = useStoryWritingDimensions({
+ *   galleryItem: writingStory.gallery?.[0],
+ *   ageGroups,
+ *   tags,
+ *   containerWidth: CONTAINER_WIDTH_STANDARD,
+ *   maxHeight: MAX_CAROUSEL_HEIGHT,
+ * });
  */
 export const useStoryWritingDimensions = ({
   galleryItem,
