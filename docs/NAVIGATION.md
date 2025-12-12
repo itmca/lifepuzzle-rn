@@ -184,14 +184,155 @@ navigation.navigate('App', {
 });
 ```
 
+## Navigator에서 Store 구독 패턴
+
+### 핵심 원칙: 액션 함수만 구독, 상태값은 getState() 사용
+
+Navigator 컴포넌트에서 Zustand store를 구독할 때는 **불필요한 re-render를 방지**하기 위해 다음 패턴을 따릅니다.
+
+### ❌ 나쁜 예: 상태값 직접 구독
+
+```typescript
+const StoryWritingNavigator = () => {
+  // ❌ Navigator가 상태값을 구독하면 값 변경 시마다 re-render 발생
+  const selectedStoryKey = useStoryStore(state => state.selectedStoryKey);
+  const selectedGalleryItems = useSelectionStore(
+    state => state.selectedGalleryItems,
+  );
+  const editGalleryItems = useSelectionStore(state => state.editGalleryItems);
+  const setSelectedGalleryItems = useSelectionStore(
+    state => state.setSelectedGalleryItems,
+  );
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="StoryWritingMain"
+        component={StoryWritingPage}
+        options={{
+          header: () => (
+            <TopBar
+              title={selectedStoryKey ? '수정하기' : '작성하기'}
+              right={<WritingHeaderRight text="등록" />}
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+```
+
+**문제점**:
+
+- Navigator가 `selectedStoryKey`, `selectedGalleryItems`, `editGalleryItems` 구독
+- 이 값들이 변경될 때마다 Navigator 컴포넌트가 re-render
+- 현재 focus되지 않은 화면의 Navigator도 불필요하게 re-render
+
+### ✅ 좋은 예: 액션 함수만 구독, 값은 getState() 사용
+
+```typescript
+const StoryWritingNavigator = () => {
+  // ✅ 액션 함수만 구독 (함수는 참조가 안정적이므로 re-render 없음)
+  const setSelectedGalleryItems = useSelectionStore(
+    state => state.setSelectedGalleryItems,
+  );
+  const setEditGalleryItems = useSelectionStore(
+    state => state.setEditGalleryItems,
+  );
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="StoryWritingMain"
+        component={StoryWritingPage}
+        options={{
+          header: () => {
+            // ✅ 헤더 렌더링 시점에만 값 읽기
+            const selectedStoryKey = useStoryStore.getState().selectedStoryKey;
+            return (
+              <TopBar
+                title={selectedStoryKey ? '수정하기' : '작성하기'}
+                right={<WritingHeaderRight text="등록" />}
+              />
+            );
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+```
+
+**장점**:
+
+- Navigator는 액션 함수만 구독하므로 re-render 없음
+- 상태값은 헤더가 실제로 렌더링될 때만 `getState()`로 읽음
+- 불필요한 re-render 완전히 제거
+
+### customAction에서 값 사용하기
+
+```typescript
+<Stack.Screen
+  name="PhotoEditor"
+  component={PhotoEditor}
+  options={{
+    header: () => {
+      // ✅ 헤더 렌더링 시점에 값 읽기
+      const editGalleryItems = useSelectionStore.getState().editGalleryItems;
+      return (
+        <TopBar
+          title="사진 편집"
+          right={
+            <WritingHeaderRight
+              text="업로드"
+              customAction={() => {
+                // ✅ 액션 실행 시점에 최신 값 사용
+                setSelectedGalleryItems([...editGalleryItems]);
+                uploadGallery();
+              }}
+            />
+          }
+        />
+      );
+    },
+  }}
+/>
+```
+
+### 언제 구독해야 하는가?
+
+| 항목                               | 구독 여부     | 이유                                    |
+| ---------------------------------- | ------------- | --------------------------------------- |
+| 액션 함수 (`setState`, `reset` 등) | ✅ 구독       | 함수 참조는 안정적이므로 re-render 없음 |
+| 상태값 (헤더에서만 사용)           | ❌ 구독 안 함 | `getState()`로 필요한 시점에만 읽기     |
+| 상태값 (Navigator UI 변경용)       | ✅ 구독       | Navigator 자체 UI가 변해야 하는 경우만  |
+
+### 성능 영향
+
+**Before** (상태값 구독):
+
+```
+상태 변경 → Navigator re-render → 모든 Screen options 재평가 → 불필요한 연산
+```
+
+**After** (getState() 사용):
+
+```
+상태 변경 → Navigator re-render 없음 → 헤더 렌더링 시에만 값 읽기 → 최소한의 연산
+```
+
+> ⚠️ **주의**: Page 컴포넌트 내부에서는 일반적인 구독 패턴을 사용하세요. 이 최적화는 Navigator 컴포넌트에만 적용됩니다.
+
 ## 요약
 
-| 상황                         | 사용 방법                 | 이유                               |
-| ---------------------------- | ------------------------- | ---------------------------------- |
-| `navigate()`, `reset()` 호출 | 매직 스트링               | TypeScript 타입 체크 + 코드 간결성 |
-| Navigator 타입 정의          | 상수 (`APP_SCREENS.HOME`) | ParamList 정의 시 오타 방지        |
-| Navigator Screen name        | 상수 (`APP_SCREENS.HOME`) | Screen 정의 시 일관성 유지         |
-| Deep linking 설정            | 상수                      | 구조적 설정에서 일관성 유지        |
+| 상황                         | 사용 방법                      | 이유                               |
+| ---------------------------- | ------------------------------ | ---------------------------------- |
+| `navigate()`, `reset()` 호출 | 매직 스트링                    | TypeScript 타입 체크 + 코드 간결성 |
+| Navigator 타입 정의          | 상수 (`APP_SCREENS.HOME`)      | ParamList 정의 시 오타 방지        |
+| Navigator Screen name        | 상수 (`APP_SCREENS.HOME`)      | Screen 정의 시 일관성 유지         |
+| Deep linking 설정            | 상수                           | 구조적 설정에서 일관성 유지        |
+| Navigator store 구독         | 액션 함수만, 값은 `getState()` | 불필요한 re-render 방지            |
 
 > 💡 **핵심**: TypeScript의 타입 시스템을 신뢰하고, 코드 간결성을 우선시합니다.
 
