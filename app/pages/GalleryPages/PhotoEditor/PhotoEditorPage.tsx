@@ -1,8 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Image, Platform } from 'react-native';
 
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
 import { EditorActionButton } from './components/EditorActionButton';
 import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
@@ -264,80 +263,81 @@ const PhotoEditorPage = (): React.ReactElement => {
   );
 
   return (
-    <LoadingContainer isLoading={isGalleryUploading}>
-      <ScreenContainer edges={['left', 'right', 'bottom']}>
+    <PageContainer
+      edges={['left', 'right', 'bottom']}
+      isLoading={isGalleryUploading}
+    >
+      <ContentContainer
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+        paddingVertical={10}
+        onLayout={onContentContainerLayout}
+      >
         <ContentContainer
           flex={1}
           alignItems="center"
           justifyContent="center"
-          paddingVertical={10}
-          onLayout={onContentContainerLayout}
+          paddingTop={24}
         >
+          <PhotoEditorMediaCarousel
+            key={carouselKey}
+            data={editGalleryItems.map((item, index) => ({
+              type:
+                item.node.image.playableDuration &&
+                item.node.image.playableDuration > 0
+                  ? 'VIDEO'
+                  : 'IMAGE',
+              url: item.node.image.uri,
+              index: index,
+              width: imageDimensions[index]?.width,
+              height: imageDimensions[index]?.height,
+            }))}
+            activeIndex={galleryIndex}
+            carouselWidth={CAROUSEL_WIDTH_PADDED}
+            carouselMaxHeight={Math.min(
+              Math.max(contentContainerHeight - 32, 0),
+              optimalCarouselHeight,
+            )}
+            onScroll={handleScroll}
+            onRemove={handleRemoveItem}
+          />
+        </ContentContainer>
+        <ContentContainer
+          alignItems="center"
+          paddingBottom={Platform.OS === 'android' ? 56 : 40}
+          gap={16}
+        >
+          {editGalleryItems.length > 1 && (
+            <MediaCarouselPagination
+              key={`pagination-${galleryIndex}`}
+              visible={true}
+              activeMediaIndexNo={galleryIndex}
+              mediaCount={editGalleryItems.length}
+              containerStyle={{ position: 'relative', top: 0, left: 0 }}
+            />
+          )}
           <ContentContainer
-            flex={1}
-            alignItems="center"
-            justifyContent="center"
-            paddingTop={24}
+            useHorizontalLayout
+            alignItems={'center'}
+            justifyContent={'center'}
+            gap={12}
           >
-            <PhotoEditorMediaCarousel
-              key={carouselKey}
-              data={editGalleryItems.map((item, index) => ({
-                type:
-                  item.node.image.playableDuration &&
-                  item.node.image.playableDuration > 0
-                    ? 'VIDEO'
-                    : 'IMAGE',
-                url: item.node.image.uri,
-                index: index,
-                width: imageDimensions[index]?.width,
-                height: imageDimensions[index]?.height,
-              }))}
-              activeIndex={galleryIndex}
-              carouselWidth={CAROUSEL_WIDTH_PADDED}
-              carouselMaxHeight={Math.min(
-                Math.max(contentContainerHeight - 32, 0),
-                optimalCarouselHeight,
-              )}
-              onScroll={handleScroll}
-              onRemove={handleRemoveItem}
+            <EditorActionButton
+              icon="crop"
+              label="자르기"
+              disabled={isCurrentItemVideo}
+              onPress={onCrop}
+            />
+            <EditorActionButton
+              icon="layers"
+              label="필터"
+              disabled={isCurrentItemVideo}
+              onPress={onFilter}
             />
           </ContentContainer>
-          <ContentContainer
-            alignItems="center"
-            paddingBottom={Platform.OS === 'android' ? 56 : 40}
-            gap={16}
-          >
-            {editGalleryItems.length > 1 && (
-              <MediaCarouselPagination
-                key={`pagination-${galleryIndex}`}
-                visible={true}
-                activeMediaIndexNo={galleryIndex}
-                mediaCount={editGalleryItems.length}
-                containerStyle={{ position: 'relative', top: 0, left: 0 }}
-              />
-            )}
-            <ContentContainer
-              useHorizontalLayout
-              alignItems={'center'}
-              justifyContent={'center'}
-              gap={12}
-            >
-              <EditorActionButton
-                icon="crop"
-                label="자르기"
-                disabled={isCurrentItemVideo}
-                onPress={onCrop}
-              />
-              <EditorActionButton
-                icon="layers"
-                label="필터"
-                disabled={isCurrentItemVideo}
-                onPress={onFilter}
-              />
-            </ContentContainer>
-          </ContentContainer>
         </ContentContainer>
-      </ScreenContainer>
+      </ContentContainer>
 
       <PhotoFilterBottomSheet
         opened={filterBottomSheetOpen}
@@ -345,7 +345,7 @@ const PhotoEditorPage = (): React.ReactElement => {
         onClose={() => setFilterBottomSheetOpen(false)}
         onApply={handleApplyFilter}
       />
-    </LoadingContainer>
+    </PageContainer>
   );
 };
 export default PhotoEditorPage;

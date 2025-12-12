@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, TouchableOpacity, View } from 'react-native';
-import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -103,7 +103,7 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
   }, [gallery]);
 
   return (
-    <ScreenContainer edges={['left', 'right', 'bottom']}>
+    <PageContainer edges={['left', 'right', 'bottom']}>
       <ScrollContentContainer>
         <ContentContainer withContentPadding paddingVertical={24} gap={32}>
           <ContentContainer paddingTop={8}>
@@ -142,7 +142,7 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
           </ContentContainer>
         </ContentContainer>
       </ScrollContentContainer>
-    </ScreenContainer>
+    </PageContainer>
   );
 };
 

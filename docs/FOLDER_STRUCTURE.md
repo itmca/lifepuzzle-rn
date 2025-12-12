@@ -154,9 +154,11 @@ app/components/
 │   │   ├── Divider.tsx
 │   │   └── Dot.tsx
 │   ├── layout/         # 레이아웃 컴포넌트
-│   │   ├── ScreenContainer.tsx
-│   │   ├── ContentContainer.tsx
-│   │   └── SafeAreaContainer.tsx
+│   │   ├── PageContainer.tsx       # 페이지 최상위 (SafeArea + 로딩 + 에러)
+│   │   ├── ScrollContainer.tsx     # 스크롤 + 키보드 처리
+│   │   ├── ContentContainer.tsx    # 범용 레이아웃
+│   │   ├── ScreenContainer.tsx     # (레거시: PageContainer 사용 권장)
+│   │   └── TopNavigationContainer.tsx
 │   ├── form/           # 폼 관련 컴포넌트
 │   │   ├── Button.tsx
 │   │   └── Dropdown.tsx

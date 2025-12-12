@@ -1,8 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -68,71 +67,65 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   };
 
   return (
-    <LoadingContainer isLoading={false}>
-      <ScreenContainer edges={['left', 'right', 'bottom']}>
-        <ScrollContentContainer>
-          <ContentContainer withScreenPadding gap={20}>
+    <PageContainer edges={['left', 'right', 'bottom']} isLoading={false}>
+      <ScrollContentContainer>
+        <ContentContainer withScreenPadding gap={20}>
+          <ContentContainer
+            flex={1}
+            backgroundColor={Color.GREY_700}
+            borderRadius={6}
+            height={376}
+          >
+            <AdaptiveImage
+              uri={gallery[galleryIndex].url}
+              resizeMode="contain"
+            />
+          </ContentContainer>
+          <ContentContainer flex={1} expandToEnd>
             <ContentContainer
-              flex={1}
-              backgroundColor={Color.GREY_700}
-              borderRadius={6}
-              height={376}
+              useHorizontalLayout
+              alignItems="center"
+              justifyContent="space-between"
             >
-              <AdaptiveImage
-                uri={gallery[galleryIndex].url}
-                resizeMode="contain"
-              />
+              <Title color={Color.GREY_900}>움직임을 선택해 주세요</Title>
+              <TouchableOpacity onPress={toggleMute} activeOpacity={0.7}>
+                <ContentContainer
+                  useHorizontalLayout
+                  alignItems="center"
+                  backgroundColor="transparent"
+                >
+                  <Icon
+                    name={isMuted ? 'volume-off' : 'volume-up'}
+                    size={24}
+                    color={Color.GREY_900}
+                  />
+                </ContentContainer>
+              </TouchableOpacity>
             </ContentContainer>
-            <ContentContainer flex={1} expandToEnd>
-              <ContentContainer
-                useHorizontalLayout
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Title color={Color.GREY_900}>움직임을 선택해 주세요</Title>
-                <TouchableOpacity onPress={toggleMute} activeOpacity={0.7}>
-                  <ContentContainer
-                    useHorizontalLayout
-                    alignItems="center"
-                    backgroundColor="transparent"
-                  >
-                    <Icon
-                      name={isMuted ? 'volume-off' : 'volume-up'}
-                      size={24}
-                      color={Color.GREY_900}
-                    />
-                  </ContentContainer>
-                </TouchableOpacity>
-              </ContentContainer>
-              <ScrollContentContainer
-                useHorizontalLayout
-                gap={6}
-                ref={scrollRef}
-              >
-                {aiPhotoTemplate.map((item: AiPhotoTemplate) => {
-                  return (
-                    <SelectableAiPhotoTemplate
-                      key={item.id}
-                      onSelected={handleTemplateSelect}
-                      size={90}
-                      data={item}
-                      selected={
-                        selectedTemplateId !== -1 &&
-                        item.id === selectedTemplateId
-                      }
-                      muted={isMuted}
-                    />
-                  );
-                })}
-              </ScrollContentContainer>
-              <ContentContainer alignCenter paddingTop={20}>
-                <AiPhotoMakerButton onPress={onClickMake} />
-              </ContentContainer>
+            <ScrollContentContainer useHorizontalLayout gap={6} ref={scrollRef}>
+              {aiPhotoTemplate.map((item: AiPhotoTemplate) => {
+                return (
+                  <SelectableAiPhotoTemplate
+                    key={item.id}
+                    onSelected={handleTemplateSelect}
+                    size={90}
+                    data={item}
+                    selected={
+                      selectedTemplateId !== -1 &&
+                      item.id === selectedTemplateId
+                    }
+                    muted={isMuted}
+                  />
+                );
+              })}
+            </ScrollContentContainer>
+            <ContentContainer alignCenter paddingTop={20}>
+              <AiPhotoMakerButton onPress={onClickMake} />
             </ContentContainer>
           </ContentContainer>
-        </ScrollContentContainer>
-      </ScreenContainer>
-    </LoadingContainer>
+        </ContentContainer>
+      </ScrollContentContainer>
+    </PageContainer>
   );
 };
 export default AiPhotoMakerPage;

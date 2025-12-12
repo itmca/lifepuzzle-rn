@@ -21,7 +21,7 @@ import { GalleryType, TagKey } from '../../../types/core/media.type';
 
 import { Head } from '../../../components/ui/base/TextBase';
 
-import { ScreenContainer } from '../../../components/ui/layout/ScreenContainer';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -182,7 +182,7 @@ const GalleryListPage = () => {
   }, [scrollViewHeight, selectedTag]);
 
   return (
-    <ScreenContainer edges={['left', 'right', 'bottom']}>
+    <PageContainer edges={['left', 'right', 'bottom']}>
       <ScrollContentContainer
         ref={scrollContainerRef}
         onLayout={handleScrollViewLayout}
@@ -245,7 +245,7 @@ const GalleryListPage = () => {
           onClose={() => setVideoModalOpen(false)}
         />
       )}
-    </ScreenContainer>
+    </PageContainer>
   );
 };
 
