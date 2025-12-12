@@ -3,7 +3,7 @@ import { ContentContainer } from '../../../components/ui/layout/ContentContainer
 import { AccountAvatar } from '../../../components/ui/display/Avatar';
 import { BasicButton } from '../../../components/ui/form/Button';
 import BottomSheet from '../../../components/ui/interaction/BottomSheet';
-import { useUserAuthUpdate } from '../../../services/user/user.update.hook.ts';
+import { useUpdateUserAuth } from '../../../services/user/user.mutation';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { HeroType, HeroUserType } from '../../../types/core/hero.type';
 import { Divider } from '../../../components/ui/base/Divider';
@@ -32,7 +32,7 @@ export const HeroAuthUpdateBottomSheet = ({
 }: Props) => {
   const [newUserAuth, setNewUserAuth] = useState<HeroAuthTypeCode>();
 
-  const [updateUserAuth, isAuthUpdating] = useUserAuthUpdate({
+  const { updateUserAuth, isPending: isAuthUpdating } = useUpdateUserAuth({
     onSuccess: () => {
       onSuccess && onSuccess();
       if (user && newUserAuth) {

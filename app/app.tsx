@@ -13,7 +13,7 @@ import React, { useEffect } from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { AppState } from 'react-native';
 import RootNavigator from './navigation/RootNavigator';
-import { useFetchLocalStorageUserHero } from './services/core/local-storage.hook';
+import { useFetchLocalStorageUserHero } from './services/core/app-initializer.hook';
 import { SecureStorage } from './services/core/secure-storage.service';
 import { useAuthStore } from './stores/auth.store';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -27,6 +27,8 @@ import ShareModule from '../src/NativeLPShareModule';
 import { useShareStore } from './stores/share.store';
 import { BasicNavigationProps } from './navigation/types.tsx';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { QueryClientProvider, focusManager } from '@tanstack/react-query';
+import { queryClient } from './services/core/query-client.ts';
 
 const theme = {
   ...DefaultTheme,
@@ -102,6 +104,14 @@ const App = (): React.ReactElement => {
 
   // Side effects
   useEffect(() => {
+    const subscription = AppState.addEventListener('change', state => {
+      focusManager.setFocused(state === 'active');
+    });
+
+    return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
     const initialize = async () => {
       showSplash();
 
@@ -120,10 +130,12 @@ const App = (): React.ReactElement => {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <KeyboardProvider>
-          <NavigationContainer linking={linking}>
-            <InternalApp />
-            <ToastComponent />
-          </NavigationContainer>
+          <QueryClientProvider client={queryClient}>
+            <NavigationContainer linking={linking}>
+              <InternalApp />
+              <ToastComponent />
+            </NavigationContainer>
+          </QueryClientProvider>
         </KeyboardProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

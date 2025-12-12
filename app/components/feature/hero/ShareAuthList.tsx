@@ -5,7 +5,7 @@ import {
   ScrollContentContainer,
 } from '../../ui/layout/ContentContainer.tsx';
 import { SortedHeroAuthTypes } from '../../../constants/auth.constant';
-import { useAuthAxios } from '../../../services/core/auth-http.hook';
+import { useAuthMutation } from '../../../services/core/auth-mutation.hook.ts';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Radio } from '../../ui/form/Radio';
 
@@ -38,21 +38,20 @@ export const ShareAuthList = ({}: props): React.ReactElement => {
     };
   });
 
-  const [updateLoading, refetch] = useAuthAxios<any>({
-    requestOption: {
+  const [updateLoading, refetch] = useAuthMutation<any>({
+    axiosConfig: {
       url: `/v1/users/hero/link?heroNo=${hero?.id?.toString() || '0'}&auth=${auth}`,
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
     },
-    onResponseSuccess: ({ link }) => {
+    onSuccess: ({ link }) => {
       onCopy(link);
     },
     onError: error => {
       CustomAlert.retryAlert('권한 공유 실패했습니다.', onSubmit, () => {});
     },
-    disableInitialRequest: true,
   });
 
   const onCopy = async (text: string) => {
@@ -69,7 +68,7 @@ export const ShareAuthList = ({}: props): React.ReactElement => {
       CustomAlert.simpleAlert('공유할 권한이 선택되지 않았습니다.');
       return;
     }
-    refetch({});
+    void refetch({});
   };
 
   if (!hero) {

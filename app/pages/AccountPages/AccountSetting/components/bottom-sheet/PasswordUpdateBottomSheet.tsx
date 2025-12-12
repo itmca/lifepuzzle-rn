@@ -6,7 +6,7 @@ import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../../../constants/password.constant.ts';
-import { useAuthAxios } from '../../../../../services/core/auth-http.hook.ts';
+import { useAuthMutation } from '../../../../../services/core/auth-mutation.hook.ts';
 import { CustomAlert } from '../../../../../components/ui/feedback/CustomAlert';
 import { useUserStore } from '../../../../../stores/user.store';
 import { useLogout } from '../../../../../services/auth/logout.hook.ts';
@@ -28,18 +28,17 @@ export const PasswordUpdateBottomSheet = ({ opened, onClose }: Props) => {
   const [newPasswordConfirmError, setNewPasswordConfirmError] =
     useState<boolean>(false);
 
-  const [_, changePassword] = useAuthAxios<void>({
-    requestOption: {
+  const [, changePassword] = useAuthMutation<void>({
+    axiosConfig: {
       url: `/v1/users/${String(user?.id)}/password`,
       method: 'PUT',
     },
-    onResponseSuccess: () => {
+    onSuccess: () => {
       logout();
       CustomAlert.simpleAlert(
         '비밀번호가 변경되었습니다. 다시 로그인 해주세요.',
       );
     },
-    disableInitialRequest: true,
   });
 
   const snapPoints = useMemo(() => ['55%'], []);

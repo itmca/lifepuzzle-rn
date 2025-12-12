@@ -16,8 +16,8 @@ import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { PageContainer } from '../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
 import { ApiErrorFallback } from '../../components/ui/feedback/ApiErrorFallback';
-import { useHeroPhotos } from '../../services/gallery/gallery.query.hook.ts';
-import { useUploadGalleryV2 } from '../../services/gallery/gallery.upload.hook.ts';
+import { useGalleries } from '../../services/gallery/gallery.query';
+import { useUploadGallery } from '../../services/gallery/gallery.mutation';
 import Gallery from './components/gallery/Gallery.tsx';
 import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';
 import HeroSection from './components/hero/HeroSection.tsx';
@@ -55,8 +55,8 @@ const HomePage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const { isLoading, isError, hasInitialData, refetch } = useHeroPhotos();
-  const [submitGallery] = useUploadGalleryV2();
+  const { isLoading, isError, hasInitialData, refetch } = useGalleries();
+  const { uploadGallery } = useUploadGallery();
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleHeroSharePress = useCallback(() => {
@@ -77,26 +77,18 @@ const HomePage = (): React.ReactElement => {
 
   const handleRefetch = useCallback(() => {
     if (refetch && hero?.id && hero.id >= 0) {
-      refetch({
-        params: {
-          heroNo: hero.id,
-        },
-      });
+      refetch();
     }
-  }, [refetch, hero?.id]);
+  }, [hero?.id, refetch]);
 
   const handlePullToRefresh = useCallback(() => {
     if (!isRefreshing && scrollY <= 0) {
       setIsRefreshing(true);
       if (refetch && hero?.id && hero.id >= 0) {
-        refetch({
-          params: {
-            heroNo: hero.id,
-          },
-        });
+        refetch();
       }
     }
-  }, [refetch, hero?.id, isRefreshing, scrollY]);
+  }, [hero?.id, isRefreshing, refetch, scrollY]);
 
   const handleGalleryItemPress = useCallback(
     (galleryItem: GalleryType) => {
@@ -279,7 +271,7 @@ const HomePage = (): React.ReactElement => {
         mediaPickerBottomSheetOpen={mediaPickerBottomSheetOpen}
         onCloseMediaPicker={handleCloseMediaPicker}
         isGalleryUploading={isGalleryUploading}
-        onSubmitGallery={submitGallery}
+        onSubmitGallery={uploadGallery}
         onRefetch={handleRefetch}
       />
     </PageContainer>

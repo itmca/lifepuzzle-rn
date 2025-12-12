@@ -49,18 +49,22 @@ const StoryDetailPage = (): React.ReactElement => {
     [allGallery],
   );
 
-  // Custom hooks
-  const imageDimensions = useImageDimensions(
-    filteredGallery.map(item => ({
-      uri: item.url,
-      type: item.type,
-    })),
-    {
-      defaultWidth: CAROUSEL_WIDTH_FULL,
-      defaultHeight: MAX_CAROUSEL_HEIGHT,
-      skipVideoTypes: true,
-    },
+  // Memoize image sources to prevent infinite loop in useImageDimensions
+  const imageSourcesForDimensions = useMemo(
+    () =>
+      filteredGallery.map(item => ({
+        uri: item.url,
+        type: item.type,
+      })),
+    [filteredGallery],
   );
+
+  // Custom hooks
+  const imageDimensions = useImageDimensions(imageSourcesForDimensions, {
+    defaultWidth: CAROUSEL_WIDTH_FULL,
+    defaultHeight: MAX_CAROUSEL_HEIGHT,
+    skipVideoTypes: true,
+  });
 
   // 전체 갤러리 인덱스를 필터링된 갤러리 인덱스로 변환
   const filteredIndex = useGalleryIndexMapping(

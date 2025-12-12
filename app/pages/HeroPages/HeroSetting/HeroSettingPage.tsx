@@ -7,13 +7,12 @@ import React, {
 } from 'react';
 
 import { TouchableOpacity, useWindowDimensions } from 'react-native';
-import { useAuthAxios } from '../../../services/core/auth-http.hook';
 import {
   HeroUserType,
   HeroWithPuzzleCntType,
 } from '../../../types/core/hero.type';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
-import { useUpdateObserver } from '../../../services/common/update.hook.ts';
+import { useUpdateObserver } from '../../../services/common/cache-observer.hook.ts';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   BasicNavigationProps,
@@ -29,7 +28,7 @@ import {
 import { Color } from '../../../constants/color.constant.ts';
 import { useHeroStore } from '../../../stores/hero.store';
 import { AccountAvatar } from '../../../components/ui/display/Avatar';
-import { useRegisterSharedHero } from '../../../services/hero/share.hero.hook.ts';
+import { useRegisterSharedHero } from '../../../services/hero/hero.mutation';
 import { ICarouselInstance } from 'react-native-reanimated-carousel/lib/typescript/types';
 import { BasicCard } from '../../../components/ui/display/Card';
 import {
@@ -48,7 +47,8 @@ import { showToast } from '../../../components/ui/feedback/Toast';
 import { SvgIcon } from '../../../components/ui/display/SvgIcon';
 import { HeroAuthUpdateBottomSheet } from './HeroAuthUpdateBottomSheet.tsx';
 import { useUserStore } from '../../../stores/user.store';
-import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { useAuthQuery } from '../../../services/core/auth-query.hook.ts';
+import { useAuthMutation } from '../../../services/core/auth-mutation.hook.ts';
 
 const HeroSettingPage = (): React.ReactElement => {
   // Refs
@@ -81,21 +81,27 @@ const HeroSettingPage = (): React.ReactElement => {
   // Custom hooks
   const heroUpdateObserver = useUpdateObserver('heroUpdate');
 
-  const [_, updateRecentHero] = useAuthAxios<void>({
-    requestOption: {
+  const [, updateRecentHero] = useAuthMutation<void>({
+    axiosConfig: {
       method: 'POST',
       url: '/v1/users/hero/recent',
     },
-    onResponseSuccess: () => {},
-    disableInitialRequest: true,
   });
 
-  const [isLoading, fetchHeroes] = useAuthAxios<HeroesQueryResponse>({
-    requestOption: {
+  const {
+    data: heroesData,
+    isFetching: isLoading,
+    refetch: fetchHeroes,
+  } = useAuthQuery<HeroesQueryResponse>({
+    queryKey: ['heroes'],
+    axiosConfig: {
       url: '/v1/heroes',
     },
-    onResponseSuccess: res => {
-      let resHeroes = res.heroes.map((item: any) => ({
+  });
+
+  useEffect(() => {
+    if (heroesData) {
+      let resHeroes = heroesData.heroes.map((item: any) => ({
         ...item.hero,
         puzzleCount: item.puzzleCnt,
         users: item.users,
@@ -103,17 +109,13 @@ const HeroSettingPage = (): React.ReactElement => {
       setHeroes(resHeroes);
       setDisplayHeroes(resHeroes);
       setFocusedHero(resHeroes[0]);
-    },
-    onError: error => {
-      // TODO: 에러 처리
-    },
-    disableInitialRequest: false,
-  });
+    }
+  }, [heroesData]);
 
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,
     onRegisterSuccess: () => {
-      fetchHeroes({});
+      void fetchHeroes();
       showToast('주인공을 추가하였습니다.');
 
       if (carouselRef && carouselRef.current) {
@@ -125,8 +127,8 @@ const HeroSettingPage = (): React.ReactElement => {
 
   // Side effects
   useEffect(() => {
-    fetchHeroes({});
-  }, [heroUpdateObserver]);
+    void fetchHeroes();
+  }, [fetchHeroes, heroUpdateObserver]);
 
   useEffect(() => {
     if (!currentHero) return;
@@ -173,16 +175,11 @@ const HeroSettingPage = (): React.ReactElement => {
     [carouselHeight, windowWidth],
   );
 
-  if (focusedHero === undefined) {
-    return (
-      <LoadingContainer isLoading={isLoading}>
-        <></>
-      </LoadingContainer>
-    );
-  }
-
   return (
-    <PageContainer edges={['left', 'right', 'bottom']} isLoading={isLoading}>
+    <PageContainer
+      edges={['left', 'right', 'bottom']}
+      isLoading={isLoading || focusedHero === undefined}
+    >
       <ScrollContentContainer>
         <ContentContainer gap={0}>
           {/* 상단 사진 영역 */}
@@ -266,7 +263,7 @@ const HeroSettingPage = (): React.ReactElement => {
               <BasicButton
                 onPress={() => {
                   setCurrentHero(focusedHero);
-                  updateRecentHero({
+                  void updateRecentHero({
                     data: {
                       heroNo: focusedHero.id,
                     },

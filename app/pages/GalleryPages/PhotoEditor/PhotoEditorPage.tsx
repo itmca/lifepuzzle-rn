@@ -203,7 +203,6 @@ const PhotoEditorPage = (): React.ReactElement => {
   );
   const onContentContainerLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
-    // logger.debug('ContentContainer Height:', height);
     setContentContainerHeight(height);
   };
 

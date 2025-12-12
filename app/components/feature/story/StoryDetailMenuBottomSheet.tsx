@@ -9,7 +9,7 @@ import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import {
   useDeleteGallery,
   useDeleteStory,
-} from '../../../services/story/story.delete.hook.ts';
+} from '../../../services/story/story.mutation';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
 import { GalleryType } from '../../../types/core/media.type';
 import { useStoryStore } from '../../../stores/story.store';
@@ -38,11 +38,11 @@ export const StoryDetailMenuBottomSheet = ({
 
   const navigation = useNavigation<BasicNavigationProps>();
   const isStory = type === 'story';
-  const [deleteStory] = useDeleteStory({
+  const { deleteStory } = useDeleteStory({
     storyKey: gallery.story ? gallery.story.id : '',
     galleryId: gallery.id,
   });
-  const [deleteGallery] = useDeleteGallery({ galleryId: gallery.id });
+  const { deleteGallery } = useDeleteGallery({ galleryId: gallery.id });
 
   const onEditStory = () => {
     StoryNavigationService.navigateToEdit(navigation, gallery);

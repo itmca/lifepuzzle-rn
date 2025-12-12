@@ -1,7 +1,7 @@
 import { HeroAuthTypeCode } from '../../constants/auth.constant';
 
 export type HookProps = {
-  onSuccess: () => void;
+  onSuccess?: () => void;
 };
 
 export type UserAuthRequestBody = {

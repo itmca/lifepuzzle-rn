@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Alert } from 'react-native';
-import { useAxios } from '../../../../services/core/auth-http.hook.ts';
+import { useHttpMutation } from '../../../../services/core/http-mutation.hook.ts';
 import {
   LoginResponse,
   useLoginResponseHandler,
@@ -24,19 +24,21 @@ const GeneralLoginButton = ({
 }: Props): React.ReactElement => {
   const shareKey = useShareStore(state => state.shareKey);
   const loginResponseHandler = useLoginResponseHandler();
-  const [_, login] = useAxios<LoginResponse>({
-    requestOption: {
+  const [isLoading, login] = useHttpMutation<LoginResponse>({
+    axiosConfig: {
       method: 'post',
       url: '/v1/auth/login/email',
     },
-    onResponseSuccess: loginResponseHandler,
+    onSuccess: loginResponseHandler,
     onError: error => {
       onChangeLoading(false);
       Alert.alert('로그인 실패', '아이디와 패스워드 확인 부탁드립니다.');
     },
-    onLoadingStatusChange: onChangeLoading,
-    disableInitialRequest: true,
   });
+
+  useEffect(() => {
+    onChangeLoading(isLoading);
+  }, [isLoading, onChangeLoading]);
 
   return (
     <BasicButton

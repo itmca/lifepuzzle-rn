@@ -11,15 +11,15 @@ import { toPhotoIdentifier } from '../../../../utils/photo-identifier.util.ts';
 import { SharedData } from '../../../../../src/NativeLPShareModule.ts';
 import {
   UploadRequest,
-  useUploadGalleryV2,
-} from '../../../../services/gallery/gallery.upload.hook.ts';
+  useUploadGallery,
+} from '../../../../services/gallery/gallery.mutation';
 import { useHeroStore } from '../../../../stores/hero.store';
 import { TagType } from '../../../../types/core/media.type';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { BasicButton } from '../../../../components/ui/form/Button';
 import GallerySelect from '../gallery/GallerySelect.tsx';
-import { useUploadHeroes } from '../../../../services/hero/hero.query.hook.ts';
+import { useHeroes } from '../../../../services/hero/hero.query';
 import { HeroSelect } from './HeroSelect';
 import { toInternationalAge } from '../../../../utils/age-calculator.util.ts';
 import { CustomAlert } from '../../../../components/ui/feedback/CustomAlert';
@@ -48,15 +48,13 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
     selectedTag: selectedTag || undefined,
     selectedGalleryItems: [],
   });
-  const [submitGallery] = useUploadGalleryV2({
+  const { uploadGallery } = useUploadGallery({
     request: uploadRequest,
     onClose: () => {
       onClose();
     },
   });
-  const {
-    res: { heroes },
-  } = useUploadHeroes();
+  const { heroes } = useHeroes();
   // 카메라 촬영 후 상태가 업데이트되면 업로드 실행
   useEffect(() => {
     if (sharedImageData && sharedImageData.type) {
@@ -148,7 +146,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
               CustomAlert.simpleAlert('앨범을 선택해주세요.');
               return;
             }
-            submitGallery();
+            uploadGallery();
           }}
           text="추가하기"
         />

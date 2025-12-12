@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useUserStore } from '../../../stores/user.store';
-import { useAuthAxios } from '../../../services/core/auth-http.hook';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -16,9 +15,10 @@ import {
   Title,
 } from '../../../components/ui/base/TextBase';
 import { BasicButton } from '../../../components/ui/form/Button';
-import { useUserWithdraw } from '../../../services/user/user.withdraw.hook.ts';
+import { useWithdrawUser } from '../../../services/user/user.mutation';
 import { ProfileUpdateBottomSheet } from './components/bottom-sheet/ProfileUpdateBottomSheet.tsx';
 import { PasswordUpdateBottomSheet } from './components/bottom-sheet/PasswordUpdateBottomSheet.tsx';
+import { useAuthQuery } from '../../../services/core/auth-query.hook.ts';
 
 type AccountQueryResponse = {
   id: number;
@@ -38,18 +38,23 @@ const AccountSettingPage = (): React.ReactElement => {
   const { user, setWritingUser } = useUserStore();
 
   // Custom hooks
-  const [isUserLoading] = useAuthAxios<AccountQueryResponse>({
-    requestOption: {
-      url: `/v1/users/${String(user?.id)}`,
-      method: 'GET',
-    },
-    onResponseSuccess: responseUser => {
-      setWritingUser({ ...responseUser, isProfileImageUpdate: false });
-    },
-    disableInitialRequest: false,
-  });
+  const { data: responseUser, isFetching: isUserLoading } =
+    useAuthQuery<AccountQueryResponse>({
+      queryKey: ['user', user?.id],
+      axiosConfig: {
+        url: `/v1/users/${String(user?.id)}`,
+        method: 'GET',
+      },
+      enabled: Boolean(user?.id),
+    });
 
-  const [withdraw, isWithdrawing] = useUserWithdraw();
+  const { withdrawUser, isPending: isWithdrawing } = useWithdrawUser();
+
+  useEffect(() => {
+    if (responseUser) {
+      setWritingUser({ ...responseUser, isProfileImageUpdate: false });
+    }
+  }, [responseUser, setWritingUser]);
 
   return (
     <PageContainer
@@ -87,7 +92,7 @@ const AccountSettingPage = (): React.ReactElement => {
                       desc: '기록하셨던 주인공의 이야기를 포함하여 모든 데이터가 삭제됩니다. 탈퇴하시겠습니까?',
                       actionBtnText: '탈퇴',
                       action: () => {
-                        withdraw();
+                        withdrawUser();
                       },
                     });
                   }}

@@ -14,7 +14,7 @@ import {
 } from '../../../components/ui/base/TextBase';
 import { formatDateToTodayOrYYMMDD } from '../../../utils/date-formatter.util.ts';
 import { AdaptiveImage } from '../../../components/ui/base/ImageBase';
-import { useAiGalleries } from '../../../services/gallery/ai-photo.query.hook.ts';
+import { useAiGalleries } from '../../../services/gallery/gallery.query';
 import { AiGallery } from '../../../types/external/ai-photo.type';
 
 interface WorkItem {

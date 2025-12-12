@@ -4,9 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import StoryDateInput from './StoryDateInput.tsx';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
-import { PageContainer } from '../../../components/ui/layout/PageContainer';
-import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
-import { useIsStoryUploading } from '../../../services/story/story.write.hook.ts';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { useIsStoryUploading } from '../../../services/story/story.mutation';
 
 import { Color } from '../../../constants/color.constant.ts';
 import {

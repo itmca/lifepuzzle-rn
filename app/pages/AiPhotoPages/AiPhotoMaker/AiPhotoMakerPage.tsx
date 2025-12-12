@@ -15,8 +15,8 @@ import { Color } from '../../../constants/color.constant.ts';
 import { useMediaStore } from '../../../stores/media.store';
 import { useSelectionStore } from '../../../stores/selection.store';
 import { AiPhotoTemplate } from '../../../types/external/ai-photo.type';
-import { useAiPhotoTemplate } from '../../../services/gallery/ai-photo.query.hook.ts';
-import { useCreateAiPhoto } from '../../../services/gallery/ai-photo.create.hook.ts';
+import { useAiPhotoTemplates } from '../../../services/gallery/gallery.query';
+import { useCreateAiPhoto } from '../../../services/gallery/gallery.mutation';
 import Icon from '@react-native-vector-icons/material-icons';
 
 const AiPhotoMakerPage = (): React.ReactElement => {
@@ -32,8 +32,8 @@ const AiPhotoMakerPage = (): React.ReactElement => {
   const galleryIndex = useSelectionStore(state => state.currentGalleryIndex);
 
   // Custom hooks
-  const { drivingVideos: aiPhotoTemplate } = useAiPhotoTemplate();
-  const { submitWithParams: createAiPhoto } = useCreateAiPhoto({
+  const { drivingVideos: aiPhotoTemplate } = useAiPhotoTemplates();
+  const { createAiPhotoWithParams: createAiPhoto } = useCreateAiPhoto({
     heroId: 0,
     galleryId: 0,
     drivingVideoId: 0,
