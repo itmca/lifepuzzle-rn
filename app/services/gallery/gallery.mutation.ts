@@ -19,18 +19,18 @@ import { useUpdatePublisher } from '../common/cache-observer.hook';
 import { queryKeys } from '../core/query-keys';
 import logger from '../../utils/logger.util';
 import {
+  CONCURRENT_UPLOADS,
+  IMAGE_CONVERSION_OPTIONS,
   UploadItem,
   UploadProgress,
   UploadRequest,
   UseUploadGalleryV2Options,
-  CONCURRENT_UPLOADS,
-  IMAGE_CONVERSION_OPTIONS,
 } from './gallery-upload-types';
 import {
-  createInitialUploadItems,
   calculateProgress,
-  getSuccessfulItems,
+  createInitialUploadItems,
   getReadyForUploadItems,
+  getSuccessfulItems,
 } from './gallery-upload-helpers.util';
 
 // Re-export types for external use

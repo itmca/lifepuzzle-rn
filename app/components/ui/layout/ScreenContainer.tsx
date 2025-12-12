@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Edge, SafeAreaView } from 'react-native-safe-area-context';
 import { Color } from '../../../constants/color.constant';
-import { Edge } from 'react-native-safe-area-context';
 
 type ScreenContainerProps = {
   flexDirections?: string;

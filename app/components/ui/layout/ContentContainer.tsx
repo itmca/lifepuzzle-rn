@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components/native';
-import { Platform, ScrollView, LayoutChangeEvent } from 'react-native';
+import { LayoutChangeEvent, Platform, ScrollView } from 'react-native';
 import React, { forwardRef, ReactNode, RefAttributes } from 'react';
 import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { NativeScrollEvent } from 'react-native/Libraries/Components/ScrollView/ScrollView';

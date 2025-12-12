@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { GalleryItem } from '../types/core/writing-story.type';
-import { AgeGroupsType, TagKey } from '../types/core/media.type';
-import { TagType } from '../types/core/media.type';
+import { AgeGroupsType, TagType } from '../types/core/media.type';
 import { useSingleImageDimension } from './useImageDimensions';
 import { calculateDisplayDimensions } from '../utils/carousel-dimension.util';
 

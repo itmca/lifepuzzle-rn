@@ -1,14 +1,14 @@
 import React, { forwardRef, ReactNode, RefAttributes } from 'react';
-import { ScrollView, RefreshControl, StyleProp, ViewStyle } from 'react-native';
 import {
-  KeyboardAwareScrollView,
-  KeyboardAwareScrollViewProps,
-} from 'react-native-keyboard-controller';
-import {
-  NativeSyntheticEvent,
-  NativeScrollEvent,
   LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  RefreshControl,
+  ScrollView,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 type ScrollContainerBaseProps = {
   children: ReactNode;
@@ -88,7 +88,7 @@ export const ScrollContainer = forwardRef<ScrollView, ScrollContainerProps>(
     if (keyboardAware) {
       return (
         <KeyboardAwareScrollView
-          ref={ref as React.Ref<KeyboardAwareScrollView>}
+          ref={ref}
           contentContainerStyle={contentContainerStyle}
           style={style}
           horizontal={horizontal}

@@ -12,7 +12,6 @@ import {
 } from '../../../services/story/story.mutation';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
 import { GalleryType } from '../../../types/core/media.type';
-import { useStoryStore } from '../../../stores/story.store';
 import { useUIStore } from '../../../stores/ui.store';
 import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
 import { Title } from '../../ui/base/TextBase';
