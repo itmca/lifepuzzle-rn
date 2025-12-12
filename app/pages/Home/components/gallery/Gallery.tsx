@@ -311,6 +311,17 @@ const Gallery = ({
     [handleGalleryItemPress, windowWidth],
   );
 
+  // Stable ref callback to prevent infinite re-render loop.
+  // The inline ref callback in renderGridList was causing FlashList to
+  // re-execute ref callbacks on every render, triggering commitLayout()
+  // and causing parent re-renders. This stable callback breaks the cycle.
+  const setGridRef = useCallback(
+    (tagKey: TagKey, ref: FlashListRef<GalleryType> | null) => {
+      gridRefs.current[tagKey] = ref;
+    },
+    [], // Empty deps - function never changes
+  );
+
   const renderGridList = useCallback(
     ({ item: tagKey }: { item: TagKey }) => {
       const galleryItems = ageGroups?.[tagKey]?.gallery ?? [];
@@ -322,9 +333,7 @@ const Gallery = ({
           gap={12}
         >
           <FlashList
-            ref={ref => {
-              gridRefs.current[tagKey as TagKey] = ref;
-            }}
+            ref={ref => setGridRef(tagKey as TagKey, ref)}
             data={galleryItems}
             numColumns={2}
             renderItem={renderGalleryItem(tagKey, galleryItems.length)}
