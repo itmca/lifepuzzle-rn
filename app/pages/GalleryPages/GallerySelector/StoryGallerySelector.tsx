@@ -31,7 +31,7 @@ const StoryGallerySelector = (): React.ReactElement => {
   const { tags } = useMediaStore();
   const tagList = tags ?? [];
   const { selectedGalleryItems, setSelectedGalleryItems } = useSelectionStore();
-  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
+  const isGalleryUploading = useUIStore(state => state.isGalleryUploading);
 
   // Custom hooks
   const { selectedTag, handleTagPress: handleTagPressBase } = useTagSelection({

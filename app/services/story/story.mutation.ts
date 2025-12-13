@@ -36,10 +36,9 @@ export const useSaveStory = (): UseSaveStoryReturn => {
     writingStory,
     setPostStoryKey,
   } = useStoryStore();
-  const { setUploadState, setModalOpen } = useUIStore();
+  const setModalOpen = useUIStore(state => state.setModalOpen);
+  const setStoryUploading = useUIStore(state => state.setStoryUploading);
   const { currentHero: hero } = useHeroStore();
-  const setStoryUploading = (value: boolean) =>
-    setUploadState({ story: value });
   const updateGalleryStory = useMediaStore.getState().updateGalleryStory;
 
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
@@ -153,8 +152,7 @@ export const useSaveStory = (): UseSaveStoryReturn => {
 };
 
 export const useIsStoryUploading = (): boolean => {
-  const uploadState = useUIStore(state => state.uploadState);
-  return uploadState.story;
+  return useUIStore(state => state.isStoryUploading);
 };
 
 type UseDeleteStoryProps = {
@@ -172,8 +170,7 @@ export const useDeleteStory = ({
   galleryId,
 }: UseDeleteStoryProps): UseDeleteStoryReturn => {
   const queryClient = useQueryClient();
-  const setUploadState = useUIStore(state => state.setUploadState);
-  const setStoryloading = (value: boolean) => setUploadState({ story: value });
+  const setStoryUploading = useUIStore(state => state.setStoryUploading);
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
   const { updateGalleryStory } = useMediaStore.getState();
   const { setOpenDetailBottomSheet } = useUIStore.getState();
@@ -203,8 +200,8 @@ export const useDeleteStory = ({
   });
 
   useEffect(() => {
-    setStoryloading(isPending);
-  }, [isPending, setStoryloading]);
+    setStoryUploading(isPending);
+  }, [isPending, setStoryUploading]);
 
   const submit = function () {
     void trigger({
@@ -233,8 +230,7 @@ export const useDeleteGallery = ({
   galleryId,
 }: UseDeleteGalleryProps): UseDeleteGalleryReturn => {
   const queryClient = useQueryClient();
-  const setUploadState = useUIStore(state => state.setUploadState);
-  const setStoryloading = (value: boolean) => setUploadState({ story: value });
+  const setStoryUploading = useUIStore(state => state.setStoryUploading);
   const selectionStore = useSelectionStore.getState();
   const { setOpenDetailBottomSheet } = useUIStore.getState();
 
@@ -296,8 +292,8 @@ export const useDeleteGallery = ({
   });
 
   useEffect(() => {
-    setStoryloading(isPending);
-  }, [isPending, setStoryloading]);
+    setStoryUploading(isPending);
+  }, [isPending, setStoryUploading]);
 
   const submit = function () {
     void trigger({

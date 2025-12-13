@@ -56,12 +56,11 @@ export const useUploadGallery = (
   const setSelectedGalleryItems = useSelectionStore(
     state => state.setSelectedGalleryItems,
   );
-  const uploadState = useUIStore(state => state.uploadState);
-  const setUploadState = useUIStore(state => state.setUploadState);
-  const isUploading = uploadState.gallery;
+  const isUploading = useUIStore(state => state.isGalleryUploading);
+  const setGalleryUploading = useUIStore(state => state.setGalleryUploading);
 
   const resetSelectedGalleryItems = () => setSelectedGalleryItems([]);
-  const setIsUploading = (value: boolean) => setUploadState({ gallery: value });
+  const setIsUploading = (value: boolean) => setGalleryUploading(value);
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
 
   const { heroNo, selectedTag, selectedGalleryItems } = options?.request

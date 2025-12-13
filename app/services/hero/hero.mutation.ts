@@ -27,11 +27,7 @@ export const useCreateHero = (): UseCreateHeroReturn => {
   const publishHeroUpdate = useUpdatePublisher('heroUpdate');
 
   const { writingHero, writingHeroKey, resetWritingHero } = useHeroStore();
-  const { setUploadState } = useUIStore();
-  const setHeroUploading = useCallback(
-    (value: boolean) => setUploadState({ hero: value }),
-    [setUploadState],
-  );
+  const setHeroUploading = useUIStore(state => state.setHeroUploading);
 
   const { validateRequired } = useFieldValidation();
   const { validateLogin } = useAuthValidation();
