@@ -6,8 +6,12 @@ import DetailViewHeaderRight from '../../components/ui/navigation/header/DetailV
 import { STORY_VIEW_SCREENS } from '../screens.constant';
 
 export type StoryViewParamList = {
-  [STORY_VIEW_SCREENS.STORY]: undefined;
-  [STORY_VIEW_SCREENS.STORY_DETAIL_WITHOUT_LOGIN]: undefined;
+  [STORY_VIEW_SCREENS.STORY]: {
+    galleryIndex?: number;
+  };
+  [STORY_VIEW_SCREENS.STORY_DETAIL_WITHOUT_LOGIN]: {
+    galleryIndex?: number;
+  };
 };
 
 const Stack = createNativeStackNavigator<StoryViewParamList>();

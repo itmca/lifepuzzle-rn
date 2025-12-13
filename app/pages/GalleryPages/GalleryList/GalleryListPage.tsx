@@ -49,8 +49,7 @@ const GalleryListPage = () => {
 
   // 글로벌 상태 관리
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
-  const { selectedTag, setCurrentGalleryIndex, currentGalleryIndex } =
-    useSelectionStore();
+  const { selectedTag, currentGalleryIndex } = useSelectionStore();
   const { tags, ageGroups, gallery } = useMediaStore();
 
   // 외부 hook 호출 (navigation, route 등)
@@ -81,20 +80,17 @@ const GalleryListPage = () => {
         item => item.id === gallery.id,
       );
 
-      if (allGalleryIndex !== -1) {
-        setCurrentGalleryIndex(allGalleryIndex);
-      } else {
-        setCurrentGalleryIndex(0);
-      }
-
       navigation.navigate('App', {
         screen: 'StoryViewNavigator',
         params: {
           screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+          params: {
+            galleryIndex: allGalleryIndex !== -1 ? allGalleryIndex : 0,
+          },
         },
       });
     },
-    [allGallery, setCurrentGalleryIndex, navigation, isLoggedIn],
+    [allGallery, navigation, isLoggedIn],
   );
 
   // Memoized render functions for FlashList

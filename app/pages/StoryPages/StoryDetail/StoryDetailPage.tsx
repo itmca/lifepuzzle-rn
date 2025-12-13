@@ -2,21 +2,24 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
 import { StoryItemContents } from '../../../components/feature/story/StoryItemContents.tsx';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { useStoryStore } from '../../../stores/story.store';
 import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { Color } from '../../../constants/color.constant.ts';
 import {
   CAROUSEL_WIDTH_FULL,
   MAX_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
-import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { useMediaStore } from '../../../stores/media.store';
-import { useSelectionStore } from '../../../stores/selection.store';
 import { Title } from '../../../components/ui/base/TextBase';
 import { StoryWritingButton } from '../../../components/feature/story/StoryWritingButton';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
@@ -26,6 +29,8 @@ import { calculateOptimalCarouselHeight } from '../../../utils/carousel-dimensio
 import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { StoryNavigationService } from '../../../services/story/story-navigation.service';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
+import type { StoryViewRouteProps } from '../../../navigation/types';
+import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks
@@ -33,16 +38,20 @@ const StoryDetailPage = (): React.ReactElement => {
   const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
 
-  // 글로벌 상태 관리
-  const allGalleryIndex = useSelectionStore(state => state.currentGalleryIndex);
-  const setAllGalleryIndex = useSelectionStore(
-    state => state.setCurrentGalleryIndex,
-  );
-  const allGallery = useMediaStore(state => state.gallery);
-  const resetWritingStory = useStoryStore(state => state.resetWritingStory);
-
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
+  const route =
+    useRoute<StoryViewRouteProps<typeof STORY_VIEW_SCREENS.STORY>>();
+
+  // Route params에서 초기 galleryIndex 가져오기
+  const initialGalleryIndex = route.params?.galleryIndex ?? 0;
+
+  // 로컬 상태로 현재 갤러리 인덱스 관리
+  const [allGalleryIndex, setAllGalleryIndex] = useState(initialGalleryIndex);
+
+  // 글로벌 상태 관리
+  const allGallery = useMediaStore(state => state.gallery);
+  const resetWritingStory = useStoryStore(state => state.resetWritingStory);
 
   // Memoized 값
   const filteredGallery = useMemo(
@@ -152,6 +161,13 @@ const StoryDetailPage = (): React.ReactElement => {
     }, [resetWritingStory]),
   );
 
+  // Route params 변경 시 로컬 state 업데이트
+  useEffect(() => {
+    if (route.params?.galleryIndex !== undefined) {
+      setAllGalleryIndex(route.params.galleryIndex);
+    }
+  }, [route.params?.galleryIndex]);
+
   useEffect(() => {
     setIsStory(!!currentGalleryItem?.story);
   }, [currentGalleryItem?.story]);
@@ -178,13 +194,7 @@ const StoryDetailPage = (): React.ReactElement => {
         setAllGalleryIndex(nextIndex);
       }
     }
-  }, [
-    allGallery,
-    allGalleryIndex,
-    filteredGallery,
-    filteredIndex,
-    setAllGalleryIndex,
-  ]);
+  }, [allGallery, allGalleryIndex, filteredGallery, filteredIndex]);
 
   useEffect(() => {
     if (filteredGallery.length === 0) {
