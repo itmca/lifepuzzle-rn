@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
+import { useNavigation } from '@react-navigation/native';
 import logger from '../../../utils/logger.util';
 import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
-import { useSelectionStore } from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
@@ -12,12 +12,18 @@ import {
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 
 const AccountProfileSelectorPage = (): React.ReactElement => {
-  // 글로벌 상태 관리
-  const { selectedUserPhoto, setSelectedUserPhoto } = useSelectionStore();
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation();
 
   // Derived value or local variables
-  const selectedPhoto = selectedUserPhoto;
-  const setSelectedPhoto = setSelectedUserPhoto;
+  const [selectedPhoto, setSelectedPhoto] = useState<
+    PhotoIdentifier | undefined
+  >(undefined);
+
+  // Sync selection to navigation params for header actions
+  useEffect(() => {
+    navigation.setParams?.({ selectedUserPhoto: selectedPhoto });
+  }, [navigation, selectedPhoto]);
 
   const config: PhotoSelectorConfig = {
     mode: 'single',

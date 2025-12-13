@@ -6,17 +6,19 @@ import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroMod
 import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
 import { useHeroStore } from '../../stores/hero.store';
-import { useSelectionStore } from '../../stores/selection.store';
 import { HeroType } from '../../types/core/hero.type';
 import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { HERO_SETTING_SCREENS } from '../screens.constant';
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 export type HeroSettingParamList = {
   [HERO_SETTING_SCREENS.HERO_SETTING]: { shareKey?: string } | undefined;
   [HERO_SETTING_SCREENS.HERO_REGISTER]: undefined;
   [HERO_SETTING_SCREENS.HERO_MODIFICATION]: { heroNo: number };
-  [HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR]: undefined;
+  [HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR]:
+    | { selectedHeroPhoto?: PhotoIdentifier }
+    | undefined;
   [HERO_SETTING_SCREENS.HERO_SHARE]: { hero: HeroType };
 };
 
@@ -26,9 +28,6 @@ const HeroSettingNavigator = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand) - 액션 함수만 구독
   const resetWritingHero = useHeroStore(state => state.resetWritingHero);
   const setWritingHero = useHeroStore(state => state.setWritingHero);
-  const resetSelectedHeroPhoto = useSelectionStore(
-    state => state.resetSelectedHeroPhoto,
-  );
 
   return (
     <Stack.Navigator
@@ -81,16 +80,14 @@ const HeroSettingNavigator = (): React.ReactElement => {
       <Stack.Screen
         name={HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR}
         component={HeroProfileSelectorPage}
-        options={({ navigation }) => ({
+        options={({ navigation, route }) => ({
           header: () => {
             // 헤더 렌더링 시점에 값 읽기
             const writingHero = useHeroStore.getState().writingHero;
-            const selectedHeroPhoto =
-              useSelectionStore.getState().selectedHeroPhoto;
+            const selectedHeroPhoto = route.params?.selectedHeroPhoto;
             return (
               <TopBar
                 customGoBackAction={() => {
-                  resetSelectedHeroPhoto();
                   if (navigation.canGoBack()) {
                     navigation.goBack();
                   }
@@ -105,7 +102,6 @@ const HeroSettingNavigator = (): React.ReactElement => {
                         modifiedImage: selectedHeroPhoto,
                         isProfileImageUpdate: true,
                       });
-                      resetSelectedHeroPhoto();
                       if (navigation.canGoBack()) {
                         navigation.goBack();
                       }

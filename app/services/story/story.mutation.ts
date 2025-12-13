@@ -31,11 +31,7 @@ export type UseSaveStoryReturn = {
 export const useSaveStory = (): UseSaveStoryReturn => {
   const navigation = useNavigation<BasicNavigationProps>();
   const queryClient = useQueryClient();
-  const {
-    selectedStoryKey: editStoryKey,
-    writingStory,
-    setPostStoryKey,
-  } = useStoryStore();
+  const { selectedStoryKey: editStoryKey, writingStory } = useStoryStore();
   const setModalOpen = useUIStore(state => state.setModalOpen);
   const setStoryUploading = useUIStore(state => state.setStoryUploading);
   const { currentHero: hero } = useHeroStore();
@@ -101,7 +97,6 @@ export const useSaveStory = (): UseSaveStoryReturn => {
     },
     onSuccess: ({ storyKey }) => {
       if (!editStoryKey) {
-        setPostStoryKey(storyKey);
         setModalOpen(true);
       }
 

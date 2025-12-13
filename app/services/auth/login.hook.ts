@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../../stores/auth.store.ts';
 import { useUserStore } from '../../stores/user.store.ts';
 import { useHeroStore } from '../../stores/hero.store.ts';
-import { useUIStore } from '../../stores/ui.store.ts';
+import { useShareStore } from '../../stores/share.store.ts';
 
 type Option = {
   customGoBackAction?: () => void;
@@ -24,7 +24,7 @@ export const useLoginResponseHandler = (option?: Option) => {
   const setUser = useUserStore(state => state.setUser);
   const setAuthTokens = useAuthStore(state => state.setAuthTokens);
   const setHero = useHeroStore(state => state.setCurrentHero);
-  const resetShareKey = useUIStore(state => state.resetShareKey);
+  const resetShare = useShareStore(state => state.resetShare);
 
   return (loginResponse: LoginResponse) => {
     const { user, tokens, hero } = loginResponse;
@@ -32,7 +32,7 @@ export const useLoginResponseHandler = (option?: Option) => {
     setUser(user);
     setAuthTokens(tokens);
     setHero(hero);
-    resetShareKey();
+    resetShare();
 
     SecureStorage.setAuthTokens(tokens);
     LocalStorage.set('userNo', user.id);
