@@ -14,9 +14,7 @@ interface UiState {
   isGalleryUploading: boolean;
 
   isModalOpening: boolean;
-  selectedPhotos: any[];
   openDetailBottomSheet: boolean;
-  shareKey: string;
 
   // Individual upload state setters
   setStoryUploading: (isUploading: boolean) => void;
@@ -30,23 +28,17 @@ interface UiState {
   resetUploadState: () => void;
 
   setModalOpen: (isOpen: boolean) => void;
-  setSelectedPhotos: (photos: any[]) => void;
-  resetSelectedPhotos: () => void;
   setOpenDetailBottomSheet: (isOpen: boolean) => void;
-  setShareKey: (key: string) => void;
-  resetShareKey: () => void;
 }
 
-export const useUIStore = create<UiState>((set, get) => ({
+export const useUIStore = create<UiState>(set => ({
   // Individual upload states
   isStoryUploading: false,
   isHeroUploading: false,
   isGalleryUploading: false,
 
   isModalOpening: false,
-  selectedPhotos: [],
   openDetailBottomSheet: false,
-  shareKey: '',
 
   // Individual setters
   setStoryUploading: isStoryUploading => set({ isStoryUploading }),
@@ -71,14 +63,6 @@ export const useUIStore = create<UiState>((set, get) => ({
 
   setModalOpen: isModalOpening => set({ isModalOpening }),
 
-  setSelectedPhotos: selectedPhotos => set({ selectedPhotos }),
-
-  resetSelectedPhotos: () => set({ selectedPhotos: [] }),
-
   setOpenDetailBottomSheet: openDetailBottomSheet =>
     set({ openDetailBottomSheet }),
-
-  setShareKey: shareKey => set({ shareKey }),
-
-  resetShareKey: () => set({ shareKey: '' }),
 }));

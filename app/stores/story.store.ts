@@ -5,21 +5,18 @@ interface StoryState {
   selectedStoryKey: string;
   writingStory: WritingStoryType;
   playInfo: PlayInfo;
-  postStoryKey: string;
   setSelectedStoryKey: (key: string) => void;
   resetSelectedStoryKey: () => void;
   setWritingStory: (story: WritingStoryType) => void;
   resetWritingStory: () => void;
   setPlayInfo: (playInfo: PlayInfo) => void;
   resetPlayInfo: () => void;
-  setPostStoryKey: (key: string) => void;
 }
 
 export const useStoryStore = create<StoryState>(set => ({
   selectedStoryKey: '',
   writingStory: {},
   playInfo: {},
-  postStoryKey: '',
 
   setSelectedStoryKey: selectedStoryKey => set({ selectedStoryKey }),
 
@@ -38,6 +35,4 @@ export const useStoryStore = create<StoryState>(set => ({
     })),
 
   resetPlayInfo: () => set({ playInfo: {} }),
-
-  setPostStoryKey: postStoryKey => set({ postStoryKey }),
 }));

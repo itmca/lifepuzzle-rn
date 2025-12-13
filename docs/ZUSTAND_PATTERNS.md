@@ -291,7 +291,6 @@ const {
   selectedTag,
   selectedGalleryItems,
   editGalleryItems,
-  selectedHeroPhoto,
   setCurrentGalleryIndex,
 } = useSelectionStore();
 

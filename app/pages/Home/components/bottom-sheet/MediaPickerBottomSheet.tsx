@@ -79,8 +79,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   isGalleryUploading = false,
 }) => {
   const navigation = useNavigation<BasicNavigationProps>();
-  const { setSelectedStoryKey, resetWritingStory, setPostStoryKey } =
-    useStoryStore();
+  const { setSelectedStoryKey, resetWritingStory } = useStoryStore();
   const { selectedGalleryItems, setSelectedGalleryItems } = useSelectionStore();
   const shouldSubmitAfterCameraCapture = useRef(false);
 
@@ -98,7 +97,6 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   const handleGalleryPress = () => {
     onClose();
     setSelectedStoryKey('');
-    setPostStoryKey('');
     resetWritingStory();
     navigation.navigate('App', {
       screen: 'StoryWritingNavigator',
@@ -134,7 +132,6 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
       const photoIdentifier = toPhotoIdentifierFromImage(capturedImage);
 
       setSelectedStoryKey('');
-      setPostStoryKey('');
       resetWritingStory();
 
       // 카메라 촬영 플래그 설정 후 상태 업데이트
