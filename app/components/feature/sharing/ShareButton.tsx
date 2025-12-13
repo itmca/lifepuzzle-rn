@@ -1,9 +1,7 @@
 import React from 'react';
-
-import { Color } from '../../../constants/color.constant';
-import { ButtonBase } from '../../ui/base/ButtonBase';
-import { Caption } from '../../ui/base/TextBase';
-import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
+import Icon from '@react-native-vector-icons/material-icons';
+import { Color } from '../../../constants/color.constant.ts';
+import { ButtonBase } from '../../ui/base/ButtonBase.tsx';
 
 type Props = {
   onPress: () => void;
@@ -12,20 +10,16 @@ type Props = {
 export const ShareButton = ({ onPress }: Props): React.ReactElement => {
   return (
     <ButtonBase
-      height={'28px'}
-      width={'auto'}
-      backgroundColor={Color.TRANSPARENT}
-      borderColor={Color.MAIN_DARK}
-      paddingVertical={4}
-      paddingLeft={4}
-      paddingRight={6}
-      borderRadius={6}
-      borderWidth={1}
       onPress={onPress}
-      borderInside
+      width={'auto'}
+      height={'auto'}
+      paddingVertical={6}
+      paddingHorizontal={6}
+      borderRadius={16}
+      backgroundColor={Color.GREY_300}
+      style={{ opacity: 0.7 }}
     >
-      <SvgIcon name={'link'} color={Color.MAIN_DARK} size={16} />
-      <Caption color={Color.GREY_700}>공유</Caption>
+      <Icon name={'share'} color={Color.WHITE} size={12} />
     </ButtonBase>
   );
 };

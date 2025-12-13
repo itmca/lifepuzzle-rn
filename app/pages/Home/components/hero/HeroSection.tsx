@@ -1,6 +1,10 @@
 import React, { useCallback } from 'react';
 import dayjs from 'dayjs';
-import { Keyboard } from 'react-native';
+import { Keyboard, StyleSheet } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  withSpring,
+} from 'react-native-reanimated';
 
 import { useHeroStore } from '../../../../stores/hero.store';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
@@ -32,47 +36,111 @@ const HeroSection = ({
     onSharePress();
   }, [onSharePress]);
 
+  // 애니메이션 스타일
+  const animatedContainerStyle = useAnimatedStyle(() => {
+    return {
+      height: withSpring(isCollapsed ? 100 : 240, {
+        damping: 35,
+        stiffness: 90,
+        velocity: 100,
+      }),
+      paddingVertical: withSpring(isCollapsed ? 12 : 24, {
+        damping: 35,
+        stiffness: 90,
+      }),
+    };
+  });
+
   if (!hero) {
     return <></>;
   }
 
+  const avatarSize = isCollapsed ? 48 : 90;
+
   const age = hero.birthday ? toInternationalAge(hero.birthday) : undefined;
-  const avatarSize = isCollapsed ? 40 : 52;
 
   return (
-    <ContentContainer
-      withScreenPadding
-      useHorizontalLayout
-      alignItems="center"
-      gap={12}
-      paddingVertical={isCollapsed ? 8 : undefined}
-    >
-      <ContentContainer gap={isCollapsed ? 10 : 20} flex={1}>
-        <ContentContainer useHorizontalLayout gap={8} alignItems="center">
+    <Animated.View style={[styles.container, animatedContainerStyle]}>
+      <ContentContainer
+        withNoBackground
+        width="100%"
+        height="100%"
+        useHorizontalLayout={isCollapsed}
+        alignItems={isCollapsed ? 'center' : 'stretch'}
+        justifyContent={isCollapsed ? 'flex-start' : 'center'}
+        gap={isCollapsed ? 12 : 16}
+        paddingTop={isCollapsed ? 0 : 8}
+        paddingHorizontal={20}
+        paddingRight={isCollapsed ? 52 : undefined}
+      >
+        <Animated.View
+          style={[
+            styles.avatarBox,
+            {
+              width: avatarSize,
+              height: avatarSize,
+              borderRadius: avatarSize / 2,
+              overflow: 'hidden',
+            },
+          ]}
+        >
           <HeroAvatar imageUrl={hero.imageUrl} size={avatarSize} />
-          <ContentContainer gap={isCollapsed ? 2 : 4}>
+        </Animated.View>
+
+        <Animated.View
+          style={[
+            styles.textBlock,
+            {
+              flex: isCollapsed ? 1 : 0,
+              alignItems: isCollapsed ? 'flex-start' : 'center',
+              gap: isCollapsed ? 4 : 8,
+            },
+          ]}
+        >
+          <ContentContainer
+            useHorizontalLayout
+            width={'auto'}
+            gap={6}
+            withNoBackground
+          >
             <ContentContainer
               useHorizontalLayout
-              justifyContent={'flex-start'}
+              width={'auto'}
               gap={4}
+              alignItems={'baseline'}
+              withNoBackground
             >
-              <Head>
-                {hero.name.length > 8
-                  ? hero.name.substring(0, 8) + '...'
-                  : hero.name}
-              </Head>
-              <BodyTextM color={Color.MAIN_DARK}>
-                {hero.nickName.length > 8
-                  ? hero.nickName.substring(0, 12) + '...'
-                  : hero.nickName}
+              <Head numberOfLines={1}>{hero.name}</Head>
+              <BodyTextM
+                color={Color.GREY_600}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {hero.nickName}
               </BodyTextM>
             </ContentContainer>
-
-            {!isCollapsed && hero.birthday ? (
+            {(hero.auth === 'OWNER' || hero.auth === 'ADMIN') && (
+              <ContentContainer
+                width={'auto'}
+                withNoBackground
+                paddingBottom={2}
+              >
+                <ShareButton onPress={handleSharePress} />
+              </ContentContainer>
+            )}
+          </ContentContainer>
+          <ContentContainer
+            useHorizontalLayout
+            width={'auto'}
+            gap={8}
+            withNoBackground
+          >
+            {hero.birthday ? (
               <ContentContainer
                 useHorizontalLayout
-                gap={0}
-                justifyContent="flex-start"
+                width={'auto'}
+                gap={2}
+                withNoBackground
               >
                 <Caption color={Color.GREY_600}>
                   {dayjs(hero.birthday).format('YYYY.MM.DD')}
@@ -83,15 +151,29 @@ const HeroSection = ({
               </ContentContainer>
             ) : null}
           </ContentContainer>
-        </ContentContainer>
+        </Animated.View>
       </ContentContainer>
-      {(hero.auth === 'OWNER' || hero.auth === 'ADMIN') && (
-        <ContentContainer width={'auto'}>
-          <ShareButton onPress={handleSharePress} />
-        </ContentContainer>
-      )}
-    </ContentContainer>
+    </Animated.View>
   );
 };
 
 export default HeroSection;
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+  },
+  avatarBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  textBlock: {
+    justifyContent: 'center',
+    width: '100%',
+  },
+  shareButtonWrapper: {
+    position: 'absolute',
+    right: 20,
+  },
+});
