@@ -24,6 +24,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../../components/ui/layout/ContentContainer.tsx';
+import { ApiErrorFallback } from '../../../../components/ui/feedback/ApiErrorFallback';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { useAuthStore } from '../../../../stores/auth.store';
@@ -39,28 +40,16 @@ import { useRenderLog } from '../../../../utils/debug/render-log.util';
 
 import { BodyTextM, Title } from '../../../../components/ui/base/TextBase';
 import GalleryTag from './GalleryTag.tsx';
-import { BasicButton } from '../../../../components/ui/form/Button';
 import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 import Video from 'react-native-video';
 import VideoModal from '../../../../components/ui/interaction/VideoModal';
+import { useGalleryQueryContext } from '../../contexts/gallery-query.context';
 
 type props = {
-  isError?: boolean;
-  hasInitialData?: boolean;
-  onRetry?: () => void;
   onScrollYChange?: (offsetY: number) => void;
-  isRefreshing: boolean;
-  onRefresh: () => void;
 };
 
-const Gallery = ({
-  isError = false,
-  hasInitialData = false,
-  onRetry,
-  onScrollYChange,
-  isRefreshing,
-  onRefresh,
-}: props): React.ReactElement => {
+const Gallery = ({ onScrollYChange }: props): React.ReactElement => {
   // Refs
   const tagScrollRef = useRef<ScrollView>(null);
   const horizontalListRef = useRef<FlatList<TagKey>>(null);
@@ -75,6 +64,7 @@ const Gallery = ({
   // React hooks
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoUri, setVideoUri] = useState<string>('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // 글로벌 상태 관리 (Zustand)
   const ageGroups = useMediaStore(state => state.ageGroups);
@@ -83,6 +73,7 @@ const Gallery = ({
   const setGalleryError = useMediaStore(state => state.setGalleryError);
   const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
+  const { isError, hasInitialData, refetch } = useGalleryQueryContext();
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -91,6 +82,15 @@ const Gallery = ({
   const { selectedTag, handleTagPress: handleTagPressBase } = useTagSelection({
     tags: tags ?? [],
   });
+
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    try {
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [refetch]);
 
   // Debug: 렌더링 추적
   useRenderLog('Gallery', {
@@ -377,7 +377,7 @@ const Gallery = ({
             refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}
-                onRefresh={onRefresh}
+                onRefresh={handleRefresh}
                 progressBackgroundColor="#ffffff"
                 colors={['#007AFF']}
                 tintColor="#007AFF"
@@ -401,7 +401,7 @@ const Gallery = ({
       ageGroups,
       handleScroll,
       isRefreshing,
-      onRefresh,
+      handleRefresh,
       renderGalleryItem,
       windowWidth,
     ],
@@ -409,29 +409,12 @@ const Gallery = ({
 
   if (shouldShowError) {
     return (
-      <ContentContainer
-        flex={1}
-        justifyContent="center"
-        alignItems="center"
-        gap={20}
-        paddingBottom={40}
-      >
-        <ContentContainer gap={8} alignCenter>
-          <Title color={Color.GREY_400}>인터넷 연결이 잠시 불안정해요</Title>
-          <ContentContainer gap={0} alignCenter>
-            <BodyTextM color={Color.GREY_300}>
-              네트워크를 확인한 뒤 다시 시도해주세요
-            </BodyTextM>
-          </ContentContainer>
-        </ContentContainer>
-        <ContentContainer width={120}>
-          <BasicButton
-            text={'다시 시도'}
-            height={48}
-            onPress={() => onRetry?.()}
-          />
-        </ContentContainer>
-      </ContentContainer>
+      <ApiErrorFallback
+        title="데이터를 불러올 수 없습니다"
+        message="네트워크 연결을 확인하고 다시 시도해주세요."
+        onRetry={refetch}
+        retryText="다시 시도"
+      />
     );
   }
 

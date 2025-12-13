@@ -6,6 +6,7 @@ import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import { ShareAuthList } from '../../../../components/feature/hero/ShareAuthList';
 import { SharedBottomSheet } from './SharedBottomSheet';
 import { MediaPickerBottomSheet } from './MediaPickerBottomSheet';
+import { useGalleryQueryContext } from '../../contexts/gallery-query.context';
 
 type Props = {
   // 주인공 공유 모달 관련
@@ -23,7 +24,6 @@ type Props = {
   // 기타
   isGalleryUploading: boolean;
   onSubmitGallery: () => void;
-  onRefetch: () => void;
 };
 
 const BottomSheetSection = ({
@@ -35,17 +35,17 @@ const BottomSheetSection = ({
   onCloseMediaPicker,
   isGalleryUploading,
   onSubmitGallery,
-  onRefetch,
 }: Props): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const { sharedImageData, setSharedImageData } = useShareStore();
+  const { refetch } = useGalleryQueryContext();
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleCloseReceivedImageBottomSheet = useCallback(() => {
     onCloseReceivedImageBottomSheet();
     setSharedImageData({} as SharePhoto);
-    onRefetch();
-  }, [onCloseReceivedImageBottomSheet, setSharedImageData, onRefetch]);
+    refetch();
+  }, [onCloseReceivedImageBottomSheet, setSharedImageData, refetch]);
 
   return (
     <>

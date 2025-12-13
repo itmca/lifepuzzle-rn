@@ -17,7 +17,6 @@ import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { PageContainer } from '../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
 import { ApiErrorFallback } from '../../components/ui/feedback/ApiErrorFallback';
-import { useGalleries } from '../../services/gallery/gallery.query';
 import { useUploadGallery } from '../../services/gallery/gallery.mutation';
 import Gallery from './components/gallery/Gallery.tsx';
 import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';
@@ -25,16 +24,18 @@ import HeroSection from './components/hero/HeroSection.tsx';
 import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx';
 import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
 import { useRenderLog } from '../../utils/debug/render-log.util';
+import {
+  GalleryQueryProvider,
+  useGalleryQueryContext,
+} from './contexts/gallery-query.context';
 
-const HomePage = (): React.ReactElement => {
+const HomePageContent = (): React.ReactElement => {
   // React hooks
   const [heroShareModalOpen, setHeroShareModalOpen] = useState<boolean>(false);
   const [receivedImageBottomSheetOpen, setReceivedImageBottomSheetOpen] =
     useState<boolean>(false);
   const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
     useState<boolean>(false);
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [scrollY, setScrollY] = useState<number>(0);
   const [isHeroCollapsed, setIsHeroCollapsed] = useState<boolean>(false);
 
   // 글로벌 상태 관리 (Zustand)
@@ -54,7 +55,8 @@ const HomePage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const { isLoading, isError, hasInitialData, refetch } = useGalleries();
+  const { isLoading, isError, hasInitialData, refetch } =
+    useGalleryQueryContext();
   const { uploadGallery } = useUploadGallery();
 
   // Debug: 렌더링 추적
@@ -89,15 +91,6 @@ const HomePage = (): React.ReactElement => {
     }
   }, [hero?.id, refetch]);
 
-  const handlePullToRefresh = useCallback(() => {
-    if (!isRefreshing && scrollY <= 0) {
-      setIsRefreshing(true);
-      if (refetch && hero?.id && hero.id >= 0) {
-        refetch();
-      }
-    }
-  }, [hero?.id, isRefreshing, refetch, scrollY]);
-
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
       navigation.navigate('App', {
@@ -121,7 +114,6 @@ const HomePage = (): React.ReactElement => {
   }, [ageGroups]);
 
   const handleGalleryScrollYChange = useCallback((offsetY: number) => {
-    setScrollY(offsetY);
     setIsHeroCollapsed(offsetY > 20);
   }, []);
 
@@ -172,12 +164,6 @@ const HomePage = (): React.ReactElement => {
     }
   }, [tags, selectedTag?.key, setSelectedTag]);
 
-  useEffect(() => {
-    if (!isLoading && isRefreshing) {
-      setIsRefreshing(false);
-    }
-  }, [isLoading, isRefreshing]);
-
   // Close all bottom sheets when navigating away from this screen
   useFocusEffect(
     useCallback(() => {
@@ -226,14 +212,7 @@ const HomePage = (): React.ReactElement => {
 
         {/* 중간 사진 영역 */}
         <ContentContainer flex={1}>
-          <Gallery
-            isError={isError}
-            hasInitialData={hasInitialData}
-            onRetry={handleRefetch}
-            onScrollYChange={handleGalleryScrollYChange}
-            isRefreshing={isRefreshing}
-            onRefresh={handlePullToRefresh}
-          />
+          <Gallery onScrollYChange={handleGalleryScrollYChange} />
         </ContentContainer>
       </ContentContainer>
 
@@ -252,9 +231,16 @@ const HomePage = (): React.ReactElement => {
         onCloseMediaPicker={handleCloseMediaPicker}
         isGalleryUploading={isGalleryUploading}
         onSubmitGallery={uploadGallery}
-        onRefetch={handleRefetch}
       />
     </PageContainer>
+  );
+};
+
+const HomePage = (): React.ReactElement => {
+  return (
+    <GalleryQueryProvider>
+      <HomePageContent />
+    </GalleryQueryProvider>
   );
 };
 
