@@ -9,9 +9,6 @@ export type StoryViewParamList = {
   [STORY_VIEW_SCREENS.STORY]: {
     galleryIndex?: number;
   };
-  [STORY_VIEW_SCREENS.STORY_DETAIL_WITHOUT_LOGIN]: {
-    galleryIndex?: number;
-  };
 };
 
 const Stack = createNativeStackNavigator<StoryViewParamList>();
@@ -33,10 +30,6 @@ const StoryViewNavigator = (): React.ReactElement => {
     >
       <Stack.Screen
         name={STORY_VIEW_SCREENS.STORY}
-        component={StoryDetailPage}
-      />
-      <Stack.Screen
-        name={STORY_VIEW_SCREENS.STORY_DETAIL_WITHOUT_LOGIN}
         component={StoryDetailPage}
       />
     </Stack.Navigator>

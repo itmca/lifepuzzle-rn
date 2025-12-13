@@ -67,7 +67,6 @@ export const STORY_WRITING_SCREENS = {
 // StoryView Navigator Screens
 export const STORY_VIEW_SCREENS = {
   STORY: 'Story',
-  STORY_DETAIL_WITHOUT_LOGIN: 'StoryDetailWithoutLogin',
 } as const;
 
 // AiPhoto Navigator Screens
