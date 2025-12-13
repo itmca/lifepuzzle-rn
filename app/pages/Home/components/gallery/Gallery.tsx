@@ -35,6 +35,7 @@ import {
 import { BasicNavigationProps } from '../../../../navigation/types.tsx';
 import { useTagSelection } from '../../../../hooks/useTagSelection';
 import { Color } from '../../../../constants/color.constant.ts';
+import { useRenderLog } from '../../../../utils/debug/render-log.util';
 
 import { BodyTextM, Title } from '../../../../components/ui/base/TextBase';
 import GalleryTag from './GalleryTag.tsx';
@@ -92,6 +93,14 @@ const Gallery = ({
   // Custom hooks
   const { selectedTag, handleTagPress: handleTagPressBase } = useTagSelection({
     tags: tags ?? [],
+  });
+
+  // Debug: 렌더링 추적
+  useRenderLog('Gallery', {
+    tagsCount: tags?.length,
+    selectedTagKey: selectedTag?.key,
+    galleryCount: gallery?.length,
+    isRefreshing,
   });
 
   // Memoized 값
