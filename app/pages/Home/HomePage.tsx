@@ -24,6 +24,7 @@ import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';
 import HeroSection from './components/hero/HeroSection.tsx';
 import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx';
 import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
+import { useRenderLog } from '../../utils/debug/render-log.util';
 
 const HomePage = (): React.ReactElement => {
   // React hooks
@@ -55,6 +56,15 @@ const HomePage = (): React.ReactElement => {
   // Custom hooks
   const { isLoading, isError, hasInitialData, refetch } = useGalleries();
   const { uploadGallery } = useUploadGallery();
+
+  // Debug: 렌더링 추적
+  useRenderLog('HomePage', {
+    heroId: hero?.id,
+    galleryCount: ageGroups ? Object.keys(ageGroups).length : 0,
+    selectedTagKey: selectedTag?.key,
+    isGalleryUploading,
+    isLoading,
+  });
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleHeroSharePress = useCallback(() => {

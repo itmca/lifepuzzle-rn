@@ -230,5 +230,6 @@ PageContainer (최상위)
 - [Container](./docs/CONTAINER.md): Container 계층 구조 및 사용 가이드
 - [Navigation](./docs/NAVIGATION.md): 네비게이션 사용 가이드, 매직 스트링 vs 상수
 - [Services](./docs/SERVICES.md): 서비스 레이어 가이드, 객체 네임스페이스 vs 클래스
+- [Zustand Patterns](./docs/ZUSTAND_PATTERNS.md): Zustand 상태 관리 권장 패턴, 성능 최적화
 - [Git Workflow](./docs/GIT_WORKFLOW.md): 브랜치 전략, 상세 커밋 가이드
 - [Security](./docs/SECURITY.md): 보안 가이드라인, 민감 데이터 처리

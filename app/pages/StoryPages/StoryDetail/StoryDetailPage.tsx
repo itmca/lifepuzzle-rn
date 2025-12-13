@@ -25,6 +25,7 @@ import { useImageDimensions } from '../../../hooks/useImageDimensions';
 import { calculateOptimalCarouselHeight } from '../../../utils/carousel-dimension.util';
 import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { StoryNavigationService } from '../../../services/story/story-navigation.service';
+import { useRenderLog } from '../../../utils/debug/render-log.util';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks
@@ -75,6 +76,14 @@ const StoryDetailPage = (): React.ReactElement => {
 
   // Derived value or local variables
   const currentGalleryItem = filteredGallery[filteredIndex];
+
+  // Debug: 렌더링 추적
+  useRenderLog('StoryDetailPage', {
+    allGalleryIndex,
+    filteredIndex,
+    filteredGalleryCount: filteredGallery.length,
+    hasStory: !!currentGalleryItem?.story,
+  });
 
   // Memoized carousel data to prevent unnecessary re-renders
   const carouselData = useMemo(
