@@ -6,7 +6,6 @@ import React, {
   useState,
 } from 'react';
 import {
-  Alert,
   FlatList,
   RefreshControl,
   ScrollView,
@@ -26,7 +25,6 @@ import {
 } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
-import { useAuthStore } from '../../../../stores/auth.store';
 import {
   GalleryType,
   TagKey,
@@ -82,7 +80,6 @@ const Gallery = ({
   const gallery = useMediaStore(state => state.gallery);
   const setGalleryError = useMediaStore(state => state.setGalleryError);
   const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -263,15 +260,6 @@ const Gallery = ({
         return;
       }
 
-      // 일반 갤러리 아이템 클릭 처리
-      if (!isLoggedIn) {
-        Alert.alert(
-          '로그인이 필요합니다',
-          '이 기능을 사용하려면 로그인이 필요합니다.',
-        );
-        return;
-      }
-
       const allGallery = gallery ?? [];
       const allGalleryIndex = allGallery.findIndex(
         galleryItem => galleryItem.id === item.id,
@@ -280,14 +268,14 @@ const Gallery = ({
       navigation.navigate('App', {
         screen: 'StoryViewNavigator',
         params: {
-          screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+          screen: 'Story',
           params: {
             galleryIndex: allGalleryIndex !== -1 ? allGalleryIndex : 0,
           },
         },
       });
     },
-    [gallery, isLoggedIn, navigation],
+    [gallery, navigation],
   );
 
   const renderGalleryItem = useCallback(
