@@ -36,7 +36,7 @@ const PhotoEditorPage = (): React.ReactElement => {
     currentGalleryIndex: galleryIndex,
     setCurrentGalleryIndex: setGalleryIndex,
   } = useSelectionStore();
-  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
+  const isGalleryUploading = useUIStore(state => state.isGalleryUploading);
 
   // Custom hooks
   const { carouselKey, optimalCarouselHeight, imageDimensions, handleScroll } =

@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import {
+  Alert,
   FlatList,
   RefreshControl,
   ScrollView,
@@ -17,6 +18,7 @@ import {
   FlashListRef,
   ListRenderItemInfo as FlashListRenderItemInfo,
 } from '@shopify/flash-list';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   ContentContainer,
@@ -24,12 +26,13 @@ import {
 } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
+import { useAuthStore } from '../../../../stores/auth.store';
 import {
-  AgeGroupsType,
   GalleryType,
   TagKey,
   TagType,
 } from '../../../../types/core/media.type';
+import { BasicNavigationProps } from '../../../../navigation/types.tsx';
 import { useTagSelection } from '../../../../hooks/useTagSelection';
 import { Color } from '../../../../constants/color.constant.ts';
 
@@ -41,27 +44,21 @@ import Video from 'react-native-video';
 import VideoModal from '../../../../components/ui/interaction/VideoModal';
 
 type props = {
-  ageGroups: AgeGroupsType;
-  tags: TagType[];
   isError?: boolean;
   hasInitialData?: boolean;
   onRetry?: () => void;
   onScrollYChange?: (offsetY: number) => void;
   isRefreshing: boolean;
   onRefresh: () => void;
-  onItemPress: (item: GalleryType) => void;
 };
 
 const Gallery = ({
-  ageGroups,
-  tags,
   isError = false,
   hasInitialData = false,
   onRetry,
   onScrollYChange,
   isRefreshing,
   onRefresh,
-  onItemPress,
 }: props): React.ReactElement => {
   // Refs
   const tagScrollRef = useRef<ScrollView>(null);
@@ -79,12 +76,22 @@ const Gallery = ({
   const [videoUri, setVideoUri] = useState<string>('');
 
   // 글로벌 상태 관리 (Zustand)
+  const ageGroups = useMediaStore(state => state.ageGroups);
+  const tags = useMediaStore(state => state.tags);
+  const gallery = useMediaStore(state => state.gallery);
   const setGalleryError = useMediaStore(state => state.setGalleryError);
+  const setCurrentGalleryIndex = useSelectionStore(
+    state => state.setCurrentGalleryIndex,
+  );
   const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
+
+  // 외부 hook 호출 (navigation, route 등)
+  const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
   const { selectedTag, handleTagPress: handleTagPressBase } = useTagSelection({
-    tags,
+    tags: tags ?? [],
   });
 
   // Memoized 값
@@ -151,6 +158,8 @@ const Gallery = ({
 
   const handleTagPress = useCallback(
     (index: number) => {
+      if (!tags) return;
+
       isTagClickScrolling.current = true;
       handleTagPressBase(index);
 
@@ -175,6 +184,8 @@ const Gallery = ({
 
   const handleTagLayout = useCallback(
     (index: number, event: any) => {
+      if (!tags) return;
+
       const { x, width } = event.nativeEvent.layout;
       tagWidthsRef.current[index] = width;
       tagOffsetsRef.current[index] = x;
@@ -245,9 +256,31 @@ const Gallery = ({
         setVideoModalOpen(true);
         return;
       }
-      onItemPress(item);
+
+      // 일반 갤러리 아이템 클릭 처리
+      if (!isLoggedIn) {
+        Alert.alert(
+          '로그인이 필요합니다',
+          '이 기능을 사용하려면 로그인이 필요합니다.',
+        );
+        return;
+      }
+
+      const allGallery = gallery ?? [];
+      const allGalleryIndex = allGallery.findIndex(
+        galleryItem => galleryItem.id === item.id,
+      );
+
+      setCurrentGalleryIndex(allGalleryIndex !== -1 ? allGalleryIndex : 0);
+
+      navigation.navigate('App', {
+        screen: 'StoryViewNavigator',
+        params: {
+          screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+        },
+      });
     },
-    [onItemPress],
+    [gallery, isLoggedIn, navigation, setCurrentGalleryIndex],
   );
 
   const renderGalleryItem = useCallback(
@@ -450,4 +483,4 @@ const Gallery = ({
   );
 };
 
-export default Gallery;
+export default React.memo(Gallery);

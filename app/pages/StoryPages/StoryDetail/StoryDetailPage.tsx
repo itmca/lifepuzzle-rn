@@ -33,12 +33,12 @@ const StoryDetailPage = (): React.ReactElement => {
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
 
   // 글로벌 상태 관리
-  const {
-    currentGalleryIndex: allGalleryIndex,
-    setCurrentGalleryIndex: setAllGalleryIndex,
-  } = useSelectionStore();
+  const allGalleryIndex = useSelectionStore(state => state.currentGalleryIndex);
+  const setAllGalleryIndex = useSelectionStore(
+    state => state.setCurrentGalleryIndex,
+  );
   const allGallery = useMediaStore(state => state.gallery);
-  const { resetWritingStory } = useStoryStore();
+  const resetWritingStory = useStoryStore(state => state.resetWritingStory);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();

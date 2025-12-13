@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import FastImage from '@d11/react-native-fast-image';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useHeroStore } from '../../stores/hero.store';
@@ -22,8 +23,6 @@ import Gallery from './components/gallery/Gallery.tsx';
 import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';
 import HeroSection from './components/hero/HeroSection.tsx';
 import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx';
-import { GalleryType } from '../../types/core/media.type.ts';
-import { useAuthStore } from '../../stores/auth.store';
 import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
 
 const HomePage = (): React.ReactElement => {
@@ -40,16 +39,15 @@ const HomePage = (): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
   const ageGroups = useMediaStore(state => state.ageGroups);
-  const gallery = useMediaStore(state => state.gallery);
   const tags = useMediaStore(state => state.tags);
-  const selectedTag = useSelectionStore(state => state.selectedTag);
-  const setCurrentGalleryIndex = useSelectionStore(
-    state => state.setCurrentGalleryIndex,
+  const { selectedTag, setSelectedTag } = useSelectionStore(
+    useShallow(state => ({
+      selectedTag: state.selectedTag,
+      setSelectedTag: state.setSelectedTag,
+    })),
   );
-  const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
-  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
+  const isGalleryUploading = useUIStore(state => state.isGalleryUploading);
   const sharedImageData = useShareStore(state => state.sharedImageData);
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -90,25 +88,6 @@ const HomePage = (): React.ReactElement => {
     }
   }, [hero?.id, isRefreshing, refetch, scrollY]);
 
-  const handleGalleryItemPress = useCallback(
-    (galleryItem: GalleryType) => {
-      const allGallery = gallery ?? [];
-      const allGalleryIndex = allGallery.findIndex(
-        item => item.id === galleryItem.id,
-      );
-
-      setCurrentGalleryIndex(allGalleryIndex !== -1 ? allGalleryIndex : 0);
-
-      navigation.navigate('App', {
-        screen: 'StoryViewNavigator',
-        params: {
-          screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
-        },
-      });
-    },
-    [gallery, isLoggedIn, navigation, setCurrentGalleryIndex],
-  );
-
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
       navigation.navigate('App', {
@@ -135,10 +114,6 @@ const HomePage = (): React.ReactElement => {
     setScrollY(offsetY);
     setIsHeroCollapsed(offsetY > 20);
   }, []);
-
-  // Memoized default values for Gallery props
-  const galleryAgeGroups = useMemo(() => ageGroups || {}, [ageGroups]);
-  const galleryTags = useMemo(() => tags ?? [], [tags]);
 
   // Ref to track previous image URLs for optimized preloading
   const prevImageUrlsRef = useRef<{ uri: string }[]>([]);
@@ -177,17 +152,15 @@ const HomePage = (): React.ReactElement => {
   ]);
 
   useEffect(() => {
-    if (!galleryTags.length) {
+    if (!tags?.length) {
       return;
     }
 
-    const isSelectedValid = galleryTags.some(
-      tag => tag.key === selectedTag?.key,
-    );
+    const isSelectedValid = tags.some(tag => tag.key === selectedTag?.key);
     if (!isSelectedValid) {
-      setSelectedTag({ ...galleryTags[0] });
+      setSelectedTag({ ...tags[0] });
     }
-  }, [galleryTags, selectedTag?.key, setSelectedTag]);
+  }, [tags, selectedTag?.key, setSelectedTag]);
 
   useEffect(() => {
     if (!isLoading && isRefreshing) {
@@ -244,15 +217,12 @@ const HomePage = (): React.ReactElement => {
         {/* 중간 사진 영역 */}
         <ContentContainer flex={1}>
           <Gallery
-            ageGroups={galleryAgeGroups}
-            tags={galleryTags}
             isError={isError}
             hasInitialData={hasInitialData}
             onRetry={handleRefetch}
             onScrollYChange={handleGalleryScrollYChange}
             isRefreshing={isRefreshing}
             onRefresh={handlePullToRefresh}
-            onItemPress={handleGalleryItemPress}
           />
         </ContentContainer>
       </ContentContainer>

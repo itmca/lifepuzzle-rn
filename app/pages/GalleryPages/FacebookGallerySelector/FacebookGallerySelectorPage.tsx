@@ -45,7 +45,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
   );
 
   const selectedGalleryItems = selection.gallery;
-  const isGalleryUploading = useUIStore(state => state.uploadState.gallery);
+  const isGalleryUploading = useUIStore(state => state.isGalleryUploading);
   const setSelectedGalleryItems = (items: any[]) =>
     setSelection((prev: any) => ({ ...prev, gallery: items }));
 
