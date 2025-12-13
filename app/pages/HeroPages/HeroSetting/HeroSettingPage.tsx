@@ -49,6 +49,7 @@ import { HeroAuthUpdateBottomSheet } from './HeroAuthUpdateBottomSheet.tsx';
 import { useUserStore } from '../../../stores/user.store';
 import { useAuthQuery } from '../../../services/core/auth-query.hook.ts';
 import { useAuthMutation } from '../../../services/core/auth-mutation.hook.ts';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer.tsx';
 
 const HeroSettingPage = (): React.ReactElement => {
   // Refs
@@ -65,9 +66,9 @@ const HeroSettingPage = (): React.ReactElement => {
   const [displayHeroes, setDisplayHeroes] = useState<HeroWithPuzzleCntType[]>(
     [],
   );
-  const [focusedHero, setFocusedHero] = useState<HeroWithPuzzleCntType>(
-    heroes[0],
-  );
+  const [focusedHero, setFocusedHero] = useState<
+    HeroWithPuzzleCntType | undefined
+  >(heroes[0]);
 
   // 글로벌 상태 관리
   const user = useUserStore(state => state.user);
@@ -175,11 +176,16 @@ const HeroSettingPage = (): React.ReactElement => {
     [carouselHeight, windowWidth],
   );
 
+  if (!focusedHero) {
+    return (
+      <LoadingContainer isLoading={true}>
+        <></>
+      </LoadingContainer>
+    );
+  }
+
   return (
-    <PageContainer
-      edges={['left', 'right', 'bottom']}
-      isLoading={isLoading || focusedHero === undefined}
-    >
+    <PageContainer edges={['left', 'right', 'bottom']} isLoading={isLoading}>
       <ScrollContentContainer>
         <ContentContainer gap={0}>
           {/* 상단 사진 영역 */}
