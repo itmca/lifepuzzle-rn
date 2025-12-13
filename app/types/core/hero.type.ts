@@ -25,7 +25,7 @@ export type WritingHeroType = {
   title?: string;
   imageUrl?: string; // 네이밍 일관성
   modifiedImage?: PhotoIdentifier;
-  isProfileImageUpdate?: boolean;
+  profileImageUpdate?: boolean;
 };
 
 // Hero와 연관된 사용자 타입

@@ -20,7 +20,7 @@ const defaultWritingHero: WritingHeroType = {
   title: '',
   imageUrl: undefined,
   modifiedImage: undefined,
-  isProfileImageUpdate: false,
+  profileImageUpdate: false,
 };
 
 export const useHeroStore = create<HeroState>(set => ({

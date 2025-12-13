@@ -100,7 +100,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
                       setWritingHero({
                         ...writingHero,
                         modifiedImage: selectedHeroPhoto,
-                        isProfileImageUpdate: true,
+                        profileImageUpdate: true,
                       });
                       if (navigation.canGoBack()) {
                         navigation.goBack();
