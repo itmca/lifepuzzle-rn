@@ -76,7 +76,7 @@ const AccountSettingNavigator = (): React.ReactElement => {
                       setModifyingUser({
                         ...modifyingUser,
                         modifiedImage: selectedUserPhoto,
-                        isProfileImageUpdate: true,
+                        profileImageUpdate: true,
                       });
                       if (navigation.canGoBack()) {
                         navigation.goBack();

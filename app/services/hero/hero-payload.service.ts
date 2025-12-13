@@ -31,7 +31,7 @@ const addHeroData = (
     isLunar: writingHero?.isLunar,
     title: writingHero?.title,
     imageUrl: imgPath ?? '',
-    isProfileImageUpdate: writingHero?.isProfileImageUpdate ?? false,
+    profileImageUpdate: writingHero?.profileImageUpdate ?? false,
   };
 
   PayloadBuilder.addJsonToFormData(formData, 'toWrite', savedHero);

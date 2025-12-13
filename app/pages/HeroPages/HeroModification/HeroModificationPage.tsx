@@ -121,7 +121,7 @@ const HeroModificationPage = (): React.ReactElement => {
                 hero?.nickName === writingHero.nickName &&
                 hero?.birthday === writingHero.birthday &&
                 hero?.isLunar === writingHero.isLunar &&
-                !writingHero.isProfileImageUpdate
+                !writingHero.profileImageUpdate
               }
             />
           </ContentContainer>

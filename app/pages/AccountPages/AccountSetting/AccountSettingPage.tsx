@@ -52,7 +52,7 @@ const AccountSettingPage = (): React.ReactElement => {
 
   useEffect(() => {
     if (responseUser) {
-      setWritingUser({ ...responseUser, isProfileImageUpdate: false });
+      setWritingUser({ ...responseUser, profileImageUpdate: false });
     }
   }, [responseUser, setWritingUser]);
 

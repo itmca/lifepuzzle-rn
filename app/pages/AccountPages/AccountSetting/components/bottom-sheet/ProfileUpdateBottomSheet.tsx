@@ -49,7 +49,7 @@ export const ProfileUpdateBottomSheet = ({
       ...writingUser,
       imageUrl: undefined,
       modifiedImage: undefined,
-      isProfileImageUpdate: true,
+      profileImageUpdate: true,
     });
   }, [setWritingUser, writingUser]);
 
@@ -117,7 +117,7 @@ export const ProfileUpdateBottomSheet = ({
             onPress={() => updateProfile()}
             disabled={
               (user?.nickName === writingUser.nickName || newNicknameError) &&
-              !writingUser?.isProfileImageUpdate
+              !writingUser?.profileImageUpdate
             }
             text="저장하기"
           />
