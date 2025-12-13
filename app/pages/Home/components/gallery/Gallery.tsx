@@ -81,9 +81,6 @@ const Gallery = ({
   const tags = useMediaStore(state => state.tags);
   const gallery = useMediaStore(state => state.gallery);
   const setGalleryError = useMediaStore(state => state.setGalleryError);
-  const setCurrentGalleryIndex = useSelectionStore(
-    state => state.setCurrentGalleryIndex,
-  );
   const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
   const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
@@ -280,16 +277,17 @@ const Gallery = ({
         galleryItem => galleryItem.id === item.id,
       );
 
-      setCurrentGalleryIndex(allGalleryIndex !== -1 ? allGalleryIndex : 0);
-
       navigation.navigate('App', {
         screen: 'StoryViewNavigator',
         params: {
           screen: isLoggedIn ? 'Story' : 'StoryDetailWithoutLogin',
+          params: {
+            galleryIndex: allGalleryIndex !== -1 ? allGalleryIndex : 0,
+          },
         },
       });
     },
-    [gallery, isLoggedIn, navigation, setCurrentGalleryIndex],
+    [gallery, isLoggedIn, navigation],
   );
 
   const renderGalleryItem = useCallback(
