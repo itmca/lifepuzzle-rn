@@ -217,7 +217,7 @@ const HomePage = (): React.ReactElement => {
       edges={['left', 'right', 'bottom']}
       isLoading={isLoading || isGalleryUploading}
     >
-      <ContentContainer flex={1} gap={12}>
+      <ContentContainer flex={1} gap={0}>
         {/* 상단 프로필 영역 */}
         <HeroSection
           onSharePress={handleHeroSharePress}

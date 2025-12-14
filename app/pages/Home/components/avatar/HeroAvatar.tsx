@@ -1,13 +1,14 @@
 import React from 'react';
-import { Avatar } from 'react-native-paper';
-import { StyleProp } from 'react-native';
+import { Image } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Profile } from '../../../../components/ui/display/Profile';
 
 type Props = {
   imageUrl: string | undefined;
   size: number;
-  style?: StyleProp<any> | undefined;
+  style?: StyleProp<ViewStyle> | undefined;
 };
 
 export const HeroAvatar = ({
@@ -20,10 +21,21 @@ export const HeroAvatar = ({
   }
 
   return (
-    <Avatar.Image
-      style={{ backgroundColor: Color.GREY, ...style }}
-      size={size}
-      source={{ uri: imageUrl }}
-    />
+    <Animated.View
+      style={[
+        {
+          width: '100%',
+          height: '100%',
+          backgroundColor: Color.GREY,
+          overflow: 'hidden',
+        },
+        style,
+      ]}
+    >
+      <Image
+        style={{ width: '100%', height: '100%' }}
+        source={{ uri: imageUrl }}
+      />
+    </Animated.View>
   );
 };
