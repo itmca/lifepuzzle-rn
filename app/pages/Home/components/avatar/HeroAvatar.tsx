@@ -24,8 +24,9 @@ export const HeroAvatar = ({
     <Animated.View
       style={[
         {
-          width: '100%',
-          height: '100%',
+          width: size,
+          height: size,
+          borderRadius: size / 2,
           backgroundColor: Color.GREY,
           overflow: 'hidden',
         },

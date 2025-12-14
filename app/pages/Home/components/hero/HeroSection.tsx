@@ -39,12 +39,21 @@ const HeroSection = ({
   // 애니메이션 스타일
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {
-      height: withSpring(isCollapsed ? 100 : 240, {
+      height: withSpring(isCollapsed ? 200 : 240, {
         damping: 35,
         stiffness: 90,
         velocity: 100,
       }),
-      paddingVertical: withSpring(isCollapsed ? 12 : 24, {
+      paddingVertical: withSpring(isCollapsed ? 0 : 24, {
+        damping: 35,
+        stiffness: 90,
+      }),
+    };
+  });
+
+  const animatedTextBlockStyle = useAnimatedStyle(() => {
+    return {
+      gap: withSpring(isCollapsed ? 4 : 8, {
         damping: 35,
         stiffness: 90,
       }),
@@ -55,8 +64,6 @@ const HeroSection = ({
     return <></>;
   }
 
-  const avatarSize = isCollapsed ? 48 : 90;
-
   const age = hero.birthday ? toInternationalAge(hero.birthday) : undefined;
 
   return (
@@ -65,36 +72,24 @@ const HeroSection = ({
         withNoBackground
         width="100%"
         height="100%"
-        useHorizontalLayout={isCollapsed}
-        alignItems={isCollapsed ? 'center' : 'stretch'}
-        justifyContent={isCollapsed ? 'flex-start' : 'center'}
-        gap={isCollapsed ? 12 : 16}
-        paddingTop={isCollapsed ? 0 : 8}
+        alignItems="stretch"
+        justifyContent="center"
+        gap={16}
         paddingHorizontal={20}
-        paddingRight={isCollapsed ? 52 : undefined}
       >
-        <Animated.View
-          style={[
-            styles.avatarBox,
-            {
-              width: avatarSize,
-              height: avatarSize,
-              borderRadius: avatarSize / 2,
-              overflow: 'hidden',
-            },
-          ]}
-        >
-          <HeroAvatar imageUrl={hero.imageUrl} size={avatarSize} />
-        </Animated.View>
+        <HeroAvatar
+          imageUrl={hero.imageUrl}
+          size={90}
+          style={styles.avatarBox}
+        />
 
         <Animated.View
           style={[
             styles.textBlock,
             {
-              flex: isCollapsed ? 1 : 0,
-              alignItems: isCollapsed ? 'flex-start' : 'center',
-              gap: isCollapsed ? 4 : 8,
+              alignItems: 'center',
             },
+            animatedTextBlockStyle,
           ]}
         >
           <ContentContainer
