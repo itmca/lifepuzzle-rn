@@ -18,7 +18,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Title } from '../base/TextBase';
 import { ContentContainer } from '../layout/ContentContainer';
 import { SvgIcon } from '../display/SvgIcon';
-import { Dimensions, LayoutChangeEvent, TouchableOpacity } from 'react-native';
+import {
+  Dimensions,
+  Keyboard,
+  LayoutChangeEvent,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 
 interface ModalProps extends Omit<BottomSheetModalProps, 'children'> {
   title?: string;
@@ -82,6 +88,20 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
       } else {
         bottomSheetModalRef.current?.close();
       }
+    }, [opened]);
+
+    useEffect(() => {
+      if (!opened) {
+        return;
+      }
+
+      const hideEvent =
+        Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+      const hideListener = Keyboard.addListener(hideEvent, () => {
+        bottomSheetModalRef.current?.snapToIndex(0);
+      });
+
+      return () => hideListener.remove();
     }, [opened]);
 
     return (
