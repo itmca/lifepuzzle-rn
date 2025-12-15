@@ -35,7 +35,7 @@ const HomePage = (): React.ReactElement => {
     useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState<number>(0);
-  const [isHeroCollapsed, setIsHeroCollapsed] = useState<boolean>(false);
+  const [heroCollapseProgress, setHeroCollapseProgress] = useState<number>(0);
 
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
@@ -122,7 +122,25 @@ const HomePage = (): React.ReactElement => {
 
   const handleGalleryScrollYChange = useCallback((offsetY: number) => {
     setScrollY(offsetY);
-    setIsHeroCollapsed(offsetY > 20);
+
+    const clampedOffset = Math.max(0, offsetY);
+    const expandThreshold = 20;
+    const collapseThreshold = 100;
+
+    let nextProgress = 0;
+    if (clampedOffset <= expandThreshold) {
+      nextProgress = 0;
+    } else if (clampedOffset >= collapseThreshold) {
+      nextProgress = 1;
+    } else {
+      nextProgress =
+        (clampedOffset - expandThreshold) /
+        (collapseThreshold - expandThreshold);
+    }
+
+    setHeroCollapseProgress(prev =>
+      Math.abs(prev - nextProgress) < 0.02 ? prev : nextProgress,
+    );
   }, []);
 
   // Ref to track previous image URLs for optimized preloading
@@ -221,7 +239,7 @@ const HomePage = (): React.ReactElement => {
         {/* 상단 프로필 영역 */}
         <HeroSection
           onSharePress={handleHeroSharePress}
-          isCollapsed={isHeroCollapsed}
+          collapseProgress={heroCollapseProgress}
         />
 
         {/* 중간 사진 영역 */}

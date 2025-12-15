@@ -1,7 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { StyleProp, ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { Image, StyleProp, View, ViewStyle } from 'react-native';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Profile } from '../../../../components/ui/display/Profile';
 
@@ -17,11 +15,11 @@ export const HeroAvatar = ({
   style,
 }: Props): React.ReactElement => {
   if (!imageUrl) {
-    return <Profile />;
+    return <Profile size={size} />;
   }
 
   return (
-    <Animated.View
+    <View
       style={[
         {
           width: size,
@@ -37,6 +35,6 @@ export const HeroAvatar = ({
         style={{ width: '100%', height: '100%' }}
         source={{ uri: imageUrl }}
       />
-    </Animated.View>
+    </View>
   );
 };
