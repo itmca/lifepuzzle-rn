@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { Keyboard, StyleSheet } from 'react-native';
 import Animated, {
+  Easing,
+  interpolate,
   useAnimatedStyle,
-  withSpring,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 
 import { useHeroStore } from '../../../../stores/hero.store';
@@ -20,15 +23,25 @@ import { toInternationalAge } from '../../../../utils/age-calculator.util.ts';
 
 type Props = {
   onSharePress: () => void;
-  isCollapsed?: boolean;
+  collapseProgress?: number;
 };
 
 const HeroSection = ({
   onSharePress,
-  isCollapsed = false,
+  collapseProgress = 0,
 }: Props): React.ReactElement => {
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
+
+  // 애니메이션 진입값 (0: 확장, 1: 축소)
+  const progress = useSharedValue(collapseProgress);
+
+  useEffect(() => {
+    progress.value = withTiming(collapseProgress, {
+      duration: 200,
+      easing: Easing.out(Easing.cubic),
+    });
+  }, [collapseProgress, progress]);
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleSharePress = useCallback(() => {
@@ -39,24 +52,14 @@ const HeroSection = ({
   // 애니메이션 스타일
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {
-      height: withSpring(isCollapsed ? 200 : 240, {
-        damping: 35,
-        stiffness: 90,
-        velocity: 100,
-      }),
-      paddingVertical: withSpring(isCollapsed ? 0 : 24, {
-        damping: 35,
-        stiffness: 90,
-      }),
+      height: interpolate(progress.value, [0, 1], [240, 200]),
+      paddingVertical: interpolate(progress.value, [0, 1], [24, 0]),
     };
   });
 
   const animatedTextBlockStyle = useAnimatedStyle(() => {
     return {
-      gap: withSpring(isCollapsed ? 4 : 8, {
-        damping: 35,
-        stiffness: 90,
-      }),
+      gap: interpolate(progress.value, [0, 1], [8, 4]),
     };
   });
 
@@ -72,16 +75,12 @@ const HeroSection = ({
         withNoBackground
         width="100%"
         height="100%"
-        alignItems="stretch"
+        alignItems="center"
         justifyContent="center"
         gap={16}
         paddingHorizontal={20}
       >
-        <HeroAvatar
-          imageUrl={hero.imageUrl}
-          size={90}
-          style={styles.avatarBox}
-        />
+        <HeroAvatar imageUrl={hero.imageUrl} size={90} />
 
         <Animated.View
           style={[
