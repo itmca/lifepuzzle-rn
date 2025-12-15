@@ -72,7 +72,7 @@
     "react-native-modal": "^14.0.0-rc.1",
     "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-nitro-modules": "^0.31.10",
-    "react-native-nitro-sound": "^0.2.9",
+    "react-native-nitro-sound": "^0.2.10",
     "react-native-paper": "^5.12.3",
     "react-native-paper-dates": "^0.15.1",
     "react-native-permissions": "^5.4.4",
