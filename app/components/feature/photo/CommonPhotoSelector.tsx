@@ -13,6 +13,7 @@ import {
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import Icon from '@react-native-vector-icons/fontawesome';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -56,7 +57,7 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
   usePhotoPermission({

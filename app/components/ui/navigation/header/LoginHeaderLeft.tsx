@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../../navigation/types.tsx';
 import { SvgIcon } from '../../display/SvgIcon.tsx';
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const LoginHeaderLeft = ({ type }: Props): React.ReactElement => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
 
   if (type === 'main') {
     return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleProp, View, ViewStyle } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../../navigation/types.tsx';
 import Icon from '@react-native-vector-icons/feather';
 import { Color } from '../../../../constants/color.constant';
 
@@ -17,7 +18,7 @@ const GoBackHeaderLeft = ({
   iconSize = 26,
   customAction,
 }: Props): React.ReactElement => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
 
   return (
     <Pressable
