@@ -182,7 +182,8 @@ const HomePage = (): React.ReactElement => {
   ]);
 
   useEffect(() => {
-    if (!tags?.length) {
+    // Only validate selectedTag on initial load, not during refresh
+    if (!tags?.length || isFetching) {
       return;
     }
 
@@ -190,7 +191,7 @@ const HomePage = (): React.ReactElement => {
     if (!isSelectedValid) {
       setSelectedTag({ ...tags[0] });
     }
-  }, [tags, selectedTag?.key, setSelectedTag]);
+  }, [tags, selectedTag?.key, setSelectedTag, isFetching]);
 
   useEffect(() => {
     if (!isLoading && !hasLoadedOnce) {
