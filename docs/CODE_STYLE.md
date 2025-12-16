@@ -131,6 +131,75 @@ const MyComponent = () => {
 프로젝트의 다음 hook들은 특히 주의가 필요합니다:
 
 - `useImageDimensions(sources, options)` - sources 배열은 반드시 안정적인 참조
+- `useCarouselManagement({imageSources, firstItemKey, ...})` - imageSources와 firstItemKey는 반드시 안정적인 참조
 - `useStoryWritingDimensions(params)` - params 객체는 반드시 안정적인 참조
 
-> ⚠️ **실제 사례**: StoryDetailPage에서 `filteredGallery.map()`을 직접 `useImageDimensions`에 전달하여 무한 루프 발생. useMemo로 해결함 (PR #223)
+> ⚠️ **실제 사례 1**: StoryDetailPage에서 `filteredGallery.map()`을 직접 `useImageDimensions`에 전달하여 무한 루프 발생. useMemo로 해결함 (PR #223)
+
+> ⚠️ **실제 사례 2**: PhotoEditorPage에서 useCarouselManagement에 inline 함수 전달하여 무한 루프 발생. useMemo로 imageSources를 안정화하여 해결함 (PR #249)
+
+### Custom Hook 설계 원칙
+
+Custom hook을 만들 때는 다음 원칙을 따릅니다:
+
+#### 1. 배열/객체는 값으로 받기 (함수로 받지 않기)
+
+**❌ 나쁜 예 - 함수로 받기**
+
+```typescript
+// Hook 정의
+function useMyHook({ items, getItemData }) {
+  const processedData = useMemo(
+    () => items.map(item => getItemData(item)),
+    [items, getItemData], // ❌ getItemData가 매번 바뀌면 무한 루프
+  );
+}
+
+// 사용
+useMyHook({
+  items: myItems,
+  getItemData: item => ({ uri: item.url }), // ❌ 매 렌더마다 새 함수
+});
+```
+
+**✅ 좋은 예 - 값으로 받기**
+
+```typescript
+// Hook 정의
+function useMyHook({ items, processedData }) {
+  // processedData는 이미 안정적인 참조
+  const result = useImageDimensions(processedData);
+}
+
+// 사용
+const processedData = useMemo(
+  () => myItems.map(item => ({ uri: item.url })),
+  [myItems],
+);
+useMyHook({
+  items: myItems,
+  processedData, // ✅ 안정적인 참조
+});
+```
+
+#### 2. 사용자에게 메모이제이션 책임 명시
+
+Hook JSDoc에 참조 안정성이 필요함을 명시합니다:
+
+```typescript
+/**
+ * @param imageSources - Array of image sources
+ *                       ⚠️ **IMPORTANT**: Must be a stable reference (use useMemo)
+ */
+export function useMyHook(imageSources: ImageSource[]) {
+  // ...
+}
+```
+
+#### 3. 이유
+
+- **명시성**: 사용자가 hook의 요구사항을 명확히 이해
+- **디버깅 용이**: 문제 발생 시 원인 파악 쉬움
+- **React 철학**: 명시적 데이터 흐름 유지
+- **향후 호환성**: React Compiler와 호환
+- **단순성**: useRef 등의 workaround 불필요

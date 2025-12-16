@@ -38,6 +38,22 @@ const PhotoEditorPage = (): React.ReactElement => {
   } = useSelectionStore();
   const isGalleryUploading = useUIStore(state => state.isGalleryUploading);
 
+  // Memoized values for useCarouselManagement
+  const imageSources = useMemo(
+    () =>
+      editGalleryItems.map(item => ({
+        uri: item.node.image.uri,
+        width: item.node.image.width,
+        height: item.node.image.height,
+      })),
+    [editGalleryItems],
+  );
+
+  const firstItemKey = useMemo(
+    () => editGalleryItems[0]?.node.image.uri ?? 'empty',
+    [editGalleryItems],
+  );
+
   // Custom hooks
   const { carouselKey, optimalCarouselHeight, imageDimensions, handleScroll } =
     useCarouselManagement({
@@ -46,12 +62,8 @@ const PhotoEditorPage = (): React.ReactElement => {
       setIndex: setGalleryIndex,
       carouselWidth: CAROUSEL_WIDTH_PADDED,
       maxCarouselHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
-      getItemSource: item => ({
-        uri: item.node.image.uri,
-        width: item.node.image.width,
-        height: item.node.image.height,
-      }),
-      getFirstItemKey: item => item.node.image.uri,
+      imageSources,
+      firstItemKey,
       imageDimensionsOptions: {
         defaultWidth: CAROUSEL_WIDTH_PADDED,
         defaultHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
