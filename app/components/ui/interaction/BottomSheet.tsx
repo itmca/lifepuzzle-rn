@@ -115,7 +115,9 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
           onDismiss={handleClose}
           keyboardBehavior="interactive"
           keyboardBlurBehavior="restore"
-          android_keyboardInputMode="adjustResize"
+          android_keyboardInputMode="adjustPan"
+          enablePanDownToClose={false}
+          enableDynamicSizing={false}
         >
           <BottomSheetView>
             <ContentContainer
