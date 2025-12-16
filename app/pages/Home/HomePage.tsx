@@ -267,9 +267,13 @@ const HomePage = (): React.ReactElement => {
       </ContentContainer>
 
       {/* 하단 버튼 영역 */}
-      {hero && hero.auth !== 'VIEWER' && (
-        <GalleryBottomButton onPress={handleGalleryButtonPress} />
-      )}
+      {hero &&
+        hero.auth !== 'VIEWER' &&
+        !heroShareModalOpen &&
+        !receivedImageBottomSheetOpen &&
+        !mediaPickerBottomSheetOpen && (
+          <GalleryBottomButton onPress={handleGalleryButtonPress} />
+        )}
 
       {/* 바텀 시트 영역 */}
       <BottomSheetSection
