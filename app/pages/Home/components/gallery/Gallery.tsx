@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import {
   FlatList,
+  RefreshControl,
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
@@ -46,6 +47,8 @@ type props = {
   hasInitialData?: boolean;
   onRetry?: () => void;
   onScrollYChange?: (offsetY: number) => void;
+  isRefreshing: boolean;
+  onRefresh: () => void;
 };
 
 const Gallery = ({
@@ -53,6 +56,8 @@ const Gallery = ({
   hasInitialData = false,
   onRetry,
   onScrollYChange,
+  isRefreshing,
+  onRefresh,
 }: props): React.ReactElement => {
   // Refs
   const tagScrollRef = useRef<ScrollView>(null);
@@ -89,6 +94,7 @@ const Gallery = ({
     tagsCount: tags?.length,
     selectedTagKey: selectedTag?.key,
     galleryCount: gallery?.length,
+    isRefreshing,
   });
 
   // Memoized 값
@@ -356,6 +362,15 @@ const Gallery = ({
             contentContainerStyle={{
               paddingBottom: 84,
             }}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={onRefresh}
+                progressBackgroundColor="#ffffff"
+                colors={['#007AFF']}
+                tintColor="#007AFF"
+              />
+            }
             ListEmptyComponent={
               (() => (
                 <ContentContainer alignCenter paddingVertical={60} gap={8}>
@@ -370,7 +385,14 @@ const Gallery = ({
         </ContentContainer>
       );
     },
-    [ageGroups, handleScroll, renderGalleryItem, windowWidth],
+    [
+      ageGroups,
+      handleScroll,
+      isRefreshing,
+      onRefresh,
+      renderGalleryItem,
+      windowWidth,
+    ],
   );
 
   if (shouldShowError) {
@@ -403,7 +425,7 @@ const Gallery = ({
 
   return (
     <>
-      <ContentContainer flex={1} gap={12} width="100%">
+      <ContentContainer flex={1} gap={12}>
         <ContentContainer paddingLeft={20}>
           <ScrollContentContainer
             ref={tagScrollRef}
@@ -430,7 +452,6 @@ const Gallery = ({
           ref={horizontalListRef}
           data={ageGroupsArray}
           horizontal
-          style={{ width: '100%' }}
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={handleHorizontalMomentumEnd}
