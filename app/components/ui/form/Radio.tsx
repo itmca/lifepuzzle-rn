@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { SvgIcon } from '../display/SvgIcon.tsx';
 import { BodyTextB, BodyTextM } from '../base/TextBase.tsx';
 import { Color } from '../../../constants/color.constant.ts';
@@ -22,7 +23,7 @@ export const Radio = ({
   subLabel,
   disableBuiltInState = false,
 }: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const [_selected, setselected] = useState<boolean>(selected ?? false);
   const onPress = () => {
     if (onSelect) {

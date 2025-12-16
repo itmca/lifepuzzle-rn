@@ -11,10 +11,11 @@ import {
   PhotoSelectorState,
 } from '../../../types/ui/photo-selector.type';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 
 const HeroProfileSelectorPage = (): React.ReactElement => {
   // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
 
   // 로컬 상태 관리
   const [selectedPhoto, setSelectedPhoto] = useState<

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../../navigation/types.tsx';
 import Icon from '@react-native-vector-icons/feather';
 import { Color } from '../../../../constants/color.constant';
 
@@ -9,7 +10,7 @@ type Props = {
 };
 
 const WritingHeaderLeft = ({ type }: Props): React.ReactElement => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   return (
     <Pressable
       onPress={() => {

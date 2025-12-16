@@ -4,14 +4,17 @@ import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
-import { PolicyRouteProps } from '../../../navigation/types.tsx';
+import {
+  BasicNavigationProps,
+  PolicyRouteProps,
+} from '../../../navigation/types.tsx';
 
 export const ServicePolicyPage = (): React.ReactElement => {
   // React hooks
   const [isWebViewLoaded, setIsWebViewLoaded] = useState(false);
 
   // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const {
     params: { settingAgree },
   } = useRoute<PolicyRouteProps<'ServicePolicy'>>();

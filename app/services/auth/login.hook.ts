@@ -4,6 +4,7 @@ import { AuthTokens } from '../../types/auth/auth.type.ts';
 import { UserType } from '../../types/core/user.type.ts';
 import { HeroType } from '../../types/core/hero.type.ts';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { useAuthStore } from '../../stores/auth.store.ts';
 import { useUserStore } from '../../stores/user.store.ts';
 import { useHeroStore } from '../../stores/hero.store.ts';
@@ -20,7 +21,7 @@ export type LoginResponse = {
 };
 
 export const useLoginResponseHandler = (option?: Option) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const setUser = useUserStore(state => state.setUser);
   const setAuthTokens = useAuthStore(state => state.setAuthTokens);
   const setHero = useHeroStore(state => state.setCurrentHero);

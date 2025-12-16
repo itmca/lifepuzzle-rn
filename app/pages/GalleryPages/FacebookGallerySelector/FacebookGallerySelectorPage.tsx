@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../../navigation/types.tsx';
 
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -39,7 +40,7 @@ const ageGroupOptions = [
 ];
 
 const FacebookGallerySelector = (): React.ReactElement => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const [selection, setSelection] = useSelectionStore(
     state => state.selectedGalleryItems,
   );

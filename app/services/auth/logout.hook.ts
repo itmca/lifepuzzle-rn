@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { LocalStorage } from '../core/local-storage.service.ts';
 import { SecureStorage } from '../core/secure-storage.service.ts';
 import { useNavigation } from '@react-navigation/native';
+import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { useAuthStore } from '../../stores/auth.store.ts';
 import { useUserStore } from '../../stores/user.store.ts';
 import { useHeroStore } from '../../stores/hero.store.ts';
@@ -13,7 +14,7 @@ type Option = {
 };
 
 export const useLogout = (option?: Option) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BasicNavigationProps>();
   const customGoBackAction = option?.customGoBackAction;
 
   const resetAuth = useAuthStore(state => state.clearAuth);
