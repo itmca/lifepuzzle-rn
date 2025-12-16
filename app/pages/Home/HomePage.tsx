@@ -8,7 +8,6 @@ import React, {
 import { useShallow } from 'zustand/react/shallow';
 import FastImage from '@d11/react-native-fast-image';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { RefreshControl, ScrollView } from 'react-native';
 import { useHeroStore } from '../../stores/hero.store';
 import { useMediaStore } from '../../stores/media.store';
 import { useUIStore } from '../../stores/ui.store';
@@ -35,6 +34,7 @@ const HomePage = (): React.ReactElement => {
   const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
     useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [scrollY, setScrollY] = useState<number>(0);
   const [heroCollapseProgress, setHeroCollapseProgress] = useState<number>(0);
 
   // 글로벌 상태 관리 (Zustand)
@@ -90,14 +90,13 @@ const HomePage = (): React.ReactElement => {
   }, [hero?.id, refetch]);
 
   const handlePullToRefresh = useCallback(() => {
-    if (isRefreshing) {
-      return;
+    if (!isRefreshing && scrollY <= 0) {
+      setIsRefreshing(true);
+      if (refetch && hero?.id && hero.id >= 0) {
+        refetch();
+      }
     }
-    setIsRefreshing(true);
-    if (refetch && hero?.id && hero.id >= 0) {
-      refetch();
-    }
-  }, [hero?.id, isRefreshing, refetch]);
+  }, [hero?.id, isRefreshing, refetch, scrollY]);
 
   const handleGalleryButtonPress = useCallback(() => {
     if (selectedTag?.key === 'AI_PHOTO') {
@@ -122,6 +121,8 @@ const HomePage = (): React.ReactElement => {
   }, [ageGroups]);
 
   const handleGalleryScrollYChange = useCallback((offsetY: number) => {
+    setScrollY(offsetY);
+
     const clampedOffset = Math.max(0, offsetY);
     const expandThreshold = 20;
     const collapseThreshold = 100;
@@ -234,45 +235,30 @@ const HomePage = (): React.ReactElement => {
       edges={['left', 'right', 'bottom']}
       isLoading={isLoading || isGalleryUploading}
     >
-      <ScrollView
-        style={{ flex: 1, width: '100%' }}
-        contentContainerStyle={{ flexGrow: 1 }}
-        nestedScrollEnabled
-        alwaysBounceVertical
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
+      <ContentContainer flex={1} gap={0}>
+        {/* 상단 프로필 영역 */}
+        <HeroSection
+          onSharePress={handleHeroSharePress}
+          collapseProgress={heroCollapseProgress}
+        />
+
+        {/* 중간 사진 영역 */}
+        <ContentContainer flex={1}>
+          <Gallery
+            isError={isError}
+            hasInitialData={hasInitialData}
+            onRetry={handleRefetch}
+            onScrollYChange={handleGalleryScrollYChange}
+            isRefreshing={isRefreshing}
             onRefresh={handlePullToRefresh}
-            progressBackgroundColor="#ffffff"
-            colors={['#007AFF']}
-            tintColor="#007AFF"
           />
-        }
-      >
-        <ContentContainer flex={1} gap={0}>
-          {/* 상단 프로필 영역 */}
-          <HeroSection
-            onSharePress={handleHeroSharePress}
-            collapseProgress={heroCollapseProgress}
-          />
-
-          {/* 중간 사진 영역 */}
-          <ContentContainer flex={1}>
-            <Gallery
-              isError={isError}
-              hasInitialData={hasInitialData}
-              onRetry={handleRefetch}
-              onScrollYChange={handleGalleryScrollYChange}
-            />
-          </ContentContainer>
         </ContentContainer>
+      </ContentContainer>
 
-        {/* 하단 버튼 영역 */}
-        {hero && hero.auth !== 'VIEWER' && (
-          <GalleryBottomButton onPress={handleGalleryButtonPress} />
-        )}
-      </ScrollView>
+      {/* 하단 버튼 영역 */}
+      {hero && hero.auth !== 'VIEWER' && (
+        <GalleryBottomButton onPress={handleGalleryButtonPress} />
+      )}
 
       {/* 바텀 시트 영역 */}
       <BottomSheetSection
