@@ -21,10 +21,10 @@ export interface UseCarouselManagementOptions<T> {
   carouselWidth: number;
   /** Carousel 최대 높이 */
   maxCarouselHeight: number;
-  /** 아이템에서 URI와 dimensions를 추출하는 함수 */
-  getItemSource: (item: T) => CarouselItem;
-  /** 첫 번째 아이템의 고유 식별자를 추출하는 함수 (key 생성용) */
-  getFirstItemKey: (item: T) => string;
+  /** 이미지 소스 배열 (⚠️ **IMPORTANT**: Must be a stable reference - use useMemo) */
+  imageSources: CarouselItem[];
+  /** 첫 번째 아이템의 고유 키 (key 생성용) */
+  firstItemKey: string;
   /** useImageDimensions 옵션 */
   imageDimensionsOptions?: {
     defaultWidth?: number;
@@ -57,6 +57,21 @@ export interface UseCarouselManagementReturn {
  * - handleScroll 로직
  *
  * @example
+ * // ⚠️ IMPORTANT: imageSources와 firstItemKey는 useMemo로 안정적인 참조 유지
+ * const imageSources = useMemo(
+ *   () => editGalleryItems.map(item => ({
+ *     uri: item.node.image.uri,
+ *     width: item.node.image.width,
+ *     height: item.node.image.height,
+ *   })),
+ *   [editGalleryItems]
+ * );
+ *
+ * const firstItemKey = useMemo(
+ *   () => editGalleryItems[0]?.node.image.uri ?? 'empty',
+ *   [editGalleryItems]
+ * );
+ *
  * const { carouselKey, optimalCarouselHeight, imageDimensions, handleScroll } =
  *   useCarouselManagement({
  *     items: editGalleryItems,
@@ -64,12 +79,8 @@ export interface UseCarouselManagementReturn {
  *     setIndex: setGalleryIndex,
  *     carouselWidth: CAROUSEL_WIDTH_PADDED,
  *     maxCarouselHeight: MAX_PHOTO_EDITOR_CAROUSEL_HEIGHT,
- *     getItemSource: (item) => ({
- *       uri: item.node.image.uri,
- *       width: item.node.image.width,
- *       height: item.node.image.height,
- *     }),
- *     getFirstItemKey: (item) => item.node.image.uri,
+ *     imageSources,
+ *     firstItemKey,
  *     debugName: 'PhotoEditor',
  *   });
  */
@@ -79,20 +90,14 @@ export function useCarouselManagement<T>({
   setIndex,
   carouselWidth,
   maxCarouselHeight,
-  getItemSource,
-  getFirstItemKey,
+  imageSources,
+  firstItemKey,
   imageDimensionsOptions,
   isDeletingRef,
   debugName = 'Carousel',
 }: UseCarouselManagementOptions<T>): UseCarouselManagementReturn {
   // 쓰로틀링을 위한 ref (필요시 사용)
   const lastScrollTimeRef = useRef<number>(0);
-
-  // 이미지 소스 추출
-  const imageSources = useMemo(
-    () => items.map(item => getItemSource(item)),
-    [items, getItemSource],
-  );
 
   // 이미지 dimensions 계산
   const imageDimensions = useImageDimensions(imageSources, {
@@ -114,9 +119,8 @@ export function useCarouselManagement<T>({
 
   // Carousel key 생성 (배열 길이 + 첫 번째 아이템 식별자)
   const carouselKey = useMemo(() => {
-    const firstKey = items.length > 0 ? getFirstItemKey(items[0]) : 'empty';
-    return `carousel-${items.length}-${firstKey}`;
-  }, [items, getFirstItemKey]);
+    return `carousel-${items.length}-${firstItemKey}`;
+  }, [items.length, firstItemKey]);
 
   // Scroll 핸들러
   const handleScroll = useCallback(
