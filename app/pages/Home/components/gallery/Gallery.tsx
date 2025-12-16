@@ -403,7 +403,7 @@ const Gallery = ({
 
   return (
     <>
-      <ContentContainer flex={1} gap={12}>
+      <ContentContainer flex={1} gap={12} width="100%">
         <ContentContainer paddingLeft={20}>
           <ScrollContentContainer
             ref={tagScrollRef}
@@ -430,6 +430,7 @@ const Gallery = ({
           ref={horizontalListRef}
           data={ageGroupsArray}
           horizontal
+          style={{ width: '100%' }}
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={handleHorizontalMomentumEnd}

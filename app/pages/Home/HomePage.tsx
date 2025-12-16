@@ -235,6 +235,7 @@ const HomePage = (): React.ReactElement => {
       isLoading={isLoading || isGalleryUploading}
     >
       <ScrollView
+        style={{ flex: 1, width: '100%' }}
         contentContainerStyle={{ flexGrow: 1 }}
         nestedScrollEnabled
         alwaysBounceVertical
