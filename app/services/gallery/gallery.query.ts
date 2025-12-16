@@ -20,6 +20,7 @@ export type UseGalleriesReturn = {
   ageGroups: AgeGroupsType;
   tags: TagType[];
   isLoading: boolean;
+  isFetching: boolean;
   isError: boolean;
   hasInitialData: boolean;
   refetch: () => void;
@@ -33,6 +34,7 @@ export const useGalleries = (): UseGalleriesReturn => {
   const tags = useMediaStore(state => state.tags);
   const setAgeGroups = useMediaStore(state => state.setAgeGroups);
   const setTags = useMediaStore(state => state.setTags);
+  const selectedTag = useSelectionStore(state => state.selectedTag);
   const setSelectedTag = useSelectionStore(state => state.setSelectedTag);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -68,15 +70,21 @@ export const useGalleries = (): UseGalleriesReturn => {
     ];
     setTags(newTags);
 
-    const heroAge = hero ? toInternationalAge(hero.birthday) : 0;
-    if (query.data.totalGallery === 0) {
-      const index =
-        Math.trunc(heroAge / 10) +
-        newTags.filter(item => item.key === 'AI_PHOTO').length;
-      setSelectedTag({ ...query.data.tags[index ?? 0] });
-    } else {
-      const index = newTags.findIndex(item => (item.count ?? 0) > 0);
-      setSelectedTag({ ...newTags[index ?? 0] });
+    // Only set selectedTag if it's not already set or if current selection is invalid
+    const isCurrentTagValid =
+      selectedTag && newTags.some(tag => tag.key === selectedTag.key);
+
+    if (!isCurrentTagValid) {
+      const heroAge = hero ? toInternationalAge(hero.birthday) : 0;
+      if (query.data.totalGallery === 0) {
+        const index =
+          Math.trunc(heroAge / 10) +
+          newTags.filter(item => item.key === 'AI_PHOTO').length;
+        setSelectedTag({ ...query.data.tags[index ?? 0] });
+      } else {
+        const index = newTags.findIndex(item => (item.count ?? 0) > 0);
+        setSelectedTag({ ...newTags[index ?? 0] });
+      }
     }
 
     setIsError(false);
@@ -93,7 +101,8 @@ export const useGalleries = (): UseGalleriesReturn => {
   return {
     ageGroups: ageGroups || {},
     tags: tags || [],
-    isLoading: query.isLoading || query.isFetching,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
     isError,
     hasInitialData: Boolean(query.data),
     refetch: query.refetch,
