@@ -41,6 +41,7 @@ import { BasicButton } from '../../../../components/ui/form/Button';
 import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 import Video from 'react-native-video';
 import VideoModal from '../../../../components/ui/interaction/VideoModal';
+import { LoadingContainer } from '../../../../components/ui/feedback/LoadingContainer';
 
 type props = {
   isError?: boolean;
@@ -49,6 +50,8 @@ type props = {
   onScrollYChange?: (offsetY: number) => void;
   isRefreshing: boolean;
   onRefresh: () => void;
+  isFetching: boolean;
+  hasLoadedOnce: boolean;
 };
 
 const Gallery = ({
@@ -58,6 +61,8 @@ const Gallery = ({
   onScrollYChange,
   isRefreshing,
   onRefresh,
+  isFetching,
+  hasLoadedOnce,
 }: props): React.ReactElement => {
   // Refs
   const tagScrollRef = useRef<ScrollView>(null);
@@ -424,7 +429,7 @@ const Gallery = ({
   }
 
   return (
-    <>
+    <LoadingContainer isLoading={isFetching && hasLoadedOnce}>
       <ContentContainer flex={1} gap={12}>
         <ContentContainer paddingLeft={20}>
           <ScrollContentContainer
@@ -474,7 +479,7 @@ const Gallery = ({
           onClose={() => setVideoModalOpen(false)}
         />
       )}
-    </>
+    </LoadingContainer>
   );
 };
 

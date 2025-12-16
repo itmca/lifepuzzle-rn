@@ -259,6 +259,8 @@ const HomePage = (): React.ReactElement => {
             onScrollYChange={handleGalleryScrollYChange}
             isRefreshing={isRefreshing}
             onRefresh={handlePullToRefresh}
+            isFetching={isFetching}
+            hasLoadedOnce={hasLoadedOnce}
           />
         </ContentContainer>
       </ContentContainer>
