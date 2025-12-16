@@ -36,6 +36,7 @@ const HomePage = (): React.ReactElement => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState<number>(0);
   const [heroCollapseProgress, setHeroCollapseProgress] = useState<number>(0);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState<boolean>(false);
 
   // 글로벌 상태 관리 (Zustand)
   const hero = useHeroStore(state => state.currentHero);
@@ -54,7 +55,8 @@ const HomePage = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
 
   // Custom hooks
-  const { isLoading, isError, hasInitialData, refetch } = useGalleries();
+  const { isLoading, isFetching, isError, hasInitialData, refetch } =
+    useGalleries();
   const { uploadGallery } = useUploadGallery();
 
   // Debug: 렌더링 추적
@@ -191,10 +193,16 @@ const HomePage = (): React.ReactElement => {
   }, [tags, selectedTag?.key, setSelectedTag]);
 
   useEffect(() => {
-    if (!isLoading && isRefreshing) {
+    if (!isLoading && !hasLoadedOnce) {
+      setHasLoadedOnce(true);
+    }
+  }, [isLoading, hasLoadedOnce]);
+
+  useEffect(() => {
+    if (!isFetching && isRefreshing) {
       setIsRefreshing(false);
     }
-  }, [isLoading, isRefreshing]);
+  }, [isFetching, isRefreshing]);
 
   // Close all bottom sheets when navigating away from this screen
   useFocusEffect(
@@ -233,7 +241,7 @@ const HomePage = (): React.ReactElement => {
       gap={0}
       alignItems="stretch"
       edges={['left', 'right', 'bottom']}
-      isLoading={isLoading || isGalleryUploading}
+      isLoading={(!hasLoadedOnce && isLoading) || isGalleryUploading}
     >
       <ContentContainer flex={1} gap={0}>
         {/* 상단 프로필 영역 */}

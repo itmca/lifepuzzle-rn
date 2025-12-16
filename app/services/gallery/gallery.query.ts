@@ -20,6 +20,7 @@ export type UseGalleriesReturn = {
   ageGroups: AgeGroupsType;
   tags: TagType[];
   isLoading: boolean;
+  isFetching: boolean;
   isError: boolean;
   hasInitialData: boolean;
   refetch: () => void;
@@ -93,7 +94,8 @@ export const useGalleries = (): UseGalleriesReturn => {
   return {
     ageGroups: ageGroups || {},
     tags: tags || [],
-    isLoading: query.isLoading || query.isFetching,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
     isError,
     hasInitialData: Boolean(query.data),
     refetch: query.refetch,
