@@ -9,7 +9,7 @@ export const HttpService = {
   /**
    * 기본 axios 인스턴스를 생성합니다.
    */
-  createAxiosInstance(timeout: number = 5000): AxiosInstance {
+  createAxiosInstance(timeout: number = 10000): AxiosInstance {
     const client = axios.create({ timeout });
 
     client.interceptors.response.use(response => {
