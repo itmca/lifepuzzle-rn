@@ -34,6 +34,7 @@ import StoryDateInput from '../StoryWriting/StoryDateInput.tsx';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
+import logger from '../../../utils/logger.util.ts';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks
@@ -153,7 +154,7 @@ const StoryDetailPage = (): React.ReactElement => {
 
   const handleSave = () => {
     // TODO: API call to save story
-    console.log('Saving content:', content);
+    logger.debug('Saving content:', content);
     setIsEditing(false);
   };
 
