@@ -42,18 +42,16 @@ import { useHeroStore } from '../../../stores/hero.store';
  */
 type ModalType = 'none' | 'pinch-zoom' | 'voice';
 
-/**
- * View modes for story content
- */
-type ViewMode = 'viewing' | 'editing';
-
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks - UI States
   const [isStory, setIsStory] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<ModalType>('none');
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
-  const [viewMode, setViewMode] = useState<ViewMode>('viewing');
+  const [editingGalleryId, setEditingGalleryId] = useState<number | null>(null);
   const [content, setContent] = useState<string>('');
+  const [draftContents, setDraftContents] = useState<Map<number, string>>(
+    new Map(),
+  );
   const isContentEmpty = content.trim().length === 0;
 
   // 외부 hook 호출 (navigation, route 등)
@@ -156,11 +154,25 @@ const StoryDetailPage = (): React.ReactElement => {
   /**
    * Carousel 스크롤 시 호출되는 핸들러
    * filteredIndex -> allGalleryIndex로 역변환하여 state 업데이트
+   * 현재 편집 중인 내용을 draft에 저장
    */
   const handleIndexChange = useCallback(
     (filteredIdx: number) => {
       if (filteredGallery.length === 0) {
         return;
+      }
+
+      // 0. 현재 편집 중인 내용을 draft에 저장
+      if (
+        currentGalleryItem &&
+        editingGalleryId === currentGalleryItem.id &&
+        content !== (currentGalleryItem.story?.content ?? '')
+      ) {
+        setDraftContents(prev => {
+          const next = new Map(prev);
+          next.set(currentGalleryItem.id, content);
+          return next;
+        });
       }
 
       // 1. 필터링된 갤러리에서 선택된 아이템 찾기
@@ -176,7 +188,13 @@ const StoryDetailPage = (): React.ReactElement => {
       setAllGalleryIndex(originalIndex);
       setIsStory(!!selectedItem.story);
     },
-    [filteredGallery, allGallery, setAllGalleryIndex],
+    [
+      filteredGallery,
+      allGallery,
+      currentGalleryItem,
+      editingGalleryId,
+      content,
+    ],
   );
 
   const openPinchZoomModal = (img: string) => {
@@ -185,7 +203,9 @@ const StoryDetailPage = (): React.ReactElement => {
   };
 
   const handleEdit = () => {
-    setViewMode('editing');
+    if (currentGalleryItem) {
+      setEditingGalleryId(currentGalleryItem.id);
+    }
   };
 
   // Story 저장 mutation (story.mutation.ts로 분리)
@@ -212,8 +232,15 @@ const StoryDetailPage = (): React.ReactElement => {
 
       updateGalleryStory(currentGalleryItem!.id, updatedStory);
 
+      // Draft에서 제거
+      setDraftContents(prev => {
+        const next = new Map(prev);
+        next.delete(currentGalleryItem!.id);
+        return next;
+      });
+
       // UI 상태 업데이트
-      setViewMode('viewing');
+      setEditingGalleryId(null);
       showToast(
         currentGalleryItem?.story?.id
           ? '이야기가 수정되었습니다'
@@ -238,15 +265,30 @@ const StoryDetailPage = (): React.ReactElement => {
   }, [route.params?.galleryIndex]);
 
   useEffect(() => {
-    setIsStory(!!currentGalleryItem?.story);
-    if (currentGalleryItem?.story?.content) {
-      setContent(currentGalleryItem.story.content);
-      setViewMode('viewing');
-    } else {
-      setContent('');
-      setViewMode('editing');
+    if (!currentGalleryItem) {
+      return;
     }
-  }, [currentGalleryItem?.story]);
+
+    setIsStory(!!currentGalleryItem.story);
+
+    // Draft 우선 로드, 없으면 저장된 story content 로드
+    const draftContent = draftContents.get(currentGalleryItem.id);
+    const savedContent = currentGalleryItem.story?.content;
+
+    if (draftContent !== undefined) {
+      // Draft가 있으면 draft 사용하고 editing 모드로
+      setContent(draftContent);
+      setEditingGalleryId(currentGalleryItem.id);
+    } else if (savedContent) {
+      // 저장된 content가 있으면 사용하고 viewing 모드로
+      setContent(savedContent);
+      setEditingGalleryId(null);
+    } else {
+      // 둘 다 없으면 빈 content로 editing 모드
+      setContent('');
+      setEditingGalleryId(currentGalleryItem.id);
+    }
+  }, [currentGalleryItem, draftContents]);
 
   /**
    * Gallery 변경 시 현재 인덱스의 유효성 검증
@@ -349,7 +391,7 @@ const StoryDetailPage = (): React.ReactElement => {
                 onChange={() => {}}
               />
             </ContentContainer>
-            {viewMode === 'editing' ? (
+            {editingGalleryId === currentGalleryItem?.id ? (
               <ContentContainer>
                 <ContentContainer minHeight={80}>
                   <TextAreaInput
