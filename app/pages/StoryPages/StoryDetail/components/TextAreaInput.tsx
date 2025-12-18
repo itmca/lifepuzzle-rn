@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native';
-import { Color } from '../../../constants/color.constant.ts';
-import { ContentContainer } from '../layout/ContentContainer';
-import { BodyTextM } from '../base/TextBase';
+import { Color } from '../../../../constants/color.constant.ts';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
+import { BodyTextM } from '../../../../components/ui/base/TextBase';
 
 type Props = {
   label?: string;
@@ -58,19 +58,20 @@ const TextAreaInput = ({
       >
         <TextInput
           value={text}
-          onChangeText={(text: string) => {
-            onChangeText(text);
+          onChangeText={(nextText: string) => {
+            onChangeText(nextText);
             setChanged(true);
           }}
           multiline
           onBlur={() => setFocused(false)}
           onFocus={() => setFocused(true)}
           placeholder={placeholder}
+          placeholderTextColor={Color.GREY_500}
           // BodyTextM Style
           style={{
-            fontSize: 14,
+            fontSize: 16,
             fontFamily: 'SUIT-Medium',
-            lineHeight: 14 * 1.4,
+            lineHeight: 16 * 1.6,
             letterSpacing: -0.25,
             width: '100%',
           }}

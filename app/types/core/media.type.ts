@@ -28,6 +28,7 @@ export type GalleryType = {
   index: number;
   type: 'IMAGE' | 'VIDEO';
   url: string;
+  date?: Date;
   story?: StoryType;
   tag: TagType;
 };
