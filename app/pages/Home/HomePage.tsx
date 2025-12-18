@@ -26,13 +26,19 @@ import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx
 import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
 import { useRenderLog } from '../../utils/debug/render-log.util';
 
+/**
+ * BottomSheet types for HomePage
+ */
+export type HomeBottomSheetType =
+  | 'none'
+  | 'hero-share'
+  | 'received-image'
+  | 'media-picker';
+
 const HomePage = (): React.ReactElement => {
-  // React hooks
-  const [heroShareModalOpen, setHeroShareModalOpen] = useState<boolean>(false);
-  const [receivedImageBottomSheetOpen, setReceivedImageBottomSheetOpen] =
-    useState<boolean>(false);
-  const [mediaPickerBottomSheetOpen, setMediaPickerBottomSheetOpen] =
-    useState<boolean>(false);
+  // React hooks - UI States
+  const [activeBottomSheet, setActiveBottomSheet] =
+    useState<HomeBottomSheetType>('none');
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState<number>(0);
   const [heroCollapseProgress, setHeroCollapseProgress] = useState<number>(0);
@@ -70,19 +76,11 @@ const HomePage = (): React.ReactElement => {
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleHeroSharePress = useCallback(() => {
-    setHeroShareModalOpen(true);
+    setActiveBottomSheet('hero-share');
   }, []);
 
-  const handleCloseHeroShareModal = useCallback(() => {
-    setHeroShareModalOpen(false);
-  }, []);
-
-  const handleCloseReceivedImageBottomSheet = useCallback(() => {
-    setReceivedImageBottomSheetOpen(false);
-  }, []);
-
-  const handleCloseMediaPicker = useCallback(() => {
-    setMediaPickerBottomSheetOpen(false);
+  const handleCloseBottomSheet = useCallback(() => {
+    setActiveBottomSheet('none');
   }, []);
 
   const handleRefetch = useCallback(() => {
@@ -109,7 +107,7 @@ const HomePage = (): React.ReactElement => {
         },
       });
     } else {
-      setMediaPickerBottomSheetOpen(true);
+      setActiveBottomSheet('media-picker');
     }
   }, [selectedTag?.key, navigation]);
 
@@ -170,16 +168,11 @@ const HomePage = (): React.ReactElement => {
       sharedImageData?.type &&
       hero?.name &&
       selectedTag?.key &&
-      !receivedImageBottomSheetOpen
+      activeBottomSheet === 'none'
     ) {
-      setReceivedImageBottomSheetOpen(true);
+      setActiveBottomSheet('received-image');
     }
-  }, [
-    sharedImageData?.type,
-    hero?.name,
-    selectedTag?.key,
-    receivedImageBottomSheetOpen,
-  ]);
+  }, [sharedImageData?.type, hero?.name, selectedTag?.key, activeBottomSheet]);
 
   useEffect(() => {
     // Only validate selectedTag on initial load, not during refresh
@@ -209,9 +202,7 @@ const HomePage = (): React.ReactElement => {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        setHeroShareModalOpen(false);
-        setReceivedImageBottomSheetOpen(false);
-        setMediaPickerBottomSheetOpen(false);
+        setActiveBottomSheet('none');
       };
     }, []),
   );
@@ -267,22 +258,14 @@ const HomePage = (): React.ReactElement => {
       </ContentContainer>
 
       {/* 하단 버튼 영역 */}
-      {hero &&
-        hero.auth !== 'VIEWER' &&
-        !heroShareModalOpen &&
-        !receivedImageBottomSheetOpen &&
-        !mediaPickerBottomSheetOpen && (
-          <GalleryBottomButton onPress={handleGalleryButtonPress} />
-        )}
+      {hero && hero.auth !== 'VIEWER' && activeBottomSheet === 'none' && (
+        <GalleryBottomButton onPress={handleGalleryButtonPress} />
+      )}
 
       {/* 바텀 시트 영역 */}
       <BottomSheetSection
-        heroShareModalOpen={heroShareModalOpen}
-        onCloseHeroShareModal={handleCloseHeroShareModal}
-        receivedImageBottomSheetOpen={receivedImageBottomSheetOpen}
-        onCloseReceivedImageBottomSheet={handleCloseReceivedImageBottomSheet}
-        mediaPickerBottomSheetOpen={mediaPickerBottomSheetOpen}
-        onCloseMediaPicker={handleCloseMediaPicker}
+        activeBottomSheet={activeBottomSheet}
+        onCloseBottomSheet={handleCloseBottomSheet}
         isGalleryUploading={isGalleryUploading}
         onSubmitGallery={uploadGallery}
         onRefetch={handleRefetch}

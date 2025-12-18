@@ -6,33 +6,19 @@ import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
 import { ShareAuthList } from '../../../../components/feature/hero/ShareAuthList';
 import { SharedBottomSheet } from './SharedBottomSheet';
 import { MediaPickerBottomSheet } from './MediaPickerBottomSheet';
+import { HomeBottomSheetType } from '../../HomePage';
 
 type Props = {
-  // 주인공 공유 모달 관련
-  heroShareModalOpen: boolean;
-  onCloseHeroShareModal: () => void;
-
-  // 외부 공유받은 이미지 바텀시트 관련
-  receivedImageBottomSheetOpen: boolean;
-  onCloseReceivedImageBottomSheet: () => void;
-
-  // 미디어 피커 바텀시트 관련
-  mediaPickerBottomSheetOpen: boolean;
-  onCloseMediaPicker: () => void;
-
-  // 기타
+  activeBottomSheet: HomeBottomSheetType;
+  onCloseBottomSheet: () => void;
   isGalleryUploading: boolean;
   onSubmitGallery: () => void;
   onRefetch: () => void;
 };
 
 const BottomSheetSection = ({
-  heroShareModalOpen,
-  onCloseHeroShareModal,
-  receivedImageBottomSheetOpen,
-  onCloseReceivedImageBottomSheet,
-  mediaPickerBottomSheetOpen,
-  onCloseMediaPicker,
+  activeBottomSheet,
+  onCloseBottomSheet,
   isGalleryUploading,
   onSubmitGallery,
   onRefetch,
@@ -42,32 +28,32 @@ const BottomSheetSection = ({
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleCloseReceivedImageBottomSheet = useCallback(() => {
-    onCloseReceivedImageBottomSheet();
+    onCloseBottomSheet();
     setSharedImageData({} as SharePhoto);
     onRefetch();
-  }, [onCloseReceivedImageBottomSheet, setSharedImageData, onRefetch]);
+  }, [onCloseBottomSheet, setSharedImageData, onRefetch]);
 
   return (
     <>
       <BottomSheet
-        opened={heroShareModalOpen}
+        opened={activeBottomSheet === 'hero-share'}
         title={'공유하기'}
-        onClose={onCloseHeroShareModal}
+        onClose={onCloseBottomSheet}
         paddingBottom={12}
       >
         <ShareAuthList />
       </BottomSheet>
 
       <SharedBottomSheet
-        visible={receivedImageBottomSheetOpen}
+        visible={activeBottomSheet === 'received-image'}
         sharedImageData={sharedImageData}
         onClose={handleCloseReceivedImageBottomSheet}
         isGalleryUploading={isGalleryUploading}
       />
 
       <MediaPickerBottomSheet
-        visible={mediaPickerBottomSheetOpen}
-        onClose={onCloseMediaPicker}
+        visible={activeBottomSheet === 'media-picker'}
+        onClose={onCloseBottomSheet}
         onSubmitGallery={onSubmitGallery}
         isGalleryUploading={isGalleryUploading}
       />
