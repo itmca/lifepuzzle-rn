@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
@@ -15,6 +15,7 @@ import { useAuthValidation } from '../auth/validation.hook';
 import { useStoryValidation } from './story-validation.hook';
 import { useErrorHandler } from '../common/error-handler.hook';
 import { StoryType } from '../../types/core/story.type';
+import { GalleryType } from '../../types/core/media.type';
 import { queryKeys } from '../core/query-keys';
 import logger from '../../utils/logger.util';
 
@@ -301,4 +302,122 @@ export const useDeleteGallery = ({
     deleteGallery: submit,
     isPending,
   };
+};
+
+/**
+ * StoryDetailPage에서 inline editing으로 story를 저장하는 mutation hook
+ *
+ * useSaveStory와의 차이점:
+ * - useSaveStory: writingStory store 사용, navigation.goBack(), modal 표시
+ * - useStoryDetailMutation: 파라미터로 galleryItem 받음, 같은 페이지 유지, onSuccess/onError callback 제공
+ *
+ * @example
+ * const { saveTrigger, isSaving } = useStoryDetailMutation({
+ *   galleryItem: currentGalleryItem,
+ *   onSuccess: (storyKey) => {
+ *     // StoryDetailPage에서 updatedStory 생성 및 store 업데이트
+ *     const updatedStory = createUpdatedStory(storyKey, content, currentGalleryItem);
+ *     updateGalleryStory(currentGalleryItem.id, updatedStory);
+ *     showToast('이야기가 저장되었습니다');
+ *     setIsEditing(false);
+ *   },
+ *   onError: (message) => showErrorToast(message),
+ * });
+ *
+ * const handleSave = () => {
+ *   if (isContentEmpty) return;
+ *   saveTrigger(content);
+ * };
+ */
+
+type UseStoryDetailMutationParams = {
+  galleryItem: GalleryType | undefined;
+  onSuccess: (storyKey: string) => void;
+  onError: (message: string) => void;
+};
+
+export type UseStoryDetailMutationReturn = {
+  saveTrigger: (content: string) => void;
+  isSaving: boolean;
+};
+
+export const useStoryDetailMutation = ({
+  galleryItem,
+  onSuccess,
+  onError,
+}: UseStoryDetailMutationParams): UseStoryDetailMutationReturn => {
+  const { currentHero } = useHeroStore();
+  const queryClient = useQueryClient();
+  const editStoryKey = galleryItem?.story?.id;
+
+  const [isSaving, trigger] = useAuthMutation<{ storyKey: string }>({
+    axiosConfig: {
+      method: editStoryKey ? 'put' : 'post',
+      url: editStoryKey
+        ? `/v3/galleries/stories/${editStoryKey}`
+        : '/v3/galleries/stories',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 30_000,
+    },
+    onSuccess: ({ storyKey }) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
+      onSuccess(storyKey);
+    },
+    onError: () => {
+      const errorMessage = editStoryKey
+        ? '이야기 수정에 실패했습니다. 다시 시도해주세요.'
+        : '이야기 저장에 실패했습니다. 다시 시도해주세요.';
+      onError(errorMessage);
+    },
+  });
+
+  const saveTrigger = useCallback(
+    (content: string) => {
+      // Validation
+      if (!content.trim()) {
+        onError('이야기 내용을 입력해주세요');
+        return;
+      }
+
+      if (content.length > 1000) {
+        onError('1000자 이내로 입력해주세요');
+        return;
+      }
+
+      if (!currentHero) {
+        onError('주인공 정보를 불러올 수 없습니다');
+        return;
+      }
+
+      if (!galleryItem) {
+        onError('사진 정보를 불러올 수 없습니다');
+        return;
+      }
+
+      // WritingStoryType 객체 생성
+      const writingStory = {
+        content,
+        date: galleryItem.date ?? new Date(),
+        gallery: [
+          {
+            id: galleryItem.id,
+            uri: galleryItem.url,
+            tagKey: galleryItem.tag?.key ?? 'UNCATEGORIZED',
+          },
+        ],
+        voice: galleryItem.story?.audios?.[0],
+      };
+
+      // FormData 생성 및 API 호출
+      const formData = StoryPayloadService.createStoryFormData(
+        writingStory,
+        currentHero,
+      );
+
+      void trigger({ data: formData });
+    },
+    [currentHero, galleryItem, trigger, onError],
+  );
+
+  return { saveTrigger, isSaving };
 };
