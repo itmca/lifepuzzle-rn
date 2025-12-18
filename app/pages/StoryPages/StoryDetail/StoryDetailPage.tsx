@@ -37,13 +37,22 @@ import { StoryType } from '../../../types/core/story.type';
 import { useStoryDetailMutation } from '../../../services/story/story.mutation';
 import { useHeroStore } from '../../../stores/hero.store';
 
+/**
+ * Modal types for StoryDetailPage
+ */
+type ModalType = 'none' | 'pinch-zoom' | 'voice';
+
+/**
+ * View modes for story content
+ */
+type ViewMode = 'viewing' | 'editing';
+
 const StoryDetailPage = (): React.ReactElement => {
-  // React hooks
+  // React hooks - UI States
   const [isStory, setIsStory] = useState<boolean>(false);
-  const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
+  const [activeModal, setActiveModal] = useState<ModalType>('none');
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
-  const [voiceModalOpen, setVoiceModalOpen] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('viewing');
   const [content, setContent] = useState<string>('');
   const isContentEmpty = content.trim().length === 0;
 
@@ -172,11 +181,11 @@ const StoryDetailPage = (): React.ReactElement => {
 
   const openPinchZoomModal = (img: string) => {
     setPinchZoomImage(img);
-    setPinchZoomModalOpen(true);
+    setActiveModal('pinch-zoom');
   };
 
   const handleEdit = () => {
-    setIsEditing(true);
+    setViewMode('editing');
   };
 
   // Story 저장 mutation (story.mutation.ts로 분리)
@@ -204,7 +213,7 @@ const StoryDetailPage = (): React.ReactElement => {
       updateGalleryStory(currentGalleryItem!.id, updatedStory);
 
       // UI 상태 업데이트
-      setIsEditing(false);
+      setViewMode('viewing');
       showToast(
         currentGalleryItem?.story?.id
           ? '이야기가 수정되었습니다'
@@ -232,10 +241,10 @@ const StoryDetailPage = (): React.ReactElement => {
     setIsStory(!!currentGalleryItem?.story);
     if (currentGalleryItem?.story?.content) {
       setContent(currentGalleryItem.story.content);
-      setIsEditing(false);
+      setViewMode('viewing');
     } else {
       setContent('');
-      setIsEditing(true);
+      setViewMode('editing');
     }
   }, [currentGalleryItem?.story]);
 
@@ -340,7 +349,7 @@ const StoryDetailPage = (): React.ReactElement => {
                 onChange={() => {}}
               />
             </ContentContainer>
-            {isEditing ? (
+            {viewMode === 'editing' ? (
               <ContentContainer>
                 <ContentContainer minHeight={80}>
                   <TextAreaInput
@@ -399,13 +408,13 @@ const StoryDetailPage = (): React.ReactElement => {
                 <AudioBtn
                   audioUrl={currentGalleryItem.story.audios[0]}
                   onPlay={() => {
-                    setVoiceModalOpen(true);
+                    setActiveModal('voice');
                   }}
                 />
               ) : (
                 <VoiceAddButton
                   onPress={() => {
-                    setVoiceModalOpen(true);
+                    setActiveModal('voice');
                   }}
                 />
               )}
@@ -421,15 +430,15 @@ const StoryDetailPage = (): React.ReactElement => {
         />
       )}
       <PinchZoomModal
-        opened={pinchZoomModalOpen}
+        opened={activeModal === 'pinch-zoom'}
         imageUri={pinchZoomImage}
-        onClose={() => setPinchZoomModalOpen(false)}
+        onClose={() => setActiveModal('none')}
       />
       <VoiceBottomSheet
-        opened={voiceModalOpen}
+        opened={activeModal === 'voice'}
         editable={false}
         onClose={() => {
-          setVoiceModalOpen(false);
+          setActiveModal('none');
         }}
       />
     </PageContainer>
