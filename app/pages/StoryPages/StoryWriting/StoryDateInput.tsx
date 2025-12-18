@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Color } from '../../../constants/color.constant.ts';
-import { Caption } from '../../../components/ui/base/TextBase';
-import { SvgIcon } from '../../../components/ui/display/SvgIcon';
+import { BodyTextM } from '../../../components/ui/base/TextBase';
 import { ButtonBase } from '../../../components/ui/base/ButtonBase';
+import Icon from '@react-native-vector-icons/material-icons';
 
 const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -18,9 +18,7 @@ export interface StoryDateInputProps {
 
 function StoryDateInput(props: StoryDateInputProps) {
   const [visible, setVisible] = useState(false);
-  const [date, onChangeDate] = useState<Date | undefined>(
-    props.date ? new Date(props.date) : undefined,
-  );
+  const [date, onChangeDate] = useState<Date | undefined>(props.date);
   const showPicker = () => {
     setVisible(true);
   };
@@ -35,6 +33,8 @@ function StoryDateInput(props: StoryDateInputProps) {
       const day = daysKor[date.getDay()];
       return `${year}.${month}.${dd} (${day})`;
     }
+
+    return '';
   };
   const onConfirm = (selectedValue: Date) => {
     setVisible(false);
@@ -70,13 +70,13 @@ function StoryDateInput(props: StoryDateInputProps) {
         gap={2}
       >
         {date ? (
-          <Caption
+          <BodyTextM
             color={Color.GREY_600}
-          >{`${props.ageGroupLabel} · ${formatDate(date)}`}</Caption>
+          >{`${props.ageGroupLabel} · ${formatDate(date)}`}</BodyTextM>
         ) : (
-          <Caption color={Color.GREY_400}>{props.ageGroupLabel}</Caption>
+          <BodyTextM color={Color.GREY_600}>{props.ageGroupLabel}</BodyTextM>
         )}
-        <SvgIcon name={'chevronDown'} size={20} />
+        <Icon name={'keyboard-arrow-down'} size={20} color={Color.GREY_400} />
       </ButtonBase>
       <DateTimePicker
         isVisible={visible}

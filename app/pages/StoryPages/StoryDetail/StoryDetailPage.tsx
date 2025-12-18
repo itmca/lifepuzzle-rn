@@ -19,9 +19,9 @@ import {
 } from '../../../constants/carousel.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { useMediaStore } from '../../../stores/media.store';
-import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
+import { Title } from '../../../components/ui/base/TextBase';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
-import TextAreaInput from '../../../components/ui/form/TextAreaInput';
+import TextAreaInput from './components/TextAreaInput';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';
 import { useImageDimensions } from '../../../hooks/useImageDimensions';
@@ -44,6 +44,7 @@ const StoryDetailPage = (): React.ReactElement => {
   const [voiceModalOpen, setVoiceModalOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [content, setContent] = useState<string>('');
+  const isContentEmpty = content.trim().length === 0;
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -237,13 +238,13 @@ const StoryDetailPage = (): React.ReactElement => {
         </ContentContainer>
         <ContentContainer
           paddingHorizontal={20}
-          paddingTop={4}
+          paddingTop={8}
           flex={1}
           expandToEnd
           gap={0}
         >
           <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-          <ContentContainer paddingTop={24} gap={20}>
+          <ContentContainer paddingTop={24} gap={8}>
             <ContentContainer
               useHorizontalLayout
               width={'auto'}
@@ -252,65 +253,74 @@ const StoryDetailPage = (): React.ReactElement => {
             >
               <StoryDateInput
                 ageGroupLabel={currentGalleryItem.tag?.label}
-                date={new Date()}
+                date={currentGalleryItem.date}
                 onChange={() => {}}
               />
             </ContentContainer>
             {isEditing ? (
-              <>
-                <ContentContainer minHeight={60}>
+              <ContentContainer>
+                <ContentContainer minHeight={80}>
                   <TextAreaInput
                     text={content}
                     onChangeText={setContent}
                     placeholder={`사진을 보며 들려주신 이야기를\n한두 줄로 남겨보세요`}
                   />
                 </ContentContainer>
-                <ContentContainer width={100} alignSelf="flex-start">
+                <ContentContainer width={100}>
                   <BasicButton
                     text="완료"
                     onPress={handleSave}
-                    height={40}
+                    height={44}
                     backgroundColor={Color.WHITE}
                     textColor={Color.MAIN_DARK}
                     borderColor={Color.MAIN_LIGHT}
-                    borderRadius={20}
+                    borderRadius={22}
+                    disabled={isContentEmpty}
+                    disabledBackgroundColor={Color.GREY_100}
+                    disabledTextColor={Color.GREY_400}
+                    disabledBorderColor={Color.GREY_200}
                   />
                 </ContentContainer>
-              </>
+              </ContentContainer>
             ) : (
               <>
                 {content && (
                   <ContentContainer gap={12}>
-                    <BodyTextM color={Color.GREY_500}>{content}</BodyTextM>
-                    <ContentContainer width="auto" alignSelf="flex-start">
+                    <ContentContainer minHeight={80} paddingVertical={8}>
+                      <Title color={Color.GREY_800}>{content}</Title>
+                    </ContentContainer>
+                    <ContentContainer width={100}>
                       <BasicButton
                         text="수정하기"
                         onPress={handleEdit}
-                        backgroundColor={Color.GREY_200}
-                        textColor={Color.GREY_700}
-                        height={40}
-                        borderRadius={20}
+                        textColor={Color.GREY_500}
+                        borderColor={Color.GREY_200}
+                        backgroundColor={Color.WHITE}
+                        height={44}
+                        borderRadius={22}
                       />
                     </ContentContainer>
                   </ContentContainer>
                 )}
               </>
             )}
-            {currentGalleryItem?.story?.audios &&
-            currentGalleryItem.story.audios.length > 0 ? (
-              <AudioBtn
-                audioUrl={currentGalleryItem.story.audios[0]}
-                onPlay={() => {
-                  setVoiceModalOpen(true);
-                }}
-              />
-            ) : (
-              <VoiceAddButton
-                onPress={() => {
-                  setVoiceModalOpen(true);
-                }}
-              />
-            )}
+            <ContentContainer paddingVertical={10}>
+              {currentGalleryItem?.story?.audios &&
+              currentGalleryItem.story.audios.length > 0 ? (
+                <AudioBtn
+                  audioUrl={currentGalleryItem.story.audios[0]}
+                  onPlay={() => {
+                    setVoiceModalOpen(true);
+                  }}
+                />
+              ) : (
+                <VoiceAddButton
+                  onPress={() => {
+                    setVoiceModalOpen(true);
+                  }}
+                />
+              )}
+            </ContentContainer>
           </ContentContainer>
         </ContentContainer>
       </ScrollContentContainer>
