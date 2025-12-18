@@ -37,7 +37,7 @@ const TextAreaInput = ({
     if (onIsErrorChanged && changed) {
       onIsErrorChanged(isError);
     }
-  }, [isError]);
+  }, [isError, onIsErrorChanged, changed]);
   return (
     <ContentContainer gap={6} backgroundColor={Color.TRANSPARENT}>
       {label && (

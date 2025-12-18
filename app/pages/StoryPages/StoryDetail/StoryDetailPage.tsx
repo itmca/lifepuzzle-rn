@@ -1,12 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
-import { useStoryStore } from '../../../stores/story.store';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -34,7 +29,13 @@ import StoryDateInput from '../StoryWriting/StoryDateInput.tsx';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
-import logger from '../../../utils/logger.util.ts';
+import {
+  showToast,
+  showErrorToast,
+} from '../../../components/ui/feedback/Toast';
+import { StoryType } from '../../../types/core/story.type';
+import { useStoryDetailMutation } from '../../../services/story/story.mutation';
+import { useHeroStore } from '../../../stores/hero.store';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks
@@ -59,9 +60,12 @@ const StoryDetailPage = (): React.ReactElement => {
 
   // 글로벌 상태 관리
   const allGallery = useMediaStore(state => state.gallery);
-  const resetWritingStory = useStoryStore(state => state.resetWritingStory);
+  const updateGalleryStory = useMediaStore(state => state.updateGalleryStory);
+  const { currentHero } = useHeroStore();
 
   // Memoized 값
+  // filteredGallery: AI_PHOTO 태그를 제외한 갤러리 아이템들만 포함
+  // (StoryDetailPage는 AI 생성 사진을 표시하지 않음)
   const filteredGallery = useMemo(
     () => allGallery.filter(item => item.tag?.key !== 'AI_PHOTO'),
     [allGallery],
@@ -84,7 +88,20 @@ const StoryDetailPage = (): React.ReactElement => {
     skipVideoTypes: true,
   });
 
-  // 전체 갤러리 인덱스를 필터링된 갤러리 인덱스로 변환
+  /**
+   * Dual-Index System (이중 인덱스 시스템)
+   *
+   * - allGalleryIndex: 전체 갤러리(AI 사진 포함)에서의 현재 아이템 위치
+   * - filteredIndex: 필터링된 갤러리(AI 사진 제외)에서의 현재 아이템 위치
+   *
+   * 이 시스템이 필요한 이유:
+   * 1. 전역 state는 모든 사진(AI 포함)을 관리
+   * 2. StoryDetailPage는 AI 사진을 제외한 사진만 표시
+   * 3. Navigation params는 전체 갤러리 기준 인덱스를 전달
+   * 4. MediaCarousel은 필터링된 갤러리 기준 인덱스를 사용
+   *
+   * useGalleryIndexMapping: allGalleryIndex를 filteredIndex로 변환
+   */
   const filteredIndex = useGalleryIndexMapping(
     allGallery,
     filteredGallery,
@@ -127,17 +144,26 @@ const StoryDetailPage = (): React.ReactElement => {
   );
 
   // Custom functions
+  /**
+   * Carousel 스크롤 시 호출되는 핸들러
+   * filteredIndex -> allGalleryIndex로 역변환하여 state 업데이트
+   */
   const handleIndexChange = useCallback(
     (filteredIdx: number) => {
       if (filteredGallery.length === 0) {
         return;
       }
 
+      // 1. 필터링된 갤러리에서 선택된 아이템 찾기
       const selectedItem =
         filteredGallery[filteredIdx % filteredGallery.length];
+
+      // 2. 전체 갤러리에서 해당 아이템의 인덱스 찾기 (역변환)
       const originalIndex = allGallery.findIndex(
         item => item.id === selectedItem.id,
       );
+
+      // 3. 전체 갤러리 기준 인덱스 업데이트
       setAllGalleryIndex(originalIndex);
       setIsStory(!!selectedItem.story);
     },
@@ -153,19 +179,48 @@ const StoryDetailPage = (): React.ReactElement => {
     setIsEditing(true);
   };
 
+  // Story 저장 mutation (story.mutation.ts로 분리)
+  const { saveTrigger, isSaving } = useStoryDetailMutation({
+    galleryItem: currentGalleryItem,
+    onSuccess: storyKey => {
+      // Gallery store 업데이트
+      const baseStory = currentGalleryItem?.story;
+      const updatedStory: StoryType = {
+        id: storyKey,
+        heroId: currentHero?.id ?? baseStory?.heroId ?? 0,
+        content: content,
+        question: baseStory?.question ?? '',
+        photos: baseStory?.photos ?? [],
+        audios: baseStory?.audios ?? [],
+        videos: baseStory?.videos ?? [],
+        gallery: baseStory?.gallery ?? [],
+        tags: baseStory?.tags ?? [],
+        date: currentGalleryItem?.date ?? baseStory?.date ?? new Date(),
+        createdAt: baseStory?.createdAt ?? new Date(),
+        recordingTime: baseStory?.recordingTime,
+        playingTime: baseStory?.playingTime,
+      };
+
+      updateGalleryStory(currentGalleryItem!.id, updatedStory);
+
+      // UI 상태 업데이트
+      setIsEditing(false);
+      showToast(
+        currentGalleryItem?.story?.id
+          ? '이야기가 수정되었습니다'
+          : '이야기가 저장되었습니다',
+      );
+    },
+    onError: message => {
+      showErrorToast(message);
+    },
+  });
+
   const handleSave = () => {
-    // TODO: API call to save story
-    logger.debug('Saving content:', content);
-    setIsEditing(false);
+    saveTrigger(content);
   };
 
   // Side effects
-  useFocusEffect(
-    useCallback(() => {
-      resetWritingStory();
-    }, [resetWritingStory]),
-  );
-
   // Route params 변경 시 로컬 state 업데이트
   useEffect(() => {
     if (route.params?.galleryIndex !== undefined) {
@@ -184,37 +239,61 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   }, [currentGalleryItem?.story]);
 
+  /**
+   * Gallery 변경 시 현재 인덱스의 유효성 검증
+   *
+   * 실행 시점:
+   * - 갤러리 아이템 삭제 시
+   * - AI 사진이 추가/제거되어 필터링 결과가 변경될 때
+   *
+   * 검증 로직:
+   * 1. 현재 allGalleryIndex가 가리키는 아이템이 여전히 filteredGallery에 존재하는지 확인
+   * 2. 존재하지 않으면 안전한 fallback 인덱스로 이동
+   * 3. Crash 방지 및 사용자 경험 개선
+   */
   useEffect(() => {
     if (filteredGallery.length === 0) {
       return;
     }
 
     const currentItem = allGallery[allGalleryIndex];
+
+    // 현재 아이템이 필터링된 갤러리에 여전히 존재하는지 확인
     const currentExists =
       currentItem && currentItem.tag?.key !== 'AI_PHOTO'
         ? filteredGallery.some(item => item.id === currentItem.id)
         : false;
 
+    // 현재 아이템이 없거나 인덱스가 범위를 벗어나면 안전한 위치로 이동
     if (!currentExists || allGalleryIndex >= allGallery.length) {
+      // Fallback: 현재 filteredIndex 위치 또는 마지막 아이템
       const fallbackItem =
         filteredGallery[Math.min(filteredIndex, filteredGallery.length - 1)] ??
         filteredGallery[filteredGallery.length - 1];
+
+      // 전체 갤러리에서 fallback 아이템의 인덱스 찾기
       const nextIndex = allGallery.findIndex(
         item => item.id === fallbackItem.id,
       );
+
+      // 인덱스가 유효하고 현재와 다르면 업데이트
       if (nextIndex >= 0 && nextIndex !== allGalleryIndex) {
         setAllGalleryIndex(nextIndex);
       }
     }
   }, [allGallery, allGalleryIndex, filteredGallery, filteredIndex]);
 
+  /**
+   * 빈 갤러리 처리
+   * 모든 사진이 삭제되면 Home으로 자동 이동
+   */
   useEffect(() => {
     if (filteredGallery.length === 0) {
       navigation.navigate('App', { screen: 'Home' });
     }
   }, [filteredGallery.length, navigation]);
   return (
-    <PageContainer edges={['left', 'right', 'bottom']} isLoading={false}>
+    <PageContainer edges={['left', 'right', 'bottom']} isLoading={isSaving}>
       <ScrollContentContainer gap={0} dismissKeyboardOnPress>
         <ContentContainer paddingHorizontal={20} paddingTop={20}>
           {currentGalleryItem && (
@@ -226,8 +305,12 @@ const StoryDetailPage = (): React.ReactElement => {
           )}
         </ContentContainer>
         <ContentContainer paddingVertical={4}>
+          {/*
+            MediaCarousel은 React.memo로 최적화되어 있어
+            props 변경 시에만 re-render되므로 key prop 불필요
+            (불필요한 key 변경은 전체 remount를 유발하여 성능 저하)
+          */}
           <MediaCarousel
-            key={`carousel-${filteredGallery.length}-${filteredGallery[0]?.id ?? 'empty'}`}
             data={carouselData}
             activeIndex={filteredIndex}
             carouselWidth={CAROUSEL_WIDTH_FULL}
@@ -264,6 +347,12 @@ const StoryDetailPage = (): React.ReactElement => {
                     text={content}
                     onChangeText={setContent}
                     placeholder={`사진을 보며 들려주신 이야기를\n한두 줄로 남겨보세요`}
+                    validations={[
+                      {
+                        condition: text => text.length <= 1000,
+                        errorText: '1000자 이내로 입력해주세요',
+                      },
+                    ]}
                   />
                 </ContentContainer>
                 <ContentContainer width={100}>
