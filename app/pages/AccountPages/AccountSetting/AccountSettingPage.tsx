@@ -28,10 +28,16 @@ type AccountQueryResponse = {
   recentHeroNo: number;
   userType: 'general' | 'kakao' | 'apple' | 'none';
 };
+
+/**
+ * BottomSheet types for AccountSettingPage
+ */
+type AccountBottomSheetType = 'none' | 'profile-update' | 'password-update';
+
 const AccountSettingPage = (): React.ReactElement => {
-  // React hooks
-  const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
-  const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
+  // React hooks - UI States
+  const [activeBottomSheet, setActiveBottomSheet] =
+    useState<AccountBottomSheetType>('none');
   const insets = useSafeAreaInsets();
 
   // 글로벌 상태 관리
@@ -75,13 +81,13 @@ const AccountSettingPage = (): React.ReactElement => {
           <ContentContainer withScreenPadding alignCenter paddingBottom={65}>
             <BasicButton
               text={'프로필 수정'}
-              onPress={() => setProfileModalOpen(true)}
+              onPress={() => setActiveBottomSheet('profile-update')}
             />
             <ContentContainer>
               {user?.userType === 'general' && (
                 <BasicButton
                   text="비밀번호 변경"
-                  onPress={() => setPasswordModalOpen(true)}
+                  onPress={() => setActiveBottomSheet('password-update')}
                 />
               )}
               <ContentContainer alignCenter>
@@ -119,13 +125,13 @@ const AccountSettingPage = (): React.ReactElement => {
         </>
       )}
       <ProfileUpdateBottomSheet
-        opened={profileModalOpen}
-        onSuccess={() => setProfileModalOpen(false)}
-        onClose={() => setProfileModalOpen(false)}
+        opened={activeBottomSheet === 'profile-update'}
+        onSuccess={() => setActiveBottomSheet('none')}
+        onClose={() => setActiveBottomSheet('none')}
       />
       <PasswordUpdateBottomSheet
-        opened={passwordModalOpen}
-        onClose={() => setPasswordModalOpen(false)}
+        opened={activeBottomSheet === 'password-update'}
+        onClose={() => setActiveBottomSheet('none')}
       />
     </PageContainer>
   );
