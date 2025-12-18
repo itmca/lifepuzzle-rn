@@ -1,5 +1,11 @@
 import styled, { css } from 'styled-components/native';
-import { LayoutChangeEvent, Platform, ScrollView } from 'react-native';
+import {
+  Keyboard,
+  LayoutChangeEvent,
+  Platform,
+  Pressable,
+  ScrollView,
+} from 'react-native';
 import React, { forwardRef, ReactNode, RefAttributes } from 'react';
 import { NativeSyntheticEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { NativeScrollEvent } from 'react-native/Libraries/Components/ScrollView/ScrollView';
@@ -182,23 +188,39 @@ type ScrollContentContainerProps = ContentContainerProps &
       | undefined;
     onLayout?: ((event: LayoutChangeEvent) => void) | undefined;
     scrollEventThrottle?: number | undefined;
+    dismissKeyboardOnPress?: boolean;
     children?: ReactNode;
   };
 export const ScrollContentContainer = forwardRef(
-  (props: ScrollContentContainerProps, ref: React.LegacyRef<ScrollView>) => (
-    <ScrollView
-      ref={ref}
-      onScroll={props.onScroll}
-      scrollEventThrottle={100}
-      style={{ width: '100%' }}
-      horizontal={props.useHorizontalLayout}
-      automaticallyAdjustKeyboardInsets={true}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-    >
+  (props: ScrollContentContainerProps, ref: React.LegacyRef<ScrollView>) => {
+    const content = (
       <ContentContainer {...(props as ContentContainerProps)}>
         {props.children}
       </ContentContainer>
-    </ScrollView>
-  ),
+    );
+
+    return (
+      <ScrollView
+        ref={ref}
+        onScroll={props.onScroll}
+        onScrollBeginDrag={
+          props.dismissKeyboardOnPress ? () => Keyboard.dismiss() : undefined
+        }
+        scrollEventThrottle={100}
+        style={{ width: '100%' }}
+        horizontal={props.useHorizontalLayout}
+        automaticallyAdjustKeyboardInsets={true}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        {props.dismissKeyboardOnPress ? (
+          <Pressable onPress={Keyboard.dismiss}>{content}</Pressable>
+        ) : (
+          content
+        )}
+      </ScrollView>
+    );
+  },
 );

@@ -16,6 +16,7 @@ type Props = {
   borderColor?: ColorType;
   textColor?: ColorType;
   height?: SizeValue;
+  borderRadius?: number;
   onPress: () => void;
 };
 
@@ -28,6 +29,7 @@ export const BasicButton = ({
   textColor = Color.WHITE,
   height = 56,
   iconSize = 24,
+  borderRadius,
   onPress,
 }: Props): React.ReactElement => {
   return (
@@ -37,6 +39,7 @@ export const BasicButton = ({
       backgroundColor={disabled ? Color.GREY_200 : backgroundColor}
       borderColor={borderColor}
       borderWidth={borderColor !== Color.TRANSPARENT ? 1 : 0}
+      borderRadius={borderRadius}
       onPress={onPress}
       disabled={disabled}
     >

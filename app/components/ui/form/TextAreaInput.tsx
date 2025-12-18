@@ -24,7 +24,6 @@ const TextAreaInput = ({
   text,
   onChangeText,
   placeholder,
-  secureTextEntry,
   validations = [],
   onIsErrorChanged,
 }: Props): React.ReactElement => {
@@ -47,11 +46,14 @@ const TextAreaInput = ({
         </ContentContainer>
       )}
       <ContentContainer
-        useHorizontalLayout
         backgroundColor={Color.TRANSPARENT}
-        paddingHorizontal={12}
-        paddingVertical={12}
-        borderColor={isError ? Color.ERROR_300 : Color.TRANSPARENT}
+        borderColor={
+          isError
+            ? Color.ERROR_300
+            : focused
+              ? Color.GREY_400
+              : Color.TRANSPARENT
+        }
         borderRadius={6}
       >
         <TextInput
@@ -68,6 +70,7 @@ const TextAreaInput = ({
           style={{
             fontSize: 14,
             fontFamily: 'SUIT-Medium',
+            lineHeight: 14 * 1.4,
             letterSpacing: -0.25,
             width: '100%',
           }}

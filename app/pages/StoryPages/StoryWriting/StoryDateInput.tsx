@@ -8,9 +8,10 @@ import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
 
 export interface StoryDateInputProps {
-  value?: Date;
-  startDate?: Date;
-  endDate?: Date;
+  ageGroupLabel: string;
+  date?: Date;
+  rangeStartDate?: Date;
+  rangeEndDate?: Date;
   disabled?: boolean;
   onChange: (date: Date) => void;
 }
@@ -18,7 +19,7 @@ export interface StoryDateInputProps {
 function StoryDateInput(props: StoryDateInputProps) {
   const [visible, setVisible] = useState(false);
   const [date, onChangeDate] = useState<Date | undefined>(
-    props.value ? new Date(props.value) : undefined,
+    props.date ? new Date(props.date) : undefined,
   );
   const showPicker = () => {
     setVisible(true);
@@ -48,12 +49,12 @@ function StoryDateInput(props: StoryDateInputProps) {
   };
 
   useEffect(() => {
-    if (!props.value) {
+    if (!props.date) {
       return;
     }
 
-    onChangeDate(new Date(props.value));
-  }, [props.value]);
+    onChangeDate(new Date(props.date));
+  }, [props.date]);
 
   return (
     <>
@@ -66,19 +67,22 @@ function StoryDateInput(props: StoryDateInputProps) {
           void showPicker();
         }}
         borderInside
+        gap={2}
       >
-        <SvgIcon name={'calendar'} size={24} />
         {date ? (
-          <Caption color={Color.GREY_600}>{formatDate(date)}</Caption>
+          <Caption
+            color={Color.GREY_600}
+          >{`${props.ageGroupLabel} · ${formatDate(date)}`}</Caption>
         ) : (
-          <Caption color={Color.GREY_400}>날짜를 선택해 주세요</Caption>
+          <Caption color={Color.GREY_400}>{props.ageGroupLabel}</Caption>
         )}
+        <SvgIcon name={'chevronDown'} size={20} />
       </ButtonBase>
       <DateTimePicker
         isVisible={visible}
         date={date}
-        minimumDate={props.startDate}
-        maximumDate={props.endDate}
+        minimumDate={props.rangeStartDate}
+        maximumDate={props.rangeEndDate}
         mode={'date'}
         display={'spinner'}
         onConfirm={onConfirm}

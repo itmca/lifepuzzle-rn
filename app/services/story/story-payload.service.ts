@@ -24,7 +24,6 @@ const addStoryData = (
 ): void => {
   const story = {
     heroId: hero.id,
-    title: writingStory?.title,
     content: writingStory?.content,
     date: writingStory?.date || new Date(),
     galleryIds: writingStory?.gallery?.map(item => item.id),

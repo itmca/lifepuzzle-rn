@@ -5,8 +5,6 @@ import { useSaveStory } from '../../services/story/story.mutation';
 import StorySelectingGallery from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import FacebookGallerySelector from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelectorPage.tsx';
 import PhotoEditor from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
-
-import StoryWritingPage from '../../pages/StoryPages/StoryWriting/StoryWritingPage.tsx';
 import { useUploadGallery } from '../../services/gallery/gallery.mutation';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { useStoryStore } from '../../stores/story.store';
@@ -42,27 +40,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
     <Stack.Navigator
       screenOptions={{ headerShadowVisible: false, headerTitleAlign: 'center' }}
     >
-      <Stack.Screen
-        name={STORY_WRITING_SCREENS.STORY_WRITING_MAIN}
-        component={StoryWritingPage}
-        options={{
-          header: () => {
-            // 헤더 렌더링 시점에 값 읽기
-            const selectedStoryKey = useStoryStore.getState().selectedStoryKey;
-            return (
-              <TopBar
-                title={selectedStoryKey ? '수정하기' : '작성하기'}
-                right={
-                  <WritingHeaderRight
-                    text={selectedStoryKey ? '완료' : '등록'}
-                    customAction={saveStory}
-                  />
-                }
-              />
-            );
-          },
-        }}
-      />
+      {/* StoryWritingPage removed - using StoryDetailPage instead */}
       <Stack.Screen
         name={STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR}
         component={StorySelectingGallery}
