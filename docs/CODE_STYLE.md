@@ -132,7 +132,6 @@ const MyComponent = () => {
 
 - `useImageDimensions(sources, options)` - sources 배열은 반드시 안정적인 참조
 - `useCarouselManagement({imageSources, firstItemKey, ...})` - imageSources와 firstItemKey는 반드시 안정적인 참조
-- `useStoryWritingDimensions(params)` - params 객체는 반드시 안정적인 참조
 
 > ⚠️ **실제 사례 1**: StoryDetailPage에서 `filteredGallery.map()`을 직접 `useImageDimensions`에 전달하여 무한 루프 발생. useMemo로 해결함 (PR #223)
 
