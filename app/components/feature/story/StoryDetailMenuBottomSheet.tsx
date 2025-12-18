@@ -90,11 +90,9 @@ export const StoryDetailMenuBottomSheet = ({
     }).fetch('GET', gallery.url);
 
     const shareOptions = {
-      title: gallery.story?.title ?? '',
       message: gallery.story?.content ?? '',
       url: 'file://' + picturePath,
       type: 'image/jpg',
-      subject: gallery.story?.title ?? '',
     };
 
     Share.open(shareOptions)

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
-import { StoryItemContents } from '../../../components/feature/story/StoryItemContents.tsx';
 import {
   useFocusEffect,
   useNavigation,
@@ -20,23 +19,31 @@ import {
 } from '../../../constants/carousel.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { useMediaStore } from '../../../stores/media.store';
-import { Title } from '../../../components/ui/base/TextBase';
-import { StoryWritingButton } from '../../../components/feature/story/StoryWritingButton';
+import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
+import TextAreaInput from '../../../components/ui/form/TextAreaInput';
+import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';
 import { useImageDimensions } from '../../../hooks/useImageDimensions';
 import { calculateOptimalCarouselHeight } from '../../../utils/carousel-dimension.util';
 import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
-import { StoryNavigationService } from '../../../services/story/story-navigation.service';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
+import StoryDateInput from '../StoryWriting/StoryDateInput.tsx';
+import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
+import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
+import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
+import logger from '../../../utils/logger.util.ts';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks
   const [isStory, setIsStory] = useState<boolean>(false);
   const [pinchZoomModalOpen, setPinchZoomModalOpen] = useState<boolean>(false);
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
+  const [voiceModalOpen, setVoiceModalOpen] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [content, setContent] = useState<string>('');
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -136,22 +143,19 @@ const StoryDetailPage = (): React.ReactElement => {
     [filteredGallery, allGallery, setAllGalleryIndex],
   );
 
-  const onClickWrite = () => {
-    if (!currentGalleryItem) {
-      return;
-    }
-
-    const dimensions = imageDimensions[filteredIndex];
-    StoryNavigationService.navigateToWrite(
-      navigation,
-      currentGalleryItem,
-      dimensions,
-    );
-  };
-
   const openPinchZoomModal = (img: string) => {
     setPinchZoomImage(img);
     setPinchZoomModalOpen(true);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    // TODO: API call to save story
+    logger.debug('Saving content:', content);
+    setIsEditing(false);
   };
 
   // Side effects
@@ -170,6 +174,13 @@ const StoryDetailPage = (): React.ReactElement => {
 
   useEffect(() => {
     setIsStory(!!currentGalleryItem?.story);
+    if (currentGalleryItem?.story?.content) {
+      setContent(currentGalleryItem.story.content);
+      setIsEditing(false);
+    } else {
+      setContent('');
+      setIsEditing(true);
+    }
   }, [currentGalleryItem?.story]);
 
   useEffect(() => {
@@ -203,11 +214,13 @@ const StoryDetailPage = (): React.ReactElement => {
   }, [filteredGallery.length, navigation]);
   return (
     <PageContainer edges={['left', 'right', 'bottom']} isLoading={false}>
-      <ScrollContentContainer gap={0}>
+      <ScrollContentContainer gap={0} dismissKeyboardOnPress>
         <ContentContainer paddingHorizontal={20} paddingTop={20}>
           {currentGalleryItem && (
             <Title color={Color.GREY_700}>
-              {`${currentGalleryItem.tag?.label ?? ''}(${filteredGallery.length})`}
+              {currentGalleryItem.tag?.label
+                ? `${currentGalleryItem.tag.label} (${filteredGallery.length})`
+                : ''}
             </Title>
           )}
         </ContentContainer>
@@ -230,18 +243,73 @@ const StoryDetailPage = (): React.ReactElement => {
           gap={0}
         >
           <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-          <ContentContainer paddingTop={24}>
-            {currentGalleryItem?.story ? (
-              <StoryItemContents story={currentGalleryItem.story} />
-            ) : (
+          <ContentContainer paddingTop={24} gap={20}>
+            <ContentContainer
+              useHorizontalLayout
+              width={'auto'}
+              gap={8}
+              justifyContent={'flex-start'}
+            >
+              <StoryDateInput
+                ageGroupLabel={currentGalleryItem.tag?.label}
+                date={new Date()}
+                onChange={() => {}}
+              />
+            </ContentContainer>
+            {isEditing ? (
               <>
-                <Title color={Color.GREY_400}>
-                  사진에 담겨있는 당신의 이야기를 작성해 주세요
-                </Title>
-                <ContentContainer alignCenter paddingTop={36}>
-                  <StoryWritingButton onPress={onClickWrite} />
+                <ContentContainer minHeight={60}>
+                  <TextAreaInput
+                    text={content}
+                    onChangeText={setContent}
+                    placeholder={`사진을 보며 들려주신 이야기를\n한두 줄로 남겨보세요`}
+                  />
+                </ContentContainer>
+                <ContentContainer width={100} alignSelf="flex-start">
+                  <BasicButton
+                    text="완료"
+                    onPress={handleSave}
+                    height={40}
+                    backgroundColor={Color.WHITE}
+                    textColor={Color.MAIN_DARK}
+                    borderColor={Color.MAIN_LIGHT}
+                    borderRadius={20}
+                  />
                 </ContentContainer>
               </>
+            ) : (
+              <>
+                {content && (
+                  <ContentContainer gap={12}>
+                    <BodyTextM color={Color.GREY_500}>{content}</BodyTextM>
+                    <ContentContainer width="auto" alignSelf="flex-start">
+                      <BasicButton
+                        text="수정하기"
+                        onPress={handleEdit}
+                        backgroundColor={Color.GREY_200}
+                        textColor={Color.GREY_700}
+                        height={40}
+                        borderRadius={20}
+                      />
+                    </ContentContainer>
+                  </ContentContainer>
+                )}
+              </>
+            )}
+            {currentGalleryItem?.story?.audios &&
+            currentGalleryItem.story.audios.length > 0 ? (
+              <AudioBtn
+                audioUrl={currentGalleryItem.story.audios[0]}
+                onPlay={() => {
+                  setVoiceModalOpen(true);
+                }}
+              />
+            ) : (
+              <VoiceAddButton
+                onPress={() => {
+                  setVoiceModalOpen(true);
+                }}
+              />
             )}
           </ContentContainer>
         </ContentContainer>
@@ -257,6 +325,13 @@ const StoryDetailPage = (): React.ReactElement => {
         opened={pinchZoomModalOpen}
         imageUri={pinchZoomImage}
         onClose={() => setPinchZoomModalOpen(false)}
+      />
+      <VoiceBottomSheet
+        opened={voiceModalOpen}
+        editable={false}
+        onClose={() => {
+          setVoiceModalOpen(false);
+        }}
       />
     </PageContainer>
   );

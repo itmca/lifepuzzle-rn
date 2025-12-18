@@ -61,7 +61,6 @@ export const StoryFormFactory = {
     ];
 
     return {
-      title: story?.title ?? '',
       content: story?.content ?? '',
       date: story?.date ? new Date(story?.date) : new Date(),
       gallery,
@@ -94,7 +93,6 @@ export const StoryFormFactory = {
     ];
 
     return {
-      title: story.title,
       content: story.content,
       date: new Date(story.date),
       gallery,

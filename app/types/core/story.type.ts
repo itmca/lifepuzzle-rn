@@ -1,7 +1,6 @@
 export type StoryType = {
   id: string;
   heroId: number;
-  title: string;
   content: string;
   question: string;
   photos: string[];

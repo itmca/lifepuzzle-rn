@@ -67,7 +67,6 @@ export const useSaveStory = (): UseSaveStoryReturn => {
     const updatedStory: StoryType = {
       id: storyId,
       heroId: hero?.id ?? baseStory?.heroId ?? 0,
-      title: writingStory.title ?? baseStory?.title ?? '',
       content: writingStory.content ?? baseStory?.content ?? '',
       question: baseStory?.question ?? '',
       photos: baseStory?.photos ?? [],

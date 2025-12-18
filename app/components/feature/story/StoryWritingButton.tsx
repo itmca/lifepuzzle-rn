@@ -26,7 +26,7 @@ export const StoryWritingButton = ({ onPress }: Props): React.ReactElement => {
       borderInside
     >
       <SvgIcon name={'pencil'} size={24} />
-      <Title color={Color.MAIN_DARK}>이야기 작성하기</Title>
+      <Title color={Color.MAIN_DARK}>이야기 남기기</Title>
     </ButtonBase>
   );
 };

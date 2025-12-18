@@ -5,17 +5,8 @@ export const useStoryValidation = () => {
   const validateStoryContent = (
     writingStory: WritingStoryType | undefined,
   ): boolean => {
-    if (
-      !writingStory?.title &&
-      !writingStory?.content &&
-      !writingStory?.voice
-    ) {
-      Alert.alert('제목, 글, 음성 중 하나는 입력되어야 합니다.');
-      return false;
-    }
-
-    if (writingStory?.title && writingStory.title.length > 20) {
-      Alert.alert('제목은 20자 이내로 입력해주세요.');
+    if (!writingStory?.content && !writingStory?.voice) {
+      Alert.alert('글, 음성 중 하나는 입력되어야 합니다.');
       return false;
     }
 

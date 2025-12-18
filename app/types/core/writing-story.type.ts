@@ -1,7 +1,6 @@
 import { TagKey } from './media.type';
 
 export type WritingStoryType = {
-  title?: string;
   content?: string;
   date?: Date;
   gallery?: GalleryItem[];
