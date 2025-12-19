@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
@@ -9,6 +9,7 @@ import { useUIStore } from '../../stores/ui.store';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
 import { showErrorToast } from '../../components/ui/feedback/Toast';
 import { imageConversionUtil } from '../../utils/image-conversion.util';
+import { AgeType } from '../../types/core/media.type';
 import {
   FileUploadDto,
   galleryApiService,
@@ -557,6 +558,60 @@ export const useCreateAiPhoto = (
     createAiPhoto: submit,
     createAiPhotoWithErrorHandling: submitWithErrorHandling,
     createAiPhotoWithParams: submitWithParams,
+    isPending,
+  };
+};
+
+/**
+ * Gallery의 날짜와 나이대 업데이트 Hook
+ */
+export type UseUpdateGalleryDateAndAgeReturn = {
+  updateDateAndAge: (
+    galleryId: number,
+    date: Date,
+    ageGroup: AgeType,
+  ) => Promise<void>;
+  isPending: boolean;
+};
+
+export const useUpdateGalleryDateAndAge = (options?: {
+  onSuccess?: () => void;
+  onError?: (message: string) => void;
+}): UseUpdateGalleryDateAndAgeReturn => {
+  const queryClient = useQueryClient();
+
+  const [isPending, trigger] = useAuthMutation<void>({
+    axiosConfig: {
+      method: 'PATCH',
+      url: '/v1/galleries/:id', // Placeholder URL
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
+      options?.onSuccess?.();
+    },
+    onError: err => {
+      logger.error('Failed to update gallery date and age', { error: err });
+      options?.onError?.(
+        '날짜 및 나이대 업데이트에 실패했습니다. 다시 시도해주세요.',
+      );
+    },
+  });
+
+  const updateDateAndAge = useCallback(
+    async (galleryId: number, date: Date, ageGroup: AgeType) => {
+      await trigger({
+        url: `/v1/galleries/${galleryId}`,
+        data: {
+          date: date.toISOString(),
+          ageGroup,
+        },
+      });
+    },
+    [trigger],
+  );
+
+  return {
+    updateDateAndAge,
     isPending,
   };
 };

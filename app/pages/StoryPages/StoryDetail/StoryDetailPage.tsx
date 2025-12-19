@@ -14,7 +14,7 @@ import {
 } from '../../../constants/carousel.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { useMediaStore } from '../../../stores/media.store';
-import { Title } from '../../../components/ui/base/TextBase';
+import { Title, BodyTextM } from '../../../components/ui/base/TextBase';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 import TextAreaInput from './components/TextAreaInput';
 import { BasicButton } from '../../../components/ui/form/Button';
@@ -25,7 +25,6 @@ import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
-import StoryDateInput from '../StoryWriting/StoryDateInput.tsx';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
@@ -36,11 +35,35 @@ import {
 import { StoryType } from '../../../types/core/story.type';
 import { useStoryDetailMutation } from '../../../services/story/story.mutation';
 import { useHeroStore } from '../../../stores/hero.store';
+import { useUpdateGalleryDateAndAge } from '../../../services/gallery/gallery.mutation';
+import StoryDateAgeBottomSheet from './components/StoryDateAgeBottomSheet';
+import { AgeType } from '../../../types/core/media.type';
+import { ButtonBase } from '../../../components/ui/base/ButtonBase';
+import Icon from '@react-native-vector-icons/material-icons';
 
 /**
  * Modal types for StoryDetailPage
  */
-type ModalType = 'none' | 'pinch-zoom' | 'voice';
+type ModalType = 'none' | 'pinch-zoom' | 'voice' | 'date-age';
+
+const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
+
+/**
+ * 날짜 포맷팅 함수
+ */
+const formatDate = (date?: Date): string => {
+  if (!date) {
+    return '';
+  }
+  const year = date.getFullYear();
+  const month =
+    date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1;
+  const dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+  const day = daysKor[date.getDay()];
+  return `${year}.${month}.${dd} (${day})`;
+};
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks - UI States
@@ -67,7 +90,11 @@ const StoryDetailPage = (): React.ReactElement => {
 
   // 글로벌 상태 관리
   const allGallery = useMediaStore(state => state.gallery);
+  const tags = useMediaStore(state => state.tags);
   const updateGalleryStory = useMediaStore(state => state.updateGalleryStory);
+  const updateGalleryDateAndTag = useMediaStore(
+    state => state.updateGalleryDateAndTag,
+  );
   const { currentHero } = useHeroStore();
 
   // Memoized 값
@@ -208,6 +235,40 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   };
 
+  const handleDateInputPress = () => {
+    setActiveModal('date-age');
+  };
+
+  // Gallery 날짜/나이대 업데이트 mutation
+  const { updateDateAndAge, isPending: isUpdatingDateAndAge } =
+    useUpdateGalleryDateAndAge({
+      onSuccess: () => {
+        showToast('날짜 및 나이대가 변경되었습니다');
+      },
+      onError: message => {
+        showErrorToast(message);
+      },
+    });
+
+  const handleDateAgeConfirm = useCallback(
+    async (date: Date, ageGroup: AgeType) => {
+      if (!currentGalleryItem) {
+        return;
+      }
+
+      try {
+        // API 호출
+        await updateDateAndAge(currentGalleryItem.id, date, ageGroup);
+
+        // Store 업데이트
+        updateGalleryDateAndTag(currentGalleryItem.id, date, ageGroup);
+      } catch (error) {
+        // Error는 mutation hook에서 처리
+      }
+    },
+    [currentGalleryItem, updateDateAndAge, updateGalleryDateAndTag],
+  );
+
   // Story 저장 mutation (story.mutation.ts로 분리)
   const { saveTrigger, isSaving } = useStoryDetailMutation({
     galleryItem: currentGalleryItem,
@@ -344,7 +405,10 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   }, [filteredGallery.length, navigation]);
   return (
-    <PageContainer edges={['left', 'right', 'bottom']} isLoading={isSaving}>
+    <PageContainer
+      edges={['left', 'right', 'bottom']}
+      isLoading={isSaving || isUpdatingDateAndAge}
+    >
       <ScrollContentContainer gap={0} dismissKeyboardOnPress>
         <ContentContainer paddingHorizontal={20} paddingTop={20}>
           {currentGalleryItem && (
@@ -385,11 +449,29 @@ const StoryDetailPage = (): React.ReactElement => {
               gap={8}
               justifyContent={'flex-start'}
             >
-              <StoryDateInput
-                ageGroupLabel={currentGalleryItem.tag?.label}
-                date={currentGalleryItem.date}
-                onChange={() => {}}
-              />
+              <ButtonBase
+                height={'24px'}
+                width={'auto'}
+                backgroundColor={Color.TRANSPARENT}
+                onPress={handleDateInputPress}
+                borderInside
+                gap={2}
+              >
+                {currentGalleryItem.date ? (
+                  <BodyTextM color={Color.GREY_600}>
+                    {`${currentGalleryItem.tag?.label} · ${formatDate(currentGalleryItem.date)}`}
+                  </BodyTextM>
+                ) : (
+                  <BodyTextM color={Color.GREY_600}>
+                    {currentGalleryItem.tag?.label}
+                  </BodyTextM>
+                )}
+                <Icon
+                  name={'keyboard-arrow-down'}
+                  size={20}
+                  color={Color.GREY_400}
+                />
+              </ButtonBase>
             </ContentContainer>
             {editingGalleryId === currentGalleryItem?.id ? (
               <ContentContainer>
@@ -483,6 +565,21 @@ const StoryDetailPage = (): React.ReactElement => {
           setActiveModal('none');
         }}
       />
+      {currentGalleryItem && currentHero && tags && (
+        <StoryDateAgeBottomSheet
+          opened={activeModal === 'date-age'}
+          onClose={() => setActiveModal('none')}
+          initialDate={currentGalleryItem.date}
+          initialAgeGroup={
+            currentGalleryItem.tag?.key !== 'AI_PHOTO'
+              ? (currentGalleryItem.tag?.key as AgeType)
+              : undefined
+          }
+          tags={tags}
+          hero={currentHero}
+          onConfirm={handleDateAgeConfirm}
+        />
+      )}
     </PageContainer>
   );
 };
