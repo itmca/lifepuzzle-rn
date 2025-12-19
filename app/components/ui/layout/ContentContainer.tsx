@@ -17,8 +17,8 @@ type ContentContainerProps = {
   // Size
   width?: SizeValue;
   height?: SizeValue;
-  minHeight?: string;
-  maxHeight?: string;
+  minHeight?: SizeValue;
+  maxHeight?: SizeValue;
 
   // Layout
   useHorizontalLayout?: boolean;
@@ -68,9 +68,9 @@ export const ContentContainer = styled.View<ContentContainerProps>`
   width: ${(props: ContentContainerProps) => formatSize(props.width, '100%')};
   height: ${(props: ContentContainerProps) => formatSize(props.height, 'auto')};
   ${(props: ContentContainerProps) =>
-    props.minHeight && `min-height: ${props.minHeight};`}
+    props.minHeight && `min-height: ${formatSize(props.minHeight, 'auto')};`}
   ${(props: ContentContainerProps) =>
-    props.maxHeight && `max-height: ${props.maxHeight};`}
+    props.maxHeight && `max-height: ${formatSize(props.maxHeight, 'none')};`}
 
   /* Flex Basic */
   display: flex;
