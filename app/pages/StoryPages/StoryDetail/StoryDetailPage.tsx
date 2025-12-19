@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -16,7 +22,7 @@ import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/St
 import { useMediaStore } from '../../../stores/media.store';
 import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
-import TextAreaInput from './components/TextAreaInput';
+import TextAreaInput, { TextAreaInputRef } from './components/TextAreaInput';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';
 import { useImageDimensions } from '../../../hooks/useImageDimensions';
@@ -70,6 +76,10 @@ const formatDate = (date?: Date): string => {
 };
 
 const StoryDetailPage = (): React.ReactElement => {
+  // Refs
+  const textAreaRef = useRef<TextAreaInputRef>(null);
+  const prevGalleryIdRef = useRef<number | null>(null);
+
   // React hooks - UI States
   const [isStory, setIsStory] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<ModalType>('none');
@@ -79,6 +89,7 @@ const StoryDetailPage = (): React.ReactElement => {
   const [draftContents, setDraftContents] = useState<Map<number, string>>(
     new Map(),
   );
+  const [shouldFocusOnEdit, setShouldFocusOnEdit] = useState<boolean>(false);
   const isContentEmpty = content.trim().length === 0;
 
   // 외부 hook 호출 (navigation, route 등)
@@ -266,6 +277,7 @@ const StoryDetailPage = (): React.ReactElement => {
   const handleEdit = () => {
     if (currentGalleryItem) {
       setEditingGalleryId(currentGalleryItem.id);
+      setShouldFocusOnEdit(true);
     }
   };
 
@@ -384,41 +396,67 @@ const StoryDetailPage = (): React.ReactElement => {
   }, [route.params?.galleryIndex]);
 
   /**
+   * 수정하기 버튼 클릭 시에만 TextAreaInput에 자동 focus
+   * shouldFocusOnEdit flag가 true일 때만 focus 실행
+   */
+  useEffect(() => {
+    if (
+      shouldFocusOnEdit &&
+      editingGalleryId !== null &&
+      editingGalleryId === currentGalleryItem?.id
+    ) {
+      // 다음 렌더 사이클에 focus (조건부 렌더링된 컴포넌트 마운트 대기)
+      const timer = setTimeout(() => {
+        textAreaRef.current?.focus();
+        setShouldFocusOnEdit(false); // focus 후 flag 리셋
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [shouldFocusOnEdit, editingGalleryId, currentGalleryItem?.id]);
+
+  /**
    * currentGalleryItem 변경 시 content와 편집 상태 동기화
    *
    * 실행 시점:
    * 1. 초기 마운트
    * 2. Route params 변경 (외부에서 navigate로 특정 인덱스 이동)
    * 3. 사진 삭제 등으로 인한 자동 인덱스 조정
-   * 4. Carousel 스크롤 (handleIndexChange에서도 처리하지만 중복 방지 필요)
+   * 4. Carousel 스크롤
    *
-   * Note: handleIndexChange에서 이미 content/editingGalleryId를 설정하므로
-   * Carousel 스크롤 시 중복 setState가 발생할 수 있으나,
-   * React가 같은 값에 대한 setState는 무시하므로 성능 문제 없음
+   * Note: 갤러리 아이템이 실제로 변경되었을 때만 동기화 실행
+   * handleEdit로 수동 편집 모드 전환한 경우는 덮어쓰지 않음
    */
   useEffect(() => {
     if (!currentGalleryItem) {
       return;
     }
 
-    setIsStory(!!currentGalleryItem.story);
+    // 갤러리 아이템이 실제로 변경되었는지 확인
+    const galleryItemChanged =
+      prevGalleryIdRef.current !== currentGalleryItem.id;
 
-    // Draft 우선 로드, 없으면 저장된 story content 로드
-    const draftContent = draftContents.get(currentGalleryItem.id);
-    const savedContent = currentGalleryItem.story?.content;
+    if (galleryItemChanged) {
+      prevGalleryIdRef.current = currentGalleryItem.id;
 
-    if (draftContent !== undefined) {
-      // Draft가 있으면 draft 사용하고 editing 모드로
-      setContent(draftContent);
-      setEditingGalleryId(currentGalleryItem.id);
-    } else if (savedContent) {
-      // 저장된 content가 있으면 사용하고 viewing 모드로
-      setContent(savedContent);
-      setEditingGalleryId(null);
-    } else {
-      // 둘 다 없으면 빈 content로 editing 모드
-      setContent('');
-      setEditingGalleryId(currentGalleryItem.id);
+      setIsStory(!!currentGalleryItem.story);
+
+      // Draft 우선 로드, 없으면 저장된 story content 로드
+      const draftContent = draftContents.get(currentGalleryItem.id);
+      const savedContent = currentGalleryItem.story?.content;
+
+      if (draftContent !== undefined) {
+        // Draft가 있으면 draft 사용하고 editing 모드로
+        setContent(draftContent);
+        setEditingGalleryId(currentGalleryItem.id);
+      } else if (savedContent) {
+        // 저장된 content가 있으면 사용하고 viewing 모드로
+        setContent(savedContent);
+        setEditingGalleryId(null);
+      } else {
+        // 둘 다 없으면 빈 content로 editing 모드
+        setContent('');
+        setEditingGalleryId(currentGalleryItem.id);
+      }
     }
   }, [currentGalleryItem, draftContents]);
 
@@ -549,6 +587,7 @@ const StoryDetailPage = (): React.ReactElement => {
                 <ContentContainer>
                   <ContentContainer minHeight={80}>
                     <TextAreaInput
+                      ref={textAreaRef}
                       text={content}
                       onChangeText={setContent}
                       placeholder={`이때의 이야기를 글로 남겨주세요.\n지금 떠오르는 기억이면 충분해요.`}
