@@ -232,27 +232,35 @@ const StoryDetailPage = (): React.ReactElement => {
       const selectedItem =
         filteredGallery[filteredIdx % filteredGallery.length];
 
+      const isSameItem = selectedItem.id === currentGalleryItem?.id;
+
       // 2. 전체 갤러리에서 해당 아이템의 인덱스 찾기 (역변환)
       const originalIndex = allGallery.findIndex(
         item => item.id === selectedItem.id,
       );
 
       // 3. 다음 아이템의 draft/content 확인하여 편집 모드 결정 (레이아웃 깜빡임 방지)
-      const nextDraftContent = draftContents.get(selectedItem.id);
-      const nextSavedContent = selectedItem.story?.content;
+      // 같은 아이템이면 편집 상태를 변경하지 않음 (handleEdit으로 설정한 상태 유지)
+      if (!isSameItem) {
+        // 다른 아이템으로 이동 시 TextAreaInput focus 제거
+        textAreaRef.current?.blur();
 
-      if (nextDraftContent !== undefined) {
-        // Draft가 있으면 편집 모드
-        setEditingGalleryId(selectedItem.id);
-        setContent(nextDraftContent);
-      } else if (nextSavedContent) {
-        // 저장된 content가 있으면 뷰 모드
-        setEditingGalleryId(null);
-        setContent(nextSavedContent);
-      } else {
-        // 둘 다 없으면 편집 모드
-        setEditingGalleryId(selectedItem.id);
-        setContent('');
+        const nextDraftContent = draftContents.get(selectedItem.id);
+        const nextSavedContent = selectedItem.story?.content;
+
+        if (nextDraftContent !== undefined) {
+          // Draft가 있으면 편집 모드
+          setEditingGalleryId(selectedItem.id);
+          setContent(nextDraftContent);
+        } else if (nextSavedContent) {
+          // 저장된 content가 있으면 뷰 모드
+          setEditingGalleryId(null);
+          setContent(nextSavedContent);
+        } else {
+          // 둘 다 없으면 편집 모드
+          setEditingGalleryId(selectedItem.id);
+          setContent('');
+        }
       }
 
       // 4. 전체 갤러리 기준 인덱스 업데이트
@@ -266,6 +274,7 @@ const StoryDetailPage = (): React.ReactElement => {
       editingGalleryId,
       content,
       draftContents,
+      filteredIndex,
     ],
   );
 
