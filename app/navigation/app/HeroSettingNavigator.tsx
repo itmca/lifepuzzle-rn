@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HeroSettingPage from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
-import HeroRegisterPage from '../../pages/HeroPages/HeroRegister/HeroRegisterPage';
-import HeroModificationPage from '../../pages/HeroPages/HeroModification/HeroModificationPage';
-import HeroProfileSelectorPage from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
-import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
+import { HeroSettingPage } from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
+import { HeroRegisterPage } from '../../pages/HeroPages/HeroRegister/HeroRegisterPage';
+import { HeroModificationPage } from '../../pages/HeroPages/HeroModification/HeroModificationPage';
+import { HeroProfileSelectorPage } from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
+import { WritingHeaderRight } from '../../components/ui/navigation/header/WritingHeaderRight';
 import { useHeroStore } from '../../stores/hero.store';
 import { HeroType } from '../../types/core/hero.type';
-import HeroSettingRightHeader from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
+import { HeroSettingRightHeader } from '../../components/ui/navigation/header/HeroSettingRightHeader.tsx';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { HERO_SETTING_SCREENS } from '../screens.constant';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
@@ -117,4 +117,4 @@ const HeroSettingNavigator = (): React.ReactElement => {
   );
 };
 
-export default HeroSettingNavigator;
+export { HeroSettingNavigator };

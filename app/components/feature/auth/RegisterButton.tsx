@@ -27,4 +27,4 @@ const RegisterButton = (): React.ReactElement => {
   );
 };
 
-export default RegisterButton;
+export { RegisterButton };

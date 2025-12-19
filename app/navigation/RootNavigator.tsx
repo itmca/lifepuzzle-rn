@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigatorScreenParams } from '@react-navigation/native';
-import OnboardingPage from '../pages/Onboarding/OnboardingPage.tsx';
+import { OnboardingPage } from '../pages/Onboarding/OnboardingPage.tsx';
 import { LocalStorage } from '../services/core/local-storage.service';
 import { useAuthStore } from '../stores/auth.store';
-import AuthNavigator, { AuthParamList } from './auth/AuthNavigator';
-import AppNavigator, { AppParamList } from './app/AppNavigator';
+import { AuthNavigator, AuthParamList } from './auth/AuthNavigator';
+import { AppNavigator, AppParamList } from './app/AppNavigator';
 import { ROOT_SCREENS } from './screens.constant';
 
 export type RootStackParamList = {
@@ -60,4 +60,4 @@ const RootNavigator = (): React.ReactElement => {
   );
 };
 
-export default RootNavigator;
+export { RootNavigator };

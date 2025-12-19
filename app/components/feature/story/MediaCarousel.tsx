@@ -11,7 +11,7 @@ import {
 } from '../../../constants/carousel.constant';
 import { calculateContainDimensions } from '../../../utils/carousel-dimension.util';
 import Carousel from 'react-native-reanimated-carousel';
-import MediaCarouselPagination from './MediaCarouselPagination';
+import { MediaCarouselPagination } from './MediaCarouselPagination';
 import { AiPhotoButton } from '../ai/AiPhotoButton';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { useNavigation } from '@react-navigation/native';

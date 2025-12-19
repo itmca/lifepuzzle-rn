@@ -8,7 +8,7 @@ import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { useHeroStore } from '../../../stores/hero.store';
 import { BasicCard } from '../../../components/ui/display/Card';
-import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
+import { BasicTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { useCreateHero } from '../../../services/hero/hero.mutation';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
@@ -91,4 +91,4 @@ const HeroRegisterPage = (): React.ReactElement => {
   );
 };
 
-export default HeroRegisterPage;
+export { HeroRegisterPage };

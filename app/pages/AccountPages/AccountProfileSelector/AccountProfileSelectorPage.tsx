@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 import { useNavigation } from '@react-navigation/native';
-import logger from '../../../utils/logger.util';
-import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
+import { logger } from '../../../utils/logger.util';
+import { CommonPhotoSelector } from '../../../components/feature/photo/CommonPhotoSelector';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
@@ -67,4 +67,4 @@ const AccountProfileSelectorPage = (): React.ReactElement => {
   );
 };
 
-export default AccountProfileSelectorPage;
+export { AccountProfileSelectorPage };

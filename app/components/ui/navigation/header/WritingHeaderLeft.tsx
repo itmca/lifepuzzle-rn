@@ -27,4 +27,4 @@ const WritingHeaderLeft = ({ type }: Props): React.ReactElement => {
   );
 };
 
-export default WritingHeaderLeft;
+export { WritingHeaderLeft };

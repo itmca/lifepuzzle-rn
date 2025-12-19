@@ -7,7 +7,7 @@ interface WaveformProps {
   progress: number;
 }
 
-export default function Waveform({ data, progress }: WaveformProps) {
+export function Waveform({ data, progress }: WaveformProps) {
   const activeIndex = Math.floor(progress * data.length);
 
   return (

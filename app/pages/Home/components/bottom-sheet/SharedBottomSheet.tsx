@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
+import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
 import {
   ContentContainer,
   ScrollContentContainer,
@@ -18,7 +18,7 @@ import { TagType } from '../../../../types/core/media.type';
 import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { BasicButton } from '../../../../components/ui/form/Button';
-import GallerySelect from '../gallery/GallerySelect.tsx';
+import { GallerySelect } from '../gallery/GallerySelect.tsx';
 import { useHeroes } from '../../../../services/hero/hero.query';
 import { HeroSelect } from './HeroSelect';
 import { toInternationalAge } from '../../../../utils/age-calculator.util.ts';

@@ -17,8 +17,7 @@ import { useErrorHandler } from '../common/error-handler.hook';
 import { StoryType } from '../../types/core/story.type';
 import { GalleryType } from '../../types/core/media.type';
 import { queryKeys } from '../core/query-keys';
-import logger from '../../utils/logger.util';
-
+import { logger } from '../../utils/logger.util';
 export const useResetAllWritingStory = () => {
   const { resetWritingStory } = useStoryStore();
   return resetWritingStory;

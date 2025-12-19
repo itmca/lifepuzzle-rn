@@ -11,7 +11,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export default function VideoModal({ opened, videoUri, onClose }: Props) {
+export function VideoModal({ opened, videoUri, onClose }: Props) {
   const DeviceWidth = Dimensions.get('window').width;
   const handleClose = () => {
     onClose && onClose();

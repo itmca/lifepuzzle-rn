@@ -3,8 +3,8 @@ import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 import { useNavigation } from '@react-navigation/native';
 
-import logger from '../../../utils/logger.util';
-import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
+import { logger } from '../../../utils/logger.util';
+import { CommonPhotoSelector } from '../../../components/feature/photo/CommonPhotoSelector';
 import {
   PhotoSelectorCallbacks,
   PhotoSelectorConfig,
@@ -68,4 +68,4 @@ const HeroProfileSelectorPage = (): React.ReactElement => {
   );
 };
 
-export default HeroProfileSelectorPage;
+export { HeroProfileSelectorPage };

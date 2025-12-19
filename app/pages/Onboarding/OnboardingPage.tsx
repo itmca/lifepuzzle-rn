@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BodyTextM, Head } from '../../components/ui/base/TextBase';
-import PageIndicator from '../../components/ui/display/PageIndicator';
+import { PageIndicator } from '../../components/ui/display/PageIndicator';
 import { BasicButton } from '../../components/ui/form/Button';
 import { ContentContainer } from '../../components/ui/layout/ContentContainer.tsx';
 import { Color } from '../../constants/color.constant.ts';
@@ -152,4 +152,4 @@ const OnboardingPage = ({ navigation }: any) => {
   );
 };
 
-export default OnboardingPage;
+export { OnboardingPage };

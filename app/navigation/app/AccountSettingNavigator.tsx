@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AccountProfileSelectorPage from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
-import WritingHeaderRight from '../../components/ui/navigation/header/WritingHeaderRight';
+import { AccountProfileSelectorPage } from '../../pages/AccountPages/AccountProfileSelector/AccountProfileSelectorPage.tsx';
+import { WritingHeaderRight } from '../../components/ui/navigation/header/WritingHeaderRight';
 import { useUserStore } from '../../stores/user.store';
-import AccountSettingPage from '../../pages/AccountPages/AccountSetting/AccountSettingPage.tsx';
+import { AccountSettingPage } from '../../pages/AccountPages/AccountSetting/AccountSettingPage.tsx';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { TouchableOpacity } from 'react-native';
 import { BodyTextM } from '../../components/ui/base/TextBase';
@@ -93,4 +93,4 @@ const AccountSettingNavigator = (): React.ReactElement => {
   );
 };
 
-export default AccountSettingNavigator;
+export { AccountSettingNavigator };

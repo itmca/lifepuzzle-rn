@@ -38,4 +38,4 @@ const PolicyNavigator = (): React.ReactElement => {
   );
 };
 
-export default PolicyNavigator;
+export { PolicyNavigator };

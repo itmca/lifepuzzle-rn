@@ -26,4 +26,4 @@ const DetailViewHeaderRight = ({
   );
 };
 
-export default DetailViewHeaderRight;
+export { DetailViewHeaderRight };

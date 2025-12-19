@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
-import logger from '../../../utils/logger.util';
+import { logger } from '../../../utils/logger.util';
 import { PolicyAgreeSwitch } from './components/PolicyAgreeSwitch';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -15,7 +15,7 @@ import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { useShareStore } from '../../../stores/share.store';
 
-import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
+import { BasicTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Color } from '../../../constants/color.constant.ts';
 import { Divider } from '../../../components/ui/base/Divider';
@@ -250,4 +250,4 @@ const RegisterPage = (): React.ReactElement => {
     </PageContainer>
   );
 };
-export default RegisterPage;
+export { RegisterPage };

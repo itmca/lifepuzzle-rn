@@ -146,4 +146,4 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
   );
 };
 
-export default AiPhotoWorkHistoryPage;
+export { AiPhotoWorkHistoryPage };

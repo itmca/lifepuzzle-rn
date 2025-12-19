@@ -20,8 +20,7 @@ import {
 } from '../voice/AudioController';
 import { Caption } from '../../ui/base/TextBase';
 import { useVoiceRecorder } from '../../../services/common/voice-record.hook.ts';
-import Waveform from './WaveForm.tsx';
-
+import { Waveform } from './WaveForm.tsx';
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.9, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5,

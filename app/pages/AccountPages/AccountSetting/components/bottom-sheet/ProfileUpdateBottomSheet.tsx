@@ -1,10 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer.tsx';
 import { AccountAvatar } from '../../../../../components/ui/display/Avatar';
-import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
+import { BasicTextInput } from '../../../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../../../components/ui/form/Button';
-import BottomSheet from '../../../../../components/ui/interaction/BottomSheet.tsx';
-
+import { BottomSheet } from '../../../../../components/ui/interaction/BottomSheet.tsx';
 import { useUserStore } from '../../../../../stores/user.store';
 import { useCommonActionSheet } from '../../../../../components/ui/interaction/ActionSheet.tsx';
 import { useNavigation } from '@react-navigation/native';

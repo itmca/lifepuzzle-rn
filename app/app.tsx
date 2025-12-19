@@ -12,7 +12,7 @@ import React, { useEffect } from 'react';
 
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { AppState } from 'react-native';
-import RootNavigator from './navigation/RootNavigator';
+import { RootNavigator } from './navigation/RootNavigator';
 import { useFetchLocalStorageUserHero } from './services/core/app-initializer.hook';
 import { SecureStorage } from './services/core/secure-storage.service';
 import { useAuthStore } from './stores/auth.store';
@@ -142,4 +142,4 @@ const App = (): React.ReactElement => {
   );
 };
 
-export default App;
+export { App };

@@ -1,6 +1,5 @@
 import React from 'react';
-import DateInput from '../form/DateInput';
-
+import { DateInput } from '../form/DateInput';
 type Props = {
   label?: string;
   date: Date | undefined;

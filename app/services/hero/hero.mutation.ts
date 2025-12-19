@@ -14,8 +14,7 @@ import { HeroPayloadService } from './hero-payload.service';
 import { useAuthValidation, useFieldValidation } from '../auth/validation.hook';
 import { useErrorHandler } from '../common/error-handler.hook';
 import { queryKeys } from '../core/query-keys';
-import logger from '../../utils/logger.util';
-
+import { logger } from '../../utils/logger.util';
 export type UseCreateHeroReturn = {
   createHero: () => void;
   isPending: boolean;

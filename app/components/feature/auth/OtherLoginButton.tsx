@@ -29,4 +29,4 @@ const OtherLoginButton = (): React.ReactElement => {
   );
 };
 
-export default OtherLoginButton;
+export { OtherLoginButton };

@@ -4,7 +4,7 @@ import { Color } from '../../../constants/color.constant.ts';
 
 import { useNavigation } from '@react-navigation/native';
 
-import logger from '../../../utils/logger.util';
+import { logger } from '../../../utils/logger.util';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import {
   useDeleteGallery,
@@ -16,7 +16,7 @@ import { useUIStore } from '../../../stores/ui.store';
 import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
 import { Title } from '../../ui/base/TextBase';
 import { Divider } from '../../ui/base/Divider.tsx';
-import BottomSheet from '../../ui/interaction/BottomSheet.tsx';
+import { BottomSheet } from '../../ui/interaction/BottomSheet.tsx';
 import { showToast } from '../../ui/feedback/Toast.tsx';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import { getFormattedDateTime } from '../../../utils/date-formatter.util.ts';

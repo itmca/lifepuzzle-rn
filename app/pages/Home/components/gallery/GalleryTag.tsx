@@ -1,6 +1,6 @@
 import { TagType } from '../../../../types/core/media.type';
 import { Color } from '../../../../constants/color.constant.ts';
-import Tag from '../../../../components/ui/display/Tag';
+import { Tag } from '../../../../components/ui/display/Tag';
 import { LayoutChangeEvent } from 'react-native';
 
 type props = {
@@ -84,4 +84,4 @@ const GalleryTag = ({
   }
 };
 
-export default GalleryTag;
+export { GalleryTag };

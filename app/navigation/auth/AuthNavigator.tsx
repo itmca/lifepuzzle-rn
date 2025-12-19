@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigatorScreenParams } from '@react-navigation/native';
-import LoginRegisterNavigator, {
+import {
+  LoginRegisterNavigator,
   LoginRegisterParamList,
 } from './LoginRegisterNavigator';
-import PolicyNavigator, { PolicyParamList } from './PolicyNavigator';
+import { PolicyNavigator, PolicyParamList } from './PolicyNavigator';
 import { AUTH_SCREENS } from '../screens.constant';
 
 export type AuthParamList = {
@@ -32,4 +33,4 @@ const AuthNavigator = (): React.ReactElement => {
   );
 };
 
-export default AuthNavigator;
+export { AuthNavigator };

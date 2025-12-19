@@ -4,7 +4,7 @@ import { Image, Platform } from 'react-native';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
 import { EditorActionButton } from './components/EditorActionButton';
-import MediaCarouselPagination from '../../../components/feature/story/MediaCarouselPagination';
+import { MediaCarouselPagination } from '../../../components/feature/story/MediaCarouselPagination';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import { Color } from '../../../constants/color.constant.ts';
@@ -21,8 +21,7 @@ import { PhotoFilterBottomSheet } from './components/PhotoFilterBottomSheet';
 import { useCarouselManagement } from '../../../hooks/useCarouselManagement';
 import { useGalleryIndexValidation } from '../../../hooks/useGalleryIndexValidation';
 import { calculateNextIndexAfterDeletion } from '../../../utils/carousel-index.util';
-import logger from '../../../utils/logger.util';
-
+import { logger } from '../../../utils/logger.util';
 const PhotoEditorPage = (): React.ReactElement => {
   // React hooks
   const [contentContainerHeight, setContentContainerHeight] = useState(0);
@@ -367,4 +366,4 @@ const PhotoEditorPage = (): React.ReactElement => {
     </PageContainer>
   );
 };
-export default PhotoEditorPage;
+export { PhotoEditorPage };

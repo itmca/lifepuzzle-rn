@@ -18,7 +18,7 @@ import {
 import { Divider } from '../../../components/ui/base/Divider';
 import { BasicCard } from '../../../components/ui/display/Card';
 import { Color } from '../../../constants/color.constant.ts';
-import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
+import { BasicTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
@@ -149,4 +149,4 @@ const HeroModificationPage = (): React.ReactElement => {
     </PageContainer>
   );
 };
-export default HeroModificationPage;
+export { HeroModificationPage };

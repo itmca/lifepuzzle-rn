@@ -25,4 +25,4 @@ const HeroSettingRightHeader = (): React.ReactElement => {
   );
 };
 
-export default HeroSettingRightHeader;
+export { HeroSettingRightHeader };

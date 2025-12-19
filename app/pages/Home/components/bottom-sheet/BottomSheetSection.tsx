@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import { useShareStore } from '../../../../stores/share.store';
 import { SharePhoto } from '../../../../types/core/media.type';
-import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
+import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
 import { ShareAuthList } from '../../../../components/feature/hero/ShareAuthList';
 import { SharedBottomSheet } from './SharedBottomSheet';
 import { MediaPickerBottomSheet } from './MediaPickerBottomSheet';
@@ -61,4 +61,4 @@ const BottomSheetSection = ({
   );
 };
 
-export default BottomSheetSection;
+export { BottomSheetSection };

@@ -2,8 +2,7 @@ import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 import PhotoManipulator from 'react-native-photo-manipulator';
 import { ExtendedPhotoIdentifier } from '../../types/ui/photo-selector.type';
-import logger from '../../utils/logger.util';
-
+import { logger } from '../../utils/logger.util';
 /**
  * Service for handling platform-specific image operations
  * Converts platform-specific URIs (content://, ph://) to file:// URIs

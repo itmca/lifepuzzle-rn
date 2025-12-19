@@ -21,14 +21,13 @@ import {
   FILTER_LABELS,
   FilterType,
 } from '../../../../constants/filter.constant.ts';
-import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
+import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
 import { loadSkiaImage } from '../../../../services/image/skia-image-loader.service';
 import {
   copyContentUriToFile,
   getImageSizeAsync,
 } from '../../../../services/image/platform-image.service';
-import logger from '../../../../utils/logger.util';
-
+import { logger } from '../../../../utils/logger.util';
 const { width: screenWidth } = Dimensions.get('window');
 const displaySize = screenWidth - 40; // 패딩 고려
 

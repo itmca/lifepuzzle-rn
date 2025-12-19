@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
+import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 import { BasicButton } from '../../../../components/ui/form/Button';
-import GalleryTag from '../../../Home/components/gallery/GalleryTag';
+import { GalleryTag } from '../../../Home/components/gallery/GalleryTag';
 import { Color } from '../../../../constants/color.constant';
 import { BodyTextM, BodyTextB } from '../../../../components/ui/base/TextBase';
 import { TagType, AgeType } from '../../../../types/core/media.type';
@@ -233,4 +233,4 @@ const StoryDateAgeBottomSheet = ({
   );
 };
 
-export default StoryDateAgeBottomSheet;
+export { StoryDateAgeBottomSheet };

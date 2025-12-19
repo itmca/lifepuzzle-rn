@@ -19,10 +19,10 @@ import { ContentContainer } from '../../components/ui/layout/ContentContainer.ts
 import { ApiErrorFallback } from '../../components/ui/feedback/ApiErrorFallback';
 import { useGalleries } from '../../services/gallery/gallery.query';
 import { useUploadGallery } from '../../services/gallery/gallery.mutation';
-import Gallery from './components/gallery/Gallery.tsx';
-import GalleryBottomButton from './components/gallery/GalleryBottomButton.tsx';
-import HeroSection from './components/hero/HeroSection.tsx';
-import BottomSheetSection from './components/bottom-sheet/BottomSheetSection.tsx';
+import { Gallery } from './components/gallery/Gallery.tsx';
+import { GalleryBottomButton } from './components/gallery/GalleryBottomButton.tsx';
+import { HeroSection } from './components/hero/HeroSection.tsx';
+import { BottomSheetSection } from './components/bottom-sheet/BottomSheetSection.tsx';
 import { LoadingContainer } from '../../components/ui/feedback/LoadingContainer';
 import { useRenderLog } from '../../utils/debug/render-log.util';
 
@@ -274,4 +274,4 @@ const HomePage = (): React.ReactElement => {
   );
 };
 
-export default HomePage;
+export { HomePage };

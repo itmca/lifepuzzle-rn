@@ -136,4 +136,4 @@ const AccountSettingPage = (): React.ReactElement => {
     </PageContainer>
   );
 };
-export default AccountSettingPage;
+export { AccountSettingPage };

@@ -67,4 +67,4 @@ function Tag({
     </StyledTag>
   );
 }
-export default Tag;
+export { Tag };

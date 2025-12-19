@@ -8,8 +8,7 @@ import { toInternationalAge } from '../../utils/age-calculator.util';
 import { useAuthQuery } from '../core/auth-query.hook';
 import { useUpdateObserver } from '../common/cache-observer.hook';
 import { queryKeys } from '../core/query-keys';
-import logger from '../../utils/logger.util';
-
+import { logger } from '../../utils/logger.util';
 type PhotoQueryResponse = {
   ageGroups: AgeGroupsType;
   tags: TagType[];
