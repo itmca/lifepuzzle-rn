@@ -36,11 +36,14 @@ import {
 import { StoryType } from '../../../types/core/story.type';
 import { useStoryDetailMutation } from '../../../services/story/story.mutation';
 import { useHeroStore } from '../../../stores/hero.store';
+import { useUpdateGalleryDateAndAge } from '../../../services/gallery/gallery.mutation';
+import StoryDateAgeBottomSheet from './components/StoryDateAgeBottomSheet';
+import { AgeType } from '../../../types/core/media.type';
 
 /**
  * Modal types for StoryDetailPage
  */
-type ModalType = 'none' | 'pinch-zoom' | 'voice';
+type ModalType = 'none' | 'pinch-zoom' | 'voice' | 'date-age';
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks - UI States
@@ -67,7 +70,11 @@ const StoryDetailPage = (): React.ReactElement => {
 
   // 글로벌 상태 관리
   const allGallery = useMediaStore(state => state.gallery);
+  const tags = useMediaStore(state => state.tags);
   const updateGalleryStory = useMediaStore(state => state.updateGalleryStory);
+  const updateGalleryDateAndTag = useMediaStore(
+    state => state.updateGalleryDateAndTag,
+  );
   const { currentHero } = useHeroStore();
 
   // Memoized 값
@@ -208,6 +215,40 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   };
 
+  const handleDateInputPress = () => {
+    setActiveModal('date-age');
+  };
+
+  // Gallery 날짜/나이대 업데이트 mutation
+  const { updateDateAndAge, isPending: isUpdatingDateAndAge } =
+    useUpdateGalleryDateAndAge({
+      onSuccess: () => {
+        showToast('날짜 및 나이대가 변경되었습니다');
+      },
+      onError: message => {
+        showErrorToast(message);
+      },
+    });
+
+  const handleDateAgeConfirm = useCallback(
+    async (date: Date, ageGroup: AgeType) => {
+      if (!currentGalleryItem) {
+        return;
+      }
+
+      try {
+        // API 호출
+        await updateDateAndAge(currentGalleryItem.id, date, ageGroup);
+
+        // Store 업데이트
+        updateGalleryDateAndTag(currentGalleryItem.id, date, ageGroup);
+      } catch (error) {
+        // Error는 mutation hook에서 처리
+      }
+    },
+    [currentGalleryItem, updateDateAndAge, updateGalleryDateAndTag],
+  );
+
   // Story 저장 mutation (story.mutation.ts로 분리)
   const { saveTrigger, isSaving } = useStoryDetailMutation({
     galleryItem: currentGalleryItem,
@@ -344,7 +385,10 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   }, [filteredGallery.length, navigation]);
   return (
-    <PageContainer edges={['left', 'right', 'bottom']} isLoading={isSaving}>
+    <PageContainer
+      edges={['left', 'right', 'bottom']}
+      isLoading={isSaving || isUpdatingDateAndAge}
+    >
       <ScrollContentContainer gap={0} dismissKeyboardOnPress>
         <ContentContainer paddingHorizontal={20} paddingTop={20}>
           {currentGalleryItem && (
@@ -388,7 +432,7 @@ const StoryDetailPage = (): React.ReactElement => {
               <StoryDateInput
                 ageGroupLabel={currentGalleryItem.tag?.label}
                 date={currentGalleryItem.date}
-                onChange={() => {}}
+                onChange={handleDateInputPress}
               />
             </ContentContainer>
             {editingGalleryId === currentGalleryItem?.id ? (
@@ -483,6 +527,21 @@ const StoryDetailPage = (): React.ReactElement => {
           setActiveModal('none');
         }}
       />
+      {currentGalleryItem && currentHero && tags && (
+        <StoryDateAgeBottomSheet
+          opened={activeModal === 'date-age'}
+          onClose={() => setActiveModal('none')}
+          initialDate={currentGalleryItem.date}
+          initialAgeGroup={
+            currentGalleryItem.tag?.key !== 'AI_PHOTO'
+              ? (currentGalleryItem.tag?.key as AgeType)
+              : undefined
+          }
+          tags={tags}
+          hero={currentHero}
+          onConfirm={handleDateAgeConfirm}
+        />
+      )}
     </PageContainer>
   );
 };
