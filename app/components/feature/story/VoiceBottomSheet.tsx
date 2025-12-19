@@ -12,6 +12,16 @@ type Props = {
   opened?: boolean;
   editable?: boolean;
   onClose?: () => void;
+  /**
+   * 음성 저장 시 호출되는 콜백 (optional)
+   * 제공되지 않으면 기본 동작(Zustand store에 저장)을 수행
+   */
+  onSaveVoice?: (voiceUri: string) => void;
+  /**
+   * 외부에서 제공하는 음성 URI (optional)
+   * 제공되지 않으면 writingStory.voice를 사용
+   */
+  voiceSource?: string;
 };
 
 export const VoiceBottomSheet = (props: Props): React.ReactElement => {
@@ -65,10 +75,15 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
         <ContentContainer>
           <VoicePlayer
             ref={voicePlayerRef}
-            source={writingStory.voice}
+            source={props.voiceSource ?? writingStory.voice}
             editable={props.editable}
             onSave={uri => {
-              setWritingStory({ voice: uri });
+              // onSaveVoice prop이 제공되면 사용, 아니면 기본 동작
+              if (props.onSaveVoice) {
+                props.onSaveVoice(uri);
+              } else {
+                setWritingStory({ voice: uri });
+              }
             }}
             onDelete={() => {
               setWritingStory({ voice: undefined });
