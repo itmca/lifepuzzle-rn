@@ -65,7 +65,7 @@ const TextAreaInput = ({
           multiline
           onBlur={() => setFocused(false)}
           onFocus={() => setFocused(true)}
-          placeholder={placeholder}
+          placeholder={focused ? '' : placeholder}
           placeholderTextColor={Color.GREY_500}
           // BodyTextM Style
           style={{
