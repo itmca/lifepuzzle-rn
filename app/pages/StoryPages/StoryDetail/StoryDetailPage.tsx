@@ -193,6 +193,7 @@ const StoryDetailPage = (): React.ReactElement => {
    * Carousel 스크롤 시 호출되는 핸들러
    * filteredIndex -> allGalleryIndex로 역변환하여 state 업데이트
    * 현재 편집 중인 내용을 draft에 저장
+   * 다음 아이템의 편집 상태를 미리 설정하여 레이아웃 깜빡임 방지
    */
   const handleIndexChange = useCallback(
     (filteredIdx: number) => {
@@ -222,7 +223,25 @@ const StoryDetailPage = (): React.ReactElement => {
         item => item.id === selectedItem.id,
       );
 
-      // 3. 전체 갤러리 기준 인덱스 업데이트
+      // 3. 다음 아이템의 draft/content 확인하여 편집 모드 결정 (레이아웃 깜빡임 방지)
+      const nextDraftContent = draftContents.get(selectedItem.id);
+      const nextSavedContent = selectedItem.story?.content;
+
+      if (nextDraftContent !== undefined) {
+        // Draft가 있으면 편집 모드
+        setEditingGalleryId(selectedItem.id);
+        setContent(nextDraftContent);
+      } else if (nextSavedContent) {
+        // 저장된 content가 있으면 뷰 모드
+        setEditingGalleryId(null);
+        setContent(nextSavedContent);
+      } else {
+        // 둘 다 없으면 편집 모드
+        setEditingGalleryId(selectedItem.id);
+        setContent('');
+      }
+
+      // 4. 전체 갤러리 기준 인덱스 업데이트
       setAllGalleryIndex(originalIndex);
       setIsStory(!!selectedItem.story);
     },
@@ -232,6 +251,7 @@ const StoryDetailPage = (): React.ReactElement => {
       currentGalleryItem,
       editingGalleryId,
       content,
+      draftContents,
     ],
   );
 
@@ -336,6 +356,19 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   }, [route.params?.galleryIndex]);
 
+  /**
+   * currentGalleryItem 변경 시 content와 편집 상태 동기화
+   *
+   * 실행 시점:
+   * 1. 초기 마운트
+   * 2. Route params 변경 (외부에서 navigate로 특정 인덱스 이동)
+   * 3. 사진 삭제 등으로 인한 자동 인덱스 조정
+   * 4. Carousel 스크롤 (handleIndexChange에서도 처리하지만 중복 방지 필요)
+   *
+   * Note: handleIndexChange에서 이미 content/editingGalleryId를 설정하므로
+   * Carousel 스크롤 시 중복 setState가 발생할 수 있으나,
+   * React가 같은 값에 대한 setState는 무시하므로 성능 문제 없음
+   */
   useEffect(() => {
     if (!currentGalleryItem) {
       return;
