@@ -14,7 +14,7 @@ import {
 } from '../../../constants/carousel.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { useMediaStore } from '../../../stores/media.store';
-import { Title } from '../../../components/ui/base/TextBase';
+import { Title, BodyTextM } from '../../../components/ui/base/TextBase';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 import TextAreaInput from './components/TextAreaInput';
 import { BasicButton } from '../../../components/ui/form/Button';
@@ -25,7 +25,6 @@ import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
-import StoryDateInput from '../StoryWriting/StoryDateInput.tsx';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
@@ -39,11 +38,32 @@ import { useHeroStore } from '../../../stores/hero.store';
 import { useUpdateGalleryDateAndAge } from '../../../services/gallery/gallery.mutation';
 import StoryDateAgeBottomSheet from './components/StoryDateAgeBottomSheet';
 import { AgeType } from '../../../types/core/media.type';
+import { ButtonBase } from '../../../components/ui/base/ButtonBase';
+import Icon from '@react-native-vector-icons/material-icons';
 
 /**
  * Modal types for StoryDetailPage
  */
 type ModalType = 'none' | 'pinch-zoom' | 'voice' | 'date-age';
+
+const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
+
+/**
+ * 날짜 포맷팅 함수
+ */
+const formatDate = (date?: Date): string => {
+  if (!date) {
+    return '';
+  }
+  const year = date.getFullYear();
+  const month =
+    date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1;
+  const dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+  const day = daysKor[date.getDay()];
+  return `${year}.${month}.${dd} (${day})`;
+};
 
 const StoryDetailPage = (): React.ReactElement => {
   // React hooks - UI States
@@ -429,11 +449,29 @@ const StoryDetailPage = (): React.ReactElement => {
               gap={8}
               justifyContent={'flex-start'}
             >
-              <StoryDateInput
-                ageGroupLabel={currentGalleryItem.tag?.label}
-                date={currentGalleryItem.date}
-                onChange={handleDateInputPress}
-              />
+              <ButtonBase
+                height={'24px'}
+                width={'auto'}
+                backgroundColor={Color.TRANSPARENT}
+                onPress={handleDateInputPress}
+                borderInside
+                gap={2}
+              >
+                {currentGalleryItem.date ? (
+                  <BodyTextM color={Color.GREY_600}>
+                    {`${currentGalleryItem.tag?.label} · ${formatDate(currentGalleryItem.date)}`}
+                  </BodyTextM>
+                ) : (
+                  <BodyTextM color={Color.GREY_600}>
+                    {currentGalleryItem.tag?.label}
+                  </BodyTextM>
+                )}
+                <Icon
+                  name={'keyboard-arrow-down'}
+                  size={20}
+                  color={Color.GREY_400}
+                />
+              </ButtonBase>
             </ContentContainer>
             {editingGalleryId === currentGalleryItem?.id ? (
               <ContentContainer>
