@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -16,7 +22,7 @@ import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/St
 import { useMediaStore } from '../../../stores/media.store';
 import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
-import TextAreaInput from './components/TextAreaInput';
+import TextAreaInput, { TextAreaInputRef } from './components/TextAreaInput';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';
 import { useImageDimensions } from '../../../hooks/useImageDimensions';
@@ -67,6 +73,9 @@ const formatDate = (date?: Date): string => {
 };
 
 const StoryDetailPage = (): React.ReactElement => {
+  // Refs
+  const textAreaRef = useRef<TextAreaInputRef>(null);
+
   // React hooks - UI States
   const [isStory, setIsStory] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<ModalType>('none');
@@ -263,6 +272,10 @@ const StoryDetailPage = (): React.ReactElement => {
   const handleEdit = () => {
     if (currentGalleryItem) {
       setEditingGalleryId(currentGalleryItem.id);
+      // Focus the TextAreaInput after state update
+      setTimeout(() => {
+        textAreaRef.current?.focus();
+      }, 100);
     }
   };
 
@@ -522,6 +535,7 @@ const StoryDetailPage = (): React.ReactElement => {
                 <ContentContainer>
                   <ContentContainer minHeight={80}>
                     <TextAreaInput
+                      ref={textAreaRef}
                       text={content}
                       onChangeText={setContent}
                       placeholder={`이때의 이야기를 글로 남겨주세요.\n지금 떠오르는 기억이면 충분해요.`}
