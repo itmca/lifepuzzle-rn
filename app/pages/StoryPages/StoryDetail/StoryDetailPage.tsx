@@ -14,7 +14,7 @@ import {
 } from '../../../constants/carousel.constant.ts';
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { useMediaStore } from '../../../stores/media.store';
-import { Title, BodyTextM } from '../../../components/ui/base/TextBase';
+import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
 import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
 import TextAreaInput from './components/TextAreaInput';
 import { BasicButton } from '../../../components/ui/form/Button';
@@ -29,8 +29,8 @@ import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
 import {
-  showToast,
   showErrorToast,
+  showToast,
 } from '../../../components/ui/feedback/Toast';
 import { StoryType } from '../../../types/core/story.type';
 import { useStoryDetailMutation } from '../../../services/story/story.mutation';
@@ -40,6 +40,7 @@ import StoryDateAgeBottomSheet from './components/StoryDateAgeBottomSheet';
 import { AgeType } from '../../../types/core/media.type';
 import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 import Icon from '@react-native-vector-icons/material-icons';
+import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 
 /**
  * Modal types for StoryDetailPage
@@ -144,6 +145,16 @@ const StoryDetailPage = (): React.ReactElement => {
 
   // Derived value or local variables
   const currentGalleryItem = filteredGallery[filteredIndex];
+
+  // 현재 보고 있는 나이대(tag)의 사진 개수 계산
+  const currentTagPhotoCount = useMemo(() => {
+    if (!currentGalleryItem?.tag?.key) {
+      return 0;
+    }
+    return filteredGallery.filter(
+      item => item.tag?.key === currentGalleryItem.tag?.key,
+    ).length;
+  }, [filteredGallery, currentGalleryItem?.tag?.key]);
 
   // Debug: 렌더링 추적
   useRenderLog('StoryDetailPage', {
@@ -407,14 +418,14 @@ const StoryDetailPage = (): React.ReactElement => {
   return (
     <PageContainer
       edges={['left', 'right', 'bottom']}
-      isLoading={isSaving || isUpdatingDateAndAge}
+      isLoading={isUpdatingDateAndAge}
     >
       <ScrollContentContainer gap={0} dismissKeyboardOnPress>
         <ContentContainer paddingHorizontal={20} paddingTop={20}>
           {currentGalleryItem && (
             <Title color={Color.GREY_700}>
               {currentGalleryItem.tag?.label
-                ? `${currentGalleryItem.tag.label} (${filteredGallery.length})`
+                ? `${currentGalleryItem.tag.label} (총 ${currentTagPhotoCount}장)`
                 : ''}
             </Title>
           )}
@@ -442,108 +453,110 @@ const StoryDetailPage = (): React.ReactElement => {
           gap={0}
         >
           <Divider marginVertical={0} paddingHorizontal={16} height={3} />
-          <ContentContainer paddingTop={24} gap={8}>
-            <ContentContainer
-              useHorizontalLayout
-              width={'auto'}
-              gap={8}
-              justifyContent={'flex-start'}
-            >
-              <ButtonBase
-                height={'24px'}
+          <LoadingContainer isLoading={isSaving}>
+            <ContentContainer paddingTop={24} gap={8}>
+              <ContentContainer
+                useHorizontalLayout
                 width={'auto'}
-                backgroundColor={Color.TRANSPARENT}
-                onPress={handleDateInputPress}
-                borderInside
-                gap={2}
+                gap={8}
+                justifyContent={'flex-start'}
               >
-                {currentGalleryItem.date ? (
-                  <BodyTextM color={Color.GREY_600}>
-                    {`${currentGalleryItem.tag?.label} · ${formatDate(currentGalleryItem.date)}`}
-                  </BodyTextM>
-                ) : (
-                  <BodyTextM color={Color.GREY_600}>
-                    {currentGalleryItem.tag?.label}
-                  </BodyTextM>
-                )}
-                <Icon
-                  name={'keyboard-arrow-down'}
-                  size={20}
-                  color={Color.GREY_400}
-                />
-              </ButtonBase>
-            </ContentContainer>
-            {editingGalleryId === currentGalleryItem?.id ? (
-              <ContentContainer>
-                <ContentContainer minHeight={80}>
-                  <TextAreaInput
-                    text={content}
-                    onChangeText={setContent}
-                    placeholder={`사진을 보며 들려주신 이야기를\n한두 줄로 남겨보세요`}
-                    validations={[
-                      {
-                        condition: text => text.length <= 1000,
-                        errorText: '1000자 이내로 입력해주세요',
-                      },
-                    ]}
+                <ButtonBase
+                  height={'24px'}
+                  width={'auto'}
+                  backgroundColor={Color.TRANSPARENT}
+                  onPress={handleDateInputPress}
+                  borderInside
+                  gap={2}
+                >
+                  {currentGalleryItem.date ? (
+                    <BodyTextM color={Color.GREY_600}>
+                      {`${currentGalleryItem.tag?.label} · ${formatDate(currentGalleryItem.date)}`}
+                    </BodyTextM>
+                  ) : (
+                    <BodyTextM color={Color.GREY_600}>
+                      {currentGalleryItem.tag?.label}
+                    </BodyTextM>
+                  )}
+                  <Icon
+                    name={'keyboard-arrow-down'}
+                    size={20}
+                    color={Color.GREY_400}
                   />
-                </ContentContainer>
-                <ContentContainer width={100}>
-                  <BasicButton
-                    text="완료"
-                    onPress={handleSave}
-                    height={44}
-                    backgroundColor={Color.WHITE}
-                    textColor={Color.MAIN_DARK}
-                    borderColor={Color.MAIN_LIGHT}
-                    borderRadius={22}
-                    disabled={isContentEmpty}
-                    disabledBackgroundColor={Color.GREY_100}
-                    disabledTextColor={Color.GREY_400}
-                    disabledBorderColor={Color.GREY_200}
-                  />
-                </ContentContainer>
+                </ButtonBase>
               </ContentContainer>
-            ) : (
-              <>
-                {content && (
-                  <ContentContainer gap={12}>
-                    <ContentContainer minHeight={80} paddingVertical={8}>
-                      <Title color={Color.GREY_800}>{content}</Title>
-                    </ContentContainer>
-                    <ContentContainer width={100}>
-                      <BasicButton
-                        text="수정하기"
-                        onPress={handleEdit}
-                        textColor={Color.GREY_500}
-                        borderColor={Color.GREY_200}
-                        backgroundColor={Color.WHITE}
-                        height={44}
-                        borderRadius={22}
-                      />
-                    </ContentContainer>
+              {editingGalleryId === currentGalleryItem?.id ? (
+                <ContentContainer>
+                  <ContentContainer minHeight={80}>
+                    <TextAreaInput
+                      text={content}
+                      onChangeText={setContent}
+                      placeholder={`이때의 이야기를 글로 남겨주세요.\n지금 떠오르는 기억이면 충분해요.`}
+                      validations={[
+                        {
+                          condition: text => text.length <= 1000,
+                          errorText: '1000자 이내로 입력해주세요',
+                        },
+                      ]}
+                    />
                   </ContentContainer>
-                )}
-              </>
-            )}
-            <ContentContainer paddingVertical={10}>
-              {currentGalleryItem?.story?.audios &&
-              currentGalleryItem.story.audios.length > 0 ? (
-                <AudioBtn
-                  audioUrl={currentGalleryItem.story.audios[0]}
-                  onPlay={() => {
-                    setActiveModal('voice');
-                  }}
-                />
+                  <ContentContainer width={100}>
+                    <BasicButton
+                      text="완료"
+                      onPress={handleSave}
+                      height={44}
+                      backgroundColor={Color.WHITE}
+                      textColor={Color.MAIN_DARK}
+                      borderColor={Color.MAIN_LIGHT}
+                      borderRadius={22}
+                      disabled={isContentEmpty}
+                      disabledBackgroundColor={Color.GREY_100}
+                      disabledTextColor={Color.GREY_400}
+                      disabledBorderColor={Color.GREY_200}
+                    />
+                  </ContentContainer>
+                </ContentContainer>
               ) : (
-                <VoiceAddButton
-                  onPress={() => {
-                    setActiveModal('voice');
-                  }}
-                />
+                <>
+                  {content && (
+                    <ContentContainer gap={12}>
+                      <ContentContainer minHeight={80} paddingVertical={8}>
+                        <Title color={Color.GREY_800}>{content}</Title>
+                      </ContentContainer>
+                      <ContentContainer width={100}>
+                        <BasicButton
+                          text="수정하기"
+                          onPress={handleEdit}
+                          textColor={Color.GREY_500}
+                          borderColor={Color.GREY_200}
+                          backgroundColor={Color.WHITE}
+                          height={44}
+                          borderRadius={22}
+                        />
+                      </ContentContainer>
+                    </ContentContainer>
+                  )}
+                </>
               )}
+              <ContentContainer paddingVertical={10}>
+                {currentGalleryItem?.story?.audios &&
+                currentGalleryItem.story.audios.length > 0 ? (
+                  <AudioBtn
+                    audioUrl={currentGalleryItem.story.audios[0]}
+                    onPlay={() => {
+                      setActiveModal('voice');
+                    }}
+                  />
+                ) : (
+                  <VoiceAddButton
+                    onPress={() => {
+                      setActiveModal('voice');
+                    }}
+                  />
+                )}
+              </ContentContainer>
             </ContentContainer>
-          </ContentContainer>
+          </LoadingContainer>
         </ContentContainer>
       </ScrollContentContainer>
 

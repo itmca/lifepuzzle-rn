@@ -25,7 +25,7 @@ export const VoiceAddButton = ({ onPress }: Props): React.ReactElement => {
       borderInside
     >
       <SvgIcon name={'plus'} color={Color.MAIN_DARK} size={16} />
-      <BodyTextB color={Color.GREY_600}>음성으로도 남기기</BodyTextB>
+      <BodyTextB color={Color.GREY_600}>음성으로 이야기 남기기</BodyTextB>
     </ButtonBase>
   );
 };
