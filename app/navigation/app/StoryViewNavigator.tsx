@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import StoryDetailPage from '../../pages/StoryPages/StoryDetail/StoryDetailPage';
+import { StoryDetailPage } from '../../pages/StoryPages/StoryDetail/StoryDetailPage';
 import { TopBar } from '../../components/ui/navigation/TopBar';
-import DetailViewHeaderRight from '../../components/ui/navigation/header/DetailViewHeaderRight';
+import { DetailViewHeaderRight } from '../../components/ui/navigation/header/DetailViewHeaderRight';
 import { STORY_VIEW_SCREENS } from '../screens.constant';
 
 export type StoryViewParamList = {
@@ -36,4 +36,4 @@ const StoryViewNavigator = (): React.ReactElement => {
   );
 };
 
-export default StoryViewNavigator;
+export { StoryViewNavigator };

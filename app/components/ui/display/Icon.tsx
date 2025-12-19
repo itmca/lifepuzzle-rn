@@ -19,4 +19,4 @@ const StyledIcon = styled(MaterialIcons)<Props>`
 function Icon({ size = 24, ...props }: Props) {
   return <StyledIcon size={size} {...props} />;
 }
-export default Icon;
+export { Icon };

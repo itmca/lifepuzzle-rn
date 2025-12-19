@@ -52,4 +52,4 @@ function PageIndicator({ page = 1, size, onChange }: Props) {
     </ContentContainer>
   );
 }
-export default PageIndicator;
+export { PageIndicator };

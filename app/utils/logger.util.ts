@@ -62,4 +62,4 @@ const logger: Logger = {
   },
 };
 
-export default logger;
+export { logger };

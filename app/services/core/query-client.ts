@@ -1,7 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import logger from '../../utils/logger.util';
-
+import { logger } from '../../utils/logger.util';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

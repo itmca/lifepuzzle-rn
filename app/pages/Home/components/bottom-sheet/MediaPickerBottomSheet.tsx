@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import logger from '../../../../utils/logger.util';
-import BottomSheet from '../../../../components/ui/interaction/BottomSheet';
+import { logger } from '../../../../utils/logger.util';
+import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import { IconName, SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import {

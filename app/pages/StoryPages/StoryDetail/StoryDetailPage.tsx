@@ -21,8 +21,8 @@ import {
 import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
 import { useMediaStore } from '../../../stores/media.store';
 import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
-import PinchZoomModal from '../../../components/ui/interaction/PinchZoomModal';
-import TextAreaInput, { TextAreaInputRef } from './components/TextAreaInput';
+import { PinchZoomModal } from '../../../components/ui/interaction/PinchZoomModal';
+import { TextAreaInput, TextAreaInputRef } from './components/TextAreaInput';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { Divider } from '../../../components/ui/base/Divider';
 import { useImageDimensions } from '../../../hooks/useImageDimensions';
@@ -45,7 +45,7 @@ import {
 } from '../../../services/story/story.mutation';
 import { useHeroStore } from '../../../stores/hero.store';
 import { useUpdateGalleryDateAndAge } from '../../../services/gallery/gallery.mutation';
-import StoryDateAgeBottomSheet from './components/StoryDateAgeBottomSheet';
+import { StoryDateAgeBottomSheet } from './components/StoryDateAgeBottomSheet';
 import { AgeType } from '../../../types/core/media.type';
 import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 import Icon from '@react-native-vector-icons/material-icons';
@@ -706,4 +706,4 @@ const StoryDetailPage = (): React.ReactElement => {
     </PageContainer>
   );
 };
-export default StoryDetailPage;
+export { StoryDetailPage };

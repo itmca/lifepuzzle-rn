@@ -45,4 +45,4 @@ const WritingHeaderRight = ({
   );
 };
 
-export default WritingHeaderRight;
+export { WritingHeaderRight };

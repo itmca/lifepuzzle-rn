@@ -6,7 +6,7 @@ import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector';
+import { CommonPhotoSelector } from '../../../components/feature/photo/CommonPhotoSelector';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { BodyTextB } from '../../../components/ui/base/TextBase';
@@ -228,4 +228,4 @@ const FacebookGallerySelector = (): React.ReactElement => {
   );
 };
 
-export default FacebookGallerySelector;
+export { FacebookGallerySelector };

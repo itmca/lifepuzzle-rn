@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import BasicTextInput from '../../../../../components/ui/form/TextInput.tsx';
+import { BasicTextInput } from '../../../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../../../components/ui/form/Button';
-import BottomSheet from '../../../../../components/ui/interaction/BottomSheet';
+import { BottomSheet } from '../../../../../components/ui/interaction/BottomSheet';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,

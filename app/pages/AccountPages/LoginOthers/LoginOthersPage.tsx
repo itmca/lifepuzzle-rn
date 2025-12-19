@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import GeneralLoginButton from './components/GeneralLoginButton.tsx';
+import { GeneralLoginButton } from './components/GeneralLoginButton.tsx';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { Color } from '../../../constants/color.constant.ts';
-import RegisterButton from '../../../components/feature/auth/RegisterButton.tsx';
-import BasicTextInput from '../../../components/ui/form/TextInput.tsx';
+import { RegisterButton } from '../../../components/feature/auth/RegisterButton.tsx';
+import { BasicTextInput } from '../../../components/ui/form/TextInput.tsx';
 import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
 import { BodyTextM } from '../../../components/ui/base/TextBase';
 
@@ -84,4 +84,4 @@ const LoginOthersPage = (): React.ReactElement => {
   );
 };
 
-export default LoginOthersPage;
+export { LoginOthersPage };

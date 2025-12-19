@@ -20,7 +20,7 @@ type Props = {
   onClose?: () => void;
 };
 
-export default function PinchZoomModal({ opened, imageUri, onClose }: Props) {
+export function PinchZoomModal({ opened, imageUri, onClose }: Props) {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const lastTranslateX = useSharedValue(0);

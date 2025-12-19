@@ -126,4 +126,4 @@ const TextAreaInput = forwardRef<TextAreaInputRef, Props>(
 
 TextAreaInput.displayName = 'TextAreaInput';
 
-export default TextAreaInput;
+export { TextAreaInput };

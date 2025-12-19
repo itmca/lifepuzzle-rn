@@ -73,4 +73,4 @@ const AppleSocialLoginButton = ({
   );
 };
 
-export default AppleSocialLoginButton;
+export { AppleSocialLoginButton };

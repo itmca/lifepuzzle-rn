@@ -44,4 +44,4 @@ const GoBackHeaderLeft = ({
   );
 };
 
-export default GoBackHeaderLeft;
+export { GoBackHeaderLeft };

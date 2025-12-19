@@ -77,4 +77,4 @@ const SelectablePhoto = ({
   );
 };
 
-export default SelectablePhoto;
+export { SelectablePhoto };

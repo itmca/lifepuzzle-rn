@@ -6,8 +6,7 @@ import { useMediaStore } from '../../../../stores/media.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Title } from '../../../../components/ui/base/TextBase';
-import Icon from '../../../../components/ui/display/Icon.tsx';
-
+import { Icon } from '../../../../components/ui/display/Icon.tsx';
 type Variant = 'upload' | 'aiHistory';
 type Props = { onPress: () => void };
 
@@ -91,4 +90,4 @@ const GalleryBottomButton = ({ onPress }: Props) => {
   );
 };
 
-export default GalleryBottomButton;
+export { GalleryBottomButton };

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginMainPage from '../../pages/AccountPages/LoginMain/LoginMainPage';
-import LoginOthersPage from '../../pages/AccountPages/LoginOthers/LoginOthersPage';
-import RegisterPage from '../../pages/AccountPages/Register/RegisterPage';
+import { LoginMainPage } from '../../pages/AccountPages/LoginMain/LoginMainPage';
+import { LoginOthersPage } from '../../pages/AccountPages/LoginOthers/LoginOthersPage';
+import { RegisterPage } from '../../pages/AccountPages/Register/RegisterPage';
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { LOGIN_REGISTER_SCREENS } from '../screens.constant';
 
@@ -45,4 +45,4 @@ const LoginRegisterNavigator = (): React.ReactElement => {
   );
 };
 
-export default LoginRegisterNavigator;
+export { LoginRegisterNavigator };

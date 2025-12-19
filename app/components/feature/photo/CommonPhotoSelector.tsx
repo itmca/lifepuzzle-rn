@@ -17,8 +17,8 @@ import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import Icon from '@react-native-vector-icons/fontawesome';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import logger from '../../../utils/logger.util';
-import SelectablePhoto from './SelectablePhoto';
+import { logger } from '../../../utils/logger.util';
+import { SelectablePhoto } from './SelectablePhoto';
 import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
 
 import {
@@ -353,4 +353,4 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
   );
 };
 
-export default CommonPhotoSelector;
+export { CommonPhotoSelector };

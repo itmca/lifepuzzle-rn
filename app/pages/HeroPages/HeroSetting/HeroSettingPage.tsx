@@ -360,4 +360,4 @@ const HeroSettingPage = (): React.ReactElement => {
   );
 };
 
-export default HeroSettingPage;
+export { HeroSettingPage };

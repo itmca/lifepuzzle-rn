@@ -48,4 +48,4 @@ const GallerySelect = ({ item, index, selected, onSelect }: props) => {
   }
 };
 
-export default GallerySelect;
+export { GallerySelect };

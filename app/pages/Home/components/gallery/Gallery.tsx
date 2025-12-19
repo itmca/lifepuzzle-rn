@@ -36,11 +36,11 @@ import { Color } from '../../../../constants/color.constant.ts';
 import { useRenderLog } from '../../../../utils/debug/render-log.util';
 
 import { BodyTextM, Title } from '../../../../components/ui/base/TextBase';
-import GalleryTag from './GalleryTag.tsx';
+import { GalleryTag } from './GalleryTag.tsx';
 import { BasicButton } from '../../../../components/ui/form/Button';
 import { AdaptiveImage } from '../../../../components/ui/base/ImageBase';
 import Video from 'react-native-video';
-import VideoModal from '../../../../components/ui/interaction/VideoModal';
+import { VideoModal } from '../../../../components/ui/interaction/VideoModal';
 import { LoadingContainer } from '../../../../components/ui/feedback/LoadingContainer';
 
 type props = {
@@ -483,4 +483,6 @@ const Gallery = ({
   );
 };
 
-export default React.memo(Gallery);
+const MemoizedGallery = React.memo(Gallery);
+
+export { MemoizedGallery as Gallery };

@@ -54,4 +54,4 @@ const MediaCarouselPagination = ({
   );
 };
 
-export default MediaCarouselPagination;
+export { MediaCarouselPagination };

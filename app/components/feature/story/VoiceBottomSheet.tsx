@@ -6,8 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useStoryStore } from '../../../stores/story.store';
 import { VoicePlayer, VoicePlayerRef } from './StoryVoicePlayer.tsx';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
-import BottomSheet from '../../ui/interaction/BottomSheet.tsx';
-
+import { BottomSheet } from '../../ui/interaction/BottomSheet.tsx';
 type Props = {
   opened?: boolean;
   editable?: boolean;

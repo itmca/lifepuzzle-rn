@@ -156,4 +156,4 @@ const BottomSheet = forwardRef<BottomSheetModal, ModalProps>(
     );
   },
 );
-export default BottomSheet;
+export { BottomSheet };

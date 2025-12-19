@@ -3,9 +3,9 @@ import LoginMainText from '../../../assets/images/login_main_text.svg';
 import LoginMainIcon from '../../../assets/images/login_main_icon.svg';
 
 import { Platform } from 'react-native';
-import KaKaoSocialLoginButton from './components/KaKaoSocialLoginButton';
-import AppleSocialLoginButton from './components/AppleSocialLoginButton';
-import OtherLoginButton from '../../../components/feature/auth/OtherLoginButton.tsx';
+import { KaKaoSocialLoginButton } from './components/KaKaoSocialLoginButton';
+import { AppleSocialLoginButton } from './components/AppleSocialLoginButton';
+import { OtherLoginButton } from '../../../components/feature/auth/OtherLoginButton.tsx';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { BodyTextM } from '../../../components/ui/base/TextBase';
@@ -70,4 +70,4 @@ const LoginMainPage = (): React.ReactElement => {
   );
 };
 
-export default LoginMainPage;
+export { LoginMainPage };

@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
 
-import CommonPhotoSelector from '../../../components/feature/photo/CommonPhotoSelector.tsx';
+import { CommonPhotoSelector } from '../../../components/feature/photo/CommonPhotoSelector.tsx';
 import { useSelectionStore } from '../../../stores/selection.store';
 import {
   PhotoSelectorCallbacks,
@@ -18,7 +18,7 @@ import {
   ContentContainer,
   ScrollContentContainer,
 } from '../../../components/ui/layout/ContentContainer.tsx';
-import GalleryTag from '../../Home/components/gallery/GalleryTag.tsx';
+import { GalleryTag } from '../../Home/components/gallery/GalleryTag.tsx';
 import { useTagSelection } from '../../../hooks/useTagSelection';
 
 const StoryGallerySelector = (): React.ReactElement => {
@@ -188,4 +188,4 @@ const StoryGallerySelector = (): React.ReactElement => {
   );
 };
 
-export default StoryGallerySelector;
+export { StoryGallerySelector };

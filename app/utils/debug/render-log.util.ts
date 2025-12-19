@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
-import logger from '../logger.util';
-
+import { logger } from '../logger.util';
 /**
  * 컴포넌트 렌더링을 추적하는 Hook
  *

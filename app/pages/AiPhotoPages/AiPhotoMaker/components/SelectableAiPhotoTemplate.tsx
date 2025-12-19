@@ -118,4 +118,4 @@ const SelectableAiPhotoTemplate = ({
   );
 };
 
-export default SelectableAiPhotoTemplate;
+export { SelectableAiPhotoTemplate };

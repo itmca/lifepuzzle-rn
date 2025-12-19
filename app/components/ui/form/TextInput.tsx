@@ -174,4 +174,4 @@ const BasicTextInput = ({
   );
 };
 
-export default BasicTextInput;
+export { BasicTextInput };

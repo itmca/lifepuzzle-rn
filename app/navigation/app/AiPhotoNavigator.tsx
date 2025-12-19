@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TopBar } from '../../components/ui/navigation/TopBar';
-import AiPhotoWorkHistoryPage from '../../pages/AiPhotoPages/AiPhotoHistory/AiPhotoWorkHistoryPage';
-import AiPhotoMakerPage from '../../pages/AiPhotoPages/AiPhotoMaker/AiPhotoMakerPage';
+import { AiPhotoWorkHistoryPage } from '../../pages/AiPhotoPages/AiPhotoHistory/AiPhotoWorkHistoryPage';
+import { AiPhotoMakerPage } from '../../pages/AiPhotoPages/AiPhotoMaker/AiPhotoMakerPage';
 import { AI_PHOTO_SCREENS } from '../screens.constant';
 
 export type AiPhotoParamList = {
@@ -39,4 +39,4 @@ const AiPhotoNavigator = (): React.ReactElement => {
   );
 };
 
-export default AiPhotoNavigator;
+export { AiPhotoNavigator };

@@ -113,4 +113,4 @@ function DateInput({
   );
 }
 
-export default DateInput;
+export { DateInput };

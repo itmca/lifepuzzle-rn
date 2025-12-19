@@ -51,4 +51,4 @@ const GeneralLoginButton = ({
   );
 };
 
-export default GeneralLoginButton;
+export { GeneralLoginButton };

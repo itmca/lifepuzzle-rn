@@ -36,4 +36,4 @@ const LoginHeaderLeft = ({ type }: Props): React.ReactElement => {
   );
 };
 
-export default LoginHeaderLeft;
+export { LoginHeaderLeft };
