@@ -421,3 +421,163 @@ export const useStoryDetailMutation = ({
 
   return { saveTrigger, isSaving };
 };
+
+/**
+ * Story Content Upsert API를 사용하여 텍스트 내용만 저장하는 mutation hook
+ *
+ * @example
+ * const { saveContent, isSaving } = useStoryContentUpsert({
+ *   onSuccess: (storyKey) => {
+ *     updateGalleryStory(galleryId, updatedStory);
+ *     showToast('이야기가 저장되었습니다');
+ *   },
+ *   onError: (message) => showErrorToast(message),
+ * });
+ *
+ * const handleSave = () => {
+ *   saveContent(heroId, galleryId, content);
+ * };
+ */
+
+type UseStoryContentUpsertParams = {
+  onSuccess: (storyKey: string) => void;
+  onError: (message: string) => void;
+};
+
+export type UseStoryContentUpsertReturn = {
+  saveContent: (heroId: number, galleryId: number, content: string) => void;
+  isSaving: boolean;
+};
+
+export const useStoryContentUpsert = ({
+  onSuccess,
+  onError,
+}: UseStoryContentUpsertParams): UseStoryContentUpsertReturn => {
+  const queryClient = useQueryClient();
+
+  const [isSaving, trigger] = useAuthMutation<{ storyKey: string }>({
+    axiosConfig: {
+      method: 'post',
+      url: '/v3/stories/content',
+      headers: { 'Content-Type': 'application/json' },
+    },
+    onSuccess: ({ storyKey }) => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
+      onSuccess(storyKey);
+    },
+    onError: () => {
+      onError('이야기 저장에 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+
+  const saveContent = useCallback(
+    (heroId: number, galleryId: number, content: string) => {
+      // Validation
+      if (!content.trim()) {
+        onError('이야기 내용을 입력해주세요');
+        return;
+      }
+
+      if (content.length > 1000) {
+        onError('1000자 이내로 입력해주세요');
+        return;
+      }
+
+      void trigger({
+        data: {
+          heroId,
+          galleryId,
+          content,
+        },
+      });
+    },
+    [trigger, onError],
+  );
+
+  return { saveContent, isSaving };
+};
+
+/**
+ * Story Voice Upsert API를 사용하여 음성 파일을 저장하는 mutation hook
+ *
+ * @example
+ * const { saveVoice, isSaving } = useStoryVoiceUpsert({
+ *   onSuccess: () => {
+ *     updateGalleryStory(galleryId, updatedStory);
+ *     showToast('음성이 저장되었습니다');
+ *   },
+ *   onError: (message) => showErrorToast(message),
+ * });
+ *
+ * const handleSave = () => {
+ *   saveVoice(heroId, galleryId, voiceUri);
+ * };
+ */
+
+type UseStoryVoiceUpsertParams = {
+  onSuccess: () => void;
+  onError: (message: string) => void;
+};
+
+export type UseStoryVoiceUpsertReturn = {
+  saveVoice: (heroId: number, galleryId: number, voiceUri: string) => void;
+  isSaving: boolean;
+};
+
+export const useStoryVoiceUpsert = ({
+  onSuccess,
+  onError,
+}: UseStoryVoiceUpsertParams): UseStoryVoiceUpsertReturn => {
+  const queryClient = useQueryClient();
+
+  const [isSaving, trigger] = useAuthMutation<void>({
+    axiosConfig: {
+      method: 'post',
+      url: '/v3/stories/voice',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 30_000,
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
+      onSuccess();
+    },
+    onError: () => {
+      onError('음성 저장에 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+
+  const saveVoice = useCallback(
+    (heroId: number, galleryId: number, voiceUri: string) => {
+      // Validation
+      if (!voiceUri) {
+        onError('음성 파일을 선택해주세요');
+        return;
+      }
+
+      // FormData 생성
+      const formData = new FormData();
+
+      // meta JSON 추가 (React Native FormData는 JSON을 string으로 append)
+      const metaJson = JSON.stringify({
+        heroId,
+        galleryId,
+      });
+      formData.append('meta', metaJson);
+
+      // voice 파일 추가
+      const fileName = voiceUri.split('/').pop() || 'voice.m4a';
+      const mimeType = voiceUri.endsWith('.mp4') ? 'audio/mp4' : 'audio/x-m4a';
+
+      formData.append('voice', {
+        uri: voiceUri,
+        type: mimeType,
+        name: fileName,
+      } as any);
+
+      void trigger({ data: formData });
+    },
+    [trigger, onError],
+  );
+
+  return { saveVoice, isSaving };
+};

@@ -33,7 +33,10 @@ import {
   showToast,
 } from '../../../components/ui/feedback/Toast';
 import { StoryType } from '../../../types/core/story.type';
-import { useStoryDetailMutation } from '../../../services/story/story.mutation';
+import {
+  useStoryContentUpsert,
+  useStoryVoiceUpsert,
+} from '../../../services/story/story.mutation';
 import { useHeroStore } from '../../../stores/hero.store';
 import { useUpdateGalleryDateAndAge } from '../../../services/gallery/gallery.mutation';
 import StoryDateAgeBottomSheet from './components/StoryDateAgeBottomSheet';
@@ -300,9 +303,8 @@ const StoryDetailPage = (): React.ReactElement => {
     [currentGalleryItem, updateDateAndAge, updateGalleryDateAndTag],
   );
 
-  // Story 저장 mutation (story.mutation.ts로 분리)
-  const { saveTrigger, isSaving } = useStoryDetailMutation({
-    galleryItem: currentGalleryItem,
+  // Story Content Upsert API 사용 (텍스트만 저장)
+  const { saveContent, isSaving } = useStoryContentUpsert({
     onSuccess: storyKey => {
       // Gallery store 업데이트
       const baseStory = currentGalleryItem?.story;
@@ -345,7 +347,32 @@ const StoryDetailPage = (): React.ReactElement => {
   });
 
   const handleSave = () => {
-    saveTrigger(content);
+    if (!currentHero || !currentGalleryItem) {
+      showErrorToast('저장할 수 없습니다');
+      return;
+    }
+    saveContent(currentHero.id, currentGalleryItem.id, content);
+  };
+
+  // Story Voice Upsert API 사용 (음성만 저장)
+  const { saveVoice, isSaving: isVoiceSaving } = useStoryVoiceUpsert({
+    onSuccess: () => {
+      // 음성 저장 성공 후 Gallery 새로고침 필요
+      // React Query가 자동으로 캐시 무효화하므로 별도 처리 불필요
+      showToast('음성이 저장되었습니다');
+      setActiveModal('none');
+    },
+    onError: message => {
+      showErrorToast(message);
+    },
+  });
+
+  const handleVoiceSave = (voiceUri: string) => {
+    if (!currentHero || !currentGalleryItem) {
+      showErrorToast('저장할 수 없습니다');
+      return;
+    }
+    saveVoice(currentHero.id, currentGalleryItem.id, voiceUri);
   };
 
   // Side effects
@@ -606,10 +633,12 @@ const StoryDetailPage = (): React.ReactElement => {
       />
       <VoiceBottomSheet
         opened={activeModal === 'voice'}
-        editable={false}
+        editable={true}
         onClose={() => {
           setActiveModal('none');
         }}
+        onSaveVoice={handleVoiceSave}
+        voiceSource={currentGalleryItem?.story?.audios?.[0]}
       />
       {currentGalleryItem && currentHero && tags && (
         <StoryDateAgeBottomSheet
