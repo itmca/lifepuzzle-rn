@@ -272,10 +272,6 @@ const StoryDetailPage = (): React.ReactElement => {
   const handleEdit = () => {
     if (currentGalleryItem) {
       setEditingGalleryId(currentGalleryItem.id);
-      // Focus the TextAreaInput after state update
-      setTimeout(() => {
-        textAreaRef.current?.focus();
-      }, 100);
     }
   };
 
@@ -368,6 +364,23 @@ const StoryDetailPage = (): React.ReactElement => {
       setAllGalleryIndex(route.params.galleryIndex);
     }
   }, [route.params?.galleryIndex]);
+
+  /**
+   * 편집 모드 전환 시 TextAreaInput에 자동 focus
+   * handleEdit 호출 시 editingGalleryId가 설정되면 자동으로 focus
+   */
+  useEffect(() => {
+    if (
+      editingGalleryId !== null &&
+      editingGalleryId === currentGalleryItem?.id
+    ) {
+      // 다음 렌더 사이클에 focus (조건부 렌더링된 컴포넌트 마운트 대기)
+      const timer = setTimeout(() => {
+        textAreaRef.current?.focus();
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [editingGalleryId, currentGalleryItem?.id]);
 
   /**
    * currentGalleryItem 변경 시 content와 편집 상태 동기화
