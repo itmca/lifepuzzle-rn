@@ -10,6 +10,7 @@ import { useUIStore } from '../../stores/ui.store';
 import { useAuthStore } from '../../stores/auth.store';
 import { useShareStore } from '../../stores/share.store';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { showToast, showErrorToast } from '../../components/ui/feedback/Toast';
 import { HeroPayloadService } from './hero-payload.service';
 import { useAuthValidation, useFieldValidation } from '../auth/validation.hook';
 import { useErrorHandler } from '../common/error-handler.hook';
@@ -125,7 +126,7 @@ export const useUpdateHero = (): UseUpdateHeroReturn => {
       headers: { 'Content-Type': 'multipart/form-data' },
     },
     onSuccess: () => {
-      CustomAlert.simpleAlert('주인공이 수정되었습니다.');
+      showToast('주인공이 수정되었습니다.');
       setWritingHeroKey(undefined);
       resetWritingHero();
       publishHeroUpdate();
@@ -147,11 +148,7 @@ export const useUpdateHero = (): UseUpdateHeroReturn => {
         writingHeroKey,
         writingHero,
       });
-      CustomAlert.retryAlert(
-        '주인공 수정 실패했습니다.',
-        submit,
-        navigation.goBack,
-      );
+      showErrorToast('주인공 수정에 실패했습니다.');
     },
   });
 
