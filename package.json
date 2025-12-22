@@ -84,7 +84,7 @@
     "react-native-screens": "^4.11.1",
     "react-native-select-dropdown": "^4.0.0",
     "react-native-share": "^12.2.0",
-    "react-native-splash-view": "^0.0.15",
+    "react-native-splash-view": "^0.0.19",
     "react-native-status-bar-height": "^2.6.0",
     "react-native-svg": "^15.12.1",
     "react-native-toast-message": "^2.2.1",
