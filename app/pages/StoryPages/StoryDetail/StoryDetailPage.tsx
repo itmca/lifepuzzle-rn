@@ -31,7 +31,7 @@ import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
 import { formatDateWithDay } from '../../../utils/date-formatter.util';
 import { useStoryDraftManager } from '../../../hooks/useStoryDraftManager';
-import { createOrUpdateStory } from '../../../utils/story-model.util';
+import { StoryModelService } from '../../../services/story/story-model.service';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
@@ -307,7 +307,7 @@ const StoryDetailPage = (): React.ReactElement => {
   const { saveContent, isSaving } = useStoryContentUpsert({
     onSuccess: storyKey => {
       // Gallery store 업데이트
-      const updatedStory = createOrUpdateStory(
+      const updatedStory = StoryModelService.createFromGallery(
         storyKey,
         content,
         currentGalleryItem!,
