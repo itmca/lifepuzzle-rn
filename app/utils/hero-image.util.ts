@@ -1,5 +1,6 @@
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { WritingHeroType } from '../types/core/hero.type';
+import { generateImagePath } from './file-path.util.ts';
 
 /**
  * WritingHero에서 이미지 URI를 안전하게 가져오는 유틸리티 함수
@@ -46,4 +47,30 @@ export const hasHeroImage = (writingHero?: WritingHeroType): boolean => {
  */
 export const isModifiedImage = (writingHero?: WritingHeroType): boolean => {
   return writingHero?.modifiedImage?.node?.image?.uri !== undefined;
+};
+
+/**
+ * Hero payload를 위한 이미지 경로를 생성
+ * modifiedImage가 있으면 새 경로를 생성하고, 없으면 기존 imageUrl 유지
+ */
+export const getHeroPayloadImagePath = (
+  writingHero?: WritingHeroType,
+): string | undefined => {
+  if (!writingHero) return undefined;
+
+  const photo = writingHero.modifiedImage;
+  if (photo?.node?.image?.uri) {
+    return generateImagePath(photo.node.image.uri, writingHero.imageUrl);
+  }
+
+  return writingHero.imageUrl;
+};
+
+/**
+ * Hero의 PhotoIdentifier를 가져오기 (FormData에 추가할 용도)
+ */
+export const getHeroPhotoIdentifier = (
+  writingHero?: WritingHeroType,
+): PhotoIdentifier | undefined => {
+  return writingHero?.modifiedImage;
 };

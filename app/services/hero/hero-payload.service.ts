@@ -1,13 +1,16 @@
 import { IMG_TYPE } from '../../constants/upload-file-type.constant.ts';
 import { WritingHeroType } from '../../types/core/hero.type.ts';
 import { PayloadBuilder } from '../../utils/payload-builder.util.ts';
-import { generateImagePath } from '../../utils/file-path.util.ts';
+import {
+  getHeroPhotoIdentifier,
+  getHeroPayloadImagePath,
+} from '../../utils/hero-image.util.ts';
 
 const addHeroPhoto = (
   formData: FormData,
   writingHero: WritingHeroType | undefined,
 ): void => {
-  const photo = writingHero?.modifiedImage;
+  const photo = getHeroPhotoIdentifier(writingHero);
   if (photo?.node?.image?.uri) {
     PayloadBuilder.addPhotoToFormData(formData, 'photo', photo, IMG_TYPE);
   }
@@ -18,10 +21,7 @@ const addHeroData = (
   writingHeroKey: number,
   writingHero: WritingHeroType | undefined,
 ): void => {
-  const photo = writingHero?.modifiedImage;
-  const imgPath = photo?.node?.image?.uri
-    ? generateImagePath(photo.node.image.uri, writingHero?.imageUrl)
-    : writingHero?.imageUrl;
+  const imgPath = getHeroPayloadImagePath(writingHero);
 
   const savedHero = {
     id: writingHeroKey,

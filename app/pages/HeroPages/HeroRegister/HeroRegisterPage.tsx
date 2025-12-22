@@ -1,90 +1,37 @@
 import React from 'react';
 
-import { Color } from '../../../constants/color.constant';
-import { useNavigation } from '@react-navigation/native';
-import { BasicNavigationProps } from '../../../navigation/types';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { useHeroStore } from '../../../stores/hero.store';
-import { BasicCard } from '../../../components/ui/display/Card';
-import { BasicTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { useCreateHero } from '../../../services/hero/hero.mutation';
-import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
-import { getHeroImageUri } from '../../../utils/hero-image.util';
+import { HeroFormContent } from '../components/HeroFormContent';
 
 const HeroRegisterPage = (): React.ReactElement => {
   // 글로벌 상태 관리
   const { writingHero, setWritingHero } = useHeroStore();
 
-  // 외부 hook 호출 (navigation, route 등)
-  const navigation = useNavigation<BasicNavigationProps>();
-
-  // Derived value or local variables
-  const heroProfileImage = getHeroImageUri(writingHero);
-
   // Custom hooks
   const { createHero, isPending: isLoading } = useCreateHero();
-
-  // Custom functions
-  const navigateToSelectingPhoto = () => {
-    navigation.navigate('App', {
-      screen: 'HeroSettingNavigator',
-      params: {
-        screen: 'HeroProfileSelector',
-      },
-    });
-  };
 
   return (
     <PageContainer edges={['left', 'right', 'bottom']} isLoading={isLoading}>
       <ScrollContainer keyboardAware>
-        <ContentContainer alignCenter withScreenPadding gap={32}>
-          <ContentContainer
-            aspectRatio={0.8701} //0.8701 =  335 / 385
-          >
-            <BasicCard
-              photoUrls={heroProfileImage ? [heroProfileImage] : []}
-              editable={true}
-              fallbackIconName={'cameraAdd'}
-              fallbackText={'클릭하여 프로필 이미지 추가'}
-              fallbackBackgroundColor={Color.GREY_100}
-              onPress={navigateToSelectingPhoto}
-            />
-          </ContentContainer>
-          <ContentContainer alignCenter>
-            <ContentContainer>
-              <BasicTextInput
-                label={'이름'}
-                text={writingHero.name ?? ''}
-                onChangeText={name => setWritingHero({ name })}
-                placeholder="이름을 입력해 주세요"
-              />
-              <BasicTextInput
-                label={'닉네임'}
-                text={writingHero.nickName ?? ''}
-                onChangeText={nickName => setWritingHero({ nickName })}
-                placeholder="닉네임을 입력해 주세요"
-              />
-              <CustomDateInput
-                label={'태어난 날'}
-                date={writingHero.birthday}
-                onDateChange={birthday => setWritingHero({ birthday })}
-              />
-            </ContentContainer>
-          </ContentContainer>
-          <ContentContainer alignCenter>
-            <BasicButton
-              text={'추가하기'}
-              onPress={() => createHero()}
-              disabled={
-                !writingHero?.name ||
-                !writingHero?.nickName ||
-                !writingHero?.birthday
-              }
-            />
-          </ContentContainer>
+        <HeroFormContent
+          writingHero={writingHero}
+          onChangeHero={setWritingHero}
+        />
+        <ContentContainer alignCenter withScreenPadding paddingTop={0}>
+          <BasicButton
+            text={'추가하기'}
+            onPress={() => createHero()}
+            disabled={
+              !writingHero?.name ||
+              !writingHero?.nickName ||
+              !writingHero?.birthday
+            }
+          />
         </ContentContainer>
       </ScrollContainer>
     </PageContainer>
