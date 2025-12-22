@@ -81,7 +81,6 @@ const StoryDetailPage = (): React.ReactElement => {
   const prevGalleryIdRef = useRef<number | null>(null);
 
   // React hooks - UI States
-  const [isStory, setIsStory] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<ModalType>('none');
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
   const [editingGalleryId, setEditingGalleryId] = useState<number | null>(null);
@@ -265,7 +264,6 @@ const StoryDetailPage = (): React.ReactElement => {
 
       // 4. 전체 갤러리 기준 인덱스 업데이트
       setAllGalleryIndex(originalIndex);
-      setIsStory(!!selectedItem.story);
     },
     [
       filteredGallery,
@@ -446,8 +444,6 @@ const StoryDetailPage = (): React.ReactElement => {
 
     if (galleryItemChanged) {
       prevGalleryIdRef.current = currentGalleryItem.id;
-
-      setIsStory(!!currentGalleryItem.story);
 
       // Draft 우선 로드, 없으면 저장된 story content 로드
       const draftContent = draftContents.get(currentGalleryItem.id);
@@ -669,10 +665,7 @@ const StoryDetailPage = (): React.ReactElement => {
       </ScrollContentContainer>
 
       {currentGalleryItem && (
-        <StoryDetailMenuBottomSheet
-          type={isStory ? 'story' : 'photo'}
-          gallery={currentGalleryItem}
-        />
+        <StoryDetailMenuBottomSheet gallery={currentGalleryItem} />
       )}
       <PinchZoomModal
         opened={activeModal === 'pinch-zoom'}
