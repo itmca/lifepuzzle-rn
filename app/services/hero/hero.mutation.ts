@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from 'react';
-import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAuthMutation } from '../core/auth-mutation.hook';
@@ -12,10 +11,9 @@ import { useShareStore } from '../../stores/share.store';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
 import { showToast, showErrorToast } from '../../components/ui/feedback/Toast';
 import { HeroPayloadService } from './hero-payload.service';
-import { useAuthValidation, useFieldValidation } from '../auth/validation.hook';
-import { useErrorHandler } from '../common/error-handler.hook';
 import { queryKeys } from '../core/query-keys';
 import { logger } from '../../utils/logger.util';
+import { useHeroFormValidation } from './hero-validation.hook';
 export type UseCreateHeroReturn = {
   createHero: () => void;
   isPending: boolean;
@@ -29,9 +27,7 @@ export const useCreateHero = (): UseCreateHeroReturn => {
   const { writingHero, writingHeroKey, resetWritingHero } = useHeroStore();
   const setHeroUploading = useUIStore(state => state.setHeroUploading);
 
-  const { validateRequired } = useFieldValidation();
-  const { validateLogin } = useAuthValidation();
-  const { handleCreateError } = useErrorHandler();
+  const { validateHeroForm } = useHeroFormValidation();
 
   const [isPending, trigger] = useAuthMutation({
     axiosConfig: {
@@ -40,17 +36,17 @@ export const useCreateHero = (): UseCreateHeroReturn => {
       headers: { 'Content-Type': 'multipart/form-data' },
     },
     onSuccess: () => {
-      CustomAlert.actionAlert({
-        title: '주인공 생성',
-        desc: '주인공이 생성되었습니다.',
-        actionBtnText: '확인',
-        action: goBack,
-      });
+      showToast('주인공이 생성되었습니다.');
+      goBack();
       // 캐시 무효화
       queryClient.invalidateQueries({ queryKey: queryKeys.hero.all });
     },
-    onError: () => {
-      handleCreateError('주인공', submit, goBack);
+    onError: err => {
+      logger.error('Failed to create hero', {
+        error: err,
+        writingHero,
+      });
+      showErrorToast('주인공 생성에 실패했습니다.');
     },
   });
 
@@ -75,21 +71,12 @@ export const useCreateHero = (): UseCreateHeroReturn => {
     });
   }, [trigger, heroHttpPayLoad]);
 
-  const validate = useCallback((): boolean => {
-    return (
-      validateRequired(writingHero?.name, '이름') &&
-      validateRequired(writingHero?.nickName, '닉네임') &&
-      validateRequired(writingHero?.birthday?.toString(), '태어난 날') &&
-      validateLogin(navigation)
-    );
-  }, [validateRequired, validateLogin, writingHero, navigation]);
-
   const handleSubmit = useCallback(() => {
-    if (!validate()) {
+    if (!validateHeroForm(writingHero)) {
       return;
     }
     submit();
-  }, [validate, submit]);
+  }, [validateHeroForm, writingHero, submit]);
 
   return {
     createHero: handleSubmit,
@@ -110,8 +97,8 @@ export const useUpdateHero = (): UseUpdateHeroReturn => {
   const writingHero = useHeroStore(state => state.writingHero);
   const resetWritingHero = useHeroStore(state => state.resetWritingHero);
   const currentHero = useHeroStore(state => state.currentHero);
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn());
 
+  const { validateHeroForm } = useHeroFormValidation();
   const publishHeroUpdate = useUpdatePublisher('heroUpdate');
   const publishCurrentHeroUpdate = useUpdatePublisher('currentHeroUpdate');
 
@@ -160,48 +147,9 @@ export const useUpdateHero = (): UseUpdateHeroReturn => {
     void trigger({ data: heroHttpPayLoad });
   };
 
-  function validate(): boolean {
-    if (!writingHero?.name) {
-      CustomAlert.simpleAlert('이름을 입력해주세요.');
-      return false;
-    } else if (!writingHero?.nickName) {
-      CustomAlert.simpleAlert('닉네임을 입력해주세요.');
-      return false;
-    } else if (!writingHero?.birthday) {
-      CustomAlert.simpleAlert('태어난 날 을 입력해주세요.');
-      return false;
-    } else if (!isLoggedIn) {
-      Alert.alert(
-        '미로그인 시점에 작성한 이야기는 저장할 수 없습니다.',
-        '',
-        [
-          {
-            text: '로그인하러가기',
-            style: 'default',
-            onPress: () => {
-              navigation.navigate('Auth', {
-                screen: 'LoginRegisterNavigator',
-                params: {
-                  screen: 'LoginMain',
-                },
-              });
-            },
-          },
-          { text: '계속 둘러보기', style: 'default' },
-        ],
-        {
-          cancelable: true,
-        },
-      );
-      return false;
-    }
-
-    return true;
-  }
-
   return {
     updateHero: () => {
-      if (!validate()) {
+      if (!validateHeroForm(writingHero)) {
         return;
       }
       submit();

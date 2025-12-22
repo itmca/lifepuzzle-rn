@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { AccountAvatar } from '../../../components/ui/display/Avatar';
 import { BasicButton } from '../../../components/ui/form/Button';
@@ -14,6 +14,8 @@ import {
   SortedHeroAuthTypes,
 } from '../../../constants/auth.constant.ts';
 import { BodyTextB } from '../../../components/ui/base/TextBase';
+
+const SNAP_POINTS = ['58%'];
 
 type Props = {
   opened: boolean;
@@ -35,13 +37,8 @@ export const HeroAuthUpdateBottomSheet = ({
   const { updateUserAuth, isPending: isAuthUpdating } = useUpdateUserAuth({
     onSuccess: () => {
       onSuccess && onSuccess();
-      if (user && newUserAuth) {
-        user.auth = newUserAuth;
-      }
     },
   });
-
-  const snapPoints = useMemo(() => ['58%'], []);
 
   useEffect(() => {
     if (!user) {
@@ -69,7 +66,7 @@ export const HeroAuthUpdateBottomSheet = ({
     <BottomSheet
       opened={opened}
       title={'권한 설정'}
-      snapPoints={snapPoints}
+      snapPoints={SNAP_POINTS}
       onClose={() => {
         onClose && onClose();
       }}

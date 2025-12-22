@@ -1,13 +1,10 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
-import {
-  HeroSettingNavigationProps,
-  HeroSettingRouteProps,
-} from '../../../navigation/types';
+import { HeroSettingRouteProps } from '../../../navigation/types';
 import { useHeroStore } from '../../../stores/hero.store';
 import { useHero } from '../../../services/hero/hero.query';
 import { toPhotoIdentifier } from '../../../utils/photo-identifier.util.ts';
@@ -16,28 +13,22 @@ import {
   useUpdateHero,
 } from '../../../services/hero/hero.mutation';
 import { Divider } from '../../../components/ui/base/Divider';
-import { BasicCard } from '../../../components/ui/display/Card';
 import { Color } from '../../../constants/color.constant.ts';
-import { BasicTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { CustomAlert } from '../../../components/ui/feedback/CustomAlert';
-import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
-import { getHeroImageUri } from '../../../utils/hero-image.util';
+import { HeroFormContent } from '../components/HeroFormContent';
 
 const HeroModificationPage = (): React.ReactElement => {
   // 글로벌 상태 관리
   const { writingHero, setWritingHero } = useHeroStore();
 
   // 외부 hook 호출 (navigation, route 등)
-  const navigation =
-    useNavigation<HeroSettingNavigationProps<'HeroModification'>>();
   const route = useRoute<HeroSettingRouteProps<'HeroModification'>>();
 
   // Derived value or local variables
   const heroNo = route.params.heroNo;
 
   // Custom hooks
-  //주인공 조회
   const { hero, isLoading } = useHero(heroNo);
   const { updateHero, isPending: isUpdating } = useUpdateHero();
   const { deleteHero, isPending: isDeleting } = useDeleteHero();
@@ -63,87 +54,45 @@ const HeroModificationPage = (): React.ReactElement => {
     });
   }, [hero, heroNo, setWritingHero, writingHero.id]);
 
-  const heroProfileImage = getHeroImageUri(writingHero);
-
   return (
     <PageContainer
       edges={['left', 'right', 'bottom']}
       isLoading={isLoading || isUpdating || isDeleting}
     >
       <ScrollContainer keyboardAware>
-        <ContentContainer alignCenter withScreenPadding gap={32}>
-          <ContentContainer
-            aspectRatio={0.8701} //0.8701 =  335 / 385
-          >
-            <BasicCard
-              photoUrls={heroProfileImage ? [heroProfileImage] : []}
-              editable={true}
-              fallbackIconName={'cameraAdd'}
-              fallbackText={'클릭하여 프로필 이미지 추가'}
-              fallbackBackgroundColor={Color.GREY_100}
-              onPress={() => {
-                navigation.navigate('App', {
-                  screen: 'HeroSettingNavigator',
-                  params: {
-                    screen: 'HeroProfileSelector',
-                  },
-                });
-              }}
-            />
-          </ContentContainer>
-          <ContentContainer alignCenter>
-            <ContentContainer>
-              <BasicTextInput
-                label={'이름'}
-                text={writingHero.name ?? ''}
-                onChangeText={name => setWritingHero({ name })}
-                placeholder="이름을 입력해 주세요"
-              />
-              <BasicTextInput
-                label={'닉네임'}
-                text={writingHero.nickName ?? ''}
-                onChangeText={nickName => setWritingHero({ nickName })}
-                placeholder="닉네임을 입력해 주세요"
-              />
-              <CustomDateInput
-                label={'태어난 날'}
-                date={writingHero.birthday}
-                onDateChange={birthday => setWritingHero({ birthday })}
-              />
-            </ContentContainer>
-          </ContentContainer>
-          <ContentContainer alignCenter>
-            <BasicButton
-              text={'저장하기'}
-              onPress={() => updateHero()}
-              disabled={
-                hero?.name === writingHero.name &&
-                hero?.nickName === writingHero.nickName &&
-                hero?.birthday === writingHero.birthday &&
-                hero?.isLunar === writingHero.isLunar &&
-                !writingHero.profileImageUpdate
-              }
-            />
-          </ContentContainer>
+        <HeroFormContent
+          writingHero={writingHero}
+          onChangeHero={setWritingHero}
+        />
+        <ContentContainer alignCenter withScreenPadding paddingTop={0} gap={32}>
+          <BasicButton
+            text={'저장하기'}
+            onPress={() => updateHero()}
+            disabled={
+              hero?.name === writingHero.name &&
+              hero?.nickName === writingHero.nickName &&
+              hero?.birthday === writingHero.birthday &&
+              hero?.isLunar === writingHero.isLunar &&
+              !writingHero.profileImageUpdate
+            }
+          />
           <Divider />
-          <ContentContainer alignCenter>
-            <BasicButton
-              text={'삭제하기'}
-              backgroundColor={Color.WHITE}
-              textColor={Color.MAIN_DARK}
-              borderColor={Color.MAIN_DARK}
-              onPress={() =>
-                CustomAlert.actionAlert({
-                  title: '주인공을 삭제하시겠습니까?',
-                  desc: '삭제 후 복원이 불가능합니다.',
-                  actionBtnText: '삭제',
-                  action: () => {
-                    deleteHero();
-                  },
-                })
-              }
-            />
-          </ContentContainer>
+          <BasicButton
+            text={'삭제하기'}
+            backgroundColor={Color.WHITE}
+            textColor={Color.MAIN_DARK}
+            borderColor={Color.MAIN_DARK}
+            onPress={() =>
+              CustomAlert.actionAlert({
+                title: '주인공을 삭제하시겠습니까?',
+                desc: '삭제 후 복원이 불가능합니다.',
+                actionBtnText: '삭제',
+                action: () => {
+                  deleteHero();
+                },
+              })
+            }
+          />
         </ContentContainer>
       </ScrollContainer>
     </PageContainer>

@@ -7,6 +7,7 @@ import {
 } from '../../types/hooks/hero-query.type';
 import { useAuthQuery } from '../core/auth-query.hook';
 import { queryKeys } from '../core/query-keys';
+import { extractHeroesFromQueryResponse } from '../../utils/hero-transformer.util';
 
 export type UseHeroReturn = {
   hero: HeroType | undefined;
@@ -48,10 +49,9 @@ export const useHeroes = (): UseHeroesReturn => {
     },
   });
 
-  const heroes =
-    query.data?.heroes
-      ?.map(item => item.hero)
-      .filter(item => item.auth !== 'VIEWER') ?? [];
+  const heroes = query.data?.heroes
+    ? extractHeroesFromQueryResponse(query.data.heroes)
+    : [];
 
   return {
     heroes,
