@@ -49,3 +49,22 @@ export const formatDateToTodayOrYYMMDD = (
     return `${yy}/${MM}/${dd} ${hh}:${mm}`;
   }
 };
+
+/**
+ * 날짜를 "YYYY.MM.DD (요일)" 형식으로 변환
+ * @param date 변환할 날짜 (Date 객체 또는 undefined)
+ * @returns 날짜가 없으면 빈 문자열, 있으면 "YYYY.MM.DD (요일)" 형식
+ * @example formatDateWithDay(new Date('2025-06-08')) // "2025.06.08 (일)"
+ * @example formatDateWithDay(undefined) // ""
+ */
+export const formatDateWithDay = (date?: Date): string => {
+  if (!date) {
+    return '';
+  }
+  const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  const day = daysKor[date.getDay()];
+  return `${year}.${month}.${dd} (${day})`;
+};

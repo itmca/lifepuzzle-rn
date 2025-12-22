@@ -13,8 +13,7 @@ import {
   calculateAgeGroupFromDate,
   isDateInAgeGroup,
 } from '../../../../utils/age-calculator.util';
-
-const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
+import { formatDateWithDay } from '../../../../utils/date-formatter.util';
 
 type Props = {
   opened: boolean;
@@ -50,18 +49,6 @@ const StoryDateAgeBottomSheet = ({
     () => tags.filter(tag => tag.key !== 'AI_PHOTO'),
     [tags],
   );
-
-  // 날짜 포맷팅
-  const formatDate = useCallback((date: Date) => {
-    const year = date.getFullYear();
-    const month =
-      date.getMonth() + 1 < 10
-        ? '0' + (date.getMonth() + 1)
-        : date.getMonth() + 1;
-    const dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    const day = daysKor[date.getDay()];
-    return `${year}.${month}.${dd} (${day})`;
-  }, []);
 
   // 날짜 유효성 검증
   const isValidDateForAgeGroup = useMemo(() => {
@@ -161,7 +148,7 @@ const StoryDateAgeBottomSheet = ({
           <ContentContainer gap={12}>
             <BodyTextM color={Color.GREY_700}>날짜</BodyTextM>
             <BasicButton
-              text={formatDate(selectedDate)}
+              text={formatDateWithDay(selectedDate)}
               onPress={() => setShowDatePicker(true)}
               textColor={Color.GREY_800}
               backgroundColor={Color.GREY_100}
