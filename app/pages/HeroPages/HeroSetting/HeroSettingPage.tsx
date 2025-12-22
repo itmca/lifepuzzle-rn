@@ -66,9 +66,7 @@ const HeroSettingPage = (): React.ReactElement => {
   const [displayHeroes, setDisplayHeroes] = useState<HeroWithPuzzleCntType[]>(
     [],
   );
-  const [focusedHero, setFocusedHero] = useState<
-    HeroWithPuzzleCntType | undefined
-  >(heroes[0]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   // 글로벌 상태 관리
   const user = useUserStore(state => state.user);
@@ -109,19 +107,20 @@ const HeroSettingPage = (): React.ReactElement => {
       }));
       setHeroes(resHeroes);
       setDisplayHeroes(resHeroes);
-      setFocusedHero(resHeroes[0]);
+      setCurrentIndex(0);
     }
   }, [heroesData]);
 
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,
-    onRegisterSuccess: () => {
-      void fetchHeroes();
+    onRegisterSuccess: async () => {
+      const result = await fetchHeroes();
       showToast('주인공을 추가하였습니다.');
 
-      if (carouselRef && carouselRef.current) {
-        setFocusedHero(heroes[heroes.length - 1]);
-        carouselRef.current.scrollTo({ index: heroes.length - 1 });
+      if (result.data && carouselRef.current) {
+        const lastIndex = result.data.heroes.length - 1;
+        setCurrentIndex(lastIndex);
+        carouselRef.current.scrollTo({ index: lastIndex });
       }
     },
   });
@@ -144,6 +143,12 @@ const HeroSettingPage = (): React.ReactElement => {
   // Memoized values
   const carouselHeight = useMemo(() => windowWidth * 1.14, [windowWidth]);
 
+  // currentIndex와 displayHeroes로부터 focusedHero 계산
+  const focusedHero = useMemo(
+    () => displayHeroes[currentIndex],
+    [displayHeroes, currentIndex],
+  );
+
   const currentUserAuth = useMemo(
     () =>
       focusedHero?.users.find(linkedUser => linkedUser.id === user?.id)?.auth,
@@ -156,11 +161,19 @@ const HeroSettingPage = (): React.ReactElement => {
       const now = Date.now();
       if (now - lastProgressChangeRef.current >= 100) {
         lastProgressChangeRef.current = now;
-        setFocusedHero(displayHeroes[Math.floor(absoluteProgress)]);
+        const newIndex = Math.floor(absoluteProgress);
+        // 인덱스 유효성 검증
+        if (newIndex >= 0 && newIndex < displayHeroes.length) {
+          setCurrentIndex(newIndex);
+        }
       }
     },
-    [displayHeroes],
+    [displayHeroes.length],
   );
+
+  const handleSnapToItem = useCallback((index: number) => {
+    setCurrentIndex(index);
+  }, []);
 
   const renderCarouselItem = useCallback(
     ({ item }: any) => {
@@ -202,6 +215,7 @@ const HeroSettingPage = (): React.ReactElement => {
               width={windowWidth}
               loop={false}
               onProgressChange={handleProgressChange}
+              onSnapToItem={handleSnapToItem}
               renderItem={renderCarouselItem}
             />
           </ContentContainer>
