@@ -23,7 +23,7 @@ import { toPhotoIdentifierFromFacebookPhoto } from '../../../utils/photo-identif
 import { useFacebookPhotos } from '../../../services/gallery/facebook.photos.hook';
 import { Color } from '../../../constants/color.constant';
 import { useSelectionStore } from '../../../stores/selection.store.ts';
-import { useUIStore } from '../../../stores';
+import { useUIStore } from '../../../stores/ui.store';
 
 const ageGroupOptions = [
   { label: '10세 미만', value: 'UNDER_TEENAGER' as AgeType },
