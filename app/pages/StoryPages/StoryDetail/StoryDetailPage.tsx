@@ -29,6 +29,8 @@ import { useImageDimensions } from '../../../hooks/useImageDimensions';
 import { calculateOptimalCarouselHeight } from '../../../utils/carousel-dimension.util';
 import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
+import { formatDateWithDay } from '../../../utils/date-formatter.util';
+import { useStoryDraftManager } from '../../../hooks/useStoryDraftManager';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
@@ -56,25 +58,6 @@ import { LoadingContainer } from '../../../components/ui/feedback/LoadingContain
  */
 type ModalType = 'none' | 'pinch-zoom' | 'voice' | 'date-age';
 
-const daysKor = ['일', '월', '화', '수', '목', '금', '토'];
-
-/**
- * 날짜 포맷팅 함수
- */
-const formatDate = (date?: Date): string => {
-  if (!date) {
-    return '';
-  }
-  const year = date.getFullYear();
-  const month =
-    date.getMonth() + 1 < 10
-      ? '0' + (date.getMonth() + 1)
-      : date.getMonth() + 1;
-  const dd = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-  const day = daysKor[date.getDay()];
-  return `${year}.${month}.${dd} (${day})`;
-};
-
 const StoryDetailPage = (): React.ReactElement => {
   // Refs
   const textAreaRef = useRef<TextAreaInputRef>(null);
@@ -84,11 +67,19 @@ const StoryDetailPage = (): React.ReactElement => {
   const [activeModal, setActiveModal] = useState<ModalType>('none');
   const [pinchZoomImage, setPinchZoomImage] = useState<string>();
   const [editingGalleryId, setEditingGalleryId] = useState<number | null>(null);
-  const [content, setContent] = useState<string>('');
-  const [draftContents, setDraftContents] = useState<Map<number, string>>(
-    new Map(),
-  );
   const [shouldFocusOnEdit, setShouldFocusOnEdit] = useState<boolean>(false);
+
+  // Custom hooks - Draft Management
+  const {
+    content,
+    setContent,
+    draftContents,
+    saveDraft,
+    removeDraft,
+    loadContentForGallery,
+    hasChanges,
+  } = useStoryDraftManager();
+
   const isContentEmpty = content.trim().length === 0;
 
   // 외부 hook 호출 (navigation, route 등)
@@ -218,13 +209,13 @@ const StoryDetailPage = (): React.ReactElement => {
       if (
         currentGalleryItem &&
         editingGalleryId === currentGalleryItem.id &&
-        content !== (currentGalleryItem.story?.content ?? '')
+        hasChanges(
+          currentGalleryItem.id,
+          content,
+          currentGalleryItem.story?.content,
+        )
       ) {
-        setDraftContents(prev => {
-          const next = new Map(prev);
-          next.set(currentGalleryItem.id, content);
-          return next;
-        });
+        saveDraft(currentGalleryItem.id, content);
       }
 
       // 1. 필터링된 갤러리에서 선택된 아이템 찾기
@@ -244,22 +235,12 @@ const StoryDetailPage = (): React.ReactElement => {
         // 다른 아이템으로 이동 시 TextAreaInput focus 제거
         textAreaRef.current?.blur();
 
-        const nextDraftContent = draftContents.get(selectedItem.id);
-        const nextSavedContent = selectedItem.story?.content;
+        // loadContentForGallery hook 사용하여 content와 편집 상태 로드
+        const { content: loadedContent, isEditing } =
+          loadContentForGallery(selectedItem);
 
-        if (nextDraftContent !== undefined) {
-          // Draft가 있으면 편집 모드
-          setEditingGalleryId(selectedItem.id);
-          setContent(nextDraftContent);
-        } else if (nextSavedContent) {
-          // 저장된 content가 있으면 뷰 모드
-          setEditingGalleryId(null);
-          setContent(nextSavedContent);
-        } else {
-          // 둘 다 없으면 편집 모드
-          setEditingGalleryId(selectedItem.id);
-          setContent('');
-        }
+        setContent(loadedContent);
+        setEditingGalleryId(isEditing ? selectedItem.id : null);
       }
 
       // 4. 전체 갤러리 기준 인덱스 업데이트
@@ -346,11 +327,7 @@ const StoryDetailPage = (): React.ReactElement => {
       updateGalleryStory(currentGalleryItem!.id, updatedStory);
 
       // Draft에서 제거
-      setDraftContents(prev => {
-        const next = new Map(prev);
-        next.delete(currentGalleryItem!.id);
-        return next;
-      });
+      removeDraft(currentGalleryItem!.id);
 
       // UI 상태 업데이트
       setEditingGalleryId(null);
@@ -446,22 +423,11 @@ const StoryDetailPage = (): React.ReactElement => {
       prevGalleryIdRef.current = currentGalleryItem.id;
 
       // Draft 우선 로드, 없으면 저장된 story content 로드
-      const draftContent = draftContents.get(currentGalleryItem.id);
-      const savedContent = currentGalleryItem.story?.content;
+      const { content: loadedContent, isEditing } =
+        loadContentForGallery(currentGalleryItem);
 
-      if (draftContent !== undefined) {
-        // Draft가 있으면 draft 사용하고 editing 모드로
-        setContent(draftContent);
-        setEditingGalleryId(currentGalleryItem.id);
-      } else if (savedContent) {
-        // 저장된 content가 있으면 사용하고 viewing 모드로
-        setContent(savedContent);
-        setEditingGalleryId(null);
-      } else {
-        // 둘 다 없으면 빈 content로 editing 모드
-        setContent('');
-        setEditingGalleryId(currentGalleryItem.id);
-      }
+      setContent(loadedContent);
+      setEditingGalleryId(isEditing ? currentGalleryItem.id : null);
     }
   }, [currentGalleryItem, draftContents]);
 
@@ -574,7 +540,7 @@ const StoryDetailPage = (): React.ReactElement => {
                 >
                   {currentGalleryItem.date ? (
                     <BodyTextM color={Color.GREY_600}>
-                      {`${currentGalleryItem.tag?.label} · ${formatDate(currentGalleryItem.date)}`}
+                      {`${currentGalleryItem.tag?.label} · ${formatDateWithDay(currentGalleryItem.date)}`}
                     </BodyTextM>
                   ) : (
                     <BodyTextM color={Color.GREY_600}>
