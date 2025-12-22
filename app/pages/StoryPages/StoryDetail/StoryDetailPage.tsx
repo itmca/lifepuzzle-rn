@@ -52,6 +52,7 @@ import { AgeType } from '../../../types/core/media.type';
 import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 import Icon from '@react-native-vector-icons/material-icons';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
+import { logger } from '../../../utils/logger.util';
 
 /**
  * Modal types for StoryDetailPage
@@ -284,20 +285,44 @@ const StoryDetailPage = (): React.ReactElement => {
       },
     });
 
+  /**
+   * 날짜 및 나이대 확인 핸들러
+   *
+   * StoryDateAgeBottomSheet에서 날짜와 나이대를 선택한 후 호출됩니다.
+   * 두 단계로 업데이트를 수행합니다:
+   * 1. API 호출: 서버에 변경사항 저장
+   * 2. 로컬 Store 업데이트: UI에 즉시 반영 (낙관적 업데이트)
+   *
+   * React Query가 자동으로 캐시를 무효화하므로 별도의 refetch는 불필요합니다.
+   *
+   * @param date - 선택된 날짜
+   * @param ageGroup - 선택된 나이대 (태그 키)
+   */
   const handleDateAgeConfirm = useCallback(
     async (date: Date, ageGroup: AgeType) => {
       if (!currentGalleryItem) {
+        logger.warn('handleDateAgeConfirm: currentGalleryItem is null', {
+          date,
+          ageGroup,
+        });
         return;
       }
 
       try {
-        // API 호출
+        // API 호출: 서버에 날짜/나이대 업데이트
         await updateDateAndAge(currentGalleryItem.id, date, ageGroup);
 
-        // Store 업데이트
+        // 로컬 Store 즉시 업데이트 (낙관적 업데이트)
+        // 사용자에게 즉각적인 UI 피드백 제공
         updateGalleryDateAndTag(currentGalleryItem.id, date, ageGroup);
       } catch (error) {
-        // Error는 mutation hook에서 처리
+        // Error 토스트는 mutation hook에서 이미 표시됨
+        logger.error('Failed to update date and age', {
+          error,
+          galleryId: currentGalleryItem.id,
+          date,
+          ageGroup,
+        });
       }
     },
     [currentGalleryItem, updateDateAndAge, updateGalleryDateAndTag],
@@ -332,8 +357,24 @@ const StoryDetailPage = (): React.ReactElement => {
     },
   });
 
+  /**
+   * Story 텍스트 내용 저장 핸들러
+   *
+   * 편집 모드에서 "완료" 버튼 클릭 시 호출됩니다.
+   * useStoryContentUpsert를 통해 텍스트만 서버에 저장합니다.
+   *
+   * 저장 성공 시:
+   * - StoryModelService로 완전한 StoryType 객체 생성
+   * - Gallery store 업데이트
+   * - Draft 제거
+   * - 뷰 모드로 전환
+   */
   const handleSave = () => {
     if (!currentHero || !currentGalleryItem) {
+      logger.error('handleSave: Missing required data', {
+        hasHero: !!currentHero,
+        hasGalleryItem: !!currentGalleryItem,
+      });
       showErrorToast('저장할 수 없습니다');
       return;
     }
@@ -353,8 +394,26 @@ const StoryDetailPage = (): React.ReactElement => {
     },
   });
 
+  /**
+   * Voice 저장 핸들러
+   *
+   * VoiceBottomSheet에서 녹음하거나 선택한 음성 파일을 서버에 저장합니다.
+   * 음성 파일만 업로드하며, 다른 story 필드는 변경하지 않습니다.
+   *
+   * 저장 성공 시:
+   * - React Query가 자동으로 Gallery 캐시 무효화
+   * - 최신 데이터로 UI 자동 업데이트
+   * - VoiceBottomSheet 닫기
+   *
+   * @param voiceUri - 녹음된 음성 파일의 로컬 URI
+   */
   const handleVoiceSave = (voiceUri: string) => {
     if (!currentHero || !currentGalleryItem) {
+      logger.error('handleVoiceSave: Missing required data', {
+        hasHero: !!currentHero,
+        hasGalleryItem: !!currentGalleryItem,
+        voiceUri,
+      });
       showErrorToast('저장할 수 없습니다');
       return;
     }
@@ -474,6 +533,7 @@ const StoryDetailPage = (): React.ReactElement => {
       navigation.navigate('App', { screen: 'Home' });
     }
   }, [filteredGallery.length, navigation]);
+
   return (
     <PageContainer
       edges={['left', 'right', 'bottom']}
