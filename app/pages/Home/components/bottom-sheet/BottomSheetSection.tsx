@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useShareStore } from '../../../../stores/share.store';
 import { SharePhoto } from '../../../../types/core/media.type';
@@ -23,8 +24,25 @@ const BottomSheetSection = ({
   onSubmitGallery,
   onRefetch,
 }: Props): React.ReactElement => {
+  // React hooks
+  const insets = useSafeAreaInsets();
+
   // 글로벌 상태 관리 (Zustand)
   const { sharedImageData, setSharedImageData } = useShareStore();
+
+  // Memoized 값
+  const heroShareSnapPoints = useMemo(
+    () => [320 + insets.bottom],
+    [insets.bottom],
+  );
+  const sharedImageSnapPoints = useMemo(
+    () => [400 + insets.bottom],
+    [insets.bottom],
+  );
+  const mediaPickerSnapPoints = useMemo(
+    () => [380 + insets.bottom],
+    [insets.bottom],
+  );
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleCloseReceivedImageBottomSheet = useCallback(() => {
@@ -40,6 +58,7 @@ const BottomSheetSection = ({
         title={'공유하기'}
         onClose={onCloseBottomSheet}
         paddingBottom={12}
+        snapPoints={heroShareSnapPoints}
       >
         <ShareAuthList />
       </BottomSheet>
@@ -49,6 +68,7 @@ const BottomSheetSection = ({
         sharedImageData={sharedImageData}
         onClose={handleCloseReceivedImageBottomSheet}
         isGalleryUploading={isGalleryUploading}
+        snapPoints={sharedImageSnapPoints}
       />
 
       <MediaPickerBottomSheet
@@ -56,6 +76,7 @@ const BottomSheetSection = ({
         onClose={onCloseBottomSheet}
         onSubmitGallery={onSubmitGallery}
         isGalleryUploading={isGalleryUploading}
+        snapPoints={mediaPickerSnapPoints}
       />
     </>
   );

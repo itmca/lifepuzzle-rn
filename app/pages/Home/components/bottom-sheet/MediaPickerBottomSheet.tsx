@@ -26,6 +26,7 @@ interface MediaPickerBottomSheetProps {
   onClose: () => void;
   onSubmitGallery?: () => void;
   isGalleryUploading?: boolean;
+  snapPoints?: (string | number)[];
 }
 
 interface MediaOptionProps {
@@ -77,6 +78,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
   onClose,
   onSubmitGallery,
   isGalleryUploading = false,
+  snapPoints,
 }) => {
   const navigation = useNavigation<BasicNavigationProps>();
   const { setSelectedStoryKey, resetWritingStory } = useStoryStore();
@@ -176,6 +178,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
       title="사진/동영상 추가하기"
       onClose={isGalleryUploading ? () => {} : onClose}
       paddingBottom={12}
+      snapPoints={snapPoints}
     >
       <ContentContainer gap={0} paddingBottom={12}>
         {isGalleryUploading ? (

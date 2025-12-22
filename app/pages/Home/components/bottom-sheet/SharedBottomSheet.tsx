@@ -29,6 +29,7 @@ interface SharedBottomSheetProps {
   sharedImageData: SharedData;
   onClose: () => void;
   isGalleryUploading?: boolean;
+  snapPoints?: (string | number)[];
 }
 
 export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
@@ -36,6 +37,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
   sharedImageData,
   onClose,
   isGalleryUploading = false,
+  snapPoints,
 }) => {
   const hero = useHeroStore(state => state.currentHero);
   const selectedTag = useSelectionStore(state => state.selectedTag);
@@ -82,6 +84,7 @@ export const SharedBottomSheet: React.FC<SharedBottomSheetProps> = ({
       title={'공유된 이미지 업로드'}
       onClose={isGalleryUploading ? undefined : onClose}
       paddingBottom={12}
+      snapPoints={snapPoints}
     >
       <ContentContainer gap={24}>
         <ScrollContentContainer useHorizontalLayout gap={6}>
