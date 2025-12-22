@@ -31,6 +31,7 @@ import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
 import { formatDateWithDay } from '../../../utils/date-formatter.util';
 import { useStoryDraftManager } from '../../../hooks/useStoryDraftManager';
+import { StoryModelService } from '../../../services/story/story-model.service';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
 import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
@@ -40,7 +41,6 @@ import {
   showErrorToast,
   showToast,
 } from '../../../components/ui/feedback/Toast';
-import { StoryType } from '../../../types/core/story.type';
 import {
   useStoryContentUpsert,
   useStoryVoiceUpsert,
@@ -307,22 +307,12 @@ const StoryDetailPage = (): React.ReactElement => {
   const { saveContent, isSaving } = useStoryContentUpsert({
     onSuccess: storyKey => {
       // Gallery store 업데이트
-      const baseStory = currentGalleryItem?.story;
-      const updatedStory: StoryType = {
-        id: storyKey,
-        heroId: currentHero?.id ?? baseStory?.heroId ?? 0,
-        content: content,
-        question: baseStory?.question ?? '',
-        photos: baseStory?.photos ?? [],
-        audios: baseStory?.audios ?? [],
-        videos: baseStory?.videos ?? [],
-        gallery: baseStory?.gallery ?? [],
-        tags: baseStory?.tags ?? [],
-        date: currentGalleryItem?.date ?? baseStory?.date ?? new Date(),
-        createdAt: baseStory?.createdAt ?? new Date(),
-        recordingTime: baseStory?.recordingTime,
-        playingTime: baseStory?.playingTime,
-      };
+      const updatedStory = StoryModelService.createFromGallery(
+        storyKey,
+        content,
+        currentGalleryItem!,
+        currentHero!,
+      );
 
       updateGalleryStory(currentGalleryItem!.id, updatedStory);
 
