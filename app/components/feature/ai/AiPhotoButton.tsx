@@ -23,7 +23,7 @@ export const AiPhotoButton = ({
       width={'auto'}
       absoluteBottomPosition
       absoluteRightPosition
-      paddingBottom={bottomPadding ?? insets.bottom + 10}
+      paddingBottom={bottomPadding ?? 10}
       paddingRight={10}
       withNoBackground
     >

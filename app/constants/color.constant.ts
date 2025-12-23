@@ -35,6 +35,7 @@ export const Color = {
 
   // Others
   YELLOW: '#FEE500',
+  BLUE_LIGHT: '#2C4A9A',
   TRANSPARENT: 'transparent',
 
   AI_500: '#9A53F7',

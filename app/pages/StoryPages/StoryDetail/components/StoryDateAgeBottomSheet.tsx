@@ -6,8 +6,8 @@ import { ContentContainer } from '../../../../components/ui/layout/ContentContai
 import { BasicButton } from '../../../../components/ui/form/Button';
 import { GalleryTag } from '../../../Home/components/gallery/GalleryTag';
 import { Color } from '../../../../constants/color.constant';
-import { BodyTextM, BodyTextB } from '../../../../components/ui/base/TextBase';
-import { TagType, AgeType } from '../../../../types/core/media.type';
+import { BodyTextB, BodyTextM } from '../../../../components/ui/base/TextBase';
+import { AgeType, TagType } from '../../../../types/core/media.type';
 import { HeroType } from '../../../../types/core/hero.type';
 import {
   calculateAgeGroupFromDate,
@@ -115,7 +115,7 @@ const StoryDateAgeBottomSheet = ({
         title="날짜 및 나이대 선택"
         opened={opened}
         onClose={onClose}
-        snapPoints={['70%']}
+        snapPoints={[400]}
       >
         <ContentContainer gap={24}>
           {/* 나이대 선택 영역 */}
@@ -148,11 +148,12 @@ const StoryDateAgeBottomSheet = ({
           <ContentContainer gap={12}>
             <BodyTextM color={Color.GREY_700}>날짜</BodyTextM>
             <BasicButton
+              iconName={'calendar'}
               text={formatDateWithDay(selectedDate)}
               onPress={() => setShowDatePicker(true)}
               textColor={Color.GREY_800}
-              backgroundColor={Color.GREY_100}
-              borderColor={Color.GREY_200}
+              backgroundColor={Color.MAIN_LIGHT}
+              borderColor={Color.GREY_100}
               height={48}
               borderRadius={8}
             />
@@ -165,6 +166,7 @@ const StoryDateAgeBottomSheet = ({
               paddingHorizontal={12}
               paddingVertical={8}
               borderRadius={8}
+              alignCenter
             >
               <BodyTextB color={Color.ERROR_300}>
                 날짜 범위가 나이대와 맞지 않습니다.
