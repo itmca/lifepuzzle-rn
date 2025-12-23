@@ -91,9 +91,22 @@ const HeroSettingPage = (): React.ReactElement => {
       const transformedHeroes = transformHeroesQueryResponse(heroesData.heroes);
       setHeroes(transformedHeroes);
       setDisplayHeroes(transformedHeroes);
+
+      // 현재 보고 있던 Hero가 있다면 해당 위치 유지
+      if (focusedHero) {
+        const currentHeroIndex = transformedHeroes.findIndex(
+          hero => hero.id === focusedHero.id,
+        );
+        if (currentHeroIndex !== -1) {
+          setCurrentIndex(currentHeroIndex);
+          return;
+        }
+      }
+
+      // 초기 진입 또는 현재 Hero를 찾지 못한 경우 0으로 초기화
       setCurrentIndex(0);
     }
-  }, [heroesData, setHeroes, setDisplayHeroes, setCurrentIndex]);
+  }, [heroesData, setHeroes, setDisplayHeroes, setCurrentIndex, focusedHero]);
 
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,

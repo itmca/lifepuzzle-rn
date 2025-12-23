@@ -91,7 +91,7 @@ export const HeroAuthUpdateBottomSheet = ({
             <>
               {index !== 0 && <Divider marginVertical={0} />}
               <ContentContainer
-                key={'share-auth-' + index}
+                key={i.value}
                 paddingVertical={14}
                 gap={0}
                 alignCenter
