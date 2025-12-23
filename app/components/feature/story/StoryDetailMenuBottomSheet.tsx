@@ -29,6 +29,7 @@ export const StoryDetailMenuBottomSheet = ({
     galleryId: gallery.id,
     onSuccess: () => {
       onClose();
+      showToast('사진이 삭제되었습니다');
     },
   });
 

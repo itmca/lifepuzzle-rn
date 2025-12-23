@@ -7,6 +7,7 @@ import { useSelectionStore } from '../../../../stores/selection.store';
 import { Color } from '../../../../constants/color.constant.ts';
 import { Title } from '../../../../components/ui/base/TextBase';
 import { Icon } from '../../../../components/ui/display/Icon.tsx';
+
 type Variant = 'upload' | 'aiHistory';
 type Props = { onPress: () => void };
 
@@ -55,7 +56,7 @@ const GalleryBottomButton = ({ onPress }: Props) => {
       absoluteBottomPosition
       absoluteRightPosition
       width={'auto'}
-      paddingBottom={insets.bottom + 40}
+      paddingBottom={40}
       paddingRight={32}
       backgroundColor="transparent"
       zIndex={10}

@@ -31,18 +31,9 @@ const BottomSheetSection = ({
   const { sharedImageData, setSharedImageData } = useShareStore();
 
   // Memoized 값
-  const heroShareSnapPoints = useMemo(
-    () => [320 + insets.bottom],
-    [insets.bottom],
-  );
-  const sharedImageSnapPoints = useMemo(
-    () => [400 + insets.bottom],
-    [insets.bottom],
-  );
-  const mediaPickerSnapPoints = useMemo(
-    () => [380 + insets.bottom],
-    [insets.bottom],
-  );
+  const heroShareSnapPoints = useMemo(() => [320], []);
+  const sharedImageSnapPoints = useMemo(() => [400], []);
+  const mediaPickerSnapPoints = useMemo(() => [380], []);
 
   // Custom functions (핸들러, 로직 함수 등)
   const handleCloseReceivedImageBottomSheet = useCallback(() => {
