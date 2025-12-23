@@ -88,14 +88,9 @@ export const HeroAuthUpdateBottomSheet = ({
         </ContentContainer>
         <ContentContainer gap={0}>
           {authList.map((i, index) => (
-            <>
+            <ContentContainer key={i.value} gap={0}>
               {index !== 0 && <Divider marginVertical={0} />}
-              <ContentContainer
-                key={'share-auth-' + index}
-                paddingVertical={14}
-                gap={0}
-                alignCenter
-              >
+              <ContentContainer paddingVertical={14} gap={0} alignCenter>
                 <Radio
                   selected={newUserAuth === i.value}
                   label={i.label}
@@ -106,7 +101,7 @@ export const HeroAuthUpdateBottomSheet = ({
                   }}
                 />
               </ContentContainer>
-            </>
+            </ContentContainer>
           ))}
         </ContentContainer>
         <LoadingContainer isLoading={isAuthUpdating}>

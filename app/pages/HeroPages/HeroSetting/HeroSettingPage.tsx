@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   BasicNavigationProps,
@@ -36,6 +36,8 @@ const HeroSettingPage = (): React.ReactElement => {
     HeroUserType | undefined
   >(undefined);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [preserveHeroId, setPreserveHeroId] = useState<number | null>(null);
+  const focusedHeroRef = useRef<number | null>(null);
 
   // 글로벌 상태 관리
   const user = useUserStore(state => state.user);
@@ -86,14 +88,39 @@ const HeroSettingPage = (): React.ReactElement => {
     renderCarouselItem,
   } = carousel;
 
+  // focusedHero가 변경될 때마다 ref 업데이트
+  useEffect(() => {
+    if (focusedHero) {
+      focusedHeroRef.current = focusedHero.id;
+    }
+  }, [focusedHero]);
+
+  // heroesData 변경 시 heroes 업데이트 및 현재 Hero ID 저장
   useEffect(() => {
     if (heroesData) {
       const transformedHeroes = transformHeroesQueryResponse(heroesData.heroes);
+
+      // 현재 보고 있던 Hero ID 저장 (권한 업데이트 등으로 데이터 갱신 시)
+      if (focusedHeroRef.current) {
+        setPreserveHeroId(focusedHeroRef.current);
+      }
+
       setHeroes(transformedHeroes);
-      setDisplayHeroes(transformedHeroes);
-      setCurrentIndex(0);
     }
-  }, [heroesData, setHeroes, setDisplayHeroes, setCurrentIndex]);
+  }, [heroesData, setHeroes]);
+
+  // displayHeroes 변경 시 preserveHeroId 기준으로 currentIndex 복원
+  useEffect(() => {
+    if (preserveHeroId !== null && displayHeroes.length > 0) {
+      const heroIndex = displayHeroes.findIndex(
+        hero => hero.id === preserveHeroId,
+      );
+      if (heroIndex !== -1) {
+        setCurrentIndex(heroIndex);
+      }
+      setPreserveHeroId(null); // 복원 완료 후 초기화
+    }
+  }, [displayHeroes, preserveHeroId, setCurrentIndex]);
 
   useRegisterSharedHero({
     shareKey: route.params?.shareKey,
