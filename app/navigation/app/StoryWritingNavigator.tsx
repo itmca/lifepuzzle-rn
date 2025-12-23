@@ -2,12 +2,11 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { WritingHeaderRight } from '../../components/ui/navigation/header/WritingHeaderRight';
 import { useSaveStory } from '../../services/story/story.mutation';
-import { StorySelectingGallery } from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
+import { StoryGallerySelector } from '../../pages/GalleryPages/GallerySelector/StoryGallerySelector.tsx';
 import { FacebookGallerySelector } from '../../pages/GalleryPages/FacebookGallerySelector/FacebookGallerySelectorPage.tsx';
-import { PhotoEditor } from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
+import { PhotoEditorPage } from '../../pages/GalleryPages/PhotoEditor/PhotoEditorPage.tsx';
 import { useUploadGallery } from '../../services/gallery/gallery.mutation';
 import { TopBar } from '../../components/ui/navigation/TopBar';
-import { useStoryStore } from '../../stores/story.store';
 import { useSelectionStore } from '../../stores/selection.store';
 import { STORY_WRITING_SCREENS } from '../screens.constant';
 
@@ -43,7 +42,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
       {/* StoryWritingPage removed - using StoryDetailPage instead */}
       <Stack.Screen
         name={STORY_WRITING_SCREENS.STORY_GALLERY_SELECTOR}
-        component={StorySelectingGallery}
+        component={StoryGallerySelector}
         options={({ navigation }) => ({
           header: () => {
             // 헤더 렌더링 시점에 값 읽기
@@ -76,7 +75,7 @@ const StoryWritingNavigator = (): React.ReactElement => {
       />
       <Stack.Screen
         name={STORY_WRITING_SCREENS.PHOTO_EDITOR}
-        component={PhotoEditor}
+        component={PhotoEditorPage}
         options={{
           header: () => {
             // 헤더 렌더링 시점에 값 읽기

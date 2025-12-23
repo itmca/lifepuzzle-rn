@@ -1,5 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView } from 'react-native';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { LayoutChangeEvent, ScrollView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
@@ -43,6 +49,11 @@ const StoryDateAgeBottomSheet = ({
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  // Refs
+  const tagScrollRef = useRef<ScrollView>(null);
+  const tagOffsetsRef = useRef<number[]>([]);
+  const layoutCompletedRef = useRef(false);
+
   // Memoized 값
   // AI_PHOTO 태그 제외한 태그만 필터링
   const filteredTags = useMemo(
@@ -62,14 +73,55 @@ const StoryDateAgeBottomSheet = ({
   const isConfirmDisabled = !selectedAgeGroup || !isValidDateForAgeGroup;
 
   // Custom functions
+  const scrollToTagIndex = useCallback((index: number, animated: boolean) => {
+    if (!tagScrollRef.current) {
+      return;
+    }
+
+    const offset = tagOffsetsRef.current[index];
+    if (offset === undefined) {
+      return;
+    }
+
+    tagScrollRef.current.scrollTo({ x: offset, animated });
+  }, []);
+
   const handleTagPress = useCallback(
     (index: number) => {
       const tag = filteredTags[index];
       if (tag) {
         setSelectedAgeGroup(tag.key as AgeType);
+        scrollToTagIndex(index, true);
       }
     },
-    [filteredTags],
+    [filteredTags, scrollToTagIndex],
+  );
+
+  const handleTagLayout = useCallback(
+    (index: number, event: LayoutChangeEvent) => {
+      const { x } = event.nativeEvent.layout;
+      tagOffsetsRef.current[index] = x;
+
+      if (
+        !layoutCompletedRef.current &&
+        tagOffsetsRef.current.length === filteredTags.length &&
+        tagOffsetsRef.current.every(offset => offset !== undefined)
+      ) {
+        layoutCompletedRef.current = true;
+
+        if (selectedAgeGroup) {
+          const selectedIndex = filteredTags.findIndex(
+            tag => tag.key === selectedAgeGroup,
+          );
+          if (selectedIndex !== -1) {
+            setTimeout(() => {
+              scrollToTagIndex(selectedIndex, false);
+            }, 100);
+          }
+        }
+      }
+    },
+    [filteredTags, scrollToTagIndex, selectedAgeGroup],
   );
 
   const handleDateChange = useCallback(
@@ -109,6 +161,26 @@ const StoryDateAgeBottomSheet = ({
     }
   }, [opened, initialDate, initialAgeGroup, hero.birthday]);
 
+  useEffect(() => {
+    tagOffsetsRef.current = [];
+    layoutCompletedRef.current = false;
+  }, [filteredTags]);
+
+  useEffect(() => {
+    if (!selectedAgeGroup) {
+      return;
+    }
+
+    const selectedIndex = filteredTags.findIndex(
+      tag => tag.key === selectedAgeGroup,
+    );
+    if (selectedIndex === -1) {
+      return;
+    }
+
+    scrollToTagIndex(selectedIndex, true);
+  }, [filteredTags, scrollToTagIndex, selectedAgeGroup]);
+
   return (
     <>
       <BottomSheet
@@ -122,6 +194,7 @@ const StoryDateAgeBottomSheet = ({
           <ContentContainer gap={12}>
             <BodyTextM color={Color.GREY_700}>나이대</BodyTextM>
             <ScrollView
+              ref={tagScrollRef}
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{ gap: 8 }}
@@ -137,6 +210,7 @@ const StoryDateAgeBottomSheet = ({
                       : null
                   }
                   onPress={handleTagPress}
+                  onLayout={event => handleTagLayout(index, event)}
                   showCount={false}
                   compact
                 />
