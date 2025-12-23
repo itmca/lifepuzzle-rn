@@ -35,6 +35,7 @@ const HeroSettingPage = (): React.ReactElement => {
   const [authSettingUser, setAuthSettingUser] = useState<
     HeroUserType | undefined
   >(undefined);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   // 글로벌 상태 관리
   const user = useUserStore(state => state.user);
@@ -66,18 +67,20 @@ const HeroSettingPage = (): React.ReactElement => {
   });
 
   // Hero selection hook
-  const heroSelection = useHeroSelection(currentHero, 0);
+  const heroSelection = useHeroSelection(currentHero, currentIndex);
   const { heroes, displayHeroes, focusedHero, setHeroes, setDisplayHeroes } =
     heroSelection;
 
   // Carousel hook
-  const carousel = useHeroCarousel(displayHeroes);
+  const carousel = useHeroCarousel(
+    displayHeroes,
+    currentIndex,
+    setCurrentIndex,
+  );
   const {
     carouselRef,
     carouselHeight,
     windowWidth,
-    currentIndex,
-    setCurrentIndex,
     handleProgressChange,
     handleSnapToItem,
     renderCarouselItem,

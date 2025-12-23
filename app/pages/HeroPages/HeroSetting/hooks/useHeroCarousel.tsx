@@ -8,8 +8,6 @@ type UseHeroCarouselReturn = {
   carouselRef: React.RefObject<ICarouselInstance | null>;
   carouselHeight: number;
   windowWidth: number;
-  currentIndex: number;
-  setCurrentIndex: (index: number) => void;
   handleProgressChange: (offset: number, absoluteProgress: number) => void;
   handleSnapToItem: (index: number) => void;
   renderCarouselItem: ({
@@ -21,12 +19,12 @@ type UseHeroCarouselReturn = {
 
 export const useHeroCarousel = (
   displayHeroes: HeroWithPuzzleCntType[],
+  currentIndex: number,
+  setCurrentIndex: (index: number) => void,
 ): UseHeroCarouselReturn => {
   const carouselRef = useRef<ICarouselInstance>(null);
   const lastProgressChangeRef = useRef<number>(0);
   const { width: windowWidth } = useWindowDimensions();
-
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const carouselHeight = useMemo(() => windowWidth * 1.14, [windowWidth]);
 
@@ -67,8 +65,6 @@ export const useHeroCarousel = (
     carouselRef,
     carouselHeight,
     windowWidth,
-    currentIndex,
-    setCurrentIndex,
     handleProgressChange,
     handleSnapToItem,
     renderCarouselItem,
