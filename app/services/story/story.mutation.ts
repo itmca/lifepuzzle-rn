@@ -157,7 +157,6 @@ export const useDeleteStory = ({
   const setStoryUploading = useUIStore(state => state.setStoryUploading);
   const publishStoryListUpdate = useUpdatePublisher('storyListUpdate');
   const { updateGalleryStory } = useMediaStore.getState();
-  const { setOpenDetailBottomSheet } = useUIStore.getState();
 
   const [isPending, trigger] = useAuthMutation<void>({
     axiosConfig: {
@@ -169,7 +168,6 @@ export const useDeleteStory = ({
         updateGalleryStory(galleryId, null);
       }
       publishStoryListUpdate();
-      setOpenDetailBottomSheet(false);
       // 캐시 무효화
       queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
     },
@@ -203,6 +201,7 @@ export const useDeleteStory = ({
 
 type UseDeleteGalleryProps = {
   galleryId: number;
+  onSuccess?: () => void;
 };
 
 export type UseDeleteGalleryReturn = {
@@ -212,11 +211,11 @@ export type UseDeleteGalleryReturn = {
 
 export const useDeleteGallery = ({
   galleryId,
+  onSuccess: onSuccessCallback,
 }: UseDeleteGalleryProps): UseDeleteGalleryReturn => {
   const queryClient = useQueryClient();
   const setStoryUploading = useUIStore(state => state.setStoryUploading);
   const selectionStore = useSelectionStore.getState();
-  const { setOpenDetailBottomSheet } = useUIStore.getState();
 
   const [isPending, trigger] = useAuthMutation<void>({
     axiosConfig: {
@@ -243,7 +242,6 @@ export const useDeleteGallery = ({
       );
 
       if (filteredGallery.length === 0) {
-        setOpenDetailBottomSheet(false);
         return;
       }
 
@@ -265,9 +263,11 @@ export const useDeleteGallery = ({
 
       selectionStore.setCurrentGalleryIndex(clampedIndex);
 
-      setOpenDetailBottomSheet(false);
       // 캐시 무효화
       queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
+
+      // 외부 콜백 호출
+      onSuccessCallback?.();
     },
     onError: err => {
       logger.error('Failed to delete gallery', { error: err, galleryId });

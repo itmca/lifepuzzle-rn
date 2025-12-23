@@ -1,6 +1,7 @@
 import React, {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -53,11 +54,13 @@ import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 import Icon from '@react-native-vector-icons/material-icons';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
 import { logger } from '../../../utils/logger.util';
+import { TopBar } from '../../../components/ui/navigation/TopBar';
+import { DetailViewHeaderRight } from '../../../components/ui/navigation/header/DetailViewHeaderRight';
 
 /**
  * Modal types for StoryDetailPage
  */
-type ModalType = 'none' | 'pinch-zoom' | 'voice' | 'date-age';
+type ModalType = 'none' | 'pinch-zoom' | 'voice' | 'date-age' | 'detail-menu';
 
 const StoryDetailPage = (): React.ReactElement => {
   // Refs
@@ -534,6 +537,25 @@ const StoryDetailPage = (): React.ReactElement => {
     }
   }, [filteredGallery.length, navigation]);
 
+  /**
+   * 헤더 설정
+   * DetailViewHeaderRight의 customAction을 설정하여 메뉴 열기 제어
+   */
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <TopBar
+          title={'자세히 보기'}
+          right={
+            <DetailViewHeaderRight
+              customAction={() => setActiveModal('detail-menu')}
+            />
+          }
+        />
+      ),
+    });
+  }, [navigation]);
+
   return (
     <PageContainer
       edges={['left', 'right', 'bottom']}
@@ -681,7 +703,11 @@ const StoryDetailPage = (): React.ReactElement => {
       </ScrollContentContainer>
 
       {currentGalleryItem && (
-        <StoryDetailMenuBottomSheet gallery={currentGalleryItem} />
+        <StoryDetailMenuBottomSheet
+          gallery={currentGalleryItem}
+          opened={activeModal === 'detail-menu'}
+          onClose={() => setActiveModal('none')}
+        />
       )}
       <PinchZoomModal
         opened={activeModal === 'pinch-zoom'}
