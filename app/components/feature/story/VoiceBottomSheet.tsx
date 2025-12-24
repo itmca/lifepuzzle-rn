@@ -3,7 +3,7 @@ import { ContentContainer } from '../../ui/layout/ContentContainer';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { VoicePlayer, VoicePlayerRef } from './StoryVoicePlayer.tsx';
+import { VoiceRecorder, VoiceRecorderRef } from './VoiceRecorder.tsx';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { BottomSheet } from '../../ui/interaction/BottomSheet.tsx';
 import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
@@ -31,7 +31,7 @@ type Props = {
 
 export const VoiceBottomSheet = (props: Props): React.ReactElement => {
   // Refs
-  const voicePlayerRef = useRef<VoicePlayerRef>(null);
+  const voiceRecorderRef = useRef<VoiceRecorderRef>(null);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -41,7 +41,7 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
 
   // Custom functions
   const handleClose = () => {
-    voicePlayerRef.current?.stopAllAudio?.();
+    voiceRecorderRef.current?.stopAllAudio?.();
     props.onClose?.();
   };
 
@@ -57,7 +57,7 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
       if (props.opened) {
-        voicePlayerRef.current?.stopAllAudio?.();
+        voiceRecorderRef.current?.stopAllAudio?.();
       }
     });
 
@@ -83,8 +83,8 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
       >
         <LoadingContainer isLoading={props.isLoading ?? false}>
           <ContentContainer>
-            <VoicePlayer
-              ref={voicePlayerRef}
+            <VoiceRecorder
+              ref={voiceRecorderRef}
               source={props.voiceSource}
               editable={props.editable}
               onSave={handleSave}

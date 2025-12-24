@@ -1,123 +1,122 @@
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import { Platform } from 'react-native';
 import Sound from 'react-native-nitro-sound';
+import { useCallback, useState } from 'react';
 
-import { useState } from 'react';
-import { useStoryStore } from '../../stores/story.store.ts';
-// Voice record utility functions (integrated from voice-record-info.service.ts)
-const getRecordFileName = (): string => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const minute = date.getMinutes();
+import {
+  PlayInfo,
+  VoiceRecorderHookProps,
+  VoiceRecorderHookReturn,
+} from '../../types/voice/voice-player.type';
+import { getRecordFileName, getDisplayRecordTime } from './voice-record.util';
 
-  const tempHour = date.getHours();
-  // Fixed hour calculation logic
-  const hour = tempHour === 0 ? 12 : tempHour > 12 ? tempHour - 12 : tempHour;
-  const hourUnit = tempHour < 12 ? 'AM' : 'PM';
-
-  const fileName = `${year}${month}${day}_${hour}${minute}${hourUnit}`;
-  return fileName;
-};
-
-const getDisplayRecordTime = (milliSeconds: number): string => {
-  const seconds = Math.floor((milliSeconds / 1000) % 60);
-  const minute = Math.floor((milliSeconds / 60000) % 60);
-  const hour = Math.floor((milliSeconds / 3600000) % 60);
-
-  const hourMinuteSeconds =
-    hour.toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
-    ':' +
-    minute.toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
-    ':' +
-    seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 });
-
-  return hourMinuteSeconds;
-};
-
-interface VoiceRecorderProps {
-  audioUrl?: string;
-  onStartRecord?: () => void;
-  onStopRecord?: (uri: string) => void;
-}
-
-interface VoiceRecorderReturn {
-  fileName: string | undefined;
-  recordTime: string | undefined;
-  isRecording: boolean;
-  startRecord: () => Promise<void>;
-  stopRecord: () => Promise<void>;
-  startPlay: () => Promise<void>;
-  pausePlay: () => Promise<void>;
-  stopPlay: () => Promise<void>;
-  seekPlay: (seconds: number) => Promise<void>;
-}
-
+/**
+ * 음성 녹음 및 재생 관리 Custom Hook
+ *
+ * @description
+ * 음성 녹음, 재생, 일시정지, 정지 등의 기능을 제공합니다.
+ * PlayInfo를 로컬 상태로 관리하여 컴포넌트 독립성을 보장합니다.
+ *
+ * @example
+ * const {
+ *   isRecording,
+ *   playInfo,
+ *   startRecord,
+ *   stopRecord,
+ *   startPlay,
+ *   pausePlay,
+ *   stopPlay,
+ *   resetPlayInfo,
+ * } = useVoiceRecorder({
+ *   audioUrl: 'file://...',
+ *   onStopRecord: (uri) => setAudioUri(uri),
+ * });
+ */
 export const useVoiceRecorder = ({
   audioUrl,
   onStartRecord,
   onStopRecord,
-}: VoiceRecorderProps): VoiceRecorderReturn => {
-  const resetPlayInfo = useStoryStore(state => state.resetPlayInfo);
-
-  const setPlayInfo = useStoryStore(state => state.setPlayInfo);
+}: VoiceRecorderHookProps): VoiceRecorderHookReturn => {
+  // Local state (PlayInfo를 로컬로 관리)
+  const [playInfo, setPlayInfo] = useState<PlayInfo>({});
   const [isRecording, setIsRecording] = useState(false);
-
   const [file, setFile] = useState<string>(audioUrl ?? '');
   const [recordTime, setRecordTime] = useState<string>('00:00:00');
 
-  const startRecord = async function () {
-    const fileName = getRecordFileName();
-    const dirs = ReactNativeBlobUtil.fs.dirs;
-    const path = Platform.select({
-      ios: `${dirs.CacheDir}/${fileName}.m4a`,
-      android: `${dirs.CacheDir}/${fileName}.mp4`,
-    });
-    const audioSet = {
-      AudioSamplingRate: 44100,
-      AudioEncodingBitRate: 128000,
-      AudioChannels: 1,
-    };
+  /**
+   * PlayInfo 초기화
+   */
+  const resetPlayInfo = useCallback(() => {
+    setPlayInfo({});
+  }, []);
 
-    // 녹음 시작 전 준비
-    stopPlay();
-    resetPlayInfo();
-
-    // 네이티브 녹음 시작 (await으로 완료 대기)
-    const uri = await Sound.startRecorder(path, audioSet);
-
-    // 녹음이 실제로 시작된 후 UI 상태 업데이트
-    setIsRecording(true);
-    setFile(uri);
-
-    // 녹음 진행 상황 리스너 등록
-    Sound.addRecordBackListener(e => {
-      const hourMinuteSeconds = getDisplayRecordTime(
-        Math.floor(e.currentPosition),
-      );
-      setRecordTime(hourMinuteSeconds);
-      setPlayInfo({
-        currentDurationSec: e.currentPosition,
-        duration: Sound.mmssss(Math.floor(e.currentPosition)),
+  /**
+   * 녹음 시작
+   */
+  const startRecord = useCallback(
+    async function () {
+      const fileName = getRecordFileName();
+      const dirs = ReactNativeBlobUtil.fs.dirs;
+      const path = Platform.select({
+        ios: `${dirs.CacheDir}/${fileName}.m4a`,
+        android: `${dirs.CacheDir}/${fileName}.mp4`,
       });
-    });
+      const audioSet = {
+        AudioSamplingRate: 44100,
+        AudioEncodingBitRate: 128000,
+        AudioChannels: 1,
+      };
 
-    onStartRecord?.();
-  };
+      // 녹음 시작 전 준비
+      await stopPlay();
+      resetPlayInfo();
 
-  const stopRecord = async function () {
-    // 네이티브 녹음 중지 (await으로 완료 대기)
-    await Sound.stopRecorder();
-    Sound.removeRecordBackListener();
+      // 네이티브 녹음 시작 (await으로 완료 대기)
+      const uri = await Sound.startRecorder(path, audioSet);
 
-    // 녹음이 실제로 중지된 후 UI 상태 업데이트
-    setIsRecording(false);
-    setPlayInfo({ isPlay: false });
+      // 녹음이 실제로 시작된 후 UI 상태 업데이트
+      setIsRecording(true);
+      setFile(uri);
 
-    onStopRecord?.(file);
-  };
-  const startPlay = async () => {
+      // 녹음 진행 상황 리스너 등록
+      Sound.addRecordBackListener(e => {
+        const hourMinuteSeconds = getDisplayRecordTime(
+          Math.floor(e.currentPosition),
+        );
+        setRecordTime(hourMinuteSeconds);
+        setPlayInfo({
+          currentDurationSec: e.currentPosition,
+          duration: Sound.mmssss(Math.floor(e.currentPosition)),
+        });
+      });
+
+      onStartRecord?.();
+    },
+    [onStartRecord, resetPlayInfo],
+  );
+
+  /**
+   * 녹음 종료
+   */
+  const stopRecord = useCallback(
+    async function () {
+      // 네이티브 녹음 중지 (await으로 완료 대기)
+      await Sound.stopRecorder();
+      Sound.removeRecordBackListener();
+
+      // 녹음이 실제로 중지된 후 UI 상태 업데이트
+      setIsRecording(false);
+      setPlayInfo({ isPlay: false });
+
+      onStopRecord?.(file);
+    },
+    [file, onStopRecord],
+  );
+
+  /**
+   * 재생 시작
+   */
+  const startPlay = useCallback(async () => {
     setPlayInfo({ isPlay: true });
     const msg = await Sound.startPlayer(file);
     Sound.addPlayBackListener(e => {
@@ -129,34 +128,46 @@ export const useVoiceRecorder = ({
       });
       if (e.currentPosition == e.duration) {
         setPlayInfo({ isPlay: false });
-
         stopPlay();
       }
     });
-  };
+  }, [file]);
 
-  const pausePlay = async () => {
+  /**
+   * 재생 일시정지
+   */
+  const pausePlay = useCallback(async () => {
     await Sound.pausePlayer();
     setPlayInfo({ isPlay: false });
-  };
+  }, []);
 
-  const stopPlay = async () => {
+  /**
+   * 재생 정지
+   */
+  const stopPlay = useCallback(async () => {
     Sound.stopPlayer();
     Sound.removePlayBackListener();
     setPlayInfo({ isPlay: false });
-  };
-  const seekPlay = async (seconds: number) => {
+  }, []);
+
+  /**
+   * 재생 위치 이동
+   */
+  const seekPlay = useCallback(async (seconds: number) => {
     Sound.seekToPlayer(seconds);
-  };
+  }, []);
+
   return {
     fileName: file,
     recordTime,
     isRecording,
+    playInfo,
     startRecord,
     stopRecord,
     startPlay,
     pausePlay,
     stopPlay,
     seekPlay,
+    resetPlayInfo,
   };
 };
