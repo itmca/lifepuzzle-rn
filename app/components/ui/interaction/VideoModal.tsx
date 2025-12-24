@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, Modal, Pressable, StyleSheet } from 'react-native';
 import { SvgIcon } from '../display/SvgIcon';
 import { ContentContainer } from '../layout/ContentContainer';
-import { VideoPlayer } from '../../feature/story/StoryVideoPlayer';
+import { VideoPlayer } from './StoryVideoPlayer';
 
 type Props = {
   opened?: boolean;

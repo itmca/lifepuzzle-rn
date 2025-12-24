@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-import { Color } from '../../../constants/color.constant.ts';
-import { ButtonBase } from '../../ui/base/ButtonBase';
-import { Caption } from '../../ui/base/TextBase';
-import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { Color } from '../../../../../constants/color.constant.ts';
+import { ButtonBase } from '../../../../../components/ui/base/ButtonBase';
+import { Caption } from '../../../../../components/ui/base/TextBase';
+import { SvgIcon } from '../../../../../components/ui/display/SvgIcon.tsx';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
 
 type Props = {
   onPress: () => void;
@@ -16,8 +14,6 @@ export const AiPhotoButton = ({
   onPress,
   bottomPadding,
 }: Props): React.ReactElement => {
-  const insets = useSafeAreaInsets();
-
   return (
     <ContentContainer
       width={'auto'}

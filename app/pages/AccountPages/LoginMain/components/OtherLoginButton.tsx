@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { BasicNavigationProps } from '../../../navigation/types';
+import { BasicNavigationProps } from '../../../../navigation/types';
 
-import { Color } from '../../../constants/color.constant';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { Color } from '../../../../constants/color.constant';
+import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 import { TouchableOpacity } from 'react-native';
-import { BodyTextM } from '../../ui/base/TextBase';
+import { BodyTextM } from '../../../../components/ui/base/TextBase';
 
 const OtherLoginButton = (): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();

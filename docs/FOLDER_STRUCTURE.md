@@ -168,29 +168,20 @@ app/components/
 │   ├── display/        # 표시 컴포넌트
 │   │   ├── Card.tsx
 │   │   ├── Avatar.tsx
-│   │   └── Tag.tsx
+│   │   ├── Tag.tsx
+│   │   └── MediaCarouselPagination.tsx
 │   ├── navigation/     # 네비게이션 컴포넌트
 │   │   ├── TopBar.tsx
 │   │   └── header/
 │   └── interaction/    # 상호작용 컴포넌트
 │       ├── BottomSheet.tsx
-│       └── ActionSheet.tsx
+│       ├── ActionSheet.tsx
+│       ├── StoryVideoPlayer.tsx
+│       └── StoryVideoController.tsx
 └── feature/
-    ├── auth/           # 인증 관련
-    │   ├── RegisterButton.tsx
-    │   └── OtherLoginButton.tsx
-    ├── ai/             # AI 기능
-    │   └── AiPhotoButton.tsx
-    ├── story/          # 스토리 기능
-    │   ├── StoryWritingButton.tsx
-    │   └── story/
     ├── photo/          # 사진 관리
-    ├── voice/          # 음성 기능
-    │   ├── VoiceAddButton.tsx
-    │   └── VoicePlayButton.tsx
-    ├── sharing/        # 공유 기능
-    │   └── ShareButton.tsx
-    └── hero/           # 히어로 관련
+    │   ├── CommonPhotoSelector.tsx
+    │   └── SelectablePhoto.tsx
 ```
 
 ### 컴포넌트 분류 기준

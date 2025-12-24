@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import { CustomAlert } from '../../ui/feedback/CustomAlert';
+import { CustomAlert } from '../../../../components/ui/feedback/CustomAlert';
 import {
   ContentContainer,
   ScrollContentContainer,
-} from '../../ui/layout/ContentContainer.tsx';
-import { SortedHeroAuthTypes } from '../../../constants/auth.constant';
-import { useAuthMutation } from '../../../services/core/auth-mutation.hook.ts';
+} from '../../../../components/ui/layout/ContentContainer.tsx';
+import { SortedHeroAuthTypes } from '../../../../constants/auth.constant';
+import { useAuthMutation } from '../../../../services/core/auth-mutation.hook.ts';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { Radio } from '../../ui/form/Radio';
+import { Radio } from '../../../../components/ui/form/Radio';
 
-import { useHeroStore } from '../../../stores/hero.store';
-import { Title } from '../../ui/base/TextBase';
-import { Color } from '../../../constants/color.constant';
-import { ButtonBase } from '../../ui/base/ButtonBase';
-import { SvgIcon } from '../../ui/display/SvgIcon';
-import { Divider } from '../../ui/base/Divider';
+import { useHeroStore } from '../../../../stores/hero.store';
+import { Title } from '../../../../components/ui/base/TextBase';
+import { Color } from '../../../../constants/color.constant';
+import { ButtonBase } from '../../../../components/ui/base/ButtonBase';
+import { SvgIcon } from '../../../../components/ui/display/SvgIcon';
+import { Divider } from '../../../../components/ui/base/Divider';
 
-import { showToast } from '../../ui/feedback/Toast.tsx';
+import { showToast } from '../../../../components/ui/feedback/Toast.tsx';
 
 type props = {};
 

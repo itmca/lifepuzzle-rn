@@ -11,7 +11,7 @@ import Animated, {
 
 import { useHeroStore } from '../../../../stores/hero.store';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
-import { ShareButton } from '../../../../components/feature/sharing/ShareButton';
+import { ShareButton } from './ShareButton';
 import { HeroAvatar } from '../avatar/HeroAvatar';
 import {
   BodyTextM,

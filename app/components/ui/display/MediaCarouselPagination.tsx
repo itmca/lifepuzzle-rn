@@ -3,8 +3,8 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 import { Color } from '../../../constants/color.constant';
 
-import { ContentContainer } from '../../ui/layout/ContentContainer';
-import { Caption } from '../../ui/base/TextBase';
+import { ContentContainer } from '../layout/ContentContainer';
+import { Caption } from '../base/TextBase';
 
 type Props = {
   visible: boolean;

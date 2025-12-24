@@ -1,8 +1,8 @@
 import React from 'react';
-import { Color } from '../../../constants/color.constant.ts';
-import { ButtonBase } from '../../ui/base/ButtonBase';
-import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { Color } from '../../../../../constants/color.constant.ts';
+import { ButtonBase } from '../../../../../components/ui/base/ButtonBase';
+import { SvgIcon } from '../../../../../components/ui/display/SvgIcon.tsx';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
 
 type ButtonType = 'record' | 'stop' | 'pause' | 'play' | 'check' | 'delete';
 

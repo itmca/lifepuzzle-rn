@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
-import { MediaCarousel } from '../../../components/feature/story/MediaCarousel.tsx';
+import { MediaCarousel } from './components/media/MediaCarousel';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   ContentContainer,
@@ -19,7 +19,7 @@ import {
   CAROUSEL_WIDTH_FULL,
   MAX_CAROUSEL_HEIGHT,
 } from '../../../constants/carousel.constant.ts';
-import { StoryDetailMenuBottomSheet } from '../../../components/feature/story/StoryDetailMenuBottomSheet.tsx';
+import { StoryDetailMenuBottomSheet } from './components/bottom-sheet/StoryDetailMenuBottomSheet';
 import { useMediaStore } from '../../../stores/media.store';
 import { BodyTextM, Title } from '../../../components/ui/base/TextBase';
 import { PinchZoomModal } from '../../../components/ui/interaction/PinchZoomModal';
@@ -34,11 +34,11 @@ import { formatDateWithDay } from '../../../utils/date-formatter.util';
 import { useStoryDraftManager } from '../../../hooks/useStoryDraftManager';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
-import { VoiceAddButton } from '../../../components/feature/story/VoiceAddButton';
-import { AudioBtn } from '../../../components/feature/story/AudioBtn';
-import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
+import { VoiceAddButton } from './components/audio/VoiceAddButton';
+import { AudioBtn } from './components/audio/AudioBtn';
+import { VoiceBottomSheet } from './components/bottom-sheet/VoiceBottomSheet';
 import { useHeroStore } from '../../../stores/hero.store';
-import { StoryDateAgeBottomSheet } from './components/StoryDateAgeBottomSheet';
+import { StoryDateAgeBottomSheet } from './components/bottom-sheet/StoryDateAgeBottomSheet';
 import { AgeType } from '../../../types/core/media.type';
 import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 import Icon from '@react-native-vector-icons/material-icons';

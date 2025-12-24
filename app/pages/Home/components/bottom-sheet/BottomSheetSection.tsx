@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useShareStore } from '../../../../stores/share.store';
 import { SharePhoto } from '../../../../types/core/media.type';
 import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
-import { ShareAuthList } from '../../../../components/feature/hero/ShareAuthList';
+import { ShareAuthList } from './ShareAuthList';
 import { SharedBottomSheet } from './SharedBottomSheet';
 import { MediaPickerBottomSheet } from './MediaPickerBottomSheet';
 import { HomeBottomSheetType } from '../../HomePage';

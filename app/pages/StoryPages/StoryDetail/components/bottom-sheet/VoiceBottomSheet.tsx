@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { VoiceRecorder, VoiceRecorderRef } from './VoiceRecorder.tsx';
-import { BasicNavigationProps } from '../../../navigation/types.tsx';
-import { BottomSheet } from '../../ui/interaction/BottomSheet.tsx';
-import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
+import { VoiceRecorder } from '../audio/VoiceRecorder';
+import { VoiceRecorderRef } from '../../../../../types/voice/voice-player.type';
+import { BasicNavigationProps } from '../../../../../navigation/types.tsx';
+import { BottomSheet } from '../../../../../components/ui/interaction/BottomSheet.tsx';
+import { LoadingContainer } from '../../../../../components/ui/feedback/LoadingContainer';
 type Props = {
   opened?: boolean;
   editable?: boolean;

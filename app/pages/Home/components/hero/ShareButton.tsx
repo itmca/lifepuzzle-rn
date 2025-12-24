@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '@react-native-vector-icons/material-icons';
-import { Color } from '../../../constants/color.constant.ts';
-import { ButtonBase } from '../../ui/base/ButtonBase.tsx';
+import { Color } from '../../../../constants/color.constant.ts';
+import { ButtonBase } from '../../../../components/ui/base/ButtonBase.tsx';
 
 type Props = {
   onPress: () => void;

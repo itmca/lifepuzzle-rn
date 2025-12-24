@@ -1,18 +1,18 @@
 import React from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
-import { Color } from '../../../constants/color.constant.ts';
-import { logger } from '../../../utils/logger.util';
-import { useDeleteGallery } from '../../../services/story/story.mutation';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
-import { GalleryType } from '../../../types/core/media.type';
-import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
-import { Title } from '../../ui/base/TextBase';
-import { BottomSheet } from '../../ui/interaction/BottomSheet.tsx';
-import { showToast } from '../../ui/feedback/Toast.tsx';
+import { Color } from '../../../../../constants/color.constant.ts';
+import { logger } from '../../../../../utils/logger.util';
+import { useDeleteGallery } from '../../../../../services/story/story.mutation';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
+import { GalleryType } from '../../../../../types/core/media.type';
+import { SvgIcon } from '../../../../../components/ui/display/SvgIcon.tsx';
+import { Title } from '../../../../../components/ui/base/TextBase';
+import { BottomSheet } from '../../../../../components/ui/interaction/BottomSheet.tsx';
+import { showToast } from '../../../../../components/ui/feedback/Toast.tsx';
 import ReactNativeBlobUtil from 'react-native-blob-util';
-import { getFormattedDateTime } from '../../../utils/date-formatter.util.ts';
+import { getFormattedDateTime } from '../../../../../utils/date-formatter.util.ts';
 import Share from 'react-native-share';
-import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
+import { LoadingContainer } from '../../../../../components/ui/feedback/LoadingContainer';
 
 type Props = {
   gallery: GalleryType;

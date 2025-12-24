@@ -7,19 +7,22 @@ import React, {
 } from 'react';
 import { LayoutChangeEvent, ScrollView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { BottomSheet } from '../../../../components/ui/interaction/BottomSheet';
-import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
-import { BasicButton } from '../../../../components/ui/form/Button';
-import { GalleryTag } from '../../../Home/components/gallery/GalleryTag';
-import { Color } from '../../../../constants/color.constant';
-import { BodyTextB, BodyTextM } from '../../../../components/ui/base/TextBase';
-import { AgeType, TagType } from '../../../../types/core/media.type';
-import { HeroType } from '../../../../types/core/hero.type';
+import { BottomSheet } from '../../../../../components/ui/interaction/BottomSheet';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
+import { BasicButton } from '../../../../../components/ui/form/Button';
+import { GalleryTag } from '../../../../Home/components/gallery/GalleryTag';
+import { Color } from '../../../../../constants/color.constant';
+import {
+  BodyTextB,
+  BodyTextM,
+} from '../../../../../components/ui/base/TextBase';
+import { AgeType, TagType } from '../../../../../types/core/media.type';
+import { HeroType } from '../../../../../types/core/hero.type';
 import {
   calculateAgeGroupFromDate,
   isDateInAgeGroup,
-} from '../../../../utils/age-calculator.util';
-import { formatDateWithDay } from '../../../../utils/date-formatter.util';
+} from '../../../../../utils/age-calculator.util';
+import { formatDateWithDay } from '../../../../../utils/date-formatter.util';
 
 type Props = {
   opened: boolean;

@@ -1,11 +1,11 @@
-import { Color } from '../../../constants/color.constant.ts';
+import { Color } from '../../../../../constants/color.constant.ts';
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
 } from 'react';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
 import { Dimensions, View } from 'react-native';
 import {
   CheckButton,
@@ -14,14 +14,14 @@ import {
   PlayButton,
   RecordButton,
   StopButton,
-} from '../voice/VoiceControlButtons';
-import { Caption } from '../../ui/base/TextBase';
-import { useVoiceRecorder } from '../../../services/common/voice-record.hook.ts';
-import { Waveform } from './WaveForm.tsx';
+} from './VoiceControlButtons';
+import { Caption } from '../../../../../components/ui/base/TextBase';
+import { useVoiceRecorder } from '../../../../../services/common/voice-record.hook.ts';
+import { Waveform } from './WaveForm';
 import {
   VoiceRecorderProps,
   VoiceRecorderRef,
-} from '../../../types/voice/voice-player.type';
+} from '../../../../../types/voice/voice-player.type';
 
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
