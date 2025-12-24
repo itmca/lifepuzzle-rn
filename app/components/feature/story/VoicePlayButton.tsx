@@ -16,19 +16,20 @@ export const VoicePlayButton = ({
 }: Props): React.ReactElement => {
   return (
     <ButtonBase
-      height={'28px'}
+      height={'40px'}
       width={'auto'}
       backgroundColor={Color.TRANSPARENT}
       borderColor={Color.MAIN_DARK}
       paddingVertical={6}
-      paddingLeft={4}
-      paddingRight={6}
+      paddingLeft={12}
+      paddingRight={20}
       borderRadius={6}
       borderWidth={1}
       onPress={onPress}
+      gap={4}
       borderInside
     >
-      <SvgIcon name={'play'} color={Color.MAIN_DARK} size={16} />
+      <SvgIcon name={'play'} color={Color.MAIN_DARK} size={20} />
       <Caption color={Color.MAIN_DARK}>{playDurationText}</Caption>
     </ButtonBase>
   );

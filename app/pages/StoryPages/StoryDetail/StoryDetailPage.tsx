@@ -34,7 +34,8 @@ import { formatDateWithDay } from '../../../utils/date-formatter.util';
 import { useStoryDraftManager } from '../../../hooks/useStoryDraftManager';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
-import { VoiceControl } from '../../../components/feature/voice/VoiceControl';
+import { VoiceAddButton } from '../../../components/feature/story/VoiceAddButton';
+import { AudioBtn } from '../../../components/feature/story/AudioBtn';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
 import { useHeroStore } from '../../../stores/hero.store';
 import { StoryDateAgeBottomSheet } from './components/StoryDateAgeBottomSheet';
@@ -550,11 +551,14 @@ const StoryDetailPage = (): React.ReactElement => {
                 </>
               )}
               <ContentContainer paddingVertical={10}>
-                <VoiceControl
-                  audioUrl={currentGalleryItem?.story?.audios?.[0]}
-                  onAddVoice={() => setActiveModal('voice')}
-                  onPlayVoice={() => setActiveModal('voice')}
-                />
+                {currentGalleryItem?.story?.audios?.[0] ? (
+                  <AudioBtn
+                    audioUrl={currentGalleryItem.story.audios[0]}
+                    onPlay={() => setActiveModal('voice')}
+                  />
+                ) : (
+                  <VoiceAddButton onPress={() => setActiveModal('voice')} />
+                )}
               </ContentContainer>
             </ContentContainer>
           </LoadingContainer>
