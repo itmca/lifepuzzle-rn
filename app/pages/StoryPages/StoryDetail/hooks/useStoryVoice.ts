@@ -13,7 +13,9 @@ import { HeroType } from '../../../../types/core/hero.type';
 
 type UseStoryVoiceParams = {
   currentGalleryItem: GalleryType | undefined;
-  currentHero: HeroType | undefined;
+  currentHero: HeroType | undefined | null;
+  onSaveSuccess?: () => void;
+  onDeleteSuccess?: () => void;
 };
 
 type UseStoryVoiceReturn = {
@@ -39,11 +41,14 @@ type UseStoryVoiceReturn = {
 export const useStoryVoice = ({
   currentGalleryItem,
   currentHero,
+  onSaveSuccess,
+  onDeleteSuccess,
 }: UseStoryVoiceParams): UseStoryVoiceReturn => {
   // Story Voice Upsert API
   const { saveVoice, isSaving } = useStoryVoiceUpsert({
     onSuccess: () => {
       showToast('음성이 저장되었습니다');
+      onSaveSuccess?.();
     },
     onError: message => {
       showErrorToast(message);
@@ -54,6 +59,7 @@ export const useStoryVoice = ({
   const { deleteVoice, isDeleting } = useStoryVoiceDelete({
     onSuccess: () => {
       showToast('음성이 삭제되었습니다');
+      onDeleteSuccess?.();
     },
     onError: message => {
       showErrorToast(message);
