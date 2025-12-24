@@ -12,7 +12,7 @@ import { useMediaStore } from '../../../../stores/media.store';
 
 type UseStoryContentParams = {
   currentGalleryItem: GalleryType | undefined;
-  currentHero: HeroType | undefined;
+  currentHero: HeroType | undefined | null;
   content: string;
   onSaveSuccess?: (storyKey: string) => void;
 };

@@ -1,7 +1,7 @@
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import { Platform } from 'react-native';
 import Sound from 'react-native-nitro-sound';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
   PlayInfo,
@@ -42,6 +42,7 @@ export const useVoiceRecorder = ({
   const [isRecording, setIsRecording] = useState(false);
   const [file, setFile] = useState<string>(audioUrl ?? '');
   const [recordTime, setRecordTime] = useState<string>('00:00:00');
+  const [isLoadingDuration, setIsLoadingDuration] = useState(false);
 
   /**
    * PlayInfo 초기화
@@ -156,6 +157,54 @@ export const useVoiceRecorder = ({
   const seekPlay = useCallback(async (seconds: number) => {
     Sound.seekToPlayer(seconds);
   }, []);
+
+  /**
+   * 기존 오디오 파일의 duration을 로드
+   * 짧게 재생 후 즉시 멈춰서 duration 정보만 얻기
+   */
+  const loadDuration = useCallback(
+    async (audioPath: string) => {
+      if (!audioPath || isLoadingDuration) {
+        return;
+      }
+
+      try {
+        setIsLoadingDuration(true);
+
+        // 재생 시작 (duration을 얻기 위해)
+        await Sound.startPlayer(audioPath);
+
+        // playback listener를 통해 duration 정보 얻기
+        Sound.addPlayBackListener(e => {
+          const durationSec = e.duration;
+          const durationStr = Sound.mmssss(Math.floor(durationSec));
+
+          // duration 정보를 playInfo에 설정
+          setPlayInfo(prev => ({
+            ...prev,
+            currentDurationSec: durationSec,
+            duration: durationStr,
+          }));
+
+          // 즉시 재생 중지
+          Sound.stopPlayer();
+          Sound.removePlayBackListener();
+          setIsLoadingDuration(false);
+        });
+      } catch (error) {
+        setIsLoadingDuration(false);
+      }
+    },
+    [isLoadingDuration],
+  );
+
+  // audioUrl이 변경되면 duration 로드
+  useEffect(() => {
+    if (audioUrl && !isRecording) {
+      setFile(audioUrl);
+      loadDuration(audioUrl);
+    }
+  }, [audioUrl, isRecording, loadDuration]);
 
   return {
     fileName: file,

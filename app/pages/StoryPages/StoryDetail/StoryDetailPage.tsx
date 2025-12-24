@@ -284,6 +284,12 @@ const StoryDetailPage = (): React.ReactElement => {
   const { handleVoiceSave, handleVoiceDelete, isVoiceLoading } = useStoryVoice({
     currentGalleryItem,
     currentHero,
+    onSaveSuccess: () => {
+      setActiveModal('none');
+    },
+    onDeleteSuccess: () => {
+      setActiveModal('none');
+    },
   });
 
   // Side effects
