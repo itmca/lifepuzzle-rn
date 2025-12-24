@@ -35,12 +35,16 @@ type props = {
   onDelete?: () => void;
   onClose?: () => void;
   editable?: boolean;
+  isUploading?: boolean;
 };
 export type VoicePlayerRef = {
   stopAllAudio: () => void;
 };
 export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
-  ({ source, onSave, onDelete, editable = true, onClose }, ref) => {
+  (
+    { source, onSave, onDelete, editable = true, onClose, isUploading },
+    ref,
+  ) => {
     // React hooks
     const [audioUri, setAudioUri] = useState<string | undefined>(source);
     const [waveData, setWaveData] = useState<number[]>(initWaveData);
@@ -186,10 +190,10 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
           )}
           <CheckButton
             visiable={isNewRecording}
+            disabled={isUploading}
             onPress={() => {
               stopPlay();
               onSave(audioUri ?? '');
-              onClose && onClose();
             }}
           />
         </ContentContainer>

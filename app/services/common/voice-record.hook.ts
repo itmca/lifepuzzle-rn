@@ -79,12 +79,19 @@ export const useVoiceRecorder = ({
       AudioEncodingBitRate: 128000,
       AudioChannels: 1,
     };
+
+    // 녹음 시작 전 준비
     stopPlay();
     resetPlayInfo();
-    setIsRecording(true);
 
+    // 네이티브 녹음 시작 (await으로 완료 대기)
     const uri = await Sound.startRecorder(path, audioSet);
 
+    // 녹음이 실제로 시작된 후 UI 상태 업데이트
+    setIsRecording(true);
+    setFile(uri);
+
+    // 녹음 진행 상황 리스너 등록
     Sound.addRecordBackListener(e => {
       const hourMinuteSeconds = getDisplayRecordTime(
         Math.floor(e.currentPosition),
@@ -96,16 +103,18 @@ export const useVoiceRecorder = ({
       });
     });
 
-    setFile(uri);
     onStartRecord?.();
   };
 
   const stopRecord = async function () {
+    // 네이티브 녹음 중지 (await으로 완료 대기)
     await Sound.stopRecorder();
     Sound.removeRecordBackListener();
 
+    // 녹음이 실제로 중지된 후 UI 상태 업데이트
     setIsRecording(false);
     setPlayInfo({ isPlay: false });
+
     onStopRecord?.(file);
   };
   const startPlay = async () => {
