@@ -21,6 +21,7 @@ import {
 import { Caption } from '../../ui/base/TextBase';
 import { useVoiceRecorder } from '../../../services/common/voice-record.hook.ts';
 import { Waveform } from './WaveForm.tsx';
+
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.9, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5,
@@ -51,13 +52,7 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
     const [progress, setProgress] = useState(0);
 
     // 글로벌 상태 관리 (Zustand)
-    const {
-      playInfo,
-      setPlayInfo,
-      resetPlayInfo,
-      writingStory,
-      setWritingStory,
-    } = useStoryStore();
+    const { playInfo, resetPlayInfo } = useStoryStore();
 
     // Custom hooks
     const {
