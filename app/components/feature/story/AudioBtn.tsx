@@ -30,6 +30,7 @@ export const AudioBtn = ({
   const [currTime, setCurrTime] = useState<number>();
   const [durationTime, setDurationTime] = useState<number>();
   const [isPlaying, setPlaying] = useState<boolean>(false);
+  const [isLoadingDuration, setIsLoadingDuration] = useState(false);
 
   const attachListeners = useCallback(() => {
     if (listenersAttached.current) {
@@ -67,6 +68,40 @@ export const AudioBtn = ({
     return soundRef.current;
   }, [attachListeners]);
 
+  /**
+   * 초기 오디오 파일의 duration을 로드
+   * 짧게 재생 후 즉시 멈춰서 duration 정보만 얻기
+   */
+  const loadDuration = useCallback(
+    async (url: string) => {
+      if (!url || isLoadingDuration) {
+        return;
+      }
+
+      try {
+        setIsLoadingDuration(true);
+        const sound = ensureSound();
+
+        // 재생 시작 (duration을 얻기 위해)
+        await sound.startPlayer(url);
+
+        // playback listener를 통해 duration 정보 얻기
+        sound.addPlayBackListener(event => {
+          const durationSeconds = event.duration / 1000;
+          setDurationTime(durationSeconds);
+
+          // 즉시 재생 중지
+          sound.stopPlayer();
+          setIsLoadingDuration(false);
+        });
+      } catch (error) {
+        setIsLoadingDuration(false);
+        logger.debug('Duration load error:', error);
+      }
+    },
+    [isLoadingDuration, ensureSound],
+  );
+
   useEffect(() => {
     return () => {
       try {
@@ -95,7 +130,12 @@ export const AudioBtn = ({
     } finally {
       listenersAttached.current = false;
     }
-  }, [audioUrl]);
+
+    // audioUrl이 있으면 초기 duration 로드
+    if (audioUrl) {
+      loadDuration(audioUrl);
+    }
+  }, [audioUrl, loadDuration]);
 
   const onPress = async () => {
     if (disabled) {
