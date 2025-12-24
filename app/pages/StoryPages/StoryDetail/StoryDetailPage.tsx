@@ -45,6 +45,7 @@ import {
 import {
   useStoryContentUpsert,
   useStoryVoiceUpsert,
+  useStoryVoiceDelete,
 } from '../../../services/story/story.mutation';
 import { useHeroStore } from '../../../stores/hero.store';
 import { useUpdateGalleryDateAndAge } from '../../../services/gallery/gallery.mutation';
@@ -397,6 +398,17 @@ const StoryDetailPage = (): React.ReactElement => {
     },
   });
 
+  // Story Voice Delete API 사용 (음성 삭제)
+  const { deleteVoice, isDeleting: isVoiceDeleting } = useStoryVoiceDelete({
+    onSuccess: () => {
+      showToast('음성이 삭제되었습니다');
+      setActiveModal('none');
+    },
+    onError: message => {
+      showErrorToast(message);
+    },
+  });
+
   /**
    * Voice 저장 핸들러
    *
@@ -421,6 +433,28 @@ const StoryDetailPage = (): React.ReactElement => {
       return;
     }
     saveVoice(currentHero.id, currentGalleryItem.id, voiceUri);
+  };
+
+  /**
+   * Voice 삭제 핸들러
+   *
+   * VoiceBottomSheet에서 음성을 삭제합니다.
+   *
+   * 삭제 성공 시:
+   * - React Query가 자동으로 Gallery 캐시 무효화
+   * - 최신 데이터로 UI 자동 업데이트
+   * - VoiceBottomSheet 닫기
+   */
+  const handleVoiceDelete = () => {
+    if (!currentHero || !currentGalleryItem) {
+      logger.error('handleVoiceDelete: Missing required data', {
+        hasHero: !!currentHero,
+        hasGalleryItem: !!currentGalleryItem,
+      });
+      showErrorToast('삭제할 수 없습니다');
+      return;
+    }
+    deleteVoice(currentHero.id, currentGalleryItem.id);
   };
 
   // Side effects
@@ -721,6 +755,7 @@ const StoryDetailPage = (): React.ReactElement => {
           setActiveModal('none');
         }}
         onSaveVoice={handleVoiceSave}
+        onDeleteVoice={handleVoiceDelete}
         voiceSource={currentGalleryItem?.story?.audios?.[0]}
       />
       {currentGalleryItem && currentHero && tags && (

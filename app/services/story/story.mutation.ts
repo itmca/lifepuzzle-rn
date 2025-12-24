@@ -15,10 +15,11 @@ import { StoryModelService } from './story-model.service';
 import { useAuthValidation } from '../auth/validation.hook';
 import { useStoryValidation } from './story-validation.hook';
 import { useErrorHandler } from '../common/error-handler.hook';
-import { StoryType } from '../../types/core/story.type';
-import { GalleryType } from '../../types/core/media.type';
 import { queryKeys } from '../core/query-keys';
 import { logger } from '../../utils/logger.util';
+import { PayloadBuilder } from '../../utils/payload-builder.util';
+import { AUDIO_TYPE } from '../../constants/upload-file-type.constant';
+
 export const useResetAllWritingStory = () => {
   const { resetWritingStory } = useStoryStore();
   return resetWritingStory;
@@ -426,24 +427,21 @@ export const useStoryVoiceUpsert = ({
       }
 
       // FormData 생성
-      const formData = new FormData();
+      const formData = PayloadBuilder.createFormData();
 
-      // meta JSON 추가 (React Native FormData는 JSON을 string으로 append)
-      const metaJson = JSON.stringify({
+      // meta JSON 추가 (PayloadBuilder 사용)
+      PayloadBuilder.addJsonToFormData(formData, 'meta', {
         heroId,
         galleryId,
       });
-      formData.append('meta', metaJson);
 
-      // voice 파일 추가
-      const fileName = voiceUri.split('/').pop() || 'voice.m4a';
-      const mimeType = voiceUri.endsWith('.mp4') ? 'audio/mp4' : 'audio/x-m4a';
-
-      formData.append('voice', {
-        uri: voiceUri,
-        type: mimeType,
-        name: fileName,
-      } as any);
+      // voice 파일 추가 (PayloadBuilder 사용)
+      PayloadBuilder.addVoiceToFormData(
+        formData,
+        'voice',
+        voiceUri,
+        AUDIO_TYPE,
+      );
 
       void trigger({ data: formData });
     },
@@ -451,4 +449,66 @@ export const useStoryVoiceUpsert = ({
   );
 
   return { saveVoice, isSaving };
+};
+
+/**
+ * Story Voice Delete API를 사용하여 음성 파일을 삭제하는 mutation hook
+ *
+ * @example
+ * const { deleteVoice, isDeleting } = useStoryVoiceDelete({
+ *   onSuccess: () => {
+ *     updateGalleryStory(galleryId, updatedStory);
+ *     showToast('음성이 삭제되었습니다');
+ *   },
+ *   onError: (message) => showErrorToast(message),
+ * });
+ *
+ * const handleDelete = () => {
+ *   deleteVoice(heroId, galleryId);
+ * };
+ */
+
+type UseStoryVoiceDeleteParams = {
+  onSuccess: () => void;
+  onError: (message: string) => void;
+};
+
+export type UseStoryVoiceDeleteReturn = {
+  deleteVoice: (heroId: number, galleryId: number) => void;
+  isDeleting: boolean;
+};
+
+export const useStoryVoiceDelete = ({
+  onSuccess,
+  onError,
+}: UseStoryVoiceDeleteParams): UseStoryVoiceDeleteReturn => {
+  const queryClient = useQueryClient();
+
+  const [isDeleting, trigger] = useAuthMutation<void>({
+    axiosConfig: {
+      method: 'delete',
+      url: '/v3/stories/voice',
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.gallery.all });
+      onSuccess();
+    },
+    onError: () => {
+      onError('음성 삭제에 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+
+  const deleteVoice = useCallback(
+    (heroId: number, galleryId: number) => {
+      void trigger({
+        data: {
+          heroId,
+          galleryId,
+        },
+      });
+    },
+    [trigger],
+  );
+
+  return { deleteVoice, isDeleting };
 };
