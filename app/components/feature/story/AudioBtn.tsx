@@ -5,19 +5,26 @@ import { createSound } from 'react-native-nitro-sound';
 import { toMmSs, toMmSsSS } from '../../../utils/time-formatter.util.ts';
 import { VoicePlayButton } from '../voice/VoicePlayButton';
 
-import { useStoryStore } from '../../../stores/story.store';
-
 type AudioBtnProps = {
   audioUrl?: string;
   disabled?: boolean;
   onPlay: () => void;
 };
+
+/**
+ * 기존에 저장된 음성을 재생하는 버튼 컴포넌트
+ *
+ * @description
+ * - createSound() 인스턴스를 사용하여 음성 재생
+ * - 로컬 상태만 관리 (전역 playInfo 사용 안 함)
+ * - VoiceRecorder(녹음/재생)와 독립적으로 동작
+ */
 export const AudioBtn = ({
   audioUrl,
   disabled,
   onPlay,
 }: AudioBtnProps): React.ReactElement => {
-  const setPlayInfo = useStoryStore(state => state.setPlayInfo);
+  // Local state only (전역 상태 사용 안 함)
   const soundRef = useRef<ReturnType<typeof createSound> | null>(null);
   const listenersAttached = useRef<boolean>(false);
   const [currTime, setCurrTime] = useState<number>();
@@ -38,13 +45,6 @@ export const AudioBtn = ({
 
         setCurrTime(currentSeconds);
         setDurationTime(durationSeconds);
-        setPlayInfo({
-          currentPositionSec: currentSeconds,
-          currentDurationSec: durationSeconds,
-          playTime: toMmSs(currentSeconds ?? 0),
-          duration: toMmSs(durationSeconds ?? 0),
-          isPlay: true,
-        });
       });
 
       sound.addPlaybackEndListener(event => {
@@ -53,18 +53,11 @@ export const AudioBtn = ({
         const durationSeconds = event.duration / 1000;
         setCurrTime(currentSeconds);
         setDurationTime(durationSeconds);
-        setPlayInfo({
-          currentPositionSec: currentSeconds,
-          currentDurationSec: durationSeconds,
-          playTime: toMmSs(currentSeconds ?? 0),
-          duration: toMmSs(durationSeconds ?? 0),
-          isPlay: false,
-        });
       });
 
       listenersAttached.current = true;
     } catch (error) {}
-  }, [setPlayInfo]);
+  }, []);
 
   const ensureSound = useCallback(() => {
     if (!soundRef.current) {
@@ -109,10 +102,6 @@ export const AudioBtn = ({
       return;
     }
     try {
-      setPlayInfo({
-        currentDurationSec: durationTime,
-        duration: toMmSsSS(durationTime ?? 0),
-      });
       const sound = ensureSound();
       if (!audioUrl) {
         return;

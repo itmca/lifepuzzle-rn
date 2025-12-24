@@ -6,10 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { ContentContainer } from '../../ui/layout/ContentContainer';
-
 import { Dimensions, View } from 'react-native';
-
-import { useStoryStore } from '../../../stores/story.store';
 import {
   CheckButton,
   DeleteButton,
@@ -17,10 +14,14 @@ import {
   PlayButton,
   RecordButton,
   StopButton,
-} from '../voice/AudioController';
+} from '../voice/VoiceControlButtons';
 import { Caption } from '../../ui/base/TextBase';
 import { useVoiceRecorder } from '../../../services/common/voice-record.hook.ts';
 import { Waveform } from './WaveForm.tsx';
+import {
+  VoiceRecorderProps,
+  VoiceRecorderRef,
+} from '../../../types/voice/voice-player.type';
 
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
@@ -30,18 +31,7 @@ const initWaveData = [
   0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4,
 ];
 
-type props = {
-  source: string | undefined;
-  onSave: (uri: string) => void;
-  onDelete?: () => void;
-  onClose?: () => void;
-  editable?: boolean;
-  isUploading?: boolean;
-};
-export type VoicePlayerRef = {
-  stopAllAudio: () => void;
-};
-export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
+export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
   (
     { source, onSave, onDelete, editable = true, onClose, isUploading },
     ref,
@@ -51,17 +41,16 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
     const [waveData, setWaveData] = useState<number[]>(initWaveData);
     const [progress, setProgress] = useState(0);
 
-    // 글로벌 상태 관리 (Zustand)
-    const { playInfo, resetPlayInfo } = useStoryStore();
-
     // Custom hooks
     const {
       isRecording,
+      playInfo,
       startRecord,
       stopRecord,
       startPlay,
       pausePlay,
       stopPlay,
+      resetPlayInfo,
     } = useVoiceRecorder({
       audioUrl: audioUri,
       onStopRecord: (url: string) => {
@@ -107,6 +96,7 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
       setWaveData(prev => [...prev, randomHeight].slice(-50));
       setProgress(Math.min((playInfo.currentDurationSec ?? 0) / 10000, 1));
     }, [playInfo.currentDurationSec]);
+
     return (
       <>
         <ContentContainer gap={9}>

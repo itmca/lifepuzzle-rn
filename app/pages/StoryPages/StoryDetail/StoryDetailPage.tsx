@@ -32,31 +32,21 @@ import { useGalleryIndexMapping } from '../../../hooks/useGalleryIndexMapping';
 import { useRenderLog } from '../../../utils/debug/render-log.util';
 import { formatDateWithDay } from '../../../utils/date-formatter.util';
 import { useStoryDraftManager } from '../../../hooks/useStoryDraftManager';
-import { StoryModelService } from '../../../services/story/story-model.service';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
-import { VoiceAddButton } from '../../../components/feature/voice/VoiceAddButton';
+import { VoiceControl } from '../../../components/feature/voice/VoiceControl';
 import { VoiceBottomSheet } from '../../../components/feature/story/VoiceBottomSheet.tsx';
-import { AudioBtn } from '../../../components/feature/story/AudioBtn.tsx';
-import {
-  showErrorToast,
-  showToast,
-} from '../../../components/ui/feedback/Toast';
-import {
-  useStoryContentUpsert,
-  useStoryVoiceUpsert,
-  useStoryVoiceDelete,
-} from '../../../services/story/story.mutation';
 import { useHeroStore } from '../../../stores/hero.store';
-import { useUpdateGalleryDateAndAge } from '../../../services/gallery/gallery.mutation';
 import { StoryDateAgeBottomSheet } from './components/StoryDateAgeBottomSheet';
 import { AgeType } from '../../../types/core/media.type';
 import { ButtonBase } from '../../../components/ui/base/ButtonBase';
 import Icon from '@react-native-vector-icons/material-icons';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer';
-import { logger } from '../../../utils/logger.util';
 import { TopBar } from '../../../components/ui/navigation/TopBar';
 import { DetailViewHeaderRight } from '../../../components/ui/navigation/header/DetailViewHeaderRight';
+import { useStoryVoice } from './hooks/useStoryVoice';
+import { useStoryContent } from './hooks/useStoryContent';
+import { useStoryDateAge } from './hooks/useStoryDateAge';
 
 /**
  * Modal types for StoryDetailPage
@@ -101,10 +91,6 @@ const StoryDetailPage = (): React.ReactElement => {
   // 글로벌 상태 관리
   const allGallery = useMediaStore(state => state.gallery);
   const tags = useMediaStore(state => state.tags);
-  const updateGalleryStory = useMediaStore(state => state.updateGalleryStory);
-  const updateGalleryDateAndTag = useMediaStore(
-    state => state.updateGalleryDateAndTag,
-  );
   const { currentHero } = useHeroStore();
 
   // Memoized 값
@@ -278,184 +264,27 @@ const StoryDetailPage = (): React.ReactElement => {
     setActiveModal('date-age');
   };
 
-  // Gallery 날짜/나이대 업데이트 mutation
-  const { updateDateAndAge, isPending: isUpdatingDateAndAge } =
-    useUpdateGalleryDateAndAge({
-      onSuccess: () => {
-        showToast('날짜 및 나이대가 변경되었습니다');
-      },
-      onError: message => {
-        showErrorToast(message);
-      },
+  // Custom hooks - Story operations
+  const { handleDateAgeConfirm, isUpdating: isUpdatingDateAndAge } =
+    useStoryDateAge({
+      currentGalleryItem,
     });
 
-  /**
-   * 날짜 및 나이대 확인 핸들러
-   *
-   * StoryDateAgeBottomSheet에서 날짜와 나이대를 선택한 후 호출됩니다.
-   * 두 단계로 업데이트를 수행합니다:
-   * 1. API 호출: 서버에 변경사항 저장
-   * 2. 로컬 Store 업데이트: UI에 즉시 반영 (낙관적 업데이트)
-   *
-   * React Query가 자동으로 캐시를 무효화하므로 별도의 refetch는 불필요합니다.
-   *
-   * @param date - 선택된 날짜
-   * @param ageGroup - 선택된 나이대 (태그 키)
-   */
-  const handleDateAgeConfirm = useCallback(
-    async (date: Date, ageGroup: AgeType) => {
-      if (!currentGalleryItem) {
-        logger.warn('handleDateAgeConfirm: currentGalleryItem is null', {
-          date,
-          ageGroup,
-        });
-        return;
-      }
-
-      try {
-        // API 호출: 서버에 날짜/나이대 업데이트
-        await updateDateAndAge(currentGalleryItem.id, date, ageGroup);
-
-        // 로컬 Store 즉시 업데이트 (낙관적 업데이트)
-        // 사용자에게 즉각적인 UI 피드백 제공
-        updateGalleryDateAndTag(currentGalleryItem.id, date, ageGroup);
-      } catch (error) {
-        // Error 토스트는 mutation hook에서 이미 표시됨
-        logger.error('Failed to update date and age', {
-          error,
-          galleryId: currentGalleryItem.id,
-          date,
-          ageGroup,
-        });
-      }
-    },
-    [currentGalleryItem, updateDateAndAge, updateGalleryDateAndTag],
-  );
-
-  // Story Content Upsert API 사용 (텍스트만 저장)
-  const { saveContent, isSaving } = useStoryContentUpsert({
-    onSuccess: storyKey => {
-      // Gallery store 업데이트
-      const updatedStory = StoryModelService.createFromGallery(
-        storyKey,
-        content,
-        currentGalleryItem!,
-        currentHero!,
-      );
-
-      updateGalleryStory(currentGalleryItem!.id, updatedStory);
-
-      // Draft에서 제거
+  const { handleSave, isSaving } = useStoryContent({
+    currentGalleryItem,
+    currentHero,
+    content,
+    onSaveSuccess: () => {
+      // Draft 제거 및 편집 모드 종료
       removeDraft(currentGalleryItem!.id);
-
-      // UI 상태 업데이트
       setEditingGalleryId(null);
-      showToast(
-        currentGalleryItem?.story?.id
-          ? '이야기가 수정되었습니다'
-          : '이야기가 저장되었습니다',
-      );
-    },
-    onError: message => {
-      showErrorToast(message);
     },
   });
 
-  /**
-   * Story 텍스트 내용 저장 핸들러
-   *
-   * 편집 모드에서 "완료" 버튼 클릭 시 호출됩니다.
-   * useStoryContentUpsert를 통해 텍스트만 서버에 저장합니다.
-   *
-   * 저장 성공 시:
-   * - StoryModelService로 완전한 StoryType 객체 생성
-   * - Gallery store 업데이트
-   * - Draft 제거
-   * - 뷰 모드로 전환
-   */
-  const handleSave = () => {
-    if (!currentHero || !currentGalleryItem) {
-      logger.error('handleSave: Missing required data', {
-        hasHero: !!currentHero,
-        hasGalleryItem: !!currentGalleryItem,
-      });
-      showErrorToast('저장할 수 없습니다');
-      return;
-    }
-    saveContent(currentHero.id, currentGalleryItem.id, content);
-  };
-
-  // Story Voice Upsert API 사용 (음성만 저장)
-  const { saveVoice, isSaving: isVoiceSaving } = useStoryVoiceUpsert({
-    onSuccess: () => {
-      // 음성 저장 성공 후 Gallery 새로고침 필요
-      // React Query가 자동으로 캐시 무효화하므로 별도 처리 불필요
-      showToast('음성이 저장되었습니다');
-      setActiveModal('none');
-    },
-    onError: message => {
-      showErrorToast(message);
-    },
+  const { handleVoiceSave, handleVoiceDelete, isVoiceLoading } = useStoryVoice({
+    currentGalleryItem,
+    currentHero,
   });
-
-  // Story Voice Delete API 사용 (음성 삭제)
-  const { deleteVoice, isDeleting: isVoiceDeleting } = useStoryVoiceDelete({
-    onSuccess: () => {
-      showToast('음성이 삭제되었습니다');
-      setActiveModal('none');
-    },
-    onError: message => {
-      showErrorToast(message);
-    },
-  });
-
-  /**
-   * Voice 저장 핸들러
-   *
-   * VoiceBottomSheet에서 녹음하거나 선택한 음성 파일을 서버에 저장합니다.
-   * 음성 파일만 업로드하며, 다른 story 필드는 변경하지 않습니다.
-   *
-   * 저장 성공 시:
-   * - React Query가 자동으로 Gallery 캐시 무효화
-   * - 최신 데이터로 UI 자동 업데이트
-   * - VoiceBottomSheet 닫기
-   *
-   * @param voiceUri - 녹음된 음성 파일의 로컬 URI
-   */
-  const handleVoiceSave = (voiceUri: string) => {
-    if (!currentHero || !currentGalleryItem) {
-      logger.error('handleVoiceSave: Missing required data', {
-        hasHero: !!currentHero,
-        hasGalleryItem: !!currentGalleryItem,
-        voiceUri,
-      });
-      showErrorToast('저장할 수 없습니다');
-      return;
-    }
-    saveVoice(currentHero.id, currentGalleryItem.id, voiceUri);
-  };
-
-  /**
-   * Voice 삭제 핸들러
-   *
-   * VoiceBottomSheet에서 음성을 삭제합니다.
-   *
-   * 삭제 성공 시:
-   * - React Query가 자동으로 Gallery 캐시 무효화
-   * - 최신 데이터로 UI 자동 업데이트
-   * - VoiceBottomSheet 닫기
-   */
-  const handleVoiceDelete = () => {
-    if (!currentHero || !currentGalleryItem) {
-      logger.error('handleVoiceDelete: Missing required data', {
-        hasHero: !!currentHero,
-        hasGalleryItem: !!currentGalleryItem,
-      });
-      showErrorToast('삭제할 수 없습니다');
-      return;
-    }
-    deleteVoice(currentHero.id, currentGalleryItem.id);
-  };
 
   // Side effects
   // Route params 변경 시 로컬 state 업데이트
@@ -715,21 +544,11 @@ const StoryDetailPage = (): React.ReactElement => {
                 </>
               )}
               <ContentContainer paddingVertical={10}>
-                {currentGalleryItem?.story?.audios &&
-                currentGalleryItem.story.audios.length > 0 ? (
-                  <AudioBtn
-                    audioUrl={currentGalleryItem.story.audios[0]}
-                    onPlay={() => {
-                      setActiveModal('voice');
-                    }}
-                  />
-                ) : (
-                  <VoiceAddButton
-                    onPress={() => {
-                      setActiveModal('voice');
-                    }}
-                  />
-                )}
+                <VoiceControl
+                  audioUrl={currentGalleryItem?.story?.audios?.[0]}
+                  onAddVoice={() => setActiveModal('voice')}
+                  onPlayVoice={() => setActiveModal('voice')}
+                />
               </ContentContainer>
             </ContentContainer>
           </LoadingContainer>
@@ -757,7 +576,7 @@ const StoryDetailPage = (): React.ReactElement => {
         onSaveVoice={handleVoiceSave}
         onDeleteVoice={handleVoiceDelete}
         voiceSource={currentGalleryItem?.story?.audios?.[0]}
-        isLoading={isVoiceSaving || isVoiceDeleting}
+        isLoading={isVoiceLoading}
       />
       {currentGalleryItem && currentHero && tags && (
         <StoryDateAgeBottomSheet
