@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { VoicePlayer, VoicePlayerRef } from './StoryVoicePlayer.tsx';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { BottomSheet } from '../../ui/interaction/BottomSheet.tsx';
+import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
 type Props = {
   opened?: boolean;
   editable?: boolean;
@@ -22,6 +23,10 @@ type Props = {
    * 음성 URI
    */
   voiceSource?: string;
+  /**
+   * 업로드 중 로딩 상태
+   */
+  isLoading?: boolean;
 };
 
 export const VoiceBottomSheet = (props: Props): React.ReactElement => {
@@ -76,16 +81,19 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
         onClose={handleClose}
         snapPoints={mSnapPoints}
       >
-        <ContentContainer>
-          <VoicePlayer
-            ref={voicePlayerRef}
-            source={props.voiceSource}
-            editable={props.editable}
-            onSave={handleSave}
-            onDelete={handleDelete}
-            onClose={handleClose}
-          />
-        </ContentContainer>
+        <LoadingContainer isLoading={props.isLoading ?? false}>
+          <ContentContainer>
+            <VoicePlayer
+              ref={voicePlayerRef}
+              source={props.voiceSource}
+              editable={props.editable}
+              onSave={handleSave}
+              onDelete={handleDelete}
+              onClose={handleClose}
+              isUploading={props.isLoading}
+            />
+          </ContentContainer>
+        </LoadingContainer>
       </BottomSheet>
     </>
   );

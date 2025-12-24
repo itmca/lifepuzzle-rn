@@ -72,10 +72,15 @@ export const PlayButton = ({ onPress }: Props): React.ReactElement => {
   );
 };
 
+type CheckButtonProps = Props & {
+  disabled?: boolean;
+};
+
 export const CheckButton = ({
   onPress,
   visiable,
-}: Props): React.ReactElement => {
+  disabled,
+}: CheckButtonProps): React.ReactElement => {
   if (!visiable) {
     return <ContentContainer width={40} />;
   }
@@ -88,8 +93,13 @@ export const CheckButton = ({
       borderRadius={40}
       onPress={onPress}
       borderInside
+      disabled={disabled}
     >
-      <SvgIcon name={'checkRound'} color={Color.MAIN_DARK} size={40} />
+      <SvgIcon
+        name={'checkRound'}
+        color={disabled ? Color.GREY_300 : Color.MAIN_DARK}
+        size={40}
+      />
     </ButtonBase>
   );
 };

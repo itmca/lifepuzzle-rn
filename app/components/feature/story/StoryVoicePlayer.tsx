@@ -21,6 +21,7 @@ import {
 import { Caption } from '../../ui/base/TextBase';
 import { useVoiceRecorder } from '../../../services/common/voice-record.hook.ts';
 import { Waveform } from './WaveForm.tsx';
+
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.9, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5,
@@ -35,25 +36,23 @@ type props = {
   onDelete?: () => void;
   onClose?: () => void;
   editable?: boolean;
+  isUploading?: boolean;
 };
 export type VoicePlayerRef = {
   stopAllAudio: () => void;
 };
 export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
-  ({ source, onSave, onDelete, editable = true, onClose }, ref) => {
+  (
+    { source, onSave, onDelete, editable = true, onClose, isUploading },
+    ref,
+  ) => {
     // React hooks
     const [audioUri, setAudioUri] = useState<string | undefined>(source);
     const [waveData, setWaveData] = useState<number[]>(initWaveData);
     const [progress, setProgress] = useState(0);
 
     // 글로벌 상태 관리 (Zustand)
-    const {
-      playInfo,
-      setPlayInfo,
-      resetPlayInfo,
-      writingStory,
-      setWritingStory,
-    } = useStoryStore();
+    const { playInfo, resetPlayInfo } = useStoryStore();
 
     // Custom hooks
     const {
@@ -186,10 +185,10 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
           )}
           <CheckButton
             visiable={isNewRecording}
+            disabled={isUploading}
             onPress={() => {
               stopPlay();
               onSave(audioUri ?? '');
-              onClose && onClose();
             }}
           />
         </ContentContainer>
