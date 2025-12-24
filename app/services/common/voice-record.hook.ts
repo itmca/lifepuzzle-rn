@@ -71,7 +71,7 @@ export const useVoiceRecorder = ({
     const fileName = getRecordFileName();
     const dirs = ReactNativeBlobUtil.fs.dirs;
     const path = Platform.select({
-      ios: `${fileName}.m4a`,
+      ios: `${dirs.CacheDir}/${fileName}.m4a`,
       android: `${dirs.CacheDir}/${fileName}.mp4`,
     });
     const audioSet = {
@@ -121,7 +121,7 @@ export const useVoiceRecorder = ({
       if (e.currentPosition == e.duration) {
         setPlayInfo({ isPlay: false });
 
-        stopRecord();
+        stopPlay();
       }
     });
   };

@@ -87,11 +87,19 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
 
     const DeviceWidth = Dimensions.get('window').width;
 
+    // 새로 녹음한 경우 판단 (전송 버튼 표시 조건과 동일)
+    const isNewRecording = !!audioUri && editable && source !== audioUri;
+
     const onRemove = () => {
       stopPlay();
       resetPlayInfo();
+
       setAudioUri(undefined);
-      onDelete?.();
+
+      // 새로 녹음한 게 아니면 (기존 저장된 음성이면) 서버 삭제
+      if (!isNewRecording) {
+        onDelete?.();
+      }
     };
 
     // Side effects
@@ -177,7 +185,7 @@ export const VoicePlayer = forwardRef<VoicePlayerRef, props>(
             <RecordButton onPress={startRecord} />
           )}
           <CheckButton
-            visiable={!!audioUri && editable && source !== audioUri}
+            visiable={isNewRecording}
             onPress={() => {
               stopPlay();
               onSave(audioUri ?? '');

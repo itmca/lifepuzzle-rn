@@ -3,7 +3,6 @@ import { ContentContainer } from '../../ui/layout/ContentContainer';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { useStoryStore } from '../../../stores/story.store';
 import { VoicePlayer, VoicePlayerRef } from './StoryVoicePlayer.tsx';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 import { BottomSheet } from '../../ui/interaction/BottomSheet.tsx';
@@ -12,13 +11,15 @@ type Props = {
   editable?: boolean;
   onClose?: () => void;
   /**
-   * 음성 저장 시 호출되는 콜백 (optional)
-   * 제공되지 않으면 기본 동작(Zustand store에 저장)을 수행
+   * 음성 저장 시 호출되는 콜백 (required for editable mode)
    */
   onSaveVoice?: (voiceUri: string) => void;
   /**
-   * 외부에서 제공하는 음성 URI (optional)
-   * 제공되지 않으면 writingStory.voice를 사용
+   * 음성 삭제 시 호출되는 콜백 (required for editable mode)
+   */
+  onDeleteVoice?: () => void;
+  /**
+   * 음성 URI
    */
   voiceSource?: string;
 };
@@ -26,10 +27,6 @@ type Props = {
 export const VoiceBottomSheet = (props: Props): React.ReactElement => {
   // Refs
   const voicePlayerRef = useRef<VoicePlayerRef>(null);
-
-  // 글로벌 상태 관리 (Zustand)
-  const writingStory = useStoryStore(state => state.writingStory);
-  const setWritingStory = useStoryStore(state => state.setWritingStory);
 
   // 외부 hook 호출 (navigation, route 등)
   const navigation = useNavigation<BasicNavigationProps>();
@@ -40,7 +37,15 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
   // Custom functions
   const handleClose = () => {
     voicePlayerRef.current?.stopAllAudio?.();
-    props.onClose && props.onClose();
+    props.onClose?.();
+  };
+
+  const handleSave = (uri: string) => {
+    props.onSaveVoice?.(uri);
+  };
+
+  const handleDelete = () => {
+    props.onDeleteVoice?.();
   };
 
   // Side effects
@@ -74,19 +79,10 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
         <ContentContainer>
           <VoicePlayer
             ref={voicePlayerRef}
-            source={props.voiceSource ?? writingStory.voice}
+            source={props.voiceSource}
             editable={props.editable}
-            onSave={uri => {
-              // onSaveVoice prop이 제공되면 사용, 아니면 기본 동작
-              if (props.onSaveVoice) {
-                props.onSaveVoice(uri);
-              } else {
-                setWritingStory({ voice: uri });
-              }
-            }}
-            onDelete={() => {
-              setWritingStory({ voice: undefined });
-            }}
+            onSave={handleSave}
+            onDelete={handleDelete}
             onClose={handleClose}
           />
         </ContentContainer>
