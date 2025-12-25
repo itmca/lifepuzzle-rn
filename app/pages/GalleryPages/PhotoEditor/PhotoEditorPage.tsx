@@ -4,7 +4,7 @@ import { Image, Platform } from 'react-native';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { PhotoEditorMediaCarousel } from './components/PhotoEditorMediaCarousel';
 import { EditorActionButton } from './components/EditorActionButton';
-import { MediaCarouselPagination } from '../../../components/feature/story/MediaCarouselPagination';
+import { MediaCarouselPagination } from '../../../components/ui/display/MediaCarouselPagination';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 
 import { Color } from '../../../constants/color.constant.ts';

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { logger } from '../../../utils/logger.util';
+import { logger } from '../../../../../utils/logger.util';
 import { createSound } from 'react-native-nitro-sound';
-import { toMmSs, toMmSsSS } from '../../../utils/time-formatter.util.ts';
+import { toMmSs } from '../../../../../utils/time-formatter.util.ts';
 import { VoicePlayButton } from './VoicePlayButton';
 
 type AudioBtnProps = {

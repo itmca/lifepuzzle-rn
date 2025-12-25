@@ -1,22 +1,22 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { AdaptiveImage } from '../../ui/base/ImageBase';
-import { VideoPlayer } from './StoryVideoPlayer';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { AdaptiveImage } from '../../../../../components/ui/base/ImageBase';
+import { VideoPlayer } from '../../../../../components/ui/interaction/StoryVideoPlayer';
+import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
 import {
   CAROUSEL_MODE_CONFIG,
   CAROUSEL_SCROLL_THROTTLE_MS,
   CAROUSEL_WINDOW_SIZE,
   DEFAULT_CAROUSEL_HEIGHT,
-} from '../../../constants/carousel.constant';
-import { calculateContainDimensions } from '../../../utils/carousel-dimension.util';
+} from '../../../../../constants/carousel.constant';
+import { calculateContainDimensions } from '../../../../../utils/carousel-dimension.util';
 import Carousel from 'react-native-reanimated-carousel';
-import { MediaCarouselPagination } from './MediaCarouselPagination';
-import { AiPhotoButton } from '../ai/AiPhotoButton';
-import { BasicNavigationProps } from '../../../navigation/types';
+import { MediaCarouselPagination } from '../../../../../components/ui/display/MediaCarouselPagination';
+import { AiPhotoButton } from './AiPhotoButton';
+import { BasicNavigationProps } from '../../../../../navigation/types';
 import { useNavigation } from '@react-navigation/native';
-import { useCreateAiPhoto } from '../../../services/gallery/gallery.mutation';
-import { useImagePreloader } from '../../../hooks/useImagePreloader';
+import { useCreateAiPhoto } from '../../../../../services/gallery/gallery.mutation';
+import { useImagePreloader } from '../../../../../hooks/useImagePreloader';
 
 type Props = {
   data: MediaItem[];

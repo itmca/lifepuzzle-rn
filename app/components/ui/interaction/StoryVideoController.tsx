@@ -4,9 +4,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bar } from 'react-native-progress';
 import { Color } from '../../../constants/color.constant';
 import { toMmSs } from '../../../utils/time-formatter.util.ts';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
-import { Caption } from '../../ui/base/TextBase';
-import { SvgIcon } from '../../ui/display/SvgIcon.tsx';
+import { ContentContainer } from '../layout/ContentContainer';
+import { Caption } from '../base/TextBase';
+import { SvgIcon } from '../display/SvgIcon.tsx';
 
 type Props = {
   width: number;

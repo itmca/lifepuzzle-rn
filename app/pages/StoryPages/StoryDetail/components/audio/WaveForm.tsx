@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Color } from '../../../constants/color.constant';
+import { Color } from '../../../../../constants/color.constant';
 
 interface WaveformProps {
   data: number[];

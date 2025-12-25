@@ -6,7 +6,7 @@ import Video, {
 import { Color } from '../../../constants/color.constant';
 import { toMmSs } from '../../../utils/time-formatter.util.ts';
 import React, { useEffect, useRef, useState } from 'react';
-import { ContentContainer } from '../../ui/layout/ContentContainer';
+import { ContentContainer } from '../layout/ContentContainer';
 import { VideoController } from './StoryVideoController';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types';
