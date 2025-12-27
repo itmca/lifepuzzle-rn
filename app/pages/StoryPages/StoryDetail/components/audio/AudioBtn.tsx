@@ -1,7 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React from 'react';
 
-import { logger } from '../../../../../utils/logger.util';
-import { createSound } from 'react-native-nitro-sound';
 import { toMmSs } from '../../../../../utils/time-formatter.util.ts';
 import { VoicePlayButton } from './VoicePlayButton';
 
@@ -9,115 +7,28 @@ type AudioBtnProps = {
   audioUrl?: string;
   audioDurationSeconds?: number;
   disabled?: boolean;
-  onPlay: () => void;
+  beforePlay: () => void;
 };
 
 /**
- * 기존에 저장된 음성을 재생하는 버튼 컴포넌트
+ * 저장된 음성 표시 버튼 컴포넌트
  *
  * @description
- * - createSound() 인스턴스를 사용하여 음성 재생
- * - 로컬 상태만 관리 (전역 playInfo 사용 안 함)
- * - VoiceRecorder(녹음/재생)와 독립적으로 동작
+ * - 서버에서 받은 음성 재생 시간을 표시
+ * - 클릭 시 VoiceBottomSheet를 열어서 재생
+ * - 실제 재생 기능은 VoiceRecorder에서 처리
  */
 export const AudioBtn = ({
   audioUrl,
   audioDurationSeconds,
   disabled,
-  onPlay,
+  beforePlay,
 }: AudioBtnProps): React.ReactElement => {
-  // Local state only (전역 상태 사용 안 함)
-  const soundRef = useRef<ReturnType<typeof createSound> | null>(null);
-  const listenersAttached = useRef<boolean>(false);
-  const [currTime, setCurrTime] = useState<number>();
-  const [durationTime, setDurationTime] = useState<number | undefined>(
-    audioDurationSeconds,
-  );
-  const [isPlaying, setPlaying] = useState<boolean>(false);
-
-  const attachListeners = useCallback(() => {
-    if (listenersAttached.current) {
-      return;
-    }
-    try {
-      const sound = soundRef.current ?? createSound();
-      soundRef.current = sound;
-
-      sound.addPlayBackListener(event => {
-        const currentSeconds = event.currentPosition / 1000;
-        const durationSeconds = event.duration / 1000;
-
-        setCurrTime(currentSeconds);
-        setDurationTime(durationSeconds);
-      });
-
-      sound.addPlaybackEndListener(event => {
-        setPlaying(false);
-        const currentSeconds = event.currentPosition / 1000;
-        const durationSeconds = event.duration / 1000;
-        setCurrTime(currentSeconds);
-        setDurationTime(durationSeconds);
-      });
-
-      listenersAttached.current = true;
-    } catch (error) {}
-  }, []);
-
-  const ensureSound = useCallback(() => {
-    if (!soundRef.current) {
-      soundRef.current = createSound();
-    }
-    attachListeners();
-    return soundRef.current;
-  }, [attachListeners]);
-
-  useEffect(() => {
-    return () => {
-      try {
-        soundRef.current?.stopPlayer();
-        soundRef.current?.removePlayBackListener();
-        soundRef.current?.removePlaybackEndListener();
-        // dispose is available on Nitro HybridObjects
-        (soundRef.current as any)?.dispose?.();
-      } catch (error) {
-      } finally {
-        soundRef.current = null;
-        listenersAttached.current = false;
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    setPlaying(false);
-    setCurrTime(undefined);
-    setDurationTime(audioDurationSeconds);
-    try {
-      soundRef.current?.stopPlayer();
-      soundRef.current?.removePlayBackListener();
-      soundRef.current?.removePlaybackEndListener();
-    } catch (error) {
-    } finally {
-      listenersAttached.current = false;
-    }
-  }, [audioUrl, audioDurationSeconds]);
-
-  const onPress = async () => {
+  const onPress = () => {
     if (disabled) {
       return;
     }
-    try {
-      const sound = ensureSound();
-      if (!audioUrl) {
-        return;
-      }
-      await sound.stopPlayer();
-      await sound.startPlayer(audioUrl);
-      setPlaying(true);
-      onPlay && onPlay();
-    } catch (e) {
-      setPlaying(false);
-      logger.debug('Audio play error:', e);
-    }
+    beforePlay();
   };
 
   if (!audioUrl) {
@@ -127,11 +38,7 @@ export const AudioBtn = ({
   return (
     <VoicePlayButton
       onPress={onPress}
-      playDurationText={
-        isPlaying
-          ? toMmSs(currTime ?? 0)
-          : toMmSs(audioDurationSeconds ?? durationTime ?? 0)
-      }
+      playDurationText={toMmSs(audioDurationSeconds ?? 0)}
     />
   );
 };
