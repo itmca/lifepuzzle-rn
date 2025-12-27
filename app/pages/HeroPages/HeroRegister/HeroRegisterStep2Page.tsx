@@ -1,0 +1,91 @@
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { PageContainer } from '../../../components/ui/layout/PageContainer';
+import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
+import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
+import { Head, BodyTextM } from '../../../components/ui/base/TextBase';
+import { BasicCard } from '../../../components/ui/display/Card';
+import { BasicButton } from '../../../components/ui/form/Button';
+import { useHeroStore } from '../../../stores/hero.store';
+import { BasicNavigationProps } from '../../../navigation/types';
+import { Color } from '../../../constants/color.constant';
+import { getHeroImageUri } from '../../../utils/hero-image.util';
+
+const HERO_CARD_ASPECT_RATIO = 335 / 385;
+
+const HeroRegisterStep2Page = (): React.ReactElement => {
+  // Navigation
+  const navigation = useNavigation<BasicNavigationProps>();
+
+  // Zustand store
+  const { writingHero } = useHeroStore();
+
+  // Get hero profile image
+  const heroProfileImage = getHeroImageUri(writingHero);
+
+  const navigateToProfileSelector = () => {
+    navigation.navigate('App', {
+      screen: 'HeroSettingNavigator',
+      params: {
+        screen: 'HeroProfileSelector',
+      },
+    });
+  };
+
+  const handleNext = () => {
+    navigation.navigate('App', {
+      screen: 'HeroSettingNavigator',
+      params: {
+        screen: 'HeroRegisterStep3',
+      },
+    });
+  };
+
+  const handleSkip = () => {
+    navigation.navigate('App', {
+      screen: 'HeroSettingNavigator',
+      params: {
+        screen: 'HeroRegisterStep3',
+      },
+    });
+  };
+
+  return (
+    <PageContainer edges={['left', 'right', 'bottom']}>
+      <ScrollContainer>
+        <ContentContainer withScreenPadding gap={24}>
+          <ContentContainer gap={8}>
+            <Head>프로필 사진을 추가하세요</Head>
+            <BodyTextM color={Color.GREY_600}>
+              주인공의 얼굴이 잘 보이는 사진을 선택해주세요 (선택사항)
+            </BodyTextM>
+          </ContentContainer>
+
+          <ContentContainer aspectRatio={HERO_CARD_ASPECT_RATIO}>
+            <BasicCard
+              photoUrls={heroProfileImage ? [heroProfileImage] : []}
+              editable={true}
+              fallbackIconName={'cameraAdd'}
+              fallbackText={'클릭하여 프로필 이미지 추가'}
+              fallbackBackgroundColor={Color.GREY_100}
+              onPress={navigateToProfileSelector}
+            />
+          </ContentContainer>
+
+          <ContentContainer gap={12}>
+            <BasicButton text="다음" onPress={handleNext} />
+            <BasicButton
+              text="건너뛰기"
+              onPress={handleSkip}
+              backgroundColor={Color.WHITE}
+              textColor={Color.MAIN_DARK}
+              borderColor={Color.GREY_300}
+            />
+          </ContentContainer>
+        </ContentContainer>
+      </ScrollContainer>
+    </PageContainer>
+  );
+};
+
+export { HeroRegisterStep2Page };

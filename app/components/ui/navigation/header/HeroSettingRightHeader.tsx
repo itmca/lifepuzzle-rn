@@ -14,7 +14,7 @@ const HeroSettingRightHeader = (): React.ReactElement => {
           navigation.navigate('App', {
             screen: 'HeroSettingNavigator',
             params: {
-              screen: 'HeroRegister',
+              screen: 'HeroRegisterStep1',
             },
           });
         }}

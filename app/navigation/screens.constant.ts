@@ -50,7 +50,9 @@ export const APP_SCREENS = {
 // HeroSetting Navigator Screens
 export const HERO_SETTING_SCREENS = {
   HERO_SETTING: 'HeroSetting',
-  HERO_REGISTER: 'HeroRegister',
+  HERO_REGISTER_STEP1: 'HeroRegisterStep1',
+  HERO_REGISTER_STEP2: 'HeroRegisterStep2',
+  HERO_REGISTER_STEP3: 'HeroRegisterStep3',
   HERO_MODIFICATION: 'HeroModification',
   HERO_PROFILE_SELECTOR: 'HeroProfileSelector',
   HERO_SHARE: 'HeroShare',

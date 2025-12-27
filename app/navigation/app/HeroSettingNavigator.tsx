@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeroSettingPage } from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
-import { HeroRegisterPage } from '../../pages/HeroPages/HeroRegister/HeroRegisterPage';
+import { HeroRegisterStep1Page } from '../../pages/HeroPages/HeroRegister/HeroRegisterStep1Page';
+import { HeroRegisterStep2Page } from '../../pages/HeroPages/HeroRegister/HeroRegisterStep2Page';
+import { HeroRegisterStep3Page } from '../../pages/HeroPages/HeroRegister/HeroRegisterStep3Page';
 import { HeroModificationPage } from '../../pages/HeroPages/HeroModification/HeroModificationPage';
 import { HeroProfileSelectorPage } from '../../pages/HeroPages/HeroProfileSelector/HeroProfileSelectorPage.tsx';
 import { WritingHeaderRight } from '../../components/ui/navigation/header/WritingHeaderRight';
@@ -14,7 +16,9 @@ import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 export type HeroSettingParamList = {
   [HERO_SETTING_SCREENS.HERO_SETTING]: { shareKey?: string } | undefined;
-  [HERO_SETTING_SCREENS.HERO_REGISTER]: undefined;
+  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP1]: undefined;
+  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP2]: undefined;
+  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP3]: undefined;
   [HERO_SETTING_SCREENS.HERO_MODIFICATION]: { heroNo: number };
   [HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR]:
     | { selectedHeroPhoto?: PhotoIdentifier }
@@ -44,8 +48,8 @@ const HeroSettingNavigator = (): React.ReactElement => {
         }}
       />
       <Stack.Screen
-        name={HERO_SETTING_SCREENS.HERO_REGISTER}
-        component={HeroRegisterPage}
+        name={HERO_SETTING_SCREENS.HERO_REGISTER_STEP1}
+        component={HeroRegisterStep1Page}
         options={({ navigation }) => ({
           header: () => (
             <TopBar
@@ -55,10 +59,24 @@ const HeroSettingNavigator = (): React.ReactElement => {
                   navigation.goBack();
                 }
               }}
-              title={'주인공 추가'}
+              title={'주인공 추가 (1/3)'}
             />
           ),
         })}
+      />
+      <Stack.Screen
+        name={HERO_SETTING_SCREENS.HERO_REGISTER_STEP2}
+        component={HeroRegisterStep2Page}
+        options={{
+          header: () => <TopBar title={'주인공 추가 (2/3)'} />,
+        }}
+      />
+      <Stack.Screen
+        name={HERO_SETTING_SCREENS.HERO_REGISTER_STEP3}
+        component={HeroRegisterStep3Page}
+        options={{
+          header: () => <TopBar title={'주인공 추가 (3/3)'} />,
+        }}
       />
       <Stack.Screen
         name={HERO_SETTING_SCREENS.HERO_MODIFICATION}
