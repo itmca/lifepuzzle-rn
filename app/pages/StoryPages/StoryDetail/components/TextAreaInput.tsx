@@ -5,7 +5,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { TextInput } from 'react-native';
+import {
+  TextInput,
+  NativeSyntheticEvent,
+  TextInputContentSizeChangeEventData,
+  findNodeHandle,
+} from 'react-native';
 import { Color } from '../../../../constants/color.constant.ts';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer';
 import { BodyTextM } from '../../../../components/ui/base/TextBase';
@@ -18,6 +23,7 @@ type Props = {
   placeholder?: string;
   secureTextEntry?: boolean;
   onIsErrorChanged?: (isError: boolean) => void;
+  scrollViewRef?: React.RefObject<any>;
 };
 
 type TextValidation = {
@@ -39,10 +45,12 @@ const TextAreaInput = forwardRef<TextAreaInputRef, Props>(
       placeholder,
       validations = [],
       onIsErrorChanged,
+      scrollViewRef,
     },
     ref,
   ): React.ReactElement => {
     const inputRef = useRef<TextInput>(null);
+    const inputLayoutY = useRef<number>(0);
     const [focused, setFocused] = useState(false);
     const [changed, setChanged] = useState<boolean>(false);
     const [localText, setLocalText] = useState(text);
@@ -82,8 +90,36 @@ const TextAreaInput = forwardRef<TextAreaInputRef, Props>(
       onChangeText(localText);
     };
 
+    const handleContentSizeChange = (
+      event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>,
+    ) => {
+      if (!scrollViewRef?.current || !focused) {
+        return;
+      }
+
+      // TextInput 높이가 변경될 때 (줄바꿈 등) 약간의 딜레이 후 스크롤
+      // 키보드 애니메이션과 겹치지 않도록 딜레이 추가
+      const newHeight = event.nativeEvent.contentSize.height;
+      setTimeout(() => {
+        if (scrollViewRef?.current) {
+          // TextInput의 Y 좌표 + 새로운 높이를 기준으로 스크롤
+          // ScrollView 컨텐츠 내에서의 절대 위치 사용
+          scrollViewRef.current.scrollTo({
+            y: inputLayoutY.current + newHeight,
+            animated: true,
+          });
+        }
+      }, 100);
+    };
+
     return (
-      <ContentContainer gap={6} backgroundColor={Color.TRANSPARENT}>
+      <ContentContainer
+        gap={6}
+        backgroundColor={Color.TRANSPARENT}
+        onLayout={event => {
+          inputLayoutY.current = event.nativeEvent.layout.y;
+        }}
+      >
         {label && (
           <ContentContainer>
             <BodyTextM>{label}</BodyTextM>
@@ -107,6 +143,7 @@ const TextAreaInput = forwardRef<TextAreaInputRef, Props>(
             multiline
             onBlur={handleBlur}
             onFocus={() => setFocused(true)}
+            onContentSizeChange={handleContentSizeChange}
             placeholder={focused ? '' : placeholder}
             placeholderTextColor={Color.GREY_500}
             // BodyTextM Style

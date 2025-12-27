@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { ScrollView } from 'react-native';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { MediaCarousel } from './components/media/MediaCarousel';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -57,6 +58,7 @@ type ModalType = 'none' | 'pinch-zoom' | 'voice' | 'date-age' | 'detail-menu';
 const StoryDetailPage = (): React.ReactElement => {
   // Refs
   const textAreaRef = useRef<TextAreaInputRef>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
   const prevGalleryIdRef = useRef<number | null>(null);
 
   // React hooks - UI States
@@ -431,7 +433,11 @@ const StoryDetailPage = (): React.ReactElement => {
       edges={['left', 'right', 'bottom']}
       isLoading={isUpdatingDateAndAge}
     >
-      <ScrollContentContainer gap={0} dismissKeyboardOnPress>
+      <ScrollContentContainer
+        ref={scrollViewRef}
+        gap={0}
+        dismissKeyboardOnPress
+      >
         <ContentContainer paddingHorizontal={20} paddingTop={20}>
           {currentGalleryItem && (
             <Title color={Color.GREY_700}>
@@ -510,6 +516,7 @@ const StoryDetailPage = (): React.ReactElement => {
                           errorText: '1000자 이내로 입력해주세요',
                         },
                       ]}
+                      scrollViewRef={scrollViewRef}
                     />
                   </ContentContainer>
                   <ContentContainer width={100}>
