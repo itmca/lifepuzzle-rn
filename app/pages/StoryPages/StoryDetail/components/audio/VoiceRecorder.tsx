@@ -22,6 +22,8 @@ import {
   VoiceRecorderProps,
   VoiceRecorderRef,
 } from '../../../../../types/voice/voice-player.type';
+import Sound from 'react-native-nitro-sound';
+import { logger } from '../../../../../utils/logger.util.ts';
 
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
@@ -33,13 +35,22 @@ const initWaveData = [
 
 export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
   (
-    { source, onSave, onDelete, editable = true, onClose, isUploading },
+    {
+      source,
+      initialDurationSeconds,
+      onSave,
+      onDelete,
+      editable = true,
+      onClose,
+      isUploading,
+    },
     ref,
   ) => {
     // React hooks
     const [audioUri, setAudioUri] = useState<string | undefined>(source);
     const [waveData, setWaveData] = useState<number[]>(initWaveData);
     const [progress, setProgress] = useState(0);
+    const [isPlayLoading, setIsPlayLoading] = useState(false);
 
     // Custom hooks
     const {
@@ -53,6 +64,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
       resetPlayInfo,
     } = useVoiceRecorder({
       audioUrl: audioUri,
+      initialDurationSeconds,
       onStopRecord: (url: string) => {
         setAudioUri(url);
       },
@@ -90,12 +102,26 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
       }
     };
 
+    const handlePlayStart = async () => {
+      setIsPlayLoading(true);
+      try {
+        await startPlay();
+      } finally {
+        setIsPlayLoading(false);
+      }
+    };
+
     // Side effects
+    // source prop 변경 시 audioUri 업데이트
+    useEffect(() => {
+      setAudioUri(source);
+    }, [source]);
+
     useEffect(() => {
       const randomHeight = Math.random();
       setWaveData(prev => [...prev, randomHeight].slice(-50));
-      setProgress(Math.min((playInfo.currentDurationSec ?? 0) / 10000, 1));
-    }, [playInfo.currentDurationSec]);
+      setProgress(Math.min((playInfo.currentDurationMs ?? 0) / 10000, 1));
+    }, [playInfo.currentDurationMs]);
 
     return (
       <>
@@ -119,9 +145,9 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
                     alignSelf: 'stretch',
                     borderRadius: 100,
                     width:
-                      playInfo.currentPositionSec && playInfo.currentDurationSec
-                        ? (playInfo.currentPositionSec /
-                            playInfo.currentDurationSec) *
+                      playInfo.currentPositionMs && playInfo.currentDurationMs
+                        ? (playInfo.currentPositionMs /
+                            playInfo.currentDurationMs) *
                           DeviceWidth
                         : 0,
                   }}
@@ -131,20 +157,28 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
           </ContentContainer>
           <ContentContainer useHorizontalLayout>
             <Caption color={editable ? Color.GREY_300 : Color.GREY_800}>
-              {playInfo.playTime
-                ? playInfo.playTime.substring(
+              {playInfo.currentPositionMs
+                ? Sound.mmssss(
+                    Math.floor(playInfo.currentPositionMs),
+                  ).substring(
                     0,
-                    playInfo.playTime.lastIndexOf(':'),
+                    Sound.mmssss(
+                      Math.floor(playInfo.currentPositionMs),
+                    ).lastIndexOf(':'),
                   )
                 : '00:00'}
             </Caption>
             <Caption
               color={audioUri || isRecording ? Color.GREY_800 : Color.GREY_300}
             >
-              {playInfo.duration
-                ? playInfo.duration.substring(
+              {playInfo.currentDurationMs
+                ? Sound.mmssss(
+                    Math.floor(playInfo.currentDurationMs),
+                  ).substring(
                     0,
-                    playInfo.duration.lastIndexOf(':'),
+                    Sound.mmssss(
+                      Math.floor(playInfo.currentDurationMs),
+                    ).lastIndexOf(':'),
                   )
                 : '00:00'}
             </Caption>
@@ -159,7 +193,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
             playInfo.isPlay ? (
               <PauseButton onPress={pausePlay} />
             ) : (
-              <PlayButton onPress={startPlay} />
+              <PlayButton onPress={handlePlayStart} loading={isPlayLoading} />
             )
           ) : isRecording ? (
             <StopButton
@@ -176,6 +210,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
           <CheckButton
             visiable={isNewRecording}
             disabled={isUploading}
+            loading={isUploading}
             onPress={() => {
               stopPlay();
               onSave(audioUri ?? '');

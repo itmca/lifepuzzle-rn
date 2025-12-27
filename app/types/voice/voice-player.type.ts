@@ -4,18 +4,19 @@
 
 /**
  * 음성 재생 정보
+ *
+ * @description
+ * 원천 데이터(밀리초 단위)만 저장합니다.
+ * 표시 형식(MM:SS 등)은 각 사용처에서 변환합니다.
+ * react-native-nitro-sound 라이브러리와 단위 통일 (밀리초)
  */
 export type PlayInfo = {
   /** 재생 중 여부 */
   isPlay?: boolean;
-  /** 현재 재생 위치 (초) */
-  currentPositionSec?: number;
-  /** 전체 길이 (초) */
-  currentDurationSec?: number;
-  /** 현재 재생 시간 문자열 (MM:SS) */
-  playTime?: string;
-  /** 전체 길이 문자열 (MM:SS) */
-  duration?: string;
+  /** 현재 재생 위치 (밀리초) */
+  currentPositionMs?: number;
+  /** 전체 길이 (밀리초) */
+  currentDurationMs?: number;
 };
 
 /**
@@ -24,6 +25,8 @@ export type PlayInfo = {
 export type VoiceRecorderProps = {
   /** 음성 파일 URI */
   source?: string;
+  /** 초기 재생 시간 (초 단위) - 서버에서 받은 duration */
+  initialDurationSeconds?: number;
   /** 편집 가능 여부 (녹음/삭제 가능) */
   editable?: boolean;
   /** 업로드 중 여부 (체크 버튼 비활성화) */
@@ -50,6 +53,8 @@ export type VoiceRecorderRef = {
 export type VoiceRecorderHookProps = {
   /** 재생할 음성 파일 URL */
   audioUrl?: string;
+  /** 초기 재생 시간 (초 단위) - 서버에서 받은 duration */
+  initialDurationSeconds?: number;
   /** 녹음 시작 콜백 */
   onStartRecord?: () => void;
   /** 녹음 종료 콜백 */

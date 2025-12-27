@@ -25,6 +25,10 @@ type Props = {
    */
   voiceSource?: string;
   /**
+   * 음성 재생 시간 (초 단위)
+   */
+  audioDurationSeconds?: number;
+  /**
    * 업로드 중 로딩 상태
    */
   isLoading?: boolean;
@@ -87,6 +91,7 @@ export const VoiceBottomSheet = (props: Props): React.ReactElement => {
             <VoiceRecorder
               ref={voiceRecorderRef}
               source={props.voiceSource}
+              initialDurationSeconds={props.audioDurationSeconds}
               editable={props.editable}
               onSave={handleSave}
               onDelete={handleDelete}

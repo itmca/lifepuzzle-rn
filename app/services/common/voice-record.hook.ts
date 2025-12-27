@@ -8,7 +8,8 @@ import {
   VoiceRecorderHookProps,
   VoiceRecorderHookReturn,
 } from '../../types/voice/voice-player.type';
-import { getRecordFileName, getDisplayRecordTime } from './voice-record.util';
+import { getDisplayRecordTime, getRecordFileName } from './voice-record.util';
+import { logger } from '../../utils/logger.util.ts';
 
 /**
  * 음성 녹음 및 재생 관리 Custom Hook
@@ -34,11 +35,20 @@ import { getRecordFileName, getDisplayRecordTime } from './voice-record.util';
  */
 export const useVoiceRecorder = ({
   audioUrl,
+  initialDurationSeconds,
   onStartRecord,
   onStopRecord,
 }: VoiceRecorderHookProps): VoiceRecorderHookReturn => {
   // Local state (PlayInfo를 로컬로 관리)
-  const [playInfo, setPlayInfo] = useState<PlayInfo>({});
+  const [playInfo, setPlayInfo] = useState<PlayInfo>(() => {
+    // 초기 duration이 있으면 즉시 설정 (초 → 밀리초 변환)
+    if (initialDurationSeconds) {
+      return {
+        currentDurationMs: initialDurationSeconds * 1000,
+      };
+    }
+    return {};
+  });
   const [isRecording, setIsRecording] = useState(false);
   const [file, setFile] = useState<string>(audioUrl ?? '');
   const [recordTime, setRecordTime] = useState<string>('00:00:00');
@@ -86,8 +96,7 @@ export const useVoiceRecorder = ({
         );
         setRecordTime(hourMinuteSeconds);
         setPlayInfo({
-          currentDurationSec: e.currentPosition,
-          duration: Sound.mmssss(Math.floor(e.currentPosition)),
+          currentDurationMs: e.currentPosition,
         });
       });
 
@@ -118,17 +127,16 @@ export const useVoiceRecorder = ({
    * 재생 시작
    */
   const startPlay = useCallback(async () => {
-    setPlayInfo({ isPlay: true });
+    setPlayInfo(prev => ({ ...prev, isPlay: true }));
     const msg = await Sound.startPlayer(file);
     Sound.addPlayBackListener(e => {
       setPlayInfo({
-        currentPositionSec: e.currentPosition,
-        currentDurationSec: e.duration,
-        playTime: Sound.mmssss(Math.floor(e.currentPosition)),
-        duration: Sound.mmssss(Math.floor(e.duration)),
+        isPlay: true,
+        currentPositionMs: e.currentPosition,
+        currentDurationMs: e.duration,
       });
       if (e.currentPosition == e.duration) {
-        setPlayInfo({ isPlay: false });
+        setPlayInfo(prev => ({ ...prev, isPlay: false }));
         stopPlay();
       }
     });
@@ -139,7 +147,7 @@ export const useVoiceRecorder = ({
    */
   const pausePlay = useCallback(async () => {
     await Sound.pausePlayer();
-    setPlayInfo({ isPlay: false });
+    setPlayInfo(prev => ({ ...prev, isPlay: false }));
   }, []);
 
   /**
@@ -148,7 +156,7 @@ export const useVoiceRecorder = ({
   const stopPlay = useCallback(async () => {
     Sound.stopPlayer();
     Sound.removePlayBackListener();
-    setPlayInfo({ isPlay: false });
+    setPlayInfo(prev => ({ ...prev, isPlay: false }));
   }, []);
 
   /**
@@ -176,14 +184,12 @@ export const useVoiceRecorder = ({
 
         // playback listener를 통해 duration 정보 얻기
         Sound.addPlayBackListener(e => {
-          const durationSec = e.duration;
-          const durationStr = Sound.mmssss(Math.floor(durationSec));
+          const durationMs = e.duration;
 
-          // duration 정보를 playInfo에 설정
+          // duration 정보를 playInfo에 설정 (밀리초)
           setPlayInfo(prev => ({
             ...prev,
-            currentDurationSec: durationSec,
-            duration: durationStr,
+            currentDurationMs: durationMs,
           }));
 
           // 즉시 재생 중지
@@ -198,13 +204,26 @@ export const useVoiceRecorder = ({
     [isLoadingDuration],
   );
 
+  // initialDurationSeconds가 있으면 즉시 설정 (초 → 밀리초 변환)
+  useEffect(() => {
+    if (initialDurationSeconds) {
+      setPlayInfo({
+        currentDurationMs: initialDurationSeconds * 1000,
+      });
+    }
+  }, [initialDurationSeconds]);
+
   // audioUrl이 변경되면 duration 로드
   useEffect(() => {
     if (audioUrl && !isRecording) {
       setFile(audioUrl);
-      loadDuration(audioUrl);
+
+      // 초기 duration이 없으면 loadDuration 실행
+      if (!initialDurationSeconds) {
+        loadDuration(audioUrl);
+      }
     }
-  }, [audioUrl, isRecording, loadDuration]);
+  }, [audioUrl, isRecording, initialDurationSeconds, loadDuration]);
 
   return {
     fileName: file,

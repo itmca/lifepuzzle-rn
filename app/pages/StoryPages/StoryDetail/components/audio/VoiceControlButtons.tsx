@@ -1,4 +1,5 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import { Color } from '../../../../../constants/color.constant.ts';
 import { ButtonBase } from '../../../../../components/ui/base/ButtonBase';
 import {
@@ -17,6 +18,7 @@ type BaseProps = {
 type VoiceControlButtonProps = BaseProps & {
   type: ButtonType;
   disabled?: boolean;
+  loading?: boolean;
 };
 
 /**
@@ -85,6 +87,7 @@ export const VoiceControlButton = ({
   visiable = true,
   onPress,
   disabled,
+  loading,
 }: VoiceControlButtonProps): React.ReactElement => {
   const config = BUTTON_CONFIG[type];
 
@@ -108,9 +111,13 @@ export const VoiceControlButton = ({
       borderRadius={config.height}
       onPress={onPress}
       borderInside
-      disabled={disabled}
+      disabled={disabled || loading}
     >
-      <SvgIcon name={config.icon} color={iconColor} size={config.size} />
+      {loading ? (
+        <ActivityIndicator size="large" color={Color.MAIN_DARK} />
+      ) : (
+        <SvgIcon name={config.icon} color={iconColor} size={config.size} />
+      )}
     </ButtonBase>
   );
 };
@@ -140,18 +147,27 @@ export const PauseButton = ({ onPress }: BaseProps): React.ReactElement => {
   return <VoiceControlButton type="pause" onPress={onPress} />;
 };
 
-export const PlayButton = ({ onPress }: BaseProps): React.ReactElement => {
-  return <VoiceControlButton type="play" onPress={onPress} />;
+type PlayButtonProps = BaseProps & {
+  loading?: boolean;
+};
+
+export const PlayButton = ({
+  onPress,
+  loading,
+}: PlayButtonProps): React.ReactElement => {
+  return <VoiceControlButton type="play" onPress={onPress} loading={loading} />;
 };
 
 type CheckButtonProps = BaseProps & {
   disabled?: boolean;
+  loading?: boolean;
 };
 
 export const CheckButton = ({
   onPress,
   visiable,
   disabled,
+  loading,
 }: CheckButtonProps): React.ReactElement => {
   return (
     <VoiceControlButton
@@ -159,6 +175,7 @@ export const CheckButton = ({
       visiable={visiable}
       onPress={onPress}
       disabled={disabled}
+      loading={loading}
     />
   );
 };
