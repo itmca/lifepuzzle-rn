@@ -9,7 +9,6 @@ export type HeroType = {
   imageUrl?: string; // 네이밍 일관성: imageURL → imageUrl
   birthday: Date;
   isLunar?: boolean; // optional로 변경 (일관성)
-  title?: string;
   modifiedImage?: PhotoIdentifier;
   puzzleCnt?: number;
   auth?: HeroAuthTypeCode;
@@ -22,7 +21,6 @@ export type WritingHeroType = {
   nickName?: string;
   birthday?: Date;
   isLunar?: boolean;
-  title?: string;
   imageUrl?: string; // 네이밍 일관성
   modifiedImage?: PhotoIdentifier;
   profileImageUpdate?: boolean;
