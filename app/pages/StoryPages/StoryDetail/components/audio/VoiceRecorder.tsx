@@ -23,6 +23,7 @@ import {
   VoiceRecorderRef,
 } from '../../../../../types/voice/voice-player.type';
 import Sound from 'react-native-nitro-sound';
+import { logger } from '../../../../../utils/logger.util.ts';
 
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
@@ -119,8 +120,8 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
     useEffect(() => {
       const randomHeight = Math.random();
       setWaveData(prev => [...prev, randomHeight].slice(-50));
-      setProgress(Math.min((playInfo.currentDurationSec ?? 0) / 10000, 1));
-    }, [playInfo.currentDurationSec]);
+      setProgress(Math.min((playInfo.currentDurationMs ?? 0) / 10000, 1));
+    }, [playInfo.currentDurationMs]);
 
     return (
       <>
@@ -144,9 +145,9 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
                     alignSelf: 'stretch',
                     borderRadius: 100,
                     width:
-                      playInfo.currentPositionSec && playInfo.currentDurationSec
-                        ? (playInfo.currentPositionSec /
-                            playInfo.currentDurationSec) *
+                      playInfo.currentPositionMs && playInfo.currentDurationMs
+                        ? (playInfo.currentPositionMs /
+                            playInfo.currentDurationMs) *
                           DeviceWidth
                         : 0,
                   }}
@@ -156,13 +157,13 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
           </ContentContainer>
           <ContentContainer useHorizontalLayout>
             <Caption color={editable ? Color.GREY_300 : Color.GREY_800}>
-              {playInfo.currentPositionSec
+              {playInfo.currentPositionMs
                 ? Sound.mmssss(
-                    Math.floor(playInfo.currentPositionSec),
+                    Math.floor(playInfo.currentPositionMs),
                   ).substring(
                     0,
                     Sound.mmssss(
-                      Math.floor(playInfo.currentPositionSec),
+                      Math.floor(playInfo.currentPositionMs),
                     ).lastIndexOf(':'),
                   )
                 : '00:00'}
@@ -170,13 +171,13 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
             <Caption
               color={audioUri || isRecording ? Color.GREY_800 : Color.GREY_300}
             >
-              {playInfo.currentDurationSec
+              {playInfo.currentDurationMs
                 ? Sound.mmssss(
-                    Math.floor(playInfo.currentDurationSec),
+                    Math.floor(playInfo.currentDurationMs),
                   ).substring(
                     0,
                     Sound.mmssss(
-                      Math.floor(playInfo.currentDurationSec),
+                      Math.floor(playInfo.currentDurationMs),
                     ).lastIndexOf(':'),
                   )
                 : '00:00'}

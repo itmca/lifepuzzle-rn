@@ -41,10 +41,10 @@ export const useVoiceRecorder = ({
 }: VoiceRecorderHookProps): VoiceRecorderHookReturn => {
   // Local state (PlayInfo를 로컬로 관리)
   const [playInfo, setPlayInfo] = useState<PlayInfo>(() => {
-    // 초기 duration이 있으면 즉시 설정
+    // 초기 duration이 있으면 즉시 설정 (초 → 밀리초 변환)
     if (initialDurationSeconds) {
       return {
-        currentDurationSec: initialDurationSeconds,
+        currentDurationMs: initialDurationSeconds * 1000,
       };
     }
     return {};
@@ -96,7 +96,7 @@ export const useVoiceRecorder = ({
         );
         setRecordTime(hourMinuteSeconds);
         setPlayInfo({
-          currentDurationSec: e.currentPosition,
+          currentDurationMs: e.currentPosition,
         });
       });
 
@@ -132,8 +132,8 @@ export const useVoiceRecorder = ({
     Sound.addPlayBackListener(e => {
       setPlayInfo({
         isPlay: true,
-        currentPositionSec: e.currentPosition,
-        currentDurationSec: e.duration,
+        currentPositionMs: e.currentPosition,
+        currentDurationMs: e.duration,
       });
       if (e.currentPosition == e.duration) {
         setPlayInfo(prev => ({ ...prev, isPlay: false }));
@@ -184,12 +184,12 @@ export const useVoiceRecorder = ({
 
         // playback listener를 통해 duration 정보 얻기
         Sound.addPlayBackListener(e => {
-          const durationSec = e.duration;
+          const durationMs = e.duration;
 
-          // duration 정보를 playInfo에 설정
+          // duration 정보를 playInfo에 설정 (밀리초)
           setPlayInfo(prev => ({
             ...prev,
-            currentDurationSec: durationSec,
+            currentDurationMs: durationMs,
           }));
 
           // 즉시 재생 중지
@@ -204,11 +204,11 @@ export const useVoiceRecorder = ({
     [isLoadingDuration],
   );
 
-  // initialDurationSeconds가 있으면 즉시 설정
+  // initialDurationSeconds가 있으면 즉시 설정 (초 → 밀리초 변환)
   useEffect(() => {
     if (initialDurationSeconds) {
       setPlayInfo({
-        currentDurationSec: initialDurationSeconds,
+        currentDurationMs: initialDurationSeconds * 1000,
       });
     }
   }, [initialDurationSeconds]);
