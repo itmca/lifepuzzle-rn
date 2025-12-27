@@ -175,18 +175,6 @@ const HomePage = (): React.ReactElement => {
   }, [sharedImageData?.type, hero?.name, selectedTag?.key, activeBottomSheet]);
 
   useEffect(() => {
-    // Only validate selectedTag on initial load, not during refresh
-    if (!tags?.length || isFetching) {
-      return;
-    }
-
-    const isSelectedValid = tags.some(tag => tag.key === selectedTag?.key);
-    if (!isSelectedValid) {
-      setSelectedTag({ ...tags[0] });
-    }
-  }, [tags, selectedTag?.key, setSelectedTag, isFetching]);
-
-  useEffect(() => {
     if (!isLoading && !hasLoadedOnce) {
       setHasLoadedOnce(true);
     }

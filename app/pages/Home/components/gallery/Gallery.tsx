@@ -78,6 +78,7 @@ const Gallery = ({
   // React hooks
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoUri, setVideoUri] = useState<string>('');
+  const [isDragging, setIsDragging] = useState(false);
 
   // 글로벌 상태 관리 (Zustand)
   const ageGroups = useMediaStore(state => state.ageGroups);
@@ -235,15 +236,14 @@ const Gallery = ({
     [onScrollYChange],
   );
 
-  const handleHorizontalMomentumEnd = useCallback(
-    (event: any) => {
-      if (!tags || tags.length === 0) {
-        return;
-      }
+  const handleScrollBeginDrag = useCallback(() => {
+    setIsDragging(true);
+  }, []);
 
-      // 태그 클릭으로 인한 스크롤인 경우 무시
-      if (isTagClickScrolling.current) {
-        isTagClickScrolling.current = false;
+  const handleScrollEndDrag = useCallback(
+    (event: any) => {
+      if (!isDragging || !tags || tags.length === 0) {
+        setIsDragging(false);
         return;
       }
 
@@ -253,8 +253,10 @@ const Gallery = ({
       if (nextTag && nextTag.key !== selectedTag?.key) {
         setSelectedTag({ ...nextTag });
       }
+
+      setIsDragging(false);
     },
-    [tags, windowWidth, setSelectedTag, selectedTag?.key],
+    [isDragging, tags, windowWidth, selectedTag?.key, setSelectedTag],
   );
 
   const handleGalleryItemPress = useCallback(
@@ -453,24 +455,25 @@ const Gallery = ({
           </ScrollContentContainer>
         </ContentContainer>
 
-        <FlatList
-          ref={horizontalListRef}
-          data={ageGroupsArray}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={handleHorizontalMomentumEnd}
-          {...(ageGroupsArray.length > 0
-            ? { initialScrollIndex: defaultIndex }
-            : {})}
-          getItemLayout={(_, index) => ({
-            index,
-            length: windowWidth,
-            offset: windowWidth * index,
-          })}
-          renderItem={renderGridList}
-          keyExtractor={(item, index) => `${item}-${index}`}
-        />
+        {tags && tags.length > 0 && selectedTag && (
+          <FlatList
+            ref={horizontalListRef}
+            data={ageGroupsArray}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onScrollBeginDrag={handleScrollBeginDrag}
+            onScrollEndDrag={handleScrollEndDrag}
+            initialScrollIndex={defaultIndex}
+            getItemLayout={(_, index) => ({
+              index,
+              length: windowWidth,
+              offset: windowWidth * index,
+            })}
+            renderItem={renderGridList}
+            keyExtractor={(item, index) => `${item}-${index}`}
+          />
+        )}
       </ContentContainer>
       {videoModalOpen && (
         <VideoModal
