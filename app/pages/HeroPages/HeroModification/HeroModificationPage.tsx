@@ -48,7 +48,6 @@ const HeroModificationPage = (): React.ReactElement => {
       nickName: hero.nickName,
       birthday: hero.birthday,
       isLunar: hero.isLunar,
-      title: hero.title,
       imageUrl: hero.imageUrl,
       modifiedImage: currentPhoto,
     });

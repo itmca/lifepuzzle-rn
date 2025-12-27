@@ -29,7 +29,6 @@ const addHeroData = (
     nickName: writingHero?.nickName,
     birthday: writingHero?.birthday,
     isLunar: writingHero?.isLunar,
-    title: writingHero?.title,
     imageUrl: imgPath ?? '',
     profileImageUpdate: writingHero?.profileImageUpdate ?? false,
   };

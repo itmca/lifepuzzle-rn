@@ -17,7 +17,6 @@ const defaultWritingHero: WritingHeroType = {
   name: '',
   nickName: '',
   birthday: new Date(1948, 1, 1),
-  title: '',
   imageUrl: undefined,
   modifiedImage: undefined,
   profileImageUpdate: false,
