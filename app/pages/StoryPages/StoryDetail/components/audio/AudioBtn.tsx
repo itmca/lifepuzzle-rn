@@ -7,6 +7,7 @@ import { VoicePlayButton } from './VoicePlayButton';
 
 type AudioBtnProps = {
   audioUrl?: string;
+  audioDuration?: number;
   disabled?: boolean;
   onPlay: () => void;
 };
@@ -21,6 +22,7 @@ type AudioBtnProps = {
  */
 export const AudioBtn = ({
   audioUrl,
+  audioDuration,
   disabled,
   onPlay,
 }: AudioBtnProps): React.ReactElement => {
@@ -28,7 +30,9 @@ export const AudioBtn = ({
   const soundRef = useRef<ReturnType<typeof createSound> | null>(null);
   const listenersAttached = useRef<boolean>(false);
   const [currTime, setCurrTime] = useState<number>();
-  const [durationTime, setDurationTime] = useState<number>();
+  const [durationTime, setDurationTime] = useState<number | undefined>(
+    audioDuration,
+  );
   const [isPlaying, setPlaying] = useState<boolean>(false);
 
   const attachListeners = useCallback(() => {
@@ -86,7 +90,7 @@ export const AudioBtn = ({
   useEffect(() => {
     setPlaying(false);
     setCurrTime(undefined);
-    setDurationTime(undefined);
+    setDurationTime(audioDuration);
     try {
       soundRef.current?.stopPlayer();
       soundRef.current?.removePlayBackListener();
@@ -95,7 +99,7 @@ export const AudioBtn = ({
     } finally {
       listenersAttached.current = false;
     }
-  }, [audioUrl]);
+  }, [audioUrl, audioDuration]);
 
   const onPress = async () => {
     if (disabled) {
