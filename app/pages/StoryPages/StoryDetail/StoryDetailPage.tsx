@@ -36,8 +36,9 @@ import { useStoryDraftManager } from '../../../hooks/useStoryDraftManager';
 import type { StoryViewRouteProps } from '../../../navigation/types';
 import { STORY_VIEW_SCREENS } from '../../../navigation/screens.constant';
 import { VoiceAddButton } from './components/audio/VoiceAddButton';
-import { AudioBtn } from './components/audio/AudioBtn';
+import { VoicePlayButton } from './components/audio/VoicePlayButton';
 import { VoiceBottomSheet } from './components/bottom-sheet/VoiceBottomSheet';
+import { toMmSs } from '../../../utils/time-formatter.util';
 import { useHeroStore } from '../../../stores/hero.store';
 import { StoryDateAgeBottomSheet } from './components/bottom-sheet/StoryDateAgeBottomSheet';
 import { AgeType } from '../../../types/core/media.type';
@@ -559,12 +560,11 @@ const StoryDetailPage = (): React.ReactElement => {
               )}
               <ContentContainer paddingVertical={10}>
                 {currentGalleryItem?.story?.audios?.[0] ? (
-                  <AudioBtn
-                    audioUrl={currentGalleryItem.story.audios[0]}
-                    audioDurationSeconds={
-                      currentGalleryItem.story.audioDurationSeconds
-                    }
-                    onPlay={() => setActiveModal('voice')}
+                  <VoicePlayButton
+                    onPress={() => setActiveModal('voice')}
+                    playDurationText={toMmSs(
+                      currentGalleryItem.story.audioDurationSeconds ?? 0,
+                    )}
                   />
                 ) : (
                   <VoiceAddButton onPress={() => setActiveModal('voice')} />
