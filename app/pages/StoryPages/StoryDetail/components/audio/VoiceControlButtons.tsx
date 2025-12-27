@@ -130,17 +130,34 @@ export const VoiceControlButton = ({
  * 내부적으로는 VoiceControlButton을 사용
  */
 
+type RecordButtonProps = BaseProps & {
+  loading?: boolean;
+};
+
 export const RecordButton = ({
   visiable = true,
   onPress,
-}: BaseProps): React.ReactElement => {
+  loading,
+}: RecordButtonProps): React.ReactElement => {
   return (
-    <VoiceControlButton type="record" visiable={visiable} onPress={onPress} />
+    <VoiceControlButton
+      type="record"
+      visiable={visiable}
+      onPress={onPress}
+      loading={loading}
+    />
   );
 };
 
-export const StopButton = ({ onPress }: BaseProps): React.ReactElement => {
-  return <VoiceControlButton type="stop" onPress={onPress} />;
+type StopButtonProps = BaseProps & {
+  loading?: boolean;
+};
+
+export const StopButton = ({
+  onPress,
+  loading,
+}: StopButtonProps): React.ReactElement => {
+  return <VoiceControlButton type="stop" onPress={onPress} loading={loading} />;
 };
 
 export const PauseButton = ({ onPress }: BaseProps): React.ReactElement => {

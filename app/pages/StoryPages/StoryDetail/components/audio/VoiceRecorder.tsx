@@ -51,6 +51,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
     const [waveData, setWaveData] = useState<number[]>(initWaveData);
     const [progress, setProgress] = useState(0);
     const [isPlayLoading, setIsPlayLoading] = useState(false);
+    const [isRecordLoading, setIsRecordLoading] = useState(false);
 
     // Custom hooks
     const {
@@ -108,6 +109,26 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
         await startPlay();
       } finally {
         setIsPlayLoading(false);
+      }
+    };
+
+    const handleRecordStart = async () => {
+      setIsRecordLoading(true);
+      try {
+        await startRecord();
+      } finally {
+        setIsRecordLoading(false);
+      }
+    };
+
+    const handleRecordStop = async () => {
+      setIsRecordLoading(true);
+      try {
+        setProgress(0);
+        setWaveData(initWaveData);
+        await stopRecord();
+      } finally {
+        setIsRecordLoading(false);
       }
     };
 
@@ -196,16 +217,12 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
               <PlayButton onPress={handlePlayStart} loading={isPlayLoading} />
             )
           ) : isRecording ? (
-            <StopButton
-              onPress={() => {
-                setProgress(0);
-                setWaveData(initWaveData);
-
-                stopRecord();
-              }}
-            />
+            <StopButton onPress={handleRecordStop} loading={isRecordLoading} />
           ) : (
-            <RecordButton onPress={startRecord} />
+            <RecordButton
+              onPress={handleRecordStart}
+              loading={isRecordLoading}
+            />
           )}
           <CheckButton
             visiable={isNewRecording}
