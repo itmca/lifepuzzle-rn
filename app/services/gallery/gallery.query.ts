@@ -87,8 +87,14 @@ export const useGalleries = (): UseGalleriesReturn => {
     }
 
     setIsError(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.data, hero?.birthday]);
+  }, [
+    query.data,
+    hero?.birthday,
+    selectedTag,
+    setSelectedTag,
+    setAgeGroups,
+    setTags,
+  ]);
 
   useEffect(() => {
     if (query.isError) {
