@@ -208,19 +208,23 @@ export const useVoiceRecorder = ({
     [isLoadingDuration],
   );
 
+  // initialDurationSeconds가 있으면 즉시 설정
+  useEffect(() => {
+    if (initialDurationSeconds) {
+      setPlayInfo({
+        currentDurationSec: initialDurationSeconds,
+        duration: Sound.mmssss(Math.floor(initialDurationSeconds)),
+      });
+    }
+  }, [initialDurationSeconds]);
+
   // audioUrl이 변경되면 duration 로드
   useEffect(() => {
     if (audioUrl && !isRecording) {
       setFile(audioUrl);
 
-      // 초기 duration이 있으면 즉시 설정하고 loadDuration은 스킵
-      if (initialDurationSeconds) {
-        setPlayInfo({
-          currentDurationSec: initialDurationSeconds,
-          duration: Sound.mmssss(Math.floor(initialDurationSeconds)),
-        });
-      } else {
-        // 초기 duration이 없으면 loadDuration 실행
+      // 초기 duration이 없으면 loadDuration 실행
+      if (!initialDurationSeconds) {
         loadDuration(audioUrl);
       }
     }
