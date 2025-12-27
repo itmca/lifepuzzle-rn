@@ -110,6 +110,11 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
     };
 
     // Side effects
+    // source prop 변경 시 audioUri 업데이트
+    useEffect(() => {
+      setAudioUri(source);
+    }, [source]);
+
     useEffect(() => {
       const randomHeight = Math.random();
       setWaveData(prev => [...prev, randomHeight].slice(-50));
