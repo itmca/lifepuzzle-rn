@@ -33,7 +33,15 @@ const initWaveData = [
 
 export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
   (
-    { source, onSave, onDelete, editable = true, onClose, isUploading },
+    {
+      source,
+      initialDurationSeconds,
+      onSave,
+      onDelete,
+      editable = true,
+      onClose,
+      isUploading,
+    },
     ref,
   ) => {
     // React hooks
@@ -54,6 +62,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
       resetPlayInfo,
     } = useVoiceRecorder({
       audioUrl: audioUri,
+      initialDurationSeconds,
       onStopRecord: (url: string) => {
         setAudioUri(url);
       },

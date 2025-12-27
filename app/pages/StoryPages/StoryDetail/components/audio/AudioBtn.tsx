@@ -128,7 +128,9 @@ export const AudioBtn = ({
     <VoicePlayButton
       onPress={onPress}
       playDurationText={
-        isPlaying ? toMmSs(currTime ?? 0) : toMmSs(durationTime ?? 0)
+        isPlaying
+          ? toMmSs(currTime ?? 0)
+          : toMmSs(audioDurationSeconds ?? durationTime ?? 0)
       }
     />
   );

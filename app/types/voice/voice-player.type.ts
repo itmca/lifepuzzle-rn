@@ -24,6 +24,8 @@ export type PlayInfo = {
 export type VoiceRecorderProps = {
   /** 음성 파일 URI */
   source?: string;
+  /** 초기 재생 시간 (초 단위) - 서버에서 받은 duration */
+  initialDurationSeconds?: number;
   /** 편집 가능 여부 (녹음/삭제 가능) */
   editable?: boolean;
   /** 업로드 중 여부 (체크 버튼 비활성화) */
@@ -50,6 +52,8 @@ export type VoiceRecorderRef = {
 export type VoiceRecorderHookProps = {
   /** 재생할 음성 파일 URL */
   audioUrl?: string;
+  /** 초기 재생 시간 (초 단위) - 서버에서 받은 duration */
+  initialDurationSeconds?: number;
   /** 녹음 시작 콜백 */
   onStartRecord?: () => void;
   /** 녹음 종료 콜백 */

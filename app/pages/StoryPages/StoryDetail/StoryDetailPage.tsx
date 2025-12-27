@@ -596,6 +596,7 @@ const StoryDetailPage = (): React.ReactElement => {
         onSaveVoice={handleVoiceSave}
         onDeleteVoice={handleVoiceDelete}
         voiceSource={currentGalleryItem?.story?.audios?.[0]}
+        audioDurationSeconds={currentGalleryItem?.story?.audioDurationSeconds}
         isLoading={isVoiceLoading}
       />
       {currentGalleryItem && currentHero && tags && (

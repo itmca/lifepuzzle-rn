@@ -34,11 +34,21 @@ import { getRecordFileName, getDisplayRecordTime } from './voice-record.util';
  */
 export const useVoiceRecorder = ({
   audioUrl,
+  initialDurationSeconds,
   onStartRecord,
   onStopRecord,
 }: VoiceRecorderHookProps): VoiceRecorderHookReturn => {
   // Local state (PlayInfo를 로컬로 관리)
-  const [playInfo, setPlayInfo] = useState<PlayInfo>({});
+  const [playInfo, setPlayInfo] = useState<PlayInfo>(() => {
+    // 초기 duration이 있으면 즉시 설정
+    if (initialDurationSeconds) {
+      return {
+        currentDurationSec: initialDurationSeconds,
+        duration: Sound.mmssss(Math.floor(initialDurationSeconds)),
+      };
+    }
+    return {};
+  });
   const [isRecording, setIsRecording] = useState(false);
   const [file, setFile] = useState<string>(audioUrl ?? '');
   const [recordTime, setRecordTime] = useState<string>('00:00:00');
@@ -202,9 +212,19 @@ export const useVoiceRecorder = ({
   useEffect(() => {
     if (audioUrl && !isRecording) {
       setFile(audioUrl);
-      loadDuration(audioUrl);
+
+      // 초기 duration이 있으면 즉시 설정하고 loadDuration은 스킵
+      if (initialDurationSeconds) {
+        setPlayInfo({
+          currentDurationSec: initialDurationSeconds,
+          duration: Sound.mmssss(Math.floor(initialDurationSeconds)),
+        });
+      } else {
+        // 초기 duration이 없으면 loadDuration 실행
+        loadDuration(audioUrl);
+      }
     }
-  }, [audioUrl, isRecording, loadDuration]);
+  }, [audioUrl, isRecording, initialDurationSeconds, loadDuration]);
 
   return {
     fileName: file,
