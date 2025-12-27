@@ -9,6 +9,7 @@ import {
   TextInput,
   NativeSyntheticEvent,
   TextInputContentSizeChangeEventData,
+  LayoutChangeEvent,
   findNodeHandle,
 } from 'react-native';
 import { Color } from '../../../../constants/color.constant.ts';
@@ -116,7 +117,7 @@ const TextAreaInput = forwardRef<TextAreaInputRef, Props>(
       <ContentContainer
         gap={6}
         backgroundColor={Color.TRANSPARENT}
-        onLayout={event => {
+        onLayout={(event: LayoutChangeEvent) => {
           inputLayoutY.current = event.nativeEvent.layout.y;
         }}
       >

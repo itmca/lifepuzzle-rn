@@ -1,7 +1,10 @@
 import React from 'react';
 import { Color } from '../../../../../constants/color.constant.ts';
 import { ButtonBase } from '../../../../../components/ui/base/ButtonBase';
-import { SvgIcon } from '../../../../../components/ui/display/SvgIcon.tsx';
+import {
+  IconName,
+  SvgIcon,
+} from '../../../../../components/ui/display/SvgIcon.tsx';
 import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
 
 type ButtonType = 'record' | 'stop' | 'pause' | 'play' | 'check' | 'delete';
@@ -22,7 +25,7 @@ type VoiceControlButtonProps = BaseProps & {
 const BUTTON_CONFIG: Record<
   ButtonType,
   {
-    icon: string;
+    icon: IconName;
     size: number;
     height: number;
     getColor: (disabled?: boolean) => string;
