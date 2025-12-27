@@ -554,7 +554,9 @@ const StoryDetailPage = (): React.ReactElement => {
                 {currentGalleryItem?.story?.audios?.[0] ? (
                   <AudioBtn
                     audioUrl={currentGalleryItem.story.audios[0]}
-                    audioDuration={currentGalleryItem.story.audioDuration}
+                    audioDurationSeconds={
+                      currentGalleryItem.story.audioDurationSeconds
+                    }
                     onPlay={() => setActiveModal('voice')}
                   />
                 ) : (
