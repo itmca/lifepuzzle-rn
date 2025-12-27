@@ -5,10 +5,6 @@ import { useAuthMutation } from '../core/auth-mutation.hook';
 import { showErrorToast, showToast } from '../../components/ui/feedback/Toast';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
 import { useUpdatePublisher } from '../common/cache-observer.hook';
-import {
-  HookProps,
-  UserAuthRequestBody,
-} from '../../types/hooks/user-update.type';
 import { useFieldValidation } from '../auth/validation.hook';
 import { useErrorHandler } from '../common/error-handler.hook';
 import { useUserStore } from '../../stores/user.store';
@@ -16,6 +12,17 @@ import { useAuthStore } from '../../stores/auth.store';
 import { UserPayloadService } from './user-payload.service';
 import { useLogout } from '../auth/logout.hook';
 import { queryKeys } from '../core/query-keys';
+import { HeroAuthTypeCode } from '../../constants/auth.constant';
+
+export type HookProps = {
+  onSuccess?: () => void;
+};
+
+export type UserAuthRequestBody = {
+  heroId: number;
+  userId: number;
+  heroAuthStatus: HeroAuthTypeCode;
+};
 
 export type UseUpdateUserProfileReturn = {
   updateUserProfile: () => void;

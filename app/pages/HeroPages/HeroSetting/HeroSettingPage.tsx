@@ -4,7 +4,7 @@ import {
   BasicNavigationProps,
   HeroSettingRouteProps,
 } from '../../../navigation/types';
-import { HeroesQueryResponse } from '../../../types/hooks/hero-query.type';
+import { HeroesQueryResponse } from '../../../services/hero/hero.query';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { useUpdateObserver } from '../../../services/common/cache-observer.hook.ts';
 import {
@@ -20,7 +20,7 @@ import { useUserStore } from '../../../stores/user.store';
 import { useAuthQuery } from '../../../services/core/auth-query.hook.ts';
 import { useAuthMutation } from '../../../services/core/auth-mutation.hook.ts';
 import { LoadingContainer } from '../../../components/ui/feedback/LoadingContainer.tsx';
-import { transformHeroesQueryResponse } from '../../../utils/hero-transformer.util.ts';
+import { transformHeroesQueryResponse } from '../../../services/hero/hero-transformer.util.ts';
 import { HeroUserType } from '../../../types/core/hero.type.ts';
 import { useHeroCarousel } from './hooks/useHeroCarousel';
 import { useHeroSelection } from './hooks/useHeroSelection';

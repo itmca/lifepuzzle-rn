@@ -3,8 +3,7 @@ import { ContentContainer } from '../../../../../components/ui/layout/ContentCon
 
 import { useNavigation } from '@react-navigation/native';
 
-import { VoiceRecorder } from '../audio/VoiceRecorder';
-import { VoiceRecorderRef } from '../../../../../types/voice/voice-player.type';
+import { VoiceRecorder, VoiceRecorderRef } from '../audio/VoiceRecorder';
 import { BasicNavigationProps } from '../../../../../navigation/types.tsx';
 import { BottomSheet } from '../../../../../components/ui/interaction/BottomSheet.tsx';
 import { LoadingContainer } from '../../../../../components/ui/feedback/LoadingContainer';

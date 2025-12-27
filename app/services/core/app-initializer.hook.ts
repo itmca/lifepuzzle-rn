@@ -6,7 +6,7 @@ import { useHeroStore } from '../../stores/hero.store.ts';
 import { useUpdateObserver } from '../common/cache-observer.hook.ts';
 import { LocalStorage } from './local-storage.service.ts';
 import { getTokenState } from './auth.service.ts';
-import { HeroQueryResponse } from '../../types/hooks/hero-query.type.ts';
+import { HeroQueryResponse } from '../hero/hero.query';
 import { useAuthMutation } from './auth-mutation.hook.ts';
 
 export const useFetchLocalStorageUserHero = (): void => {
