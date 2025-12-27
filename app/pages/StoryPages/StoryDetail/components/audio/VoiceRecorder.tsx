@@ -40,6 +40,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
     const [audioUri, setAudioUri] = useState<string | undefined>(source);
     const [waveData, setWaveData] = useState<number[]>(initWaveData);
     const [progress, setProgress] = useState(0);
+    const [isPlayLoading, setIsPlayLoading] = useState(false);
 
     // Custom hooks
     const {
@@ -87,6 +88,15 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
       // 새로 녹음한 게 아니면 (기존 저장된 음성이면) 서버 삭제
       if (!isNewRecording) {
         onDelete?.();
+      }
+    };
+
+    const handlePlayStart = async () => {
+      setIsPlayLoading(true);
+      try {
+        await startPlay();
+      } finally {
+        setIsPlayLoading(false);
       }
     };
 
@@ -159,7 +169,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
             playInfo.isPlay ? (
               <PauseButton onPress={pausePlay} />
             ) : (
-              <PlayButton onPress={startPlay} />
+              <PlayButton onPress={handlePlayStart} loading={isPlayLoading} />
             )
           ) : isRecording ? (
             <StopButton
@@ -176,6 +186,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
           <CheckButton
             visiable={isNewRecording}
             disabled={isUploading}
+            loading={isUploading}
             onPress={() => {
               stopPlay();
               onSave(audioUri ?? '');
