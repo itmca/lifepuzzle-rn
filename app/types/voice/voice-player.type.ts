@@ -3,7 +3,33 @@
  */
 
 /**
- * 음성 재생 정보
+ * 플레이어 상태 (State Machine Pattern)
+ *
+ * @description
+ * 각 상태는 명확히 구분되며, 불가능한 상태 조합을 타입 레벨에서 방지합니다.
+ * - idle: 초기 상태 (녹음도 재생도 하지 않음)
+ * - recording: 녹음 중
+ * - ready: 재생 가능한 오디오 파일이 있는 상태 (정지 상태)
+ * - playing: 재생 중
+ * - paused: 일시정지 (재생 위치 유지)
+ */
+export type PlayerState =
+  | { status: 'idle' }
+  | { status: 'recording'; currentDurationMs: number }
+  | { status: 'ready'; currentDurationMs: number }
+  | {
+      status: 'playing';
+      currentPositionMs: number;
+      currentDurationMs: number;
+    }
+  | {
+      status: 'paused';
+      currentPositionMs: number;
+      currentDurationMs: number;
+    };
+
+/**
+ * 음성 재생 정보 (하위 호환성 유지)
  *
  * @description
  * 원천 데이터(밀리초 단위)만 저장합니다.
@@ -13,6 +39,8 @@
 export type PlayInfo = {
   /** 재생 중 여부 */
   isPlay?: boolean;
+  /** 일시정지 상태 여부 */
+  isPaused?: boolean;
   /** 현재 재생 위치 (밀리초) */
   currentPositionMs?: number;
   /** 전체 길이 (밀리초) */
