@@ -2,8 +2,13 @@ import { useState } from 'react';
 import { AxiosError } from 'axios';
 import { useAuthMutation } from '../core/auth-mutation.hook.ts';
 import { FacebookPhotosResponse } from '../../types/external/facebook.type.ts';
-import { UseFacebookPhotosProps } from '../../types/hooks/facebook.type.ts';
 import { logger } from '../../utils/logger.util.ts';
+
+export type UseFacebookPhotosProps = {
+  onSuccess?: (photos: FacebookPhotosResponse) => void;
+  onError?: (error: AxiosError) => void;
+};
+
 export const useFacebookPhotos = ({
   onSuccess,
   onError,

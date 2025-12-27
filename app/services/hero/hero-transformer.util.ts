@@ -1,5 +1,5 @@
-import { HeroType, HeroWithPuzzleCntType } from '../types/core/hero.type.ts';
-import { HeroQueryResponse } from '../types/hooks/hero-query.type.ts';
+import { HeroType, HeroWithPuzzleCntType } from '../../types/core/hero.type.ts';
+import { HeroQueryResponse } from './hero.query';
 
 /**
  * HeroQueryResponse를 HeroWithPuzzleCntType으로 변환

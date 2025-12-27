@@ -1,19 +1,25 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { HeroType } from '../../types/core/hero.type';
-import {
-  HeroesQueryResponse,
-  HeroQueryResponse,
-} from '../../types/hooks/hero-query.type';
+import { HeroType, HeroUserType } from '../../types/core/hero.type';
 import { useAuthQuery } from '../core/auth-query.hook';
 import { queryKeys } from '../core/query-keys';
-import { extractHeroesFromQueryResponse } from '../../utils/hero-transformer.util';
+import { extractHeroesFromQueryResponse } from './hero-transformer.util';
 
 export type UseHeroReturn = {
   hero: HeroType | undefined;
   isLoading: boolean;
   isError: boolean;
   refetch: () => void;
+};
+
+export type HeroesQueryResponse = {
+  heroes: HeroQueryResponse[];
+};
+
+export type HeroQueryResponse = {
+  hero: HeroType;
+  puzzleCnt: number;
+  users: HeroUserType[];
 };
 
 export const useHero = (heroNo: number): UseHeroReturn => {

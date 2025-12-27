@@ -18,10 +18,6 @@ import {
 import { Caption } from '../../../../../components/ui/base/TextBase';
 import { useVoiceRecorder } from '../../../../../services/common/voice-record.hook.ts';
 import { Waveform } from './WaveForm';
-import {
-  VoiceRecorderProps,
-  VoiceRecorderRef,
-} from '../../../../../types/voice/voice-player.type';
 import Sound from 'react-native-nitro-sound';
 import { logger } from '../../../../../utils/logger.util.ts';
 
@@ -32,6 +28,28 @@ const initWaveData = [
   0.7, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8,
   0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4,
 ];
+
+export type VoiceRecorderProps = {
+  /** 음성 파일 URI */
+  source?: string;
+  /** 초기 재생 시간 (초 단위) - 서버에서 받은 duration */
+  initialDurationSeconds?: number;
+  /** 편집 가능 여부 (녹음/삭제 가능) */
+  editable?: boolean;
+  /** 업로드 중 여부 (체크 버튼 비활성화) */
+  isUploading?: boolean;
+  /** 음성 저장 콜백 */
+  onSave: (uri: string) => void;
+  /** 음성 삭제 콜백 */
+  onDelete?: () => void;
+  /** 닫기 콜백 */
+  onClose?: () => void;
+};
+
+export type VoiceRecorderRef = {
+  /** 모든 오디오 정지 */
+  stopAllAudio: () => void;
+};
 
 export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
   (
