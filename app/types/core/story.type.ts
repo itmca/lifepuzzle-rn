@@ -5,6 +5,7 @@ export type StoryType = {
   question: string;
   photos: string[];
   audios: string[];
+  audioDuration?: number;
   videos: string[];
   gallery: string[];
   tags: StoryTag[];
