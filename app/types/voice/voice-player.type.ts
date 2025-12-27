@@ -4,6 +4,10 @@
 
 /**
  * 음성 재생 정보
+ *
+ * @description
+ * 원천 데이터(초 단위)만 저장합니다.
+ * 표시 형식(MM:SS 등)은 각 사용처에서 변환합니다.
  */
 export type PlayInfo = {
   /** 재생 중 여부 */
@@ -12,10 +16,6 @@ export type PlayInfo = {
   currentPositionSec?: number;
   /** 전체 길이 (초) */
   currentDurationSec?: number;
-  /** 현재 재생 시간 문자열 (MM:SS) */
-  playTime?: string;
-  /** 전체 길이 문자열 (MM:SS) */
-  duration?: string;
 };
 
 /**

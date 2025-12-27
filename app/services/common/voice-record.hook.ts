@@ -8,7 +8,8 @@ import {
   VoiceRecorderHookProps,
   VoiceRecorderHookReturn,
 } from '../../types/voice/voice-player.type';
-import { getRecordFileName, getDisplayRecordTime } from './voice-record.util';
+import { getDisplayRecordTime, getRecordFileName } from './voice-record.util';
+import { logger } from '../../utils/logger.util.ts';
 
 /**
  * 음성 녹음 및 재생 관리 Custom Hook
@@ -44,7 +45,6 @@ export const useVoiceRecorder = ({
     if (initialDurationSeconds) {
       return {
         currentDurationSec: initialDurationSeconds,
-        duration: Sound.mmssss(Math.floor(initialDurationSeconds)),
       };
     }
     return {};
@@ -97,7 +97,6 @@ export const useVoiceRecorder = ({
         setRecordTime(hourMinuteSeconds);
         setPlayInfo({
           currentDurationSec: e.currentPosition,
-          duration: Sound.mmssss(Math.floor(e.currentPosition)),
         });
       });
 
@@ -128,17 +127,16 @@ export const useVoiceRecorder = ({
    * 재생 시작
    */
   const startPlay = useCallback(async () => {
-    setPlayInfo({ isPlay: true });
+    setPlayInfo(prev => ({ ...prev, isPlay: true }));
     const msg = await Sound.startPlayer(file);
     Sound.addPlayBackListener(e => {
       setPlayInfo({
+        isPlay: true,
         currentPositionSec: e.currentPosition,
         currentDurationSec: e.duration,
-        playTime: Sound.mmssss(Math.floor(e.currentPosition)),
-        duration: Sound.mmssss(Math.floor(e.duration)),
       });
       if (e.currentPosition == e.duration) {
-        setPlayInfo({ isPlay: false });
+        setPlayInfo(prev => ({ ...prev, isPlay: false }));
         stopPlay();
       }
     });
@@ -149,7 +147,7 @@ export const useVoiceRecorder = ({
    */
   const pausePlay = useCallback(async () => {
     await Sound.pausePlayer();
-    setPlayInfo({ isPlay: false });
+    setPlayInfo(prev => ({ ...prev, isPlay: false }));
   }, []);
 
   /**
@@ -158,7 +156,7 @@ export const useVoiceRecorder = ({
   const stopPlay = useCallback(async () => {
     Sound.stopPlayer();
     Sound.removePlayBackListener();
-    setPlayInfo({ isPlay: false });
+    setPlayInfo(prev => ({ ...prev, isPlay: false }));
   }, []);
 
   /**
@@ -187,13 +185,11 @@ export const useVoiceRecorder = ({
         // playback listener를 통해 duration 정보 얻기
         Sound.addPlayBackListener(e => {
           const durationSec = e.duration;
-          const durationStr = Sound.mmssss(Math.floor(durationSec));
 
           // duration 정보를 playInfo에 설정
           setPlayInfo(prev => ({
             ...prev,
             currentDurationSec: durationSec,
-            duration: durationStr,
           }));
 
           // 즉시 재생 중지
@@ -213,7 +209,6 @@ export const useVoiceRecorder = ({
     if (initialDurationSeconds) {
       setPlayInfo({
         currentDurationSec: initialDurationSeconds,
-        duration: Sound.mmssss(Math.floor(initialDurationSeconds)),
       });
     }
   }, [initialDurationSeconds]);

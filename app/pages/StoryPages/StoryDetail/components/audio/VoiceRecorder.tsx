@@ -22,6 +22,7 @@ import {
   VoiceRecorderProps,
   VoiceRecorderRef,
 } from '../../../../../types/voice/voice-player.type';
+import Sound from 'react-native-nitro-sound';
 
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
@@ -155,20 +156,28 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
           </ContentContainer>
           <ContentContainer useHorizontalLayout>
             <Caption color={editable ? Color.GREY_300 : Color.GREY_800}>
-              {playInfo.playTime
-                ? playInfo.playTime.substring(
+              {playInfo.currentPositionSec
+                ? Sound.mmssss(
+                    Math.floor(playInfo.currentPositionSec),
+                  ).substring(
                     0,
-                    playInfo.playTime.lastIndexOf(':'),
+                    Sound.mmssss(
+                      Math.floor(playInfo.currentPositionSec),
+                    ).lastIndexOf(':'),
                   )
                 : '00:00'}
             </Caption>
             <Caption
               color={audioUri || isRecording ? Color.GREY_800 : Color.GREY_300}
             >
-              {playInfo.duration
-                ? playInfo.duration.substring(
+              {playInfo.currentDurationSec
+                ? Sound.mmssss(
+                    Math.floor(playInfo.currentDurationSec),
+                  ).substring(
                     0,
-                    playInfo.duration.lastIndexOf(':'),
+                    Sound.mmssss(
+                      Math.floor(playInfo.currentDurationSec),
+                    ).lastIndexOf(':'),
                   )
                 : '00:00'}
             </Caption>
