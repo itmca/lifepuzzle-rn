@@ -9,6 +9,7 @@ import { useAuthStore } from '../../stores/auth.store.ts';
 import { useUserStore } from '../../stores/user.store.ts';
 import { useHeroStore } from '../../stores/hero.store.ts';
 import { useShareStore } from '../../stores/share.store.ts';
+import { showToast } from '../../components/ui/feedback/Toast';
 
 type Option = {
   customGoBackAction?: () => void;
@@ -43,6 +44,7 @@ export const useLoginResponseHandler = (option?: Option) => {
     } else {
       // hasHero가 false이면 주인공 추가 화면으로 이동
       if (!user.hasHero) {
+        showToast('기록을 시작하기 전에, 주인공을 먼저 추가해 주세요');
         navigation.navigate('App', {
           screen: 'HeroSettingNavigator',
           params: {
