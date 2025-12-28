@@ -19,6 +19,7 @@ import {
 import { Color } from '../../../constants/color.constant';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
 import { formatDateWithDay } from '../../../utils/date-formatter.util';
+import { showToast } from '../../../components/ui/feedback/Toast';
 
 const HERO_CARD_ASPECT_RATIO = 335 / 385;
 
@@ -52,6 +53,10 @@ const HeroRegisterStep3Page = (): React.ReactElement => {
         navigation.navigate('App', {
           screen: 'Home',
         });
+        // Show welcome toast after navigation with delay to avoid overlap with creation toast
+        setTimeout(() => {
+          showToast('이제 소중한 순간들을 기록해보세요');
+        }, 1000);
       };
     } else {
       // User came from HeroSettingPage, navigate back to it
