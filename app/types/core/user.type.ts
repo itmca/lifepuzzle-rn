@@ -9,4 +9,5 @@ export type UserType = {
   userType: 'general' | 'kakao' | 'apple' | 'none';
   modifiedImage?: PhotoIdentifier;
   profileImageUpdate: boolean;
+  hasHero: boolean;
 };

@@ -20,6 +20,7 @@ const defaultWritingUser: UserType = {
   imageUrl: '',
   modifiedImage: undefined,
   profileImageUpdate: false,
+  hasHero: false,
 };
 
 export const useUserStore = create<UserState>((set, get) => ({

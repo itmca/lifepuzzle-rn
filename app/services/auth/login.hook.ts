@@ -41,9 +41,19 @@ export const useLoginResponseHandler = (option?: Option) => {
     if (typeof option?.customGoBackAction === 'function') {
       option?.customGoBackAction();
     } else {
-      navigation.navigate('App', {
-        screen: 'Home',
-      });
+      // hasHero가 false이면 주인공 추가 화면으로 이동
+      if (!user.hasHero) {
+        navigation.navigate('App', {
+          screen: 'HeroSettingNavigator',
+          params: {
+            screen: 'HeroRegisterStep1',
+          },
+        });
+      } else {
+        navigation.navigate('App', {
+          screen: 'Home',
+        });
+      }
     }
   };
 };
