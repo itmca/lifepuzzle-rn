@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 import {
   BodyTextB,
-  Caption,
+  CaptionB,
   Head,
 } from '../../../../components/ui/base/TextBase';
 import { BasicButton } from '../../../../components/ui/form/Button';
@@ -55,15 +55,15 @@ const HeroInfoSectionComponent = ({
             alignItems={'flex-start'}
             gap={4}
           >
-            <Caption color={Color.GREY_600}>
+            <CaptionB color={Color.GREY_600}>
               {hero.isLunar ? '음력' : '양력'}
-            </Caption>
-            <Caption color={Color.GREY_700}>
+            </CaptionB>
+            <CaptionB color={Color.GREY_700}>
               {dayjs(hero.birthday).format('YYYY.MM.DD')}
-            </Caption>
-            <Caption color={Color.GREY_600}>
+            </CaptionB>
+            <CaptionB color={Color.GREY_600}>
               (만 {toInternationalAge(hero.birthday)}세)
-            </Caption>
+            </CaptionB>
           </ContentContainer>
         </ContentContainer>
         <ContentContainer width={'auto'}>

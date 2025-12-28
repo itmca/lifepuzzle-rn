@@ -15,7 +15,7 @@ import { ShareButton } from './ShareButton';
 import { HeroAvatar } from '../avatar/HeroAvatar';
 import {
   BodyTextM,
-  Caption,
+  CaptionB,
   Head,
 } from '../../../../components/ui/base/TextBase';
 import { Color } from '../../../../constants/color.constant.ts';
@@ -136,11 +136,11 @@ const HeroSection = ({
                 gap={2}
                 withNoBackground
               >
-                <Caption color={Color.GREY_600}>
+                <CaptionB color={Color.GREY_600}>
                   {dayjs(hero.birthday).format('YYYY.MM.DD')}
-                </Caption>
+                </CaptionB>
                 {age !== undefined ? (
-                  <Caption color={Color.GREY_700}>{`(${age}세)`}</Caption>
+                  <CaptionB color={Color.GREY_700}>{`(${age}세)`}</CaptionB>
                 ) : null}
               </ContentContainer>
             ) : null}

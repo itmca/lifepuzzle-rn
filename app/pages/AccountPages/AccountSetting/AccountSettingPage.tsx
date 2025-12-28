@@ -10,7 +10,7 @@ import { TouchableOpacity } from 'react-native';
 import { AccountAvatar } from '../../../components/ui/display/Avatar';
 import {
   BodyTextM,
-  Caption,
+  CaptionB,
   Head,
   Title,
 } from '../../../components/ui/base/TextBase';
@@ -116,10 +116,10 @@ const AccountSettingPage = (): React.ReactElement => {
               paddingTop={16}
               paddingBottom={insets.bottom + 16}
             >
-              <Caption color={Color.GREY_300}>designed by 박유나</Caption>
-              <Caption color={Color.GREY_300}>
+              <CaptionB color={Color.GREY_300}>designed by 박유나</CaptionB>
+              <CaptionB color={Color.GREY_300}>
                 developed by 오솔미 이시은 정주온 정지현
-              </Caption>
+              </CaptionB>
             </ContentContainer>
           </ContentContainer>
         </>

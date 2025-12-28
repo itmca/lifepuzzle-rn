@@ -92,10 +92,20 @@ export const BodyTextM = (props: CustomTextProps) => (
   />
 );
 
-export const Caption = (props: CustomTextProps) => (
+export const CaptionB = (props: CustomTextProps) => (
   <TextBase
     fontSize={12}
     fontFamily={'SUIT-Bold'}
+    lineHeightPercent={140}
+    letterSpacing={-0.25}
+    {...props}
+  />
+);
+
+export const CaptionM = (props: CustomTextProps) => (
+  <TextBase
+    fontSize={12}
+    fontFamily={'SUIT-Medium'}
     lineHeightPercent={140}
     letterSpacing={-0.25}
     {...props}

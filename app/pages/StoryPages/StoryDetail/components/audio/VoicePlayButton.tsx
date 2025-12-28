@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Color } from '../../../../../constants/color.constant';
 import { ButtonBase } from '../../../../../components/ui/base/ButtonBase';
-import { Caption } from '../../../../../components/ui/base/TextBase';
+import { CaptionB } from '../../../../../components/ui/base/TextBase';
 import { SvgIcon } from '../../../../../components/ui/display/SvgIcon.tsx';
 
 type Props = {
@@ -30,7 +30,7 @@ export const VoicePlayButton = ({
       borderInside
     >
       <SvgIcon name={'play'} color={Color.MAIN_DARK} size={20} />
-      <Caption color={Color.MAIN_DARK}>{playDurationText}</Caption>
+      <CaptionB color={Color.MAIN_DARK}>{playDurationText}</CaptionB>
     </ButtonBase>
   );
 };

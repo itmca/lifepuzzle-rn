@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { LayoutChangeEvent, TouchableOpacity } from 'react-native';
 import { Color, ColorType } from '../../../constants/color.constant.ts';
-import { Caption } from '../base/TextBase.tsx';
+import { CaptionB } from '../base/TextBase.tsx';
 import { IconName, SvgIcon } from './SvgIcon.tsx';
 import { ContentContainer } from '../layout/ContentContainer.tsx';
 
@@ -60,9 +60,9 @@ function Tag({
         alignCenter
       >
         {icon && <SvgIcon name={icon} color={iconColor} size={16} />}
-        <Caption color={iconColor ? iconColor : getTxColor(color)}>
+        <CaptionB color={iconColor ? iconColor : getTxColor(color)}>
           {text ?? ''}
-        </Caption>
+        </CaptionB>
       </ContentContainer>
     </StyledTag>
   );

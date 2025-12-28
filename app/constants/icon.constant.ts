@@ -41,7 +41,6 @@ import Owner from '../assets/icons/owner.svg';
 import Pencil from '../assets/icons/pencil.svg';
 
 import PictureNone from '../assets/icons/picture_none.svg';
-import Picture from '../assets/icons/picture.svg';
 
 import Play from '../assets/icons/play.svg';
 import Plus from '../assets/icons/plus.svg';
@@ -118,7 +117,6 @@ export const Svgs = {
 
   pencil: Pencil,
   pictureNone: PictureNone,
-  picture: Picture,
   play: Play,
   plus: Plus,
   profile: Profile,

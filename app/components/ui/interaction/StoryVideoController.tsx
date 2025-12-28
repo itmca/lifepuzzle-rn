@@ -5,7 +5,7 @@ import { Bar } from 'react-native-progress';
 import { Color } from '../../../constants/color.constant';
 import { toMmSs } from '../../../utils/time-formatter.util.ts';
 import { ContentContainer } from '../layout/ContentContainer';
-import { Caption } from '../base/TextBase';
+import { CaptionB } from '../base/TextBase';
 import { SvgIcon } from '../display/SvgIcon.tsx';
 
 type Props = {
@@ -87,10 +87,10 @@ export const VideoController = ({
                 withNoBackground
                 paddingHorizontal={4}
               >
-                <Caption color={Color.WHITE}>
+                <CaptionB color={Color.WHITE}>
                   {toMmSs(currentProgress * duration)}
-                </Caption>
-                <Caption color={Color.WHITE}>{playingTime}</Caption>
+                </CaptionB>
+                <CaptionB color={Color.WHITE}>{playingTime}</CaptionB>
               </ContentContainer>
 
               <TouchableWithoutFeedback onPress={handleProgress}>
