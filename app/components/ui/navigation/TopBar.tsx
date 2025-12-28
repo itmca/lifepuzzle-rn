@@ -14,12 +14,14 @@ type Props = {
   customGoBackAction?: () => void;
   title?: string;
   right?: React.ReactElement;
+  hideBackButton?: boolean;
 };
 
 export const TopBar = ({
   title = '',
   right,
   customGoBackAction,
+  hideBackButton = false,
 }: Props): React.ReactElement => {
   const navigation = useNavigation<BasicNavigationProps>();
   return (
@@ -30,21 +32,29 @@ export const TopBar = ({
         paddingHorizontal={13}
         height={50}
       >
-        <Pressable
-          onPress={() => {
-            if (typeof customGoBackAction === 'function') {
-              customGoBackAction();
-            } else {
-              if (navigation.canGoBack()) {
-                navigation.goBack();
-              }
-            }
-          }}
-        >
-          <SvgIcon name={'chevronLeft'} />
-        </Pressable>
-        <Title>{title}</Title>
-        {right ? right : <ContentContainer width={24} />}
+        <ContentContainer width={70}>
+          {!hideBackButton && (
+            <Pressable
+              onPress={() => {
+                if (typeof customGoBackAction === 'function') {
+                  customGoBackAction();
+                } else {
+                  if (navigation.canGoBack()) {
+                    navigation.goBack();
+                  }
+                }
+              }}
+            >
+              <SvgIcon name={'chevronLeft'} />
+            </Pressable>
+          )}
+        </ContentContainer>
+        <ContentContainer flex={1} alignItems="center">
+          <Title>{title}</Title>
+        </ContentContainer>
+        <ContentContainer width={70} alignItems="flex-end">
+          {right}
+        </ContentContainer>
       </ContentContainer>
     </TopNavigationContainer>
   );
