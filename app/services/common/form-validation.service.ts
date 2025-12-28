@@ -1,9 +1,9 @@
-import { Alert } from 'react-native';
+import { showErrorToast } from '../../components/ui/feedback/Toast';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
 
 /**
  * 폼 검증을 위한 공통 서비스
- * Alert와 CustomAlert를 사용하여 사용자에게 검증 결과를 표시합니다.
+ * Toast와 CustomAlert를 사용하여 사용자에게 검증 결과를 표시합니다.
  */
 export const FormValidationService = {
   /**
@@ -14,7 +14,7 @@ export const FormValidationService = {
    */
   validateRequired(value: string | undefined, fieldName: string): boolean {
     if (!value || value.trim() === '') {
-      Alert.alert(`${fieldName}을(를) 입력해주세요.`);
+      showErrorToast(`${fieldName}을(를) 입력해주세요.`);
       return false;
     }
     return true;
@@ -33,7 +33,7 @@ export const FormValidationService = {
     fieldName: string,
   ): boolean {
     if (value && value.length > maxLength) {
-      Alert.alert(`${fieldName}은(는) ${maxLength}자 이내로 입력해주세요.`);
+      showErrorToast(`${fieldName}은(는) ${maxLength}자 이내로 입력해주세요.`);
       return false;
     }
     return true;

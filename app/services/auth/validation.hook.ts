@@ -2,6 +2,7 @@ import { Alert } from 'react-native';
 import { useAuthStore } from '../../stores/auth.store.ts';
 import { BasicNavigationProps } from '../../navigation/types.tsx';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
+import { showErrorToast } from '../../components/ui/feedback/Toast';
 
 export const useFieldValidation = () => {
   const validateRequired = (
@@ -9,7 +10,7 @@ export const useFieldValidation = () => {
     fieldName: string,
   ): boolean => {
     if (!value || value.trim() === '') {
-      Alert.alert(`${fieldName}을(를) 입력해주세요.`);
+      showErrorToast(`${fieldName}을(를) 입력해주세요.`);
       return false;
     }
     return true;
@@ -21,7 +22,7 @@ export const useFieldValidation = () => {
     fieldName: string,
   ): boolean => {
     if (value && value.length > maxLength) {
-      Alert.alert(`${fieldName}은(는) ${maxLength}자 이내로 입력해주세요.`);
+      showErrorToast(`${fieldName}은(는) ${maxLength}자 이내로 입력해주세요.`);
       return false;
     }
     return true;
