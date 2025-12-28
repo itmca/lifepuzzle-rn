@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Color } from '../../../constants/color.constant';
 
 import { ContentContainer } from '../layout/ContentContainer';
-import { Caption } from '../base/TextBase';
+import { CaptionB } from '../base/TextBase';
 
 type Props = {
   visible: boolean;
@@ -46,9 +46,9 @@ const MediaCarouselPagination = ({
         backgroundColor={Color.GREY_700}
         zIndex={100}
       >
-        <Caption color={Color.GREY_100}>{`${
+        <CaptionB color={Color.GREY_100}>{`${
           activeMediaIndexNo + 1
-        } / ${mediaCount}`}</Caption>
+        } / ${mediaCount}`}</CaptionB>
       </ContentContainer>
     </View>
   );

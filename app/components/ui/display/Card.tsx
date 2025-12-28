@@ -2,7 +2,7 @@ import React from 'react';
 import { ContentContainer } from '../layout/ContentContainer';
 import { Color, ColorType } from '../../../constants/color.constant.ts';
 import { IconName, SvgIcon } from './SvgIcon.tsx';
-import { BodyTextB, Caption } from '../base/TextBase';
+import { BodyTextB, CaptionB } from '../base/TextBase';
 import { AdaptiveImage } from '../base/ImageBase';
 import { TouchableOpacity } from 'react-native';
 
@@ -131,7 +131,7 @@ export const BasicCard = ({
               backgroundColor={Color.GREY_800}
               opacity={0.8}
             >
-              <Caption color={Color.WHITE}>+{count - 4}</Caption>
+              <CaptionB color={Color.WHITE}>+{count - 4}</CaptionB>
             </ContentContainer>
           </ContentContainer>
         )}

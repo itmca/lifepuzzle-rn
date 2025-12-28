@@ -9,7 +9,7 @@ import { Color } from '../../../constants/color.constant.ts';
 import {
   BodyTextB,
   BodyTextM,
-  Caption,
+  CaptionB,
   Title,
 } from '../../../components/ui/base/TextBase';
 import { formatDateToTodayOrYYMMDD } from '../../../utils/date-formatter.util.ts';
@@ -80,12 +80,12 @@ const AiPhotoWorkHistoryPage = (): React.ReactElement => {
                 by {item.createdBy ?? ''}
               </BodyTextB>
               <ContentContainer gap={0}>
-                <Caption color={Color.GREY_300}>
+                <CaptionB color={Color.GREY_300}>
                   {formatDateToTodayOrYYMMDD(item.requestedAt)} 요청
-                </Caption>
-                <Caption color={Color.GREY_300}>
+                </CaptionB>
+                <CaptionB color={Color.GREY_300}>
                   {formatDateToTodayOrYYMMDD(item.completedAt)} 완료
-                </Caption>
+                </CaptionB>
               </ContentContainer>
             </>
           )}

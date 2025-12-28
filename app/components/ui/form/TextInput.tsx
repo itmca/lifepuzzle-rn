@@ -3,7 +3,7 @@ import { TextInput } from 'react-native';
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { Color } from '../../../constants/color.constant';
 import { ContentContainer } from '../layout/ContentContainer';
-import { BodyTextM, Caption } from '../base/TextBase';
+import { BodyTextM, CaptionB } from '../base/TextBase';
 import { SvgIcon } from '../display/SvgIcon';
 
 type Props = {
@@ -165,11 +165,11 @@ const BasicTextInput = ({
           gap={2}
         >
           <SvgIcon name={'error'} size={16} />
-          <Caption color={Color.ERROR_300}>
+          <CaptionB color={Color.ERROR_300}>
             {typeof violated?.errorText === 'function'
               ? violated?.errorText(localValue)
               : violated?.errorText}
-          </Caption>
+          </CaptionB>
         </ContentContainer>
       ) : null}
     </ContentContainer>

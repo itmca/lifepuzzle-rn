@@ -15,11 +15,10 @@ import {
   RecordButton,
   StopButton,
 } from './VoiceControlButtons';
-import { Caption } from '../../../../../components/ui/base/TextBase';
+import { CaptionB } from '../../../../../components/ui/base/TextBase';
 import { useVoiceRecorder } from '../../../../../services/common/voice-record.hook.ts';
 import { Waveform } from './WaveForm';
 import Sound from 'react-native-nitro-sound';
-import { logger } from '../../../../../utils/logger.util.ts';
 
 const initWaveData = [
   0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.6, 0.3, 0.5, 0.4, 0.2, 0.8, 0.3, 0.5,
@@ -195,7 +194,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
             )}
           </ContentContainer>
           <ContentContainer useHorizontalLayout>
-            <Caption color={editable ? Color.GREY_300 : Color.GREY_800}>
+            <CaptionB color={editable ? Color.GREY_300 : Color.GREY_800}>
               {playInfo.currentPositionMs
                 ? Sound.mmssss(
                     Math.floor(playInfo.currentPositionMs),
@@ -206,8 +205,8 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
                     ).lastIndexOf(':'),
                   )
                 : '00:00'}
-            </Caption>
-            <Caption
+            </CaptionB>
+            <CaptionB
               color={audioUri || isRecording ? Color.GREY_800 : Color.GREY_300}
             >
               {playInfo.currentDurationMs
@@ -220,7 +219,7 @@ export const VoiceRecorder = forwardRef<VoiceRecorderRef, VoiceRecorderProps>(
                     ).lastIndexOf(':'),
                   )
                 : '00:00'}
-            </Caption>
+            </CaptionB>
           </ContentContainer>
         </ContentContainer>
         <ContentContainer useHorizontalLayout height={64} alignCenter gap={28}>

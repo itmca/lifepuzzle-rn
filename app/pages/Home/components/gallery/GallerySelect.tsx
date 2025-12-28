@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { TagType } from '../../../../types/core/media.type';
 import { Color } from '../../../../constants/color.constant.ts';
-import { Caption } from '../../../../components/ui/base/TextBase';
+import { CaptionB } from '../../../../components/ui/base/TextBase';
 import { ContentContainer } from '../../../../components/ui/layout/ContentContainer.tsx';
 
 type props = {
@@ -25,7 +25,7 @@ const GallerySelect = ({ item, index, selected, onSelect }: props) => {
           borderRadius={6}
           borderColor={Color.SUB_TEAL}
         >
-          <Caption color={Color.WHITE}>{item.label}</Caption>
+          <CaptionB color={Color.WHITE}>{item.label}</CaptionB>
         </ContentContainer>
       </TouchableOpacity>
     );
@@ -41,7 +41,7 @@ const GallerySelect = ({ item, index, selected, onSelect }: props) => {
           borderRadius={6}
           borderColor={Color.GREY_100}
         >
-          <Caption color={Color.GREY_600}>{item.label}</Caption>
+          <CaptionB color={Color.GREY_600}>{item.label}</CaptionB>
         </ContentContainer>
       </TouchableOpacity>
     );

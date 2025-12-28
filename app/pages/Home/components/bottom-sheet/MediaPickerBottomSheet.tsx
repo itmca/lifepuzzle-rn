@@ -9,7 +9,7 @@ import { IconName, SvgIcon } from '../../../../components/ui/display/SvgIcon';
 import {
   BodyTextB,
   BodyTextM,
-  Caption,
+  CaptionB,
 } from '../../../../components/ui/base/TextBase';
 import { Color } from '../../../../constants/color.constant';
 import { BasicNavigationProps } from '../../../../navigation/types';
@@ -214,9 +214,9 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
             </ContentContainer>
             <Divider marginVertical={8} />
             <ContentContainer paddingHorizontal={12} paddingVertical={12}>
-              <Caption color={Color.GREY_400}>
+              <CaptionB color={Color.GREY_400}>
                 * 외부 앱의 공유하기 기능으로도 추가할 수 있습니다
-              </Caption>
+              </CaptionB>
             </ContentContainer>
           </>
         )}

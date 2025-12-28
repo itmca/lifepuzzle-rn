@@ -1,7 +1,7 @@
 import React from 'react';
 import { Color } from '../../../../../constants/color.constant.ts';
 import { ButtonBase } from '../../../../../components/ui/base/ButtonBase';
-import { Caption } from '../../../../../components/ui/base/TextBase';
+import { CaptionB } from '../../../../../components/ui/base/TextBase';
 import { SvgIcon } from '../../../../../components/ui/display/SvgIcon.tsx';
 import { ContentContainer } from '../../../../../components/ui/layout/ContentContainer';
 
@@ -37,7 +37,7 @@ export const AiPhotoButton = ({
         borderInside
       >
         <SvgIcon name={'aiSmall'} color={Color.AI_500} size={16} />
-        <Caption color={Color.GREY_600}>AI 포토 만들기</Caption>
+        <CaptionB color={Color.GREY_600}>AI 포토 만들기</CaptionB>
       </ButtonBase>
     </ContentContainer>
   );
