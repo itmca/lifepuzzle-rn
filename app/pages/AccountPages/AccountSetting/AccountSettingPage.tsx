@@ -27,6 +27,7 @@ type AccountQueryResponse = {
   imageUrl: string;
   recentHeroNo: number;
   userType: 'general' | 'kakao' | 'apple' | 'none';
+  hasHero: boolean;
 };
 
 /**
