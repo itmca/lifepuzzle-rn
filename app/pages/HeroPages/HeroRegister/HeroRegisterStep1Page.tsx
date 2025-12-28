@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -12,12 +12,16 @@ import { BasicTextInput } from '../../../components/ui/form/TextInput.tsx';
 import { CustomDateInput } from '../../../components/ui/interaction/CustomDateInput.tsx';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { useHeroStore } from '../../../stores/hero.store';
-import { BasicNavigationProps } from '../../../navigation/types';
+import {
+  BasicNavigationProps,
+  HeroSettingRouteProps,
+} from '../../../navigation/types';
 import { Color } from '../../../constants/color.constant';
 
 const HeroRegisterStep1Page = (): React.ReactElement => {
   // Navigation
   const navigation = useNavigation<BasicNavigationProps>();
+  const route = useRoute<HeroSettingRouteProps<'HeroRegisterStep1'>>();
 
   // Zustand store
   const { writingHero, setWritingHero } = useHeroStore();
@@ -31,6 +35,9 @@ const HeroRegisterStep1Page = (): React.ReactElement => {
       screen: 'HeroSettingNavigator',
       params: {
         screen: 'HeroRegisterStep2',
+        params: {
+          source: route.params?.source,
+        },
       },
     });
   };
