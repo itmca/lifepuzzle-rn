@@ -16,9 +16,15 @@ import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 
 export type HeroSettingParamList = {
   [HERO_SETTING_SCREENS.HERO_SETTING]: { shareKey?: string } | undefined;
-  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP1]: undefined;
-  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP2]: undefined;
-  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP3]: undefined;
+  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP1]:
+    | { source?: 'hero-setting' | 'login' }
+    | undefined;
+  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP2]:
+    | { source?: 'hero-setting' | 'login' }
+    | undefined;
+  [HERO_SETTING_SCREENS.HERO_REGISTER_STEP3]:
+    | { source?: 'hero-setting' | 'login' }
+    | undefined;
   [HERO_SETTING_SCREENS.HERO_MODIFICATION]: { heroNo: number };
   [HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR]:
     | { selectedHeroPhoto?: PhotoIdentifier }

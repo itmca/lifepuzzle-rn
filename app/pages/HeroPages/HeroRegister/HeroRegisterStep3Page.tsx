@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useMemo } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -12,7 +12,10 @@ import { BasicCard } from '../../../components/ui/display/Card';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { useHeroStore } from '../../../stores/hero.store';
 import { useCreateHero } from '../../../services/hero/hero.mutation';
-import { BasicNavigationProps } from '../../../navigation/types';
+import {
+  BasicNavigationProps,
+  HeroSettingRouteProps,
+} from '../../../navigation/types';
 import { Color } from '../../../constants/color.constant';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
 import { formatDateWithDay } from '../../../utils/date-formatter.util';
@@ -34,12 +37,39 @@ const InfoRow = ({ label, value }: InfoRowProps): React.ReactElement => (
 const HeroRegisterStep3Page = (): React.ReactElement => {
   // Navigation
   const navigation = useNavigation<BasicNavigationProps>();
+  const route = useRoute<HeroSettingRouteProps<'HeroRegisterStep3'>>();
 
   // Zustand store
   const { writingHero } = useHeroStore();
 
+  // Determine navigation target based on source
+  const navigationCallback = useMemo(() => {
+    const source = route.params?.source;
+
+    if (source === 'login') {
+      // User came from login (hasHero was false), navigate to Home
+      return () => {
+        navigation.navigate('App', {
+          screen: 'Home',
+        });
+      };
+    } else {
+      // User came from HeroSettingPage, navigate back to it
+      return () => {
+        navigation.navigate('App', {
+          screen: 'HeroSettingNavigator',
+          params: {
+            screen: 'HeroSetting',
+          },
+        });
+      };
+    }
+  }, [route.params?.source, navigation]);
+
   // Create hero mutation
-  const { createHero, isPending: isCreating } = useCreateHero();
+  const { createHero, isPending: isCreating } = useCreateHero({
+    onSuccessNavigation: navigationCallback,
+  });
 
   // Get hero profile image
   const heroProfileImage = getHeroImageUri(writingHero);

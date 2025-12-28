@@ -19,7 +19,13 @@ export type UseCreateHeroReturn = {
   isPending: boolean;
 };
 
-export const useCreateHero = (): UseCreateHeroReturn => {
+export type UseCreateHeroOptions = {
+  onSuccessNavigation?: () => void;
+};
+
+export const useCreateHero = (
+  options?: UseCreateHeroOptions,
+): UseCreateHeroReturn => {
   const navigation = useNavigation<BasicNavigationProps>();
   const queryClient = useQueryClient();
   const publishHeroUpdate = useUpdatePublisher('heroUpdate');
@@ -52,9 +58,13 @@ export const useCreateHero = (): UseCreateHeroReturn => {
 
   const goBack = useCallback(() => {
     resetWritingHero();
-    navigation.goBack();
+    if (options?.onSuccessNavigation) {
+      options.onSuccessNavigation();
+    } else {
+      navigation.goBack();
+    }
     publishHeroUpdate();
-  }, [resetWritingHero, navigation, publishHeroUpdate]);
+  }, [resetWritingHero, navigation, publishHeroUpdate, options]);
 
   const heroHttpPayLoad = HeroPayloadService.createHeroFormData(
     writingHeroKey ?? 0,

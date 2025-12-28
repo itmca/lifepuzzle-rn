@@ -47,6 +47,9 @@ export const useLoginResponseHandler = (option?: Option) => {
           screen: 'HeroSettingNavigator',
           params: {
             screen: 'HeroRegisterStep1',
+            params: {
+              source: 'login',
+            },
           },
         });
       } else {

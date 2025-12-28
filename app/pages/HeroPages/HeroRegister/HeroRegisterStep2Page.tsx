@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
@@ -7,7 +7,10 @@ import { BodyTextM, Head } from '../../../components/ui/base/TextBase';
 import { BasicCard } from '../../../components/ui/display/Card';
 import { BasicButton } from '../../../components/ui/form/Button';
 import { useHeroStore } from '../../../stores/hero.store';
-import { BasicNavigationProps } from '../../../navigation/types';
+import {
+  BasicNavigationProps,
+  HeroSettingRouteProps,
+} from '../../../navigation/types';
 import { Color } from '../../../constants/color.constant';
 import { getHeroImageUri } from '../../../utils/hero-image.util';
 
@@ -16,6 +19,7 @@ const HERO_CARD_ASPECT_RATIO = 335 / 385;
 const HeroRegisterStep2Page = (): React.ReactElement => {
   // Navigation
   const navigation = useNavigation<BasicNavigationProps>();
+  const route = useRoute<HeroSettingRouteProps<'HeroRegisterStep2'>>();
 
   // Zustand store
   const { writingHero } = useHeroStore();
@@ -37,6 +41,9 @@ const HeroRegisterStep2Page = (): React.ReactElement => {
       screen: 'HeroSettingNavigator',
       params: {
         screen: 'HeroRegisterStep3',
+        params: {
+          source: route.params?.source,
+        },
       },
     });
   };
@@ -46,6 +53,9 @@ const HeroRegisterStep2Page = (): React.ReactElement => {
       screen: 'HeroSettingNavigator',
       params: {
         screen: 'HeroRegisterStep3',
+        params: {
+          source: route.params?.source,
+        },
       },
     });
   };
