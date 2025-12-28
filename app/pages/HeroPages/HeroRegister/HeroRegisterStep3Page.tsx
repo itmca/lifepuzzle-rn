@@ -59,13 +59,23 @@ const HeroRegisterStep3Page = (): React.ReactElement => {
         }, 1000);
       };
     } else {
-      // User came from HeroSettingPage, navigate back to it
+      // User came from HeroSettingPage, use reset to clear registration steps
+      // This ensures back navigation from HeroSettingPage goes to Home
       return () => {
-        navigation.navigate('App', {
-          screen: 'HeroSettingNavigator',
-          params: {
-            screen: 'HeroSetting',
-          },
+        navigation.reset({
+          index: 1,
+          routes: [
+            { name: 'App', params: { screen: 'Home' } },
+            {
+              name: 'App',
+              params: {
+                screen: 'HeroSettingNavigator',
+                params: {
+                  screen: 'HeroSetting',
+                },
+              },
+            },
+          ],
         });
       };
     }
