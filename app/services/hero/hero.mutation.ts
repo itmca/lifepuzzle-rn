@@ -14,6 +14,7 @@ import { HeroPayloadService } from './hero-payload.service';
 import { queryKeys } from '../core/query-keys';
 import { logger } from '../../utils/logger.util';
 import { useHeroFormValidation } from './hero-validation.hook';
+import { HeroesQueryResponse } from './hero.query';
 export type UseCreateHeroReturn = {
   createHero: () => void;
   isPending: boolean;
@@ -178,29 +179,77 @@ export const useDeleteHero = (): UseDeleteHeroReturn => {
   const queryClient = useQueryClient();
   const publishHeroUpdate = useUpdatePublisher('heroUpdate');
   const writingHeroKey = useHeroStore(state => state.writingHeroKey);
+  const { setCurrentHero } = useHeroStore();
+
+  const [, updateRecentHero] = useAuthMutation<void>({
+    axiosConfig: {
+      method: 'POST',
+      url: '/v1/users/hero/recent',
+    },
+  });
 
   const [isPending, trigger] = useAuthMutation<void>({
     axiosConfig: {
       method: 'delete',
       url: `/v1/heroes/${writingHeroKey}`,
     },
-    onSuccess: () => {
-      CustomAlert.actionAlert({
-        title: '주인공 삭제',
-        desc: '주인공을 삭제하였습니다.',
-        actionBtnText: '확인',
-        action: () => {
-          publishHeroUpdate();
-          navigation.navigate('App', {
-            screen: 'Home',
-          });
-        },
-      });
+    onSuccess: async () => {
       // 캐시 무효화
       queryClient.invalidateQueries({ queryKey: queryKeys.hero.all });
       if (writingHeroKey) {
         queryClient.invalidateQueries({
           queryKey: queryKeys.hero.detail(writingHeroKey),
+        });
+      }
+
+      // Refetch heroes to get updated list
+      const result = await queryClient.fetchQuery<HeroesQueryResponse>({
+        queryKey: queryKeys.hero.all,
+      });
+
+      const heroes = result?.heroes || [];
+
+      if (heroes.length === 0) {
+        // No heroes left - navigate to hero registration
+        CustomAlert.actionAlert({
+          title: '주인공 삭제',
+          desc: '주인공을 삭제하였습니다.',
+          actionBtnText: '확인',
+          action: () => {
+            publishHeroUpdate();
+            setCurrentHero(null);
+            navigation.navigate('App', {
+              screen: 'HeroSettingNavigator',
+              params: {
+                screen: 'HeroRegisterStep1',
+                params: {
+                  source: 'hero-deleted',
+                },
+              },
+            });
+          },
+        });
+      } else {
+        // Set first hero as current and update backend
+        const firstHero = heroes[0].hero;
+        setCurrentHero(firstHero);
+
+        void updateRecentHero({
+          data: {
+            heroNo: firstHero.id,
+          },
+        });
+
+        CustomAlert.actionAlert({
+          title: '주인공 삭제',
+          desc: '주인공을 삭제하였습니다.',
+          actionBtnText: '확인',
+          action: () => {
+            publishHeroUpdate();
+            navigation.navigate('App', {
+              screen: 'Home',
+            });
+          },
         });
       }
     },

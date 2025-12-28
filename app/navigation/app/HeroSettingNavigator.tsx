@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Pressable } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeroSettingPage } from '../../pages/HeroPages/HeroSetting/HeroSettingPage';
 import { HeroRegisterStep1Page } from '../../pages/HeroPages/HeroRegister/HeroRegisterStep1Page';
@@ -13,17 +14,22 @@ import { HeroSettingRightHeader } from '../../components/ui/navigation/header/He
 import { TopBar } from '../../components/ui/navigation/TopBar';
 import { HERO_SETTING_SCREENS } from '../screens.constant';
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
+import { useLogout } from '../../services/auth/logout.hook';
+import { CustomAlert } from '../../components/ui/feedback/CustomAlert';
+import { ContentContainer } from '../../components/ui/layout/ContentContainer';
+import { BodyTextM } from '../../components/ui/base/TextBase';
+import { Color } from '../../constants/color.constant';
 
 export type HeroSettingParamList = {
   [HERO_SETTING_SCREENS.HERO_SETTING]: { shareKey?: string } | undefined;
   [HERO_SETTING_SCREENS.HERO_REGISTER_STEP1]:
-    | { source?: 'hero-setting' | 'login' }
+    | { source?: 'hero-setting' | 'login' | 'hero-deleted' }
     | undefined;
   [HERO_SETTING_SCREENS.HERO_REGISTER_STEP2]:
-    | { source?: 'hero-setting' | 'login' }
+    | { source?: 'hero-setting' | 'login' | 'hero-deleted' }
     | undefined;
   [HERO_SETTING_SCREENS.HERO_REGISTER_STEP3]:
-    | { source?: 'hero-setting' | 'login' }
+    | { source?: 'hero-setting' | 'login' | 'hero-deleted' }
     | undefined;
   [HERO_SETTING_SCREENS.HERO_MODIFICATION]: { heroNo: number };
   [HERO_SETTING_SCREENS.HERO_PROFILE_SELECTOR]:
@@ -56,19 +62,48 @@ const HeroSettingNavigator = (): React.ReactElement => {
       <Stack.Screen
         name={HERO_SETTING_SCREENS.HERO_REGISTER_STEP1}
         component={HeroRegisterStep1Page}
-        options={({ navigation }) => ({
-          header: () => (
-            <TopBar
-              customGoBackAction={() => {
-                resetWritingHero();
-                if (navigation.canGoBack()) {
-                  navigation.goBack();
-                }
-              }}
-              title={'주인공 추가 (1/3)'}
-            />
-          ),
-        })}
+        options={({ navigation, route }) => {
+          const source = route.params?.source;
+          const showLogoutButton =
+            source === 'login' || source === 'hero-deleted';
+
+          return {
+            header: () => {
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const logout = useLogout();
+
+              return (
+                <TopBar
+                  customGoBackAction={() => {
+                    resetWritingHero();
+                    if (navigation.canGoBack()) {
+                      navigation.goBack();
+                    }
+                  }}
+                  title={'주인공 추가 (1/3)'}
+                  right={
+                    showLogoutButton ? (
+                      <Pressable
+                        onPress={() => {
+                          CustomAlert.actionAlert({
+                            title: '로그아웃',
+                            desc: '로그아웃 하시겠습니까?',
+                            actionBtnText: '로그아웃',
+                            action: logout,
+                          });
+                        }}
+                      >
+                        <ContentContainer paddingHorizontal={8}>
+                          <BodyTextM color={Color.GREY_700}>로그아웃</BodyTextM>
+                        </ContentContainer>
+                      </Pressable>
+                    ) : undefined
+                  }
+                />
+              );
+            },
+          };
+        }}
       />
       <Stack.Screen
         name={HERO_SETTING_SCREENS.HERO_REGISTER_STEP2}
