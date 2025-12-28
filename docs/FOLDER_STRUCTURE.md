@@ -14,9 +14,9 @@ lifepuzzle-rn/
 │   │   ├── AccountPages/ # 계정 관련 (5개)
 │   │   ├── AiPhotoPages/ # AI 사진 (2개)
 │   │   ├── GalleryPages/ # 갤러리 (4개)
-│   │   ├── HeroPages/    # 히어로 (4개)
+│   │   ├── HeroPages/    # 히어로 (6개)
 │   │   ├── PolicyPages/  # 정책 (2개)
-│   │   ├── StoryPages/   # 스토리 (2개)
+│   │   ├── StoryPages/   # 스토리 (6개)
 │   │   ├── Home/         # 홈 (단일)
 │   │   └── Onboarding/   # 온보딩 (단일)
 │   ├── services/         # 서비스 레이어
@@ -98,7 +98,7 @@ app/pages/
 ├── AccountPages/         # 계정 관련 (3개)
 ├── AiPhotoPages/        # AI 사진 관련 (2개)
 ├── GalleryPages/        # 갤러리 관련 (3개)
-├── HeroPages/           # 히어로 관련 (4개)
+├── HeroPages/           # 히어로 관련 (6개)
 ├── PolicyPages/         # 정책 관련 (2개)
 ├── StoryPages/          # 스토리 관련 (6개)
 ├── Home/                # 단일 페이지
@@ -107,9 +107,10 @@ app/pages/
 
 ### 그룹핑 적용 현황
 
+- **6개**: HeroPages (히어로 설정, 등록 3단계, 수정, 프로필 선택), StoryPages (스토리 작성, 상세 등)
 - **5개**: AccountPages (계정 설정, 프로필 선택, 로그인, 회원가입 등)
-- **4개**: HeroPages (히어로 설정, 등록, 수정, 프로필 선택), GalleryPages (갤러리 목록, 선택, Facebook, 사진 편집)
-- **2개**: StoryPages (스토리 작성, 상세), PolicyPages (개인정보, 서비스), AiPhotoPages (AI 사진 이력, 생성)
+- **4개**: GalleryPages (갤러리 목록, 선택, Facebook, 사진 편집)
+- **2개**: PolicyPages (개인정보, 서비스), AiPhotoPages (AI 사진 이력, 생성)
 - **1개**: Home, Onboarding (단일 페이지 유지)
 
 ## 컴포넌트 구조 가이드라인
