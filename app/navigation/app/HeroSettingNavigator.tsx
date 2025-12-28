@@ -80,6 +80,7 @@ const HeroSettingNavigator = (): React.ReactElement => {
                       navigation.goBack();
                     }
                   }}
+                  hideBackButton={showLogoutButton}
                   title={'주인공 추가 (1/3)'}
                   right={
                     showLogoutButton ? (
