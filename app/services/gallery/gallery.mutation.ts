@@ -97,7 +97,7 @@ export const useUploadGallery = (
     },
     onError: err => {
       logger.error('Failed to request presigned URLs', { error: err });
-      Alert.alert('업로드 준비에 실패했습니다. 재시도 부탁드립니다.');
+      showErrorToast('업로드 준비에 실패했습니다. 재시도 부탁드립니다.');
       resetUpload();
     },
   });
@@ -125,7 +125,7 @@ export const useUploadGallery = (
     },
     onError: err => {
       logger.error('Failed to complete upload', { error: err });
-      Alert.alert('업로드 완료 처리에 실패했습니다. 재시도 부탁드립니다.');
+      showErrorToast('업로드 완료 처리에 실패했습니다. 재시도 부탁드립니다.');
       resetUpload();
     },
   });
@@ -255,7 +255,7 @@ export const useUploadGallery = (
       } else if (successfulItems.length > 0) {
         requestPresignedUrlsForSuccessfulItems(successfulItems);
       } else {
-        Alert.alert('모든 이미지 변환에 실패했습니다. 다시 시도해주세요.');
+        showErrorToast('모든 이미지 변환에 실패했습니다. 다시 시도해주세요.');
         resetUpload();
       }
 
@@ -369,7 +369,7 @@ export const useUploadGallery = (
 
         void completeUpload({ data: { fileKeys } });
       } else {
-        Alert.alert('업로드할 이미지가 없습니다.');
+        showErrorToast('업로드할 이미지가 없습니다.');
         resetUpload();
       }
 
@@ -415,12 +415,12 @@ export const useUploadGallery = (
 
   const submit = () => {
     if (!selectedGalleryItems || selectedGalleryItems.length === 0) {
-      Alert.alert('이미지를 선택해주세요.');
+      showErrorToast('이미지를 선택해주세요.');
       return;
     }
 
     if (selectedGalleryItems.length > 30) {
-      Alert.alert('최대 30개까지 선택할 수 있습니다.');
+      showErrorToast('최대 30개까지 선택할 수 있습니다.');
       return;
     }
     if (!options?.request) {

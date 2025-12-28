@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Alert } from 'react-native';
 import { useHttpMutation } from '../../../../services/core/http-mutation.hook.ts';
 import {
   LoginResponse,
@@ -8,6 +7,7 @@ import {
 
 import { useShareStore } from '../../../../stores/share.store';
 import { BasicButton } from '../../../../components/ui/form/Button';
+import { showErrorToast } from '../../../../components/ui/feedback/Toast';
 
 type Props = {
   userId: string;
@@ -32,7 +32,7 @@ const GeneralLoginButton = ({
     onSuccess: loginResponseHandler,
     onError: error => {
       onChangeLoading(false);
-      Alert.alert('로그인 실패', '아이디와 패스워드 확인 부탁드립니다.');
+      showErrorToast('아이디와 패스워드 확인 부탁드립니다.');
     },
   });
 

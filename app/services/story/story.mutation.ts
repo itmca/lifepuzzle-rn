@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from 'react';
-import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
 import { useStoryStore } from '../../stores/story.store';
@@ -19,6 +18,7 @@ import { queryKeys } from '../core/query-keys';
 import { logger } from '../../utils/logger.util';
 import { PayloadBuilder } from '../../utils/payload-builder.util';
 import { AUDIO_TYPE } from '../../constants/upload-file-type.constant';
+import { showErrorToast } from '../../components/ui/feedback/Toast';
 
 export const useResetAllWritingStory = () => {
   const { resetWritingStory } = useStoryStore();
@@ -178,7 +178,7 @@ export const useDeleteStory = ({
         storyKey,
         galleryId,
       });
-      Alert.alert('스토리 삭제를 실패했습니다. 재시도 부탁드립니다.');
+      showErrorToast('스토리 삭제를 실패했습니다. 재시도 부탁드립니다.');
     },
   });
 
@@ -272,7 +272,7 @@ export const useDeleteGallery = ({
     },
     onError: err => {
       logger.error('Failed to delete gallery', { error: err, galleryId });
-      Alert.alert('사진 삭제를 실패했습니다. 재시도 부탁드립니다.');
+      showErrorToast('사진 삭제를 실패했습니다. 재시도 부탁드립니다.');
     },
   });
 

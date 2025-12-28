@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { logger } from '../../../../utils/logger.util';
@@ -17,7 +17,10 @@ import { Divider } from '../../../../components/ui/base/Divider';
 import ImagePicker from 'react-native-image-crop-picker';
 import { toPhotoIdentifierFromImage } from '../../../../utils/photo-identifier.util.ts';
 import { ensureCameraPermission } from '../../../../services/device/permission.hook';
-import { showInfoToast } from '../../../../components/ui/feedback/Toast';
+import {
+  showInfoToast,
+  showErrorToast,
+} from '../../../../components/ui/feedback/Toast';
 import { useStoryStore } from '../../../../stores/story.store';
 import { useSelectionStore } from '../../../../stores/selection.store';
 
@@ -127,7 +130,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
       });
 
       if (!capturedImage || !capturedImage.path) {
-        Alert.alert('촬영된 이미지가 없습니다.');
+        showErrorToast('촬영된 이미지가 없습니다.');
         return;
       }
 
@@ -145,7 +148,7 @@ export const MediaPickerBottomSheet: React.FC<MediaPickerBottomSheetProps> = ({
       }
 
       logger.error('Camera capture failed:', error);
-      Alert.alert('촬영에 실패했습니다.', '다시 시도해주세요.');
+      showErrorToast('촬영에 실패했습니다. 다시 시도해주세요.');
     }
   };
 

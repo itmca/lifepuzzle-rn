@@ -20,6 +20,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { logger } from '../../../utils/logger.util';
 import { SelectablePhoto } from './SelectablePhoto';
 import { LoadingContainer } from '../../ui/feedback/LoadingContainer';
+import { showErrorToast } from '../../ui/feedback/Toast';
 
 import {
   hasAndroidPermission,
@@ -186,7 +187,7 @@ const CommonPhotoSelector: React.FC<CommonPhotoSelectorProps> = ({
 
   const handleConfirmSelection = () => {
     if (selectedPhotos.length === 0) {
-      Alert.alert('알림', '선택된 사진이 없습니다.');
+      showErrorToast('선택된 사진이 없습니다.');
       return;
     }
 

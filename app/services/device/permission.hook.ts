@@ -8,6 +8,7 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
+import { showErrorToast } from '../../components/ui/feedback/Toast';
 
 type PermissionTarget = 'voice' | 'photo' | 'camera';
 
@@ -140,7 +141,7 @@ export const ensureCameraPermission = async (): Promise<boolean> => {
   }
 
   if (status === RESULTS.BLOCKED) {
-    Alert.alert('카메라 권한이 필요합니다', '설정에서 권한을 허용해주세요.');
+    showErrorToast('카메라 권한이 필요합니다. 설정에서 권한을 허용해주세요.');
     return false;
   }
 
@@ -150,6 +151,6 @@ export const ensureCameraPermission = async (): Promise<boolean> => {
     return true;
   }
 
-  Alert.alert('카메라 권한이 필요합니다', '설정에서 권한을 허용해주세요.');
+  showErrorToast('카메라 권한이 필요합니다. 설정에서 권한을 허용해주세요.');
   return false;
 };

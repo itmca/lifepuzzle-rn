@@ -47,8 +47,8 @@ const HeroRegisterStep3Page = (): React.ReactElement => {
   const navigationCallback = useMemo(() => {
     const source = route.params?.source;
 
-    if (source === 'login') {
-      // User came from login (hasHero was false), navigate to Home
+    if (source === 'login' || source === 'hero-deleted') {
+      // User came from login (hasHero was false) or deleted all heroes, navigate to Home
       return () => {
         navigation.navigate('App', {
           screen: 'Home',

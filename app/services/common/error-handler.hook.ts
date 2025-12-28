@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { CustomAlert } from '../../components/ui/feedback/CustomAlert.tsx';
-import { Alert } from 'react-native';
 import {
   showErrorToast,
   showToast,
@@ -55,7 +54,7 @@ export const useErrorHandler = () => {
   };
 
   const showSimpleAlert = (message: string) => {
-    Alert.alert(message);
+    showErrorToast(message);
   };
 
   return {

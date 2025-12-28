@@ -1,8 +1,9 @@
 import { Alert } from 'react-native';
+import { showErrorToast } from './Toast';
 
 export const CustomAlert = {
   simpleAlert: (title: string) => {
-    Alert.alert(title);
+    showErrorToast(title);
   },
   retryAlert: (title: string, onRetry: () => void, onCancel: () => void) => {
     Alert.alert(title, '재시도 하시겠습니까?', [

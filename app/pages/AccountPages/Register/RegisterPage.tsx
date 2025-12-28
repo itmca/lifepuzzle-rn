@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import { logger } from '../../../utils/logger.util';
 import { PolicyAgreeSwitch } from './components/PolicyAgreeSwitch';
 import { useNavigation } from '@react-navigation/native';
+import { showErrorToast } from '../../../components/ui/feedback/Toast';
 import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
@@ -78,7 +79,7 @@ const RegisterPage = (): React.ReactElement => {
     },
     onError: err => {
       logger.debug('Register error:', err);
-      Alert.alert('회원가입에 실패했습니다.');
+      showErrorToast('회원가입에 실패했습니다.');
     },
   });
 
@@ -89,13 +90,13 @@ const RegisterPage = (): React.ReactElement => {
     },
     onSuccess: ({ isDuplicated }) => {
       if (isDuplicated) {
-        Alert.alert('이미 존재하는 아이디입니다.');
+        showErrorToast('이미 존재하는 아이디입니다.');
       }
       setIdDuplicated(isDuplicated);
     },
     onError: err => {
       logger.debug('ID dupcheck error:', err);
-      Alert.alert('아이디 중복 확인에 실패했습니다.');
+      showErrorToast('아이디 중복 확인에 실패했습니다.');
     },
   });
 
@@ -118,10 +119,10 @@ const RegisterPage = (): React.ReactElement => {
     }
 
     if (!isServicePolicyChecked) {
-      Alert.alert('서비스 이용 약관에 동의하여 주세요.');
+      showErrorToast('서비스 이용 약관에 동의하여 주세요.');
       return;
     } else if (!isPrivacyPolicyChecked) {
-      Alert.alert('개인정보 처리 방침에 동의하여 주세요.');
+      showErrorToast('개인정보 처리 방침에 동의하여 주세요.');
       return;
     }
 

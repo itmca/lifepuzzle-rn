@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BasicNavigationProps } from '../../../navigation/types.tsx';
 
@@ -10,6 +9,7 @@ import { CommonPhotoSelector } from '../../../components/feature/photo/CommonPho
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ContentContainer } from '../../../components/ui/layout/ContentContainer.tsx';
 import { BodyTextB } from '../../../components/ui/base/TextBase';
+import { showErrorToast } from '../../../components/ui/feedback/Toast';
 
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import { FacebookPhotoItem } from '../../../types/external/facebook.type';
@@ -70,7 +70,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
       setIsLoading(false);
     },
     onError: () => {
-      Alert.alert('오류', '페이스북 사진을 불러오는데 실패했습니다.');
+      showErrorToast('페이스북 사진을 불러오는데 실패했습니다.');
       navigation.goBack();
       setIsLoading(false);
     },
@@ -132,7 +132,7 @@ const FacebookGallerySelector = (): React.ReactElement => {
         setIsLoading(false);
       }
     } catch (_err) {
-      Alert.alert('오류', '페이스북 로그인에 실패했습니다.');
+      showErrorToast('페이스북 로그인에 실패했습니다.');
       navigation.goBack();
       setIsLoading(false);
     }
@@ -152,12 +152,12 @@ const FacebookGallerySelector = (): React.ReactElement => {
     },
     onConfirm: () => {
       if (selectedPhotos.length === 0) {
-        Alert.alert('알림', '선택된 사진이 없습니다.');
+        showErrorToast('선택된 사진이 없습니다.');
         return;
       }
 
       if (!selectedAgeGroup) {
-        Alert.alert('알림', '나이대를 선택해주세요.');
+        showErrorToast('나이대를 선택해주세요.');
         return;
       }
 
