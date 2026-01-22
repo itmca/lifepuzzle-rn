@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 import { logger } from '../../../utils/logger.util';
@@ -9,7 +9,6 @@ import {
   PASSWORD_REGEXP,
   PASSWORD_REGEXP_DISPLAY,
 } from '../../../constants/password.constant';
-import { debounce } from '../../../utils/debounce.util';
 import { BasicNavigationProps } from '../../../navigation/types';
 import { PageContainer } from '../../../components/ui/layout/PageContainer';
 import { ScrollContainer } from '../../../components/ui/layout/ScrollContainer';
@@ -21,6 +20,7 @@ import { BasicButton } from '../../../components/ui/form/Button';
 import { Color } from '../../../constants/color.constant.ts';
 import { Divider } from '../../../components/ui/base/Divider';
 import { useHttpMutation } from '../../../services/core/http-mutation.hook.ts';
+import { useHttpQuery } from '../../../services/core/http-query.hook.ts';
 
 const RegisterPage = (): React.ReactElement => {
   // React hooks
@@ -83,34 +83,34 @@ const RegisterPage = (): React.ReactElement => {
     },
   });
 
-  const [, idDupcheck] = useHttpMutation<{ isDuplicated: boolean }>({
+  // ID 중복 체크 Query
+  const { data: dupcheckData, isError: isDupcheckError } = useHttpQuery<{
+    isDuplicated: boolean;
+  }>({
+    queryKey: ['users', 'dupcheck', id],
     axiosConfig: {
       url: '/v1/users/dupcheck/id',
       method: 'get',
+      params: { id },
     },
-    onSuccess: ({ isDuplicated }) => {
-      if (isDuplicated) {
-        showErrorToast('이미 존재하는 아이디입니다.');
-      }
-      setIdDuplicated(isDuplicated);
+    enabled: !!id && id.length >= 3, // ID가 있고 3자 이상일 때만 실행
+    staleTime: 0, // 항상 최신 데이터 체크
+    retry: 1, // 실패 시 1번만 재시도
+    onSuccess: data => {
+      logger.debug('[ID Dupcheck] API Response:', {
+        id,
+        isDuplicated: data.isDuplicated,
+        response: data,
+      });
     },
-    onError: err => {
-      logger.debug('ID dupcheck error:', err);
-      showErrorToast('아이디 중복 확인에 실패했습니다.');
+    onError: error => {
+      logger.debug('[ID Dupcheck] API Error:', {
+        id,
+        error: error.message,
+        status: error.response?.status,
+      });
     },
   });
-
-  // Memoized 값
-  const dupcheck = useCallback(
-    debounce((toCheck: string) => {
-      idDupcheck({
-        params: {
-          id: toCheck,
-        },
-      });
-    }, 200),
-    [idDupcheck],
-  );
 
   // Custom functions
   const onSubmit = () => {
@@ -137,12 +137,29 @@ const RegisterPage = (): React.ReactElement => {
   };
 
   // Side effects
+  // ID 중복 체크 결과 처리
   useEffect(() => {
-    if (!id) {
-      return;
+    if (dupcheckData) {
+      logger.debug('[ID Dupcheck] Processing result:', {
+        currentId: id,
+        isDuplicated: dupcheckData.isDuplicated,
+        willShowToast: dupcheckData.isDuplicated,
+      });
+
+      if (dupcheckData.isDuplicated) {
+        showErrorToast('이미 존재하는 아이디입니다.');
+      }
+      setIdDuplicated(dupcheckData.isDuplicated);
     }
-    dupcheck(id);
-  }, [id, dupcheck]);
+  }, [dupcheckData, id]);
+
+  // ID 중복 체크 에러 처리
+  useEffect(() => {
+    if (isDupcheckError) {
+      logger.debug('ID dupcheck error');
+      showErrorToast('아이디 중복 확인에 실패했습니다.');
+    }
+  }, [isDupcheckError]);
 
   return (
     <PageContainer
