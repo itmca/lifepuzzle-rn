@@ -46,7 +46,7 @@ export const useHttpMutation = <TData>({
   const trigger = useCallback(
     (overrideConfig: Partial<AxiosRequestConfig> = {}) =>
       mutation.mutateAsync(overrideConfig),
-    [mutation],
+    [mutation.mutateAsync],
   );
 
   return [mutation.isPending, trigger];
