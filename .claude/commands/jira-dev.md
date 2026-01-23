@@ -30,10 +30,13 @@ git pull origin main
 다음 curl 명령어로 JIRA 티켓 정보를 가져옵니다:
 
 ```bash
-curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  "$JIRA_BASE_URL/rest/api/3/issue/$ARGUMENTS?expand=renderedFields" | jq .
+curl -s --user "${JIRA_EMAIL}:${JIRA_API_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --request GET \
+  "${JIRA_BASE_URL}/rest/api/3/issue/$ARGUMENTS?expand=renderedFields" | jq .
 ```
+
+**참고**: 환경 변수에 특수문자가 포함될 수 있으므로 `${VAR}` 형식과 `--user` 옵션을 사용합니다.
 
 티켓에서 다음 정보를 추출하여 분석합니다:
 
@@ -77,14 +80,11 @@ TodoWrite 도구를 사용하여 작업 목록을 생성합니다.
 구현 완료 후 검증을 수행합니다:
 
 ```bash
-# 린트 검사
-npm run lint
-
 # 타입 검사
-npm run typecheck
+npx tsc --noEmit
 
 # 테스트 실행
-npm run test
+npm test
 ```
 
 오류가 있으면 수정하고 다시 검증합니다.
