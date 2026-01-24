@@ -83,29 +83,43 @@ const RegisterPage = (): React.ReactElement => {
     },
   });
 
+  const [debouncedId, setDebouncedId] = useState<string>('');
+
+  // Debounce ID input
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      logger.debug('[RegisterPage] Update debouncedId:', id);
+      setDebouncedId(id);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [id]);
+
   // ID 중복 체크 Query
   const { data: dupcheckData, isError: isDupcheckError } = useHttpQuery<{
-    isDuplicated: boolean;
+    duplicated: boolean;
   }>({
-    queryKey: ['users', 'dupcheck', id],
+    queryKey: ['users', 'dupcheck', debouncedId],
     axiosConfig: {
       url: '/v1/users/dupcheck/id',
       method: 'get',
-      params: { id },
+      params: { id: debouncedId },
     },
-    enabled: !!id && id.length >= 3, // ID가 있고 3자 이상일 때만 실행
+    enabled: !!debouncedId && debouncedId.length >= 3, // ID가 있고 3자 이상일 때만 실행
     staleTime: 0, // 항상 최신 데이터 체크
     retry: 1, // 실패 시 1번만 재시도
     onSuccess: data => {
       logger.debug('[ID Dupcheck] API Response:', {
-        id,
-        isDuplicated: data.isDuplicated,
+        id: debouncedId,
+        duplicated: data.duplicated,
         response: data,
       });
     },
     onError: error => {
       logger.debug('[ID Dupcheck] API Error:', {
-        id,
+        id: debouncedId,
         error: error.message,
         status: error.response?.status,
       });
@@ -140,18 +154,18 @@ const RegisterPage = (): React.ReactElement => {
   // ID 중복 체크 결과 처리
   useEffect(() => {
     if (dupcheckData) {
+      const duplicated = dupcheckData.duplicated;
       logger.debug('[ID Dupcheck] Processing result:', {
-        currentId: id,
-        isDuplicated: dupcheckData.isDuplicated,
-        willShowToast: dupcheckData.isDuplicated,
+        debouncedId,
+        duplicated,
       });
 
-      if (dupcheckData.isDuplicated) {
+      if (duplicated) {
         showErrorToast('이미 존재하는 아이디입니다.');
       }
-      setIdDuplicated(dupcheckData.isDuplicated);
+      setIdDuplicated(duplicated);
     }
-  }, [dupcheckData, id]);
+  }, [dupcheckData, debouncedId]);
 
   // ID 중복 체크 에러 처리
   useEffect(() => {
