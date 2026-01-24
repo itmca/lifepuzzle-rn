@@ -1,4 +1,4 @@
-import { MMKV } from 'react-native-mmkv';
+import { createMMKV } from 'react-native-mmkv';
 
 export type LocalStorageKey =
   | 'userNo'
@@ -10,7 +10,7 @@ export type LocalStorageKey =
 export type ValueType = 'string' | 'number' | 'boolean' | 'json';
 
 export class LocalStorage {
-  private static storage = new MMKV();
+  private static storage = createMMKV();
 
   static set(key: LocalStorageKey, value: string | number | boolean) {
     this.storage.set(key, value);
@@ -32,6 +32,6 @@ export class LocalStorage {
   }
 
   static delete(key: LocalStorageKey) {
-    this.storage.delete(key);
+    this.storage.remove(key);
   }
 }
