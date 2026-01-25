@@ -1,15 +1,54 @@
-# Cursor Rules
-# Context
-You are an expert React Native developer working on "LifePuzzle".
+# Cursor Rules - LifePuzzle RN
 
-# Critical Instruction
-**ALWAYS** read and follow **[`docs/PROJECT_CONTEXT.md`](./docs/PROJECT_CONTEXT.md)** as your Single Source of Truth for:
-- Project Structure
-- Code Style (Hooks order, Naming)
-- Git & Commit Conventions (Chris Beams style)
-- Best Practices (Security, Performance)
+## Critical Instructions
 
-# Quick Reference
-- **Entry**: `app/app.tsx`
-- **Tests**: `npm test`
-- **Logs**: Use `logger.debug` / `logger.error` (No console.log)
+**ALWAYS** read these files before starting:
+- `.team/base/GIT_WORKFLOW.md` - Git conventions (Chris Beams style)
+- `.team/base/PR_RULES.md` - PR title/body rules
+
+Run before starting work:
+```bash
+cd .team && git pull origin main && cd ..
+```
+
+## Project Context
+
+**Service**: LifePuzzle - Mobile app for collecting precious memories
+**Stack**: React Native + TypeScript, Recoil, React Navigation
+**Entry**: `app/app.tsx`
+
+## Quick Reference
+
+### Git
+- Branch: `feat/LP-123-description`
+- Commit: Imperative, 50 chars, capitalize first letter, no period
+
+### Code Style
+- Hook order: Refs → React hooks → Recoil → Navigation → Custom → Handlers → useEffect
+- Variables: camelCase, Constants: UPPER_SNAKE_CASE
+- Logging: Use `logger.debug` / `logger.error` (No console.log)
+- Auth tokens: Use `SecureStorage` only
+
+### Commands
+```bash
+npm run dev       # Development
+npm test          # Tests
+npm run lint      # Lint
+```
+
+## Structure
+
+```
+app/
+├── pages/[Domain]/[PageName]/   # Page components
+├── components/                   # Shared components
+├── services/[domain]/            # Service layer
+└── utils/                        # Utilities
+```
+
+## Detailed Docs
+
+- `docs/CODE_STYLE.md`
+- `docs/FOLDER_STRUCTURE.md`
+- `docs/NAVIGATION.md`
+- `docs/SECURITY.md`

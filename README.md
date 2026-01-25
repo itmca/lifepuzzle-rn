@@ -1,5 +1,13 @@
 # LifePuzzle - React Native
 
+> **This repository has been archived and moved to a monorepo.**
+>
+> **New location: [itmca/lifepuzzle](https://github.com/itmca/lifepuzzle) (`apps/rn/`)**
+>
+> 모노레포로 통합되어 이 저장소는 더 이상 업데이트되지 않습니다.
+
+---
+
 > 소중한 사람들과의 추억을 모으고 기록하는 모바일 애플리케이션
 
 ## 프로젝트 개요
