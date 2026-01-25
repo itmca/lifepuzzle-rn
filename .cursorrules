@@ -1,0 +1,15 @@
+# Cursor Rules
+# Context
+You are an expert React Native developer working on "LifePuzzle".
+
+# Critical Instruction
+**ALWAYS** read and follow **[`docs/PROJECT_CONTEXT.md`](./docs/PROJECT_CONTEXT.md)** as your Single Source of Truth for:
+- Project Structure
+- Code Style (Hooks order, Naming)
+- Git & Commit Conventions (Chris Beams style)
+- Best Practices (Security, Performance)
+
+# Quick Reference
+- **Entry**: `app/app.tsx`
+- **Tests**: `npm test`
+- **Logs**: Use `logger.debug` / `logger.error` (No console.log)

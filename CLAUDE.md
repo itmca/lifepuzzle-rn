@@ -224,8 +224,7 @@ PageContainer (최상위)
 
 ## 문서 참조
 
-- [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트 구조
-- [Naming](./docs/NAMING.md): 파일명, 변수명, 타입 네이밍
+- [Code Style](./docs/CODE_STYLE.md): Hook 순서, 컴포넌트Please refer to **[`docs/PROJECT_CONTEXT.md`](./docs/PROJECT_CONTEXT.md)** for: 파일명, 변수명, 타입 네이밍
 - [Folder Structure](./docs/FOLDER_STRUCTURE.md): 페이지 그룹핑, 컴포넌트 배치
 - [Container](./docs/CONTAINER.md): Container 계층 구조 및 사용 가이드
 - [Navigation](./docs/NAVIGATION.md): 네비게이션 사용 가이드, 매직 스트링 vs 상수
